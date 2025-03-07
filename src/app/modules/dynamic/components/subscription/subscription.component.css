@@ -1308,3 +1308,127 @@
   width: 50px;
   height: 50px;
 } */
+
+
+
+/* Unlock Services Modal css */
+.unlock-services-btn{
+   position: absolute;
+   right: 15px;
+   top: 15px;
+
+}
+
+.unlock-service-modal{
+background: linear-gradient(181deg, #FFF 1.02%, #F2F4FF 23.64%, #E4E7FF 101.07%);
+}
+
+.unlock-service-modal p{
+  color: #414141 !important;
+}
+
+.unlock-plan {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid #eff5ff;
+  width: 200px !important;
+  background-color: #fff;
+  padding: .5rem;
+  border-radius: 30px;
+  box-shadow: 0px 0.908px 3.631px 0px rgba(182, 182, 182, 0.25);
+  margin: 0 auto;
+}
+.unlock-plan-box{
+  border: 1px solid #eff5ff;
+  border-radius: 2px;
+}
+.unlock-plan-box:hover{
+  border: 1px solid var(--primary-background-color);
+}
+.unlock-plan-box:hover .current-plan{
+   background-color: #6666F2;
+   color: #fff;
+}
+.unlock-plan input[type=radio] {
+  display: none; /* Hide default radio button */
+}
+
+.unlock-plan label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  margin: 0;
+  min-width: 80px;
+  background-color: transparent;
+  border: none;
+  padding: 7px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 20px;
+  transition: .1s linear;
+}
+
+.unlock-plan input[type=radio]:checked + label {
+  background-color: var(--primary-background-color) !important;
+  color: #fff !important;
+  border-color: var(--primary-background-color);
+  padding: 7px 35px;
+}
+
+.unlock-plan-box{
+  background-color: #fff;
+  height: 650px;
+  border-radius: 2px;
+}
+
+.unlock-plan-box h3 {
+  color: #000;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 600;
+}
+.premium-text{
+  background: linear-gradient(90deg, #6666F2 0%, #1F1F3B 100%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.unlock-plan-box h4 {
+  color: #6b7280;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  text-decoration: line-through;
+  line-height: 28px;
+}
+
+.unlock-plan-box h6 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.plan-point {
+  list-style: none;
+}
+
+.plan-point li {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.plan-point li i {
+  color: #22d26b;
+  font-size: 17px;
+  position: relative;
+  top: 3px;
+}
+/* Unlock Services Modal end */

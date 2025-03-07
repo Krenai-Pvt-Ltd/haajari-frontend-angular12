@@ -14,8 +14,6 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
-import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
@@ -69,7 +67,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
-import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
@@ -79,7 +76,8 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { ExpenseManagementComponent } from './components/expense-management/expense-management.component';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NgApexchartsModule } from 'ng-apexcharts';
-
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
  @NgModule({
   declarations: [
@@ -89,7 +87,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     TimetableComponent,
     ProjectComponent,
     TaskManagerComponent,
-    LiveManagerComponent,
     OnboardingComponent,
     UserlistComponent,
     DateFormatPipe,
@@ -100,21 +97,18 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     TeamDetailComponent,
     RoleComponent,
     ReportsComponent,
-    EmployeeProfileComponent,
     TestingComponent,
     PrivacyComponent,
     SupportComponent,
     SafePipe,
     RoleAddComponent,
     EmployeeOnboardingDataComponent,
-    EmployeeProfileComponent,
     LeaveManagementComponent,
     AssetsComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,
     SubscriptionComponent,
     ReferFriendComponent,
-    NewEmployeeProfileComponent,
     CreateExpenseComponent,
     // ExistPolicyComponent,
     LeaveManagementsComponent,
@@ -126,6 +120,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CommonModule,
     RouterModule,
     FormsModule,
+    InfiniteScrollModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
     WebcamModule,
@@ -166,6 +161,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     NzIconModule,
     NzButtonModule,
     NzPopoverModule,
+    NzRadioModule,
     NzEmptyModule,
     NzAutocompleteModule,
     NzDrawerModule,

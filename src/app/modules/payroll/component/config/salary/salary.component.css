@@ -1,0 +1,30 @@
+.statutory-tab{
+    border-bottom: 1px solid #E3E3E3;
+    background: #FDFDFF;
+  }
+.statutory-tab ul li{
+  list-style: none;
+}
+.statutory-tab li{
+    line-height: 50px;
+  }
+
+
+.nav.nav-pills{
+    border-bottom: none;
+}
+
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border-radius: 2px;
+  border: 1px solid #EFEFEF;
+}
+.payroll-fix-footer{
+  padding-left: 35%;
+}
+
+.benefits-list-td{
+  padding: 0px !important;
+}

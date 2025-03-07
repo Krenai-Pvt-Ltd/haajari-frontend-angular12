@@ -1,0 +1,742 @@
+<div class="page-wrapper">
+    <div class="page-content-tab p-0">
+        <div class="container-fluid ">
+            <div class="row payroll-box">
+                <div class="col-md-3 p-0">
+                    <div class="payroll-sidebar-menu h-100 bg-white">
+                        <div class="nav flex-column nav-pills side-nav" id="tab" role="tablist" aria-orientation="vertical">
+                            <button id="profile-tab" data-bs-toggle="pill" href="#organization-profile" role="tab"
+                            aria-controls="organization-profilet" aria-selected="true" class="nav-link active" >
+                            Organization Profile </button>
+                            <button id="statutory-tab" data-bs-toggle="pill" href="#statutory" role="tab"
+                            aria-controls="statutory" aria-selected="true" class="nav-link" >
+                            Statutory Components</button>
+                            <button id="salary-tab" data-bs-toggle="pill" href="#salary" role="tab"
+                            aria-controls="salary" aria-selected="true" class="nav-link" >
+                            Salary Components </button>
+                            <button id="taxes-tab" data-bs-toggle="pill" href="#taxes" role="tab"
+                            aria-controls="texes" aria-selected="true" class="nav-link">
+                            Taxes </button>
+                            <button id="schedule-tab" data-bs-toggle="pill" href="#pay-schedule" role="tab"
+                            aria-controls="pay-schedule" aria-selected="true" class="nav-link">
+                            Pay Schedule </button>
+                            <button id="preferences-tab" data-bs-toggle="pill" href="#preferences" role="tab"
+                            aria-controls="preferences" aria-selected="true" class="nav-link">
+                            Preferences </button>
+                            <button id="payroll-tab" data-bs-toggle="pill" href="#prior-payroll" role="tab"
+                            aria-controls="prior-payroll" aria-selected="true" class="nav-link">
+                            Prior Payroll </button>
+                            <button id="form-tab" data-bs-toggle="pill" href="#form-16" role="tab"
+                            aria-controls="form-16" aria-selected="true" class="nav-link">
+                            Form 16 </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content" id="tabContent">
+                        <div class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="p-4 mb-10">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-13 text-black fw-semibold lh-1">Organization Logo</h4>
+                                            <p class="text-muted font-11 fw-normal lh-base">Update your Company Logo and then choose <br> where you want it to display</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="organization-detail">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="origination-logo d-flex align-items-center justify-content-center position-relative p-0 border-rounded-2 h-100">
+                                                        <img src="assets/images/HAjiRi.svg" class="img-130">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 ">
+                                                        <input id="fileInput" type="file" name="file" accept=".pdf" class="input">
+                                                        <span>
+                                                          <img src="assets/images/payrollstep-img/organization-logo.svg" class="img-40">
+                                                        </span>
+                                                        <p class="mb-0 font-11 fw-normal mt-11 "><span class="text-primary fw-semibold text-decoration-underline"> Click to upload </span> or drag and drop <span class="text-muted fw-semibold">(SVG, PNG, JPG or GIF)</span> </p>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-5 mb-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-13 text-black fw-semibold lh-1">Organization Detail</h4>
+                                            <p class="text-muted font-11 fw-normal lh-base">Your registered business name, displayed on<br> all forms and payslips.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="organization-detail">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input" value="Amin trail sin cop .Pvt. limited ">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">Currency Types</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="w-100">
+                                                                <nz-select 
+                                                                class="form-control w-100 placeholder-line currency-types"
+                                                                nzSize="large"
+                                                                nzPlaceHolder="Select Currency"
+                                                                [(ngModel)]="selectedCurrency"
+                                                                required
+                                                              >
+                                                                <nz-option 
+                                                                  *ngFor="let currency of stateCurrency" 
+                                                                  [nzValue]="currency.name" 
+                                                                  [nzLabel]="currency.name" nzDisabled>
+                                                                </nz-option>
+                                                              </nz-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">Business Location</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="w-100">
+                                                                <nz-select 
+                                                                    class="form-control w-100 placeholder-line currency-types"
+                                                                    nzSize="large"
+                                                                    nzPlaceHolder="Select Location"
+                                                                    [(ngModel)]="selectedLocation"
+                                                                    required
+                                                                    >
+                                                                    <nz-option nzLabel="India" nzValue="india">India</nz-option>
+                                                                    </nz-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">Date Format</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <nz-date-picker nzBorderless nzFormat="dd/MM/yyyy"></nz-date-picker>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                                        <div class="w-50 p-3 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">Field Separation</p>
+                                                        </div>
+                                                        <div class="w-50">
+                                                            <div class="w-100">
+                                                                <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Separation" required>
+                                                                    <nz-option nzLabel="india" nzValue="india">india</nz-option>
+                                                                </nz-select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" placeholder="Business Contact" required="" name="" class="form-control whatsapp-login-input">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" placeholder="Email Address" required="" name="" class="form-control whatsapp-login-input">
+                                                </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-5 mb-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-13 text-black fw-semibold lh-1">Filling Address</h4>
+                                            <p class="text-muted font-11 lh-base fw-normal">This will be considered as the address of your <br> primary work location</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="Address-box">
+                                            <!-- TO DO: Empty Notification start-->
+                                            <!-- <div class="empty-file">
+                                                <nz-empty nzNotFoundImage="assets/images/location-setting-icon.svg" [nzNotFoundContent]="contentTpl">
+                                                  <ng-template #contentTpl>
+                                                    <p class="mb-1 empty-detail font-14">
+                                                      Enter your work space location
+                                                    </p>
+                                                    <div class="add-filtter">
+                                                      <a class="text-primary font-14 text-center" data-toggle="modal" data-target="#addLocation" >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                            <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9159_3509)">
+                                                            <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
+                                                            </g>
+                                                        </svg>
+                                                        Add Location
+                                                      </a>
+                                                    </div>
+                                                  </ng-template>
+                                                </nz-empty>
+                                              </div> -->
+                                              <!-- Empty Notification end-->
+                                           <div class="row">
+                                            <div class="address-list">
+                                               <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </span>
+                                                    <p class="mb-0 fw-semibold font-13">Delhi</p>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4748)">
+                                                            <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4745)">
+                                                            <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                            <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                            <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4742)">
+                                                            <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                
+                                               </div>
+                                               <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-chevron-down"></i>
+                                                    </span>
+                                                    <p class="mb-0 fw-semibold font-14">Mumbai</p>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4748)">
+                                                            <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                                            <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                                            <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4745)">
+                                                            <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="pointer">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                                            <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                                            <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_9177_4742)">
+                                                            <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                
+                                               </div>
+                                            </div> 
+
+                                            <div class="d-flex justify-content-end mb-3">
+                                                <button class="btn p-0 font-14 fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#addLocation">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                        <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_9159_3509)">
+                                                        <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
+                                                        </g>
+                                                    </svg>
+                                                    New Address
+                                                </button>
+                                            </div>
+
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-5 mb-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="payroll-details-box">
+                                            <h4 class="font-13 text-black fw-semibold lh-1">Company Registration & Compliance</h4>
+                                            <p class=" mb-0 text-muted font-11 lh-base fw-normal">Subheading: Official Business Identification <br> & Compliance Codes</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="compliance-list-box">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">GST Number</p>
+                                                        </div>
+                                                        <div class="w-75 position-relative">
+                                                            <input type="text" placeholder="Enter GST Number" required="" name="" class="form-control borderLess" value="2345678908123">
+                                                            <button class="btn p-0 font-13 fw-semibold text-success editBtn">Verify <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
+                                                                <path d="M7.72809 8.00564C7.44476 7.72231 7.01976 7.72231 6.73643 8.00564C6.45309 8.28897 6.45309 8.71397 6.73643 8.99731L8.86143 11.1223C9.00309 11.264 9.14476 11.3348 9.35726 11.3348C9.56976 11.3348 9.71143 11.264 9.85309 11.1223L14.8114 5.45564C15.0239 5.10147 15.0239 4.67647 14.6698 4.46397C14.3864 4.25147 13.9614 4.25147 13.7489 4.53481L9.35726 9.56397L7.72809 8.00564Z" fill="#22b783"/>
+                                                                <path d="M15.7323 7.79297C15.3073 7.79297 15.0239 8.0763 15.0239 8.5013C15.0239 11.618 12.4739 14.168 9.35726 14.168C6.24059 14.168 3.69059 11.618 3.69059 8.5013C3.69059 7.0138 4.25726 5.59714 5.31976 4.53464C6.38226 3.4013 7.79893 2.83464 9.35726 2.83464C9.78226 2.83464 10.2781 2.90547 10.7031 2.9763C11.0573 3.11797 11.4823 2.90547 11.6239 2.48047C11.7656 2.05547 11.4823 1.77214 11.1281 1.63047H11.0573C10.4906 1.4888 9.92393 1.41797 9.35726 1.41797C5.46143 1.41797 2.27393 4.60547 2.27393 8.57214C2.27393 10.4138 3.05309 12.2555 4.32809 13.5305C5.67393 14.8763 7.44476 15.5846 9.28643 15.5846C13.1823 15.5846 16.3698 12.3971 16.3698 8.5013C16.4406 8.0763 16.0864 7.79297 15.7323 7.79297Z" fill="#22b783"/>
+                                                                </svg></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">CIN Number</p>
+                                                        </div>
+                                                        <div class="w-75 position-relative">
+                                                            <input type="text" placeholder="Enter CIN Number" required="" name="" class="form-control borderLess" value="2345678908123">
+                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                                                    <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                                    <rect width="17" height="17" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_9159_3729)">
+                                                                    <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">EPF Number</p>
+                                                        </div>
+                                                        <div class="w-75 position-relative">
+                                                            <input type="text" placeholder="Enter CIN Number" required="" name="" class="form-control borderLess" value="2345678908123">
+                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                                                    <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                                    <rect width="17" height="17" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_9159_3729)">
+                                                                    <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                                        <div class="w-25 currency-types-border">
+                                                            <p class="mb-0 font-12 fw-light">ESI Number</p>
+                                                        </div>
+                                                        <div class="w-75 position-relative ">
+                                                            <input type="text" placeholder="Enter ESI Number" required="" name="" class="form-control borderLess" value="2345678908123">
+                                                            <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                                                    <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                                                    <rect width="17" height="17" fill="#D9D9D9"/>
+                                                                    </mask>
+                                                                    <g mask="url(#mask0_9159_3729)">
+                                                                    <path d="M8.50004 11.334C9.38546 11.334 10.1381 11.0241 10.7579 10.4043C11.3776 9.7845 11.6875 9.0319 11.6875 8.14648C11.6875 7.26107 11.3776 6.50846 10.7579 5.88867C10.1381 5.26888 9.38546 4.95898 8.50004 4.95898C7.61462 4.95898 6.86202 5.26888 6.24223 5.88867C5.62244 6.50846 5.31254 7.26107 5.31254 8.14648C5.31254 9.0319 5.62244 9.7845 6.24223 10.4043C6.86202 11.0241 7.61462 11.334 8.50004 11.334ZM8.50004 10.059C7.96879 10.059 7.51723 9.87305 7.14535 9.50117C6.77348 9.1293 6.58754 8.67773 6.58754 8.14648C6.58754 7.61523 6.77348 7.16367 7.14535 6.7918C7.51723 6.41992 7.96879 6.23398 8.50004 6.23398C9.03129 6.23398 9.48285 6.41992 9.85473 6.7918C10.2266 7.16367 10.4125 7.61523 10.4125 8.14648C10.4125 8.67773 10.2266 9.1293 9.85473 9.50117C9.48285 9.87305 9.03129 10.059 8.50004 10.059ZM8.50004 13.459C6.77643 13.459 5.20629 12.9779 3.78962 12.0158C2.37296 11.0536 1.34587 9.76385 0.708374 8.14648C1.34587 6.52912 2.37296 5.23937 3.78962 4.27721C5.20629 3.31506 6.77643 2.83398 8.50004 2.83398C10.2237 2.83398 11.7938 3.31506 13.2105 4.27721C14.6271 5.23937 15.6542 6.52912 16.2917 8.14648C15.6542 9.76385 14.6271 11.0536 13.2105 12.0158C11.7938 12.9779 10.2237 13.459 8.50004 13.459ZM8.50004 12.0423C9.83407 12.0423 11.0589 11.6911 12.1745 10.9887C13.2901 10.2862 14.1431 9.33885 14.7334 8.14648C14.1431 6.95412 13.2901 6.00673 12.1745 5.3043C11.0589 4.60187 9.83407 4.25065 8.50004 4.25065C7.16601 4.25065 5.94119 4.60187 4.82556 5.3043C3.70994 6.00673 2.85699 6.95412 2.26671 8.14648C2.85699 9.33885 3.70994 10.2862 4.82556 10.9887C5.94119 11.6911 7.16601 12.0423 8.50004 12.0423Z" fill="#000"/>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+                            <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
+                            <button class="btn submitActionBtn font-13 fw-semibold text-white">Submit</button>
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="statutory" role="tabpanel" aria-labelledby="profile-tab">
+                        <app-statutory></app-statutory>
+                        </div>
+                        <div class="tab-pane fade" id="salary" role="tabpanel" aria-labelledby="profile-tab">
+                            <app-salary></app-salary>
+                        </div>
+                        <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="profile-tab">
+                            <app-taxes></app-taxes>
+                        </div>
+                        <div class="tab-pane fade" id="pay-schedule" role="tabpanel" aria-labelledby="profile-tab">
+                            <app-pay-schedule></app-pay-schedule>
+                        </div>
+                        <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="profile-tab">
+                            <app-preferences></app-preferences>
+                        </div>
+                        <div class="tab-pane fade" id="prior-payroll" role="tabpanel" aria-labelledby="profile-tab">
+                            <app-prior-payroll></app-prior-payroll>
+                        </div>
+                        <div class="tab-pane fade" id="form-16" role="tabpanel" aria-labelledby="profile-tab">
+                            <app-form></app-form>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+
+
+  
+    <!-- Modal EPF Sample Calculation start -->
+      <div class="modal fade" id="EPF-calculation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 900px;">
+        <div class="modal-content ">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">EPF Sample Calculation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="font-14 fw-light">Let's assume the salary packages considered for EPF is as shown as below, the calculation is based on the settings we’ve configured</p>
+            <div class="sample-calculation-data">
+                <div class="sample-calculation p-3 border-rounded-2">
+                    <h5 class="mb-2 font-14 text-primary fw-semibold">PF Contribution Settings</h5>
+                    <p class="mb-1 font-13 fw-light">Employer Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
+                    <p class="font-13 fw-light">Employee Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
+                </div>
+                <div class="sample-calculation p-3 border-rounded-2 pt-0">
+                    <h5 class="mb-2 font-14 text-primary fw-semibold">Lop Contribution </h5>
+                    <p class="mb-1 font-13 fw-light">Pro-rate Restricted PF Wage:	<span class="fw-semibold">Disabled</span></p>
+                    <p class="font-13 fw-light">Consider all components when PF wage < ₹15,000 after LOP: <span class="fw-semibold">Disabled</span></p>
+                </div>
+              </div>
+              <div class="sample-calculation-list mt-3">
+                <div class="d-flex alig-items-center justify-content-between">
+                    <h5 class="mb-0 font-14 fw-semibold">Salary and EPF Calculation</h5>
+                    <div class="form-check d-flex align-items-center gap-2">
+                        <input type="checkbox" class="form-check-input position-relative" id="exampleCheck6" [(ngModel)]="isLopChecked"  (change)="toggleLOPVisibility()">
+                        <label class="form-check-label font-13" for="exampleCheck6">With 15 days LOP</label>
+                     </div>
+                </div>
+            </div>
+            <div class="table-responisve mt-3">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th class="font-14" style="width:40%;">Salary Components &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
+                            <th class="text-center font-14" style="width:20%;">Package 1</th>
+                            <th class="text-center font-14" style="width:20%;">Package 2</th>
+                            <th class="text-center font-14" style="width:20%;">Package 3</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">Basic</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">Always considered for EPF</p>
+                                </span>
+                            </td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 25000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 18000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 12000) }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
+                                </span>
+                            </td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 4000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 2000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 1500) }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
+                                </span>
+                            </td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 3500) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 3000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 1000) }}</td>
+                        </tr>
+                        <tr class="bg-color">
+                            <th class="font-14" style="width:40%;">EPF Contribution &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
+                            <th class="text-center">
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateValue('basic', 3500) }}</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateValue('basic', 25000) }}</p>
+                                </span>
+                            </th>
+                            <th class="text-center">
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateValue('basic', 2160) }}</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateValue('basic', 18000) }}</p>
+                                </span>
+                            </th>
+                            <th class="text-center">
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateValue('basic', 1740) }}</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateValue('basic', 14500) }}</p>
+                                </span>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+      </div>
+    <!-- Modal EPF Sample Calculation end -->
+
+    <!-- ModalTax Slabs for Assam start -->
+       <div  class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tax Slabs for {{selectedTaxSlab?.state}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="tax-slabs">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold"></span>{{selectedTaxSlab?.deductionFrequency}}</p>
+                <!-- <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p> -->
+            </div>
+            <div class="modal-body">
+            <div class="tax-slabs">
+                <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold">Monthly</span></p>
+                    <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p>
+                </div>
+
+            <div class="table-responisve sample-tax-slabs-list mt-3">
+                <table class="table">
+                    <tbody>
+                        <tr >
+                            <th class="font-13" style="width:50%;">Monthly Gross Salary ( ₹ )</th>
+                            <th class="font-13" style="width:50%;">Monthly Tax Amount ( ₹ )</th>
+                        </tr>
+                        <tr *ngFor="let slab of selectedTaxSlab?.professionalTaxSlab">
+                            <td class="font-13">₹ {{slab.minAmount ?? 0}}-{{slab.maxAmount ?? 9999999}} </td>
+                            <td class="font-13">₹ {{slab.taxAmount}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+       </div>
+    <!-- ModalTax Slabs for Assam end -->
+
+    <!-- Add location modal start -->
+        <div class="modal fade" id="addLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title m-0"> Add New Location </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="add-location-modal">
+                <div class="row h-100 p-0 m-0">
+                    <div class="col-md-3 p-0 m-0" >
+                    <div class="add-location-menu">
+                        <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
+                            type="button" role="tab" #addlocation>
+                            Add Location
+                        </button>
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
+                            type="button" role="tab" #staffSelectionTab>
+                            Add Employee
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-9 bg-white">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane show active" id="staffLocation" role="tabpanel" #staffLocation>
+                                <div class="configuration-location p-3 row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="addressLine1" class="pb-2">Address Line 1 </label>
+                                        <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="addressLine1" class="pb-2">Address Line 2 </label>
+                                        <input type="text" placeholder="Address Line 2" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="addressLine1" class="pb-2">Select State </label>
+                                        <div class="w-100">
+                                        <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" required>
+                                            <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
+                                          </nz-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="addressLine1" class="pb-2">Enter City </label>
+                                        <input type="text" placeholder="City" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="addressLine1" class="pb-2">Enter PIN Code </label>
+                                        <input type="number" placeholder="PIN Code" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+
+
+                                </div>
+
+                                <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
+                                    <button type="submit" class="btn p-0 next-btn nextBtn" >
+                                        <span>
+                                            <span class="ng-star-inserted">Next</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="addemployee" role="tabpanel" #addemployee>
+                                <div class="configuration-location p-3">
+
+                                    <div class="col-md-12">
+                                        <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
+                                           <div>
+                                              <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                                                 <div class="form-group position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 search-input" style="padding: 10px 50px 10px 40px;">
+                                                    <i class="bi bi-search search-icon position-absolute ng-star-inserted"></i>
+                                                </div>
+                                              </form>
+                                           </div>
+                                           <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list px-3">
+                                            <span class="text-black font-13 pointer">
+                                                <span class="text-primary fw-semibold">10 </span> Selected of <span class="text-primary fw-semibold"> 184 </span>
+                                            </span>
+                                            <span class="separator"></span>
+                                            <span class="text-danger fw-semibold pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+                                                    <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
+                                                        <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect></mask>
+                                                        <g mask="url(#mask0_4127_2858)"><path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545">
+                                                        </path>
+                                                    </g>
+                                                </svg> Clear Selection 
+                                            </span>
+                                            </div>
+                                        </div>
+                                     </div>
+                                     <div class="mt-3 location-user-table">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5%;">
+                                                        <input type="checkbox" class="form-check-input pointer">
+                                                    </th>
+                                                    <th style="width: 25%;">Name</th>
+                                                    <th style="width: 25%;">Email Address</th>
+                                                    <th style="width: 20%;" >Phone Number</th>
+                                                    <th style="width: 15%;" class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of [].constructor(10)">
+                                                    <td>
+                                                        <input type="checkbox" class="form-check-input pointer">
+                                                    </td>
+                                                    <td class="font-13">
+                                                        Yogesh Kumar
+                                                    </td>
+                                                    <td>
+                                                        <span class="font-13">yogeshkrenai.com</span>
+                                                    </td>
+                                                    <td >
+                                                        <span class="font-13">95499011868</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="text-primary fw-semibold font-13 employee-add-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                </mask>
+                                                                <g mask="url(#mask0_9159_3509)">
+                                                                <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
+                                                                </g>
+                                                            </svg>
+                                                            Add</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                     </div>
+                                     <div class=" config-location-footer">
+                                     <div class="d-flex align-items-center justify-content-between w-100 p-3 bg-white">
+                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                    </div>
+                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                                        
+                                        <button type="submit" class="btn p-0 next-btn nextBtn" >
+                                            <span>
+                                                <span class="ng-star-inserted"> Create New Location </span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                    <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    <!-- Add location modal start -->

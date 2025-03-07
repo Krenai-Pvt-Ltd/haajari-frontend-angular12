@@ -300,6 +300,7 @@
     text-align: left;
     border: 1px solid #DCDCE4;
     border-radius: 3px;
+    line-height: 20px;
 }
 
 .nav-link:hover {

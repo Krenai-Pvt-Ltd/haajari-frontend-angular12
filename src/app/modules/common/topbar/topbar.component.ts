@@ -42,6 +42,7 @@ export class TopbarComponent implements OnInit {
   topbarValue: string | undefined;
 
   ROLE: any;
+  userInfo: any;
   // UUUI!:String;
   async ngOnInit() {
     // this.UUID = await this.rbacService.getUUID();
@@ -52,6 +53,8 @@ export class TopbarComponent implements OnInit {
       this.updateTopbarValue();
     });
     this.getUuids();
+    this.getMailNotification(this.UUID, 'mail');
+    this.userInfo =this.rbacService.userInfo;
   }
   routeDesc:any="Here's what's going on today.";
   private updateTopbarValue() {
@@ -196,6 +199,21 @@ export class TopbarComponent implements OnInit {
     }
     case this.Routes.EXPENSEMANAGEMENT:{
       routeValue = 'Expense Management';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
+    case this.Routes.PAYROLL:{
+      routeValue = 'Payroll Overview';
+      routeDesc="Manage and Review Payroll Processes"
+      break;
+    }
+    case this.Routes.CONFIGURATION:{
+      routeValue = 'Configuration';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
+    case this.Routes.EARNINGDETAILS:{
+      routeValue = 'Earning';
       routeDesc="Manage Employee Expense Reimbursements"
       break;
     }

@@ -34,8 +34,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
 import { AgmCoreModule } from '@agm/core';
-import { ExitModalComponent } from './modules/common/exit-modal/exit-modal.component';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +46,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     HeaderComponent,
     SubscriptionExpiredComponent,
     SubscriptionRestrictedComponent,
-    ExitModalComponent
+
   ],
   imports: [
     CommonModule,
@@ -61,6 +60,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxShimmerLoadingModule,
+    InfiniteScrollModule,
     SharedModule,
     NgbModule,
     FullCalendarModule,

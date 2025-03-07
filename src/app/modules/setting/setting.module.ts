@@ -38,6 +38,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     DynamicModule,
     NgxMaskModule.forRoot(),
     NzInputNumberModule,
+    NzPopoverModule,
     NzDatePickerModule,
     NzTimePickerModule,
     NzCalendarModule,

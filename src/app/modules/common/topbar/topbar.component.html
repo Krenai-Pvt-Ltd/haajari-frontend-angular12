@@ -1,14 +1,14 @@
 
 <div class="topbar pb-3 pt-3">
     <nav class="d-flex align-items-center justify-content-between" [ngClass]="ROLE == 'USER' ? 'navbar-custom employeeLoginHead' : 'navbar-custom'" id="navbar-custom">
-      
+
       <ul class="list-unstyled mb-0 krenai-deshboard" *ngIf="ROLE != 'USER'">
         <li>
           <h3 class="mb-1">{{topbarValue}}</h3>
           <p class="mb-0">{{routeDesc}}</p>
         </li>
       </ul>
-      <ul *ngIf="ROLE == 'USER'" (click)="routeToEmployeeProfilePage()">
+      <ul *ngIf="ROLE == 'USER'" >
         <img
           src="assets/images/HAjiRi.svg"
           alt="logo-large"
@@ -17,8 +17,8 @@
         />
       </ul>
       <ul class="list-unstyled float-end mb-0 d-flex align-items-center">
-       
-        <li class="dropdown notification-list">
+
+        <!-- <li class="dropdown notification-list">
           <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('mail')">
             <i class="ti ti-mail"></i>
             <span class="alert-badge" *ngIf="totalNewMailNotification>0"></span>
@@ -26,13 +26,13 @@
           <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
             <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Request <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewMailNotification>0">{{totalNewMailNotification}}</span>
             </h6>
-           
+
             <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length==0">
               <div class="text-center" style="height: 80px; padding-top: 30px;">
                 <h6>No Pending Request</h6>
               </div>
             </div>
-            
+
             <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length > 0">
               <a class="dropdown-item py-3" *ngFor="let mail of mailList" [ngClass]="{'notification': mail.isRead==0}" (click)="routeToPage(mail.id)">
                 <small class="float-end text-muted ps-2">{{timeAgo(mail.createdDate)}}</small>
@@ -64,7 +64,7 @@
           <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
             <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
             </h6>
-            
+
             <div class="notification-menu" data-simplebar *ngIf="!loading && notificationList.length==0">
               <div class="text-center" style="height: 80px; padding-top: 30px;">
                 <h6>No Pending Notifications</h6>
@@ -92,17 +92,17 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="border-top text-center text-primary pt-1" style="cursor: pointer;" *ngIf="totalNewNotification > 0" (click)="markAsReadAll('notify')">
               <span>Mark as read all</span>
             </div>
           </div>
-        </li>
-        <li class="nav-item" *ngIf="this.rbacService.shouldDisplay('dashboard')">
+        </li> -->
+        <!-- <li class="nav-item" *ngIf="this.rbacService.shouldDisplay('dashboard')">
           <a class="nav-link nav-icon" [href]="employeeProfileRoute" target="_blank" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
             <i class="ti ti-user"></i>
           </a>
-        </li>
+        </li> -->
         <li *ngIf="ROLE == 'USER'">
             <button class="btn btn-outline-danger btn-round" (click)="logout()"> Logout </button>
         </li>
@@ -150,9 +150,11 @@
         </div>
         </li>
       </ul>
-      <!-- <div class="d-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-3 position-relative">
 
-        <button class="btn p-0 text-black fw-semibold font-14 inbox-btn" (click)="routeToInbox()">
+
+        <button class="btn p-0 text-black fw-semibold font-14 inbox-btn  " (click)="routeToInbox()">
+
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
             <mask id="mask0_8356_292" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
             <rect width="18" height="18" fill="#D9D9D9"/>
@@ -162,11 +164,12 @@
             </g>
           </svg>
           My Inbox
+          <span class="active-notification" *ngIf="totalNewMailNotification>0"></span>
         </button>
-        <span class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white">
-          Y
+        <span (click)="routeToEmployeeProfilePage()" class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white pointer">
+          {{this.userInfo?.name?.charAt(0)  | uppercase}}
         </span>
 
-      </div> -->
+      </div>
     </nav>
   </div>

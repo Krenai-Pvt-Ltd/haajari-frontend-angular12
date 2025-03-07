@@ -50,6 +50,9 @@ export class Routes {
     public static FAQ = "/faq"
     public static FAQDETAIL = "/faq-detail"
     public static EXPENSEMANAGEMENT = "/expense-management"
+    public static PAYROLL = "/payroll/setup"
+    public static CONFIGURATION = "/payroll/configuration"
+     public static EARNINGDETAILS = "/payroll/earning-details"
     
  /**
     * DYNAMIC ROUTES END

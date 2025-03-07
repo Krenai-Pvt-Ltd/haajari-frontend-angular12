@@ -1,0 +1,117 @@
+<!-- <div class="page-wrapper">
+    <div class="page-content-tab">
+        <div class="container-fluid ">
+            <div class="row mt-4 payroll-step">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="payroll-to-do p-3 border-rounded-2 attendance-list">
+                        <h5 class="mb-1 font-18 fw-semibold text-black">Setup Guide</h5>
+                        <div class="d-flex align-items-center gap-3">
+                            <p class="mb-0 font-13 fw-normal color-basic lh-base"><span class="font-18 text-black fw-semibold">0</span>/7 Completed</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                        </div>
+                        <div class="payroll-todo-list mt-4">
+                            <ng-container *ngFor="let step of toDoStepList; let i = index;">
+                                <div class="mt-3">
+                                    <div class="d-flex align-items-center justify-content-between p-3" 
+                                        [ngClass]="{'normal-step': !step.completed && !step.isActive, 'complete-step': step.completed, 'active-step rounded': !step.completed && step.isActive }">
+                                        <div class="d-flex align-items-start gap-3">
+                                            <span class="d-flex align-items-center justify-content-center fw-semibold font-14" 
+                                                [ngClass]="{ 'step-normal': !step.completed && !step.isActive, 'complete-check': step.completed , 'step-no': !step.completed && step.isActive}">
+                                                <ng-container *ngIf="!step.completed; else completeIcon">{{ i + 1 }}</ng-container>
+                                            </span>
+                                            <ng-template #completeIcon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <mask id="mask0_8989_6606" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                                        <rect x="0.5" y="0.5" width="23" height="23" fill="white" stroke="#388E3C"/>
+                                                    </mask>
+                                                    <g mask="url(#mask0_8989_6606)">
+                                                        <path d="M9.55894 15.1584L18.7251 5.99229L20.1324 7.39961L9.5501 17.9819L3.86778 12.2996L5.2751 10.8923L9.54126 15.1584L9.5501 15.1673L9.55894 15.1584Z" fill="white" stroke="#388E3C" stroke-width="0.025"/>
+                                                    </g>
+                                                </svg>
+                                            </ng-template>
+                                            <div>
+                                                <h5 class="mb-1 font-14 fw-semibold text-black">{{ step.name }}</h5>
+                                                <p class="font-13 fw-light mb-0">{{ step.description }}</p>
+                                                <button class="btn submitActionBtn text-white font-13 fw-normal mt-3" *ngIf="!step.completed && step.isActive">Complete Now</button>
+                                            </div>
+                                        </div>
+                                        <ng-container *ngIf="!step.completed">
+                                          
+                                            <button class="btn normal-btn font-13 fw-normal mt-2" *ngIf="!step.isActive">Complete Now</button>
+                                            <img [src]="step.icon" *ngIf="step.isActive">
+                                        </ng-container>
+                                        <button class="btn p-0 text-success font-14 fw-semibold" *ngIf="step.completed">Complete</button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+</div> --><div class="page-wrapper">
+    <div class="page-content-tab">
+        <div class="container-fluid ">
+            <div class="row mt-4 payroll-step">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="payroll-to-do p-3 border-rounded-2 attendance-list">
+                        <h5 class="mb-1 font-18 fw-semibold text-black">Setup Guide</h5>
+                        <div class="d-flex align-items-center gap-3">
+                            <p class="mb-0 font-13 fw-normal color-basic lh-base"><span class="font-18 text-black fw-semibold">{{completedStep}}</span>/7 Completed</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"  [style.width.%]="(completedStep/7)*100"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                        </div>
+
+
+                        <div class="payroll-todo-list mt-4">
+                            <ng-container *ngFor="let step of toDoStepList; let i = index;">
+                                <div class="mt-3">
+                                    <div class="d-flex align-items-center justify-content-between p-3" 
+                                        [ngClass]="{'normal-step': !step.completed && !step.isActive, 'complete-step': step.completed, 'active-step rounded': !step.completed && step.isActive }">
+                                        <div class="d-flex align-items-start gap-3">
+                                            <span class="d-flex align-items-center justify-content-center fw-semibold font-14" 
+                                                [ngClass]="{ 'step-normal': !step.completed && !step.isActive, 'complete-check': step.completed , 'step-no': !step.completed && step.isActive}">
+                                                <ng-container *ngIf="!step.completed; else completeIcon">{{ i + 1 }}</ng-container>
+                                            </span>
+                                            <ng-template #completeIcon>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <mask id="mask0_8989_6606" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                                        <rect x="0.5" y="0.5" width="23" height="23" fill="white" stroke="#388E3C"/>
+                                                    </mask>
+                                                    <g mask="url(#mask0_8989_6606)">
+                                                        <path d="M9.55894 15.1584L18.7251 5.99229L20.1324 7.39961L9.5501 17.9819L3.86778 12.2996L5.2751 10.8923L9.54126 15.1584L9.5501 15.1673L9.55894 15.1584Z" fill="white" stroke="#388E3C" stroke-width="0.025"/>
+                                                    </g>
+                                                </svg>
+                                            </ng-template>
+                                            <div>
+                                                <h5 class="mb-1 font-14 fw-semibold text-black">{{ step.name }}</h5>
+                                                <p class="font-13 fw-light mb-0">{{ step.description }}</p>
+                                                <button class="btn submitActionBtn text-white font-13 fw-normal mt-3" *ngIf="!step.completed && step.isActive">Complete Now</button>
+                                            </div>
+                                        </div>
+                                        <ng-container *ngIf="!step.completed">
+                                          
+                                            <button class="btn normal-btn font-13 fw-normal mt-2" *ngIf="!step.isActive">Complete Now</button>
+                                            <img [src]="step.icon" *ngIf="step.isActive">
+                                        </ng-container>
+                                        <button class="btn p-0 text-success font-14 fw-semibold" *ngIf="step.completed">Complete</button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+</div>

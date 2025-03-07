@@ -36,8 +36,8 @@
 
       <div class="row mt-4" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
         <div class="col-md-7">
-          <div class="on-leave-section">
-            <h5>Latest Joining - Pending Verification</h5>
+          <div class="on-leave-section p-3 border-rounded-2 bg-white attendance-border">
+            <h5 class="mt-0">Latest Joining - Pending Verification</h5>
             <ng-container *ngIf="
                 isPendingShimmer &&
                   !networkConnectionErrorPlaceHolder &&
@@ -88,18 +88,17 @@
                   else errorInFetchinglast3PendingUserData
                 ">
                 <div class="d-flex align-items-center mt-4 gap-2">
-                  <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
+                  <div class="on-leave pr-3" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
                     <div class="d-flex align-items-center gap-2">
                       <div class="">
                         <span *ngIf="statusUsers?.image !== null">
-                          <img src="{{ statusUsers?.image }}" class="rounded-circle thumb-xl" />
+                          <img src="{{ statusUsers?.image }}" class="radius-50 thumb-xl object-fit-cover img-50" />
                         </span>
-                        <span class="members-name" *ngIf="statusUsers?.image == null">{{ statusUsers?.name[0] }}</span>
-                        <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
+                        <span class="members-name d-flex align-items-center justify-content-center radius-50 text-white text-uppercase font-24" *ngIf="statusUsers?.image == null">{{ statusUsers?.name[0] }}</span>
                       </div>
                       <div class="">
-                        <h5 class="joining-name">{{ statusUsers?.name }}</h5>
-                        <p class="mb-0 joining-email">
+                        <h5 class="joining-name font-14 fw-600">{{ statusUsers?.name }}</h5>
+                        <p class="mb-0 joining-email font-12">
                           {{ statusUsers?.email }}
                         </p>
                       </div>
@@ -141,7 +140,7 @@
           </div>
         </div>
         <div class="col-md-5">
-          <div class="on-leave-section">
+          <div class="on-leave-section p-3 border-rounded-2 bg-white attendance-border">
             <div class="d-flex align-items-center justify-content-between">
               <div class="last-client">
                 <h5>Last Approved</h5>
@@ -180,19 +179,19 @@
                             ">
                             <img src="{{
                                 employeeStatus!.lastApprovedUser?.image
-                              }}" class="rounded-circle thumb-xl" />
+                              }}" class="radius-50 thumb-xl object-fit-cover img-50" />
                           </span>
-                          <span class="members-name" *ngIf="
+                          <span class="members-name d-flex align-items-center justify-content-center radius-50 text-white text-uppercase font-24" *ngIf="
                               employeeStatus!.lastApprovedUser?.image == null
                             ">
                             {{ employeeStatus!.lastApprovedUser?.name[0] }}
                           </span>
                         </div>
                         <div class="">
-                          <h5 class="joining-name">
+                          <h5 class="joining-name font-14 fw-600">
                             {{ employeeStatus!.lastApprovedUser?.name }}
                           </h5>
-                          <p class="mb-0 joining-email">
+                          <p class="mb-0 joining-email font-12">
                             {{ employeeStatus!.lastApprovedUser?.email }}
                           </p>
                         </div>
@@ -261,19 +260,19 @@
                             ">
                             <img src="{{
                                 employeeStatus!.lastRejectedUser?.image
-                              }}" class="rounded-circle thumb-xl" />
+                              }}" class="radius-50 thumb-xl object-fit-cover img-50" />
                           </span>
-                          <span class="members-name" *ngIf="
+                          <span class="members-name d-flex align-items-center justify-content-center radius-50 text-white text-uppercase font-24" *ngIf="
                               employeeStatus!.lastRejectedUser?.image == null
                             ">
                             {{ employeeStatus!.lastRejectedUser?.name[0] }}
                           </span>
                         </div>
                         <div class="">
-                          <h5 class="joining-name">
+                          <h5 class="joining-name font-14 fw-600">
                             {{ employeeStatus!.lastRejectedUser?.name }}
                           </h5>
-                          <p class="mb-0 joining-email">
+                          <p class="mb-0 joining-email font-12">
                             {{ employeeStatus!.lastRejectedUser?.email }}
                           </p>
                         </div>
@@ -343,73 +342,6 @@
           <div id="pills-tabContent" class="tab-content">
             <div class="tab-pane active show" id="employeeList" role="tabpanel" aria-labelledby="employee-tab">
               <div>
-                <!-- <div class="row mt-3" *ngIf="!isMainPlaceholder">
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('APPROVED')">
-                        <div class="orderpcardleft">
-                          <h6>Verified</h6>
-                          <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/shield.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'PENDING' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('PENDING')">
-                        <div class="orderpcardleft">
-                          <h6>Pending Verification</h6>
-                          <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/lock.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REJECTED' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('REJECTED')">
-                        <div class="orderpcardleft">
-                          <h6>Rejected</h6>
-                          <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/recycle.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REQUESTED' }">
-                      <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
-                        (click)="selectStatus('REQUESTED')">
-                        <div class="orderpcardleft">
-                          <h6>Requested</h6>
-                          <h5>{{ verificationCount.requestedCount || 0 }}</h5>
-                        </div>
-                        <div class="orderpcardright">
-                          <div class="total-employ-icon">
-                            <img src="assets/images/shield.svg" style="width: 28px" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
                 <!-- new-design start -->
 
                 <div class="row mt-3" *ngIf="!isMainPlaceholder">
@@ -471,7 +403,7 @@
                         <!-- <span class="resignation-request font-13 fw-normal" *ngIf="empProfileEditRequestUsersImage==undefined || empProfileEditRequestUsersImage?.length == 0">No Request</span> -->
                         <div class="img-group d-flex" *ngIf="empProfileEditRequestUsersImage!=undefined && empProfileEditRequestUsersImage.length > 0">
                           <a class="user-avatar" *ngFor="let image of empProfileEditRequestUsersImage">
-                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs rounded-circle" src="{{image}}"></span>
+                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs radius-50 object-fit-cover img-50" src="{{image}}"></span>
                           </a>
                        </div>
                       </div>
@@ -488,7 +420,7 @@
                         <!-- <span class="resignation-request font-13 fw-normal" *ngIf="resignationUsersImage.length == 0">No Request</span> -->
                         <div class="img-group d-flex" *ngIf="resignationUsersImage.length > 0">
                           <a class="user-avatar" *ngFor="let image of resignationUsersImage">
-                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs rounded-circle" src="{{image}}"></span>
+                             <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs radius-50 object-fit-cover img-50" src="{{image}}"></span>
                           </a>
 
                        </div>
@@ -523,12 +455,12 @@
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
                                     <input type="text" id="searchText"
-                                    placeholder="Search by name, email and phone number ..." class="form-control me-2"
+                                    placeholder="Search by name, email and phone number ..." class="form-control me-2  search-padding"
                                     (keyup)="searchUsers('any')" [(ngModel)]="search"
-                                    [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-                                  <i class="bi bi-search search-icon"
+                                    [ngModelOptions]="{ standalone: true }" />
+                                  <i class="bi bi-search search-icon ms-3"
                                     *ngIf="search==''"></i>
-                                  <i class="bi bi-x-lg search-icon text-primary"
+                                  <i class="bi bi-x-lg search-icon ms-3 text-primary"
                                     *ngIf="search!=''" (click)="reloadPage()"></i>
                                   </div>
                           </div>
@@ -588,6 +520,7 @@
                             </span>
                         </div>
                         <div class="row p-3">
+                          <div class="col-md-12">
                           <h5 class="mb-0 font-14 fw-normal">Status Wise</h5>
                           <div class="mt-3">
                             <div class="categories-filter form-check d-flex align-items-center gap-2 mb-2" (click)="toggleStatus('ALL')">
@@ -613,6 +546,7 @@
                               <label class="form-check-label fw-normal">{{ accessibility }}</label>
                             </div>
                           </div>
+                        </div>
                         </div>
 
                         <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
@@ -734,7 +668,7 @@
                                 <button type="button" class="btn btn-primary"
                                   (click)="saveSlackUserIdViaEmailData(user.email)">
                                   <span *ngIf="!isSlackUserFlag">Sync</span>
-                                  <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
+                                  <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="isSlackUserFlag">
                                     <span></span>
                                     <span></span>
                                     <span></span>
@@ -746,7 +680,7 @@
                           <!-- <td> <span class="mb-0 weekly-pro-email">{{user.employeeCode || '0'}}</span> </td> -->
 
                           <td>
-                            <span class="mb-0 weekly-pro-email" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
+                            <span class="mb-0 weekly-pro-email font-14 fw-normal" *ngIf="!user.teamsNameList || user.teamsNameList.length == 0">
                               {{ "N/A" }}</span>
 
 
@@ -757,54 +691,31 @@
                             <div class="team-name d-flex align-items-center justify-content-between" *ngIf="user?.teamsNameList?.length && user.teamsNameList.length > 2">
                               <span class="team-name-one fw-normal text-left font-13 fw-semibold"> {{ user.teamsNameList[0]?.teamName || 'N/A'}} </span>
 
-                              <!-- <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
-                              nz-popover [nzPopoverContent]="teamTemplate"  nzPopoverTitle="Team List" (mouseover)="getTeamNamesNew(user.teamNameList)"
-                              [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop" *ngIf="user.teamNameList.length > 1">+{{ user.teamNameList.length - 1 }}</span>
 
-
-                             <ng-template #teamTemplate>
-                               <div class="team-list p-0" *ngIf="onboardUserTeam?.length; else noDataTemplate">
-                                <div class="border-bottom pb-3 pt-3" *ngFor="let tm of onboardUserTeam; let i = index">
-                                  <p class="text-black font-12 fw-semibold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                      <mask id="mask0_8190_19422" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
-                                      <rect width="14" height="14" fill="#D9D9D9"/>
-                                      </mask>
-                                      <g mask="url(#mask0_8190_19422)">
-                                      <path d="M0.583008 11.6663V10.033C0.583008 9.70245 0.668077 9.39863 0.838216 9.12155C1.00836 8.84447 1.2344 8.63301 1.51634 8.48717C2.11912 8.18579 2.73162 7.95974 3.35384 7.80905C3.97606 7.65835 4.60801 7.58301 5.24967 7.58301C5.89134 7.58301 6.52329 7.65835 7.14551 7.80905C7.76773 7.95974 8.38023 8.18579 8.98301 8.48717C9.26495 8.63301 9.49099 8.84447 9.66113 9.12155C9.83127 9.39863 9.91634 9.70245 9.91634 10.033V11.6663H0.583008ZM11.083 11.6663V9.91634C11.083 9.48856 10.9639 9.0778 10.7257 8.68405C10.4875 8.2903 10.1497 7.95245 9.71217 7.67051C10.208 7.72884 10.6747 7.82849 11.1122 7.96947C11.5497 8.11044 11.958 8.28301 12.3372 8.48717C12.6872 8.68162 12.9545 8.89794 13.1393 9.13613C13.324 9.37433 13.4163 9.6344 13.4163 9.91634V11.6663H11.083ZM5.24967 6.99967C4.60801 6.99967 4.0587 6.7712 3.60176 6.31426C3.14481 5.85731 2.91634 5.30801 2.91634 4.66634C2.91634 4.02467 3.14481 3.47537 3.60176 3.01842C4.0587 2.56148 4.60801 2.33301 5.24967 2.33301C5.89134 2.33301 6.44065 2.56148 6.89759 3.01842C7.35454 3.47537 7.58301 4.02467 7.58301 4.66634C7.58301 5.30801 7.35454 5.85731 6.89759 6.31426C6.44065 6.7712 5.89134 6.99967 5.24967 6.99967ZM11.083 4.66634C11.083 5.30801 10.8545 5.85731 10.3976 6.31426C9.94065 6.7712 9.39134 6.99967 8.74967 6.99967C8.64273 6.99967 8.50662 6.98752 8.34134 6.96322C8.17606 6.93891 8.03995 6.91217 7.93301 6.88301C8.19551 6.5719 8.39724 6.22676 8.53822 5.84759C8.67919 5.46842 8.74967 5.07467 8.74967 4.66634C8.74967 4.25801 8.67919 3.86426 8.53822 3.48509C8.39724 3.10592 8.19551 2.76079 7.93301 2.44967C8.06912 2.40106 8.20523 2.36947 8.34134 2.35488C8.47745 2.3403 8.61356 2.33301 8.74967 2.33301C9.39134 2.33301 9.94065 2.56148 10.3976 3.01842C10.8545 3.47537 11.083 4.02467 11.083 4.66634ZM1.74967 10.4997H8.74967V10.033C8.74967 9.92606 8.72294 9.82884 8.66947 9.74134C8.61599 9.65384 8.54551 9.58579 8.45801 9.53717C7.93301 9.27467 7.40315 9.0778 6.86842 8.94655C6.3337 8.8153 5.79412 8.74967 5.24967 8.74967C4.70523 8.74967 4.16565 8.8153 3.63092 8.94655C3.0962 9.0778 2.56634 9.27467 2.04134 9.53717C1.95384 9.58579 1.88336 9.65384 1.82988 9.74134C1.77641 9.82884 1.74967 9.92606 1.74967 10.033V10.4997ZM5.24967 5.83301C5.57051 5.83301 5.84516 5.71877 6.07363 5.4903C6.3021 5.26183 6.41634 4.98717 6.41634 4.66634C6.41634 4.34551 6.3021 4.07086 6.07363 3.84238C5.84516 3.61391 5.57051 3.49967 5.24967 3.49967C4.92884 3.49967 4.65419 3.61391 4.42572 3.84238C4.19724 4.07086 4.08301 4.34551 4.08301 4.66634C4.08301 4.98717 4.19724 5.26183 4.42572 5.4903C4.65419 5.71877 4.92884 5.83301 5.24967 5.83301Z" fill="#6666F2"/>
-                                      </g>
-                                    </svg>
-                                    Team {{i + 1}}</p>
-                                    <h5 class="mb-2 font-15 fw-bold">{{tm?.teamName}}</h5>
-                                    <p class="mb-0 font-14 fw-normal"> {{tm?.createdDate | date}}</p>
-                                </div>
-
-
-                               </div>
-                               <ng-template #noDataTemplate>
-                                <p>No team available.</p>
-                              </ng-template>
-                             </ng-template> -->
 
                              <span class="team-count d-flex align-items-center justify-content-center font-13 fw-normal"
                                   nz-popover [nzPopoverContent]="teamTemplate" nzPopoverTitle="Team List"
                                   (mouseover)="getTeamNamesNew(user.teamsNameList)"
-                                  [nzPopoverOverlayStyle]="{'width':'250px'}" nzPopoverPlacement="rightTop"
+                                  [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="rightTop"
                                   *ngIf="user.teamsNameList.length > 1">
                                   +{{ user.teamsNameList.length - 1 }}
                                 </span>
 
                                 <ng-template #teamTemplate>
                                   <div class="team-list p-0" *ngIf="onboardUserTeam?.length; else noDataTemplate">
-                                    <div class="border-bottom pb-3 pt-3" *ngFor="let tm of onboardUserTeam; let i = index">
+                                    <div class="team-list-count pb-3" *ngFor="let tm of onboardUserTeam; let i = index">
                                       <p class="text-black font-12 fw-semibold">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                          <mask id="mask0_8190_19422" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
                                           <rect width="14" height="14" fill="#D9D9D9"/>
-                                          <path d="M0.583 11.666V10.033C0.583 9.702 0.668 9.398 0.838 9.121C1.008 8.844 1.234 8.633 1.516 8.487C2.119 8.185 2.731 7.959 3.353 7.809C3.976 7.658 4.608 7.583 5.249 7.583C5.891 7.583 6.523 7.658 7.145 7.809C7.767 7.959 8.38 8.185 8.983 8.487C9.264 8.633 9.490 8.844 9.661 9.121C9.831 9.398 9.916 9.702 9.916 10.033V11.666H0.583ZM11.083 11.666V9.916C11.083 9.488 10.963 9.077 10.725 8.684C10.487 8.29 10.149 7.952 9.712 7.67C10.208 7.728 10.674 7.828 11.112 7.969C11.549 8.11 11.958 8.283 12.337 8.487C12.687 8.681 12.954 8.897 13.139 9.136C13.324 9.374 13.416 9.634 13.416 9.916V11.666H11.083ZM5.249 6.999C4.608 6.999 4.058 6.771 3.601 6.314C3.144 5.857 2.916 5.308 2.916 4.666C2.916 4.024 3.144 3.475 3.601 3.018C4.058 2.561 4.608 2.333 5.249 2.333C5.891 2.333 6.44 2.561 6.897 3.018C7.354 3.475 7.583 4.024 7.583 4.666C7.583 5.308 7.354 5.857 6.897 6.314C6.44 6.771 5.891 6.999 5.249 6.999Z" fill="#6666F2"/>
+                                          </mask>
+                                          <g mask="url(#mask0_8190_19422)">
+                                          <path d="M0.583008 11.6663V10.033C0.583008 9.70245 0.668077 9.39863 0.838216 9.12155C1.00836 8.84447 1.2344 8.63301 1.51634 8.48717C2.11912 8.18579 2.73162 7.95974 3.35384 7.80905C3.97606 7.65835 4.60801 7.58301 5.24967 7.58301C5.89134 7.58301 6.52329 7.65835 7.14551 7.80905C7.76773 7.95974 8.38023 8.18579 8.98301 8.48717C9.26495 8.63301 9.49099 8.84447 9.66113 9.12155C9.83127 9.39863 9.91634 9.70245 9.91634 10.033V11.6663H0.583008ZM11.083 11.6663V9.91634C11.083 9.48856 10.9639 9.0778 10.7257 8.68405C10.4875 8.2903 10.1497 7.95245 9.71217 7.67051C10.208 7.72884 10.6747 7.82849 11.1122 7.96947C11.5497 8.11044 11.958 8.28301 12.3372 8.48717C12.6872 8.68162 12.9545 8.89794 13.1393 9.13613C13.324 9.37433 13.4163 9.6344 13.4163 9.91634V11.6663H11.083ZM5.24967 6.99967C4.60801 6.99967 4.0587 6.7712 3.60176 6.31426C3.14481 5.85731 2.91634 5.30801 2.91634 4.66634C2.91634 4.02467 3.14481 3.47537 3.60176 3.01842C4.0587 2.56148 4.60801 2.33301 5.24967 2.33301C5.89134 2.33301 6.44065 2.56148 6.89759 3.01842C7.35454 3.47537 7.58301 4.02467 7.58301 4.66634C7.58301 5.30801 7.35454 5.85731 6.89759 6.31426C6.44065 6.7712 5.89134 6.99967 5.24967 6.99967ZM11.083 4.66634C11.083 5.30801 10.8545 5.85731 10.3976 6.31426C9.94065 6.7712 9.39134 6.99967 8.74967 6.99967C8.64273 6.99967 8.50662 6.98752 8.34134 6.96322C8.17606 6.93891 8.03995 6.91217 7.93301 6.88301C8.19551 6.5719 8.39724 6.22676 8.53822 5.84759C8.67919 5.46842 8.74967 5.07467 8.74967 4.66634C8.74967 4.25801 8.67919 3.86426 8.53822 3.48509C8.39724 3.10592 8.19551 2.76079 7.93301 2.44967C8.06912 2.40106 8.20523 2.36947 8.34134 2.35488C8.47745 2.3403 8.61356 2.33301 8.74967 2.33301C9.39134 2.33301 9.94065 2.56148 10.3976 3.01842C10.8545 3.47537 11.083 4.02467 11.083 4.66634ZM1.74967 10.4997H8.74967V10.033C8.74967 9.92606 8.72294 9.82884 8.66947 9.74134C8.61599 9.65384 8.54551 9.58579 8.45801 9.53717C7.93301 9.27467 7.40315 9.0778 6.86842 8.94655C6.3337 8.8153 5.79412 8.74967 5.24967 8.74967C4.70523 8.74967 4.16565 8.8153 3.63092 8.94655C3.0962 9.0778 2.56634 9.27467 2.04134 9.53717C1.95384 9.58579 1.88336 9.65384 1.82988 9.74134C1.77641 9.82884 1.74967 9.92606 1.74967 10.033V10.4997ZM5.24967 5.83301C5.57051 5.83301 5.84516 5.71877 6.07363 5.4903C6.3021 5.26183 6.41634 4.98717 6.41634 4.66634C6.41634 4.34551 6.3021 4.07086 6.07363 3.84238C5.84516 3.61391 5.57051 3.49967 5.24967 3.49967C4.92884 3.49967 4.65419 3.61391 4.42572 3.84238C4.19724 4.07086 4.08301 4.34551 4.08301 4.66634C4.08301 4.98717 4.19724 5.26183 4.42572 5.4903C4.65419 5.71877 4.92884 5.83301 5.24967 5.83301Z" fill="#6666F2"/>
+                                          </g>
                                         </svg>
                                         Team {{i + 1}}
                                       </p>
-                                      <h5 class="mb-2 font-15 fw-bold">{{ tm?.teamName }}</h5>
+                                      <h5 class="mb-11 font-15 fw-600">{{ tm?.teamName }}</h5>
                                       <p class="mb-0 font-14 fw-normal"> {{ tm?.createdDate | date }}</p>
                                     </div>
                                   </div>
@@ -838,7 +749,7 @@
                             </button>
                           </td>
                           <td>
-                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal" *ngIf="user.userLeavePolicyName">
+                            <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal font-14" *ngIf="user.userLeavePolicyName">
                               {{ user.userLeavePolicyName ? user.userLeavePolicyName : "N/A" }}
                             </a>
                             <button type="button" (click)="routeToAddUserInLeavePolicy()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userLeavePolicyName">
@@ -857,12 +768,12 @@
                             </div>
                           </td>
                           <td *ngIf="constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
-                            <span class="font-13"
+                            <span class="font-13 fw-semibold"
                               [ngClass]="{'text-success': user.onboardingStatus === 'APPROVED'||user.onboardingStatus === 'NEW_USER' , 'text-danger': user.onboardingStatus === 'REJECTED', 'text-warning': user.onboardingStatus === 'PENDING', 'text-secondary': user.onboardingStatus === 'REQUESTED' }">
                               {{ user.onboardingStatus }}</span>
                           </td>
                           <td *ngIf="!constants.EMPTY_STRINGS.includes(user?.resignationStatus)">
-                            <span class="font-13"
+                            <span class="font-13 fw-semibold"
                               [ngClass]="{'text-info': user.resignationStatus.id == 13 || user.resignationStatus.id == 47, 'text-warning': user.resignationStatus.id == 42, 'text-danger': user.resignationStatus.id == 43 }">{{
                               user.resignationStatus.response }}</span>
                           </td>
@@ -995,7 +906,7 @@
 
                             ">
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
                           <button class="text-danger" nz-button nzType="text" nz-popover
                             [nzPopoverContent]="contentTemplate" *ngIf="
                                   onboardingVia === 'SLACK' &&
@@ -1014,7 +925,7 @@
                               <button type="button" class="btn btn-primary"
                                 (click)="saveSlackUserIdViaEmailData(user.email)">
                                 <span *ngIf="!isSlackUserFlag">Sync</span>
-                                <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
+                                <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="isSlackUserFlag">
                                   <span></span>
                                   <span></span>
                                   <span></span>
@@ -1025,17 +936,17 @@
                         </td>
 
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.email ? user.email : "N/A" }}
                           </a>
                         </td>
                         <td class="text-left">
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.phone ? user.phone : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
+                        <td><span class="weekly-pro-name text-capitalize font-14 fw-normal">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
 
 
                         <td>{{counTDataInString(user?.data)}}</td>
@@ -1049,7 +960,7 @@
                             <div class="dropdown-menu actionMenuList">
                               <li>
                                 <a class="dropdown-item text-seccess" data-bs-toggle="modal"
-                                  (click)="getRequestedData(user.uuid)" data-bs-target="#edit-request"><i
+                                  (click)="onProfileUpdateModalOpen(user.uuid)" data-bs-target="#edit-request"><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
@@ -1091,7 +1002,7 @@
             </div>
             <div class="tab-pane fade pt-3" id="resignationRequest" role="tabpanel" aria-labelledby="resignation-tab">
               <!-- <div> -->
-              <div class="onboard-add row align-items-center mx-0">
+              <div class="onboard-add row align-items-center mx-0 attendance-border">
                 <!-- <div *ngIf="users.length!=0"> -->
                 <!-- || (searchUserPlaceholderFlag) -->
                 <div class="col-md-12">
@@ -1102,7 +1013,7 @@
                         <div class="onboarding-date d-flex align-items-center position-relative">
                           <div class="dropdown empFilerDropfilter">
                             <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                              aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                              aria-expanded="false" class="btn btn-secondary dropdown-toggle new-dropdown">
                               {{ statusLabel || "All" }}
                               <i class="bi bi-chevron-down"></i>
                             </button>
@@ -1112,15 +1023,15 @@
                               </li>
                             </ul>
                           </div>
-                          <form role="search" class="searching" style="width: 100%">
-                            <div class="form-group" style="width: 100%; position: relative">
+                          <form role="search" class="searching w-100 d-flex justify-content-start">
+                            <div class="form-group w-100 position-relative">
                               <input type="text" id="searchText"
-                                placeholder="Search by name..." class="form-control me-2"
+                                placeholder="Search by name..." class="form-control me-2 search-padding"
                                 (keyup)="onResignationSearch();" [(ngModel)]="resignationSearch"
-                                [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-                              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
+                                [ngModelOptions]="{ standalone: true }" />
+                              <i class="bi bi-search search-icon ms-3  m-auto"
                                 *ngIf="resignationSearch==''"></i>
-                              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="resignationSearch!=''"
+                              <i class="bi bi-x search-icon ms-3 m-auto font-20" *ngIf="resignationSearch!=''"
                                 (click)="this.resignationSearch=''; loadResignations()"></i>
                             </div>
                           </form>
@@ -1196,46 +1107,21 @@
                             ">
                         <!-- class="stickyColTd" -->
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
-                          <!-- <button class="text-danger" nz-button nzType="text" nz-popover
-                            [nzPopoverContent]="contentTemplate" *ngIf="
-                                  onboardingVia === 'SLACK' &&
-                                  user.slackUserId === null
-                                ">
-                            <i class="bi bi-exclamation-triangle"></i>
-                          </button>
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
 
-                          <ng-template #contentTemplate>
-                            <p>
-                              Slack ID isn't synced with Hajiri for this user.
-                              Click 'Sync' <br />to enable Slack integration with
-                              Hajiri.
-                            </p>
-                            <div class="d-flex justify-content-end">
-                              <button type="button" class="btn btn-primary"
-                                (click)="saveSlackUserIdViaEmailData(user.email)">
-                                <span *ngIf="!isSlackUserFlag">Sync</span>
-                                <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
-                                  <span></span>
-                                  <span></span>
-                                  <span></span>
-                                </div>
-                              </button>
-                            </div>
-                          </ng-template> -->
                         </td>
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.email ? user.email : "N/A" }} <br> {{ user.phone ? user.phone : "N/A" }}
                           </a>
                         </td>
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
                             {{ user.lastWorkingDay ? (user.lastWorkingDay | date:'dd-MM-yyyy') : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name">{{user.requestedDate ? (user.requestedDate | date:'dd-MM-yyyy') : "N/A"}}</span></td>
+                        <td><span class="weekly-pro-name text-capitalize font-14 fw-normal">{{user.requestedDate ? (user.requestedDate | date:'dd-MM-yyyy') : "N/A"}}</span></td>
 
 
                         <td>
@@ -1255,7 +1141,8 @@
                             <div class="dropdown-menu actionMenuList">
 
                               <li>
-                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" (click)="onInitiateExitClick(user?.uuid)" ><i
+                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" data-bs-toggle="modal"
+                                 data-bs-target="#viewExitRequest" (click)="onInitiateExitClick(user?.uuid)" ><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
@@ -1360,13 +1247,28 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="name" class="pb-2">Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control input-zorro" id="name" name="name" placeholder="Name"
-                  [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
+                <input
+                  type="text"
+                  class="form-control input-zorro"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  [(ngModel)]="userPersonalInformationRequest.name"
+                  required
+                  #nameField="ngModel"
+                  minlength="3"
+                  pattern="[a-zA-Z]+( [a-zA-Z]+)*"
+                />
 
                 <div *ngIf="nameField.invalid && nameField.touched">
-                  <p class="errortxt mt-2 mb-0" style="color: red">
-                    <i class="bi bi-exclamation-circle"></i> Name is
-                    required.
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.required">
+                    <i class="bi bi-exclamation-circle"></i> Name is required.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.minlength">
+                    <i class="bi bi-exclamation-circle"></i> Name must be at least 3 characters long.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="nameField.errors?.pattern">
+                    <i class="bi bi-exclamation-circle"></i> Name can only contain letters and single spaces between words (e.g., John Doe).
                   </p>
                 </div>
               </div>
@@ -1411,7 +1313,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="shiftNames" class="pb-2">Select Shift <span class="text-danger">* </span></label>
-                <nz-select id="shift" name="shift" class="form-control placeholder-line" nzPlaceHolder="Select a shift"
+                <nz-select id="shift" name="shift" class="form-control placeholder-line w-100" nzPlaceHolder="Select a shift"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedShift"
                   [ngModelOptions]="{ standalone: true }" required #shiftField="ngModel">
                   <ng-container *ngFor="let shift of shiftList">
@@ -1422,6 +1324,9 @@
                     Loading Shifts...
                   </nz-option>
                 </nz-select>
+                <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="shiftList.length === 0 && !isLoadingShifts">
+                  + Add Shift
+                </button>
                 <div *ngIf="shiftField.invalid && shiftField.touched" class="errortxt mt-2 mb-0" style="color: red">
                   <i class="bi bi-exclamation-circle"></i> Please select a
                   shift.
@@ -1435,7 +1340,7 @@
               <div class="col-md-6 mb-3">
                 <label for="gender" class="pb-2">Select Gender <span class="text-danger">*</span></label>
                 <nz-select id="gender" name="gender" [(ngModel)]="userPersonalInformationRequest.gender" required
-                  class="form-control placeholder-line" #genderField="ngModel" nzPlaceHolder="Select Gender">
+                  class="form-control placeholder-line w-100" #genderField="ngModel" nzPlaceHolder="Select Gender">
                   <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
                 </nz-select>
                 <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
@@ -1459,7 +1364,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="isProbation" class="pb-2">Probation Status <span class="text-danger">*</span></label>
-                <nz-select id="isProbation" name="isProbation" class="form-control placeholder-line"
+                <nz-select id="isProbation" name="isProbation" class="form-control placeholder-line w-100"
                   [(ngModel)]="userPersonalInformationRequest.isProbation" required #isProbationField="ngModel"
                   nzPlaceHolder="Probation Status">
                   <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
@@ -1476,7 +1381,7 @@
               <div class="col-md-6 mb-3">
                 <label for="teamNames" class="pb-2">Select Team<span class="text-optional">
                     (Optional)</span></label>
-                <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select teams"
+                <nz-select class="form-control placeholder-font w-100" nzMode="multiple" nzPlaceHolder="Select teams"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedTeams"
                   [ngModelOptions]="{ standalone: true }" (ngModelChange)="onTeamSelectionChange($event)"
                   (nzOnSearch)="onSearch($event)">
@@ -1492,7 +1397,7 @@
               <div class="col-md-6 mb-3">
                 <label for="teamNames" class="pb-2">Select Leave <span class="text-optional">
                     (Optional)</span></label>
-                <nz-select class="form-control placeholder-font" nzMode="multiple" nzPlaceHolder="Select leave"
+                <nz-select class="form-control placeholder-font w-100" nzMode="multiple" nzPlaceHolder="Select leave"
                   nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedLeaves"
                   [ngModelOptions]="{ standalone: true }" (ngModelChange)="onLeaveSelectionChange($event)"
                   (nzOnSearch)="onSearchLeave($event)">
@@ -1519,7 +1424,7 @@
                   isNumberExist ||
                   isEmailExist
                 " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add Only">
-              <div *ngIf="toggle1" class="dot-opacity-loader1">
+              <div *ngIf="toggle1" class="dot-opacity-loader1 d-flex align-items-center justify-content-ceter">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1533,7 +1438,7 @@
                   isNumberExist ||
                   isEmailExist
                 " [ngClass]="{'btn-border':!personalInformationForm.invalid}" aria-label="Add and Invite">
-              <div *ngIf="toggle2" class="dot-opacity-loader1">
+              <div *ngIf="toggle2" class="dot-opacity-loader1 d-flex align-items-center justify-content-ceter">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1557,7 +1462,7 @@
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"  #closeButtonDeleteLeave>
+            <button type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close" (click)="getUsersByFiltersFunction()"  #closeButtonDeleteLeave>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" >
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
@@ -1616,7 +1521,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Update Request</h5>
-        <button #closeReqDataModal (click)="closeDataRequestModal()" type="button" class="close-btn"
+        <button #closeReqDataModal  (click)="closeDataRequestModal()" type="button" class="close-btn pointer"
           data-bs-dismiss="modal" aria-label="Close">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -1630,155 +1535,10 @@
           </svg>
         </button>
       </div>
-      <div class="modal-body">
-        <div *ngIf="isRequestedDataLoading" class="d-flex align-items-center justify-content-center">
-          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-        </div>
-        <div *ngIf="!isRequestedDataLoading" class="request-body">
-          <div class="d-flex align-items-center justify-content-between request-user p-3">
-            <div class="d-flex align-items-center gap-2">
-              <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="profilePic">
-              <div>
-                <h5 class="mb-0 font-15">{{editedName}} </h5>
-                <p class="mb-0 font-12">Requested for <span class="text-primary fw-semibold"> {{requestedData.length}}
-                  </span> update </p>
-              </div>
-            </div>
-            <p class="mb-0 font-14 fw-semibold">{{editedDate | date:'d MMM, y'}} </p>
-          </div>
 
-          <div class="email-update-box mt-3">
-            <span *ngIf="!isRejectModalOpen">
-              <span *ngFor="let data of requestedData; let i=index">
-                <div *ngIf="!isModalOpen[i]" class="d-flex align-items-center justify-content-between email-update p-3 mb-3">
-                  <div class="d-flex align-items-center gap-2">
-                    <span></span>
-                    <p class="fon-12 mb-0 fw-semibold">{{data.name}}</p>
-                  </div>
-                  <div class="d-flex align-items-center gap-3">
+        <app-profile-update *ngIf="isProfileReqModalOpen" [data]="requestModalData" (closeEvent)="onProfileComponentClose()" (fieldAction)="fetchPendingRequests()"> </app-profile-update>
 
-                    <button class="btn p-0 font-13 fw-semibold"
-                      [ngClass]="{'text-success' : approveStates[i]==='Approved', 'text-danger': approveStates[i]==='Rejected'}">
-                      {{approveStates[i]}}
-                    </button>
-                    <div class="break-line"></div>
-                    <div [attr.id]="'collapsibleDiv-' + i" class="pointer" data-bs-toggle="collapse"
-                      [attr.href]="'#view-edit-request-' + i" role="button" aria-expanded="false"
-                      aria-controls="view-edit-request" (click)="toggleModal(i)">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_6559_7025" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="24" height="24">
-                          <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_6559_7025)">
-                          <path
-                            d="M12 16C13.25 16 14.3125 15.5625 15.1875 14.6875C16.0625 13.8125 16.5 12.75 16.5 11.5C16.5 10.25 16.0625 9.1875 15.1875 8.3125C14.3125 7.4375 13.25 7 12 7C10.75 7 9.6875 7.4375 8.8125 8.3125C7.9375 9.1875 7.5 10.25 7.5 11.5C7.5 12.75 7.9375 13.8125 8.8125 14.6875C9.6875 15.5625 10.75 16 12 16ZM12 14.2C11.25 14.2 10.6125 13.9375 10.0875 13.4125C9.5625 12.8875 9.3 12.25 9.3 11.5C9.3 10.75 9.5625 10.1125 10.0875 9.5875C10.6125 9.0625 11.25 8.8 12 8.8C12.75 8.8 13.3875 9.0625 13.9125 9.5875C14.4375 10.1125 14.7 10.75 14.7 11.5C14.7 12.25 14.4375 12.8875 13.9125 13.4125C13.3875 13.9375 12.75 14.2 12 14.2ZM12 19C9.56667 19 7.35 18.3208 5.35 16.9625C3.35 15.6042 1.9 13.7833 1 11.5C1.9 9.21667 3.35 7.39583 5.35 6.0375C7.35 4.67917 9.56667 4 12 4C14.4333 4 16.65 4.67917 18.65 6.0375C20.65 7.39583 22.1 9.21667 23 11.5C22.1 13.7833 20.65 15.6042 18.65 16.9625C16.65 18.3208 14.4333 19 12 19ZM12 17C13.8833 17 15.6125 16.5042 17.1875 15.5125C18.7625 14.5208 19.9667 13.1833 20.8 11.5C19.9667 9.81667 18.7625 8.47917 17.1875 7.4875C15.6125 6.49583 13.8833 6 12 6C10.1167 6 8.3875 6.49583 6.8125 7.4875C5.2375 8.47917 4.03333 9.81667 3.2 11.5C4.03333 13.1833 5.2375 14.5208 6.8125 15.5125C8.3875 16.5042 10.1167 17 12 17Z"
-                            fill="black" />
-                        </g>
-                      </svg>
-                    </div>
-                  </div>
-
-                </div>
-
-                <!-- .reject-box reject-class -->
-                <div class="p-3 edit-update-box collapse mb-3" [id]="'view-edit-request-' + i">
-                  <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
-                    <div class="d-flex align-items-center gap-2">
-                      <span></span>
-                      <p class="fon-12 mb-0 fw-semibold">{{data.name}} Update</p>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                      <div *ngIf="!disabledStates[i] && !fieldLoading" class="d-flex align-items-center gap-2">
-                        <div class="pointer" (click)="approveField(data.key, data.newValue, i)">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none">
-                            <mask id="mask0_6567_7336" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                              width="24" height="24">
-                              <rect width="24" height="24" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_6567_7336)">
-                              <path
-                                d="M10.6 16.6L17.65 9.55L16.25 8.15L10.6 13.8L7.75 10.95L6.35 12.35L10.6 16.6ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
-                                fill="#388E3C" />
-                            </g>
-                          </svg>
-                        </div>
-                        <div class="pointer" (click)=" removeField(data.key, data.newValue, i)" role="button"
-                          aria-expanded="false" aria-controls="reject-request">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"
-                            fill="none">
-                            <mask id="mask0_6567_7339" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                              width="25" height="24">
-                              <rect x="0.28125" width="24" height="24" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_6567_7339)">
-                              <path
-                                d="M8.68125 17L12.2812 13.4L15.8813 17L17.2812 15.6L13.6813 12L17.2812 8.4L15.8813 7L12.2812 10.6L8.68125 7L7.28125 8.4L10.8813 12L7.28125 15.6L8.68125 17ZM12.2812 22C10.8979 22 9.59792 21.7375 8.38125 21.2125C7.16458 20.6875 6.10625 19.975 5.20625 19.075C4.30625 18.175 3.59375 17.1167 3.06875 15.9C2.54375 14.6833 2.28125 13.3833 2.28125 12C2.28125 10.6167 2.54375 9.31667 3.06875 8.1C3.59375 6.88333 4.30625 5.825 5.20625 4.925C6.10625 4.025 7.16458 3.3125 8.38125 2.7875C9.59792 2.2625 10.8979 2 12.2812 2C13.6646 2 14.9646 2.2625 16.1813 2.7875C17.3979 3.3125 18.4563 4.025 19.3563 4.925C20.2563 5.825 20.9688 6.88333 21.4937 8.1C22.0187 9.31667 22.2812 10.6167 22.2812 12C22.2812 13.3833 22.0187 14.6833 21.4937 15.9C20.9688 17.1167 20.2563 18.175 19.3563 19.075C18.4563 19.975 17.3979 20.6875 16.1813 21.2125C14.9646 21.7375 13.6646 22 12.2812 22ZM12.2812 20C14.5146 20 16.4062 19.225 17.9563 17.675C19.5063 16.125 20.2812 14.2333 20.2812 12C20.2812 9.76667 19.5063 7.875 17.9563 6.325C16.4062 4.775 14.5146 4 12.2812 4C10.0479 4 8.15625 4.775 6.60625 6.325C5.05625 7.875 4.28125 9.76667 4.28125 12C4.28125 14.2333 5.05625 16.125 6.60625 17.675C8.15625 19.225 10.0479 20 12.2812 20Z"
-                                fill="#FD3516" />
-                            </g>
-                          </svg>
-                        </div>
-                      </div>
-                      <div *ngIf="fieldLoading" class="loading-spinner d-flex align-items-center gap-2">
-                        <div class="spinner-border text-primary" role="status">
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      </div>
-                      <div class="break-line"></div>
-                      <div #divElement (click)="toggleModal(i)" class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i"
-                        role="button" aria-expanded="false" aria-controls="view-edit-request">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                          <mask id="mask0_6605_10585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="25">
-                            <rect x="0.351562" y="0.59375" width="23.6478" height="24" fill="#D9D9D9" />
-                          </mask>
-                          <g mask="url(#mask0_6605_10585)">
-                            <path
-                              d="M6.6568 19.5938L5.27734 18.1938L10.7952 12.5938L5.27734 6.99375L6.6568 5.59375L12.1746 11.1937L17.6924 5.59375L19.0719 6.99375L13.5541 12.5938L19.0719 18.1938L17.6924 19.5938L12.1746 13.9938L6.6568 19.5938Z"
-                              fill="black" />
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-6">
-                      <div class="current-box">
-                        <p class="mb-2">Current</p>
-                        <div class="bg-white p-3" style="border: 1px solid #e9e9e9;">
-                          <p class="mb-0 font-13">{{data.currentValue}}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="updated-box">
-                        <p class="mb-2">Updated</p>
-                        <div class="bg-white p-3" style="border: 1px solid #e9e9e9;">
-                          <p class="mb-0 font-13">{{data.newValue}}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </span>
-            </span>
-            <div *ngIf="isRejectModalOpen" class="col-md-12">
-              <div class="position-relative" id="reject-request">
-                <textarea id="exampleFormControlTextarea1" placeholder="Write the reason of refection.... "
-                  name="notesInput" rows="3" [(ngModel)]="rejectedReason"   class="form-control nots-section" #rejectedReasonRef="ngModel"></textarea>
-                  <div class="text-danger mt-2" *ngIf="rejectedReasonRef.touched && (!rejectedReason || rejectedReason.length < 10)">
-                    Reason should be at least 10 characters long.
-                    </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-      <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
+      <!-- <div *ngIf="remainingField!==0" class="modal-footer d-flex align-items-center justify-content-end gap-2">
         <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
           class="btn btn-soft-danger">
           <span *ngIf="!rejectLoading">Reject All</span>
@@ -1804,18 +1564,18 @@
           </button>
 
       </div>
-    </div>
+    </div> -->
     <div *ngIf="remainingField==0" class="d-flex align-items-center justify-content-end gap-2">
       <button type="button" #closeReqDataModal (click)="closeDataRequestModal()"
       data-bs-dismiss="modal" aria-label="Close" class="btn cancel-btn mt-0">
         <span >Done</span>
       </button>
     </div>
-  </div>
+    </div>
 </div>
 </div>
 
-Edit Request Modal End
+<!-- Edit Request Modal End -->
 
 <!-- Trigger Button for Modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
@@ -1913,7 +1673,7 @@ Edit Request Modal End
                 <div class="d-flex align-items-center gap-3" >
                   <div style="width:200px;" *ngIf="isAnyRowSelected()">
                     <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
-                      nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="form-control w-100 placeholder-line">
+                      nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="form-control w-100 placeholder-line w-100">
                       <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
                         [nzLabel]="shift.label"></nz-option>
                     </nz-select>
@@ -1935,19 +1695,6 @@ Edit Request Modal End
                       </div>
                     </ng-template>
                   </div>
-                  <!-- <div style="width:200px;">
-                    <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
-                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam"
-                        class="whatapp-login-input">
-                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
-                          [nzLabel]="team.label"></nz-option>
-                      </nz-select>
-                      <ng-template #customDropdownTeam>
-                        <div class="custom-dropdown-footer">
-                          <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
-                        </div>
-                      </ng-template>
-                  </div> -->
                 </div>
                 <div class="d-flex align-items-center justify-contant-end gap-3">
                     <label class="m-0 d-flex align-items-center gap-2 justify-content-center set-current font-14 fw-normal">
@@ -1985,9 +1732,9 @@ Edit Request Modal End
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
 
                           <nz-select [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
+                            [ngClass]="{'invalid-input bg-white': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
                             (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="w-100">
 
                             <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
                               [nzLabel]="shift.label"></nz-option>
@@ -2003,12 +1750,12 @@ Edit Request Modal End
 
                         <ng-template #leaveColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
-                            <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave"
+                            <nz-select class="whatsapp-login-input w-100" nzMode="multiple" nzPlaceHolder="Select leave"
                               nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="row[j]"
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearchLeave($event)" [nzDropdownRender]="customDropdown"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}">
                               <ng-container *ngFor="let o of originalLeaveNameList">
                                 <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
@@ -2032,7 +1779,7 @@ Edit Request Modal End
                             <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
                               [(ngModel)]="row[j]" required
                               (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
                             </nz-date-picker>
                           </ng-container>
@@ -2043,8 +1790,8 @@ Edit Request Modal End
                             <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode="multiple"
                               nzPlaceHolder="Select teams" [(ngModel)]="row[j]" [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
-                              (nzOnSearch)="onSearch($event)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (nzOnSearch)="onSearch($event)" class="w-100"
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               [nzDropdownRender]="customDropdownTeam">
                               <ng-container *ngFor="let o of originalTeamNameList">
                                 <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
@@ -2065,9 +1812,9 @@ Edit Request Modal End
                         <ng-template #genderColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
                             <nz-select id="gender" name="gender" [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                              nzPlaceHolder="Select Gender">
+                              nzPlaceHolder="Select Gender" class="w-100">
                               <nz-option *ngFor="let gender of genders" [nzValue]="gender"
                                 [nzLabel]="gender"></nz-option>
                             </nz-select>
@@ -2077,7 +1824,7 @@ Edit Request Modal End
                         <!-- Default input for other columns -->
                         <ng-template #defaultInput>
                           <input [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                             (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
                         </ng-template>
 
@@ -2109,7 +1856,7 @@ Edit Request Modal End
           ">
           <div class="">
             <div class="text-end">
-              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
             </div>
           </div>
           <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
@@ -2117,32 +1864,27 @@ Edit Request Modal End
             <div class="row mt-3">
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                    style="border-radius: 50%"></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" class="radius-50"></ngx-shimmer-loading>
                 </div>
               </div>
             </div>
@@ -2157,16 +1899,7 @@ Edit Request Modal End
               else errorInOnboardUserListCondition
             ">
             <div class="mt-0">
-              <!-- <div class="d-flex align-items-center justify-content-end mb-3 p-0">
-                <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
-                  style="display: none" (change)="selectFile($event)" />
-                <button type="button" class="btn add-excel" (click)="fileInput.click()">
-                  <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
-                    style="position: relative; top: -1px; padding-right: 6px"></i>
-                  <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
-                  Excel Upload
-                </button>
-              </div> -->
+
               <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert" *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||
@@ -2269,7 +2002,7 @@ Edit Request Modal End
           <button *ngIf="enableEmailNotification || enableWhatsAppNotification" type="button" class="btn btn-border font-14 fw-semibold"
             (click)="sendNotifications()" [disabled]="loadingFlag">
             <span *ngIf="!loadingFlag">Send Notification</span>
-            <div class="dot-opacity-loader" *ngIf="loadingFlag">
+            <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="loadingFlag">
               <span></span>
               <span></span>
               <span></span>
@@ -2280,7 +2013,7 @@ Edit Request Modal End
           <button *ngIf="!enableEmailNotification && !enableWhatsAppNotification" type="button" class="btn p-0 font-14 fw-semibold text-primary"
             (click)="closeNotificationModal(); sendEmailToUsers(false);">
             <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
-            <div class="dot-opacity-loader" *ngIf="closeNotificationModalFlag">
+            <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="closeNotificationModalFlag">
               <span></span>
               <span></span>
               <span></span>
@@ -2327,7 +2060,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-      <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+      <button type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close"
         (click)="closeResignationModal(resignationForm)" #closeResignationButton>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -2358,7 +2091,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
               <nz-form-control>
                 <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select exit type"
                   [(ngModel)]="userExitTypeId" (ngModelChange)="selectUserExitType($event)" required id="seleType"
-                  name="seleExpType" #seleExpType="ngModel" class="form-control">
+                  name="seleExpType" #seleExpType="ngModel" class="form-control w-100">
                   <nz-option *ngFor=" let exitType of userExitTypeList" [nzValue]="exitType.id"
                     [nzLabel]="exitType.name">
                   </nz-option>
@@ -2418,13 +2151,12 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
             </div>
             <div class="col-md-12 mb-3"
               *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')">
-              <div class="notice-period-error p-3">
+              <div class="notice-period-error p-3 border-rounded-2">
                 <div class="d-flex align-items-center gap-3 mb-2">
                   <p class="mb-0">Notice period</p>
                   <span class="calendar-separator"></span>
                   <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                 </div>
-                <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
                 <p class="mb-0 font-13">This is the user last working day.</p>
               </div>
             </div>
@@ -2438,14 +2170,13 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
           </div>
         </div>
         <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-          <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
           <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
             (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
 
           <button *ngIf="!resignationToggle" type="submit"
             [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
             class="btn submitActionBtn">Submit</button>
-          <div class="dot-opacity-loader" *ngIf="resignationToggle">
+          <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="resignationToggle">
             <span></span>
             <span></span>
             <span></span>
@@ -2459,8 +2190,27 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 <!-- Initiate Exit (UserResignation) Modal End -->
 
 
+<div class="modal fade" id="viewExitRequest" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
 
-<!-- <app-exit-modal></app-exit-modal> -->
+          <div class="modal-body p-0">
+              <button #viewExitRequestDismiss id="viewExitRequestDismiss" type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
+                      <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
+                  </svg>
+              </button>
+              <!-- Add your content here -->
+              <ng-container *ngIf="showExitModal">
+             <app-exit-modal [data]="exitData" (closeEvent)="onExitComponentClose()" ></app-exit-modal>
+              </ng-container>
+          </div>
+          <!-- <div class="modal-footer">
+              <button type="button" (click)="getUserAttendanceStatus();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div> -->
+      </div>
+  </div>
+</div>
 
 
 
@@ -2469,7 +2219,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-content">
 
           <div class="modal-body p-0">
-              <button #closeAddButton id="closeAddButton" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
+              <button #closeAddButton id="closeAddButton" type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
                       <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
                   </svg>

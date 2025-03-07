@@ -480,8 +480,16 @@ export class TimetableComponent implements OnInit {
   ];
 
   selectFilterCriteria(filterCriteria: string) {
-    this.filterCriteria = filterCriteria;
+    this.filterCriteria = filterCriteria; 
+  }
 
+  resetFilterCriteria(filterCriteria: string){
+    this.filterCriteria = filterCriteria;
+    this.showFilter = false;
+    this.applyFilterCriteria();
+  }
+
+  applyFilterCriteria(){
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;

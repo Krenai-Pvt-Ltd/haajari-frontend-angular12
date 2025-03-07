@@ -1,3 +1,4 @@
+import { AssetService } from './../../../../services/asset.service';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, NgForm } from '@angular/forms';
@@ -22,6 +23,7 @@ import {
   ApexResponsive,
   ApexLegend
 } from "ng-apexcharts";
+import { constant } from 'src/app/constant/constant';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -43,9 +45,12 @@ interface Filter {
   templateUrl: './assets-management.component.html',
   styleUrls: ['./assets-management.component.css']
 })
+
+
 export class AssetsManagementComponent implements OnInit {
 
   constructor( private dataService : DataService,
+    private assetService: AssetService,
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
@@ -69,6 +74,8 @@ export class AssetsManagementComponent implements OnInit {
     });
   }
 
+    readonly Constants=constant;
+  
   searchControl = new FormControl('');
   assetStatuses = [
     { id: 62, name: 'ASSIGNED' },
@@ -98,12 +105,35 @@ export class AssetsManagementComponent implements OnInit {
   assetSummaryCategoryId: any = 0;
   // Separate method to fetch status summary
   fetchStatusSummary(): void {
-    this.dataService.getStatusSummary().subscribe({
+    this.assetService.getStatusSummary().subscribe({
       next: (data) => {
         this.statusSummary = data;
       },
       error: (err) => console.error('Error fetching status summary', err)
     });
+  }
+
+  @ViewChild('closeButtonDeleteCategory') closeButtonDeleteCategory!: ElementRef<HTMLButtonElement>;
+  deleteLoading: boolean = false;
+  deleteCategory(id: number) {
+    this.deleteLoading = true;
+      this.assetService.deleteAssetCategory(id).subscribe({
+        next: (response) => {
+          this.deleteLoading = false;
+          if (response.status) {
+            this.closeButtonDeleteCategory.nativeElement.click();
+            this.helperService.showToast('Category deleted successfully', Key.TOAST_STATUS_SUCCESS);
+            this.dashboard();
+          } else {
+            this.helperService.showToast('Failed to delete category', Key.TOAST_STATUS_ERROR);
+          }
+        },
+        error: (error) => {
+          this.deleteLoading = false;
+         this.helperService.showToast('Failed to delete category', Key.TOAST_STATUS_ERROR);
+        }
+      });
+
   }
 
   getCountByStatusId(statusId: number): number {
@@ -116,7 +146,7 @@ export class AssetsManagementComponent implements OnInit {
 
   // Separate method to fetch category summary
   fetchCategorySummary(): void {
-    this.dataService.getCategorySummary().subscribe({
+    this.assetService.getCategorySummary().subscribe({
       next: (data) => {
         this.categorySummary = data;
         console.log('Category Summary:', data);
@@ -131,7 +161,7 @@ export class AssetsManagementComponent implements OnInit {
   }
 
   fetchAssetSummary(): void {
-    this.dataService.getAssetCategorySummary(this.assetSummaryCategoryId)
+    this.assetService.getAssetCategorySummary(this.assetSummaryCategoryId)
       .subscribe(
         (data) => {
           this.assetSummary = data;
@@ -147,6 +177,7 @@ isFileUploaded: boolean = false;
 selectedFile: File | null = null;
 fileToUpload: string = '';
 categoryId: number = 0;
+selectedCategory: any = {};
 updateCategoryFlag: boolean = false;
 newCategory: any = {
   categoryName: '',
@@ -169,10 +200,11 @@ newCategory: any = {
     }
   }
 
-  assignCategoryId(categoryId: number) {
-    this.categoryId = categoryId;
-    if(categoryId!=0) {
-      this.getAssetCategoryDataById();
+  assignCategoryId(category: any) {
+    this.selectedCategory = category;
+    this.categoryId = category.categoryId;
+    if(this.categoryId!=0) {
+      this.newCategory = { categoryName: category.categoryName, categoryImage: '' };
     } else {
       this.newCategory = { categoryName: '', categoryImage: '' };
     }
@@ -250,7 +282,7 @@ newCategory: any = {
     if (this.fileToUpload) {
       this.newCategory.categoryImage = this.fileToUpload;
     }
-    this.dataService.updateAssetCategory(this.categoryId, this.newCategory)
+    this.assetService.updateAssetCategory(this.categoryId, this.newCategory)
       .subscribe(
         response => {
           this.isCategoryUpdateLoading = false;
@@ -276,7 +308,7 @@ newCategory: any = {
     if (this.fileToUpload) {
       this.newCategory.categoryImage = this.fileToUpload;
     }
-    this.dataService.createAssetCategory(this.newCategory)
+    this.assetService.createAssetCategory(this.newCategory)
       .subscribe(
         response => {
           if(response.status){
@@ -319,7 +351,7 @@ newCategory: any = {
   onSubmit(form: NgForm): void {
     this.assetCreateLoading=true;
     if (form.valid) {
-      this.dataService.createAssets(this.assetData).subscribe(
+      this.assetService.createAssets(this.assetData).subscribe(
         (response: any) => {
           this.assetCreateLoading=false;
           if (response.status) {
@@ -400,7 +432,7 @@ onSearch(searchText: string): void {
     loadAssets() {
       this.changeShowFilter(false);
       this.isAssetLoading = true;
-      this.dataService.getFilteredAssets(this.selectedTeamId, this.selectedUserId, this.selectedStatusId, this.selectedCategoryId, this.searchText, this.currentPage-1, this.pageSize)
+      this.assetService.getFilteredAssets(this.selectedTeamId, this.selectedUserId, this.selectedStatusId, this.selectedCategoryId, this.searchText, this.currentPage-1, this.pageSize)
         .subscribe(response => {
           this.isAssetLoading = false;
           this.assets = response.content; // Assuming `content` holds the paginated data
@@ -420,7 +452,7 @@ onSearch(searchText: string): void {
     teamSummary: any= [];
     statusId: number = 62;
     fetchTeamSummary(): void {
-      this.dataService.getTeamSummary(this.statusId).subscribe({
+      this.assetService.getTeamSummary(this.statusId).subscribe({
         next: (data) => {
           this.totalAssignedAssets = data.totalAssignedAssets;
           this.teamSummary = data.teamAssets;
@@ -472,7 +504,7 @@ onSearch(searchText: string): void {
 
     allUser: any = [];
     getOrganizationUserList(): void {
-      this.dataService.getOrganizationUserList().subscribe(
+      this.assetService.getOrganizationUserList().subscribe(
         (response) => {
           this.allUser = response.listOfObject;
           this.users= this.allUser;
@@ -485,7 +517,7 @@ onSearch(searchText: string): void {
 
     assetsChangePercentage: any = [];
     getAssetsChangePercentageList(): void {
-      this.dataService.getAssetChangePercentageList().subscribe(
+      this.assetService.getAssetChangePercentageList().subscribe(
         (response) => {
           this.assetsChangePercentage = response;
         },
@@ -501,7 +533,7 @@ onSearch(searchText: string): void {
     }
     assetsMonthlyAssignments : any = [];
     getMonthlyAssignmentsAssets(): void {
-      this.dataService.getMonthlyAssignments(62).subscribe(
+      this.assetService.getMonthlyAssignments(62).subscribe(
         (response) => {
           this.assetsMonthlyAssignments = response;
           this.initChartData();
@@ -622,7 +654,7 @@ onSearch(searchText: string): void {
        }
       }
       this.statusChangeLoading = true;
-      this.dataService.changeStatus(this.statusChangeAssetId, this.statusChangeId, this.statusChangeDescription, this.statusChangeUserId)
+      this.assetService.changeStatus(this.statusChangeAssetId, this.statusChangeId, this.statusChangeDescription, this.statusChangeUserId)
         .subscribe({
           next: (response: any) => {
             this.statusChangeLoading = false;
@@ -654,7 +686,7 @@ onSearch(searchText: string): void {
     currentAsset: any;
     loadAssetHistory(asset: any): void {
       this.currentAsset = asset;
-      this.dataService.getAssetHistory(asset.id).subscribe(
+      this.assetService.getAssetHistory(asset.id).subscribe(
         (data:any) => {
           this.assetHistory = data;
         },
@@ -720,7 +752,7 @@ onSearch(searchText: string): void {
     getAssetRequests(): void {
       this.changeShowFilter(false);
       this.isLoading = true;
-      this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, [...this.selectedFilters]).subscribe(
+      this.assetService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, [...this.selectedFilters]).subscribe(
         (response) => {
           this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
           this.assetRequestsTotalPage=response.totalPages;
@@ -740,6 +772,21 @@ onSearch(searchText: string): void {
       this.getAssetRequests();
 
     }
+
+    assetModalData:any = {};
+    isAssetRequestModalOpen: boolean = false;
+    onAssetRequestOpen(asset: any): void {
+      this.assetModalData ={isModal:true, asset:asset};
+      this.isAssetRequestModalOpen = true;
+    }
+
+    onAssetComponentClose(): void {
+      this.assetModalData={};
+      this.assetRequestTab();
+      this.isAssetRequestModalOpen = false;
+      console.log('Asset request tab closed');
+    }
+
     newStatus: string = 'Pending';
     selectedAsset: any;
     statuses: string[] = ['APPROVED', 'REJECTED'];
@@ -757,7 +804,7 @@ onSearch(searchText: string): void {
     changeStatus(asset: any) {
       this.assetRequestStatusLoading = true;
       this.modalService.dismissAll();
-      this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
+      this.assetService.changeAssetRequestStatus(asset.id, this.newStatus)
       .subscribe(
         (response) => {
           asset.status = this.newStatus;
@@ -819,7 +866,7 @@ onSearch(searchText: string): void {
     downloadFlag: boolean=false;
     downloadExcel(): void {
       this.downloadFlag=true;
-      this.dataService.downloadAssetRequests().subscribe(
+      this.assetService.downloadAssetRequests().subscribe(
         (blob) => {
           const a = document.createElement('a');
           const objectUrl = URL.createObjectURL(blob);
@@ -840,7 +887,7 @@ onSearch(searchText: string): void {
 
     pendingRequestsCounter: number = 0;
     getPendingRequestsCounter(): void {
-      this.dataService.getPendingRequestsCounter().subscribe(
+      this.assetService.getPendingRequestsCounter().subscribe(
         (response) => {
           this.pendingRequestsCounter = response.pendingRequestsCounter;
         },
@@ -853,7 +900,7 @@ onSearch(searchText: string): void {
 
     requestedTypeCount: any = {};
     getRequestedTypeCount(): void {
-      this.dataService.getRequestedTypeCount().subscribe(
+      this.assetService.getRequestedTypeCount().subscribe(
         (response) => {
           this.requestedTypeCount = response;
           this.initializeDonutChart();
@@ -876,7 +923,7 @@ onSearch(searchText: string): void {
     availableAssetLoading: boolean = false;
     fetchRequestedAssetsAvailable(): void {
       this.availableAssetLoading = true;
-      this.dataService.getRequestedAvailableAssets(this.assetCategoryId, this.searchQuery, (this.currentRequestPage-1), this.pageRequestSize)
+      this.assetService.getRequestedAvailableAssets(this.assetCategoryId, this.searchQuery, (this.currentRequestPage-1), this.pageRequestSize)
         .subscribe(response => {
           this.availableAssetLoading = false;
           this.assetsAvailable = response.content;
@@ -911,7 +958,7 @@ onSearch(searchText: string): void {
     @ViewChild('assetAssignClose') assetAssignClose!: ElementRef<HTMLButtonElement>;
     assignAsset(): void {
       this.assetAssignedLoading = true;
-      this.dataService.assignRequestedAsset(this.selectedAvailableAsset.id, this.selectedAsset.id).subscribe(
+      this.assetService.assignRequestedAsset(this.selectedAvailableAsset.id, this.selectedAsset.id).subscribe(
         (response) => {
           this.assetAssignedLoading = false;
           this.selectedAvailableAsset = null;
@@ -968,6 +1015,7 @@ onSearch(searchText: string): void {
   close(): void {
     this.visible = false;
   }
+  
 
   openChildren(): void {
     this.childrenVisible = true;
@@ -986,7 +1034,7 @@ onSearch(searchText: string): void {
     type: "area",
     stacked: false,
     height: 200,
-    background: "#FFFFFF",
+    background: "transparent",
     zoom: {
       enabled: false // 🔹 Disables zooming
     },
@@ -1006,7 +1054,7 @@ onSearch(searchText: string): void {
 
   public dataLabels: ApexDataLabels = { enabled: false };
   public markers: ApexMarkers = { size: 5 };
-  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments", align: "left" };
+  public title: ApexTitleSubtitle = { text: "Monthly Asset Assignments" };
   public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
   public yaxis: ApexYAxis = {  labels: { show: false } };
   public xaxis: ApexXAxis = {
@@ -1203,4 +1251,16 @@ onSearch(searchText: string): void {
   }
 
 
-}
+  visible2: boolean = false; // Open drawer by default
+
+  close2(): void {
+    this.visible2 = false; // Close the drawer
+  }
+
+  openDrawer(): void {
+    this.visible2 = true; // Function to open drawer again
+  }
+  }
+  
+
+

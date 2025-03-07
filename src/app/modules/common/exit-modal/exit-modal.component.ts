@@ -1,14 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormBuilder, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-import { ModalService } from 'src/app/services/modal.service';
-import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-exit-modal',
@@ -16,41 +10,61 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./exit-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExitModalComponent { 
+export class ExitModalComponent {
 
-  @Input() data: any; 
+  @Input() data: any;
   userId: any;
+  id: any;
   ROLE: any= '';
+  isModal: boolean = true;
   userResignationReq: UserResignation = new UserResignation();
   resignationToggle: boolean = false;
   userResignationInfo: any;
   discussionType: string = 'Yes'
   recommendDay: string = 'Complete'
+  @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
-    public activeModal: NgbActiveModal,
     public helperService: HelperService){
   }
 
   close() {
-    this.activeModal.close('Modal closed');
+    this.closeEvent.emit();
   }
 
   ngOnInit(): void {
-   
-    this.userId= this.data.uuid;
-    this.getUserResignationInfo();
-    // this.startCarousel();
-    this.getNoticePeriodDuration();
-    this.ROLE= this.data.userType;
+    this.fetchData();
+
 
   }
 
- 
+ngOnChanges(changes: SimpleChanges) {
+      if (changes['data']) {
+        console.log("changes deetcted");
+       this.fetchData();
+      }
+    }
 
+
+    fetchData(){
+      this.userId= this.data.uuid;
+    this.id= this.data.id;
+    if(this.data.id){
+      this.getUserResignationInfoById();
+    }else{
+    this.getUserResignationInfo();
+    this.getNoticePeriodDuration();
+    }
+    if(this.data.isModal==0){
+      this.isModal= false;
+    }
+
+    // this.startCarousel();
+    this.ROLE= this.data.userType;
+    }
 /**
  * Method to handle the submission of a resignation request.
- * 
+ *
  * This method performs the following steps:
  * 1. Sets the `resignationToggle` flag to `true` to indicate that the resignation process has started.
  * 2. Assigns the current user resignation information to the request object (`userResignationReq`).
@@ -70,7 +84,7 @@ export class ExitModalComponent {
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
       if (res.status) {
         this.resignationToggle = false
-        this.closeApproveModal.nativeElement.click()
+        this.viewExitRequestDismiss.nativeElement.click()
         this.getUserResignationInfo()
         // this.clearForm();
         this.close();
@@ -97,31 +111,59 @@ export class ExitModalComponent {
     })
   }
 
-    @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+  isLoading: boolean = false;
+  getUserResignationInfoById() {
+    this.isLoading = true;
+    this.userResignationInfo = []
+    this.dataService.getUserResignationInfoById(this.id).subscribe((res: any) => {
+      if (res.status) {
+        this.userResignationInfo = res.object[0];
+        this.userId= this.userResignationInfo.uuid;
+        this.getNoticePeriodDuration();
+        if (this.userResignationInfo.isManagerDiscussion == 0) {
+          this.discussionType = 'No'
+        }
+        this.isLoading = false;
+        if (this.userResignationInfo.isRecommendedLastDay == 1) {
+          this.recommendDay = 'Other'
+        }
+        this.cdr.detectChanges();
+        console.log('userResignationInfo dashboard : ', this.userResignationInfo)
+      }else{
+        this.close();
+      }
+
+    })
+  }
+
+    @ViewChild('viewExitRequestDismiss') viewExitRequestDismiss!: ElementRef
     approveToggle: boolean = false
     hideResignationModal: boolean = false;
     approveOrDenyResignation(id: number) {
-  
+
       debugger
       this.approveToggle = true;
       this.hideResignationModal = true;
-  
+
       this.dataService.updateResignation(id).subscribe((res: any) => {
         if (res.status) {
-          this.closeApproveModal.nativeElement.click()
           this.approveToggle = false
           this.helperService.profileChangeStatus.next(true);
           this.helperService.showToast(
             res.message,
             Key.TOAST_STATUS_SUCCESS
           );
+
           this.close();
+          if(this.viewExitRequestDismiss){
+            this.viewExitRequestDismiss.nativeElement.click()
+          }
         } else {
           this.approveToggle = false;
         }
       })
     }
-    
+
     selectManagerDiscussion(value: string): void {
       this.userResignationInfo.isManagerDiscussion = value == 'Yes' ? 1 : 0
     }
@@ -130,9 +172,9 @@ export class ExitModalComponent {
     selectRecommendDay(value: string): void {
 
       // this.userResignationInfo.userLastWorkingDay = ''
-  
+
       this.userResignationInfo.isRecommendLastDay = value == 'Other' ? 1 : 0
-  
+
       if (this.userResignationInfo.isRecommendLastDay == 0) {
         this.userResignationInfo.userLastWorkingDay = ''
         this.calculateLasWorkingDay();
@@ -146,7 +188,7 @@ export class ExitModalComponent {
       // const maxDate = new Date();
       const maxDate = new Date();
       maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
-  
+
       // this.lastWorkingDay = maxDate;
       // this.userResignationReq.lastWorkingDay = maxDate
       this.userResignationInfo.userLastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
@@ -177,7 +219,7 @@ export class ExitModalComponent {
       // this.closeApproveModal.nativeElement.click()
       this.dataService.revokeResignation(id, this.userResignationInfo.revokeReason).subscribe((res: any) => {
         if (res.status) {
-          this.closeApproveModal.nativeElement.click()
+          this.viewExitRequestDismiss.nativeElement.click()
           this.approveToggle = false
           // this.helperService.profileChangeStatus.next(true);
           this.helperService.showToast(

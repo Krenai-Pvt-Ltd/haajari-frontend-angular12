@@ -53,7 +53,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getTeamNames();
 
     this.getUserByFiltersMethodCall(0);
-    
+
     const leaveId = localStorage.getItem('tempId');
     this.filteredLeaveCategories = []
     this.leaveCategories1 = []
@@ -74,6 +74,9 @@ export class LeaveSettingComponent implements OnInit {
       // employeeTypeId: [null, Validators.required], // The form control for employee type
       // Other form controls...
     });
+    setTimeout(() => {
+      this.loadStaffIdsCache();
+    }, 2000);
   }
 
 
@@ -92,7 +95,7 @@ export class LeaveSettingComponent implements OnInit {
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
   }
-  
+
 
   addRow() {
     debugger
@@ -422,6 +425,93 @@ export class LeaveSettingComponent implements OnInit {
     }, debounceTime);
   }
 
+  // New method to select all staff with joining dates across all pages
+  selectAllPages: boolean = false;
+// Properties
+private cachedStaffIdsWithJoiningDate: number[] = []; // Cache for staff IDs with joining dates
+private isCacheLoaded: boolean = false; // Flag to track if cache is initialized
+ cachedStaffIdsWithoutJoiningDate: number[] = [];
+// Separate method to load and cache staff IDs
+private loadStaffIdsCache() {
+  this.dataService.getUsersByFilterForLeaveSetting(
+    0, // 0 items per page to get all records
+    1, // Start from page 1
+    'asc',
+    'id',
+    this.searchText,
+    '',
+    this.idOfLeaveSetting,
+    this.selectedTeamId,
+    this.selectedUserIds
+  ).subscribe(
+    (response) => {
+      // Filter staff with joining dates and cache their IDs
+      this.cachedStaffIdsWithJoiningDate = response.users
+        .filter((staff: { joiningDate: any }) => staff.joiningDate)
+        .map((staff: { id: any }) => staff.id);
+
+        this.cachedStaffIdsWithoutJoiningDate = response.users
+        .filter((staff: { joiningDate: any }) => !staff.joiningDate)
+        .map((staff: { id: any }) => staff.id);
+
+      // Remove duplicates from both caches
+      this.cachedStaffIdsWithJoiningDate = Array.from(new Set(this.cachedStaffIdsWithJoiningDate));
+      this.cachedStaffIdsWithoutJoiningDate = Array.from(new Set(this.cachedStaffIdsWithoutJoiningDate));
+      this.isCacheLoaded = true;
+
+
+      // Update current page if "Select all" is active
+      if (this.selectAllPages) {
+        this.selectedStaffIdsUser = [...this.cachedStaffIdsWithJoiningDate];
+        this.updateCurrentPageSelection();
+      }
+    },
+    (error) => {
+      console.error('Error loading staff IDs cache:', error);
+      this.isCacheLoaded = false;
+      this.allselected = false;
+      this.selectAllPages = false; // Reset checkbox on error
+    }
+  );
+}
+
+// Modified selectAllStaffAcrossPages method
+selectAllStaffAcrossPages() {
+  if (this.selectAllPages) {
+    this.allselected = true;
+    this.selectedStaffIdsUser = [];
+
+    if (this.isCacheLoaded) {
+      // Use cached data
+      this.selectedStaffIdsUser = [...this.cachedStaffIdsWithJoiningDate];
+      this.updateCurrentPageSelection();
+      console.log('Selected staff from cache: ', this.selectedStaffIdsUser);
+    } else {
+      // Load cache and proceed
+      this.loadStaffIdsCache();
+    }
+  } else {
+    this.allselected = false;
+    this.selectedStaffIdsUser = [];
+
+    // Update current page display
+    this.updateCurrentPageSelection();
+
+    // Optional: Refresh current page
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
+  }
+}
+
+// Helper method to update current page display
+private updateCurrentPageSelection() {
+  this.staffs.forEach(staff => {
+    staff.checked = !!staff.joiningDate && this.selectedStaffIdsUser.includes(staff.id);
+  });
+}
+
+
+
+
   getUserByUpdateMethodCall(leaveSettingId: number) {
 
     debugger
@@ -591,6 +681,7 @@ export class LeaveSettingComponent implements OnInit {
  totalItems: number = 0;
  pageChanged(page: any) {
    if (page != this.databaseHelper.currentPage) {
+      this.allselected=false;
      this.databaseHelper.currentPage = page;
      this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
    }
@@ -848,7 +939,9 @@ export class LeaveSettingComponent implements OnInit {
   clearModalData() {
     this.requestLeaveCloseModel1.nativeElement.click();
     this.updateToggle = false;
-
+    this.selectedStaffIdsUser = [];
+    this.allselected=false;
+    this.selectAllPages=false;
     this.leaveTemplateRequest = new LeaveTemplateRequest();
     this.leaveTemplateRequest.employeeTypeId = 0;
     this.leaveTemplateRequest.startDate = ''
@@ -1248,6 +1341,21 @@ export class LeaveSettingComponent implements OnInit {
     } else {
       this.selectedStaffIdsUser = [];
     }
+  }
+
+  allUserUuids: string[] = [];
+  async getAllUserUuidsMethodCall() {
+    return new Promise<string[]>((resolve, reject) => {
+      this.dataService.getAllUserUuids().subscribe({
+        next: (response) => {
+          this.allUserUuids = response.listOfObject;
+          resolve(this.allUserUuids);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
   }
 
   selectAllUser(checked: boolean) {
@@ -1862,7 +1970,7 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedAccrualTypeId = id;  // Store the selected gender ID
   }
 
-  
+
   leaveCycleStartDate: any;
   leaveCycleEndDate: any;
   onLeaveCycleChange(id: number) {
@@ -2208,8 +2316,11 @@ export class LeaveSettingComponent implements OnInit {
   selectAllEmployee(event: any) {
     if (!this.allselected) {
       this.staffs.forEach((element) => {
-        this.selectedStaffIdsUser.push(element.id);
-        element.checked = true;
+        // Only select if joiningDate exists
+        if (element.joiningDate) {
+          this.selectedStaffIdsUser.push(element.id);
+          element.checked = true;
+        }
       });
       this.allselected = true;
     } else {
@@ -2219,12 +2330,11 @@ export class LeaveSettingComponent implements OnInit {
       this.allselected = false;
       this.selectedStaffIdsUser = [];
     }
-    console.log('all Ids: ',this.selectedStaffIdsUser)
+    console.log('all Ids: ', this.selectedStaffIdsUser);
 
-    // Assuming selectedStaffIdsUser contains duplicates
-this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
-console.log('After SET Ids: ',this.selectedStaffIdsUser)
-
+    // Remove duplicates using Set
+    this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+    console.log('After SET Ids: ', this.selectedStaffIdsUser);
   }
 
   selectSingle1(event: any, i: any) {
@@ -2490,7 +2600,7 @@ setUnusedLeaveAction(index: number, value: any): void {
 showError: boolean = false;
 showErrorCount: boolean = false;
 // leaveCount: number = 1
-tempLeaveCount!: number  
+tempLeaveCount!: number
 
 // validateAndAdjustLeaveCount(value: number, index: number): void {
 validateAndAdjustLeaveCount(value: number, index: number): void {
@@ -2677,7 +2787,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
       this.dataService.updateJoiningDate(staff.id, this.tempJoiningDate).subscribe({
         next: (response) => {
           if(response.status){
-            
+
             this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
             this.helperService.showToast('Joining date added for '+ staff.name, Key.TOAST_STATUS_SUCCESS);
           }else{
@@ -2686,7 +2796,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
         },
         error: (err) => {
           console.error('Error:', err);
-         
+
         }
       });
       staff.joiningDate = this.tempJoiningDate;
@@ -2710,7 +2820,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
   //   console.log(this.form);
 
   //   // Print the invalid values
-    
+
   //   // Loop through invalid controls and print their missing validations
   //   invalidControls.forEach(controlName => {
   //     const control = this.form.get(controlName);
@@ -2741,7 +2851,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
 //   this.categories.controls[i]!.get('carryover')?.setValue(null);
 
 //   if(this.categories.controls[i]!.get('isReset')?.value.getValue == true) {
-    
+
 //   }
 // }
 
@@ -2758,7 +2868,7 @@ resetCarryOverAction(i: number) {
     categoryControl.get('carryover')?.clearValidators();
   } else {
     // Add required validation when `isReset` is false
-   
+
     if(this.categories.controls[i]!.get('carryoverAction')?.value=='Restricted') {
        categoryControl.get('carryover')?.setValidators([Validators.required]);
     }else {
@@ -2778,5 +2888,5 @@ resetCarryOverAction(i: number) {
 
 
 
-  
+
 }

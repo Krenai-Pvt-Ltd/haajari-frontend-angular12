@@ -903,9 +903,9 @@
                                     Expense Type
                                 </label>
                                 <nz-form-control>
-                                    <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                                    <nz-select nzSize="large" nzPlaceHolder="Select Expense type"
                                     [(ngModel)]="expenseTypeId" (ngModelChange)="getExpenseTypeId($event)" required
-                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="form-control placeholder-line">
+                                    id="expTypeIdInput" name="expTypeId" #expTypeId="ngModel" class="w-100 form-control placeholder-lineee">
                                     <nz-option *ngFor=" let expenseType of expenseTypeList"
                                         [nzValue]="expenseType.id" [nzLabel]="expenseType.name">
                                     </nz-option>

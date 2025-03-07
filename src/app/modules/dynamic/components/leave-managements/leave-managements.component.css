@@ -6,7 +6,7 @@
     height: 25px;
     border-radius: 50%;
   }
-  
+
   .attendance-date {
     border-radius: 2px;
     background-color: #fff;
@@ -93,7 +93,7 @@
       font-size: 0.875rem !important;
       font-weight: 500 !important;
     }
-    
+
     ::ng-deep .week-filter .ant-select-selection-item {
       line-height: 24px !important;
       font-size: 0.875rem !important;
@@ -110,35 +110,55 @@
     width: 10px;
     height: 10px;
   }
+
+  .wfh-leave {
+    background-color: #d6e43b;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+  }
+  .week-off-leave {
+    background-color: #eda367;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+  }
   .casual-leave{
     background-color: #47539F;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .sick-leave{
     background-color: #327DD1;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .lop{
     background-color: #3C887C;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .maternity-leave{
     background-color: #5ECED8;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .paternity-leave{
     background-color: #4496AC;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .default-leave {
+    background-color: #b6e4f1;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
   }
   .leave-count svg{
     width: 25px;
@@ -162,7 +182,7 @@
     top: -2px;
     padding-right: 2px;
   }
-  
+
   .overview-sidebar-menu .nav-pills .nav-item.show .nav-link,
   .overview-sidebar-menu .nav-pills .nav-link.active {
     background: #f2f3ff !important;
@@ -170,25 +190,22 @@
     border-right: 5px solid var(--primary-background-color) !important;
     border-bottom: none !important;
   }
-  
+
   .overview-sidebar-menu .nav.nav-pills {
     background-color: transparent;
   }
-  
+
   .overview-sidebar-menu .nav-pills .nav-link {
     background: transparent;
     padding: 15px 10px;
     color: #1C1B1F;
     border-right: 5px solid transparent;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     text-align: left;
     padding-left: 30px;
   }
-.absent-logs img{
-     width: 50px;
-     border-radius: 50px;
-}
+
 .absent-logs{
     max-height: 370px;
     overflow: scroll;
@@ -302,7 +319,7 @@
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
-  
+
   ::ng-deep .placeholder-lines .ant-select-selection-item {
     line-height: 45px !important;
     font-size: 0.875rem !important;
@@ -319,8 +336,6 @@
     border: 1px solid #e6e7e9;
     border-radius: 2px;
     color: #4a4a4a;
-    font-size: 13px;
-    font-weight: 500;
     width: 100px;
 }
 .submitActionBtn {
@@ -358,7 +373,8 @@
     background-color: #f1f1fd;
 }
 .staff-month-sheet{
-    background-color: #6666F2;
+    background-color: #557ef826;
+    border: 1px solid #6666f2 !important;
 }
 
 .user-detail{
@@ -390,7 +406,7 @@
   border: 1px solid #e9e9e9;
   padding: 15px;
   border-radius: 2px;
-  
+
 }
 .requested-to span{
   color: #6666F2;
@@ -437,10 +453,10 @@
 }
 
 
-.defaulter-employee img {
+/* .defaulter-employee img {
   width: 50px;
   border-radius: 50px;
-}
+} */
 .defaulter{
   background-color: #F9FAFB;
   padding: 15px;
@@ -463,3 +479,153 @@
   margin-bottom: 0 !important;
   background-color: #557ef826;
 }
+
+.scrollable-container {
+  height: 400px; /* Adjust height as needed */
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.regular-data:hover {
+  color: #6666f3 !important;
+  text-decoration: underline;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background: #fff;
+  width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #d9534f;
+}
+
+.info-message {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.modal-body .quota-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-item {
+  padding: 8px 12px;
+  background-color: #f9f9f9;
+}
+
+.detail-item .label {
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.action-btn-modal {
+  background-color: #8ebdef;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.action-btn-modal:hover {
+  background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+
+.form-multiselect{
+  border: 1px solid #e8ebf3 !important;
+}
+::ng-deep .form-multiselect .ant-select-selection-placeholder {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .form-multiselect .ant-select-selection-item {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+::ng-deep  .form-multiselect .ant-select-selector{
+  background-color: rgba(236, 236, 236, 0.21);
+}
+
+.employee-table {
+  min-height: 400px;
+}
+
