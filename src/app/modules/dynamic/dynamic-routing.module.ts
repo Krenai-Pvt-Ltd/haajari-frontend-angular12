@@ -13,7 +13,6 @@ import { AuthGuard } from 'src/app/guards/auth-guard';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { ReportsComponent } from './components/reports/reports.component';
-import { TestingComponent } from './components/testing/testing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
@@ -115,13 +114,6 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/coins' },
       },
-      // {
-      //   path: 'employee-profile',
-      //   component: EmployeeProfileComponent,
-      //   canActivate: [AuthGuard, SubscriptionGuard],
-       
-      // },
-      { path: 'testing', component: TestingComponent },
       {
         path: 'privacy',
         component: PrivacyComponent,
@@ -163,12 +155,9 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
-        path: 'leave-managements',
-        component: LeaveManagementsComponent,
-      },
-      {
         path: 'inbox',
-        component: InboxComponent,
+        component: InboxComponent ,
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
       { path: 'faq', component: FaqComponent },
 

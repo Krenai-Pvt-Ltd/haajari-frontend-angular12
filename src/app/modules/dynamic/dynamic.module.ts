@@ -22,7 +22,6 @@ import { RoleComponent } from './components/role/role.component';
 import { SupportComponent } from './components/support/support.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TeamComponent } from './components/team/team.component';
-import { TestingComponent } from './components/testing/testing.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
@@ -44,7 +43,6 @@ import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
-import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -95,13 +93,11 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     TeamDetailComponent,
     RoleComponent,
     ReportsComponent,
-    TestingComponent,
     PrivacyComponent,
     SupportComponent,
     SafePipe,
     RoleAddComponent,
     EmployeeOnboardingDataComponent,
-    LeaveManagementComponent,
     AssetsComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,
@@ -175,4 +171,5 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
+
 export class DynamicModule {}
