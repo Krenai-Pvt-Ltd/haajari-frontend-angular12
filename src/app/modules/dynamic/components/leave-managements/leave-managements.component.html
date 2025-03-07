@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <h5 class="font-18 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}
+                                        <h5 class="font-18 mb-4 fw-bold">{{ getTotalCount() }}
                                           <span class="font-12 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
                                         <div *ngIf="isChartInitialized; else loading" class="p-3">
                                             <apx-chart
@@ -92,17 +92,17 @@
                                         <div class="mt-3 mb-2 d-flex align-items-center gap-5 justify-content-between">
                                             <div class="approved position-relative">
                                                 <h5 class="font-12 mb-2">Approved</h5>
-                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
                                                 <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="pending position-relative">
                                                 <h5 class="font-12 mb-2">Pending </h5>
-                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
                                                 <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="rejected position-relative">
                                                 <h5 class="font-12 mb-2">Rejected</h5>
-                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
                                                 <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                         </div>
@@ -941,7 +941,7 @@
         <button class="close-btn" (click)="closeLeaveQuotaModal()">&times;</button>
       </div>
 
-     
+
 
       <div class="modal-body">
         <div class="info-message border-rounded-2">

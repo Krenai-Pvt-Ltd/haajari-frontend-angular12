@@ -420,6 +420,16 @@ handleImageError() {
   this.imageError = true;
 }
 
+getTotalCount(): number {
+  if (!this.leaveReportResponse?.approvedLeaveCounts) {
+    return 0; // Return 0 if the array is undefined or null
+  }
+  return this.leaveReportResponse.approvedLeaveCounts.reduce(
+    (sum: number, item: { totalCount: number }) => sum + item.totalCount,
+    0
+  );
+}
+
 openInNewTab(url: string) {
   window.open(url, '_blank');
 }
