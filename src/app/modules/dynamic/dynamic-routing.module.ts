@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { ProjectComponent } from './components/project/project.component';
-import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { DynamicComponent } from './dynamic.component';
@@ -21,7 +20,6 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
-import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 import { CoinsComponent } from './components/coins/coins.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
@@ -61,11 +59,6 @@ const routes: Routes = [
       {
         path: 'team',
         component: TeamComponent,
-        canActivate: [AuthGuard,SubscriptionGuard]
-      },
-      {
-        path: 'task-manager',
-        component: TaskManagerComponent,
         canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
@@ -177,10 +170,6 @@ const routes: Routes = [
         path: 'inbox',
         component: InboxComponent,
       },
-      // {
-      //   path: 'assets-management',
-      //   component: AssetsManagementComponent,
-      // },
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },

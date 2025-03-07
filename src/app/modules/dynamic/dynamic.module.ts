@@ -20,7 +20,6 @@ import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { RoleComponent } from './components/role/role.component';
 import { SupportComponent } from './components/support/support.component';
-import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TeamComponent } from './components/team/team.component';
 import { TestingComponent } from './components/testing/testing.component';
@@ -86,7 +85,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     DashboardComponent,
     TimetableComponent,
     ProjectComponent,
-    TaskManagerComponent,
     OnboardingComponent,
     UserlistComponent,
     DateFormatPipe,
