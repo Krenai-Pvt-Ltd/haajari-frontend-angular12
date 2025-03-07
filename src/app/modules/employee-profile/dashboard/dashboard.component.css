@@ -428,6 +428,12 @@ nz-calendar .holiday-cell {
   font-weight: 400;
 }
 
+.request-approved{
+  border-radius: 2px;
+  border: 1px solid #EAEAEA;
+  background: linear-gradient(98deg, rgba(255, 255, 255, 0.30) 46.26%, rgba(56, 142, 60, 0.30) 153.45%);
+}
+
 .view-request {
   background-color: #fff;
   color: #000;
@@ -911,7 +917,7 @@ span.holiday-initial {
 
 }
 
-.btn-close {
+.btn-closes {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -945,6 +951,10 @@ span.holiday-initial {
 .empty-file{
   margin-top: 8%; 
   margin-bottom: 8%
+}
+.todo-list{
+  border: 1px solid #D9D9D9;
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 500px) {
