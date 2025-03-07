@@ -45,7 +45,6 @@ import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
-import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -103,7 +102,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     SafePipe,
     RoleAddComponent,
     EmployeeOnboardingDataComponent,
-    LeaveManagementComponent,
     AssetsComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,

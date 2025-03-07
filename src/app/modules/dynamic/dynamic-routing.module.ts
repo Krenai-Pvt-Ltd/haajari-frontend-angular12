@@ -21,7 +21,6 @@ import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
-import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 import { CoinsComponent } from './components/coins/coins.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
@@ -170,17 +169,10 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
-        path: 'leave-managements',
-        component: LeaveManagementsComponent,
-      },
-      {
         path: 'inbox',
-        component: InboxComponent,
+        component: InboxComponent ,
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
-      // {
-      //   path: 'assets-management',
-      //   component: AssetsManagementComponent,
-      // },
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },
