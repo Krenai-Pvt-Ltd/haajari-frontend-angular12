@@ -5722,6 +5722,7 @@ hr.hr-dashed {
   width: 48px;
   font-size: 18px;
   font-weight: 700;
+  object-fit: cover;
 }
 
 .thumb-lg {

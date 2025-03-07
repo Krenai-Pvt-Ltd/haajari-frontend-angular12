@@ -1015,6 +1015,7 @@ onSearch(searchText: string): void {
   close(): void {
     this.visible = false;
   }
+  
 
   openChildren(): void {
     this.childrenVisible = true;
@@ -1250,4 +1251,16 @@ onSearch(searchText: string): void {
   }
 
 
-}
+  visible2: boolean = false; // Open drawer by default
+
+  close2(): void {
+    this.visible2 = false; // Close the drawer
+  }
+
+  openDrawer(): void {
+    this.visible2 = true; // Function to open drawer again
+  }
+  }
+  
+
+

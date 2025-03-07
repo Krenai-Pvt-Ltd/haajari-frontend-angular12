@@ -331,8 +331,8 @@
                                      <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
 
                                      <div class="dropdown">
-                                       <button class="btn p-0 font-14 text-primary fw-semibold" data-bs-toggle="dropdown" aria-expanded="true"> Categories</button>
-                                       <div class="dropdown-menu actionMenuList category-list">
+                                       <button class="btn p-0 font-14 text-primary fw-semibold" (click)="openDrawer()"> Categories</button>
+                                       <!-- <div class="dropdown-menu actionMenuList category-list">
                                            <li>
                                                <a class="dropdown-item font-14" *ngFor="let category of categorySummary; let i = index">
                                                 <div class="d-flex align-items-center justify-content-between">
@@ -346,7 +346,7 @@
                                              </div>
                                                </a>
                                            </li>
-                                       </div>
+                                       </div> -->
                                    </div>
 
                                   </div>
@@ -658,7 +658,7 @@
                                <i class="bi bi-x-lg pointer" (click)="removeFilters(filter)"></i>
                             </p>
                          </div>
-                         <div class="teble-responsive">
+                         <div class="table-responsive">
                             <table class="table mb-5 mt-3">
                                <thead>
                                   <tr>
@@ -672,7 +672,7 @@
                                      <th>Location</th>
                                      <th>Vendor Name</th>
                                      <th>Status</th>
-                                     <th>Action</th>
+                                     <th class="stickyColThend">Action</th>
                                   </tr>
                                </thead>
                                <!-- TO DO: Shimmer Loading Ui -->
@@ -767,7 +767,7 @@
                                         </span>
                                      </td>
                                      <!-- Actions Dropdown (Keep your existing markup) -->
-                                     <td>
+                                     <td class="stickyColTdend">
                                         <div class="dropdown">
                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
                                            <i class="bi bi-three-dots-vertical"></i>
@@ -872,18 +872,18 @@
                                   </tr>
                                </tbody>
                             </table>
-                            <div *ngIf="totalItems > pageSize" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-                               <p class="mb-0">
-                                  Showing items {{ (currentPage - 1) * pageSize + 1 }} -
-                                  {{ (currentPage * pageSize) < totalItems ? (currentPage * pageSize) : totalItems }}
-                                  of {{ totalItems }} records
-                               </p>
-                               <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
-                               (pageChange)="assetsPageChange($event)" [pageSize]="pageSize" [(page)]="currentPage"
-                               [maxSize]="5" [boundaryLinks]="true">
-                               </ngb-pagination>
-                            </div>
                          </div>
+                         <div *ngIf="totalItems > pageSize" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                           <p class="mb-0">
+                              Showing items {{ (currentPage - 1) * pageSize + 1 }} -
+                              {{ (currentPage * pageSize) < totalItems ? (currentPage * pageSize) : totalItems }}
+                              of {{ totalItems }} records
+                           </p>
+                           <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
+                           (pageChange)="assetsPageChange($event)" [pageSize]="pageSize" [(page)]="currentPage"
+                           [maxSize]="5" [boundaryLinks]="true">
+                           </ngb-pagination>
+                        </div>
                       </div>
                    </div>
                    <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="employee-tab">
@@ -979,7 +979,7 @@
                          </p>
                          <!-- </ng-container> -->
                       </div>
-                      <div class="teble-responsive">
+                      <div class="table-responsive">
                          <table class="table mb-5 mt-3">
                             <thead>
                                <tr>
@@ -991,7 +991,7 @@
                                   <th>Action Taken on</th>
                                   <th>Note</th>
                                   <th>Status</th>
-                                  <th>Action</th>
+                                  <th class="stickyColThend">Action</th>
                                </tr>
                             </thead>
                             <!-- TO DO: Shimmer Loading Ui -->
@@ -1075,7 +1075,7 @@
                                      {{ asset.status || '--' }}
                                      </span>
                                   </td>
-                                  <td>
+                                  <td class="stickyColTdend">
                                      <!-- (click)="openStatusChangeModal(asset, statusChangeModal)" -->
                                      <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="onAssetRequestOpen(asset)" ><i class="bi bi-eye"></i>  View</button>
                                   </td>
@@ -1412,50 +1412,101 @@
 
 
 
- <div class="modal fade" id="delete-automation" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
-    <div class="modal-content">
-      <div class="modal-body p-0 delete-text">
-        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
-          <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteCategory>
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
-                  height="30">
-                  <rect width="30" height="30" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_2031_1331)">
-                  <path
-                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
-                    fill="black" />
-                </g>
-              </svg>
-            </button>
+
+
+
+
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="400"
+  [nzVisible]="visible2"
+  nzTitle="Update Category"
+  (nzOnClose)="close2()"
+    >
+    <ng-container *nzDrawerContent>
+    <div class="category-lists">
+      <div class="" *ngFor="let category of categorySummary; let i = index">
+         <div class="pt-3 pb-3 border-bottom">
+         <div class="d-flex align-items-center justify-content-between mb-3">
+               <h5 class="mb-0 font-14 fw-semibold">{{ category.categoryName }}</h5>
+
+         <div class="d-flex align-items-center gap-3">
+            <i *ngIf="category.categoryId>0" class="bi bi-pencil text-primary font-14" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+               (click)="assignCategoryId(category)"></i>
+            <i  *ngIf="category.categoryId>0" class="bi bi-trash3 text-danger font-14" data-bs-toggle="modal" data-bs-target="#delete-automation" (click)="assignCategoryId(category)"></i>
+         </div>
+         </div>
+
+         <!-- <div class="row">
+         <div class="col-md-12 mb-3">
+            <input type="text" class="form-control input-zorro" id="categoryName" name="categoryName"
+              placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
+              #categoryName="ngModel" />
+            <div *ngIf="
+                categoryName.invalid &&
+                (categoryName.dirty || categoryName.touched)
+              " class="text-danger">
+              Category Name is required.
+            </div>
           </div>
-          <img src="/assets/images/delete-img.svg" style="width: 70px" />
-        </div>
-        <div class="bg-white p-4 text-center">
-
-          <div>
-            <h5 class="alert-heading font-18 mb-2">
-              Are you sure you want to delete <br />
-                {{selectedAsset?.cat }} category?
-            </h5>
-            <p class="font-11">You will not be able to recover this</p>
+          <div class="col-md-12 text-end">
+            <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
           </div>
+         </div> -->
+         </div>
+      </div>
+    </div>
+   </ng-container>
 
-          <div class="mt-4 d-flex align-items-center flex-column">
-            <button [disabled]="deleteLoading" class="btn continue-btn" *ngIf="this.selectedCategory.categoryId != 0"
-              (click)="deleteCategory(this.selectedCategory.categoryId)">Continue
+   </nz-drawer>
 
-              <i class="fa fa-spinner fa-spin" *ngIf="deleteLoading"></i>
-            </button>
-            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
-              Cancel
-            </button>
+   <div class="modal fade" id="delete-automation" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+        <div class="modal-content">
+          <div class="modal-body p-0 delete-text">
+            <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+              <div class="delete-close-btn">
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteCategory>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                    <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                      height="30">
+                      <rect width="30" height="30" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_2031_1331)">
+                      <path
+                        d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                        fill="black" />
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <img src="/assets/images/delete-img.svg" style="width: 70px" />
+            </div>
+            <div class="bg-white p-4 text-center">
+    
+              <div>
+                <h5 class="alert-heading font-18 mb-2">
+                  Are you sure you want to delete <br />
+                    {{selectedAsset?.cat }} category?
+                </h5>
+                <p class="font-11">You will not be able to recover this</p>
+              </div>
+    
+              <div class="mt-4 d-flex align-items-center flex-column">
+                <button [disabled]="deleteLoading" class="btn continue-btn" *ngIf="this.selectedCategory.categoryId != 0"
+                  (click)="deleteCategory(this.selectedCategory.categoryId)">Continue
+    
+                  <i class="fa fa-spinner fa-spin" *ngIf="deleteLoading"></i>
+                </button>
+                <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+   
