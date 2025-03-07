@@ -447,7 +447,7 @@
                                         </div>
                                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                                 <div class="form-group w-100 position-relative">
-                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="requestsSearch" (input)="searchByNameRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                                 </div>
                                         </div>
@@ -478,41 +478,41 @@
                                     <div class="row p-3">
                                         <div class="mt-2">
                                             <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                <input type="checkbox" class="form-check-input" id="all">
+                                                <input type="checkbox" class="form-check-input" id="all" (change)="updateAllStatus($event)">
                                                 <label class="form-check-label fw-normal" for="all">All</label>
                                               </div>
+                                              
                                               <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                <input type="checkbox" class="form-check-input" id="approved">
-                                                <label class="form-check-label fw-normal" for="approved">Approved </label>
+                                                <input type="checkbox" class="form-check-input" id="approved" (change)="updateStatusIds($event, [14,53,40])">
+                                                <label class="form-check-label fw-normal" for="approved">Approved</label>
                                               </div>
+                                              
                                               <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                <input type="checkbox" class="form-check-input" id="rejected">
+                                                <input type="checkbox" class="form-check-input" id="rejected" (change)="updateStatusIds($event, 15)">
                                                 <label class="form-check-label fw-normal" for="rejected">Rejected</label>
                                               </div>
+                                              
                                               <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                <input type="checkbox" class="form-check-input" id="pending">
-                                                <label class="form-check-label fw-normal" for="pending">Pending </label>
+                                                <input type="checkbox" class="form-check-input" id="pending" (change)="updateStatusIds($event, 13)">
+                                                <label class="form-check-label fw-normal" for="pending">Pending</label>
                                               </div>
+                                                                                            
                                         </div>
                                     </div>
                                     <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                                        <button class="btn cancel-btn mt-0" (click)="changeShowFilter(false)">Reset it</button>
-                                        <button class="btn submitActionBtn">Apply</button>
+                                        <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
+                                        <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
                                     </div>
                                 </div> 
                             </div>
 
-                            <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                                  <i class="bi bi-x-lg pointer"></i>
+                            <div class="filter-bdg d-flex align-items-center gap-2 mt-3" *ngIf="selectedFilters.length > 0">
+                                <p *ngFor="let filter of selectedFilters" class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                                    {{ filter }}
+                                    <i class="bi bi-x-lg pointer" (click)="removeFilter(filter)"></i>
                                 </p>
-                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Pending
-                                  <i class="bi bi-x-lg pointer"></i>
-                                </p>
-                                <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">Anchal Sharma
-                                  <i class="bi bi-x-lg pointer"></i>
-                                </p>
-                              </div>
+                            </div>
+                            
 
                             <div class="mt-3">
                                 <div class="table-responsive">
@@ -532,7 +532,7 @@
                                             </tr>
                                         </thead>
                                         <!-- TO DO: Shimmer Loading Ui -->
-                                        <!-- <tbody>
+                                        <tbody *ngIf="loading">
                                             <tr *ngFor="let item of [].constructor(10)"> 
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -565,7 +565,7 @@
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
                                             </tr>
-                                        </tbody> -->
+                                        </tbody>
                                         <!-- Shimmer Loading Ui End-->
 
                                         <!-- TO DO: empty notification  -->
@@ -586,422 +586,93 @@
                                             </tr>
                                           </tbody> -->
                                            <!-- empty notification end -->
-                                        <tbody>
-                                            <tr class="active-row">
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">17 Jun,23</h5>
-                                                        <p class="mb-0 font-12 color-basic">Monday </p>
-                                                    </span>
-                                                </td>
-                                                <td class="fw-normal font-14">Pushpendra Yadav</td>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">Travel</h5>
-                                                        <p class="mb-0 font-12 color-basic">On Oct 14, 2024 </p>
-                                                    </span>    
-                                                </td>
-                                                <td class="fw-normal">₹54,240
-                                                </td>
-                                                <td>
-                                                    <span class="text-black fw-normal">0</span>
-                                                </td>
-                                                <td class="fw-normal">
-                                                    <span class="text-black fw-normal">0</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-primary fw-semibold">PENDING</span>
-                                                </td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn action-btn dropdown-toggle d-flex align-items-center justify-content-center">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu actionMenuList">
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect x="0.375" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19165)">
-                                                                        <path d="M9.92434 18.1538L4.58984 12.8193L5.65884 11.75L9.92434 16.0155L19.0898 6.85001L20.1588 7.91926L9.92434 18.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     Approve
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19197)">
-                                                                        <path d="M6.66602 19.1538L5.56836 18.1L11.4017 12.5L5.56836 6.9L6.66602 5.84625L12.4993 11.4463L18.3327 5.84625L19.4303 6.9L13.597 12.5L19.4303 18.1L18.3327 19.1538L12.4993 13.5538L6.66602 19.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                    Reject
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                                        <mask id="mask0_7683_19201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                                        <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19201)">
-                                                                        <path d="M12.0028 16.077C13.136 16.077 14.0984 15.6804 14.8901 14.8872C15.6817 14.0941 16.0776 13.1309 16.0776 11.9978C16.0776 10.8646 15.681 9.90217 14.8878 9.1105C14.0946 8.31883 13.1315 7.923 11.9983 7.923C10.8651 7.923 9.90273 8.31958 9.11106 9.11275C8.3194 9.90592 7.92356 10.8691 7.92356 12.0023C7.92356 13.1354 8.32015 14.0978 9.11331 14.8895C9.90648 15.6812 10.8696 16.077 12.0028 16.077ZM12.0006 14.7C11.2506 14.7 10.6131 14.4375 10.0881 13.9125C9.56306 13.3875 9.30056 12.75 9.30056 12C9.30056 11.25 9.56306 10.6125 10.0881 10.0875C10.6131 9.5625 11.2506 9.3 12.0006 9.3C12.7506 9.3 13.3881 9.5625 13.9131 10.0875C14.4381 10.6125 14.7006 11.25 14.7006 12C14.7006 12.75 14.4381 13.3875 13.9131 13.9125C13.3881 14.4375 12.7506 14.7 12.0006 14.7ZM12.0018 19C9.70231 19 7.60706 18.3657 5.71606 17.097C3.82506 15.8285 2.43273 14.1295 1.53906 12C2.43273 9.8705 3.82456 8.1715 5.71456 6.903C7.60473 5.63433 9.69965 5 11.9993 5C14.2988 5 16.3941 5.63433 18.2851 6.903C20.1761 8.1715 21.5684 9.8705 22.4621 12C21.5684 14.1295 20.1766 15.8285 18.2866 17.097C16.3964 18.3657 14.3015 19 12.0018 19ZM12.0006 17.5C13.8839 17.5 15.6131 17.0042 17.1881 16.0125C18.7631 15.0208 19.9672 13.6833 20.8006 12C19.9672 10.3167 18.7631 8.97917 17.1881 7.9875C15.6131 6.99583 13.8839 6.5 12.0006 6.5C10.1172 6.5 8.38806 6.99583 6.81306 7.9875C5.23806 8.97917 4.0339 10.3167 3.20056 12C4.0339 13.6833 5.23806 15.0208 6.81306 16.0125C8.38806 17.0042 10.1172 17.5 12.0006 17.5Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     View request
-                                                                </a>
-                                                            </li>
+                                           <tbody *ngIf="!loading">
+                                            <ng-container *ngIf="expenseList.length == 0">
+                                                <tr>
+                                                    <td colspan="8">
+                                                        <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                [nzNotFoundContent]="contentTpl">
+                                                                <ng-template #contentTpl>
+                                                                    <p class="mb-1 empty-filenew">No data for now</p>
+                                                                </ng-template>
+                                                            </nz-empty>
                                                         </div>
-                                                    </div>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+        
+                                        <ng-container *ngIf="expenseList.length > 0">
+                                            <tr *ngFor="let expense of expenseList; let i= index">
+                                                <td class="text-left">
+                                                    <!-- <span class="table-font-weight">Tue, June 12 2022</span> -->
+                                                    <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">17 Jun,23</h5>
-                                                        <p class="mb-0 font-12 color-basic">Monday </p>
+                                                <td class="text-left">
+                                                    <span> {{expense.employeeName}}</span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="table-font-weight">{{expense.expenseType}} </span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="table-font-weight"> ₹ {{expense.amount}} </span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="table-font-weight"> ₹ {{expense.approvedAmount == null ? 0 : expense.approvedAmount }} </span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="table-font-weight white-space"> {{expense.notes}}  </span>
+                                                </td>
+                                                <td class="text-left">
+                                                   <span> ---- </span>
+                                                </td>
+                                                <td class="text-left">
+                                                    <span class="badge rounded-pill "
+                                                        [ngClass]="{'badge-soft-warning': expense.status.id == 13 || expense.status.id == 46, 'badge-soft-success': expense.status.id == 14 || expense.status.id == 41 || expense.status.id == 40 || expense.status.id == 53,
+                                                        'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40 || expense.status.id == 48}" >
+                                                        {{expense.status.response}}
                                                     </span>
+                                                </td> 
+                                                
+                                                <td class="text-center">
+                                                    <!-- <button (click)="updateExpense(expense)" class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot"> -->
+                                                    <button class="btn p-0 text-primary font-14 view-btn" data-bs-toggle="modal" data-bs-target="#apply-expense">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                                <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_5908_672)">
+                                                                <path
+                                                                    d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                                    fill="#6666f3" />
+                                                            </g>
+                                                        </svg>
+                                                        View
+                                                    </button>
                                                 </td>
-                                                <td class="fw-normal font-14">Devon Lane</td>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">Travel</h5>
-                                                        <p class="mb-0 font-12 color-basic">On Oct 14, 2024 </p>
-                                                    </span>    
-                                                </td>
-                                                <td class="fw-normal">₹54,240
-                                                </td>
-                                                <td>
-                                                    <span class="text-success fw-normal">+₹2,54,240</span>
-                                                </td>
-                                                <td class="fw-normal">
-                                                    <span class="text-danger fw-normal">-₹5,00,000</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-primary fw-semibold">PENDING</span>
-                                                </td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn action-btn dropdown-toggle d-flex align-items-center justify-content-center">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu actionMenuList">
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect x="0.375" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19165)">
-                                                                        <path d="M9.92434 18.1538L4.58984 12.8193L5.65884 11.75L9.92434 16.0155L19.0898 6.85001L20.1588 7.91926L9.92434 18.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     Approve
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19197)">
-                                                                        <path d="M6.66602 19.1538L5.56836 18.1L11.4017 12.5L5.56836 6.9L6.66602 5.84625L12.4993 11.4463L18.3327 5.84625L19.4303 6.9L13.597 12.5L19.4303 18.1L18.3327 19.1538L12.4993 13.5538L6.66602 19.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                    Reject
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                                        <mask id="mask0_7683_19201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                                        <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19201)">
-                                                                        <path d="M12.0028 16.077C13.136 16.077 14.0984 15.6804 14.8901 14.8872C15.6817 14.0941 16.0776 13.1309 16.0776 11.9978C16.0776 10.8646 15.681 9.90217 14.8878 9.1105C14.0946 8.31883 13.1315 7.923 11.9983 7.923C10.8651 7.923 9.90273 8.31958 9.11106 9.11275C8.3194 9.90592 7.92356 10.8691 7.92356 12.0023C7.92356 13.1354 8.32015 14.0978 9.11331 14.8895C9.90648 15.6812 10.8696 16.077 12.0028 16.077ZM12.0006 14.7C11.2506 14.7 10.6131 14.4375 10.0881 13.9125C9.56306 13.3875 9.30056 12.75 9.30056 12C9.30056 11.25 9.56306 10.6125 10.0881 10.0875C10.6131 9.5625 11.2506 9.3 12.0006 9.3C12.7506 9.3 13.3881 9.5625 13.9131 10.0875C14.4381 10.6125 14.7006 11.25 14.7006 12C14.7006 12.75 14.4381 13.3875 13.9131 13.9125C13.3881 14.4375 12.7506 14.7 12.0006 14.7ZM12.0018 19C9.70231 19 7.60706 18.3657 5.71606 17.097C3.82506 15.8285 2.43273 14.1295 1.53906 12C2.43273 9.8705 3.82456 8.1715 5.71456 6.903C7.60473 5.63433 9.69965 5 11.9993 5C14.2988 5 16.3941 5.63433 18.2851 6.903C20.1761 8.1715 21.5684 9.8705 22.4621 12C21.5684 14.1295 20.1766 15.8285 18.2866 17.097C16.3964 18.3657 14.3015 19 12.0018 19ZM12.0006 17.5C13.8839 17.5 15.6131 17.0042 17.1881 16.0125C18.7631 15.0208 19.9672 13.6833 20.8006 12C19.9672 10.3167 18.7631 8.97917 17.1881 7.9875C15.6131 6.99583 13.8839 6.5 12.0006 6.5C10.1172 6.5 8.38806 6.99583 6.81306 7.9875C5.23806 8.97917 4.0339 10.3167 3.20056 12C4.0339 13.6833 5.23806 15.0208 6.81306 16.0125C8.38806 17.0042 10.1172 17.5 12.0006 17.5Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     View request
-                                                                </a>
-                                                            </li>
-                                                        </div>
-                                                    </div>
-                                                </td>
+
                                             </tr>
-                                            <tr>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">17 Jun,23</h5>
-                                                        <p class="mb-0 font-12 color-basic">Monday </p>
-                                                    </span>
-                                                </td>
-                                                <td class="fw-normal font-14">Devon Lane</td>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">Travel</h5>
-                                                        <p class="mb-0 font-12 color-basic">On Oct 14, 2024 </p>
-                                                    </span>    
-                                                </td>
-                                                <td class="fw-normal">₹54,240
-                                                </td>
-                                                <td>
-                                                    <span class="text-success fw-normal">+₹2,54,240</span>
-                                                </td>
-                                                <td class="fw-normal">
-                                                    <span class="text-danger fw-normal">-₹5,00,000</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-danger fw-semibold">REJECTED</span>
-                                                </td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn action-btn dropdown-toggle d-flex align-items-center justify-content-center">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu actionMenuList">
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect x="0.375" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19165)">
-                                                                        <path d="M9.92434 18.1538L4.58984 12.8193L5.65884 11.75L9.92434 16.0155L19.0898 6.85001L20.1588 7.91926L9.92434 18.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     Approve
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19197)">
-                                                                        <path d="M6.66602 19.1538L5.56836 18.1L11.4017 12.5L5.56836 6.9L6.66602 5.84625L12.4993 11.4463L18.3327 5.84625L19.4303 6.9L13.597 12.5L19.4303 18.1L18.3327 19.1538L12.4993 13.5538L6.66602 19.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                    Reject
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                                        <mask id="mask0_7683_19201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                                        <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19201)">
-                                                                        <path d="M12.0028 16.077C13.136 16.077 14.0984 15.6804 14.8901 14.8872C15.6817 14.0941 16.0776 13.1309 16.0776 11.9978C16.0776 10.8646 15.681 9.90217 14.8878 9.1105C14.0946 8.31883 13.1315 7.923 11.9983 7.923C10.8651 7.923 9.90273 8.31958 9.11106 9.11275C8.3194 9.90592 7.92356 10.8691 7.92356 12.0023C7.92356 13.1354 8.32015 14.0978 9.11331 14.8895C9.90648 15.6812 10.8696 16.077 12.0028 16.077ZM12.0006 14.7C11.2506 14.7 10.6131 14.4375 10.0881 13.9125C9.56306 13.3875 9.30056 12.75 9.30056 12C9.30056 11.25 9.56306 10.6125 10.0881 10.0875C10.6131 9.5625 11.2506 9.3 12.0006 9.3C12.7506 9.3 13.3881 9.5625 13.9131 10.0875C14.4381 10.6125 14.7006 11.25 14.7006 12C14.7006 12.75 14.4381 13.3875 13.9131 13.9125C13.3881 14.4375 12.7506 14.7 12.0006 14.7ZM12.0018 19C9.70231 19 7.60706 18.3657 5.71606 17.097C3.82506 15.8285 2.43273 14.1295 1.53906 12C2.43273 9.8705 3.82456 8.1715 5.71456 6.903C7.60473 5.63433 9.69965 5 11.9993 5C14.2988 5 16.3941 5.63433 18.2851 6.903C20.1761 8.1715 21.5684 9.8705 22.4621 12C21.5684 14.1295 20.1766 15.8285 18.2866 17.097C16.3964 18.3657 14.3015 19 12.0018 19ZM12.0006 17.5C13.8839 17.5 15.6131 17.0042 17.1881 16.0125C18.7631 15.0208 19.9672 13.6833 20.8006 12C19.9672 10.3167 18.7631 8.97917 17.1881 7.9875C15.6131 6.99583 13.8839 6.5 12.0006 6.5C10.1172 6.5 8.38806 6.99583 6.81306 7.9875C5.23806 8.97917 4.0339 10.3167 3.20056 12C4.0339 13.6833 5.23806 15.0208 6.81306 16.0125C8.38806 17.0042 10.1172 17.5 12.0006 17.5Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     View request
-                                                                </a>
-                                                            </li>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">17 Jun,23</h5>
-                                                        <p class="mb-0 font-12 color-basic">Monday </p>
-                                                    </span>
-                                                </td>
-                                                <td class="fw-normal font-14">	Sam Michael</td>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">Travel</h5>
-                                                        <p class="mb-0 font-12 color-basic">On Oct 14, 2024 </p>
-                                                    </span>    
-                                                </td>
-                                                <td class="fw-normal">₹54,240
-                                                </td>
-                                                <td>
-                                                    <span class="text-success fw-normal">+₹2,54,240</span>
-                                                </td>
-                                                <td class="fw-normal">
-                                                    <span class="text-danger fw-normal">-₹5,00,000</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-success fw-semibold">APPROVED</span>
-                                                </td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn action-btn dropdown-toggle d-flex align-items-center justify-content-center">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu actionMenuList">
-                                                            
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect x="0.375" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19165)">
-                                                                        <path d="M9.92434 18.1538L4.58984 12.8193L5.65884 11.75L9.92434 16.0155L19.0898 6.85001L20.1588 7.91926L9.92434 18.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     Approve
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                        <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                        <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19197)">
-                                                                        <path d="M6.66602 19.1538L5.56836 18.1L11.4017 12.5L5.56836 6.9L6.66602 5.84625L12.4993 11.4463L18.3327 5.84625L19.4303 6.9L13.597 12.5L19.4303 18.1L18.3327 19.1538L12.4993 13.5538L6.66602 19.1538Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                    Reject
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                                        <mask id="mask0_7683_19201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                                        <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                        </mask>
-                                                                        <g mask="url(#mask0_7683_19201)">
-                                                                        <path d="M12.0028 16.077C13.136 16.077 14.0984 15.6804 14.8901 14.8872C15.6817 14.0941 16.0776 13.1309 16.0776 11.9978C16.0776 10.8646 15.681 9.90217 14.8878 9.1105C14.0946 8.31883 13.1315 7.923 11.9983 7.923C10.8651 7.923 9.90273 8.31958 9.11106 9.11275C8.3194 9.90592 7.92356 10.8691 7.92356 12.0023C7.92356 13.1354 8.32015 14.0978 9.11331 14.8895C9.90648 15.6812 10.8696 16.077 12.0028 16.077ZM12.0006 14.7C11.2506 14.7 10.6131 14.4375 10.0881 13.9125C9.56306 13.3875 9.30056 12.75 9.30056 12C9.30056 11.25 9.56306 10.6125 10.0881 10.0875C10.6131 9.5625 11.2506 9.3 12.0006 9.3C12.7506 9.3 13.3881 9.5625 13.9131 10.0875C14.4381 10.6125 14.7006 11.25 14.7006 12C14.7006 12.75 14.4381 13.3875 13.9131 13.9125C13.3881 14.4375 12.7506 14.7 12.0006 14.7ZM12.0018 19C9.70231 19 7.60706 18.3657 5.71606 17.097C3.82506 15.8285 2.43273 14.1295 1.53906 12C2.43273 9.8705 3.82456 8.1715 5.71456 6.903C7.60473 5.63433 9.69965 5 11.9993 5C14.2988 5 16.3941 5.63433 18.2851 6.903C20.1761 8.1715 21.5684 9.8705 22.4621 12C21.5684 14.1295 20.1766 15.8285 18.2866 17.097C16.3964 18.3657 14.3015 19 12.0018 19ZM12.0006 17.5C13.8839 17.5 15.6131 17.0042 17.1881 16.0125C18.7631 15.0208 19.9672 13.6833 20.8006 12C19.9672 10.3167 18.7631 8.97917 17.1881 7.9875C15.6131 6.99583 13.8839 6.5 12.0006 6.5C10.1172 6.5 8.38806 6.99583 6.81306 7.9875C5.23806 8.97917 4.0339 10.3167 3.20056 12C4.0339 13.6833 5.23806 15.0208 6.81306 16.0125C8.38806 17.0042 10.1172 17.5 12.0006 17.5Z" fill="#1C1B1F"/>
-                                                                        </g>
-                                                                        </svg>
-                                                                     View request
-                                                                </a>
-                                                            </li>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">17 Jun,23</h5>
-                                                        <p class="mb-0 font-12 color-basic">Monday </p>
-                                                    </span>
-                                                </td>
-                                                <td class="fw-normal font-14">	Sam Michael</td>
-                                                <td class="fw-normal">
-                                                    <span>
-                                                        <h5 class="mb-1 font-13">Travel</h5>
-                                                        <p class="mb-0 font-12 color-basic">On Oct 14, 2024 </p>
-                                                    </span>    
-                                                </td>
-                                                <td class="fw-normal">₹54,240
-                                                </td>
-                                                <td>
-                                                    <span class="text-success fw-normal">+₹2,54,240</span>
-                                                </td>
-                                                <td class="fw-normal">
-                                                    <span class="text-danger fw-normal">-₹5,00,000</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="fw-normal white-space font-14" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit ...</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-danger fw-semibold">REJECTED</span>
-                                                </td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn action-btn dropdown-toggle d-flex align-items-center justify-content-center">
-                                                            <i class="bi bi-three-dots-vertical"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu actionMenuList">
-                                                            
-                                                                <li>
-                                                                    <a class="dropdown-item">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                                            <mask id="mask0_8123_5744" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                            <rect x="0.384766" y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                                                            </mask>
-                                                                            <g mask="url(#mask0_8123_5744)">
-                                                                            <path d="M15.5091 9.5545C15.3905 8.95311 15.1803 8.39867 14.8785 7.89117C14.5767 7.38367 14.1309 6.85964 13.5412 6.31908V8.59304H12.2912V4.10596H16.7783V5.35596H14.3552C15.0967 6.01193 15.6544 6.68339 16.0283 7.37033C16.4023 8.05728 16.6502 8.78533 16.7718 9.5545H15.5091ZM12.5474 14.763H17.0508V12.6316H12.5474V14.763ZM12.3393 16.0128C12.0499 16.0128 11.8039 15.9116 11.6014 15.7091C11.3989 15.5066 11.2977 15.2606 11.2977 14.9712V12.4232C11.2977 12.1338 11.3989 11.8878 11.6014 11.6853C11.8039 11.4828 12.0499 11.3816 12.3393 11.3816H17.2591C17.5484 11.3816 17.7944 11.4828 17.997 11.6853C18.1995 11.8878 18.3008 12.1338 18.3008 12.4232V14.9712C18.3008 15.2606 18.1995 15.5066 17.997 15.7091C17.7944 15.9116 17.5484 16.0128 17.2591 16.0128H12.3393ZM3.98995 16.8943V15.6443H6.41307C5.56043 14.905 4.93273 14.1101 4.52995 13.2597C4.12717 12.4093 3.92578 11.5001 3.92578 10.5322C3.92578 9.07276 4.35661 7.77471 5.21828 6.63804C6.07995 5.50123 7.17689 4.732 8.50911 4.33033V5.64762C7.5262 6.02679 6.72488 6.66082 6.10516 7.54971C5.48557 8.4386 5.17578 9.43276 5.17578 10.5322C5.17578 11.33 5.33974 12.0649 5.66766 12.737C5.99571 13.4092 6.5155 14.06 7.22703 14.6893V12.4072H8.47703V16.8943H3.98995ZM10.4643 18.4168V17.1668H19.1341V18.4168H10.4643Z" fill="#1C1B1F"/>
-                                                                            </g>
-                                                                        </svg>
-                                                                        Re-Assign </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                                                            <mask id="mask0_8123_5738" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                                                            </mask>
-                                                                            <g mask="url(#mask0_8123_5738)">
-                                                                            <path d="M9.1045 12.1041L13.5372 7.69222L12.6462 6.80118L9.1045 10.3428L7.33367 8.57201L6.45555 9.45035L9.1045 12.1041ZM1.1543 17.3589V16.1089H18.8464V17.3589H1.1543ZM3.59013 15.2756C3.16916 15.2756 2.81284 15.1297 2.52117 14.8381C2.22951 14.5464 2.08367 14.1901 2.08367 13.7691V5.11535C2.08367 4.69437 2.22951 4.33805 2.52117 4.04639C2.81284 3.75472 3.16916 3.60889 3.59013 3.60889H16.4105C16.8315 3.60889 17.1878 3.75472 17.4795 4.04639C17.7712 4.33805 17.917 4.69437 17.917 5.11535V13.7691C17.917 14.1901 17.7712 14.5464 17.4795 14.8381C17.1878 15.1297 16.8315 15.2756 16.4105 15.2756H3.59013ZM3.59013 14.0256H16.4105C16.4747 14.0256 16.5335 13.9989 16.5868 13.9456C16.6403 13.8921 16.667 13.8333 16.667 13.7691V5.11535C16.667 5.05118 16.6403 4.99243 16.5868 4.9391C16.5335 4.88562 16.4747 4.85889 16.4105 4.85889H3.59013C3.52596 4.85889 3.46721 4.88562 3.41388 4.9391C3.36041 4.99243 3.33367 5.05118 3.33367 5.11535V13.7691C3.33367 13.8333 3.36041 13.8921 3.41388 13.9456C3.46721 13.9989 3.52596 14.0256 3.59013 14.0256Z" fill="#1C1B1F"/>
-                                                                            </g>
-                                                                        </svg>
-                                                                        Assign Asset </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                                                            <mask id="mask0_8123_5732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                                                            </mask>
-                                                                            <g mask="url(#mask0_8123_5732)">
-                                                                            <path d="M11.8527 9.97799L10.1317 8.25695H10.9458V6.87882L12.9489 8.88195L11.8527 9.97799ZM17.0098 15.1351L15.8848 14.0101H16.4746C16.5333 13.9941 16.5801 13.9621 16.6148 13.914C16.6495 13.8658 16.6669 13.8177 16.6669 13.7697V5.1159C16.6669 5.04118 16.6428 4.97972 16.5948 4.93153C16.5467 4.88347 16.4853 4.85945 16.4104 4.85945H6.73415L5.48415 3.60945H16.4104C16.8314 3.60945 17.1877 3.75528 17.4794 4.04695C17.771 4.33861 17.9169 4.69493 17.9169 5.1159V13.7697C17.9169 14.0667 17.8376 14.3373 17.6789 14.5813C17.5202 14.8255 17.2971 15.0101 17.0098 15.1351ZM17.3721 19.6286L15.1027 17.3594H1.15415V16.1094H13.84L13.0067 15.2761H3.58999C3.16901 15.2761 2.8127 15.1303 2.52103 14.8386C2.22936 14.5469 2.08353 14.1906 2.08353 13.7697V5.03903C2.08353 4.9482 2.10756 4.86674 2.15561 4.79466C2.20381 4.72243 2.26526 4.665 2.33999 4.62236L0.87207 3.12861L1.7502 2.25049L18.2502 18.7505L17.3721 19.6286ZM8.36561 10.6478C8.32283 10.696 8.29075 10.7454 8.26936 10.7961C8.24797 10.8468 8.23728 10.9096 8.23728 10.9844V12.2153H6.98749V10.5486C6.98749 10.3424 7.01179 10.1538 7.0604 9.98278C7.10901 9.81195 7.17867 9.66403 7.26936 9.53903L3.53395 5.8034C3.46978 5.83007 3.42033 5.86347 3.38561 5.90361C3.35089 5.94361 3.33353 5.99299 3.33353 6.05174V13.7697C3.33353 13.8445 3.35756 13.906 3.40561 13.954C3.45367 14.0021 3.51513 14.0261 3.58999 14.0261H11.7439L8.36561 10.6478Z" fill="#1C1B1F"/>
-                                                                            </g>
-                                                                        </svg>
-                                                                        Mark as Unavailable </a>
-                                                                </li>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        </ng-container>
+                                    </tbody>
+                                        
                                     </table>
 
-                                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                    <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
                                         <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
                                         <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                    </div> -->
+
+                                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
+                                        <p class="mb-0">
+                                            Showing {{ getStartIndex() }} to {{ getEndIndex() }} of {{ totalItems }} records
+                                        </p>                                        
+                                        <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                        [pageSize]="databaseHelper.itemPerPage"
+                                        [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
+                                        </ngb-pagination>
                                     </div>
                                 </div>
                             </div>
@@ -1307,4 +978,159 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="bill-snapshot" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1060px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bill Snapshot</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="row">
+                    <div class="col-md-5 pr-0 mr-0">
+                        <div class="bill-image">
+                            <img src="assets/images/bill-img.svg" class="w-100">
+                            <span class="bill-images d-flex align-items-center gap-2 p-2">
+                                <img src="assets/images/bill-img.svg">
+                                <img src="assets/images/bill-img.svg">
+                            </span>
+                            <div class="position-relitive">
+                                <span class="prev-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                        fill="none">
+                                        <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                                            x="0" y="0" width="24" height="25">
+                                            <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)"
+                                                fill="white" />
+                                        </mask>
+                                        <g mask="url(#mask0_5929_1810)">
+                                            <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z"
+                                                fill="white" />
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="next-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                                        fill="none">
+                                        <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                                            x="0" y="0" width="24" height="25">
+                                            <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)"
+                                                fill="white" />
+                                        </mask>
+                                        <g mask="url(#mask0_5929_1810)">
+                                            <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z"
+                                                fill="white" />
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row p-3">
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Expense Type
+                                </label>
+                                <nz-form-control>
+                                    <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                        nzPlaceHolder="Select expense type" required>
+                                        <nz-option [nzValue]="'Food'" [nzLabel]="'Food'"></nz-option>
+                                        <nz-option [nzValue]="'Travel'" [nzLabel]="'Travel'"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Expense Date</label>
+                                    <nz-date-picker nzPlaceHolder="Select date" name="startDate" required>
+                                    </nz-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2"> Requested To </label>
+
+                                    <nz-form-control>
+                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                            nzPlaceHolder="Select requested" required>
+                                            <nz-option [nzValue]="'Anchal'" [nzLabel]="'Anchal'"></nz-option>
+                                            <nz-option [nzValue]="'Rohit Chaturvedi'"
+                                                [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                            <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <label for="employeeTypeId" class="mb-2">Amount spend</label>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            <input class="form-control input-zorro" placeholder="Enter amount spend"
+                                                nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3 ">
+                                        <div class="notice-period-error">
+                                            <div class="d-flex align-items-center gap-2" style="padding-left: 20px;">
+                                                <p class="mb-0">Amount Define</p>
+                                                <span class="calendar-separator"></span>
+                                                <h6 class="mb-0">₹2000</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="templateName" class="pb-2">
+                                    Note
+                                </label>
+                                <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
+                                    placeholder="Write the note" rows="3"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between p-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <p class="mb-0">Status</p>
+                                <span class="action-btn"></span>
+                                <p class="mb-0 text-warning">Pending</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close"
+                                    #closeButton>Delete</button>
+                                <button class="btn submitActionBtn">Edit</button>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
                 
