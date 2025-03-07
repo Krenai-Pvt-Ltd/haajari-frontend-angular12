@@ -242,11 +242,7 @@
               </div>
             </div> -->
 
-            <div *ngIf="loginErrorMessage">
-              <p class="errortxt mt-3 mb-0 text-danger text-left">
-                <i class="bi bi-exclamation-circle"></i> {{ loginErrorMessage }}
-              </p>
-            </div>
+            
             <div class="mt-3">
               <div class="mb-3">
                 <input type="text" class="form-control whatapp-login-input" name="examplePhoneNumber1"
@@ -284,6 +280,14 @@
               <div class="d-flex align-items-center justify-content-end mt-2" *ngIf="enterPasswordFlag && isEmailLogin">
                 <a class="text-danger forgot-password-btn" (click)="forgotPasswordFun()">Forgot password?</a>
               </div>
+
+
+              <div *ngIf="loginErrorMessage">
+                <p class="errortxt mt-3 mb-0 text-danger text-left">
+                  <i class="bi bi-exclamation-circle"></i> {{ loginErrorMessage }}
+                </p>
+              </div>
+
 
               <button class="btn btn-primary w-100 mt-2 btn-fix-height" type="submit" *ngIf="
                   !enterPasswordFlag &&
