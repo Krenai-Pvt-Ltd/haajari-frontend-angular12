@@ -112,23 +112,29 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
 
-  updateStatusIds(event: any, statusId: number) {
+  updateStatusIds(event: any, statusIds: number | number[]) {
     const allCheckbox = document.getElementById("all") as HTMLInputElement;
-    
+
+    // Ensure statusIds is an array
+    const idsArray = Array.isArray(statusIds) ? statusIds : [statusIds];
+
     if (event.target.checked) {
-      if (!this.statusIds.includes(statusId)) {
-        this.statusIds.push(statusId);
-      }
+        idsArray.forEach(id => {
+            if (!this.statusIds.includes(id)) {
+                this.statusIds.push(id);
+            }
+        });
     } else {
-      this.statusIds = this.statusIds.filter(id => id !== statusId);
+        this.statusIds = this.statusIds.filter(id => !idsArray.includes(id));
     }
-  
+
     if (!event.target.checked) {
-      allCheckbox.checked = false;
+        allCheckbox.checked = false;
     }
-  
+
     console.log('Updated statusIds:', this.statusIds);
-  }
+}
+
   
   updateAllStatus(event: any) {
     const approvedCheckbox = document.getElementById("approved") as HTMLInputElement;
