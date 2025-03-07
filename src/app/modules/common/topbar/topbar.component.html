@@ -166,7 +166,7 @@
           My Inbox
           <span class="active-notification" *ngIf="totalNewMailNotification>0"></span>
         </button>
-        <span (click)="routeToEmployeeProfilePage()" class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white">
+        <span (click)="routeToEmployeeProfilePage()" class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white pointer">
           {{this.userInfo?.name?.charAt(0)  | uppercase}}
         </span>
 

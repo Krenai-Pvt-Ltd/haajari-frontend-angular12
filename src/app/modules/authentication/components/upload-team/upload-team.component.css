@@ -1,47 +1,13 @@
-.leave-delet-btn {
-  top: 0px;
-  right: 11px;
-}
-.leave-delet-btn i {
-  color: #eb5050;
-}
 
-p.tableinfo.mb-0 {
+p.table-info.mb-0 {
   font-size: 13px !important;
   font-weight: 500 !important;
 }
 
-.invalid-input {
-  border-color: red !important; /* Change the border color to red */
-  /* Optionally, you can also change the background color or other styles */
-  background-color: #010101 !important; /* Light red background */
-}
-
-.munal-deta-upload-modal {
-  max-height: 400px;
-  overflow-x: scroll;
-}
-.munal-deta-upload-modal::-webkit-scrollbar {
-  display: none;
-}
-.munal-add-more-btn {
-  color: var(--primary-color) !important;
-  font-size: 14px;
-  font-weight: 400;
-  background-color: transparent;
-  padding: 0px;
-  border: none;
-}
-.munal-add-more-btn svg {
-  width: 20px;
-  position: relative;
-  top: -1px;
-}
-.tableinfo i {
+.table-info i {
   font-size: 16px;
   color: var(--primary-color);
 }
-/* Pushpendra's Code  */
 .card-header {
   border: 0;
   border-bottom: 1px dashed #e8ebf3;
@@ -62,11 +28,7 @@ p.tableinfo.mb-0 {
 .img-fluid {
   width: 91.3% !important;
 }
-.munal-add-more-btn.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-  pointer-events: none;
-}
+
 
 .excel-spinner {
   height: 20px;
@@ -76,16 +38,14 @@ p.tableinfo.mb-0 {
 .bg-soft-warning:hover {
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
-/* .alert-light:hover .alert-heading {
-  color: orange !important;
-} */
+
 .create-password-warning > p {
   color: #6b6b6b;
   font-size: 13px;
   font-weight: 300;
 }
 
-.textDecrotion:hover {
+.text-decoration:hover {
   text-decoration: underline;
   color: var(--primary-color) !important;
 }
@@ -125,30 +85,6 @@ p.tableinfo.mb-0 {
   }
 }
 
-.submit-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 6px;
-}
-
-.submit-loader span {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #efeff4 !important; /* Change to your preferred color */
-  margin: 0 4px;
-  animation: dotOpacity 1.4s infinite ease-in-out both;
-}
-
-.submit-loader span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.submit-loader span:nth-child(2) {
-  animation-delay: -0.16s;
-}
 
 .sampleExcelFileBox {
   border: 1px dashed rgba(102, 102, 242, 0.4);
@@ -203,7 +139,7 @@ p.tableinfo.mb-0 {
   width: 255px;
 }
 
-.mannualSubmit {
+.manual-submit {
   background-color: var(--primary-background-color);
   color: #fff;
   font-size: 12px;
