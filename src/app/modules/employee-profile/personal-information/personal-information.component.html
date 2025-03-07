@@ -276,7 +276,7 @@
       </div>
 
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
+        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()">
           <button
             class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
             (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
@@ -309,7 +309,7 @@
         <div class="d-flex align-items-center gap-3">
           <div *ngIf="requestedData && rbacService.userInfo.role == 'USER'"
             class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
-          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || rbacService.userInfo.role == 'USER')" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
+          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || this.userId == rbacService.getUuid())" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
             (click)="profileEdit=true; editProfile()">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
               <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
