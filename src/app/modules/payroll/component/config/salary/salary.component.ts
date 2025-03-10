@@ -4,6 +4,9 @@ import { PriorPayrollComponent } from '../prior-payroll/prior-payroll.component'
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TaxSlabService } from 'src/app/services/tax-slab.service';
+import { ea } from '@fullcalendar/core/internal-common';
+import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 
 
 @Component({
@@ -27,20 +30,23 @@ export class SalaryComponent implements OnInit {
   totalItems = 0;
 
   isUserShimer: boolean = true;
-  
+  moved:boolean =true;
 
   constructor(
     private _payrollConfigurationService:PayrollConfigurationService,
     private activateRoute :  ActivatedRoute,
-    private router : Router
+    private router : Router,
+    private taxSlabService: TaxSlabService
   ) { 
     if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
       this.currentTab = this.activateRoute.snapshot.queryParamMap.get('tab');
     }
+    
   }
 
   ngOnInit(): void {
     this.getEarningComponent();
+    
   }
 
   showSubComponent:boolean =false;
@@ -62,6 +68,8 @@ export class SalaryComponent implements OnInit {
         );
       }
 
+      
+
       getEarningStatus(earning: EarningComponent, configId: number): string {
         return earning.configurations?.some(config => config.configurationId === configId) ? 'Yes' : 'No';
     }
@@ -82,11 +90,18 @@ export class SalaryComponent implements OnInit {
 
     currentTab: any= 'salary';
     earningId: any;
-    editEarning(earningId :  number){
-      this.router.navigate(['/payroll/configuration'], {
-        queryParams: { tab : this.currentTab, earningId : earningId}
-      });
-      this.earningId=earningId;
-      console.log("tab",this.currentTab,"id",this.earningId);
-        }
+    editEarning(id :  number){
+      this.moved=false;
+      this.earningId=id;
+      this.sendEditDetails(id.toString());
+      }
+
+
+
+     sendEditDetails(sendId: string) {
+      const filteredEarningComponent = this.earningComponent.find(er => String(er.id) === sendId);
+        if (filteredEarningComponent) {
+          this.taxSlabService.editEarning(filteredEarningComponent);
+      } 
+    }
 }

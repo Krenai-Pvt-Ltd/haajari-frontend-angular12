@@ -10,6 +10,7 @@ import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
 import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
 import { ActivatedRoute } from '@angular/router';
+import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class StatutoryComponent implements OnInit {
     this.getAddressDetail();
     this.getPtDetail();
     this.getLwfDetail();
+    this.getTodoList();
    
   }
 
@@ -325,5 +327,26 @@ export class StatutoryComponent implements OnInit {
         return this.openDropdownIndex === index;
       }
       
+
+
+      toDoStepList:PayrollTodoStep[]=new Array();
+   getTodoList() {
+
+      this._payrollConfigurationService.getTodoList().subscribe(
+        (response) => {
+          if(response.status){
+            this.toDoStepList = response.object;
+            this.checkAllCompleted();
+
+          }
+        },
+        (error) => {
+  
+        }
+      );
+    }
+    checkAllCompleted(): boolean {
+      return this.toDoStepList.every(step => step.completed);
+    }
 
 }

@@ -15,7 +15,7 @@ export class ComponentConfiguration{
       id:number=0;
 	 name:string='';
 	 description:string='';
-	  isEditable:boolean=false;
-	  isChecked:boolean=false;
+	  editable:boolean=false;
+	  checked:boolean=false;
 	  configurationId:number=0;
 }

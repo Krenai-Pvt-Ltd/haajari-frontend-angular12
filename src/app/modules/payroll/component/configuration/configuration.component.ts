@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CroppedEvent } from 'ngx-photo-editor';
 import { finalize, take } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
+import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { Profile } from 'src/app/payroll-models/Profile';
 import { HelperService } from 'src/app/services/helper.service';
@@ -18,7 +20,10 @@ import { TaxSlabService } from 'src/app/services/tax-slab.service';
 })
 export class ConfigurationComponent implements OnInit {
 
-  isUploading:boolean = false;
+  imageChangedEvent: any = null;
+  base64: string | null = null;
+  isUploading: boolean = false;
+  isFileSelected: boolean = false;
 
 
   isDivVisible: boolean = false;
@@ -37,12 +42,13 @@ export class ConfigurationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProfile();
+    this.getTodoList();
     this.taxSlabService.taxSlab$.subscribe(taxData => {
       if (taxData) {
-        console.log("opening modal")
         this.selectedTaxSlab = taxData;
       }
     });
+  
   }
 
   selectedFile: File | null = null;
@@ -174,39 +180,15 @@ profile:Profile = new Profile();
                   this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
                 }
                 this.saveLoader = false;
+                setTimeout(() => {
+                  this.route('statutory');
+              }, 2000);
               },
               (error) => {
                 this.saveLoader = false;
               }
             );
           }
-
-
-
-          isFileSelected = false;
-  onFileSelected(event: Event): void {
-    this.isUploading=true;
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList && fileList.length > 0) {
-      const file = fileList[0];
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const imagePreview: HTMLImageElement = document.getElementById(
-          'imagePreview'
-        ) as HTMLImageElement;
-        imagePreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-
-      this.uploadFile(file);
-    } else {
-      this.isUploading=false;
-      this.isFileSelected = false;
-    }
-  }
 
   uploadFile(file: File): void {
       debugger;
@@ -239,9 +221,83 @@ profile:Profile = new Profile();
     }
 
 
-  
 
+
+fileChangeEvent(event: any): void {
+  if (event.target.files.length > 0) {
+    this.imageChangedEvent = event; 
+  }
+}
+
+imageCropped(event: any): void {
+  this.base64 = event.base64;
+  this.uploadCroppedImage();
+}
+
+uploadCroppedImage(): void {
+  if (!this.base64) {
+    console.error('No image to upload!');
+    return;
+  }
+
+  this.isUploading = true;
+
+  const blob = this.dataURItoBlob(this.base64);
+  const fileName = `cropped_${new Date().getTime()}.png`;
+  const file = new File([blob], fileName, { type: 'image/png' });
+
+  const filePath = `uploads/${fileName}`;
+  const fileRef = this.afStorage.ref(filePath);
+  const task = this.afStorage.upload(filePath, file);
+
+  task.snapshotChanges()
+    .pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe((url) => {
+          console.log('File URL:', url);
+          this.profile.logo = url; 
+          this.isUploading = false;
+        });
+      })
+    )
+    .subscribe();
+}
+
+private dataURItoBlob(dataURI: string): Blob {
+  const byteString = atob(dataURI.split(',')[1]);
+  const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+  
+  return new Blob([arrayBuffer], { type: mimeString });
+}
+
+toDoStepList:PayrollTodoStep[]=new Array();
+   getTodoList() {
+
+      this._payrollConfigurationService.getTodoList().subscribe(
+        (response) => {
+          if(response.status){
+            this.toDoStepList = response.object;
+            this.checkAllCompleted();
+
+          }
+        },
+        (error) => {
+  
         }
+      );
+    }
+    checkAllCompleted(): boolean {
+      return this.toDoStepList.every(step => step.completed);
+    }
+
+
+}
 
 
   

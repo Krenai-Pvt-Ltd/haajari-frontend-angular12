@@ -131,6 +131,9 @@
             
 
 <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+    <button *ngIf="!checkAllCompleted()" class="btn cancel-btn font-13 fw-semibold mt-0" routerLink="/payroll/setup">
+        Back
+    </button>
     <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
     <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
         [disabled]="saveLoader">

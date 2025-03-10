@@ -1,5 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
+import { TaxSlabService } from 'src/app/services/tax-slab.service';
 
 @Component({
   selector: 'app-earning-details',
@@ -8,29 +11,43 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EarningDetailsComponent implements OnInit {
 
-  @Input() earningId!: any;
-  activeTab:any;
+
+
+  VALUE_TYPE_PERCENTAGE=1;
+  VALUE_TYPE_FLAT=2;
+  CALCULATION_BASED_CTC=3;
+  CALCULATION_BASED_BASIC=4;
+  PAY_TYPE_FIXED=5;
+  PAY_TYPE_VARIABLE=6;
+
+  earningId!: any;
+  currentTab:any;
+  movedBack:boolean=false;
+  selectedEarning!: EarningComponent; 
+  moved:boolean=true;
 
   constructor(
     private activateRoute : ActivatedRoute,
-    private router : Router
+    private router : Router,
+    private taxSlabService: TaxSlabService,
+    
   ) {
-    if (this.activateRoute.snapshot.queryParamMap.has('earningId')) {
-      this.earningId = this.activateRoute.snapshot.queryParamMap.get('earningId');
-    }
-    if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
-      this.activeTab = this.activateRoute.snapshot.queryParamMap.get('tab');
-    }
-    console.log(this.earningId);
   }
 
   ngOnInit(): void {
-  }
-
-
-  routeBack(tabName:string){
-    this.router.navigate(['/payroll/configuration'], {
-      queryParams: { tab : tabName}
+    this.taxSlabService.earning$.subscribe(earning => {
+      if (earning) {
+        this.selectedEarning = earning;
+        console.log(this.selectedEarning)
+      }
     });
   }
+
+  goBack(tabName: string) {
+  this.moved=false;
+
+}
+
+
+
 }

@@ -26,6 +26,7 @@ import { EarningDetailsComponent } from './component/config/earning-details/earn
 import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
 import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 
 
 
@@ -58,7 +59,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     NzDatePickerModule,
     NzSwitchModule,
     NzEmptyModule,
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    NgxPhotoEditorModule
   ]
 })
 export class PayrollModule { }

@@ -68,10 +68,17 @@
                                               
                                                 <div [class.col-md-6]="profile.logo" [class.col-md-12]="!profile.logo">
                                                     <label for="exampleFormControlSelect3 pb-2" style="padding-bottom: 6px;"> Company Logo</label>          
-                                                    <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 ">
-                                                        <input id="fileInput" type="file" name="logo" accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" 
-                                                        (change)="onFileSelected($event)"
-                                                        >
+                                                    <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 "
+                                                    (click)="fileInput.click()">
+                                                        
+                                                        <input #fileInput type="file" (change)="fileChangeEvent($event)" accept="image/*" hidden />
+
+                                                        <ngx-photo-editor
+                                                          [imageChangedEvent]="imageChangedEvent"
+                                                          (imageCropped)="imageCropped($event)"
+                                                          [aspectRatio]="4/3"
+                                                          [viewMode]="1"
+                                                          [resizeToWidth]="800"></ngx-photo-editor>
                                                         <span>
                                                           <img *ngIf="!isUploading" src="assets/images/payrollstep-img/organization-logo.svg" class="img-40">
                                                           <img *ngIf="isUploading" src="assets/images/payrollstep-img/tube-spinner.svg" class="img-40 animate-spin" width="40" height="40">
@@ -427,7 +434,9 @@
                             </div>
                         </div>
                         <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
-                            <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
+                            <button *ngIf="!checkAllCompleted()" class="btn cancel-btn font-13 fw-semibold mt-0" routerLink="/payroll/setup">
+                                Back
+                            </button>
                             <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
                                 [disabled]="saveLoader">
                                 <div *ngIf="saveLoader" class="dot-opacity-loader">

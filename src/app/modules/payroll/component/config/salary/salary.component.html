@@ -1,4 +1,4 @@
-<ng-container *ngIf="!showSubComponent">
+<ng-container *ngIf="moved">
 
 <div class="statutory-tab mt-3" >
     <ul id="pills-tab" role="tablist" class="nav nav-pills ">
@@ -23,7 +23,7 @@
 <div class="tab-content mt-3" id="tabContent">
     <div class="tab-pane fade show active" id="earning" role="tabpanel" aria-labelledby="earning-tab">
         <div class="mt-4">
-            <div class="table-responive salary-compontant-list" *ngIf="!earningId">
+            <div class="table-responive salary-compontant-list" c>
                 <table class="table">
                     <thead>
                         <tr>
@@ -291,9 +291,9 @@
 <app-earning-details></app-earning-details>
 </ng-container> -->
 
-<ng-container *ngIf="earningId">
+<ng-container *ngIf="!moved">
   
-    <app-earning-details [earningId]="earningId"></app-earning-details>
+    <app-earning-details></app-earning-details>
    
 </ng-container>
 
