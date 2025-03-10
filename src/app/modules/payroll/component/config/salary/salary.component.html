@@ -20,9 +20,9 @@
     </ul>
 </div>
 
-<div class="tab-content mt-3" id="tabContent">
+<div class="tab-content mt-2" id="tabContent">
     <div class="tab-pane fade show active" id="earning" role="tabpanel" aria-labelledby="earning-tab">
-        <div class="mt-4">
+        <div class="mt-2">
             <div class="table-responive salary-compontant-list" c>
                 <table class="table">
                     <thead>
@@ -64,6 +64,21 @@
                           </td>
                         </tr>
                       </tbody>
+
+                      <!-- <tbody>
+                        <tr>
+                          <td colspan="8">
+                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-filenew">No data for now</p>
+                                </ng-template>
+                              </nz-empty>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody> -->
                     <tbody *ngFor="let earning of earningComponent">
                         <tr  *ngIf="!isUserShimer">
                             <td>
@@ -129,7 +144,7 @@
                 <div *ngIf="totalItems > pageSize" 
                     class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
                  <p class="mb-0">
-                    howing items {{ (currentPage - 1) * pageSize + 1 }} -
+                    Showing items {{ (currentPage - 1) * pageSize + 1 }} -
                     {{ (currentPage * pageSize) < totalItems ? (currentPage * pageSize) : totalItems }}
                     of {{ totalItems }} records
                  </p>
@@ -154,7 +169,7 @@
     </div>
 
     <div class="tab-pane fade" id="benefits" role="tabpanel" aria-labelledby="benefits-tab">
-        <div class="mt-4">
+        <div class="mt-2">
             <div class="table-responive benefits-list">
                 <table class="table table-borderless">
                     <thead>

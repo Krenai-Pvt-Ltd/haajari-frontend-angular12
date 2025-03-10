@@ -292,10 +292,22 @@
 .action-btn svg{
   width: 18px;
 }
-.actionMenuList {
+/* .actionMenuList {
     box-shadow: 0px 3px 12px -3px #1111111f;
     overflow: hidden;
     padding: 7px !important;
+} */
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
+}
+.actionMenuList .dropdown-item i {
+  font-size: 18px;
+  position: relative;
+  top: 2px;
 }
 .actionMenuList svg{
     width: 18px;
@@ -464,10 +476,10 @@
 }
 
 
-.filter-bdg {
+/* .filter-bdg {
   overflow-x: scroll;
   flex-wrap: nowrap;
-}
+} */
 
 .filter-pills {
   line-height: 18px;

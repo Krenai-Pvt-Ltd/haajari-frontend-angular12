@@ -28,12 +28,6 @@
               <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                 <h5 class="mb-0">Update Request</h5>
                 <div class="d-flex align-items-center gap-2">
-                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
-                    (click)="removeField('name', requestedData.user.name)">Delete</button>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && fieldLoading"
-                    (click)="approveField('name', requestedData.user.name)">Approve</button> -->
-
                   <div class="d-flex align-items-center gap-2">
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
@@ -88,15 +82,13 @@
 
                 </div>
               </div>
-
-
             </div>
           </ng-template>
 
         </span>
       </div>
         <div class="d-flex align-items-center gap-2 mb-0">
-          <p class="mb-0 text-primary font-14">{{ user.position || '--'}}</p>
+          <p class="mb-0 text-primary font-13">{{ user.position || '--'}}</p>
           <span *ngIf="requestedData?.user?.position != undefined && requestedData?.user?.position != null"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
@@ -181,7 +173,7 @@
 
           </span>
           <span class="separator-border"></span>
-          <p class="mb-0 font-13">Department: {{ user.department || '--'}}</p>
+          <p class="mb-0 font-12">Department: {{ user.department || '--'}}</p>
 
           <span *ngIf="requestedData?.user?.department !== null && requestedData?.user?.department !== undefined"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">

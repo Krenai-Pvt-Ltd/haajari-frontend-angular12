@@ -369,10 +369,10 @@ input[type=checkbox] {
     border-radius: 2px;
 }
 
-.filter-bdg {
+/* .filter-bdg {
     overflow-x: scroll;
     flex-wrap: nowrap;
-  }
+  } */
 
   .filter-pills {
     line-height: 18px;
@@ -478,4 +478,7 @@ input[type=checkbox] {
   line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
+}
+.teble-responsive{
+
 }
