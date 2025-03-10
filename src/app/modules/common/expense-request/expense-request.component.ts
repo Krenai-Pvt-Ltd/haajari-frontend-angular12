@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { ApproveReq } from 'src/app/models/ApproveReq';
 import { ExpenseType } from 'src/app/models/ExpenseType';
@@ -20,15 +20,27 @@ export class ExpenseRequestComponent implements OnInit {
   isModal: boolean = true;
   @Input() data: any;
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] && changes['data'].currentValue) {
+      this.initializeComponent();
+    }
+  }
+  
   ngOnInit(): void {
+    this.initializeComponent(); // Call the method
+  }
+  
+  initializeComponent(): void {
+    if (!this.data) return;
+  
     console.log(this.data);
     this.getExpenseType();
     this.getTags('EXPENSE');
     this.getExpense(this.data.expense);
-    if(this.data.isModal == 0){
-      this.isModal = false;
-    }
+    this.isModal = this.data.isModal !== 0;
   }
+  
 
   close(): void {
     this.closeEvent.emit();

@@ -1,7 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NgForm } from '@angular/forms';
+import moment from 'moment';
 import { Key } from 'src/app/constant/key';
+import { ApproveReq } from 'src/app/models/ApproveReq';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpenseType } from 'src/app/models/ExpenseType';
+import { UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -13,8 +18,8 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class ExpenseManagementComponent implements OnInit {
 
-  constructor(private dataService: DataService, private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService) { }
+  constructor(private dataService: DataService, private helperService: HelperService,private cdr: ChangeDetectorRef,
+    private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   showFilter: boolean = false;
   ROLE: any;
@@ -53,6 +58,31 @@ export class ExpenseManagementComponent implements OnInit {
    selectedFilters: string[] = [];
    tempSelectedFilter: string[] = [];
 
+   dateFilters: { key: string; value: string }[] = [];
+
+   filters:{
+    fromDate: any|undefined;
+    toDate: any|undefined;
+  
+  }  = {
+    fromDate: undefined,
+    toDate: undefined
+  };
+
+  displayDateFormat: string = 'DD-MM-YYYY'; // Date format for date picker
+  displayDateFormatNew: string = 'YYYY-MM-DD';
+  networkDateFormat: string = "yyyy-MM-DD HH:mm:ss";
+
+  // Disable dates greater than 'fromDate' for the 'toDate' field
+  disabledDateTo = (current: Date): boolean => {
+    return current && this.filters.fromDate && current <= this.filters.fromDate;
+  };
+
+  // Disable dates earlier than 'toDate' for the 'fromDate' field (if needed)
+  disabledDateFrom = (current: Date): boolean => {
+    return current && this.filters.toDate && current >= this.filters.toDate;
+  };
+
    requestsSearch: string = '';
 
     async getExpenses() {
@@ -61,22 +91,26 @@ export class ExpenseManagementComponent implements OnInit {
      this.expenseList = []
      this.ROLE = await this.rbacService.getRole();
   
-     if (this.expenseSelectedDate == null) {
-      // If expenseSelectedDate is null, set startDate and endDate to first and last date of the current month
-      const currentDate = new Date();
-      // this.startDate = (new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
-      // this.endDate = (new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+     if (this.filters.fromDate !== undefined && this.filters.toDate !== undefined) {
+      this.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
+      this.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
     } else {
-      // If expenseSelectedDate is not null, set startDate and endDate to first and last date of expenseSelectedDate's month
-      // this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
-      // this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+        this.startDate = undefined;
+        this.endDate = undefined;
     }
-     this.expenseList = []
+
+    // this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
+    // this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+    
+    console.log("Start Date :",this.startDate)
+    console.log("End Date :", this.endDate);
+    this.expenseList = []
      this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'',this.requestsSearch).subscribe((res: any) => {
        if (res.status) {
          this.expenseList = res.object
          this.totalItems = res.totalItems
          this.selectedFilters = [...this.tempSelectedFilter];
+         this.dateFilters = [...this.tempDateFilters]; 
         console.log('expenseList: ',this.expenseList)
   
          this.loading = false;
@@ -188,10 +222,17 @@ export class ExpenseManagementComponent implements OnInit {
   
     console.log('Updated statusIds after selecting all:', this.statusIds);
   }
+
+  tempDateFilters: { key: string; value: string }[] = [];
   
   applyFilters() {
     this.databaseHelper.currentPage = 1;
     console.log("Selected Status IDs:", this.statusIds);
+    if (this.filters.fromDate && this.filters.toDate) {
+        const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
+        const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
+        this.tempDateFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
+      }
     this.getExpenses();
     this.showFilter = false;
   }
@@ -234,6 +275,16 @@ export class ExpenseManagementComponent implements OnInit {
     console.log("Updated Status IDs:", this.statusIds);
 }
 
+removeDateFilter(filter: { key: string; value: string }): void {
+  this.tempDateFilters = [];
+  this.filters = { fromDate: undefined, toDate: undefined };
+
+  console.log("RemoveDate FilterM Start Date :",this.filters.fromDate)
+  console.log("End Date :", this.filters.fromDate);
+  this.changeShowFilter(false);
+  this.applyFilters();
+}
+
 
 getCheckboxIdByStatus(statusId: number): string {
     switch (statusId) {
@@ -260,7 +311,100 @@ getEndIndex(): number {
   return endIndex > this.totalItems ? this.totalItems : endIndex;
 }
 
-  
+
+expenseData: any= {
+  expense: {}
+};
+showExpenseComponent: boolean = false;
+@ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+
+onExpenseComponentClose() {
+  this.getExpenses();
+  this.closeApproveModal.nativeElement.click();
+  this.showExpenseComponent = false;
+}
+
+openExpenseComponent(expense: any) {
+  this.clearApproveModal(); 
+  this.expenseData = { expense };
+  setTimeout(() => {
+    this.showExpenseComponent = true;
+  }, 1);
+}
+
+
+
+  approveReq: ApproveReq = new ApproveReq();
+  approveToggle: boolean = false;
+  rejectToggle: boolean = false;
+  paymentCashYesToggle: boolean = false;
+  paymentCashNoToggle: boolean = false;
+
+  approveAmountChecked: boolean = false; 
+  approvedAmount: string = '';
+  tags: string[] = [];
+
+  isCheckboxChecked: boolean = false
+  partialAmount: string = '';
+  onCheckboxChange(checked: boolean): void {
+    this.isCheckboxChecked = checked;
+    if (!checked) {
+      this.partialAmount = '';
+    }
+  }
+
+  showTransactionDiv: boolean = false;
+  transactionId: string = ''
+  onlineTransaction(){
+    this.showTransactionDiv = true;
+  }
+
+  settledDate: any;
+  selectExpenseSettledDay(startDate: Date) {
+    debugger
+    // if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
+      this.settledDate = this.helperService.formatDateToYYYYMMDD(startDate);
+    // }
+  }
+
+clearApproveModal() {
+  this.isCheckboxChecked = false;
+  this.partialAmount = '';
+  this.tags = [];
+  this.approvedAmount = '';
+  this.approveAmountChecked = false;
+  this.currentId = 0;
+  this.transactionId = ''
+  this.settledDate = ''
+  this.payCashDiv = false;
+  this.rejectDiv = false;
+  this.showTransactionDiv = false;
+
+  this.expensePaymentType = 'full'
+  this.partialAmount = ''
+  this.partiallyPayment = false;
+
+  this.approveReq.rejectionReason = ''
+  this.expenseData = {};
+}
+
+tagsFilteredOptions: string[] = [];
+
+fetchedTags: string[] = [];
+searchTag: string = '';
+currentId:number =0;
+rejectDiv: boolean = false;
+showExpenseRejectDiv(){
+  this.rejectDiv = true;
+}
+
+payCashDiv: boolean = false;
+showPayCashDiv(){
+  this.payCashDiv = true;
+}
+
+partiallyPayment: boolean = false;
+expensePaymentType: string = 'full'
 
 
 }
