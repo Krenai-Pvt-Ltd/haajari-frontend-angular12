@@ -33,12 +33,12 @@
                     active: 1 == selectedMasterAttendanceModeId
                   }"
                 >
-                  <h5 class="mb-0 p-3 modeHeading">
+                  <h5 class="mb-0 p-3 modeHeading font-14 fw-semmibold text-black">
                     
                     Attendance Via What’sApp & Slack
                   </h5>
 
-                  <p class="mb-0 p-3">
+                  <p class="mb-0 p-3 font-12 fw-light">
                     Track attendance effortlessly through WhatsApp and Slack for
                     seamless team management.
                   </p>
@@ -221,7 +221,7 @@
                     *ngFor="let attendanceMode of attendanceModeList"
                   >
                     <div
-                      class="attendance-mode-card p-4"
+                      class="attendance-mode-card p-4 bg-white border-rounded-2"
                       (click)="updateAttendanceMode(attendanceMode.id)"
                       [ngClass]="{
                         active: attendanceMode.id == selectedAttendanceModeId
@@ -374,7 +374,7 @@
                             >Fetch Current Location
                           </span>
                           <div
-                            class="loader-fetching-location"
+                            class="loader-fetching-location d-flex align-items-center justyife-content-center"
                             *ngIf="locationLoader"
                           >
                             <i
@@ -713,7 +713,7 @@
                   >
 
                   <div
-                    class="dot-opacity-loader"
+                    class="dot-opacity-loader d-flex align-items-center justyife-content-center"
                     *ngIf="isAttendanceModeBackLoading"
                   >
                     <span></span>
@@ -757,7 +757,7 @@
                   </span>
 
                   <div
-                    class="dot-opacity-loader"
+                    class="dot-opacity-loader d-flex align-items-center justyife-content-center"
                     *ngIf="isAttendanceModeLoader"
                   >
                     <span></span>

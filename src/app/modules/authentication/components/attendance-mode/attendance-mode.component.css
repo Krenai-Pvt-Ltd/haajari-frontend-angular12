@@ -1,47 +1,3 @@
-.categryCustomizecard {
-  align-items: center;
-  gap: 10px;
-  background: #ffffff;
-  border-radius: 15px;
-  margin-bottom: 15px;
-  padding: 15px;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
-}
-.form-check-input {
-  width: 17px;
-  height: 17px;
-}
-.categryCustomizeinfo-new {
-  padding: 15px;
-  border: 1px solid #f1f1f1;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
-  border-radius: 15px;
-  background: #ffffff;
-  border-radius: 6px;
-  padding: 15px;
-  border: 1px solid #f1f1f1;
-  height: 140px;
-}
-.categryCustomizeinfo-new h3 {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
-  color: #484848;
-  margin-bottom: 2px;
-  margin-top: -6px;
-}
-.categryCustomizeinfo-new p {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 22px;
-  color: #878a9a;
-  margin-bottom: 0;
-}
-.attendance-active {
-  background-color: #e9ebfe;
-  border: 1px solid #4f5eee !important;
-}
 
 .card-header {
   border: 0;
@@ -51,13 +7,6 @@
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
 
-.btn.add-excel {
-  font-size: 14px !important;
-  font-weight: 500;
-  color: var(--primary-color) !important;
-}
-
-/* Pushpendra's Code  */
 .mt-90 {
   margin-top: 90px;
 }
@@ -69,8 +18,6 @@
 }
 
 .attendance-mode-card {
-  background-color: #fff;
-  border-radius: 2px;
   border: 1px solid #e6e6e6;
   margin: 0 auto;
   min-height: 150px;
@@ -80,9 +27,6 @@
 }
 
 .dot-opacity-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 6px 6px;
 }
 
@@ -93,7 +37,7 @@
   border-radius: 50%;
   background-color: var(
     --primary-background-color
-  ) !important; /* Change to your preferred color */
+  ) !important; 
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -117,22 +61,11 @@
   }
 }
 
-.featch-location {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -65px;
-  padding: 7px;
-  /* bottom: -4px; */
-}
-/*  fetch loc */
-
-.loader-fetching-location {
+/* .loader-fetching-location {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* padding: 6px 6px; */
-}
+} */
 
 .loader-fetching-location span {
   display: inline-block;
@@ -163,38 +96,6 @@
   }
 }
 
-.address-modal-loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 6px;
-}
-
-.address-modal-loader span {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #6690f3 !important;
-  margin: 0 4px;
-  animation: dotOpacity 1.4s infinite ease-in-out both;
-}
-
-.address-modal-loader span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.address-modal-loader span:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-.side-img {
-  height: 100px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
 .add-location svg {
   width: 15px;
   position: relative;
@@ -211,42 +112,18 @@
   border: 1px solid var(--primary-color) !important;
 }
 .attendanceModeBox h5 {
-  color: #000;
-  font-size: 14px;
   font-style: normal;
-  font-weight: 500;
   line-height: 22px;
 }
 .attendanceModeBox p {
   color: #717171;
-  font-size: 12px;
   font-style: normal;
-  font-weight: 300;
   line-height: 18px;
 }
 .whatAppSlackBox {
   border-radius: 2px;
   border: 1px solid #e6e6e6;
   background: #fff;
-}
-.selectedMethod {
-  color: #6666f2;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 21.428px; /* 133.928% */
-  letter-spacing: 0.097px;
-  background-color: transparent;
-  padding: 0px;
-}
-.selectedMethod:hover {
-  text-decoration: underline;
-}
-.selectedMethod svg {
-  width: 15px;
-  height: 15px;
-  position: relative;
-  top: -1px;
 }
 
 .whatAppSlackBox h5 {

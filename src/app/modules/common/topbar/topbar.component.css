@@ -31,11 +31,18 @@ div.scroll {
     height: 40px;
   }
   .active-notification{
-    background-color: #FF3014;
+    /* background-color: #FF3014;
     border-radius: 50%;
     width: 8px;
     height: 8px;
     position: absolute;
     top: 8px;
-    left: 13px;
+    left: 13px; */
+    background-color: #FF3014 !important;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    padding: 4px;
+    left: -15px;
+    line-height: 14px;
 }
