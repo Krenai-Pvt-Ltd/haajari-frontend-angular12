@@ -21,62 +21,45 @@ import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 export class StatutoryComponent implements OnInit {
 
   activeTab:any;
-  pfWageValue:number=0;
-  calculatedpfWageValue:number=0;
-  employerpfWageValue:number=0;
-  calculatedemployrepfWageValue:number=0;
-  calculatedemployrepsWageValue:number=0;
-  totalValue:number=0;
+ 
 
 
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
     private _helperService : HelperService,
-  private taxSlabService: TaxSlabService,
     private activateRoute: ActivatedRoute
 ) {
    if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
       this.activeTab = this.activateRoute.snapshot.queryParamMap.get('tab');
     }
-  // this._route.queryParams.subscribe(params => {
-  //   this.activeTab = params['tab'];
-  //   console.log('Statutory Component - Active Tab:', this.activeTab);
-
-  // });
+ 
 }
 
   ngOnInit(): void {
     this.getEpfDetail();
     this.getPfContribution();
     this.getEsiDetail();
-    this.getAddressDetail();
     this.getPtDetail();
     this.getLwfDetail();
     this.getTodoList();
-
-
-
-   
   }
-
 
 
   loadingFlags: { [key: string]: boolean } = {}; 
 
-
   epfDetail:EmployeeProvidentFund = new EmployeeProvidentFund();
   getEpfDetail(){
-      this._payrollConfigurationService.getEpfDetail().subscribe(
-        (response) => {
+      this._payrollConfigurationService.getEpfDetail().subscribe((response) => {
           if(response.status){
             this.epfDetail= response.object;
-            this.onEmployeeContributionChange(this.epfDetail.employeeContribution)
-            this.onEmployerContributionChange(this.epfDetail.employerContribution);
-            
+      
             if(this.epfDetail==null){
               this.epfDetail = new EmployeeProvidentFund();
-            }
+            }          
+          }else{
+            this.epfDetail = new EmployeeProvidentFund();
           }
+          this.calculatePFContribution();
         },
         (error) => {
   
@@ -95,6 +78,7 @@ export class StatutoryComponent implements OnInit {
             if(this.pfContributionRate == null){
               this.pfContributionRate = [];
             }
+        
           },
           (error) => {
           }
@@ -104,18 +88,12 @@ export class StatutoryComponent implements OnInit {
       get filteredEmployerContributions(): PfContributionRate[] {
         return this.pfContributionRate.filter(pf => pf.contributorType === 1);
       }
+      
       get filteredEmployeeContributions(): PfContributionRate[] {
         return this.pfContributionRate.filter(pf => pf.contributorType === 2);
       }
     
 
-      selectedPfWage(id: number) {
-        this.epfDetail.employerContribution = id;
-
-          if (id === 1) {
-            this.epfDetail.employeeContribution = 3;
-        } 
-      }
     
     saveLoader:boolean=false;
       saveEpfDetail(){
@@ -144,55 +122,68 @@ export class StatutoryComponent implements OnInit {
         console.log("toggled",this.isLopChecked)
       }
   
-      calculateValue(type: string, value: number): string {
+      calculateValue( value: number): number {
         if (this.isLopChecked) {
-          if (type === 'basic') {
-            return ` ${(value * 0.85).toFixed(2)}`; 
-          }
-          if (type === 'transport') {
-            return ` ${(value * 0.90).toFixed(2)}`; 
-          }
+          return value/2;
         }
-        return ` ${value.toFixed(2)}`;
+        return value;
       }
 
+      calculatePFContribution(){
+        if(this.epfDetail.employerContribution == 1){
+          this.epfDetail.employeeContribution = 3;
+        }
+        this.onEmployeeContributionChange(this.epfDetail.employeeContribution);
+        this.onEmployerContributionChange(this.epfDetail.employerContribution);
+      }
 
+      actualValue:number=20000;
+      restrictedValue:number=15000;
+      calculatedpfWageValue:number=0;
+      employeepfWageValue:number=0;
+      employerpfWageValue:number=0;
+      calculatedemployrepfWageValue:number=0;
+      calculatedemployrepsWageValue:number=0;
+      totalValue:number=0;
       onEmployeeContributionChange(id: number): void {
-        this.epfDetail.employeeContribution = id; 
-        if (id === 3) {
-          this.pfWageValue = 20000;
-          this.calculatedpfWageValue
-        } else if (id === 4) {
-          this.pfWageValue = 15000;
-        } else {
-          this.pfWageValue = 0; 
-        }
-        this.calculatedpfWageValue = (this.pfWageValue * 12) / 100;
-        this.calculateTotalValue();
-
+        if (id == 3) {
+          this.employeepfWageValue = this.actualValue;
+        } else if (id == 4) {
+          this.employeepfWageValue = this.restrictedValue;
+        } 
+        this.calculatedpfWageValue = (this.employeepfWageValue * 12) / 100;
       }
 
-
+   
       onEmployerContributionChange(id: number): void {
-        this.epfDetail.employerContribution = id; 
-        if (id === 1) {
-          this.employerpfWageValue = 20000;
-          this.calculatedpfWageValue
-        } else if (id === 2) {
-          this.employerpfWageValue = 15000;
-        } else {
-          this.employerpfWageValue = 0; 
-        }
-        this.calculatedemployrepsWageValue = (this.employerpfWageValue * 8.33) / 100;
-        this.calculatedemployrepfWageValue = (this.employerpfWageValue * 12)/ 100;
-        this.calculateTotalValue();
+        if (id == 1) {
+          this.employerpfWageValue = this.actualValue;
+        } else if (id == 2) {
+          this.employerpfWageValue = this.restrictedValue;
+        } 
+        this.calculatedemployrepsWageValue = Math.round((this.restrictedValue * 8.33) / 100);
+        this.calculatedemployrepfWageValue = ((this.employerpfWageValue * 12)/ 100) - this.calculatedemployrepsWageValue;
+        this.totalValue = this.calculatedemployrepsWageValue + this.calculatedemployrepfWageValue;
 
       }
 
-      calculateTotalValue(){
-        this.totalValue = this.calculatedpfWageValue + this.calculatedemployrepsWageValue + this.calculatedemployrepfWageValue;
+
+
+      employerContributorDetail(): string {
+        const employerpf = this.pfContributionRate.find(pf => pf.id === this.epfDetail.employerContribution);
+        return employerpf ? employerpf.description : ''; 
+      }
+      
+
+      employeeContributorDetail(): string {
+        const employeepf = this.pfContributionRate.find(pf => pf.id === this.epfDetail.employeeContribution);
+        return employeepf ? employeepf.description : '';
       }
 
+
+
+
+      
 
 
 //TODO : add this method to a common service -> cmplexity of this method is high  (6) try belo commentred code with complexity 1
