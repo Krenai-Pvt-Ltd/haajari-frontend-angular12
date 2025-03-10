@@ -479,3 +479,19 @@ input[type=checkbox] {
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
+
+.modal {
+  z-index: 2000 !important;
+}
+
+.modal-backdrop {
+  z-index: 1999 !important;
+}
+
+.ant-drawer {
+  z-index: 1000 !important;
+}
+
+.ant-drawer-mask {
+  z-index: 999 !important;
+}
