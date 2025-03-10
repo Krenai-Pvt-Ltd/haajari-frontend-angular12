@@ -21,9 +21,13 @@ import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 export class StatutoryComponent implements OnInit {
 
   activeTab:any;
-  taxDataList: ProfessionalTax[] = []; // Full tax data list
-  selectedTaxSlabs: ProfessionalTaxSlab[] = []; // For selected state's slabs
-  selectedStateName: string = ''; 
+  pfWageValue:number=0;
+  calculatedpfWageValue:number=0;
+  employerpfWageValue:number=0;
+  calculatedemployrepfWageValue:number=0;
+  calculatedemployrepsWageValue:number=0;
+  totalValue:number=0;
+
 
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
@@ -49,6 +53,9 @@ export class StatutoryComponent implements OnInit {
     this.getPtDetail();
     this.getLwfDetail();
     this.getTodoList();
+
+
+
    
   }
 
@@ -63,6 +70,9 @@ export class StatutoryComponent implements OnInit {
         (response) => {
           if(response.status){
             this.epfDetail= response.object;
+            this.onEmployeeContributionChange(this.epfDetail.employeeContribution)
+            this.onEmployerContributionChange(this.epfDetail.employerContribution);
+            
             if(this.epfDetail==null){
               this.epfDetail = new EmployeeProvidentFund();
             }
@@ -81,7 +91,6 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this.pfContributionRate = response.object;
-                 
             }
             if(this.pfContributionRate == null){
               this.pfContributionRate = [];
@@ -145,6 +154,43 @@ export class StatutoryComponent implements OnInit {
           }
         }
         return ` ${value.toFixed(2)}`;
+      }
+
+
+      onEmployeeContributionChange(id: number): void {
+        this.epfDetail.employeeContribution = id; 
+        if (id === 3) {
+          this.pfWageValue = 20000;
+          this.calculatedpfWageValue
+        } else if (id === 4) {
+          this.pfWageValue = 15000;
+        } else {
+          this.pfWageValue = 0; 
+        }
+        this.calculatedpfWageValue = (this.pfWageValue * 12) / 100;
+        this.calculateTotalValue();
+
+      }
+
+
+      onEmployerContributionChange(id: number): void {
+        this.epfDetail.employerContribution = id; 
+        if (id === 1) {
+          this.employerpfWageValue = 20000;
+          this.calculatedpfWageValue
+        } else if (id === 2) {
+          this.employerpfWageValue = 15000;
+        } else {
+          this.employerpfWageValue = 0; 
+        }
+        this.calculatedemployrepsWageValue = (this.employerpfWageValue * 8.33) / 100;
+        this.calculatedemployrepfWageValue = (this.employerpfWageValue * 12)/ 100;
+        this.calculateTotalValue();
+
+      }
+
+      calculateTotalValue(){
+        this.totalValue = this.calculatedpfWageValue + this.calculatedemployrepsWageValue + this.calculatedemployrepfWageValue;
       }
 
 

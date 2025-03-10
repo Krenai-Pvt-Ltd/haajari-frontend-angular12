@@ -43,12 +43,6 @@ export class ConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.getProfile();
     this.getTodoList();
-    this.taxSlabService.taxSlab$.subscribe(taxData => {
-      if (taxData) {
-        this.selectedTaxSlab = taxData;
-      }
-    });
-  
   }
 
   selectedFile: File | null = null;
@@ -93,13 +87,13 @@ export class ConfigurationComponent implements OnInit {
   
   selectedLocation: string = 'india';
 
-    selectedCurrency: string = 'INR'; // INR selected by default
+    selectedCurrency: string = 'INR';
   
     stateCurrency = [
-      { "code": "INR", "name": "INR", "symbol": "₹" }, // Default selection
+      { name: 'USD' },
+      { name: 'INR' }
     ];
-
-    selectedPfWage = "12% of Actual PF Wage"; // Default selected value
+    selectedPfWage = "12% of Actual PF Wage"; 
 
 employer = [
   { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
@@ -138,6 +132,7 @@ profile:Profile = new Profile();
         (response) => {
           if(response.status){
             this.profile= response.object;
+            this.profile.currency = this.profile.currency ? this.profile.currency : 'INR';
             if(this.profile==null){
               this.profile = new Profile();
               console.log(this.profile);

@@ -59,7 +59,7 @@
                            <div class="col-md-6 mb-3">
                               <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                                  <div class="w-50 currency-types-border">
-                                    <p class="mb-0 font-13 fw-light">Employee Contribution</p>
+                                    <p class="mb-0 font-13 fw-light">Employee Contribution</p><span class="text-danger">*</span>
                                  </div>
                                  <div class="w-50">
                                     <div class="w-100">
@@ -69,7 +69,8 @@
                                        nzSize="large" 
                                        nzPlaceHolder="Select Employee Contribution"
                                        [(ngModel)]="epfDetail.employeeContribution" 
-                                        [disabled]="epfDetail.employerContribution === 1" 
+                                       [disabled]="epfDetail.employerContribution === 1" 
+                                       (ngModelChange)="onEmployeeContributionChange($event)"
                                         required>
                                         <nz-option 
                                         *ngFor="let pf of filteredEmployeeContributions" 
@@ -117,6 +118,7 @@
                               nzPlaceHolder="Select Employer Contribution"
                               [(ngModel)]="epfDetail.employerContribution" 
                               (ngModelChange)="selectedPfWage($event)"
+                              (ngModelChange)="onEmployeeContributionChange($event)"
                               required>
                               <nz-option 
                               *ngFor="let pf of filteredEmployerContributions" 
@@ -170,23 +172,23 @@
                         <div class="employee-calculation p-3 border-rounded-2 mb-4">
                            <h5 class="mb-4 font-14 fw-semibold text-black">Employee's Contribution</h5>
                            <div class="pb-3 border-bottom b d-flex alig-items-center justify-content-between mb-3">
-                              <p class="mb-0 font-13 fw-normal">EPF (12% of 20000)</p>
-                              <p class="mb-0 font-13 fw-normal">₹ 2400</p>
+                              <p class="mb-0 font-13 fw-normal">EPF (12% of {{pfWageValue}})</p>
+                              <p class="mb-0 font-13 fw-normal">₹ {{calculatedpfWageValue}}</p>
                            </div>
                            <h5 class="mb-4 font-14 fw-semibold text-black">Employer's Contribution</h5>
                            <div class="pb-4 border-bottom">
                               <div class="d-flex alig-items-center justify-content-between mb-3">
-                                 <p class="mb-0 font-13 fw-normal">EPS (8.33% of 20000 (Max of ₹ 15,000))</p>
-                                 <p class="mb-0 font-13 fw-normal">₹ 1250</p>
+                                 <p class="mb-0 font-13 fw-normal">EPS (8.33% of {{employerpfWageValue}} (Max of ₹ 15000))</p>
+                                 <p class="mb-0 font-13 fw-normal">₹ {{calculatedemployrepsWageValue}}</p>
                               </div>
                               <div class="d-flex alig-items-center justify-content-between">
-                                 <p class="mb-0 font-13 fw-normal">EPF (12% of 20000 - EPS)</p>
-                                 <p class="mb-0 font-13 fw-normal">₹ 1250</p>
+                                 <p class="mb-0 font-13 fw-normal">EPF (12% of {{employerpfWageValue}} - EPS)</p>
+                                 <p class="mb-0 font-13 fw-normal">₹ {{calculatedemployrepfWageValue}}</p>
                               </div>
                            </div>
                            <div class="pt-3 d-flex alig-items-center justify-content-between">
                               <p class="mb-0 font-14 fw-semibold">Total</p>
-                              <p class="mb-0 font-13 fw-normal">₹ 2400</p>
+                              <p class="mb-0 font-13 fw-normal">₹ {{totalValue}}</p>
                            </div>
                         </div>
                         <div>
@@ -532,7 +534,7 @@
           <div class="sample-calculation-data">
               <div class="sample-calculation p-3 border-rounded-2">
                   <h5 class="mb-2 font-14 text-primary fw-semibold">PF Contribution Settings</h5>
-                  <p class="mb-1 font-13 fw-light">Employer Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
+                  <p class="mb-1 font-13 fw-light">Employer Contribution:	<span class="fw-semibold"></span></p>
                   <p class="font-13 fw-light">Employee Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
               </div>
               <div class="sample-calculation p-3 border-rounded-2 pt-0">
