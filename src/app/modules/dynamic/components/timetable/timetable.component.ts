@@ -71,6 +71,7 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
     this.getHolidayForOrganization();
+    this.fetchAttendanceRequests();
 
 
     this.logInUserUuid = await this.rbacService.getUUID();
@@ -2132,5 +2133,24 @@ export class TimetableComponent implements OnInit {
     this.showFilter = flag;
   }
 
+
+
+  fetchAttendanceRequests(): void {
+
+    this.dataService.getAttendanceRequestsNew(
+      'CREATE', 
+      '2024-03-01', 
+      '2024-03-30', 
+      1, 
+      10
+    ).subscribe(
+      (response) => {
+        this.attendanceRequests = response.content;
+      },
+      (error) => {
+        console.error('Error fetching attendance requests:', error);
+      }
+    );
+  }
 
 }
