@@ -112,17 +112,39 @@ export class StatutoryComponent implements OnInit {
         this._payrollConfigurationService.saveEpfDetail(this.epfDetail).subscribe(
           (response) => {
             if(response.status){
-              this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+              this._helperService.showToast("EPF Details saved successfully", Key.TOAST_STATUS_SUCCESS);
             }else{
-              this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+              this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
-            this.saveLoader = false;
+            this.saveLoader = false;  
           },
           (error) => {
             this.saveLoader = false;
+            this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
           }
         );
       }
+
+
+
+      isLopChecked:boolean = true;
+      toggleLOPVisibility(): void {
+        console.log("toggled",this.isLopChecked)
+      }
+  
+      calculateValue(type: string, value: number): string {
+        if (this.isLopChecked) {
+          if (type === 'basic') {
+            return ` ${(value * 0.85).toFixed(2)}`; 
+          }
+          if (type === 'transport') {
+            return ` ${(value * 0.90).toFixed(2)}`; 
+          }
+        }
+        return ` ${value.toFixed(2)}`;
+      }
+
+      
 
 //TODO : add this method to a common service -> cmplexity of this method is high  (6) try belo commentred code with complexity 1
       private transformBooleansToNumbers(obj: any): any {
@@ -166,14 +188,15 @@ export class StatutoryComponent implements OnInit {
         this._payrollConfigurationService.saveEsiDetail(this.esiDetail.isCtcIncluded,this.esiDetail.esiNumber).subscribe(
           (response) => {
             if(response.status){
-              this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+              this._helperService.showToast("ESI Details saved successfully", Key.TOAST_STATUS_SUCCESS);
             }else{
-              this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+              this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
             this.saveLoader = false;
           },
           (error) => {
             this.saveLoader = false;
+            this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
           }
         );
       }
@@ -248,9 +271,9 @@ export class StatutoryComponent implements OnInit {
           this._payrollConfigurationService.savePtNumber(pt.professionalTaxNumber,Number(pt.id)).subscribe(
             (response) => {
               if(response.status){
-                this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+                this._helperService.showToast("Professional tax details updated successfully", Key.TOAST_STATUS_SUCCESS);
               }else{
-                this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+                this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
               }
               this.editingStates[state] = false;
               this.saveLoader = false;
@@ -258,6 +281,8 @@ export class StatutoryComponent implements OnInit {
             (error) => {
               this.editingStates[state] = false;
               this.saveLoader = false;
+              this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
+
             }
           );
 
@@ -301,14 +326,15 @@ export class StatutoryComponent implements OnInit {
           lwf.status = newStatus; 
           this._payrollConfigurationService.changeLwfStatus(address.id).subscribe(
             (response) => {
+              this._helperService.showToast("LWF status changed", Key.TOAST_STATUS_SUCCESS);
+
               this.loadingStates[state] = false;
             },
             (error) => {
               this.loadingStates[state] = false;
-
+              this._helperService.showToast("Error in updating Status", Key.TOAST_STATUS_ERROR);
             }
           );
-
         }
           
       }

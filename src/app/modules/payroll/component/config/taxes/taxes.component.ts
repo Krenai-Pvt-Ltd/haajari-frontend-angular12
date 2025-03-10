@@ -60,9 +60,9 @@ export class TaxesComponent implements OnInit {
     this._payrollConfigurationService. saveTaxDetail(this.taxDetail).subscribe(
       (response) => {
         if(response.status){
-          this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this._helperService.showToast("Your organization tax details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
         }else{
-          this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+          this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
         }
         this.saveLoader = false;
       //   setTimeout(() => {
@@ -71,6 +71,8 @@ export class TaxesComponent implements OnInit {
       },
       (error) => {
         this.saveLoader = false;
+        this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
+
       }
     );
   }

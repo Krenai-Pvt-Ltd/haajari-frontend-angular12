@@ -99,24 +99,6 @@ export class ConfigurationComponent implements OnInit {
       { "code": "INR", "name": "INR", "symbol": "₹" }, // Default selection
     ];
 
-
-    isLopChecked:boolean = true;
-    toggleLOPVisibility(): void {
-      console.log("toggled",this.isLopChecked)
-    }
-
-    calculateValue(type: string, value: number): string {
-      if (this.isLopChecked) {
-        if (type === 'basic') {
-          return ` ${(value * 0.85).toFixed(2)}`; 
-        }
-        if (type === 'transport') {
-          return ` ${(value * 0.90).toFixed(2)}`; 
-        }
-      }
-      return ` ${value.toFixed(2)}`;
-    }
-
     selectedPfWage = "12% of Actual PF Wage"; // Default selected value
 
 employer = [
@@ -175,9 +157,9 @@ profile:Profile = new Profile();
             this._payrollConfigurationService.saveOrganizationProfile(this.profile).subscribe(
               (response) => {
                 if(response.status){
-                  this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+                  this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
                 }else{
-                  this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+                  this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
                 }
                 this.saveLoader = false;
                 setTimeout(() => {
@@ -186,6 +168,8 @@ profile:Profile = new Profile();
               },
               (error) => {
                 this.saveLoader = false;
+                this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+
               }
             );
           }
