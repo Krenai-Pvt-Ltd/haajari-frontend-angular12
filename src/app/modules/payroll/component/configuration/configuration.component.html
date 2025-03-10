@@ -481,48 +481,6 @@
     </div>
 </div>
         
-    <!-- ModalTax Slabs for Assam start -->
-       <div  class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tax Slabs for {{selectedTaxSlab?.state}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="tax-slabs">
-            
-            <div class="modal-body">
-            <div class="tax-slabs">
-                <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold">{{selectedTaxSlab?.deductionFrequency}}</span></p>
-                </div>
-
-            <div class="table-responisve sample-tax-slabs-list mt-3">
-                <table class="table">
-                    <tbody>
-                        <tr >
-                            <th class="font-13" style="width:50%;">Monthly Gross Salary ( ₹ )</th>
-                            <th class="font-13" style="width:50%;">Monthly Tax Amount ( ₹ )</th>
-                        </tr>
-                        <tr *ngFor="let slab of selectedTaxSlab?.professionalTaxSlab">
-                            <td class="font-13">₹ {{slab.minAmount ?? 0}}-{{slab.maxAmount ?? 9999999}} </td>
-                            <td class="font-13">₹ {{slab.taxAmount}}</td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-    </div>
-        </div>
-  
-  </div>
-    </div>
-</div>
-    <!-- ModalTax Slabs for Assam end -->
 
     <!-- Add location modal start -->
         <div class="modal fade" id="addLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">

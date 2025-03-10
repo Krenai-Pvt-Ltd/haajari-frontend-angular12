@@ -5,7 +5,7 @@ import { EmployeeProvidentFund } from 'src/app/payroll-models/EmployeeProvidentF
 import { PfContributionRate } from 'src/app/payroll-models/PfContributioRate';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
-import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
+import { ProfessionalTax, ProfessionalTaxSlab } from 'src/app/payroll-models/ProfeessionalTax';
 import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
 import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
@@ -21,6 +21,9 @@ import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 export class StatutoryComponent implements OnInit {
 
   activeTab:any;
+  taxDataList: ProfessionalTax[] = []; // Full tax data list
+  selectedTaxSlabs: ProfessionalTaxSlab[] = []; // For selected state's slabs
+  selectedStateName: string = ''; 
 
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
@@ -144,7 +147,7 @@ export class StatutoryComponent implements OnInit {
         return ` ${value.toFixed(2)}`;
       }
 
-      
+
 
 //TODO : add this method to a common service -> cmplexity of this method is high  (6) try belo commentred code with complexity 1
       private transformBooleansToNumbers(obj: any): any {
@@ -204,12 +207,12 @@ export class StatutoryComponent implements OnInit {
       //************************           Professional Tax       ******************************** */
 
 
-      ptDetail:ProfessionalTax[] = new Array();
+      professionalTaxDetail:ProfessionalTax[] = new Array();
       getPtDetail(){
         this._payrollConfigurationService.getProfessionalTax().subscribe(
           (response) => {
             if(response.status){
-              this.ptDetail= response.object;
+              this.professionalTaxDetail= response.object;
             }
           },
           (error) => {
@@ -234,24 +237,16 @@ export class StatutoryComponent implements OnInit {
       }
 
       isTaxApplicable(state: string): boolean {
-        return this.ptDetail.some(pt => pt.state === state);
-      }
-
-      sendTaxSlab(state: string) {
-        const filteredTaxSlab = this.ptDetail.find(pt => pt.state === state);
-        if (filteredTaxSlab) {
-          this.taxSlabService.updateTaxSlab(filteredTaxSlab);
-        } else {
-        }
+        return this.professionalTaxDetail.some(pt => pt.state === state);
       }
 
       getPtNumberForState(state: string): string {
-        const pt = this.ptDetail.find(pt => pt.state === state);
+        const pt = this.professionalTaxDetail.find(pt => pt.state === state);
         return pt ? pt.professionalTaxNumber : '';
       }
     
       updatePtNumber(state: string, ptNumber: string): void {
-        const pt = this.ptDetail.find(pt => pt.state === state);
+        const pt = this.professionalTaxDetail.find(pt => pt.state === state);
         if (pt) {
           pt.professionalTaxNumber = ptNumber;
         }
@@ -266,7 +261,7 @@ export class StatutoryComponent implements OnInit {
 
       savePtNumber(state:string){
         this.saveLoader = true;
-        const pt = this.ptDetail.find(pt => pt.state === state);
+        const pt = this.professionalTaxDetail.find(pt => pt.state === state);
         if(pt){
           this._payrollConfigurationService.savePtNumber(pt.professionalTaxNumber,Number(pt.id)).subscribe(
             (response) => {
@@ -291,18 +286,23 @@ export class StatutoryComponent implements OnInit {
       }
 
 
+      viewTaxSlab(state: string){
+
+      }
+
+
 
 
       // ########################## Labour Welfare Fund #######################
 
 
-      lwfDetail:LabourWelfareFund[] = new Array();
+      labourWelfareFundDetail:LabourWelfareFund[] = new Array();
       loadingStates: { [key: string]: boolean } = {}; 
       getLwfDetail(){
         this._payrollConfigurationService.getLabourWelfareFund().subscribe(
           (response) => {
             if(response.status){
-              this.lwfDetail= response.object;
+              this.labourWelfareFundDetail= response.object;
               console.log(response);
             }
           },
@@ -312,13 +312,13 @@ export class StatutoryComponent implements OnInit {
         );
       }
       isFundApplicale(state: string): boolean {
-        return this.lwfDetail.some(pt => pt.state === state);
+        return this.labourWelfareFundDetail.some(pt => pt.state === state);
       }
 
     
 
       changeLwfStatus(isChecked:boolean,state:string){
-        const lwf = this.lwfDetail.find(pt => pt.state === state);
+        const lwf = this.labourWelfareFundDetail.find(pt => pt.state === state);
         const address = this.addressDetail.find(address => address.state === state)
         if(lwf && address){
           const newStatus = isChecked ? 11 : 12;
@@ -339,7 +339,7 @@ export class StatutoryComponent implements OnInit {
           
       }
       checkStatus(state:string): boolean {
-        const lwf = this.lwfDetail.find(pt => pt.state === state);
+        const lwf = this.labourWelfareFundDetail.find(pt => pt.state === state);
         return lwf ? lwf.status === 11 : false; 
       }
     
@@ -375,4 +375,10 @@ export class StatutoryComponent implements OnInit {
       return this.toDoStepList.every(step => step.completed);
     }
 
+
+    selectedProfessionalTax:ProfessionalTax = new ProfessionalTax();
+    viewSelectedSlab(professionalTax:ProfessionalTax){
+      this.selectedProfessionalTax = professionalTax;
+
+    }
 }

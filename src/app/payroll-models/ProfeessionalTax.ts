@@ -4,6 +4,7 @@ export class ProfessionalTax{
      state:string='';
      deductionFrequency:string='';
      professionalTaxSlab: ProfessionalTaxSlab[] = [];
+     taxApplicable:boolean = false;
 }
 
 export class ProfessionalTaxSlab{

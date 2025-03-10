@@ -5,4 +5,5 @@ export class LabourWelfareFund{
       employeeContribution:number=0;
       deductionFrequency:string='';
       status:number=0;
+      taxApplicable:boolean=false;
 }
