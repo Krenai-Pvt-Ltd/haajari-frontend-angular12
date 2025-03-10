@@ -150,10 +150,10 @@
         </div>
         </li>
       </ul>
-      <div class="d-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-3 position-relative">
 
 
-        <button class="btn p-0 text-black fw-semibold font-14 inbox-btn" (click)="routeToInbox()">
+        <button class="btn p-0 text-black fw-semibold font-14 inbox-btn  " (click)="routeToInbox()">
 
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
             <mask id="mask0_8356_292" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
@@ -164,9 +164,9 @@
             </g>
           </svg>
           My Inbox
-          <!-- <span class="active-notification" *ngIf="totalNewMailNotification>0"></span> -->
+          <span class="active-notification d-flex align-items-center justify-contet-center text-white font-11"*ngIf="totalNewMailNotification>0" >10</span>
         </button>
-        <span (click)="routeToEmployeeProfilePage()" class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white">
+        <span (click)="routeToEmployeeProfilePage()" class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white pointer">
           {{this.userInfo?.name?.charAt(0)  | uppercase}}
         </span>
 

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeaveManagementComponent } from './leave-management.component';
+import { BenefitDetailsComponent } from './benefit-details.component';
 
-describe('LeaveManagementComponent', () => {
-  let component: LeaveManagementComponent;
-  let fixture: ComponentFixture<LeaveManagementComponent>;
+describe('BenefitDetailsComponent', () => {
+  let component: BenefitDetailsComponent;
+  let fixture: ComponentFixture<BenefitDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LeaveManagementComponent ]
+      declarations: [ BenefitDetailsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LeaveManagementComponent);
+    fixture = TestBed.createComponent(BenefitDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

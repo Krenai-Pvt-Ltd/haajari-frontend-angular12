@@ -548,7 +548,9 @@ label {
 }
 
 .table td {
-  padding: 15px 15px !important;
+  padding: 15px 15px ;
+  position: relative;
+  overflow: visible !important;
 }
 
 .btnAction {
@@ -563,13 +565,14 @@ label {
   min-width: 12rem !important;
   padding: 7px !important;
   background-color: #fff !important;
+  line-height: 35px;
 }
 
-.actionMenuList .dropdown-item {
+/* .actionMenuList .dropdown-item {
   font-size: 15px !important;
   color: #333 !important;
   border-radius: 6px !important;
-}
+} */
 
 actionMenuList .dropdown-item i {
   margin-right: 5px !important;
@@ -601,17 +604,13 @@ actionMenuList .dropdown-item i {
 
 .stickyColThend,
 .stickyColTdend {
-  min-width: 150px;
+  min-width: fit-content !important;
   position: sticky;
   right: 0;
   top: 0;
-  z-index: 10;
+  /* z-index: 9; */
 }
 
-.stickyColTdend,
-.stickyColThend {
-  min-width: fit-content !important;
-}
 
 .stickyColTd::after,
 .stickyColTdend::after,
@@ -819,7 +818,7 @@ actionMenuList .dropdown-item i {
 .pagination-box {
   position: fixed;
   bottom: 0;
-  z-index: 9;
+  z-index: 99;
   left: 0px;
   padding-left: 270px !important;
 }

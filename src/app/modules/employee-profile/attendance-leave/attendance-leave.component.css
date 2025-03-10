@@ -355,6 +355,7 @@
     font-style: normal;
     font-weight: 500;
     text-align: left;
+    line-height: 20px;
 }
 
 .attendance-summery {
@@ -1209,12 +1210,7 @@ div[ngbTooltip] {
     border-collapse: collapse;
   }
   
-  .table th,
-  .table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+ 
   
   .table-light th {
     background-color: #f9f9f9;

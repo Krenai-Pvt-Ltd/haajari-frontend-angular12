@@ -939,7 +939,9 @@ private updateCurrentPageSelection() {
   clearModalData() {
     this.requestLeaveCloseModel1.nativeElement.click();
     this.updateToggle = false;
-
+    this.selectedStaffIdsUser = [];
+    this.allselected=false;
+    this.selectAllPages=false;
     this.leaveTemplateRequest = new LeaveTemplateRequest();
     this.leaveTemplateRequest.employeeTypeId = 0;
     this.leaveTemplateRequest.startDate = ''

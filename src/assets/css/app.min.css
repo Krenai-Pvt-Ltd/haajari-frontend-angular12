@@ -5722,6 +5722,7 @@ hr.hr-dashed {
   width: 48px;
   font-size: 18px;
   font-weight: 700;
+  object-fit: cover;
 }
 
 .thumb-lg {
@@ -9452,12 +9453,15 @@ display:block
   font-weight: 300;
   vertical-align: middle;
   font-size: 14px !important;
-  border-bottom: 1px solid #f1f1f1 !important;
+  border-bottom: 1px solid #f1f1f1;
   color: #000;
   padding: 15px;
   text-wrap: nowrap;
 }
-
+.table tbody tr:hover {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
 .error-spreter {
   height: 15px;
   border-right: 1px solid #d9d9d9;
@@ -9594,7 +9598,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   bottom: 0px;
   left: 0px;
   width: 100%;
-  z-index: 999;
+  z-index: 30;
   display: flex;
   justify-content: end;
   animation-duration: 1s;
@@ -9733,7 +9737,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .persnol-details {
   padding: 32px 25px;
   border-radius: 10px;
-  z-index: 999;
+  z-index: 10;
   position: relative;
   /* padding-top: 30px; */
 }
@@ -9852,7 +9856,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .shiftManagement {
   position: fixed;
-  bottom: 53px;
+  bottom: 68px;
   left: 0px;
   width: 100%;
   z-index: 999;
@@ -9898,6 +9902,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   color: var(--primary-color) !important;
   font-size: 16px;
   font-weight: 500;
+  height: 39px;
 }
 
 .nextBtn svg {

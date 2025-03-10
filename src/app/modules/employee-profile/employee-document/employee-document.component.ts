@@ -28,7 +28,6 @@ export class EmployeeDocumentComponent implements OnInit {
     debugger;
     this.docType = type;
     this.doc.documentType=type;
-    console.log('dc type------'+this.docType);
   }
 
 

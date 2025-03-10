@@ -1,3 +1,5 @@
+import { SubscriptionPlan } from "./SubscriptionPlan";
+
 export class OrganizationSubscriptionDetail{
 
     planName:string='';
@@ -8,5 +10,6 @@ export class OrganizationSubscriptionDetail{
     expired:boolean=false;
     custom:boolean=false;
     employeeQuota:number=0;
-    quotaUsed:number=0;;
+    quotaUsed:number=0;
+    plan!:SubscriptionPlan; 
 }

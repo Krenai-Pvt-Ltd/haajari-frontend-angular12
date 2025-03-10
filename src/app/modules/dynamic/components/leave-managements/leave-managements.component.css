@@ -114,51 +114,51 @@
   .wfh-leave {
     background-color: #d6e43b;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .week-off-leave {
     background-color: #eda367;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .casual-leave{
     background-color: #47539F;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .sick-leave{
     background-color: #327DD1;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .lop{
     background-color: #3C887C;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .maternity-leave{
     background-color: #5ECED8;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .paternity-leave{
     background-color: #4496AC;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
 
   .default-leave {
     background-color: #b6e4f1;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   .leave-count svg{
     width: 25px;
@@ -200,7 +200,7 @@
     padding: 15px 10px;
     color: #1C1B1F;
     border-right: 5px solid transparent;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     text-align: left;
     padding-left: 30px;
@@ -292,10 +292,21 @@
 .action-btn svg{
   width: 18px;
 }
-.actionMenuList {
+/* .actionMenuList {
     box-shadow: 0px 3px 12px -3px #1111111f;
     overflow: hidden;
     padding: 7px !important;
+} */
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
+}
+.actionMenuList .dropdown-item i {
+  margin-right: 5px;
+  font-size: 18px;
 }
 .actionMenuList svg{
     width: 18px;
@@ -336,8 +347,6 @@
     border: 1px solid #e6e7e9;
     border-radius: 2px;
     color: #4a4a4a;
-    font-size: 13px;
-    font-weight: 500;
     width: 100px;
 }
 .submitActionBtn {
@@ -455,10 +464,10 @@
 }
 
 
-.defaulter-employee img {
+/* .defaulter-employee img {
   width: 50px;
   border-radius: 50px;
-}
+} */
 .defaulter{
   background-color: #F9FAFB;
   padding: 15px;
@@ -573,12 +582,8 @@
 }
 
 .detail-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 15px;
   padding: 8px 12px;
   background-color: #f9f9f9;
-  border-radius: 6px;
 }
 
 .detail-item .label {
@@ -634,3 +639,4 @@
 .employee-table {
   min-height: 400px;
 }
+

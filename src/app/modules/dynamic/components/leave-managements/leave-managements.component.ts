@@ -129,11 +129,22 @@ organizationRegistrationDate: string = '';
   async ngOnInit() {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.filters.status = ['pending'];
-    this.applyFilters();
+
     // this.getLeaves(false,false);
     this.selectedDate = new Date();
 
+    this.dashboard();
+    this.requests();
+
+  }
+
+  requests(){
+    this.filters.status = ['pending'];
+    this.applyFilters();
+  }
+
+  dashboard() {
+    this.resetTabData();
     this.getOrganizationRegistrationDateMethodCall();
     this.calculateDateRange();
     this.setDefaultWeekTab();
@@ -141,11 +152,7 @@ organizationRegistrationDate: string = '';
     this.getDetailsForLeaveTeamOverview(this.tabName);
     this.getReportDetailsForLeaveTeamOverviewForHeatMap();
     this.getLeaveCategoryDetailsForLeaveTeamOverview();
-
-    this.resetTabData();
     this.fetchMaxLeavesUsers();
-    this.fetchMinLeavesUsers();
-    this.fetchUsersOnLeave();
   }
 
 
@@ -166,11 +173,14 @@ organizationRegistrationDate: string = '';
 
 
   mostDefaulter!: any;
+  isDefaulterLoading: boolean = false;
   fetchMaxLeavesUsers(): void {
     this.isLoaderLoading = true;
+    this.isDefaulterLoading = true;
     this.leaveService.getUsersWithMaximumLeaves(this.pageNumberDefaulter, this.itemOnPage).subscribe(
       response => {
         this.isLoaderLoading = false;
+        this.isDefaulterLoading = false;
         if (response.status) {
           this.maxLeavesUsers = [...this.maxLeavesUsers, ...response.object];
           this.totalMaxLeaves = response.totalItems;
@@ -186,6 +196,7 @@ organizationRegistrationDate: string = '';
       },
       err => {
         this.isLoaderLoading = false;
+        this.isDefaulterLoading = false;
       }
     );
   }
@@ -655,11 +666,13 @@ approveOrRejectLeaveCall(leaveId: number, operationString: string) {
 }
 
 
-getDayWiseLeaveStatus(leaveId: number) {
+selectedLeave: any = '';
+getDayWiseLeaveStatus(leave: any) {
   debugger
+  this.selectedLeave = leave;
   this.dayWiseLeaveStatusLoader = true;
   this.dayWiseLeaveStatus = [];
-  this.leaveService.getDayWiseLeaveStatus(leaveId).subscribe({
+  this.leaveService.getDayWiseLeaveStatus(leave.id).subscribe({
     next: (response: any) => {
      this.dayWiseLeaveStatus = response.object;
      console.log(response);
@@ -670,6 +683,19 @@ getDayWiseLeaveStatus(leaveId: number) {
       console.error('Failed to fetch approve/reject leaves:', error);
     },
   });
+}
+
+isBetweenStartAndEndDate(date: string): boolean {
+  const currentDate = new Date(date);
+  const startDate = new Date(this.selectedLeave.startDate);
+  const endDate = new Date(this.selectedLeave.endDate);
+
+  // Ensure dates are normalized to avoid time zone issues
+  currentDate.setHours(0, 0, 0, 0);
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
+
+  return currentDate >= startDate && currentDate <= endDate;
 }
 
 
@@ -1057,9 +1083,17 @@ onMonthChange(month: Date): void {
   public grid: ApexGrid = { show: false, padding: { top: 0, right: 0, bottom: 0, left: 0 } };
   public fill: ApexFill = {
     type: 'gradient',
-    gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] },
+    gradient: {
+      shade: 'light',
+      type: 'vertical', // Options: 'horizontal', 'diagonal', 'vertical'
+      shadeIntensity: 0.5,
+      opacityFrom: 0.9,
+      opacityTo: 0.3,
+      stops: [0, 50, 100]
+    }
   };
-
+  public colors: string[] = this.Constants.COLORS;
+  // ['#8989F5','#B8B8F9','#E7E7FD']; // You can add more colors
   public markers: ApexMarkers = { size: 5 };
   public title: ApexTitleSubtitle = {
     text: 'Daily Approved Leaves',
@@ -1196,10 +1230,10 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
           min: 0,
           max: 365,
           ranges: [
-            { from: 0, to: 0, color: "#f7fafa", name: "Very Low" },
-            { from: 1, to: 4, color: "#9ccabe", name: "Low" },
-            { from: 4, to: 8, color: "#478e7d", name: "Medium" },
-            { from: 8, to: 100, color: "#185143", name: "High" }
+            { from: 0, to: 0.5, color: "#eceff5", name: "Very Low" },
+            { from: 1, to: 4, color: "#b8b8f9", name: "Low" },
+            { from: 4, to: 8, color: "#8989f5", name: "Medium" },
+            { from: 8, to: 100, color: "#5a5af1", name: "High" }
           ]
         }
       },

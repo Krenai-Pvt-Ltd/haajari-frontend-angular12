@@ -1839,34 +1839,34 @@
                           </tbody> -->
                            <!-- empty notification end -->
                             <tbody>
-                                <tr>
-                                    <td class="fw-normal">Anchal Sharma</td>
+                                <tr *ngFor="let attendanceRequestHistory of attendanceRequestsHistory">
+                                    <td class="fw-normal">{{attendanceRequestHistory.userName}}</td>
                                     <td>
                                       <span>
-                                        <h5 class="mb-1 font-14 fw-semibold text-primary">Check-In</h5>
+                                        <h5 class="mb-1 font-14 fw-semibold text-primary">{{attendanceRequestHistory.requestType}}</h5>
                                         <p class="mb-0 font-12 fw-light">On 14 Oct, 2024 </p>
                                       </span>
                                     </td>
                                     <td>
                                       <span>
-                                        <h5 class="mb-1 font-13 fw-semibold">16-17 Jun, 23</h5>
+                                        <h5 class="mb-1 font-13 fw-semibold">{{attendanceRequestHistory.createdDate | date: 'yyyy-MM-dd'}}</h5>
                                         <p class="mb-0 font-12 fw-normal">Monday </p>
                                       </span>
                                    </td>
-                                    <td class="fw-semibold">Anchal Sharma</td>
+                                    <td class="fw-semibold">{{attendanceRequestHistory.managerName}}</td>
                                     <td class="font-13 fw-normal">10:00 AM</td>
                                     <td class="font-13 fw-normal">10:00 AM</td>
                                     <td class="fw-normal">
                                       <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                      [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                                      [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{attendanceRequestHistory.requestReason}}</span>
                                     </td>
                                     <td class="fw-normal">
                                       <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                      [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                                      [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{attendanceRequestHistory.requestReason}}</span>
                                     </td>
                                     <td>
-                                        <span class="text-success fw-semibold">APPROVED</span>
-                                        <p class="mb-0 font-12 fw-light">By: Sam Michael  </p>
+                                        <span class="text-success fw-semibold">{{attendanceRequestHistory.attendanceStatus}}</span>
+                                        <p class="mb-0 font-12 fw-light">By:  {{attendanceRequestHistory.managerName}} </p>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -1916,7 +1916,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                   <td class="fw-normal">Rohit Chaturvedi</td>
                                   <td>
                                     <span>
@@ -2068,7 +2068,7 @@
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> -->
                             </tbody>
                         </table>
 
@@ -2237,170 +2237,35 @@
                             </tr>
                           </tbody> -->
                            <!-- empty notification end -->
-                            <tbody>
-                                <tr>
-                                    <td class="fw-normal">Anchal Sharma</td>
-                                    <td>
-                                      <span>
-                                        <h5 class="mb-1 font-13 fw-semibold">16-17 Jun, 23</h5>
-                                        <p class="mb-0 font-12 fw-normal">Monday </p>
-                                      </span>
-                                   </td>
-                                    <td class="fw-semibold">Anchal Sharma</td>
-                                    <td class="font-13 fw-normal">10:00 AM</td>
-                                    <td class="font-13 fw-normal">10:00 AM</td>
-                                    <td class="fw-normal">
-                                      <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                      [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
-                                    </td>
-                                    <td class="fw-normal">
-                                      <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                      [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
-                                    </td>
-                                    <td>
-                                        <span class="text-success fw-semibold">APPROVED</span>
-                                        <p class="mb-0 font-12 fw-light">By: Sam Michael  </p>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu actionMenuList">
-                                                
-                                                    <li>
-                                                        <a class="dropdown-item">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                              <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                              <rect x="0.374023" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                              </mask>
-                                                              <g mask="url(#mask0_8226_22308)">
-                                                              <path d="M9.92386 18.1534L4.58936 12.8189L5.65836 11.7496L9.92386 16.0151L19.0894 6.84961L20.1584 7.91886L9.92386 18.1534Z" fill="#1C1B1F"/>
-                                                              </g>
-                                                            </svg>
-                                                            Approve </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item">
-                                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                            <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                            <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                            </mask>
-                                                            <g mask="url(#mask0_8226_22314)">
-                                                            <path d="M6.6665 19.1542L5.56885 18.1004L11.4022 12.5004L5.56885 6.90043L6.6665 5.84668L12.4998 11.4467L18.3332 5.84668L19.4308 6.90043L13.5975 12.5004L19.4308 18.1004L18.3332 19.1542L12.4998 13.5542L6.6665 19.1542Z" fill="#1C1B1F"/>
-                                                            </g>
-                                                            </svg>
-                                                            Reject </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attendanceRequest">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                              <mask id="mask0_8226_22319" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                              <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                              </mask>
-                                                              <g mask="url(#mask0_8226_22319)">
-                                                              <path d="M12.0023 16.077C13.1355 16.077 14.0979 15.6804 14.8896 14.8872C15.6812 14.0941 16.0771 13.1309 16.0771 11.9978C16.0771 10.8646 15.6805 9.90217 14.8873 9.1105C14.0942 8.31883 13.131 7.923 11.9978 7.923C10.8647 7.923 9.90224 8.31958 9.11058 9.11275C8.31891 9.90592 7.92307 10.8691 7.92307 12.0023C7.92307 13.1354 8.31966 14.0978 9.11282 14.8895C9.90599 15.6812 10.8692 16.077 12.0023 16.077ZM12.0001 14.7C11.2501 14.7 10.6126 14.4375 10.0876 13.9125C9.56258 13.3875 9.30007 12.75 9.30007 12C9.30007 11.25 9.56258 10.6125 10.0876 10.0875C10.6126 9.5625 11.2501 9.3 12.0001 9.3C12.7501 9.3 13.3876 9.5625 13.9126 10.0875C14.4376 10.6125 14.7001 11.25 14.7001 12C14.7001 12.75 14.4376 13.3875 13.9126 13.9125C13.3876 14.4375 12.7501 14.7 12.0001 14.7ZM12.0013 19C9.70182 19 7.60657 18.3657 5.71557 17.097C3.82457 15.8285 2.43224 14.1295 1.53857 12C2.43224 9.8705 3.82407 8.1715 5.71407 6.903C7.60424 5.63433 9.69916 5 11.9988 5C14.2983 5 16.3936 5.63433 18.2846 6.903C20.1756 8.1715 21.5679 9.8705 22.4616 12C21.5679 14.1295 20.1761 15.8285 18.2861 17.097C16.3959 18.3657 14.301 19 12.0013 19ZM12.0001 17.5C13.8834 17.5 15.6126 17.0042 17.1876 16.0125C18.7626 15.0208 19.9667 13.6833 20.8001 12C19.9667 10.3167 18.7626 8.97917 17.1876 7.9875C15.6126 6.99583 13.8834 6.5 12.0001 6.5C10.1167 6.5 8.38757 6.99583 6.81257 7.9875C5.23757 8.97917 4.03341 10.3167 3.20007 12C4.03341 13.6833 5.23757 15.0208 6.81257 16.0125C8.38757 17.0042 10.1167 17.5 12.0001 17.5Z" fill="#1C1B1F"/>
-                                                              </g>
-                                                            </svg>
-                                                            View request </a>
-                                                    </li>
-                                                
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                  <td class="fw-normal">Rohit Chaturvedi</td>
-                                  <td>
-                                    <span>
-                                      <h5 class="mb-1 font-13 fw-semibold">16-17 Jun, 23</h5>
-                                      <p class="mb-0 font-12 fw-normal">Monday </p>
-                                    </span>
-                                 </td>
-                                  <td class="fw-semibold">Rohit Chaturvedi</td>
-                                  <td class="font-13 fw-normal">10:00 AM</td>
-                                  <td class="font-13 fw-normal">10:00 AM</td>
-                                  <td class="fw-normal">
-                                    <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
-                                  </td>
-                                  <td class="fw-normal">
-                                    <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
-                                  </td>
-                                  <td>
-                                      <span class="text-danger fw-semibold">REJECTED</span>
-                                      <p class="mb-0 font-12 fw-light">By: Sam Michael  </p>
-                                  </td>
-                                  <td>
-                                      <div class="dropdown">
-                                          <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                              <i class="bi bi-three-dots-vertical"></i>
-                                          </button>
-                                          <div class="dropdown-menu actionMenuList">
-                                              
-                                                  <li>
-                                                      <a class="dropdown-item">
-                                                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                            <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                            <rect x="0.374023" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                            </mask>
-                                                            <g mask="url(#mask0_8226_22308)">
-                                                            <path d="M9.92386 18.1534L4.58936 12.8189L5.65836 11.7496L9.92386 16.0151L19.0894 6.84961L20.1584 7.91886L9.92386 18.1534Z" fill="#1C1B1F"/>
-                                                            </g>
-                                                          </svg>
-                                                          Approve </a>
-                                                  </li>
-                                                  <li>
-                                                      <a class="dropdown-item">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                          <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                          <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                          </mask>
-                                                          <g mask="url(#mask0_8226_22314)">
-                                                          <path d="M6.6665 19.1542L5.56885 18.1004L11.4022 12.5004L5.56885 6.90043L6.6665 5.84668L12.4998 11.4467L18.3332 5.84668L19.4308 6.90043L13.5975 12.5004L19.4308 18.1004L18.3332 19.1542L12.4998 13.5542L6.6665 19.1542Z" fill="#1C1B1F"/>
-                                                          </g>
-                                                          </svg>
-                                                          Reject </a>
-                                                  </li>
-                                                  <li>
-                                                      <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attendanceRequest">
-                                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                            <mask id="mask0_8226_22319" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                            <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                            </mask>
-                                                            <g mask="url(#mask0_8226_22319)">
-                                                            <path d="M12.0023 16.077C13.1355 16.077 14.0979 15.6804 14.8896 14.8872C15.6812 14.0941 16.0771 13.1309 16.0771 11.9978C16.0771 10.8646 15.6805 9.90217 14.8873 9.1105C14.0942 8.31883 13.131 7.923 11.9978 7.923C10.8647 7.923 9.90224 8.31958 9.11058 9.11275C8.31891 9.90592 7.92307 10.8691 7.92307 12.0023C7.92307 13.1354 8.31966 14.0978 9.11282 14.8895C9.90599 15.6812 10.8692 16.077 12.0023 16.077ZM12.0001 14.7C11.2501 14.7 10.6126 14.4375 10.0876 13.9125C9.56258 13.3875 9.30007 12.75 9.30007 12C9.30007 11.25 9.56258 10.6125 10.0876 10.0875C10.6126 9.5625 11.2501 9.3 12.0001 9.3C12.7501 9.3 13.3876 9.5625 13.9126 10.0875C14.4376 10.6125 14.7001 11.25 14.7001 12C14.7001 12.75 14.4376 13.3875 13.9126 13.9125C13.3876 14.4375 12.7501 14.7 12.0001 14.7ZM12.0013 19C9.70182 19 7.60657 18.3657 5.71557 17.097C3.82457 15.8285 2.43224 14.1295 1.53857 12C2.43224 9.8705 3.82407 8.1715 5.71407 6.903C7.60424 5.63433 9.69916 5 11.9988 5C14.2983 5 16.3936 5.63433 18.2846 6.903C20.1756 8.1715 21.5679 9.8705 22.4616 12C21.5679 14.1295 20.1761 15.8285 18.2861 17.097C16.3959 18.3657 14.301 19 12.0013 19ZM12.0001 17.5C13.8834 17.5 15.6126 17.0042 17.1876 16.0125C18.7626 15.0208 19.9667 13.6833 20.8001 12C19.9667 10.3167 18.7626 8.97917 17.1876 7.9875C15.6126 6.99583 13.8834 6.5 12.0001 6.5C10.1167 6.5 8.38757 6.99583 6.81257 7.9875C5.23757 8.97917 4.03341 10.3167 3.20007 12C4.03341 13.6833 5.23757 15.0208 6.81257 16.0125C8.38757 17.0042 10.1167 17.5 12.0001 17.5Z" fill="#1C1B1F"/>
-                                                            </g>
-                                                          </svg>
-                                                          View request </a>
-                                                  </li>
-                                              
-                                          </div>
-                                      </div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                <td class="fw-normal">Pushpendra</td>
+                           <tbody>
+                            <tr *ngFor="let attendanceRequestHistory of attendanceRequestsHistory">
+                                <td class="fw-normal">{{attendanceRequestHistory.userName}}</td>
                                 <td>
                                   <span>
-                                    <h5 class="mb-1 font-13 fw-semibold">16-17 Jun, 23</h5>
+                                    <h5 class="mb-1 font-14 fw-semibold text-primary">{{attendanceRequestHistory.requestType}}</h5>
+                                    <p class="mb-0 font-12 fw-light">On 14 Oct, 2024 </p>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <h5 class="mb-1 font-13 fw-semibold">{{attendanceRequestHistory.createdDate | date: 'yyyy-MM-dd'}}</h5>
                                     <p class="mb-0 font-12 fw-normal">Monday </p>
                                   </span>
                                </td>
-                                <td class="fw-semibold">Pushpendra</td>
+                                <td class="fw-semibold">{{attendanceRequestHistory.managerName}}</td>
                                 <td class="font-13 fw-normal">10:00 AM</td>
                                 <td class="font-13 fw-normal">10:00 AM</td>
                                 <td class="fw-normal">
                                   <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                  [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                                  [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{attendanceRequestHistory.requestReason}}</span>
                                 </td>
                                 <td class="fw-normal">
                                   <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
-                                  [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                                  [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{attendanceRequestHistory.requestReason}}</span>
                                 </td>
                                 <td>
-                                    <span class="text-primary fw-semibold">PENDING</span>
+                                    <span class="text-success fw-semibold">{{attendanceRequestHistory.attendanceStatus}}</span>
+                                    <p class="mb-0 font-12 fw-light">By:  {{attendanceRequestHistory.managerName}} </p>
                                 </td>
                                 <td>
                                     <div class="dropdown">
@@ -2450,7 +2315,160 @@
                                     </div>
                                 </td>
                             </tr>
-                            </tbody>
+                            <!-- <tr>
+                              <td class="fw-normal">Rohit Chaturvedi</td>
+                              <td>
+                                <span>
+                                  <h5 class="mb-1 font-14 fw-semibold text-primary">Check-Out</h5>
+                                  <p class="mb-0 font-12 fw-light">On 14 Oct, 2024 </p>
+                                </span>
+                              </td>
+                              <td>
+                                <span>
+                                  <h5 class="mb-1 font-13 fw-semibold">16-17 Jun, 23</h5>
+                                  <p class="mb-0 font-12 fw-normal">Monday </p>
+                                </span>
+                             </td>
+                              <td class="fw-semibold">Rohit Chaturvedi</td>
+                              <td class="font-13 fw-normal">10:00 AM</td>
+                              <td class="font-13 fw-normal">10:00 AM</td>
+                              <td class="fw-normal">
+                                <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                              </td>
+                              <td class="fw-normal">
+                                <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                                [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                              </td>
+                              <td>
+                                  <span class="text-danger fw-semibold">REJECTED</span>
+                                  <p class="mb-0 font-12 fw-light">By: Sam Michael  </p>
+                              </td>
+                              <td>
+                                  <div class="dropdown">
+                                      <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                          <i class="bi bi-three-dots-vertical"></i>
+                                      </button>
+                                      <div class="dropdown-menu actionMenuList">
+                                          
+                                              <li>
+                                                  <a class="dropdown-item">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                                        <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                                        <rect x="0.374023" y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_8226_22308)">
+                                                        <path d="M9.92386 18.1534L4.58936 12.8189L5.65836 11.7496L9.92386 16.0151L19.0894 6.84961L20.1584 7.91886L9.92386 18.1534Z" fill="#1C1B1F"/>
+                                                        </g>
+                                                      </svg>
+                                                      Approve </a>
+                                              </li>
+                                              <li>
+                                                  <a class="dropdown-item">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                                      <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                                      <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
+                                                      </mask>
+                                                      <g mask="url(#mask0_8226_22314)">
+                                                      <path d="M6.6665 19.1542L5.56885 18.1004L11.4022 12.5004L5.56885 6.90043L6.6665 5.84668L12.4998 11.4467L18.3332 5.84668L19.4308 6.90043L13.5975 12.5004L19.4308 18.1004L18.3332 19.1542L12.4998 13.5542L6.6665 19.1542Z" fill="#1C1B1F"/>
+                                                      </g>
+                                                      </svg>
+                                                      Reject </a>
+                                              </li>
+                                              <li>
+                                                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attendanceRequest">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                        <mask id="mask0_8226_22319" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                                        <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                        </mask>
+                                                        <g mask="url(#mask0_8226_22319)">
+                                                        <path d="M12.0023 16.077C13.1355 16.077 14.0979 15.6804 14.8896 14.8872C15.6812 14.0941 16.0771 13.1309 16.0771 11.9978C16.0771 10.8646 15.6805 9.90217 14.8873 9.1105C14.0942 8.31883 13.131 7.923 11.9978 7.923C10.8647 7.923 9.90224 8.31958 9.11058 9.11275C8.31891 9.90592 7.92307 10.8691 7.92307 12.0023C7.92307 13.1354 8.31966 14.0978 9.11282 14.8895C9.90599 15.6812 10.8692 16.077 12.0023 16.077ZM12.0001 14.7C11.2501 14.7 10.6126 14.4375 10.0876 13.9125C9.56258 13.3875 9.30007 12.75 9.30007 12C9.30007 11.25 9.56258 10.6125 10.0876 10.0875C10.6126 9.5625 11.2501 9.3 12.0001 9.3C12.7501 9.3 13.3876 9.5625 13.9126 10.0875C14.4376 10.6125 14.7001 11.25 14.7001 12C14.7001 12.75 14.4376 13.3875 13.9126 13.9125C13.3876 14.4375 12.7501 14.7 12.0001 14.7ZM12.0013 19C9.70182 19 7.60657 18.3657 5.71557 17.097C3.82457 15.8285 2.43224 14.1295 1.53857 12C2.43224 9.8705 3.82407 8.1715 5.71407 6.903C7.60424 5.63433 9.69916 5 11.9988 5C14.2983 5 16.3936 5.63433 18.2846 6.903C20.1756 8.1715 21.5679 9.8705 22.4616 12C21.5679 14.1295 20.1761 15.8285 18.2861 17.097C16.3959 18.3657 14.301 19 12.0013 19ZM12.0001 17.5C13.8834 17.5 15.6126 17.0042 17.1876 16.0125C18.7626 15.0208 19.9667 13.6833 20.8001 12C19.9667 10.3167 18.7626 8.97917 17.1876 7.9875C15.6126 6.99583 13.8834 6.5 12.0001 6.5C10.1167 6.5 8.38757 6.99583 6.81257 7.9875C5.23757 8.97917 4.03341 10.3167 3.20007 12C4.03341 13.6833 5.23757 15.0208 6.81257 16.0125C8.38757 17.0042 10.1167 17.5 12.0001 17.5Z" fill="#1C1B1F"/>
+                                                        </g>
+                                                      </svg>
+                                                      View request </a>
+                                              </li>
+                                          
+                                      </div>
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr>
+                            <td class="fw-normal">Pushpendra</td>
+                            <td>
+                              <span>
+                                <h5 class="mb-1 font-14 fw-semibold text-primary">Break Time</h5>
+                                <p class="mb-0 font-12 fw-light">On 14 Oct, 2024 </p>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <h5 class="mb-1 font-13 fw-semibold">16-17 Jun, 23</h5>
+                                <p class="mb-0 font-12 fw-normal">Monday </p>
+                              </span>
+                           </td>
+                            <td class="fw-semibold">Pushpendra</td>
+                            <td class="font-13 fw-normal">10:00 AM</td>
+                            <td class="font-13 fw-normal">10:00 AM</td>
+                            <td class="fw-normal">
+                              <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                              [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                            </td>
+                            <td class="fw-normal">
+                              <span class="fw-normal font-13 white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]=""
+                              [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">Lorem ipsum dolor sit amet consectetur adipiscing elit Lorem ipsum dolor sit amet consectetur adipiscing elit</span>
+                            </td>
+                            <td>
+                                <span class="text-primary fw-semibold">PENDING</span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu actionMenuList">
+                                        
+                                            <li>
+                                                <a class="dropdown-item">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                                      <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                                      <rect x="0.374023" y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                      </mask>
+                                                      <g mask="url(#mask0_8226_22308)">
+                                                      <path d="M9.92386 18.1534L4.58936 12.8189L5.65836 11.7496L9.92386 16.0151L19.0894 6.84961L20.1584 7.91886L9.92386 18.1534Z" fill="#1C1B1F"/>
+                                                      </g>
+                                                    </svg>
+                                                    Approve </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                                    <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                                    <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
+                                                    </mask>
+                                                    <g mask="url(#mask0_8226_22314)">
+                                                    <path d="M6.6665 19.1542L5.56885 18.1004L11.4022 12.5004L5.56885 6.90043L6.6665 5.84668L12.4998 11.4467L18.3332 5.84668L19.4308 6.90043L13.5975 12.5004L19.4308 18.1004L18.3332 19.1542L12.4998 13.5542L6.6665 19.1542Z" fill="#1C1B1F"/>
+                                                    </g>
+                                                    </svg>
+                                                    Reject </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attendanceRequest">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                      <mask id="mask0_8226_22319" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                                      <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                      </mask>
+                                                      <g mask="url(#mask0_8226_22319)">
+                                                      <path d="M12.0023 16.077C13.1355 16.077 14.0979 15.6804 14.8896 14.8872C15.6812 14.0941 16.0771 13.1309 16.0771 11.9978C16.0771 10.8646 15.6805 9.90217 14.8873 9.1105C14.0942 8.31883 13.131 7.923 11.9978 7.923C10.8647 7.923 9.90224 8.31958 9.11058 9.11275C8.31891 9.90592 7.92307 10.8691 7.92307 12.0023C7.92307 13.1354 8.31966 14.0978 9.11282 14.8895C9.90599 15.6812 10.8692 16.077 12.0023 16.077ZM12.0001 14.7C11.2501 14.7 10.6126 14.4375 10.0876 13.9125C9.56258 13.3875 9.30007 12.75 9.30007 12C9.30007 11.25 9.56258 10.6125 10.0876 10.0875C10.6126 9.5625 11.2501 9.3 12.0001 9.3C12.7501 9.3 13.3876 9.5625 13.9126 10.0875C14.4376 10.6125 14.7001 11.25 14.7001 12C14.7001 12.75 14.4376 13.3875 13.9126 13.9125C13.3876 14.4375 12.7501 14.7 12.0001 14.7ZM12.0013 19C9.70182 19 7.60657 18.3657 5.71557 17.097C3.82457 15.8285 2.43224 14.1295 1.53857 12C2.43224 9.8705 3.82407 8.1715 5.71407 6.903C7.60424 5.63433 9.69916 5 11.9988 5C14.2983 5 16.3936 5.63433 18.2846 6.903C20.1756 8.1715 21.5679 9.8705 22.4616 12C21.5679 14.1295 20.1761 15.8285 18.2861 17.097C16.3959 18.3657 14.301 19 12.0013 19ZM12.0001 17.5C13.8834 17.5 15.6126 17.0042 17.1876 16.0125C18.7626 15.0208 19.9667 13.6833 20.8001 12C19.9667 10.3167 18.7626 8.97917 17.1876 7.9875C15.6126 6.99583 13.8834 6.5 12.0001 6.5C10.1167 6.5 8.38757 6.99583 6.81257 7.9875C5.23757 8.97917 4.03341 10.3167 3.20007 12C4.03341 13.6833 5.23757 15.0208 6.81257 16.0125C8.38757 17.0042 10.1167 17.5 12.0001 17.5Z" fill="#1C1B1F"/>
+                                                      </g>
+                                                    </svg>
+                                                    View request </a>
+                                            </li>
+                                        
+                                    </div>
+                                </div>
+                            </td>
+                        </tr> -->
+                        </tbody>
                         </table>
 
                         <div class="d-flex align-items-center justify-content-between w-100 pagination-box p-3 bg-white border-top">

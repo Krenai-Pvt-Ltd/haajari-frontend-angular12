@@ -8,6 +8,7 @@ import { Routes } from "../constant/Routes";
 import { DatabaseHelper } from "../models/DatabaseHelper";
 import { filter } from "rxjs/operators";
 import { RoleBasedAccessControlService } from "./role-based-access-control.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -115,47 +116,47 @@ export class SubscriptionPlanService {
     return true;
   }
 
-  getActiveUserCount() {
+  getActiveUserCount() : Observable<any>{
     return this._httpClient.get<any>(this._key.base_url + this._key.get_active_user_count);
   }
 
 
-  verifyCoupon(couponCode:string, amount:number){
+  verifyCoupon(couponCode:string, amount:number): Observable<any>{
     const params = new HttpParams()
       .set('couponCode', couponCode)
       .set('amount', amount)
     return this._httpClient.get<any>(this._key.base_url + this._key.verify_coupon, {params})
   }
 
-  getPlans(){
+  getPlans(): Observable<any>{
     return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plans);
   }
 
 
-  getCurrentPlan(){
+  getCurrentPlan(): Observable<any>{
     return this._httpClient.get<any>(this._key.base_url + this._key.get_current_subscription_plan);
   }
 
-  getOrgSubsPlanDetail(){
+  getOrgSubsPlanDetail(): Observable<any>{
     return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plan_light_detail);
   }
 
-  verifyGstNumber(gstNumber:string) {
+  verifyGstNumber(gstNumber:string) : Observable<any>{
     const params = new HttpParams()
     .set('gstNumber', gstNumber)
     return this._httpClient.get<any>(this._key.base_url + this._key.verify_gst_number,{params});
   }
 
-  getRecentPaidInvoiceDetail(){
+  getRecentPaidInvoiceDetail(): Observable<any>{
     return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_payment_detail);
   }
 
 
-  isSubscrPlanExpired() {
+  isSubscrPlanExpired() : Observable<any>{
     return this._httpClient.get<any>(this._key.base_url + this._key.is_plan_expired);
   }
 
-  getInvoices(databaseHelper:DatabaseHelper,statusIds:number[]){
+  getInvoices(databaseHelper:DatabaseHelper,statusIds:number[]): Observable<any>{
     const params = new HttpParams()
       .set('itemPerPage', databaseHelper.itemPerPage)
       .set('currentPage', databaseHelper.currentPage)
@@ -165,7 +166,7 @@ export class SubscriptionPlanService {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params});
   }
 
-  downloadInvoice(invoiceId:number){
+  downloadInvoice(invoiceId:number): Observable<any>{
     const params = new HttpParams()
     .set('invoiceId', invoiceId)
   return this._httpClient.get<any>(this._key.base_url + this._key.download_invoice, {params});

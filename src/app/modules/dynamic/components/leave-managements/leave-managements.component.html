@@ -5,12 +5,12 @@
            <div class="col-md-12 mt-3">
             <ul id="pills-tab" role="tablist" class="nav nav-pills ">
                 <li class="nav-item">
-                  <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab"
+                  <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab" (click)="dashboard()"
                     aria-controls="pills-dashboard" aria-selected="false"
                     class="nav-link active">Dashboard</a>
                 </li>
                 <li class="nav-item d-flex align-items-center">
-                  <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab"
+                  <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab" (click)="requests()"
                      aria-controls="pills-request" aria-selected="false"
                     class="nav-link">Leave Request </a>
                     <!-- {{pendingLeaveCount}} -->
@@ -58,7 +58,7 @@
                                         </span>
                                      </div>
                                 </div>
-                                <div class="mt-3 report-chart" style="height: 465px;">
+                                <div class="mt-3 report-chart" style="height: 431px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-14 fw-semibold">Report</h5>
                                         <div>
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <h5 class="font-18 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} 
+                                        <h5 class="font-18 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}
                                           <span class="font-12 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
                                         <div *ngIf="isChartInitialized; else loading" class="p-3">
                                             <apx-chart
@@ -81,7 +81,7 @@
                                               [grid]="grid"
                                               [fill]="fill"
                                               [stroke]="{width:1.5}"
-
+                                              [colors]="colors"
                                             ></apx-chart>
                                           </div>
 
@@ -113,13 +113,13 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="dashboard-report">
-                                <div class="report-chart" style="    height: 540px;">
+                                <div class="report-chart" style="    height: 505px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
-                                        <h5 class="mb-0 font-14 fw-semibold">Months Pattern</h5>
-                                        <button class="btn p-0 font-12 text-black fw-semibold">Summary</button>
+                                        <h5 class="mb-0 font-13 fw-semibold">Months Pattern</h5>
+                                        <!-- <button class="btn p-0 font-11 text-black fw-semibold">Summary</button> -->
                                     </div>
                                     <div class="p-3">
-                                        <div class="d-flex align-items-center justify-content-between mt-2 mb-4 border-bottom pb-4">
+                                        <div class="d-flex align-items-center justify-content-between mt-2 border-bottom pb-4">
 
                                             <div *ngIf = "topTwoLeaveDaysFormatted">
                                             <h5 class="mb-1 font-14 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
@@ -128,7 +128,7 @@
                                             <div *ngIf = "!topTwoLeaveDaysFormatted">
                                                 <h5 class="mb-1 font-14 fw-normal"> {{ topTwoLeaveDaysFormatted }}</h5>
                                               </div>
-                                            <h5 class="font-12 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
+                                            <h5 class="font-11 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
                                         </div>
                                         <!-- <img src="assets/images/months-report.png" class="w-100 text-center"> -->
                                         <apx-chart
@@ -152,32 +152,32 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="dashboard-report">
-                                <div class="report-chart" style="height: 540px;">
+                                <div class="report-chart" style="height: 505px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-14 fw-semibold">Categories</h5>
-                              
+
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-2">
                                             <div>
                                                 <h5 class="font-18 mb-1 fw-semibold">{{leaveCategoryDetails?.length || 0}} <span class="font-13 fw-semibold" style="color: #444;">Leave Types</span></h5>
-                                            <p class="mb-0 font-12">Defined By Your organization</p>
+                                            <p class="mb-0 font-11">Defined By Your organization</p>
                                             </div>
-                                           
+
                                         </div>
-                                        <div class="leave-count" *ngIf="leaveCategoryDetails?.length > 0 && !leaveCategoryDetailsLoader">
+                                        <div class="leave-count mt-3" *ngIf="leaveCategoryDetails?.length > 0 && !leaveCategoryDetailsLoader">
                                             <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3" *ngFor ="let deets of leaveCategoryDetails">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span [ngClass]="getLeaveClass(deets.leaveCategoryName)"></span>
-                                                   <p class="mb-0 text-black fw-semibold font-13">{{deets?.leaveCategoryName}} </p>
+                                                   <p class="mb-0 text-black fw-semibold font-12">{{deets?.leaveCategoryName}} </p>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <p class="mb-0 text-optional font-12"><span class="fw-semibold text-black">{{deets?.totalApprovedleaves}}</span> Approved Leaves</p>
-                                               
+
                                                 </div>
 
                                             </div>
-                                            
+
                                         </div>
                                         <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveCategoryDetails?.length == 0 && !leaveCategoryDetailsLoader">
                                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -273,9 +273,9 @@
                                                     <div *ngIf="leaveTeamOverviewResponse.length > 0 ">
                                                       <div class="d-flex align-items-center justify-content-between mb-3" *ngFor="let log of leaveTeamOverviewResponse">
                                                         <div class="d-flex align-items-center gap-2">
-                                                          <img [src]="log?.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
+                                                          <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="log?.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
                                                           <div>
-                                                            <h5 class="mb-1 font-13 fw-semibold regular-data" (click)="routeToUserProfile(log?.userUuid)">
+                                                            <h5 class="mb-1 font-13 fw-semibold regular-data pointer" (click)="routeToUserProfile(log?.userUuid)">
                                                               {{ log?.name }} - <span class="mb-1 font-12"> {{ log?.date | date: 'd MMMM, y' || "N/A" }}</span>
                                                             </h5>
                                                             <p class="mb-0 fw-light font-12">{{ log?.email || 'N/A' }} | <span class="text-primary fw-normal">{{ log?.position }}</span></p>
@@ -313,7 +313,7 @@
                                                       </div>
                                                       <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of usersOnLeave">
                                                         <div class="d-flex align-items-center gap-2">
-                                                          <img [src]="log.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
+                                                          <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="log.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
                                                           <div>
                                                             <h5 class="mb-1 font-14 fw-semibold regular-data" (click)="routeToUserProfile(log?.uuid)">{{ log?.name }}</h5>
                                                             <p class="mb-0 fw-light">{{ log?.position || 'N/A' }} | <span class="text-danger fw-normal">On Leave</span></p>
@@ -349,7 +349,7 @@
                                                       </div>
                                                       <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of maxLeavesUsers">
                                                         <div class="d-flex align-items-center gap-2">
-                                                          <img [src]="log.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
+                                                          <img onerror="this.src='./assets/images/broken-image-icon.jpg';"  [src]="log.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
                                                           <div>
                                                             <h5 class="mb-1 font-14 fw-semibold regular-data" (click)="routeToUserProfile(log?.uuid)">{{ log?.name }}</h5>
                                                             <p class="mb-0 fw-light font-13">{{ log?.position || 'N/A' }}</p>
@@ -390,7 +390,7 @@
                                                       </div>
                                                       <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" *ngFor="let log of minLeavesUsers">
                                                         <div class="d-flex align-items-center gap-2">
-                                                          <img [src]="log.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
+                                                          <img  onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="log.image || 'assets/images/user.png'" class="thumb-md rounded-circle" />
                                                           <div>
                                                             <h5 class="mb-1 font-14 fw-semibold regular-data" (click)="routeToUserProfile(log?.uuid)">{{ log?.name }}</h5>
                                                             <p class="mb-0 fw-light font-13">{{ log?.position || 'N/A' }}</p>
@@ -472,7 +472,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                           
+
                             <div class="report-chart">
                                 <div class="report-header p-3">
                                     <h5 class="mb-0 font-14 fw-semibold">Defaulter Employee </h5>
@@ -480,8 +480,8 @@
                                 <div class="p-3 defaulter-employee" *ngIf="!Constants.EMPTY_STRINGS.includes(mostDefaulter) && mostDefaulter!={}">
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center gap-2">
-                                            <img src="{{mostDefaulter.image}}" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image!=null">
-                                            <img src="assets/images/user.png" alt="" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image==null">
+                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"  src="{{mostDefaulter.image}}" class="thumb-md rounded-circle img-cover" *ngIf="mostDefaulter.image!=null">
+                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="assets/images/user.png" alt="" class="thumb-md rounded-circle img-cover" *ngIf="mostDefaulter.image==null">
                                            <div>
                                               <h5 class="mb-1 font-14 fw-semibold regular-data" (click)="routeToUserProfile(mostDefaulter.uuid)">{{mostDefaulter?.name}}</h5>
                                               <p class="mb-0 fw-light font-13">{{mostDefaulter.position}} </p>
@@ -526,7 +526,7 @@
                                     </nz-empty>
                                 </div>
                                 <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                *ngIf="isLoaderLoading">
+                                *ngIf="isDefaulterLoading && Constants.EMPTY_STRINGS.includes(mostDefaulter) ">
                                 <div class="text-center load-more-btn">
                                 <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                                 <div>
@@ -540,7 +540,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="request" role="tabpanel" aria-labelledby="employee-tab">
-                    <div class="mt-3">
+                    <div class="mt-3 mb-4">
                         <div class="onboard-add row align-items-center mx-0">
                             <div class="col-md-12 p-0">
                                 <div class="row justify-content-between align-items-center mx-0">
@@ -576,7 +576,7 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                          
+
                                         </div>
 
                                         <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
@@ -652,7 +652,7 @@
                                      <th class="text-left font-13" style="width: 15%;">Leave Note</th>
                                      <th class="text-left font-13" style="width: 15%;">cancellation reason</th>
                                      <th class="text-left font-13" style="width: 10%;">Status</th>
-                                     <th class="text-end font-13" style="width: 10%;">Action </th>
+                                     <th class="text-end font-13 stickyColTdend" style="width: 10%;">Action </th>
                                   </tr>
                                </thead>
                                <!-- TO DO: Shimmer Loading Ui -->
@@ -743,11 +743,11 @@
                                         </div>
                                         <p class="mb-0 mt-0 fw-normal font-13">By: {{leave.managerName || '-'}} </p>
                                     </td>
-                                     <td class="text-end">
+                                     <td class="text-end stickyColTdend">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
                                             <span *ngIf="!isExpanded(i)"
                                             class="action-btn d-flex align-items-center justify-content-center"
-                                            (click)="toggleCollapse(i); openCloseMonthCalender(); getDayWiseLeaveStatus(leave.id)">
+                                            (click)="toggleCollapse(i); openCloseMonthCalender(); getDayWiseLeaveStatus(leave)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="21" viewBox="0 0 17 21" fill="none">
                                                   <path d="M1.80775 20.0576C1.30258 20.0576 0.875 19.8826 0.525 19.5326C0.175 19.1826 0 18.7551 0 18.2499V4.86538C0 4.36022 0.175 3.93263 0.525 3.58263C0.875 3.23263 1.30258 3.05763 1.80775 3.05763H3.19225V0.942383H4.73075V3.05763H12.3077V0.942383H13.8077V3.05763H15.1923C15.6974 3.05763 16.125 3.23263 16.475 3.58263C16.825 3.93263 17 4.36022 17 4.86538V18.2499C17 18.7551 16.825 19.1826 16.475 19.5326C16.125 19.8826 15.6974 20.0576 15.1923 20.0576H1.80775ZM1.80775 18.5576H15.1923C15.2692 18.5576 15.3398 18.5256 15.4038 18.4614C15.4679 18.3974 15.5 18.3269 15.5 18.2499V8.86538H1.5V18.2499C1.5 18.3269 1.53208 18.3974 1.59625 18.4614C1.66025 18.5256 1.73075 18.5576 1.80775 18.5576ZM1.5 7.36538H15.5V4.86538C15.5 4.78838 15.4679 4.71788 15.4038 4.65388C15.3398 4.58972 15.2692 4.55763 15.1923 4.55763H1.80775C1.73075 4.55763 1.66025 4.58972 1.59625 4.65388C1.53208 4.71788 1.5 4.78838 1.5 4.86538V7.36538ZM8.5 12.6346C8.25517 12.6346 8.0465 12.5484 7.874 12.3759C7.70167 12.2035 7.6155 11.9949 7.6155 11.7499C7.6155 11.505 7.70167 11.2964 7.874 11.1239C8.0465 10.9515 8.25517 10.8654 8.5 10.8654C8.74483 10.8654 8.9535 10.9515 9.126 11.1239C9.29833 11.2964 9.3845 11.505 9.3845 11.7499C9.3845 11.9949 9.29833 12.2035 9.126 12.3759C8.9535 12.5484 8.74483 12.6346 8.5 12.6346ZM4.5 12.6346C4.25517 12.6346 4.0465 12.5484 3.874 12.3759C3.70167 12.2035 3.6155 11.9949 3.6155 11.7499C3.6155 11.505 3.70167 11.2964 3.874 11.1239C4.0465 10.9515 4.25517 10.8654 4.5 10.8654C4.74483 10.8654 4.9535 10.9515 5.126 11.1239C5.29833 11.2964 5.3845 11.505 5.3845 11.7499C5.3845 11.9949 5.29833 12.2035 5.126 12.3759C4.9535 12.5484 4.74483 12.6346 4.5 12.6346ZM12.5 12.6346C12.2552 12.6346 12.0465 12.5484 11.874 12.3759C11.7017 12.2035 11.6155 11.9949 11.6155 11.7499C11.6155 11.505 11.7017 11.2964 11.874 11.1239C12.0465 10.9515 12.2552 10.8654 12.5 10.8654C12.7448 10.8654 12.9535 10.9515 13.126 11.1239C13.2983 11.2964 13.3845 11.505 13.3845 11.7499C13.3845 11.9949 13.2983 12.2035 13.126 12.3759C12.9535 12.5484 12.7448 12.6346 12.5 12.6346ZM8.5 16.5576C8.25517 16.5576 8.0465 16.4714 7.874 16.2989C7.70167 16.1265 7.6155 15.918 7.6155 15.6731C7.6155 15.4281 7.70167 15.2195 7.874 15.0471C8.0465 14.8746 8.25517 14.7884 8.5 14.7884C8.74483 14.7884 8.9535 14.8746 9.126 15.0471C9.29833 15.2195 9.3845 15.4281 9.3845 15.6731C9.3845 15.918 9.29833 16.1265 9.126 16.2989C8.9535 16.4714 8.74483 16.5576 8.5 16.5576ZM4.5 16.5576C4.25517 16.5576 4.0465 16.4714 3.874 16.2989C3.70167 16.1265 3.6155 15.918 3.6155 15.6731C3.6155 15.4281 3.70167 15.2195 3.874 15.0471C4.0465 14.8746 4.25517 14.7884 4.5 14.7884C4.74483 14.7884 4.9535 14.8746 5.126 15.0471C5.29833 15.2195 5.3845 15.4281 5.3845 15.6731C5.3845 15.918 5.29833 16.1265 5.126 16.2989C4.9535 16.4714 4.74483 16.5576 4.5 16.5576ZM12.5 16.5576C12.2552 16.5576 12.0465 16.4714 11.874 16.2989C11.7017 16.1265 11.6155 15.918 11.6155 15.6731C11.6155 15.4281 11.7017 15.2195 11.874 15.0471C12.0465 14.8746 12.2552 14.7884 12.5 14.7884C12.7448 14.7884 12.9535 14.8746 13.126 15.0471C13.2983 15.2195 13.3845 15.4281 13.3845 15.6731C13.3845 15.918 13.2983 16.1265 13.126 16.2989C12.9535 16.4714 12.7448 16.5576 12.5 16.5576Z" fill="#1C1B1F"/>
                                                 </svg>
@@ -780,14 +780,7 @@
                                                     <li *ngIf="leave.status == PENDING">
                                                         <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
                                                         <a class="dropdown-item" >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                <mask id="mask0_7683_19165" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                <rect x="0.375" y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                </mask>
-                                                                <g mask="url(#mask0_7683_19165)">
-                                                                <path d="M9.92434 18.1538L4.58984 12.8193L5.65884 11.75L9.92434 16.0155L19.0898 6.85001L20.1588 7.91926L9.92434 18.1538Z" fill="#1C1B1F"/>
-                                                                </g>
-                                                                </svg>
+                                                            <i class="bi bi-check2"></i>
                                                              Approve
                                                         </a>
                                                         </span>
@@ -795,28 +788,14 @@
                                                     <li *ngIf="leave.status == PENDING">
                                                         <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
                                                         <a class="dropdown-item" >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                                                <mask id="mask0_7683_19197" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                                                <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
-                                                                </mask>
-                                                                <g mask="url(#mask0_7683_19197)">
-                                                                <path d="M6.66602 19.1538L5.56836 18.1L11.4017 12.5L5.56836 6.9L6.66602 5.84625L12.4993 11.4463L18.3327 5.84625L19.4303 6.9L13.597 12.5L19.4303 18.1L18.3327 19.1538L12.4993 13.5538L6.66602 19.1538Z" fill="#1C1B1F"/>
-                                                                </g>
-                                                                </svg>
+                                                          <i class="bi bi-x"></i>
                                                             Reject
                                                         </a>
                                                         </span>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request" (click)="viewLeave(leave)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                                <mask id="mask0_7683_19201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                                <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                                                </mask>
-                                                                <g mask="url(#mask0_7683_19201)">
-                                                                <path d="M12.0028 16.077C13.136 16.077 14.0984 15.6804 14.8901 14.8872C15.6817 14.0941 16.0776 13.1309 16.0776 11.9978C16.0776 10.8646 15.681 9.90217 14.8878 9.1105C14.0946 8.31883 13.1315 7.923 11.9983 7.923C10.8651 7.923 9.90273 8.31958 9.11106 9.11275C8.3194 9.90592 7.92356 10.8691 7.92356 12.0023C7.92356 13.1354 8.32015 14.0978 9.11331 14.8895C9.90648 15.6812 10.8696 16.077 12.0028 16.077ZM12.0006 14.7C11.2506 14.7 10.6131 14.4375 10.0881 13.9125C9.56306 13.3875 9.30056 12.75 9.30056 12C9.30056 11.25 9.56306 10.6125 10.0881 10.0875C10.6131 9.5625 11.2506 9.3 12.0006 9.3C12.7506 9.3 13.3881 9.5625 13.9131 10.0875C14.4381 10.6125 14.7006 11.25 14.7006 12C14.7006 12.75 14.4381 13.3875 13.9131 13.9125C13.3881 14.4375 12.7506 14.7 12.0006 14.7ZM12.0018 19C9.70231 19 7.60706 18.3657 5.71606 17.097C3.82506 15.8285 2.43273 14.1295 1.53906 12C2.43273 9.8705 3.82456 8.1715 5.71456 6.903C7.60473 5.63433 9.69965 5 11.9993 5C14.2988 5 16.3941 5.63433 18.2851 6.903C20.1761 8.1715 21.5684 9.8705 22.4621 12C21.5684 14.1295 20.1766 15.8285 18.2866 17.097C16.3964 18.3657 14.3015 19 12.0018 19ZM12.0006 17.5C13.8839 17.5 15.6131 17.0042 17.1881 16.0125C18.7631 15.0208 19.9672 13.6833 20.8006 12C19.9672 10.3167 18.7631 8.97917 17.1881 7.9875C15.6131 6.99583 13.8839 6.5 12.0006 6.5C10.1172 6.5 8.38806 6.99583 6.81306 7.9875C5.23806 8.97917 4.0339 10.3167 3.20056 12C4.0339 13.6833 5.23806 15.0208 6.81306 16.0125C8.38806 17.0042 10.1172 17.5 12.0006 17.5Z" fill="#1C1B1F"/>
-                                                                </g>
-                                                                </svg>
+                                                          <i class="bi bi-eye"></i>
                                                              View request
                                                         </a>
                                                     </li>
@@ -875,7 +854,8 @@
                                                         'text-primary':
                                                         dayWiseStatus.status == 'W-off' ||
                                                         dayWiseStatus.status == HOLIDAY
-                                                    }">
+                                                    }"
+                                                    [style.backgroundColor]="isBetweenStartAndEndDate(dayWiseStatus.date) ? '#EFEFEF' : 'inherit'">
                                                     {{
                                                     dayWiseStatus.status[0] == "U"
                                                     ? "-"
@@ -884,13 +864,13 @@
                                                     </td>
                                                 </ng-container>
                                              </tr>
-                                              
+
                                           </table>
                                        </div>
                                     </td>
                                  </tr>
                                 </ng-container>
-                                  
+
                                   <div
                                   class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top"
                                   *ngIf="!isLoadingLeaves && leaves.length > 0 && totalItems >itemPerPage">
@@ -934,46 +914,47 @@
 
 <!-- Leave Quota Modal -->
 <div *ngIf="showLeaveQuotaModal" class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2>User Leave Quota Information</h2>
+    <div class="modal-container p-0 border-rounded-2">
+      <div class="modal-header mb-0">
+        <h5>User Leave Quota Information</h5>
         <button class="close-btn" (click)="closeLeaveQuotaModal()">&times;</button>
       </div>
 
-      <div class="info-message">
-        <p>
-            🚫 <strong>Notice:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized by the user.
-            You can only <strong>reject</strong> this leave request.
-        </p>
-      </div>
+     
 
       <div class="modal-body">
+        <div class="info-message border-rounded-2">
+          <p>
+              🚫 <strong>Note:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized by the user.
+              You can only <strong>reject</strong> this leave request.
+          </p>
+        </div>
         <div class="quota-details">
-          <div class="detail-item">
-            <span class="label">👤 User Name:</span>
-            <span>{{ userLeaveQuota?.userName }}</span>
+          <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+            <span class="label font-13">👤 User Name:</span>
+            <span class="font-13">{{ userLeaveQuota?.userName }}</span>
           </div>
-          <div class="detail-item">
-            <span class="label">📅 Total Leaves:</span>
-            <span>{{ userLeaveQuota?.totalAllocatedLeaves }}</span>
+          <div class="detail-item border-rounded-2  d-flex alig-items-cennter justify-content-between">
+            <span class="label font-13">📅 Total Leaves:</span>
+            <span class="font-13">{{ userLeaveQuota?.totalAllocatedLeaves }}</span>
           </div>
-          <div class="detail-item">
-            <span class="label">✅ Approved Leaves:</span>
-            <span>{{ userLeaveQuota?.approvedLeaves }}</span>
+          <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+            <span class="label  font-13">✅ Approved Leaves:</span>
+            <span class="font-13">{{ userLeaveQuota?.approvedLeaves }}</span>
           </div>
-          <div class="detail-item">
-            <span class="label">❌ Rejected Leaves:</span>
-            <span>{{ userLeaveQuota?.rejectedLeaves }}</span>
+          <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+            <span class="label font-13">❌ Rejected Leaves:</span>
+            <span class="font-13">{{ userLeaveQuota?.rejectedLeaves }}</span>
           </div>
-          <div class="detail-item">
-            <span class="label">🕒 Remaining Leaves:</span>
-            <span>{{ userLeaveQuota?.remainingLeaves }}</span>
+          <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+            <span class="label font-13">🕒 Remaining Leaves:</span>
+            <span class="font-13">{{ userLeaveQuota?.remainingLeaves }}</span>
           </div>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="action-btn-modal" (click)="closeLeaveQuotaModal()">Close</button>
+      <div class="modal-footer border-top mt-0">
+        <button class="btn cancel-btn font-13 fw-semibold mt-0" (click)="closeLeaveQuotaModal()">Cancel</button>
       </div>
     </div>
   </div>

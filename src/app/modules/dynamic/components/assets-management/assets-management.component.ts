@@ -23,6 +23,7 @@ import {
   ApexResponsive,
   ApexLegend
 } from "ng-apexcharts";
+import { constant } from 'src/app/constant/constant';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -44,6 +45,8 @@ interface Filter {
   templateUrl: './assets-management.component.html',
   styleUrls: ['./assets-management.component.css']
 })
+
+
 export class AssetsManagementComponent implements OnInit {
 
   constructor( private dataService : DataService,
@@ -71,6 +74,8 @@ export class AssetsManagementComponent implements OnInit {
     });
   }
 
+    readonly Constants=constant;
+  
   searchControl = new FormControl('');
   assetStatuses = [
     { id: 62, name: 'ASSIGNED' },
@@ -1010,6 +1015,7 @@ onSearch(searchText: string): void {
   close(): void {
     this.visible = false;
   }
+  
 
   openChildren(): void {
     this.childrenVisible = true;
@@ -1245,4 +1251,16 @@ onSearch(searchText: string): void {
   }
 
 
-}
+  visible2: boolean = false; // Open drawer by default
+
+  close2(): void {
+    this.visible2 = false; // Close the drawer
+  }
+
+  openDrawer(): void {
+    this.visible2 = true; // Function to open drawer again
+  }
+  }
+  
+
+
