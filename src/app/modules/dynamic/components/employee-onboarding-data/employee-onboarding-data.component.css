@@ -294,9 +294,9 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
   padding: 3px 15px !important;
 
 }
-.actionMenuList .dropdown-item i {
+/* .actionMenuList .dropdown-item i {
   margin-right: 5px;
-}
+} */
 .leave-management-settings {
   background-color: #f5f6ff;
 }

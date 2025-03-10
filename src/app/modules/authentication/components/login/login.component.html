@@ -283,13 +283,13 @@
 
 
               <div *ngIf="loginErrorMessage">
-                <p class="errortxt mt-3 mb-0 text-danger text-left">
+                <p class="errortxt mt-3 mb-3 text-danger text-left">
                   <i class="bi bi-exclamation-circle"></i> {{ loginErrorMessage }}
                 </p>
               </div>
 
 
-              <button class="btn btn-primary w-100 mt-2 btn-fix-height" type="submit" *ngIf="
+              <button class="btn btn-primary w-100 mt-3 btn-fix-height" type="submit" *ngIf="
                   !enterPasswordFlag &&
                   !verifyOtpButtonFlag &&
                   !createPasswordFlag &&
@@ -306,7 +306,7 @@
                 <ng-template #loginButton> LOG IN </ng-template>
               </button>
 
-              <button type="submit" class="btn btn-primary w-100 mt-1 btn-fix-height" *ngIf="
+              <button type="submit" class="btn btn-primary w-100 mt-2 btn-fix-height" *ngIf="
                   !verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin
                 " (click)="signIn()">
                 <ng-container *ngIf="loginButtonLoader; else loginButton">

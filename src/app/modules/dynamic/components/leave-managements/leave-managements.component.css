@@ -305,8 +305,9 @@
   padding: 3px 15px !important;
 }
 .actionMenuList .dropdown-item i {
-  margin-right: 5px;
   font-size: 18px;
+  position: relative;
+  top: 2px;
 }
 .actionMenuList svg{
     width: 18px;
