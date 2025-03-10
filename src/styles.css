@@ -623,7 +623,7 @@ label {
   position: absolute;
   top: 0;
   bottom: 0;
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   width: 0px;
 }
 
@@ -636,8 +636,9 @@ label {
 .stickyColTdend::after,
 .stickyColThend::after {
   left: 0;
-  box-shadow: -2px 0px 2px 0px #00000024;
-  border-left: 1px solid #f1f1f1;
+  box-shadow: -2px 0px 2px 0px #00000014 !important;
+  border-left: none !important;
+  width: 1px !important;
 }
 
 .stickyColThend::after {
