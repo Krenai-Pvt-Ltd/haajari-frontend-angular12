@@ -30,6 +30,10 @@
 .compliance-name{
     border-right: 1px solid #f1f1f1;
 }
+.spinner-border {
+  width: 22px;
+  height: 22px;
+}
 
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
