@@ -453,10 +453,10 @@
 }
 
 
-.defaulter-employee img {
+/* .defaulter-employee img {
   width: 50px;
   border-radius: 50px;
-}
+} */
 .defaulter{
   background-color: #F9FAFB;
   padding: 15px;
@@ -571,12 +571,8 @@
 }
 
 .detail-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 15px;
   padding: 8px 12px;
   background-color: #f9f9f9;
-  border-radius: 6px;
 }
 
 .detail-item .label {

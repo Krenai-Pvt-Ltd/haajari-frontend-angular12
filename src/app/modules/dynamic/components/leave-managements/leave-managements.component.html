@@ -58,7 +58,7 @@
                                         </span>
                                      </div>
                                 </div>
-                                <div class="mt-3 report-chart" style="height: 465px;">
+                                <div class="mt-3 report-chart" style="height: 431px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-14 fw-semibold">Report</h5>
                                         <div>
@@ -113,10 +113,10 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="dashboard-report">
-                                <div class="report-chart" style="    height: 540px;">
+                                <div class="report-chart" style="    height: 505px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-13 fw-semibold">Months Pattern</h5>
-                                        <button class="btn p-0 font-11 text-black fw-semibold">Summary</button>
+                                        <!-- <button class="btn p-0 font-11 text-black fw-semibold">Summary</button> -->
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 border-bottom pb-4">
@@ -152,7 +152,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="dashboard-report">
-                                <div class="report-chart" style="height: 540px;">
+                                <div class="report-chart" style="height: 505px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-14 fw-semibold">Categories</h5>
 
@@ -480,8 +480,8 @@
                                 <div class="p-3 defaulter-employee" *ngIf="!Constants.EMPTY_STRINGS.includes(mostDefaulter) && mostDefaulter!={}">
                                     <div class="d-flex align-items-center justify-content-between mb-3">
                                         <div class="d-flex align-items-center gap-2">
-                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"  src="{{mostDefaulter.image}}" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image!=null">
-                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" *ngIf="mostDefaulter.image==null">
+                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';"  src="{{mostDefaulter.image}}" class="thumb-md rounded-circle img-cover" *ngIf="mostDefaulter.image!=null">
+                                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="assets/images/user.png" alt="" class="thumb-md rounded-circle img-cover" *ngIf="mostDefaulter.image==null">
                                            <div>
                                               <h5 class="mb-1 font-14 fw-semibold regular-data" (click)="routeToUserProfile(mostDefaulter.uuid)">{{mostDefaulter?.name}}</h5>
                                               <p class="mb-0 fw-light font-13">{{mostDefaulter.position}} </p>
@@ -652,7 +652,7 @@
                                      <th class="text-left font-13" style="width: 15%;">Leave Note</th>
                                      <th class="text-left font-13" style="width: 15%;">cancellation reason</th>
                                      <th class="text-left font-13" style="width: 10%;">Status</th>
-                                     <th class="text-end font-13" style="width: 10%;">Action </th>
+                                     <th class="text-end font-13 stickyColTdend" style="width: 10%;">Action </th>
                                   </tr>
                                </thead>
                                <!-- TO DO: Shimmer Loading Ui -->
@@ -743,7 +743,7 @@
                                         </div>
                                         <p class="mb-0 mt-0 fw-normal font-13">By: {{leave.managerName || '-'}} </p>
                                     </td>
-                                     <td class="text-end">
+                                     <td class="text-end stickyColTdend">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
                                             <span *ngIf="!isExpanded(i)"
                                             class="action-btn d-flex align-items-center justify-content-center"
