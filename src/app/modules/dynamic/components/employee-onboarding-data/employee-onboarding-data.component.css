@@ -654,10 +654,10 @@ span.request-count {
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
-.filter-bdg {
+/* .filter-bdg {
   overflow-x: scroll;
   flex-wrap: nowrap;
-}
+} */
 .filter-pills {
   line-height: 18px;
   color: var(--primary-color);
