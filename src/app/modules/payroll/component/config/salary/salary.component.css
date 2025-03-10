@@ -28,3 +28,7 @@
 .benefits-list-td{
   padding: 0px !important;
 }
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
