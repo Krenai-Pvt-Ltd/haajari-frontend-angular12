@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { ProjectComponent } from './components/project/project.component';
-import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { DynamicComponent } from './dynamic.component';
@@ -14,14 +13,12 @@ import { AuthGuard } from 'src/app/guards/auth-guard';
 import { DatePipe } from '@angular/common';
 import { RoleComponent } from './components/role/role.component';
 import { ReportsComponent } from './components/reports/reports.component';
-import { TestingComponent } from './components/testing/testing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
-import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 import { CoinsComponent } from './components/coins/coins.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
@@ -61,11 +58,6 @@ const routes: Routes = [
       {
         path: 'team',
         component: TeamComponent,
-        canActivate: [AuthGuard,SubscriptionGuard]
-      },
-      {
-        path: 'task-manager',
-        component: TaskManagerComponent,
         canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
@@ -122,13 +114,6 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/coins' },
       },
-      // {
-      //   path: 'employee-profile',
-      //   component: EmployeeProfileComponent,
-      //   canActivate: [AuthGuard, SubscriptionGuard],
-       
-      // },
-      { path: 'testing', component: TestingComponent },
       {
         path: 'privacy',
         component: PrivacyComponent,
@@ -170,17 +155,10 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
-        path: 'leave-managements',
-        component: LeaveManagementsComponent,
-      },
-      {
         path: 'inbox',
-        component: InboxComponent,
+        component: InboxComponent ,
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
-      // {
-      //   path: 'assets-management',
-      //   component: AssetsManagementComponent,
-      // },
       { path: 'faq', component: FaqComponent },
 
       { path: 'faq-detail', component: FaqDetailComponent },
