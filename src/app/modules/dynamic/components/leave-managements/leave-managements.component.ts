@@ -601,16 +601,15 @@ showLeaveQuotaModal: boolean = false;
 userLeaveQuota: any = null;
 
 // -- new start
-leaveRequestLoading: { [key: string]: boolean } = {};
+leaveRequestLoading: { [key: number]: boolean } = {};
 approveOrRejectLeave(leaveId: number, operation: string) {
   this.isLoading = true;
-  const loadingKey = `${leaveId}-${operation}`;
-  this.leaveRequestLoading[loadingKey] = true; // Start loading for this specific leave request and operation
+  this.leaveRequestLoading[leaveId] = true; // Start loading for this specific leave request and operation
 
   this.leaveService.approveOrRejectLeaveOfUser(leaveId, operation, this.rejectionReason).subscribe({
     next: (response: any) => {
       this.isLoading = false;
-      this.leaveRequestLoading[loadingKey] = false; // Stop loading for this specific leave request and operation
+      this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
       this.rejectionReason = '';
       this.rejectionReasonFlag = false;
       this.isPendingChange = true;
@@ -632,7 +631,7 @@ approveOrRejectLeave(leaveId: number, operation: string) {
     },
     error: (error) => {
       this.isLoading = false;
-      this.leaveRequestLoading[loadingKey] = false; // Stop loading for this specific leave request and operation
+      this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
       this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
       console.error('Failed to fetch approve/reject leaves:', error);
     },
