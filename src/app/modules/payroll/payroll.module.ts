@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { PayrollRoutingModule } from './payroll-routing.module';
 import { PayrollSetupComponent } from './component/payroll-setup/payroll-setup.component';
-import { ProfileComponent } from './component/profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
@@ -25,6 +24,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
 import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
 import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
+import { ProfileComponent } from './component/config/profile/profile.component';
 
 
 @NgModule({
