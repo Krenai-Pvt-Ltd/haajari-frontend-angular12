@@ -688,44 +688,30 @@
 </div>
 <!--  ########################33  Modal ##################################33333 -->
 <div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" style="max-width: 600px" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 600px" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="background-color: #fff">
-        <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
+      <div class="modal-header">
+        <h5 class="modal-title m-0" id="exampleModalDefaultLabel">
           {{ team.name }}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           #assignManagerModalCloseButton></button>
       </div>
-      <!--end modal-header-->
       <div class="modal-body p-0">
         <div class="card-body p-0">
-          <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
-            <!-- <li class="nav-item">
-                     <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
-                     </li> -->
+           
             <li class="nav-item">
               <a class="nav-link active" data-bs-toggle="tab" href="#members-add" role="tab"
                 aria-selected="false">Members</a>
             </li>
-            <!-- <li class="nav-item">
-                     <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
-                     </li> -->
           </ul>
-          <!-- Tab panes -->
           <div class="tab-content">
-            <!-- <div class="tab-pane  p-3 active" id="general" role="tabpanel">
-                     <p>General</p>
-                        
-                      
-                     </div> -->
             <div class="tab-pane p-3 active" id="members-add" role="tabpanel">
-              <div class="">
-                <div class="">
-                  <div class="">
+                <div>
+                  <!-- <div class="">
                     <h5>Members</h5>
-                  </div>
+                  </div> -->
                   <div class="Members-list-box d-flex align-items-center justify-content-between"
                     *ngFor="let ul of team.userList; let i = index">
                     <div class="d-flex align-items-center" style="gap: 10px">
@@ -736,7 +722,6 @@
                         <span class="members-name" *ngIf="ul.image == null">{{
                           ul.name[0]
                           }}</span>
-                        <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
                       </div>
                       <div>
                         <h6 class="mb-0 mt-0">
@@ -747,10 +732,6 @@
                     </div>
                     <div class="manegir-dropdown">
                       <div class="dropdown d-inline-block">
-                        <!-- <a class="dropdown-toggle" *ngIf="i==0" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                       Team admin <i class="bi bi-chevron-down font-14 text-muted"></i>
-                                       </a> -->
-                        <!-- *ngIf="i>0" -->
                         <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
                           aria-haspopup="false" aria-expanded="false" *ngIf="ul.roleId == 2">
                           {{
@@ -796,7 +777,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
+
+                
             </div>
             <div class="tab-pane p-3" id="advanced" role="tabpanel">
               <p class="text-muted mb-0">
