@@ -601,18 +601,20 @@ showLeaveQuotaModal: boolean = false;
 userLeaveQuota: any = null;
 
 // -- new start
-approveOrRejectLeave(leaveId: number, operationString: string) {
-  debugger
+leaveRequestLoading: { [key: string]: boolean } = {};
+approveOrRejectLeave(leaveId: number, operation: string) {
   this.isLoading = true;
-  this.leaveService.approveOrRejectLeaveOfUser(leaveId, operationString, this.rejectionReason).subscribe({
-    next: (response: any) => {
+  const loadingKey = `${leaveId}-${operation}`;
+  this.leaveRequestLoading[loadingKey] = true; // Start loading for this specific leave request and operation
 
+  this.leaveService.approveOrRejectLeaveOfUser(leaveId, operation, this.rejectionReason).subscribe({
+    next: (response: any) => {
       this.isLoading = false;
+      this.leaveRequestLoading[loadingKey] = false; // Stop loading for this specific leave request and operation
       this.rejectionReason = '';
       this.rejectionReasonFlag = false;
       this.isPendingChange = true;
       this.applyFilters();
-      // this.getLeaves(true);
       if (this.closebutton) {
         this.closebutton.nativeElement.click();
       } else {
@@ -620,7 +622,7 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       }
 
       if (response.message === 'approved' || response.message === 'rejected') {
-        this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+        this.helperService.showToast(`Leave ${operation} successfully.`, Key.TOAST_STATUS_SUCCESS);
       } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
         this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
         this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
@@ -629,14 +631,13 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       }
     },
     error: (error) => {
-      this.isPendingChange = false;
+      this.isLoading = false;
+      this.leaveRequestLoading[loadingKey] = false; // Stop loading for this specific leave request and operation
       this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
       console.error('Failed to fetch approve/reject leaves:', error);
-      this.isLoading = false;
     },
   });
 }
-
 
 
 // Fetch user leave quota details
