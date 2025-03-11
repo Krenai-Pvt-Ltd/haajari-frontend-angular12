@@ -2,7 +2,7 @@ export class Profile{
       cin:string='';
       businessEmail:string='';
       businessPhone:string='';
-      dateFormat:string='';
+      dateFormat:string='DD/MM/YYYY';
       currency:string='';
       logo:string='';
         esi:string='';

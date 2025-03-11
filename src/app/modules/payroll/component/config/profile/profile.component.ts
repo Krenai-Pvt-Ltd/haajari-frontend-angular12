@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
@@ -110,7 +111,11 @@ export class ProfileComponent implements OnInit {
    
   
   // ################# Profile #######################
+
+  //  @ViewChild('profileForms') profileForm!: NgForm;
   
+  
+  formattedDate:string='';
   
   dateFormats = [
     { value: 'dd/MM/yyyy', label: 'DD/MM/YYYY' },
@@ -120,7 +125,27 @@ export class ProfileComponent implements OnInit {
   
   onDateFormatChange(format: string) {
     this.profile.dateFormat = format;
-    console.log('Selected Date Format:', this.profile.dateFormat);
+    const now = new Date();
+    this.formattedDate = this.formatDate(now, format);
+    console.log('Selected Date Format:',this.formattedDate );
+  }
+
+  formatDate(date: Date, format: string): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+  
+    switch (format) {
+      case 'dd/MM/yyyy':
+        return `${day}/${month}/${year}`;
+      case 'MM/dd/yyyy':
+        return `${month}/${day}/${year}`;
+      case 'yyyy-MM-dd':
+        return `${year}-${month}-${day}`;
+      default:
+        return `${day}/${month}/${year}`;
+    }
+
   }
   
   profile:Profile = new Profile();

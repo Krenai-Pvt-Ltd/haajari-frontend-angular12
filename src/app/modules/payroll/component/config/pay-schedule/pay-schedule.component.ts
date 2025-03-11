@@ -81,7 +81,7 @@ export class PayScheduleComponent implements OnInit {
   PayDays = Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 }));  
   startAndEndDay = [
     ...Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 })), 
-    { label: 'Last Day', value: 31 } 
+    { label: 'Last Day', value: 32 } 
   ];
   
   
@@ -109,19 +109,9 @@ export class PayScheduleComponent implements OnInit {
 }
 
 endDateChanged(endDate: number) {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth(); 
-
-  const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-
-  if (endDate == 31) {
-    if (lastDayOfMonth < 31 || endDate === lastDayOfMonth) {
-      this.paySchedule.startDate = 1;
-    } else {
-      this.paySchedule.startDate = 1;
-    }
-  } else {
+  if(endDate == 32){
+    this.paySchedule.startDate = 1;
+  }else{
     this.paySchedule.startDate = endDate+1;
   }
 

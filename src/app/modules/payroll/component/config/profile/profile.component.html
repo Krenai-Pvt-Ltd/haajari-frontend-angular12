@@ -118,16 +118,8 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
-                                <div class="w-50 p-3 currency-types-border">
-                                    <p class="mb-0 font-12 fw-light">Field Separation</p>
-                                </div>
-                                <div class="w-50">
-                                    <div class="w-100">
-                                        <nz-select class="form-control w-100 placeholder-line currency-types" nzSize="large" nzPlaceHolder="Select Separation" value="India">
-                                            <nz-option nzLabel="india" nzValue="india">/</nz-option>
-                                        </nz-select>
-                                    </div>
-                                </div>
+                                <input type="text" placeholder="Formated Date"  name="formatedDate" class="form-control whatsapp-login-input" 
+                             [(ngModel)]="formattedDate" disabled>
                             </div>
                         </div>
                         
