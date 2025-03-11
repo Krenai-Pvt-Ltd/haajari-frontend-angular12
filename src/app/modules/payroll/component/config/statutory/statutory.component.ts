@@ -59,6 +59,7 @@ export class StatutoryComponent implements OnInit {
           }else{
             this.epfDetail = new EmployeeProvidentFund();
           }
+          this.transformEpfNumber(this.epfDetail);
           this.calculatePFContribution();
         },
         (error) => {
@@ -191,32 +192,28 @@ export class StatutoryComponent implements OnInit {
         if(this.epfDetail.condiserLop){
           if(this.halfbasic<15000){
             this.totalEpfValue = (basic + transport + telephone)/2;
-            if( this.totalEpfValue>15000){
-              return this.totalEpfValue =15000;
-            }
-            return this.totalEpfValue;
+            return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
           }
-          return this.totalEpfValue = basic/2;
+          return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue = this.halfbasic;
         }else{
           if(this.halfbasic<15000){
            this.totalEpfValue = (basic + transport + telephone)/2;
-            if( this.totalEpfValue>15000){
-              return this.totalEpfValue =15000;
-            }
+           return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
+
           }
-          return this.totalEpfValue = basic/2;
+          return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000: this.totalEpfValue= this.halfbasic;
         }
       }else{
         if(this.epfDetail.condiserLop){
           if(basic<15000){
             return this.totalEpfValue = (basic + transport + telephone);
           }
-          return this.totalEpfValue = basic;
+          return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
         }else{
           if(basic<15000){
             return this.totalEpfValue = (basic + transport + telephone);
           }
-          return this.totalEpfValue = basic;
+          return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
         }
 
       }
@@ -236,15 +233,23 @@ export class StatutoryComponent implements OnInit {
           if (typeof transformedObj[key] === "boolean") {
             transformedObj[key] = transformedObj[key] ? 1 : 0;
           }
+          if (key === 'epfNumber' && typeof transformedObj[key] === 'string') {
+            transformedObj[key] = transformedObj[key].replace(/\//g, ''); 
+          }
         });
         return transformedObj;
       }
 
-    //   private transformBooleansToNumbers(obj: any): any {
-    //     return Object.fromEntries(
-    //         Object.entries(obj).map(([key, value]) => [key, value === true ? 1 : value === false ? 0 : value])
-    //     );
-    // }
+      private transformEpfNumber(obj: any): void {
+        if (obj && obj.epfNumber && typeof obj.epfNumber === 'string') {
+          const rawValue = obj.epfNumber.replace(/\//g, '');
+          if (rawValue.length === 15 || rawValue.length === 17) {
+            obj.epfNumber = `${rawValue.substring(0, 2)}/${rawValue.substring(2, 5)}/${rawValue.substring(5, 12)}/${rawValue.substring(12, 15)}`;
+          }
+        }
+      }
+      
+
 
       //************************           ESI        ******************************** */
 
@@ -258,6 +263,7 @@ export class StatutoryComponent implements OnInit {
                 this.esiDetail = new EmployeeStateInsurance();
               }
             }
+            this.transformEsiNumber(this.esiDetail);
           },
           (error) => {
     
@@ -268,6 +274,7 @@ export class StatutoryComponent implements OnInit {
       saveEsiDetail(){
         this.saveLoader = true;
         this.esiDetail =  this.transformBooleansToNumbers(this.esiDetail);
+        this.removeEsiNumberDashes(this.esiDetail);
         this._payrollConfigurationService.saveEsiDetail(this.esiDetail.isCtcIncluded,this.esiDetail.esiNumber).subscribe(
           (response) => {
             if(response.status){
@@ -283,6 +290,24 @@ export class StatutoryComponent implements OnInit {
           }
         );
       }
+
+
+      private transformEsiNumber(obj: any): void {
+        if (obj && obj.esiNumber && typeof obj.esiNumber === 'string') {
+          const rawValue = obj.esiNumber.replace(/-/g, '');
+          if (rawValue.length === 17) {
+            obj.esiNumber = `${rawValue.substring(0, 2)}-${rawValue.substring(2, 4)}-${rawValue.substring(4, 10)}-${rawValue.substring(10, 13)}-${rawValue.substring(13, 17)}`;
+          }
+        }
+      }
+
+      private removeEsiNumberDashes(obj: any): void {
+        if (obj && obj.esiNumber && typeof obj.esiNumber === 'string') {
+          obj.esiNumber = obj.esiNumber.replace(/-/g, ''); // Remove all dashes
+        }
+      }
+      
+      
 
       //************************           Professional Tax       ******************************** */
 

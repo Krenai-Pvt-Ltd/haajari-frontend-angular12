@@ -244,6 +244,7 @@
                            placeholder="Enter ESI Number" 
                            required 
                            name="esiNumber" 
+                           maxlength="17"
                            class="form-control whatsapp-login-input" 
                            [(ngModel)]="esiDetail.esiNumber"
                            [ngModelOptions]="{standalone: true}"
@@ -594,19 +595,19 @@
                           <th class="font-14" style="width:40%;">EPF Contribution &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
                           <th class="text-center">
                               <span>
-                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateEpfValue(25000,4000,3500) }} </h5>
+                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ (calculateEpfValue(25000,4000,3500) * 0.12) }} </h5>
                                   <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateEpfValue(25000,4000,3500) }}</p>
                               </span>
                           </th>
                           <th class="text-center">
                               <span>
-                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateEpfValue(18000,2000,3000) }}</h5>
+                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ (calculateEpfValue(18000,2000,3000) * 0.12) }}</h5>
                                   <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateEpfValue(18000,2000,3000) }}</p>
                               </span>
                           </th>
                           <th class="text-center">
                               <span>
-                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateEpfValue(12000,1500,1000) }}</h5>
+                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ (calculateEpfValue(12000,1500,1000) * 0.12) }}</h5>
                                   <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateEpfValue(12000,1500,1000) }}</p>
                               </span>
                           </th>
