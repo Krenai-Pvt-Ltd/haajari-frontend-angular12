@@ -180,6 +180,49 @@ export class StatutoryComponent implements OnInit {
         return employeepf ? employeepf.description : '';
       }
 
+      totalEpfValue:number=0;
+      halfbasic:number=0;
+      calculateEpfValue( basic: number,
+        transport: number,
+        telephone: number): number{
+
+      if(this.isLopChecked){
+        this.halfbasic = basic/2;
+        if(this.epfDetail.condiserLop){
+          if(this.halfbasic<15000){
+            this.totalEpfValue = (basic + transport + telephone)/2;
+            if( this.totalEpfValue>15000){
+              return this.totalEpfValue =15000;
+            }
+            return this.totalEpfValue;
+          }
+          return this.totalEpfValue = basic/2;
+        }else{
+          if(this.halfbasic<15000){
+           this.totalEpfValue = (basic + transport + telephone)/2;
+            if( this.totalEpfValue>15000){
+              return this.totalEpfValue =15000;
+            }
+          }
+          return this.totalEpfValue = basic/2;
+        }
+      }else{
+        if(this.epfDetail.condiserLop){
+          if(basic<15000){
+            return this.totalEpfValue = (basic + transport + telephone);
+          }
+          return this.totalEpfValue = basic;
+        }else{
+          if(basic<15000){
+            return this.totalEpfValue = (basic + transport + telephone);
+          }
+          return this.totalEpfValue = basic;
+        }
+
+      }
+
+      }
+
 
 
 
@@ -320,11 +363,6 @@ export class StatutoryComponent implements OnInit {
 
         }
           
-      }
-
-
-      viewTaxSlab(state: string){
-
       }
 
 
