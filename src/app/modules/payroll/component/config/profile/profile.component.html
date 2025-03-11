@@ -17,7 +17,7 @@
                         </div>
                       
                         <div [class.col-md-6]="profile.logo" [class.col-md-12]="!profile.logo">
-                            <label for="exampleFormControlSelect3 pb-2" style="padding-bottom: 6px;"> Company Logo</label>          
+                            <!-- <label for="exampleFormControlSelect3 pb-2" style="padding-bottom: 6px;"> Company Logo</label>           -->
                             <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 "
                             (click)="fileInput.click()">
                                 
@@ -69,11 +69,8 @@
                                         [(ngModel)]="profile.currency"
                                         required
                                       >
-                                        <nz-option
-                                          *ngFor="let currency of stateCurrency" 
-                                          [nzValue]="currency.name" 
-                                          [nzLabel]="currency.name">
-                                        </nz-option>
+                                      <nz-option nzLabel="INR" nzValue="INR">INR</nz-option>
+                                  
                                       </nz-select>
                                     </div>
                                 </div>
@@ -93,7 +90,7 @@
                                             [(ngModel)]="selectedLocation"
                                             required
                                             >
-                                            <nz-option nzLabel="India" nzValue="india">India</nz-option>
+                                            <nz-option nzLabel="India" nzValue="India">India</nz-option>
                                             </nz-select>
                                     </div>
                                 </div>
@@ -110,8 +107,7 @@
                                         nzSize="large"
                                         nzPlaceHolder="Select date format"
                                         [(ngModel)]="profile.dateFormat"
-                                        (ngModelChange)="onDateFormatChange($event)"
-                                    >
+                                        (ngModelChange)="onDateFormatChange($event)">
                                         <nz-option 
                                         *ngFor="let format of dateFormats" [nzValue]="format.value" [nzLabel]="format.label">
                                         </nz-option>
