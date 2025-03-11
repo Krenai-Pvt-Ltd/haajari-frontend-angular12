@@ -480,7 +480,7 @@ export class TimetableComponent implements OnInit {
   ];
 
   selectFilterCriteria(filterCriteria: string) {
-    this.filterCriteria = filterCriteria; 
+    this.filterCriteria = filterCriteria;
   }
 
   resetFilterCriteria(filterCriteria: string){
@@ -998,7 +998,7 @@ export class TimetableComponent implements OnInit {
 
   attendanceRequests: AttendanceTimeUpdateResponse[] = [];
   pageNumberAttendanceRequest: number = 1;
-  itemPerPageAttendanceRequest: number = 5;
+  itemPerPageAttendanceRequest: number = 4;
   fullAttendanceRequestCount: number = 0;
   isFullRequestLoader: boolean = false;
   attendanceRequestSearchString: string = '';
@@ -1016,32 +1016,49 @@ export class TimetableComponent implements OnInit {
     this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
   }
   getAttendanceRequestsData() {
-    this.attendanceRequests = [];
     this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall();
     return new Promise((resolve, reject) => {
       this.isFullRequestLoader = true;
-      // if (this.debounceTimer) {
-      //   clearTimeout(this.debounceTimer);
-      // }
-      // this.debounceTimer = setTimeout(() => {
-      this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
-        if (this.helperService.isObjectNullOrUndefined(response)) {
-          this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
-        } else {
-          // this.attendanceRequests = response.listOfObject;
-          this.attendanceRequests = [...this.attendanceRequests, ...response.object];
-          this.fullAttendanceRequestCount = response.totalItems;
+      this.dataService.getAttendanceRequests(
+        this.pageNumberAttendanceRequest,
+        this.itemPerPageAttendanceRequest,
+        this.attendanceRequestSearchString,
+        this.startDate,
+        this.endDate
+      ).subscribe(
+        (response) => {
+          if (this.helperService.isObjectNullOrUndefined(response)) {
+            this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
+          } else {
+            if(this.pageNumberAttendanceRequest==1){
+              this.attendanceRequests=[];
+            }
+            // Append new data to the existing list
+            this.attendanceRequests = [...this.attendanceRequests, ...response.object];
+            this.fullAttendanceRequestCount = response.totalItems;
+            this.isFullRequestLoader = false;
+          }
+          this.getRequestCountByOrganizationUuid();
+          this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+          this.initialLoadDone = true; // Mark initial load as done after first fetch
+        },
+        (error) => {
           this.isFullRequestLoader = false;
+          this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+          this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = true;
+          reject(error);
         }
-        this.getRequestCountByOrganizationUuid();
-        this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
-      }, (error) => {
-        this.isFullRequestLoader = false;
-        this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
-        this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = true;
-      });
-      // }, debounceTime);
+      );
     });
+  }
+
+  openAttendanceRequests() {
+    this.pageNumberAttendanceRequest = 1;
+    this.attendanceRequests = [];
+    this.fullAttendanceRequestCount = 0;
+    this.attendanceRequestSearchString = '';
+    this.initialLoadDone = false; // Reset initial load flag
+    this.getAttendanceRequestsData();
   }
 
   attendanceRequestCount: number = 0;
@@ -1100,17 +1117,17 @@ export class TimetableComponent implements OnInit {
   initialLoadDone: boolean = false;
   @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
   scrollDownRecentActivity(event: any) {
-    debugger
-    if (!this.initialLoadDone) return;
+    if (!this.initialLoadDone) return; // Skip initial load
 
-    if (this.fullAttendanceRequestCount < ((this.pageNumberAttendanceRequest - 1) * this.itemPerPageAttendanceRequest)) {
+    // Check if we've already loaded all data
+    if (this.attendanceRequests.length >= this.fullAttendanceRequestCount) {
       return;
     }
-    const target = event.target as HTMLElement;
-    const atBottom =
-      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
-    if (atBottom) {
+    const target = event.target as HTMLElement;
+    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+    if (atBottom && !this.isFullRequestLoader) {
       this.pageNumberAttendanceRequest++;
       this.getAttendanceRequestsData();
     }
@@ -1209,6 +1226,10 @@ export class TimetableComponent implements OnInit {
     if (tabId == this.OVERTIME_TAB || tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB) {
       this.onMonthChange(new Date());
     }
+    if (tabId === this.ATTENDANCE_UPDATE_REQUEST_TAB) {
+      this.onMonthChange(new Date());
+      this.openAttendanceRequests(); // Load initial data
+    }
   }
 
   startDate: string = '';
@@ -1216,6 +1237,7 @@ export class TimetableComponent implements OnInit {
   onMonthChange(month: Date): void {
     console.log('Month is getting selected');
     this.selectedDate = month;
+    this.openAttendanceRequests();
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
     if (this.ACTIVE_TAB == this.OVERTIME_TAB) {
@@ -2109,11 +2131,11 @@ export class TimetableComponent implements OnInit {
   attendanceUpdateCount: number = 0;
   /**
    * Fetches the request count by organization UUID and updates the component's state with the retrieved counts.
-   * 
+   *
    * This method calls the `getRequestCountByOrganizationUuid` method of the `dataService` to fetch the request counts.
    * On a successful response, it updates the `overtimeCount` and `attendanceUpdateCount` properties with the respective counts.
    * If an error occurs during the request, it logs the error to the console.
-   * 
+   *
    * @returns {void}
    */
   getRequestCountByOrganizationUuid() {

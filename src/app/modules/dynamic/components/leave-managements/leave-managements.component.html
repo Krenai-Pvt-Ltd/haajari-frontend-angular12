@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="p-3">
-                                        <h5 class="font-18 mb-4 fw-bold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}}
+                                        <h5 class="font-18 mb-4 fw-bold">{{ getTotalCount() }}
                                           <span class="font-12 fw-semibold" style="color: #444;">leaves utilised.</span></h5>
                                         <div *ngIf="isChartInitialized; else loading" class="p-3">
                                             <apx-chart
@@ -92,17 +92,17 @@
                                         <div class="mt-3 mb-2 d-flex align-items-center gap-5 justify-content-between">
                                             <div class="approved position-relative">
                                                 <h5 class="font-12 mb-2">Approved</h5>
-                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
                                                 <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="pending position-relative">
                                                 <h5 class="font-12 mb-2">Pending </h5>
-                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
                                                 <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="rejected position-relative">
                                                 <h5 class="font-12 mb-2">Rejected</h5>
-                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">leaves</span></h5>
+                                                <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
                                                 <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                         </div>
@@ -764,43 +764,50 @@
                                                     </g>
                                                     </svg>
                                             </span>
-                                            <div  class="dropdown">
-                                                <span class="action-btn d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                        <mask id="mask0_7700_4785" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                        <rect x="1.26199" y="1.2623" width="18.4754" height="18.4754" fill="#D9D9D9" stroke="#D6D5D5" stroke-width="0.803279"/>
-                                                        </mask>
-                                                        <g mask="url(#mask0_7700_4785)">
-                                                        <path d="M10.5001 16.9162C10.061 16.9162 9.68533 16.76 9.37258 16.4472C9.05983 16.1345 8.9036 15.7588 8.9036 15.3197C8.9036 14.8806 9.05983 14.5049 9.37258 14.1922C9.68533 13.8794 10.061 13.7232 10.5001 13.7232C10.9392 13.7232 11.3149 13.8794 11.6276 14.1922C11.9404 14.5049 12.0966 14.8806 12.0966 15.3197C12.0966 15.7588 11.9404 16.1345 11.6276 16.4472C11.3149 16.76 10.9392 16.9162 10.5001 16.9162ZM10.5001 12.0965C10.061 12.0965 9.68533 11.9403 9.37258 11.6276C9.05983 11.3148 8.9036 10.9391 8.9036 10.5C8.9036 10.0609 9.05983 9.68524 9.37258 9.37249C9.68533 9.05974 10.061 8.9035 10.5001 8.9035C10.9392 8.9035 11.3149 9.05974 11.6276 9.37249C11.9404 9.68524 12.0966 10.0609 12.0966 10.5C12.0966 10.9391 11.9404 11.3148 11.6276 11.6276C11.3149 11.9403 10.9392 12.0965 10.5001 12.0965ZM10.5001 7.27687C10.061 7.27687 9.68533 7.12063 9.37258 6.80788C9.05983 6.49513 8.9036 6.11947 8.9036 5.68035C8.9036 5.24123 9.05983 4.86557 9.37258 4.55282C9.68533 4.24007 10.061 4.08383 10.5001 4.08383C10.9392 4.08383 11.3149 4.24007 11.6276 4.55282C11.9404 4.86557 12.0966 5.24123 12.0966 5.68035C12.0966 6.11947 11.9404 6.49513 11.6276 6.80788C11.3149 7.12063 10.9392 7.27687 10.5001 7.27687Z" fill="#1C1B1F" stroke="#D6D5D5" stroke-width="0.020082"/>
-                                                        </g>
-                                                    </svg>
-                                                </span>
-                                                <div class="dropdown-menu actionMenuList">
-
-                                                    <li *ngIf="leave.status == PENDING">
-                                                        <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
-                                                        <a class="dropdown-item" >
-                                                            <i class="bi bi-check2"></i>
-                                                             Approve
-                                                        </a>
-                                                        </span>
-                                                    </li>
-                                                    <li *ngIf="leave.status == PENDING">
-                                                        <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
-                                                        <a class="dropdown-item" >
-                                                          <i class="bi bi-x"></i>
-                                                            Reject
-                                                        </a>
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request" (click)="viewLeave(leave)">
-                                                          <i class="bi bi-eye"></i>
-                                                             View request
-                                                        </a>
-                                                    </li>
-
-                                                </div>
+                                            <div class="dropdown">
+                                              <span class="action-btn d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
+                                                <!-- Show loading spinner if the leave is being processed -->
+                                                <ng-container *ngIf="leaveRequestLoading[leave.id]; else showDots">
+                                                  <div class="spinner-border spinner-border-sm" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                  </div>
+                                                </ng-container>
+                                                <!-- Show three dots SVG when not loading -->
+                                                <ng-template #showDots>
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_7700_4785" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                      <rect x="1.26199" y="1.2623" width="18.4754" height="18.4754" fill="#D9D9D9" stroke="#D6D5D5" stroke-width="0.803279"/>
+                                                    </mask>
+                                                    <g mask="url(#mask0_7700_4785)">
+                                                      <path d="M10.5001 16.9162C10.061 16.9162 9.68533 16.76 9.37258 16.4472C9.05983 16.1345 8.9036 15.7588 8.9036 15.3197C8.9036 14.8806 9.05983 14.5049 9.37258 14.1922C9.68533 13.8794 10.061 13.7232 10.5001 13.7232C10.9392 13.7232 11.3149 13.8794 11.6276 14.1922C11.9404 14.5049 12.0966 14.8806 12.0966 15.3197C12.0966 15.7588 11.9404 16.1345 11.6276 16.4472C11.3149 16.76 10.9392 16.9162 10.5001 16.9162ZM10.5001 12.0965C10.061 12.0965 9.68533 11.9403 9.37258 11.6276C9.05983 11.3148 8.9036 10.9391 8.9036 10.5C8.9036 10.0609 9.05983 9.68524 9.37258 9.37249C9.68533 9.05974 10.061 8.9035 10.5001 8.9035C10.9392 8.9035 11.3149 9.05974 11.6276 9.37249C11.9404 9.68524 12.0966 10.0609 12.0966 10.5C12.0966 10.9391 11.9404 11.3148 11.6276 11.6276C11.3149 11.9403 10.9392 12.0965 10.5001 12.0965ZM10.5001 7.27687C10.061 7.27687 9.68533 7.12063 9.37258 6.80788C9.05983 6.49513 8.9036 6.11947 8.9036 5.68035C8.9036 5.24123 9.05983 4.86557 9.37258 4.55282C9.68533 4.24007 10.061 4.08383 10.5001 4.08383C10.9392 4.08383 11.3149 4.24007 11.6276 4.55282C11.9404 4.86557 12.0966 5.24123 12.0966 5.68035C12.0966 6.11947 11.9404 6.49513 11.6276 6.80788C11.3149 7.12063 10.9392 7.27687 10.5001 7.27687Z" fill="#1C1B1F" stroke="#D6D5D5" stroke-width="0.020082"/>
+                                                    </g>
+                                                  </svg>
+                                                </ng-template>
+                                              </span>
+                                              <div class="dropdown-menu actionMenuList">
+                                                <li *ngIf="leave.status == PENDING">
+                                                  <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
+                                                    <a class="dropdown-item">
+                                                      <i class="bi bi-check2"></i>
+                                                      Approve
+                                                    </a>
+                                                  </span>
+                                                </li>
+                                                <li *ngIf="leave.status == PENDING">
+                                                  <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
+                                                    <a class="dropdown-item">
+                                                      <i class="bi bi-x"></i>
+                                                      Reject
+                                                    </a>
+                                                  </span>
+                                                </li>
+                                                <li>
+                                                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leave-request" (click)="viewLeave(leave)">
+                                                    <i class="bi bi-eye"></i>
+                                                    View request
+                                                  </a>
+                                                </li>
+                                              </div>
                                             </div>
                                         </div>
                                      </td>
@@ -920,7 +927,7 @@
         <button class="close-btn" (click)="closeLeaveQuotaModal()">&times;</button>
       </div>
 
-     
+
 
       <div class="modal-body">
         <div class="info-message border-rounded-2">

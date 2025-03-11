@@ -171,7 +171,7 @@
                                         </ng-template>
                                         &nbsp;
                                         <span [ngClass]="checkPercentageChange(-1).isPositive ? 'text-success' : 'text-danger'">
-                                        {{ checkPercentageChange(-1).percentageChange.toFixed(2) }}%
+                                        {{ checkPercentageChange(-1).percentageChange.toFixed(0) }}%
                                         </span>
                                         <!-- {{ checkPercentageChange(-1).isPositive ? 'Up' : 'Down' }} from past week -->
                                         from past week
@@ -208,7 +208,7 @@
                                         </ng-template>
                                         &nbsp;
                                         <span [ngClass]="checkPercentageChange(62).isPositive ? 'text-success' : 'text-danger'">
-                                        {{ checkPercentageChange(62).percentageChange.toFixed(2) }}%
+                                        {{ checkPercentageChange(62).percentageChange.toFixed(0) }}%
                                         </span>
                                         <!-- {{ checkPercentageChange(62).isPositive ? 'Up' : 'Down' }}  -->
                                         from past week
@@ -245,7 +245,7 @@
                                         </ng-template>
                                         &nbsp;
                                         <span [ngClass]="checkPercentageChange(64).isPositive ? 'text-success' : 'text-danger'">
-                                        {{ checkPercentageChange(64).percentageChange.toFixed(2) }}%
+                                        {{ checkPercentageChange(64).percentageChange.toFixed(0) }}%
                                         </span>
                                         <!-- {{ checkPercentageChange(64).isPositive ? 'Up' : 'Down' }} from past week -->
                                         from past week
@@ -282,7 +282,7 @@
                                         </ng-template>
                                         &nbsp;
                                         <span [ngClass]="checkPercentageChange(65).isPositive ? 'text-success' : 'text-danger'">
-                                        {{ checkPercentageChange(65).percentageChange.toFixed(2) }}%
+                                        {{ checkPercentageChange(65).percentageChange.toFixed(0) }}%
                                         </span>
                                         <!-- {{ checkPercentageChange(65).isPositive ? 'Up' : 'Down' }} from past week -->
                                         from past week
@@ -319,7 +319,7 @@
                                         </ng-template>
                                         &nbsp;
                                         <span [ngClass]="checkPercentageChange(-2).isPositive ? 'text-success' : 'text-danger'">
-                                        {{ checkPercentageChange(-2).percentageChange.toFixed(2) }}%
+                                        {{ checkPercentageChange(-2).percentageChange.toFixed(0) }}%
                                         </span>
                                         <!-- {{ checkPercentageChange(-2).isPositive ? 'Up' : 'Down' }} from past week -->
                                         from past week
@@ -1416,52 +1416,65 @@
 
 
 
-<nz-drawer
-  [nzBodyStyle]="{ overflow: 'auto' }"
-  [nzMaskClosable]="false"
-  [nzWidth]="400"
-  [nzVisible]="visible2"
-  nzTitle="Update Category"
-  (nzOnClose)="close2()"
-    >
-    <ng-container *nzDrawerContent>
-    <div class="category-lists">
-      <div class="" *ngFor="let category of categorySummary; let i = index">
-         <div class="pt-3 pb-3 border-bottom">
-         <div class="d-flex align-items-center justify-content-between mb-3">
-               <h5 class="mb-0 font-14 fw-semibold">{{ category.categoryName }}</h5>
+ <nz-drawer
+ [nzBodyStyle]="{ overflow: 'auto' }"
+ [nzMaskClosable]="false"
+ [nzWidth]="400"
+ [nzVisible]="visible2"
+ nzTitle="Update Category"
+ (nzOnClose)="close2()"
+   >
+   <ng-container *nzDrawerContent>
+   <div class="category-lists">
+     <div class="" *ngFor="let category of categorySummary; let i = index">
+        <div class="pt-3 pb-3 border-bottom">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+              <h5 class="mb-0 font-14 fw-semibold">{{ category.categoryName }}</h5>
 
-         <div class="d-flex align-items-center gap-3">
-            <i *ngIf="category.categoryId>0" class="bi bi-pencil text-primary font-14" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
-               (click)="assignCategoryId(category)"></i>
-            <i  *ngIf="category.categoryId>0" class="bi bi-trash3 text-danger font-14" data-bs-toggle="modal" data-bs-target="#delete-automation" (click)="assignCategoryId(category)"></i>
-         </div>
-         </div>
+        <div class="d-flex align-items-center gap-3">
+           <i *ngIf="category.categoryId>0 && !isEditing[i]" class="bi bi-pencil text-primary font-14"
+              (click)="assignCategoryId(category, i); isEditing[i] = !isEditing[i]"></i>
+              <i class="bi bi-x-lg text-primary font-14"
+                                 *ngIf="isEditing[i]"    (click)="isEditing[i] = !isEditing[i]"></i>
+           <i *ngIf="category.categoryId>0" class="bi bi-trash3 text-danger font-14"
+              data-bs-toggle="modal" data-bs-target="#delete-automation"
+              (click)="assignCategoryId(category, i)"></i>
+        </div>
+        </div>
 
-         <!-- <div class="row">
-         <div class="col-md-12 mb-3">
-            <input type="text" class="form-control input-zorro" id="categoryName" name="categoryName"
-              placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
-              #categoryName="ngModel" />
-            <div *ngIf="
-                categoryName.invalid &&
-                (categoryName.dirty || categoryName.touched)
-              " class="text-danger">
-              Category Name is required.
-            </div>
+        <div class="row" *ngIf="isEditing[i]">
+        <div class="col-md-12 mb-3">
+           <label for="categoryName_{{i}}" class="form-label pb-2">Category Name <span class="text-optional">*</span></label>
+           <input type="text" class="form-control input-zorro" id="categoryName_{{i}}" name="categoryName_{{i}}"
+             placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required
+             #categoryName="ngModel" />
+           <div *ngIf="
+               categoryName.invalid &&
+               (categoryName.dirty || categoryName.touched)
+             " class="text-danger">
+             Category Name is required.
+           </div>
+         </div>
+         <div class="col-md-12 text-end">
+          <button type="button" class="btn submitActionBtn"
+          [disabled]="!category.categoryName || loading[i]"
+          (click)="saveOrUpdateCategory(i)">
+          <span *ngIf="!loading[i]">Save</span>
+          <div class="dot-opacity-loader" *ngIf="loading[i]">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-          <div class="col-md-12 text-end">
-            <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
-          </div>
-         </div> -->
+        </button>
          </div>
-      </div>
-    </div>
-   </ng-container>
-   </nz-drawer>
-
+        </div>
+        </div>
+     </div>
+   </div>
+  </ng-container>
+</nz-drawer>
    <div class="modal fade" id="delete-automation" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 500px; z-index: 1055;" role="document">
         <div class="modal-content">
           <div class="modal-body p-0 delete-text">
             <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
@@ -1483,7 +1496,7 @@
               <img src="/assets/images/delete-img.svg" style="width: 70px" />
             </div>
             <div class="bg-white p-4 text-center">
-    
+
               <div>
                 <h5 class="alert-heading font-18 mb-2">
                   Are you sure you want to delete <br />
@@ -1491,11 +1504,11 @@
                 </h5>
                 <p class="font-11">You will not be able to recover this</p>
               </div>
-    
+
               <div class="mt-4 d-flex align-items-center flex-column">
                 <button [disabled]="deleteLoading" class="btn continue-btn" *ngIf="this.selectedCategory.categoryId != 0"
                   (click)="deleteCategory(this.selectedCategory.categoryId)">Continue
-    
+
                   <i class="fa fa-spinner fa-spin" *ngIf="deleteLoading"></i>
                 </button>
                 <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
@@ -1508,4 +1521,3 @@
       </div>
     </div>
 
-   
