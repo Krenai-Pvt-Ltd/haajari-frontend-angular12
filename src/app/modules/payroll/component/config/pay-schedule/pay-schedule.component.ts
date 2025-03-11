@@ -17,7 +17,6 @@ export class PayScheduleComponent implements OnInit {
   PayDayLastDay:number=1;
   PayDaySpecificDay:number=2;
 
-  payDate: Date | null = null;
   selectedMonth: Date | null = null;
 
   constructor(
@@ -37,7 +36,6 @@ export class PayScheduleComponent implements OnInit {
         (response) => {
           if(response.status){
             this.paySchedule= response.object;
-            this.selectedMonth =this.paySchedule.payrollStartDate;
             if(this.paySchedule==null){
               this.paySchedule = new PaySchedule();
             }
@@ -56,8 +54,7 @@ export class PayScheduleComponent implements OnInit {
     
       const today = new Date();
       const currentYear = today.getFullYear();
-      const currentMonth = today.getMonth(); // 0-based (Jan = 0, Apr = 3)
-    
+      const currentMonth = today.getMonth(); 
       let financialYearStart: Date;
       let financialYearEnd: Date;
     
@@ -78,37 +75,15 @@ export class PayScheduleComponent implements OnInit {
       );
     };
 
-
-    onPayPeriodChange(selectedDate : Date){
-      if (selectedDate instanceof Date && !isNaN(selectedDate.getTime())) { 
-        const month = selectedDate.getMonth(); 
-        const year = selectedDate.getFullYear();
-
-
-        this.paySchedule.payrollStartDate = this.calculatePayDate(month, year);
-      }
-    }
-
-    calculatePayDate(selectedMonth: number, selectedYear: number): Date {
-      return new Date(selectedYear, selectedMonth + 1, this.paySchedule.payDay); 
-    }
-
-    disabledDate = (current: Date | null): boolean => {
-      if (!current || !this.paySchedule?.payrollStartDate) {
-        return true; 
-      }
-    
-      const selectedDate = new Date(this.paySchedule.payrollStartDate);
-      selectedDate.setHours(0, 0, 0, 0);
-      current.setHours(0, 0, 0, 0);
-      return current.getTime() !== selectedDate.getTime();
-    };
-    
-
     saveLoader:boolean=false;
 
   organizationDays = Array.from({ length: 11 }, (_, i) => ({ label: (i + 20).toString(), value: i + 20 }));
   PayDays = Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 }));  
+  startAndEndDay = [
+    ...Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 })), 
+    { label: 'Last Day', value: 31 } 
+  ];
+  
   
   
   savePaySchedule(){
@@ -121,9 +96,9 @@ export class PayScheduleComponent implements OnInit {
             this._helperService.showToast("Error in saving your pay schedule.", Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
-          setTimeout(() => {
-            this.route('prior-payroll');
-        }, 2000);
+        //   setTimeout(() => {
+        //     this.route('prior-payroll');
+        // }, 2000);
         },
         (error) => {
           this.saveLoader = false;
@@ -132,6 +107,26 @@ export class PayScheduleComponent implements OnInit {
         }
       );
 }
+
+endDateChanged(endDate: number) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth(); 
+
+  const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+
+  if (endDate == 31) {
+    if (lastDayOfMonth < 31 || endDate === lastDayOfMonth) {
+      this.paySchedule.startDate = 1;
+    } else {
+      this.paySchedule.startDate = 1;
+    }
+  } else {
+    this.paySchedule.startDate = endDate+1;
+  }
+
+}
+
 
 currentTab: any= 'profile';
     route(tabName: string) {
