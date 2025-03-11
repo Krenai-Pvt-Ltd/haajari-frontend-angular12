@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     this.getTodoList();
   }
 
-  selectedLocation: string = 'india';
+  selectedLocation: string = 'India';
 
   selectedCurrency: string = 'INR'; // INR selected by default
 
@@ -145,16 +145,14 @@ export class ProfileComponent implements OnInit {
   }
   
   profile:Profile = new Profile();
-    getProfile(){
-        this._payrollConfigurationService.getOrganizationProfile().subscribe(
-          (response) => {
+  getProfile(){
+      this._payrollConfigurationService.getOrganizationProfile().subscribe((response) => {
             if(response.status){
               this.profile= response.object;
-              this.profile.currency = this.profile.currency ? this.profile.currency : 'INR';
               if(this.profile==null){
                 this.profile = new Profile();
-                console.log(this.profile);
               }
+              this.profile.currency = this.profile.currency ? this.profile.currency : 'INR';
             }
           },
           (error) => {
@@ -164,41 +162,36 @@ export class ProfileComponent implements OnInit {
       }
   
   
-      saveLoader:boolean=false;
-            saveOrganizationProfile(){
-              this.saveLoader = true;
-              this._payrollConfigurationService.saveOrganizationProfile(this.profile).subscribe(
-                (response) => {
-                  if(response.status){
-                    this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
-                  }else{
-                    this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
-                  }
-                  this.saveLoader = false;
-                  setTimeout(() => {
-                    this.route('statutory');
-                }, 2000);
-                },
-                (error) => {
-                  this.saveLoader = false;
-                  this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
-  
-                }
-              );
-            }
+    saveLoader:boolean=false;
+    saveOrganizationProfile(){
+      this.saveLoader = true;
+      this._payrollConfigurationService.saveOrganizationProfile(this.profile).subscribe((response) => {
+          if(response.status){
+            this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+          }
+          this.saveLoader = false;
+          setTimeout(() => {
+            this.route('statutory');
+        }, 2000);
+        },
+        (error) => {
+          this.saveLoader = false;
+          this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+
+        }
+      );
+    }
   
     uploadFile(file: File): void {
-        debugger;
-        const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+        const filePath = "logo"+new Date().getTime()+file.name;
         const fileRef = this.afStorage.ref(filePath);
         const task = this.afStorage.upload(filePath, file);
     
-        task
-          .snapshotChanges()
-          .pipe(
+        task.snapshotChanges().pipe(
             finalize(() => {
               fileRef.getDownloadURL().subscribe((url) => {
-                // console.log('File URL:', url);
                 this.profile.logo = url;
                 this.isUploading=false;
               });
@@ -240,10 +233,10 @@ export class ProfileComponent implements OnInit {
     this.isUploading = true;
   
     const blob = this.dataURItoBlob(this.base64);
-    const fileName = `cropped_${new Date().getTime()}.png`;
+    const fileName = "cropped_"+new Date().getTime()+".png";
     const file = new File([blob], fileName, { type: 'image/png' });
   
-    const filePath = `uploads/${fileName}`;
+    const filePath = "logo/"+fileName;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
   
@@ -251,7 +244,6 @@ export class ProfileComponent implements OnInit {
       .pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
-            console.log('File URL:', url);
             this.profile.logo = url; 
             this.isUploading = false;
           });
