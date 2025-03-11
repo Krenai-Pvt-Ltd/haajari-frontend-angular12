@@ -1,3 +1,4 @@
+<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="savePaySchedule()">
 <div class="p-4 mb-10">
     <div class="row">
         <div class="col-md-4">
@@ -28,6 +29,7 @@
                     class="form-control w-100 placeholder-line" 
                     nzSize="large"
                     nzPlaceHolder="Select"
+                    name="modeDay"
                     [(ngModel)]="paySchedule.modeDay" 
                     [disabled]="paySchedule.salaryCalculationMode == SalaryCalculationModeActualDays" 
                     >
@@ -73,6 +75,7 @@
                     <nz-select 
                     class="form-control w-100 placeholder-line" 
                     nzSize="large" 
+                    name="payday"
                     [(ngModel)]="paySchedule.payDay" 
                     [disabled]="paySchedule.payDayType == PayDayLastDay" 
                     required>
@@ -105,6 +108,7 @@
                 <div class="col-md-6">
                     <div>
                         <nz-date-picker class="form-control w-100 placeholder-line" nzMode="month" 
+                        name="financialYear"
                         nzBorderless nzFormat="MM/yyyy" nzPlaceHolder="Starting Month"
                         [(ngModel)]="selectedMonth"
                         (ngModelChange)="onPayPeriodChange($event)"
@@ -128,7 +132,8 @@
                 <div class="col-md-6">
                     <div>
                         <nz-date-picker class="form-control w-100 placeholder-line" 
-                        [(ngModel)]="paySchedule.payrollStartDate"    
+                        [(ngModel)]="paySchedule.payrollStartDate" 
+                        name="payrollDate"   
                         nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"
                         [nzDisabledDate]="disabledDate"
                         ></nz-date-picker>
@@ -177,3 +182,4 @@
         <span *ngIf="!saveLoader"> Save and Next</span>      
     </button>
 </div>
+</form>
