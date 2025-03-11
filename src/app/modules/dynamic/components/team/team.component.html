@@ -690,7 +690,7 @@
 <div class="modal fade" id="addteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 600px" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" >
         <h5 class="modal-title m-0" id="exampleModalDefaultLabel">
           {{ team.name }}
         </h5>
@@ -698,9 +698,8 @@
           #assignManagerModalCloseButton></button>
       </div>
       <div class="modal-body p-0">
-        <div class="card-body p-0">
+        <div class="p-0" *ngIf="team?.userList?.length > 0">
           <ul class="nav nav-tabs" role="tablist">
-           
             <li class="nav-item">
               <a class="nav-link active" data-bs-toggle="tab" href="#members-add" role="tab"
                 aria-selected="false">Members</a>
@@ -708,10 +707,7 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane p-3 active" id="members-add" role="tabpanel">
-                <div>
-                  <!-- <div class="">
-                    <h5>Members</h5>
-                  </div> -->
+              <div >
                   <div class="Members-list-box d-flex align-items-center justify-content-between"
                     *ngFor="let ul of team.userList; let i = index">
                     <div class="d-flex align-items-center" style="gap: 10px">
@@ -776,10 +772,11 @@
                       </div>
                     </div>
                   </div>
-                </div>
+              </div>
 
-                
-            </div>
+             
+             
+              </div>
             <div class="tab-pane p-3" id="advanced" role="tabpanel">
               <p class="text-muted mb-0">
                 Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
@@ -787,6 +784,16 @@
             </div>
           </div>
         </div>
+
+        <div class="empty-filenew" style="margin-top: 15%; margin-bottom: 15%" *ngIf="!(team?.userList?.length > 0)">
+          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+            [nzNotFoundContent]="contentTpl">
+            <ng-template #contentTpl>
+              <p class="mb-1 empty-filenew">No data for now</p>
+            </ng-template>
+          </nz-empty>
+        </div>
+        
         <!--end card-body-->
       </div>
       <!-- <div class="modal-footer">
