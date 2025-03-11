@@ -492,30 +492,30 @@
                                         </div>     
                                 
                                         <div class="col-md-12 mb-3">
-                                            <h5 class="font-14 mb-3">Status</h5>
-                                            <div class="mt-2">
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="all" (change)="updateAllStatus($event)">
-                                                    <label class="form-check-label fw-normal" for="all">All</label>
-                                                </div>
+                                            <label for="status" class="pb-2">Status</label>
+                                            <nz-select 
+                                                [nzMaxTagCount]="3" 
+                                                class="w-100"
+                                                [nzMaxTagPlaceholder]="tagPlaceHolder"
+                                                nzMode="multiple" 
+                                                nzPlaceHolder="Select Status"
+                                                [(ngModel)]="selectedStatus"
+                                                (ngModelChange)="updateStatusIds($event)">
                                                 
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="approved" (change)="updateStatusIds($event, [14,53,40])">
-                                                    <label class="form-check-label fw-normal" for="approved">Approved</label>
-                                                </div>
-                                                
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="rejected" (change)="updateStatusIds($event, 15)">
-                                                    <label class="form-check-label fw-normal" for="rejected">Rejected</label>
-                                                </div>
-                                                
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="pending" (change)="updateStatusIds($event, 13)">
-                                                    <label class="form-check-label fw-normal" for="pending">Pending</label>
-                                                </div>
-                                                                                                
-                                            </div>
+                                                <!-- Dynamically Generate Options -->
+                                                <nz-option *ngFor="let label of getStatusLabels()" 
+                                                           [nzValue]="label" 
+                                                           [nzLabel]="label">
+                                                </nz-option>
+                                        
+                                            </nz-select>
+                                            
+                                            <!-- Placeholder for hidden selected items -->
+                                            <ng-template #tagPlaceHolder let-selectedList>
+                                                and {{ selectedList.length }} more selected
+                                            </ng-template>
                                         </div>
+                                        
                                     </div>
                                     <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
                                         <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
@@ -648,9 +648,16 @@
                                                 <td class="text-left">
                                                     <span class="table-font-weight white-space"> {{expense.notes}}  </span>
                                                 </td>
-                                                <td class="text-left">
-                                                   <span> {{expense.notes}} </span>
-                                                </td>
+                                                <td>
+                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{  expense.notes || '--'}}</span>
+                                                    <ng-template #contentTemplate>
+                                                       <div>
+                                                          {{expense.notes}}
+                                                       </div>
+                                                    </ng-template>
+                                                 </td>
+                                        
                                                 <td class="text-left">
                                                     <span class="badge rounded-pill "
                                                         [ngClass]="{'badge-soft-warning': expense.status.id == 13 || expense.status.id == 46, 'badge-soft-success': expense.status.id == 14 || expense.status.id == 41 || expense.status.id == 40 || expense.status.id == 53,

@@ -29,6 +29,7 @@ export class ExpenseManagementComponent implements OnInit {
       'userId'
     );
     this.userId = userUuidParam?.toString() ?? ''
+    this.selectedStatus = [];
     this.getExpenses();
     this.getExpensesCount();
 
@@ -158,69 +159,117 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
 
-  statusLabels: { [key: number]: string } = {
-    13: "Pending",
-    14: "Approved",
-    15: "Rejected",
-    40: "Approved",
-    53: "Approved",
-    46: "Approved"
-};
+  // statusLabels: { [key: number]: string } = {
+  //   13: "Pending",
+  //   14: "Approved",
+  //   15: "Rejected",
+  //   40: "Approved",
+  //   53: "Approved",
+  //   46: "Approved"
+  // };
+
+
+  // selectedStatus: number[] = [];
+
+  // getUniqueStatusIds(): number[] {
+  //   return Array.from(new Set(Object.keys(this.statusLabels).map(Number))); 
+  // }
+
+  // updateStatusIds(selectedValues: number[]) {
+  //   this.statusIds = selectedValues; // Store selected IDs
+
+  //   // Convert selected IDs into label names
+  //   this.tempSelectedFilter = selectedValues.map(id => this.statusLabels[id]);
+
+  //   console.log('Updated statusIds:', this.statusIds);
+  //   console.log('Selected Filters:', this.tempSelectedFilter);
+  // }
 
 
 
-  updateStatusIds(event: any, statusIds: number | number[]) {
-    const allCheckbox = document.getElementById("all") as HTMLInputElement;
+  // updateStatusIds(event: any, statusIds: number | number[]) {
+  //   const allCheckbox = document.getElementById("all") as HTMLInputElement;
 
-    const idsArray = Array.isArray(statusIds) ? statusIds : [statusIds];
+  //   const idsArray = Array.isArray(statusIds) ? statusIds : [statusIds];
 
-    if (event.target.checked) {
-        idsArray.forEach(id => {
-            if (!this.statusIds.includes(id)) {
-                this.statusIds.push(id);
-                if (this.statusLabels[id] && !this.tempSelectedFilter.includes(this.statusLabels[id])) {
-                  this.tempSelectedFilter.push(this.statusLabels[id]); 
-              }
-            }
-        });
-    } else {
-        this.statusIds = this.statusIds.filter(id => !idsArray.includes(id));
-        idsArray.forEach(id => {
-          if (this.statusLabels[id]) {
-              this.tempSelectedFilter = this.tempSelectedFilter.filter(label => label !== this.statusLabels[id]);
-          }
-      });
-    }
+  //   if (event.target.checked) {
+  //       idsArray.forEach(id => {
+  //           if (!this.statusIds.includes(id)) {
+  //               this.statusIds.push(id);
+  //               if (this.statusLabels[id] && !this.tempSelectedFilter.includes(this.statusLabels[id])) {
+  //                 this.tempSelectedFilter.push(this.statusLabels[id]); 
+  //             }
+  //           }
+  //       });
+  //   } else {
+  //       this.statusIds = this.statusIds.filter(id => !idsArray.includes(id));
+  //       idsArray.forEach(id => {
+  //         if (this.statusLabels[id]) {
+  //             this.tempSelectedFilter = this.tempSelectedFilter.filter(label => label !== this.statusLabels[id]);
+  //         }
+  //     });
+  //   }
 
-    if (!event.target.checked) {
-        allCheckbox.checked = false;
-    }
+  //   if (!event.target.checked) {
+  //       allCheckbox.checked = false;
+  //   }
+
+  //   console.log('Updated statusIds:', this.statusIds);
+  //   console.log('Selected Filters:', this.tempSelectedFilter);
+  // }
+
+  
+  // updateAllStatus(event: any) {
+  //   const approvedCheckbox = document.getElementById("approved") as HTMLInputElement;
+  //   const rejectedCheckbox = document.getElementById("rejected") as HTMLInputElement;
+  //   const pendingCheckbox = document.getElementById("pending") as HTMLInputElement;
+  
+  //   if (event.target.checked) {
+  //     this.statusIds = [13, 14, 15, 40, 53, 46]; 
+  
+  //     approvedCheckbox.checked = true;
+  //     rejectedCheckbox.checked = true;
+  //     pendingCheckbox.checked = true;
+  //   } else {
+  //     this.statusIds = []; 
+  
+  //     approvedCheckbox.checked = false;
+  //     rejectedCheckbox.checked = false;
+  //     pendingCheckbox.checked = false;
+  //   }
+  
+  //   console.log('Updated statusIds after selecting all:', this.statusIds);
+  // }
+
+
+  statusMap: { [label: string]: number[] } = {
+    "Pending": [13],
+    "Approved": [14, 40, 53, 46],
+    "Rejected": [15]
+  };
+
+  selectedStatus: string[] = [];
+  
+
+  // Get All Unique Status Labels
+  getStatusLabels(): string[] {
+    return Object.keys(this.statusMap);
+  }
+
+  // Update Selected Status and IDs
+  updateStatusIds(selectedLabels: string[]) {
+    this.statusIds = [];
+
+    selectedLabels.forEach(label => {
+      if (this.statusMap[label]) {
+        this.statusIds.push(...this.statusMap[label]);
+      }
+    });
+
+    this.tempSelectedFilter = selectedLabels;
 
     console.log('Updated statusIds:', this.statusIds);
     console.log('Selected Filters:', this.tempSelectedFilter);
-  }
-
-  
-  updateAllStatus(event: any) {
-    const approvedCheckbox = document.getElementById("approved") as HTMLInputElement;
-    const rejectedCheckbox = document.getElementById("rejected") as HTMLInputElement;
-    const pendingCheckbox = document.getElementById("pending") as HTMLInputElement;
-  
-    if (event.target.checked) {
-      this.statusIds = [13, 14, 15, 40, 53, 46]; 
-  
-      approvedCheckbox.checked = true;
-      rejectedCheckbox.checked = true;
-      pendingCheckbox.checked = true;
-    } else {
-      this.statusIds = []; 
-  
-      approvedCheckbox.checked = false;
-      rejectedCheckbox.checked = false;
-      pendingCheckbox.checked = false;
-    }
-  
-    console.log('Updated statusIds after selecting all:', this.statusIds);
   }
 
   tempDateFilters: { key: string; value: string }[] = [];
@@ -238,42 +287,71 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   resetFilters() {
-    this.statusIds = [];
-  
-    (document.getElementById("all") as HTMLInputElement).checked = false;
-    (document.getElementById("approved") as HTMLInputElement).checked = false;
-    (document.getElementById("rejected") as HTMLInputElement).checked = false;
-    (document.getElementById("pending") as HTMLInputElement).checked = false;
-  
+    this.statusIds = []; 
+    this.selectedStatus = []; 
+    this.tempSelectedFilter = [];  
+
     console.log("Filters reset. Fetching all expenses...");
+
+    this.getExpenses();  
+}
+
+
+  // resetFilters() {
+  //   this.statusIds = [];
   
-    this.getExpenses();
-    this.tempSelectedFilter = [];
-    this.showFilter = false;
+  //   (document.getElementById("all") as HTMLInputElement).checked = false;
+  //   (document.getElementById("approved") as HTMLInputElement).checked = false;
+  //   (document.getElementById("rejected") as HTMLInputElement).checked = false;
+  //   (document.getElementById("pending") as HTMLInputElement).checked = false;
+  
+  //   console.log("Filters reset. Fetching all expenses...");
+  
+  //   this.getExpenses();
+  //   this.tempSelectedFilter = [];
+  //   this.showFilter = false;
+  // }
+
+//   removeFilter(filter: string) {
+//     const statusIdsToRemove = Object.keys(this.statusLabels)
+//         .filter(key => this.statusLabels[+key] === filter) 
+//         .map(key => +key);
+
+//     if (statusIdsToRemove.length > 0) {
+//         this.statusIds = this.statusIds.filter(id => !statusIdsToRemove.includes(id));
+//         this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== filter);
+
+//         // Uncheck corresponding checkboxes
+//         statusIdsToRemove.forEach(statusId => {
+//             const checkbox = document.getElementById(this.getCheckboxIdByStatus(statusId)) as HTMLInputElement;
+//             if (checkbox) {
+//                 checkbox.checked = false;
+//             }
+//         });
+//     }
+
+//     this.getExpenses();
+//     console.log("Updated Filters:", this.tempSelectedFilter);
+//     console.log("Updated Status IDs:", this.statusIds);
+// }
+
+
+removeFilter(filter: string) {
+  const statusIdsToRemove = this.statusMap[filter] || [];
+
+  if (statusIdsToRemove.length > 0) {
+      this.statusIds = this.statusIds.filter(id => !statusIdsToRemove.includes(id));
+      
+      this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== filter);
+
+      this.selectedStatus = this.selectedStatus.filter(f => f !== filter);
   }
 
-  removeFilter(filter: string) {
-    const statusIdsToRemove = Object.keys(this.statusLabels)
-        .filter(key => this.statusLabels[+key] === filter) 
-        .map(key => +key);
-
-    if (statusIdsToRemove.length > 0) {
-        this.statusIds = this.statusIds.filter(id => !statusIdsToRemove.includes(id));
-        this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== filter);
-
-        // Uncheck corresponding checkboxes
-        statusIdsToRemove.forEach(statusId => {
-            const checkbox = document.getElementById(this.getCheckboxIdByStatus(statusId)) as HTMLInputElement;
-            if (checkbox) {
-                checkbox.checked = false;
-            }
-        });
-    }
-
-    this.getExpenses();
-    console.log("Updated Filters:", this.tempSelectedFilter);
-    console.log("Updated Status IDs:", this.statusIds);
+  this.getExpenses();
+  console.log("Updated Filters:", this.tempSelectedFilter);
+  console.log("Updated Status IDs:", this.statusIds);
 }
+
 
 removeDateFilter(filter: { key: string; value: string }): void {
   this.tempDateFilters = [];
@@ -286,21 +364,21 @@ removeDateFilter(filter: { key: string; value: string }): void {
 }
 
 
-getCheckboxIdByStatus(statusId: number): string {
-    switch (statusId) {
-        case 14:
-        case 40:
-        case 53:
-        case 46:
-            return "approved";
-        case 15:
-            return "rejected";
-        case 13:
-            return "pending";
-        default:
-            return "";
-    }
-}
+// getCheckboxIdByStatus(statusId: number): string {
+//     switch (statusId) {
+//         case 14:
+//         case 40:
+//         case 53:
+//         case 46:
+//             return "approved";
+//         case 15:
+//             return "rejected";
+//         case 13:
+//             return "pending";
+//         default:
+//             return "";
+//     }
+// }
 
 getStartIndex(): number {
   return (this.databaseHelper.currentPage - 1) * this.databaseHelper.itemPerPage + 1;
@@ -404,7 +482,8 @@ showPayCashDiv(){
 }
 
 partiallyPayment: boolean = false;
-expensePaymentType: string = 'full'
+expensePaymentType: string = 'full';
+
 
 
 }
