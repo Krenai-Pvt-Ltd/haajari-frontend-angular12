@@ -480,8 +480,8 @@ input[type=checkbox] {
   font-weight: 400 !important;
 }
 
-.modal {
-  z-index: 2000 !important;
+.delete-modal {
+  z-index: 1100 !important;
 }
 
 .modal-backdrop {
@@ -494,4 +494,7 @@ input[type=checkbox] {
 
 .ant-drawer-mask {
   z-index: 999 !important;
+}
+.select-container .ant-select-dropdown {
+  z-index: 2000 !important;
 }
