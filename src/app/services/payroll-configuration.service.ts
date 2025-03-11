@@ -7,6 +7,7 @@ import { EmployeeProvidentFund } from '../payroll-models/EmployeeProvidentFund';
 import { EmployeeStateInsurance } from '../payroll-models/EmployeeStateInsurance';
 import { Profile } from '../payroll-models/Profile';
 import { add } from 'lodash';
+import { PaySchedule } from '../payroll-models/PaySchedule';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,14 @@ export class PayrollConfigurationService {
     }
 
     getDefaultEarnning(): Observable<any>{
-      return this._http.get<any>(`${this._key.base_url}/salary-component/default-earning"`);
+      return this._http.get<any>(`${this._key.base_url}/salary-component/default-earning`);
+    }
+
+    getPaySchedule(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/payroll-config/pay-schedule`);
+    }
+
+    savePaySchedule(data:PaySchedule): Observable<any>{
+      return this._http.put<any>(`${this._key.base_url}/payroll-config/pay-schedule`,data);
     }
 }

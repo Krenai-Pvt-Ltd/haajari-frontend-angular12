@@ -10,13 +10,13 @@
             <div class="row">
                 <div class="col-md-12 mb-4">
                 <div class="form-check mb-2 d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios1" [value]="SalaryCalculationModeActualDays" [(ngModel)]="paySchedule.salaryCalculationMode">
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios1">
                         Actual days in a month
                     </label>
                   </div>
                   <div class="form-check d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" >
+                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios2" [value]="SalaryCalculationModeOrganizationDays" [(ngModel)]="paySchedule.salaryCalculationMode">
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios2">
                         Organization working days
                     </label>
@@ -26,13 +26,15 @@
                   <div class="col-md-6 mb-4">
                     <nz-select 
                     class="form-control w-100 placeholder-line" 
-                    nzSize="large" 
-                    [(ngModel)]="selectedPfWage" 
-                    required>
+                    nzSize="large"
+                    nzPlaceHolder="Select"
+                    [(ngModel)]="paySchedule.modeDay" 
+                    [disabled]="paySchedule.salaryCalculationMode == SalaryCalculationModeActualDays" 
+                    >
                     <nz-option 
-                    *ngFor="let option of employer" 
-                    [nzLabel]="option.label" 
-                    [nzValue]="option.value">
+                    *ngFor="let days of organizationDays" 
+                    [nzLabel]="days.label" 
+                    [nzValue]="days.value">
                     </nz-option>
                     </nz-select>
                  </div>
@@ -54,13 +56,13 @@
             <div class="row">
                 <div class="col-md-12 mb-4">
                 <div class="form-check mb-2 d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked>
+                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios3" [value]="PayDayLastDay" [(ngModel)]="paySchedule.payDayType">
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios3">
                         the last working day of every month
                     </label>
                   </div>
                   <div class="form-check d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option4" >
+                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios4" [value]="PayDaySpecificDay" [(ngModel)]="paySchedule.payDayType">
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios4">
                         Set the day of every month
                     </label>
@@ -71,12 +73,13 @@
                     <nz-select 
                     class="form-control w-100 placeholder-line" 
                     nzSize="large" 
-                    [(ngModel)]="selectedPfWage" 
+                    [(ngModel)]="paySchedule.payDay" 
+                    [disabled]="paySchedule.payDayType == PayDayLastDay" 
                     required>
                     <nz-option 
-                    *ngFor="let option of employer" 
-                    [nzLabel]="option.label" 
-                    [nzValue]="option.value">
+                    *ngFor="let days of PayDays" 
+                    [nzLabel]="days.label" 
+                    [nzValue]="days.value">
                     </nz-option>
                     </nz-select>
                  </div>
@@ -93,7 +96,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="payroll-details-box">
-                <h4 class="font-15 text-black fw-semibold lh-1">Payment Starts From</h4>
+                <h4 class="font-15 text-black fw-semibold lh-1">Start your first payroll from</h4>
                 <span class="text-muted font-12 fw-normal">Your registered business name</span>
             </div>
         </div>
@@ -101,7 +104,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <div>
-                        <nz-date-picker class="form-control w-100 placeholder-line" nzMode="month" nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Month"></nz-date-picker>
+                        <nz-date-picker class="form-control w-100 placeholder-line" nzMode="month" 
+                        nzBorderless nzFormat="MM/yyyy" nzPlaceHolder="Starting Month"
+                        [(ngModel)]="selectedMonth"
+                        (ngModelChange)="onPayPeriodChange($event)"
+                        [nzDisabledDate]="disableFinancialYearMonths"
+                        ></nz-date-picker>
                     </div>
                 </div>
             </div>
@@ -111,7 +119,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="payroll-details-box">
-                <h4 class="font-15 text-black fw-semibold lh-1">Start your first payroll from</h4>
+                <h4 class="font-15 text-black fw-semibold lh-1">Select a pay date for your first payroll</h4>
                 <span class="text-muted font-12 fw-normal">Your registered business name</span>
             </div>
         </div>
@@ -119,7 +127,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <div>
-                        <nz-date-picker class="form-control w-100 placeholder-line" nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"></nz-date-picker>
+                        <nz-date-picker class="form-control w-100 placeholder-line" 
+                        [(ngModel)]="paySchedule.payrollStartDate"    
+                        nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"
+                        [nzDisabledDate]="disabledDate"
+                        ></nz-date-picker>
                     </div>
                 </div>
             </div>
@@ -130,7 +142,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="payroll-details-box">
-                <h4 class="font-15 text-black fw-semibold lh-1">Start your first payroll from</h4>
+                <h4 class="font-15 text-black fw-semibold lh-1">Pay Date for First Payroll</h4>
                 <span class="text-muted font-12 fw-normal">Your registered business name</span>
             </div>
         </div>
@@ -155,6 +167,13 @@
 
 
 <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
-    <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
-    <button class="btn submitActionBtn font-13 fw-semibold text-white">Submit</button>
+    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+        [disabled]="saveLoader">
+        <div *ngIf="saveLoader" class="dot-opacity-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span *ngIf="!saveLoader"> Save and Next</span>      
+    </button>
 </div>
