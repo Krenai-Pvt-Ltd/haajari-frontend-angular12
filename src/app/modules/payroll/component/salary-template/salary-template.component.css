@@ -1,0 +1,65 @@
+  .salary-template-empty-box {
+    background-color: #f5f6ff;
+  }
+   
+  .add-template-btn {
+    background-color: var(--primary-background-color);
+    height: 40px;
+    min-width: 200px;
+  }
+  
+  .payroll-sidebar-menu {
+    border-right: 1px solid #f1f1f1;
+    min-height: 100vh;
+    position: relative;
+    z-index: 99;
+}
+.payroll-sidebar-menu svg{
+    width: 16px;
+}
+.active-box{
+    background-color: #F2F2FF;
+}
+.collapse-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="true"] .collapse-icon {
+    transform: rotate(90deg);
+}
+
+.earning-box{
+    border-bottom: 1px solid #E3E3E3 !important;
+    background: #FDFDFF;
+}
+.earning-box ul{
+    list-style: none;
+}
+.earning-box ul li{
+    line-height: 40px;
+}
+.earning-box ul li span{
+    display: none;
+}
+.earning-box ul li:hover span{
+   display: block;
+}
+.earning-box ul li:hover{
+   color: var(--primary-color);
+}
+
+.create-template-box{
+    background-color: #FBFCFD;
+
+}
+.percentage-icon{
+    width: 50px;
+    height: 45px;
+    position: absolute;
+    top: 30px;
+    background-color: #F1F1F1;
+    left: 8px;
+}
+.template-calculation{
+    border: 1px solid #E9E9E9;
+}

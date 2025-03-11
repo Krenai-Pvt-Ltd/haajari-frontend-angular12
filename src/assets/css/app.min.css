@@ -60,7 +60,9 @@
 .attendance-border{
   border: 1px solid #f1f1f1;
 }
-
+.font-32{
+  font-size: 32px;
+}
 .img-32{
   width: 32px;
   height: 32px;

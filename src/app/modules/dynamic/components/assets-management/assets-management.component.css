@@ -374,6 +374,13 @@ input[type=checkbox] {
     flex-wrap: nowrap;
   } */
 
+  .actionMenuList .dropdown-item {
+    font-size: 14px !important;
+    color: #333 !important;
+    border-radius: 6px;
+    padding: 3px 15px !important;
+}
+
   .filter-pills {
     line-height: 18px;
   color: var(--primary-color);

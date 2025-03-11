@@ -649,9 +649,10 @@
                                      <th class="text-left font-13" style="width: 15%;">Type</th>
                                      <th class="text-left font-13" style="width: 15%;">Date</th>
                                      <th class="text-left font-13" style="width: 10%;">Requested To</th>
+                                     <th class="text-left font-13" style="width: 10%;">Status</th>
                                      <th class="text-left font-13" style="width: 15%;">Leave Note</th>
                                      <th class="text-left font-13" style="width: 15%;">cancellation reason</th>
-                                     <th class="text-left font-13" style="width: 10%;">Status</th>
+                                     
                                      <th class="text-end font-13 stickyColTdend" style="width: 10%;">Action </th>
                                   </tr>
                                </thead>
@@ -725,24 +726,24 @@
                                      </td>
                                      <td class="text-left"><span class=" mb-0 font-13 fw-semibold">{{leave.managerName}} </span></td>
 
+                                     <td class="text-left">
+                                      <div class="d-flex align-items-center gap-2">
+                                         <span class="font-14 fw-semibold" [ngClass]="{
+                                              'text-danger': leave.status == REJECTED,
+                                              'text-primary': leave.status == PENDING || leave.status == REQUESTED,
+                                              'text-success': leave.status == APPROVED
+                                          }">{{leave.status|  uppercase}} </span>
 
+                                      </div>
+                                      <p class="mb-0 mt-0 fw-normal font-13 color-basic">By: {{leave.managerName || '-'}} </p>
+                                  </td>
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space"  nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.notes}}</span>
                                      </td>
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.rejectionReason || "N/A"}}</span>
                                     </td>
-                                    <td class="text-left">
-                                        <div class="d-flex align-items-center gap-2">
-                                           <span class="font-14 fw-semibold" [ngClass]="{
-                                                'text-danger': leave.status == REJECTED,
-                                                'text-primary': leave.status == PENDING || leave.status == REQUESTED,
-                                                'text-success': leave.status == APPROVED
-                                            }">{{leave.status|  uppercase}} </span>
-
-                                        </div>
-                                        <p class="mb-0 mt-0 fw-normal font-13">By: {{leave.managerName || '-'}} </p>
-                                    </td>
+                                   
                                      <td class="text-end stickyColTdend">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
                                             <span *ngIf="!isExpanded(i)"

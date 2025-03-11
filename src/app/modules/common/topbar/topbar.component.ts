@@ -217,6 +217,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Manage Employee Expense Reimbursements"
       break;
     }
+    case this.Routes.SALARYTEMPLATE:{
+      routeValue = 'Salary Templates';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
 
    }
 

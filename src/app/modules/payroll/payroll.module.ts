@@ -25,6 +25,7 @@ import { EarningDetailsComponent } from './component/config/earning-details/earn
 import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
 import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
 import { ProfileComponent } from './component/config/profile/profile.component';
+import { SalaryTemplateComponent } from './component/salary-template/salary-template.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ProfileComponent } from './component/config/profile/profile.component';
     PreferencesComponent,
     EarningDetailsComponent,
     BenefitDetailsComponent,
-    DeductionsDetailsComponent
+    DeductionsDetailsComponent,
+    SalaryTemplateComponent
   ],
   imports: [
     CommonModule,
