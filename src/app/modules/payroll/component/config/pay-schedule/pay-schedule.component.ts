@@ -21,7 +21,8 @@ export class PayScheduleComponent implements OnInit {
 
   constructor(
     private _payrollConfigurationService : PayrollConfigurationService,
-    private _helperService : HelperService
+    private _helperService : HelperService,
+    private route : 
   ) { }
 
   ngOnInit(): void {
