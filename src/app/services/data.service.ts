@@ -3952,7 +3952,7 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams()
       .set('attendanceRequestId', attendanceReqId)
-      .set('requestString', requestString);
+      .set('status', requestString);
     const url = `${this.baseUrl}/attendance/approve/reject/attendance/requests`;
     return this.httpClient.put<any>(url, {}, { params });
   }

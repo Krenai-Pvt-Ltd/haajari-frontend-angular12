@@ -2626,10 +2626,10 @@
                     <p><strong>Manager:</strong> {{ log.managerName }}</p>
                     <p><strong>Reason:</strong> {{ log.requestReason }}</p>
                     <div class="action-buttons d-flex align-items-center justify-contant-end" *ngIf="log.managerUuid === logInUserUuid || role == 'ADMIN'">
-                      <button class="btn btn-soft-success mx-2" (click)="approveOrReject(log.id, 'APPROVE')">
+                      <button class="btn btn-soft-success mx-2" (click)="approveOrReject(log.id, 'APPROVED')">
                         Approve
                       </button>
-                      <button class="btn btn-soft-danger mx-2" (click)="approveOrReject(log.id, 'REJECT')">
+                      <button class="btn btn-soft-danger mx-2" (click)="approveOrReject(log.id, 'REJECTED')">
                         Reject
                       </button>
                     </div>
@@ -2989,7 +2989,7 @@
                   <button class="btn reject-btn" type="button" (click)="
                       approveOrReject(
                         attendanceUpdateRequestActionResponse.id,
-                        'REJECT'
+                        'REJECTED'
                       )
                     ">
                     <div *ngIf="attendanceUpdateRequestRejectLoader; else rejectLabel">
@@ -3005,7 +3005,7 @@
                   <button class="btn approve-btn" type="button" (click)="
                       approveOrReject(
                         attendanceUpdateRequestActionResponse.id,
-                        'APPROVE'
+                        'APPROVED'
                       )
                     ">
                     <div *ngIf="

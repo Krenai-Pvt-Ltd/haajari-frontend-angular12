@@ -1170,21 +1170,21 @@ export class TimetableComponent implements OnInit {
   }
 
   approveOrReject(id: number, reqString: string) {
-    if (reqString == 'APPROVE') {
+    if (reqString == 'APPROVED') {
       this.attendanceUpdateRequestApproveLoader = true;
-    } else if (reqString == 'REJECT') {
+    } else if (reqString == 'REJECTED') {
       this.attendanceUpdateRequestRejectLoader = true;
     }
     this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
       this.attendanceUpdateRequestApproveLoader = false;
       this.attendanceUpdateRequestRejectLoader = false;
       // console.log('requests retrieved successfully', response.listOfObject);
-      if (response.message == 'APPROVE') {
+      if (response.message == 'APPROVED') {
         this.helperService.showToast(
           'Request Approved Successfully.',
           Key.TOAST_STATUS_SUCCESS
         );
-      } else if (response.message == 'REJECT') {
+      } else if (response.message == 'REJECTED') {
         this.helperService.showToast(
           'Request Rejected Successfully.',
           Key.TOAST_STATUS_SUCCESS
@@ -2160,10 +2160,10 @@ export class TimetableComponent implements OnInit {
   fetchAttendanceRequests(): void {
 
     this.dataService.getAttendanceRequestsNew(
-      'CREATE', 
-      '2024-03-01', 
-      '2024-03-30', 
-      1, 
+      'CREATE',
+      '2024-03-01',
+      '2024-03-30',
+      1,
       10
     ).subscribe(
       (response) => {
