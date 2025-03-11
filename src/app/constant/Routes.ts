@@ -42,6 +42,7 @@ export class Routes {
     public static LEAVESETTING = "/setting/leave-setting"
     public static SALARYSETTING = "/setting/salary-setting"
     public static ROLE = "/role"
+    public static ADDROLE = "/add-role"
     public static EXITPOLICY = "/exit-policy"
     public static SUBSCRIPTION = "/setting/subscription"
     public static ACCOUNTSETTINGS = "/setting/account-settings"

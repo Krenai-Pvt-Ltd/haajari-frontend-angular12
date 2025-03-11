@@ -164,6 +164,12 @@ export class TopbarComponent implements OnInit {
       routeDesc="Control User Roles and Permissions"
       break;
     }
+
+    case this.Routes.ADDROLE:{
+      routeValue = 'Roles';
+      routeDesc="Control User Roles and Permissions"
+      break;
+    }
     case this.Routes.EXITPOLICY:{
       routeValue = 'Exit-policy';
       routeDesc="Manage Employee Exiting Processes"
