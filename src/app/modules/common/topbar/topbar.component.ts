@@ -166,7 +166,7 @@ export class TopbarComponent implements OnInit {
     }
 
     case this.Routes.ADDROLE:{
-      routeValue = 'Roles';
+      routeValue = 'Add Role';
       routeDesc="Control User Roles and Permissions"
       break;
     }

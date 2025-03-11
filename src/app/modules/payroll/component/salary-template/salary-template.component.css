@@ -63,3 +63,19 @@
 .template-calculation{
     border: 1px solid #E9E9E9;
 }
+.borderLess {
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.currency-types-border {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 20px;
+}
+.total-cost-box{
+    background-color: #F2F2FF;
+}
