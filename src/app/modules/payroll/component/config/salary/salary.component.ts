@@ -105,7 +105,7 @@ export class SalaryComponent implements OnInit {
     editEarning(earningComponent : EarningComponent){
       this.toggle=true;
       this.selectedEarningComponent= JSON.parse(JSON.stringify(earningComponent)) ;
-      this.selectedTab = 1;
+      this.selectedTab = this.EARNING_COMPONENT;
     }
 
 

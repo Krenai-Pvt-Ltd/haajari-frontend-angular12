@@ -19,9 +19,6 @@ import { FormComponent } from './component/config/form/form.component';
 import { PreferencesComponent } from './component/config/preferences/preferences.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
-import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
-import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { ProfileComponent } from './component/config/profile/profile.component';
@@ -40,10 +37,7 @@ import { ProfileComponent } from './component/config/profile/profile.component';
     PayScheduleComponent,
     PriorPayrollComponent,
     FormComponent,
-    PreferencesComponent,
-    EarningDetailsComponent,
-    BenefitDetailsComponent,
-    DeductionsDetailsComponent
+    PreferencesComponent
   ],
   imports: [
     CommonModule,
