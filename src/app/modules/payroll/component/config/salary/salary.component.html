@@ -1,321 +1,596 @@
-<ng-container *ngIf="moved">
-
-<div class="statutory-tab mt-3" >
-    <ul id="pills-tab" role="tablist" class="nav nav-pills ">
-        <li class="nav-item">
-        <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
-            aria-controls="pills-dashboard" aria-selected="false"
-            class="nav-link active">Earning</a>
-        </li>
-        <li class="nav-item d-flex align-items-center">
-        <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
-            aria-controls="pills-request" aria-selected="false"
-            class="nav-link">Benefits & Deductions </a>
-        </li>
-        <li class="nav-item d-flex align-items-center">
-            <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
+<ng-container *ngIf="!toggle">
+    <div class="statutory-tab mt-3" >
+        <ul id="pills-tab" role="tablist" class="nav nav-pills ">
+            <li class="nav-item">
+            <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
+                aria-controls="pills-dashboard" aria-selected="false"
+                class="nav-link active">Earning</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+            <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link">Reimbursements</a>
-        </li>
-    </ul>
-</div>
-
-<div class="tab-content mt-2" id="tabContent">
-    <div class="tab-pane fade show active" id="earning" role="tabpanel" aria-labelledby="earning-tab">
-        <div class="mt-2">
-            <div class="table-responive salary-compontant-list" c>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th class="font-13" style="width: 15%;">Name</th>
-                            <th class="font-13" style="width: 10%;">Earning Type</th>
-                            <th class="font-13" style="width: 10%;">Calculation Type</th>
-                            <th class="text-center font-13" style="width: 10%;">Consider For EPF</th>
-                            <th class="text-center font-13" style="width: 10%;">Consider For ESI</th>
-                            <th class="text-center font-13" style="width: 10%;">Status</th>
-                            <th  class="font-13"style="width: 5%;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody *ngIf="isUserShimer">
-                        <tr *ngFor="let item of [].constructor(14)">
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <!-- <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td> -->
-                          <td>
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                        </tr>
-                      </tbody>
-
-                      <!-- <tbody>
-                        <tr>
-                          <td colspan="8">
-                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
-                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-filenew">No data for now</p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody> -->
-                    <tbody *ngFor="let earning of earningComponent">
-                        <tr  *ngIf="!isUserShimer">
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                   <a class="font-13 fw-semibold text-primary">{{earning.displayName}}</a>
-                                   
-                                </div>
-                            </td>
-                            <td>
-                                <p class="mb-0 font-13 fw-normal">{{earning.name}}</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 font-13 fw-normal">
-                                    <span [ngSwitch]="earning.payTypeId">
-                                    <span *ngSwitchCase="PAY_TYPE_FIXED">Fixed</span>
-                                    <span *ngSwitchCase="PAY_TYPE_VARIABLE">Variable</span>
-                                  </span>; 
-                                    <span [ngSwitch]="earning.valueTypeId">
-                                        <span *ngSwitchCase="VALUE_TYPE_PERCENTAGE">{{earning.value}}  % of</span>
-                                        <span *ngSwitchCase="VALUE_TYPE_FLAT">  {{ earning.value === 0 ? 'Flat Amount' : 'FLAT of ' + earning.value }}</span>
-                                      </span> 
-                                      <span *ngIf="earning.valueTypeId !== VALUE_TYPE_FLAT">
-                                      <span [ngSwitch]="earning.calculationBasedId">
-                                        <span *ngSwitchCase="CALCULATION_BASED_CTC"> CTC</span>
-                                        <span *ngSwitchCase="CALCULATION_BASED_BASIC"> BASIC</span>
-                                      </span>
-                                    </span>
-                            </td>
-                            <td class="text-center">
-                                <span class="font-13 fw-semibold" [ngClass]="getEarningClass(earning, CONSIDER_EPF)"> {{ getEarningStatus(earning, CONSIDER_EPF) }}</span>
-                            </td>
-                            <td class="text-center">
-                                <span class="font-13 fw-semibold" [ngClass]="getEarningClass(earning, CONSIDER_ESI)">{{ getEarningStatus(earning, CONSIDER_ESI) }}</span>
-                            </td>
-                            <td class="text-center">
-                                <nz-switch [nzDisabled]="!earning.canStatusChange" 
-                                [ngModel]="checkStatus(earning)" 
-                                ></nz-switch>
-                            </td>
-                            <td class="text-center">
-                                <div class="dropdown">
-                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu actionMenuList">
-                                        <li (click)="editEarning(earning.id)">
-                                            <a class="dropdown-item"><i class="bi bi-pencil"></i> Edit </a>
-                                        </li>
-                                        <li class="ng-star-inserted"></li>
-                                        <li>
-                                            <a data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" class="dropdown-item"><i class="bi bi-trash3"></i> Delete </a>
-                                        </li>
-                                        
+                class="nav-link">Benefits & Deductions </a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
+                    aria-controls="pills-request" aria-selected="false"
+                    class="nav-link">Reimbursements</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content mt-2" id="tabContent">
+        <div class="tab-pane fade show active" id="earning" role="tabpanel" aria-labelledby="earning-tab">
+            <div class="mt-2">
+                <div class="table-responive salary-compontant-list" >
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="font-13" style="width: 15%;">Name</th>
+                                <th class="font-13" style="width: 10%;">Earning Type</th>
+                                <th class="font-13" style="width: 10%;">Calculation Type</th>
+                                <th class="text-center font-13" style="width: 10%;">Consider For EPF</th>
+                                <th class="text-center font-13" style="width: 10%;">Consider For ESI</th>
+                                <th class="text-center font-13" style="width: 10%;">Status</th>
+                                <th  class="font-13"style="width: 5%;">Action</th>
+                            </tr>
+                        </thead>
+                            <tbody *ngIf="shimmer">
+                                <tr *ngFor="let item of [].constructor(14)">
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="earningComponents.length==0 && !shimmer">
+                                <tr>
+                                <td colspan="8">
+                                    <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
-                    
-
-                </table>
-                <div *ngIf="totalItems > pageSize" 
-                    class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-                 <p class="mb-0">
-                    Showing items {{ (currentPage - 1) * pageSize + 1 }} -
-                    {{ (currentPage * pageSize) < totalItems ? (currentPage * pageSize) : totalItems }}
-                    of {{ totalItems }} records
-                 </p>
-
-                 <ngb-pagination class="pagination-box" 
-                                 [collectionSize]="totalItems" 
-                                 [rotate]="true"
-                                 (pageChange)="componentPageChange($event)" 
-                                 [pageSize]="pageSize" 
-                                 [(page)]="currentPage"
-                                 [maxSize]="5" 
-                                 [boundaryLinks]="true">
-                 </ngb-pagination>
-                 
-               </div>
-                <!-- <div class="footer position-fixed bg-white d-flex align-items-center justify-content-between payroll-fix-footer">
-                    <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                    <ngb-pagination class="pagition-box"> </ngb-pagination>
-                </div> -->
+                                </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="earningComponents.length > 0 && !shimmer">
+                                <tr *ngFor="let earning of earningComponents">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                        <a class="font-13 fw-semibold text-primary" (click)="editEarning(earning)">{{earning.displayName}}</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">{{earning.name}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">
+                                            <span [ngSwitch]="earning.payTypeId">
+                                            <span *ngSwitchCase="PAY_TYPE_FIXED">Fixed</span>
+                                            <span *ngSwitchCase="PAY_TYPE_VARIABLE">Variable</span>
+                                        </span>; 
+                                            <span [ngSwitch]="earning.valueTypeId">
+                                                <span *ngSwitchCase="VALUE_TYPE_PERCENTAGE">{{earning.value}}  % of</span>
+                                                <span *ngSwitchCase="VALUE_TYPE_FLAT">  {{ earning.value === 0 ? 'Flat Amount' : 'FLAT of ' + earning.value }}</span>
+                                            </span> 
+                                            <span *ngIf="earning.valueTypeId !== VALUE_TYPE_FLAT">
+                                            <span [ngSwitch]="earning.calculationBasedId">
+                                                <span *ngSwitchCase="CALCULATION_BASED_CTC"> CTC</span>
+                                                <span *ngSwitchCase="CALCULATION_BASED_BASIC"> BASIC</span>
+                                            </span>
+                                            </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="font-13 fw-semibold" [ngClass]="getEarningClass(earning.configurations, CONSIDER_EPF)"> {{ getEarningStatus(earning.configurations, CONSIDER_EPF) }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="font-13 fw-semibold" [ngClass]="getEarningClass(earning.configurations, CONSIDER_ESI)">{{ getEarningStatus(earning.configurations, CONSIDER_ESI) }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <nz-switch [ngClass]="{'disabled-lnk': !earning.canStatusChange}"
+                                        [ngModel]="checkStatus(earning.statusId)">
+                                        </nz-switch>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu actionMenuList">
+                                                <li >
+                                                    <a class="dropdown-item" (click)="editEarning(earning)"><i class="bi bi-pencil"></i> Edit </a>
+                                                </li>
+                                                <li class="ng-star-inserted"></li>
+                                                <li *ngIf="earning.canStatusChange">
+                                                    <a data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" class="dropdown-item"><i class="bi bi-trash3"></i> Delete </a>
+                                                </li>
+                                                
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>
+                    <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                        <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+                        <div class="pagition-box">
+                            <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
+                            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+                            </ngb-pagination>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="benefits" role="tabpanel" aria-labelledby="benefits-tab">
+            <div class="mt-2">
+                <div class="table-responive benefits-list">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th class="font-13" style="width: 20%;">Name</th>
+                                <th class="font-13" style="width: 25%;">Deduction Type</th>
+                                <th class="font-13" style="width: 25%;">Deduction Frequency</th>
+                                <th class="font-13" style="width: 20%;">Status</th>
+                                <th  class="font-13"style="width: 10%;">Action</th>
+                            </tr>
+                        </thead>
+                            <tbody *ngIf="shimmer">
+                                <tr *ngFor="let item of [].constructor(14)">
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="!shimmer">
+                                    <td colspan="5" class="benefits-list-td">
+                                        <table class="border-0 table w-100">
+                                            <tbody class="border-0">
+                                                <tr>
+                                                    <td colspan="5" class="border-0 pb-0">Benefits</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Voluntary Provident Fund</a>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 font-13 fw-normal">Voluntary Provident Fund</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 font-13 fw-normal">	Recurring</p>
+                                                    </td>
+                                                    <td>
+                                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                
+                                <tr>
+                                    <td colspan="5" class="benefits-list-td">
+                                        <table class="border-0 table w-100">
+                                            <tbody class="border-0">
+                                                <tr>
+                                                    <td colspan="5" class="border-0 pb-0" >Deductions</td>
+                                                </tr >
+                                                <tr>
+                                                    <td class="border-0 pb-0">
+                                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
+                                                    </td>
+                                                    <td class="border-0 pb-0">
+                                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
+                                                    </td>
+                                                    <td class="border-0 pb-0">
+                                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
+                                                    </td>
+                                                    <td class="border-0">
+                                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                                    </td>
+                                                    <td class="border-0 pb-0">
+                                                        <div class="dropdown">
+                                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
+                                                    </td>
+                                                    <td>
+                                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="reimbursements" role="tabpanel" aria-labelledby="reimbursements-tab">
+            <div class="">
+                
             </div>
         </div>
     </div>
+</ng-container>
 
-    <div class="tab-pane fade" id="benefits" role="tabpanel" aria-labelledby="benefits-tab">
-        <div class="mt-2">
-            <div class="table-responive benefits-list">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th class="font-13" style="width: 20%;">Name</th>
-                            <th class="font-13" style="width: 25%;">Deduction Type</th>
-                            <th class="font-13" style="width: 25%;">Deduction Frequency</th>
-                            <th class="font-13" style="width: 20%;">Status</th>
-                            <th  class="font-13"style="width: 10%;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody *ngIf="isUserShimer">
-                        <tr *ngFor="let item of [].constructor(14)">
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <!-- <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td> -->
-                          <td>
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                          </td>
-                        </tr>
-                      </tbody>
-                    <tbody *ngIf="!isUserShimer">
-                            <td colspan="5" class="benefits-list-td">
-                                <table class="border-0 table w-100">
-                                    <tbody class="border-0">
-                                        <tr>
-                                            <td colspan="5" class="border-0 pb-0">Benefits</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Voluntary Provident Fund</a>
-                                            </td>
-                                            <td>
-                                                <p class="mb-0 font-13 fw-normal">Voluntary Provident Fund</p>
-                                            </td>
-                                            <td>
-                                                <p class="mb-0 font-13 fw-normal">	Recurring</p>
-                                            </td>
-                                            <td>
-                                                <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                            </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                        <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        
-                        <tr>
-                            <td colspan="5" class="benefits-list-td">
-                                <table class="border-0 table w-100">
-                                    <tbody class="border-0">
-                                        <tr>
-                                            <td colspan="5" class="border-0 pb-0" >Deductions</td>
-                                        </tr >
-                                        <tr>
-                                            <td class="border-0 pb-0">
-                                                <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
-                                            </td>
-                                            <td class="border-0 pb-0">
-                                                <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
-                                            </td>
-                                            <td class="border-0 pb-0">
-                                                <p class="mb-0 font-13 fw-normal">	One Time</p>
-                                            </td>
-                                            <td class="border-0">
-                                                <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                            </td>
-                                            <td class="border-0 pb-0">
-                                                <div class="dropdown">
-                                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                        <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
-                                            </td>
-                                            <td>
-                                                <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
-                                            </td>
-                                            <td>
-                                                <p class="mb-0 font-13 fw-normal">	One Time</p>
-                                            </td>
-                                            <td>
-                                                <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                            </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                        <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-    </div>
-    </div>
-    </div>
+<ng-container *ngIf="toggle">
+    <div class="page-wrapper" >
+        <div class="container-fluid" >
+            <div class="earning-detail mt-4 mb-100"  *ngIf="EARNING_COMPONENT == selectedTab">
+                <div class="d-flex align-items-center gap-2" >
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="toggle = false;">
+                        <i class="bi bi-chevron-left text-primary font-18"></i>
+                    </span>
+                    <h5 class="mb-0 font-15 fw-semibold">Edit Earning</h5>
+                </div>
+            <div class="mt-5 earninng-edit-box pl-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="payroll-details-box">
+                            <h4 class="font-13 text-black fw-semibold lh-1">Earning Details</h4>
+                            <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="Address-box">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                                        <div class="w-50 p-3 currency-types-border">
+                                            <p class="mb-0 font-12 fw-light">Earning Types</p>
+                                        </div>
+                                        <div class="w-50">
+                                            <h5 class="mb-0 font-13 fw-semibold px-3">{{selectedEarningComponent.name}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="earning-types-notification border-rounded-2 px-3">
+                                        <p class="mb-0 font-13 fw-normal text-warning">Fixed amount paid at the end of every month.</p>
+                                    
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                        <div class="w-50 currency-types-border">
+                                            <p class="mb-0 font-12 fw-light ">Earning Name</p>
+                                        </div>
+                                        <div class="w-50">
+                                            <input type="text" name="displayName" placeholder="Enter earning name" required class="form-control borderLess"  [(ngModel)]="selectedEarningComponent.displayName"> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                        <div class="w-50 currency-types-border">
+                                            <p class="mb-0 font-12 fw-light">Name In Payslip</p>
+                                        </div>
+                                        <div class="w-50">
+                                            <input type="text" name="payslipName" placeholder="Enter payslip name" required class="form-control borderLess" [(ngModel)]="selectedEarningComponent.displayName"> 
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="payroll-details-box">
+                            <h4 class="font-13 text-black fw-semibold lh-1">Pay Type</h4>
+                            <p class="text-muted font-11 lh-base fw-normal"> This section contain EPF no, <br> deduction cycle</p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="col-md-12"> 
+                            <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                <input type="radio" id="exampleRadios1" name="paytype" class="form-check-input" [(ngModel)]="selectedEarningComponent.payTypeId" [value]=" PAY_TYPE_FIXED">
+                                <div>
+                                    <label for="exampleRadios1" class="form-check-label font-13">Fixed Pay</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">Fixed amount paid at the end of every month.</p>
+                                </div>
+                            </div>
+                            <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                <input type="radio" id="exampleRadio2" name="paytype" class="form-check-input" [(ngModel)]="selectedEarningComponent.payTypeId" [value]=" PAY_TYPE_VARIABLE">
+                                <div>
+                                    <label for="exampleRadio2" class="form-check-label font-13">Variable Pay</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">Variable amount paid during any payroll.</p>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="payroll-details-box">
+                            <h4 class="font-13 text-black fw-semibold lh-1">Calculation Type</h4>
+                            <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, <br> deduction cycle</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12 mb-4"> 
+                            <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                <input type="radio" id="exampleRadios3" name="calculationType" class="form-check-input" [(ngModel)]="selectedEarningComponent.valueTypeId" [value]=" VALUE_TYPE_FLAT">
+                                <div>
+                                    <label for="exampleRadios3" class="form-check-label font-13">Flat Amount</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">Fixed Payment Value Without Variations</p>
+                                </div>
+                            </div>
+                            <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                <input type="radio" id="exampleRadio4"name="calculationType" class="form-check-input" [(ngModel)]="selectedEarningComponent.valueTypeId" [value]="VALUE_TYPE_PERCENTAGE">
+                                <div>
+                                    <label for="exampleRadio4" class="form-check-label font-13">CTC Percentage</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">Proportion of Cost to Company Allocated</p>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="tab-pane fade" id="reimbursements" role="tabpanel" aria-labelledby="reimbursements-tab">
-        <div class="">
-            
+
+                        <div class="col-md-8">
+                            <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                                <div class="w-50 currency-types-border">
+                                    <p class="mb-0 font-12 fw-light ">
+                                        <span *ngIf="selectedEarningComponent.valueTypeId == VALUE_TYPE_FLAT"> Enter Amount</span>
+                                        <span *ngIf="selectedEarningComponent.valueTypeId == VALUE_TYPE_PERCENTAGE"> Enter Percentage</span></p>
+                                </div>
+                                <div class="w-50 background-light position-relative">
+                                    <input type="text" placeholder="Enter percentage" required name="value" class="form-control borderLess" [(ngModel)]="selectedEarningComponent.value"> 
+                                    <span class="percentage-icon d-flex align-items-center justify-content-center">
+                                        <i *ngIf="selectedEarningComponent.valueTypeId == VALUE_TYPE_FLAT" class="bi bi-currency-rupee font-18"></i>
+                                        <i *ngIf="selectedEarningComponent.valueTypeId == VALUE_TYPE_PERCENTAGE" class="bi bi-percent font-18"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="payroll-details-box">
+                            <h4 class="font-13 text-black fw-semibold lh-1">Other Configurations</h4>
+                            <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, <br> deduction cycle</p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="col-md-12" *ngFor="let config of selectedEarningComponent.configurations">
+                            <div class="form-check mb-3 d-flex align-items-start gap-2">
+                                <input type="checkbox" id="exampleCheck3" name="congiguraation" class="form-check-input"
+                                [id]="'check-' + config.id" 
+                                [disabled]="!config.editable"
+                                [(ngModel)]="config.checked"
+                                >
+                                <div>
+                                    <label for="exampleCheck3" class="form-check-label font-13">{{config.name}}</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">{{config.description}}</p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
+                            <p class="mb-0 font-13 text-black fw-normal lh-base">
+                                <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name and <br> Amount/Percentage. The changes you make to Amount/Percentage will apply only to new employees.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="earning-detail mt-4 mb-100" *ngIf="BENEFIT_COMPONENT == selectedTab">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="toggle = false;">
+                        <i class="bi bi-chevron-left text-primary font-18"></i>
+                    </span>
+                    <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
+                </div>
+
+
+                <div class="mt-5 earninng-edit-box pl-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Benefit Plan Association</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                    <div class="col-md-6">
+                                        <nz-select 
+                                        class="form-control w-100 placeholder-line" 
+                                        nzSize="large" 
+                                        [(ngModel)]="selectedPfWage" 
+                                        required
+                                        nzPlaceHolder="Benefit Plan">
+                                        <nz-option *ngFor="let option of employer" 
+                                        [nzLabel]="option.label" 
+                                        [nzValue]="option.value">
+                                        </nz-option>
+                                        </nz-select>
+                                    </div>
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="Associate this benefit with" required class="form-control"> 
+                                </div>
+                                <!-- <div class="col-md-12 mb-3">
+                                    <input type="text" placeholder="Associate this benefit with" required class="form-control"> 
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-5 mb-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Name in Payslip*</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no,<br> deduction cycle</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12 mb-4">
+                                    <input type="text" placeholder="Voluntary Provident Fund" required class="form-control" value="Voluntary Provident Fund"> 
+                                </div>
+                                <div class="col-md-12 mt-2">
+                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                        <input type="checkbox" id="exampleCheckbox1" name="exampleRadios" class="form-check-input" checked>
+                                        <div>
+                                            <label for="exampleCheckbox1" class="form-check-label font-13">Calculate on pro-rata basis</label>
+                                            <p class="mb-0 font-12 fw-light text-optional">Pay will be adjusted based on employee working days.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                        <input type="checkbox" id="exampleCheckbox2" name="exampleRadios" class="form-check-input">
+                                        <div>
+                                            <label for="exampleCheckbox2" class="form-check-label font-13">Mark this as Active</label>
+                                    </div>
+                                    </div>
+
+                                </div>
+                                <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
+                                    <p class="mb-0 font-13 text-black fw-normal lh-base">
+                                        <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name and <br> Amount/Percentage. The changes you make to Amount/Percentage will apply only to new employees.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="earning-detail mt-4 mb-100" *ngIf="DEDUCTION_COMPONENT == selectedTab">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-chevron-left text-primary font-18"></i>
+                    </span>
+                    <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
+                </div>
+    
+    
+                <div class="mt-5 earninng-edit-box pl-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Name in Payslip*</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                    
+                                <div class="col-md-12">
+                                    <input type="text" placeholder="Notice Pay Deduction" required class="form-control"> 
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-5 mb-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Select the deduction frequency*</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no,<br> deduction cycle</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                              
+                                <div class="col-md-12 mt-2">
+                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                        <input type="radio" id="radioCheckbox1" name="exampleRadios" class="form-check-input" checked>
+                                        <div>
+                                            <label for="radioCheckbox1" class="form-check-label font-13 fw-normal">One-time deduction</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                        <input type="radio" id="radioCheckbox2" name="exampleRadios" class="form-check-input" >
+                                        <div>
+                                            <label for="radioCheckbox2" class="form-check-label font-13 fw-normal">Recurring deduction for subsequent Payrolls</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                        <input type="checkbox" id="checkbox1" name="exampleRadios" class="form-check-input" checked>
+                                        <div>
+                                            <label for="checkbox11r" class="form-check-label font-13">Mark this as Active</label>
+                                    </div>
+                                    </div>
+    
+                                </div>
+                                <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
+                                    <p class="mb-0 font-13 text-black fw-normal lh-base">
+                                        <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name and <br> Amount/Percentage. The changes you make to Amount/Percentage will apply only to new employees.
+                                    </p>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </ng-container>
-<!-- 
-<ng-container *ngIf="showSubComponent">
-<app-earning-details></app-earning-details>
-</ng-container> -->
-
-<ng-container *ngIf="!moved">
-  
-    <app-earning-details></app-earning-details>
-   
-</ng-container>
-
-<!-- <ng-container *ngIf="showSubComponent">
-    <app-benefit-details></app-benefit-details>
-</ng-container> -->
-
-<!-- <ng-container *ngIf="showSubComponent">
-    <app-deductions-details></app-deductions-details>
-</ng-container> -->
