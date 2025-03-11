@@ -118,7 +118,7 @@ export class StatutoryComponent implements OnInit {
 
 
 
-      isLopChecked:boolean = true;
+      isLopChecked:boolean = false;
       toggleLOPVisibility(): void {
         console.log("toggled",this.isLopChecked)
       }
@@ -328,10 +328,12 @@ export class StatutoryComponent implements OnInit {
       }
 
       formatEsiNumber(event: any): void {
-        let value = event.target.value.replace(/-/g, ''); 
-   
+        let value = event.target.value.replace(/-/g, ''); // Remove hyphens first
+      
+        // Only keep digits
         value = value.replace(/\D/g, '');
- 
+      
+        // Apply format
         const part1 = value.substring(0, 2);
         const part2 = value.substring(2, 4);
         const part3 = value.substring(4, 10);
@@ -343,10 +345,12 @@ export class StatutoryComponent implements OnInit {
         if (part3) formatted += '-' + part3;
         if (part4) formatted += '-' + part4;
         if (part5) formatted += '-' + part5;
-  
+      
+        // Persist formatted value
         this.esiDetail.esiNumber = formatted;
         event.target.value = formatted;
       }
+      
       
       
       
