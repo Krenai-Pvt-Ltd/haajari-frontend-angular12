@@ -51,7 +51,7 @@
                               minlength="17"
                               pattern="^[A-Z]{2}/[A-Z]{3}/[0-9]{7}/[A-Z0-9]{3}$"
                               oninput="this.value = this.value.toUpperCase()" 
-                              [(ngModel)]="epfDetail.epfNumber"
+                              [(ngModel)]="epfNumberForView"
                               (input)="formatEpfNumber($event)" >
                               
                               <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AA/AAA/0000000/XXX</p>
@@ -246,7 +246,7 @@
                            name="esiNumber" 
                            maxlength="21"
                            class="form-control whatsapp-login-input" 
-                           [(ngModel)]="esiDetail.esiNumber"
+                           [(ngModel)]="esiNumberForView"
                            [ngModelOptions]="{standalone: true}"
                            pattern="^\d{2}-\d{2}-\d{6}-\d{3}-\d{4}$"
                            (input)="formatEsiNumber($event)">
