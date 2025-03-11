@@ -1543,10 +1543,11 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.loadAllShiftCounts();
           this.selectedTeamName = 'All';
           this.getUserByFiltersMethodCall();
           this.helperService.showToast(
-            'Shift Timing registered successfully',
+            'Shift TIme Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
           this.isEditStaffLoader = false;
@@ -3168,6 +3169,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       (response) => {
         // console.log(response);
         this.getAllShiftTimingsMethodCall();
+        this.loadAllShiftCounts();
         // this.helperService.showToast(
         //   'Shift timing deleted successfully',
         //   Key.TOAST_STATUS_SUCCESS

@@ -420,6 +420,16 @@ handleImageError() {
   this.imageError = true;
 }
 
+getTotalCount(): number {
+  if (!this.leaveReportResponse?.approvedLeaveCounts) {
+    return 0; // Return 0 if the array is undefined or null
+  }
+  return this.leaveReportResponse.approvedLeaveCounts.reduce(
+    (sum: number, item: { totalCount: number }) => sum + item.totalCount,
+    0
+  );
+}
+
 openInNewTab(url: string) {
   window.open(url, '_blank');
 }
@@ -591,18 +601,19 @@ showLeaveQuotaModal: boolean = false;
 userLeaveQuota: any = null;
 
 // -- new start
-approveOrRejectLeave(leaveId: number, operationString: string) {
-  debugger
+leaveRequestLoading: { [key: number]: boolean } = {};
+approveOrRejectLeave(leaveId: number, operation: string) {
   this.isLoading = true;
-  this.leaveService.approveOrRejectLeaveOfUser(leaveId, operationString, this.rejectionReason).subscribe({
-    next: (response: any) => {
+  this.leaveRequestLoading[leaveId] = true; // Start loading for this specific leave request and operation
 
+  this.leaveService.approveOrRejectLeaveOfUser(leaveId, operation, this.rejectionReason).subscribe({
+    next: (response: any) => {
       this.isLoading = false;
+      this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
       this.rejectionReason = '';
       this.rejectionReasonFlag = false;
       this.isPendingChange = true;
       this.applyFilters();
-      // this.getLeaves(true);
       if (this.closebutton) {
         this.closebutton.nativeElement.click();
       } else {
@@ -610,7 +621,7 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       }
 
       if (response.message === 'approved' || response.message === 'rejected') {
-        this.helperService.showToast(`Leave ${operationString} successfully.`, Key.TOAST_STATUS_SUCCESS);
+        this.helperService.showToast(`Leave ${operation} successfully.`, Key.TOAST_STATUS_SUCCESS);
       } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
         this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
         this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
@@ -619,14 +630,13 @@ approveOrRejectLeave(leaveId: number, operationString: string) {
       }
     },
     error: (error) => {
-      this.isPendingChange = false;
+      this.isLoading = false;
+      this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
       this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
       console.error('Failed to fetch approve/reject leaves:', error);
-      this.isLoading = false;
     },
   });
 }
-
 
 
 // Fetch user leave quota details
@@ -1173,58 +1183,85 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
     .sort((a, b) => b.totalCount - a.totalCount)
     .slice(0, 2);
 
-    this.topTwoLeaveDays = sortedDates;
-
-    // Get the weekday names for the top two leave days
-    const dayNames = sortedDates.map(day =>
-      new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })
-    );
-
-    // Check if both days are the same; if yes, display one, otherwise join them
-    this.topTwoLeaveDaysFormatted = dayNames.length === 1
+  this.topTwoLeaveDays = sortedDates;
+  const dayNames = sortedDates.map(day =>
+    new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })
+  );
+  this.topTwoLeaveDaysFormatted = dayNames.length === 1
+    ? dayNames[0]
+    : dayNames[0] === dayNames[1]
       ? dayNames[0]
-      : dayNames[0] === dayNames[1]
-        ? dayNames[0]
-        : dayNames.join(' & ');
+      : dayNames.join(' & ');
 
-
-  // Continue with heatmap chart setup...
+  // Heatmap chart setup
   const seriesData: any[] = [];
-  let currentDate = new Date(this.startDate);
-  let weekIndex = 1;
+  const weeks: { name: string; data: any[] }[] = [];
+
+  // Use the first date from approvedLeaveCounts or fallback to startDate
+  const firstDate = approvedLeaveCounts.length > 0
+    ? new Date(approvedLeaveCounts[0].date)
+    : new Date(this.startDate);
   const end = new Date(this.endDate);
+
+  // Generate dynamic weekday order starting from the first date's weekday
+  const baseWeekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const firstDayIndex = firstDate.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+  const weekdays = [
+    ...baseWeekdays.slice(firstDayIndex), // Days from first day to end
+    ...baseWeekdays.slice(0, firstDayIndex) // Wrap around to complete 7 days
+  ];
+
+  let currentDate = new Date(firstDate);
+  let weekIndex = 1;
 
   while (currentDate <= end) {
     const weekStart = new Date(currentDate);
-    const potentialWeekEnd = new Date(currentDate);
-    potentialWeekEnd.setDate(weekStart.getDate() + 6);
-
-    const weekEnd = potentialWeekEnd > end ? end : potentialWeekEnd;
     const weekData: any[] = [];
 
-    for (let date = new Date(weekStart); date <= weekEnd; date.setDate(date.getDate() + 1)) {
-      const formattedDate = date.toISOString().split('T')[0];
-      const count = dateMap.get(formattedDate) ?? 0;
-      weekData.push({ x: "Total Approved", y: count });
+    // Generate data for all 7 days starting from the first date's weekday
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + i);
+
+      if (date <= end) {
+        const formattedDate = date.toISOString().split('T')[0];
+        const count = dateMap.get(formattedDate) ?? 0;
+        const weekdayIndex = (firstDayIndex + i) % 7; // Calculate the weekday index
+        const weekday = baseWeekdays[weekdayIndex];
+        const tooltipDate = this.formatDateToDDMMM(date);
+        weekData.push({ x: weekday, y: count, date: tooltipDate });
+      }
     }
 
-    seriesData.push({
-      name: `Week ${weekIndex}`,
-      data: weekData,
-    });
+    if (weekData.length > 0) {
+      weeks.push({
+        name: `Week ${weekIndex}`,
+        data: weekData
+      });
+      weekIndex++;
+    }
 
-    weekIndex++;
-    currentDate.setDate(weekEnd.getDate() + 1);
+    currentDate.setDate(currentDate.getDate() + 7); // Move to next week
   }
+
+  // Reverse the weeks array to show latest week first
+  seriesData.push(...weeks.reverse());
 
   this.chartOptions = {
     series: seriesData,
-    chart: { height: 350, type: 'heatmap', toolbar: { show: false } },
-    stroke: { width: 1.5, colors: ['#ffffff'] },
+    chart: {
+      height: 350,
+      type: 'heatmap',
+      toolbar: { show: false }
+    },
+    stroke: {
+      width: 1.5,
+      colors: ['#ffffff']
+    },
     plotOptions: {
       heatmap: {
         shadeIntensity: 0.8,
-        radius: 6,
+        radius: 4,
         enableShades: true,
         colorScale: {
           min: 0,
@@ -1238,20 +1275,54 @@ initChartDataHeatMap(approvedLeaveCounts: any[]): void {
         }
       },
     },
-    dataLabels: { enabled: false },
-    xaxis: { type: 'category', labels: { show: false } },
-    yaxis: { title: { text: 'Weeks of the Month' } },
-    grid: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
+    dataLabels: {
+      enabled: false
+    },
+    xaxis: {
+      type: 'category',
+      categories: weekdays, // Dynamically ordered weekdays starting from first date's day
+      labels: {
+        show: true,
+        rotate: -45,
+        style: {
+          fontSize: '12px'
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Weeks of the Month'
+      },
+      labels: {
+        formatter: function(value, index) {
+          return seriesData[index]?.name || '';
+        },
+        style: {
+          fontSize: '12px'
+        }
+      }
+    },
+    grid: {
+      padding: { left: 10, right: 10, top: 10, bottom: 10 }
+    },
     tooltip: {
       y: { formatter: (val) => `${val} Leave(s)` },
-      x: { formatter: (val) => `${val}` },
+      x: {
+        formatter: function(value, { seriesIndex, dataPointIndex, w }) {
+          // Access the stored date from the data point
+          const date = w.config.series[seriesIndex].data[dataPointIndex].date;
+          return date; // e.g., "1 Mar"
+        }
+      },
     },
-    theme: { mode: 'light' },
-    legend: { show: false },
+    theme: {
+      mode: 'light'
+    },
+    legend: {
+      show: false
+    },
   };
 }
-
-
 
   formatDateToDDMMM(date: Date): string {
     return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' });

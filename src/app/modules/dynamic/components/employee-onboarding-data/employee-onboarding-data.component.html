@@ -506,7 +506,7 @@
                       <div class="filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
                         <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                             <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
-                            <span class="pointer lh-1"  (click)="changeShowFilter(false)">
+                            <span class="pointer lh-1"  (click)="changeShowFilter(false); resetFilters()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                                 <g opacity="0.8">
                                 <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">

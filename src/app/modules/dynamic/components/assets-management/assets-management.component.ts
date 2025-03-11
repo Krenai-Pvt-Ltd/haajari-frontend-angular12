@@ -58,6 +58,8 @@ export class AssetsManagementComponent implements OnInit {
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
 
+  isEditing: boolean[] = [];
+  loading: boolean[] = [];
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
@@ -75,7 +77,7 @@ export class AssetsManagementComponent implements OnInit {
   }
 
     readonly Constants=constant;
-  
+
   searchControl = new FormControl('');
   assetStatuses = [
     { id: 62, name: 'ASSIGNED' },
@@ -121,6 +123,7 @@ export class AssetsManagementComponent implements OnInit {
         next: (response) => {
           this.deleteLoading = false;
           if (response.status) {
+            this.isEditing = this.isEditing.map(() => false);
             this.closeButtonDeleteCategory.nativeElement.click();
             this.helperService.showToast('Category deleted successfully', Key.TOAST_STATUS_SUCCESS);
             this.dashboard();
@@ -200,7 +203,8 @@ newCategory: any = {
     }
   }
 
-  assignCategoryId(category: any) {
+  assignCategoryId(category: any, index: number = 0) {
+    this.isEditing = this.isEditing.map((value, i) => (i === index ? value : false));
     this.selectedCategory = category;
     this.categoryId = category.categoryId;
     if(this.categoryId!=0) {
@@ -231,10 +235,10 @@ newCategory: any = {
     }
 
     isCategoryUpdateLoading: boolean = false;
-  saveOrUpdateCategory() {
+  saveOrUpdateCategory(index:number = 0) {
     this.isCategoryUpdateLoading = true;
     if(this.categoryId!=0) {
-      this.updateCategory();
+      this.updateCategory(index);
     } else {
       this.saveCategory();
     }
@@ -278,7 +282,8 @@ newCategory: any = {
 
 
   @ViewChild('closeUpdateCategory') closeUpdateCategory!: ElementRef<HTMLButtonElement>;
-  updateCategory(): void {
+  updateCategory(index: number): void {
+    this.loading[index] = true;
     if (this.fileToUpload) {
       this.newCategory.categoryImage = this.fileToUpload;
     }
@@ -286,6 +291,8 @@ newCategory: any = {
       .subscribe(
         response => {
           this.isCategoryUpdateLoading = false;
+          this.loading[index] = false;
+          this.isEditing[index] = false;
           if(response.status){
             this.closeUpdateCategory.nativeElement.click();
             this.helperService.showToast('Asset category updated successfully', Key.TOAST_STATUS_SUCCESS);
@@ -298,6 +305,7 @@ newCategory: any = {
         },
         error => {
           this.isCategoryUpdateLoading = false;
+          this.loading[index] = false;
           console.error('Error updating asset category:', error);
         }
       );
@@ -1015,7 +1023,7 @@ onSearch(searchText: string): void {
   close(): void {
     this.visible = false;
   }
-  
+
 
   openChildren(): void {
     this.childrenVisible = true;
@@ -1254,6 +1262,7 @@ onSearch(searchText: string): void {
   visible2: boolean = false; // Open drawer by default
 
   close2(): void {
+    this.isEditing = this.isEditing.map(() => false);
     this.visible2 = false; // Close the drawer
   }
 
@@ -1261,6 +1270,6 @@ onSearch(searchText: string): void {
     this.visible2 = true; // Function to open drawer again
   }
   }
-  
+
 
 

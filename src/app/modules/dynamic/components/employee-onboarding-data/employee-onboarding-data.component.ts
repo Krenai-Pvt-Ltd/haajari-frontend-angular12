@@ -397,7 +397,7 @@ appliedFilters: string[] = []
   // Reset Filters and Reload Data
   resetFilters() {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
-    this.selectedAccessibilityFilters = ['Active']; // Reset accessibility filters
+    this.selectedAccessibilityFilters = ['ACTIVE']; // Reset accessibility filters
     this.appliedFilters = [];
     this.getUsersByFiltersFunction();
   }
