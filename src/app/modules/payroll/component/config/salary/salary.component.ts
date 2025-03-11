@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
-import { PriorPayrollComponent } from '../prior-payroll/prior-payroll.component';
+import { ComponentConfiguration, EarningComponent } from 'src/app/payroll-models/EarrningComponent';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
-import { ea } from '@fullcalendar/core/internal-common';
-import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
+import { HelperService } from 'src/app/services/helper.service';
 
 
 @Component({
@@ -25,22 +23,26 @@ export class SalaryComponent implements OnInit {
   CONSIDER_EPF=5;
   CONSIDER_ESI=6;
 
+  readonly EARNING_COMPONENT =1;
+  readonly BENEFIT_COMPONENT =2;
+  readonly DEDUCTION_COMPONENT =3;
+
   currentPage = 1;
-  pageSize = 10;
+  itemPerPage = 10;
   totalItems = 0;
 
-  isUserShimer: boolean = true;
-  moved:boolean =true;
+  shimmer: boolean = false;
+  toggle:boolean =false;
 
   constructor(
     private _payrollConfigurationService:PayrollConfigurationService,
     private activateRoute :  ActivatedRoute,
-    private router : Router,
-    private taxSlabService: TaxSlabService
+    private taxSlabService: TaxSlabService,
+    public _helperService : HelperService
   ) { 
-    if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
-      this.currentTab = this.activateRoute.snapshot.queryParamMap.get('tab');
-    }
+    // if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
+    //   this.currentTab = this.activateRoute.snapshot.queryParamMap.get('tab');
+    // }
     
   }
 
@@ -50,58 +52,71 @@ export class SalaryComponent implements OnInit {
   }
 
   showSubComponent:boolean =false;
-
-  earningComponent:EarningComponent[] = new Array();
+  earningComponents:EarningComponent[] = new Array();
     getEarningComponent(){
-      this.isUserShimer = true;
-
-        this._payrollConfigurationService.getEarningComponents().subscribe(
-          (response) => {
+      this.shimmer = true;
+      this.earningComponents = [];
+        this._payrollConfigurationService.getEarningComponents().subscribe((response) => {
             if(response.status){
-              this.earningComponent= response.object;
+              this.earningComponents= response.object;
+              this.totalItems = response.totalItems;
+
+              if(this.earningComponents==null){
+                this.earningComponents= new Array();
+                this.totalItems = 0;
+              }
+            }else{
+              this.earningComponents= new Array();
+              this.totalItems = 0;
             }
-            this.isUserShimer = false;
+            this.shimmer = false;
           },
           (error) => {
-            this.isUserShimer = false;
+            this.shimmer = false;
           }
         );
       }
 
       
-
-      getEarningStatus(earning: EarningComponent, configId: number): string {
-        return earning.configurations?.some(config => config.configurationId === configId) ? 'Yes' : 'No';
+    getEarningStatus(configurations: ComponentConfiguration[], configId: number): string {
+        return configurations.some(config => config.configurationId === configId) ? 'Yes' : 'No';
     }
     
-    getEarningClass(earning: EarningComponent, configId: number): string {
-        return earning.configurations?.some(config => config.configurationId === configId) ? 'text-success' : 'text-danger';
-    }
-
-    checkStatus(earning: EarningComponent): boolean {
-      return earning.statusId === StatusKeys.ACTIVE ? true : false;
+    getEarningClass(configurations: ComponentConfiguration[], configId: number): string {
+        return configurations.some(config => config.configurationId === configId) ? 'text-success' : 'text-danger';
     }
     
 
-    componentPageChange(page: number): void {
-      this.currentPage = page;
-      this.getEarningComponent();
+    checkStatus(statusId: number): boolean {
+      return statusId == StatusKeys.ACTIVE ? true : false;
     }
+    
 
-    currentTab: any= 'salary';
-    earningId: any;
-    editEarning(id :  number){
-      this.moved=false;
-      this.earningId=id;
-      this.sendEditDetails(id.toString());
+    pageChange(page: number): void {
+      if(this.currentPage!= page){
+        this.currentPage = page;
+        this.getEarningComponent();
       }
-
-
-
-     sendEditDetails(sendId: string) {
-      const filteredEarningComponent = this.earningComponent.find(er => String(er.id) === sendId);
-        if (filteredEarningComponent) {
-          this.taxSlabService.editEarning(filteredEarningComponent);
-      } 
     }
+
+
+    selectedEarningComponent:EarningComponent = new EarningComponent();
+    selectedTab:number=0;
+    editEarning(earningComponent : EarningComponent){
+      this.toggle=true;
+      this.selectedEarningComponent= JSON.parse(JSON.stringify(earningComponent)) ;
+      this.selectedTab = 1;
+    }
+
+
+    selectedPfWage = "12% of Actual PF Wage"; // Default selected value
+
+    employer = [
+      { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
+      { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
+    ];
+    employee = [
+      { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
+      { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
+    ];
 }

@@ -12,14 +12,5 @@ export class BenefitDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectedPfWage = "12% of Actual PF Wage"; // Default selected value
 
-  employer = [
-    { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
-    { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
-  ];
-  employee = [
-    { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
-    { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
-  ];
 }

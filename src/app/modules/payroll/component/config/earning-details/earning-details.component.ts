@@ -1,6 +1,4 @@
-import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
 import { TaxSlabService } from 'src/app/services/tax-slab.service';
 
@@ -27,8 +25,6 @@ export class EarningDetailsComponent implements OnInit {
   moved:boolean=true;
 
   constructor(
-    private activateRoute : ActivatedRoute,
-    private router : Router,
     private taxSlabService: TaxSlabService,
     
   ) {
