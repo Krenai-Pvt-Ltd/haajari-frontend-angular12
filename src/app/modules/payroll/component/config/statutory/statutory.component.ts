@@ -52,6 +52,7 @@ export class StatutoryComponent implements OnInit {
       this._payrollConfigurationService.getEpfDetail().subscribe((response) => {
           if(response.status){
             this.epfDetail= response.object;
+            this.epfNumberForView = this.formatEpfNumberForView(this.epfDetail.epfNumber);
       
             if(this.epfDetail==null){
               this.epfDetail = new EmployeeProvidentFund();
@@ -249,6 +250,7 @@ export class StatutoryComponent implements OnInit {
         }
       }
 
+      epfNumberForView:string='';
       formatEpfNumber(event: any): void {
         let value = event.target.value.toUpperCase().replace(/\//g, '');
       
@@ -264,8 +266,25 @@ export class StatutoryComponent implements OnInit {
         if (part3) formatted += '/' + part3;
         if (part4) formatted += '/' + part4;
       
-        this.epfDetail.epfNumber = formatted;
-        event.target.value = formatted;
+        this.epfNumberForView = formatted;
+        this.epfDetail.epfNumber = value;
+      }
+
+      formatEpfNumberForView(rawValue: string): string{
+        const value = rawValue.replace(/[^A-Z0-9]/g, '');
+        const part1 = value.substring(0, 2);
+        const part2 = value.substring(2, 5);
+        const part3 = value.substring(5, 12);
+        const part4 = value.substring(12, 15);
+      
+      
+        let formatted = part1;
+        if (part2) formatted += '/' + part2;
+        if (part3) formatted += '/' + part3;
+        if (part4) formatted += '/' + part4;
+
+
+        return formatted;
       }
       
       
@@ -279,6 +298,7 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this.esiDetail= response.object;
+              this.esiNumberForView = this.formatEsiNumberForView(this.esiDetail.esiNumber);
               if(this.esiDetail==null){
                 this.esiDetail = new EmployeeStateInsurance();
               }
@@ -327,13 +347,12 @@ export class StatutoryComponent implements OnInit {
         }
       }
 
+      esiNumberForView:string='';
       formatEsiNumber(event: any): void {
-        let value = event.target.value.replace(/-/g, ''); // Remove hyphens first
-      
-        // Only keep digits
+        let value = event.target.value.replace(/-/g, '');
+
         value = value.replace(/\D/g, '');
-      
-        // Apply format
+  
         const part1 = value.substring(0, 2);
         const part2 = value.substring(2, 4);
         const part3 = value.substring(4, 10);
@@ -346,9 +365,25 @@ export class StatutoryComponent implements OnInit {
         if (part4) formatted += '-' + part4;
         if (part5) formatted += '-' + part5;
       
-        // Persist formatted value
-        this.esiDetail.esiNumber = formatted;
-        event.target.value = formatted;
+        this.esiNumberForView = formatted;
+        this.esiDetail.esiNumber = value;
+
+      }
+      formatEsiNumberForView(rawValue: string): string {
+        const value = rawValue.replace(/\D/g, '');
+        const part1 = value.substring(0, 2);
+        const part2 = value.substring(2, 4);
+        const part3 = value.substring(4, 10);
+        const part4 = value.substring(10, 13);
+        const part5 = value.substring(13, 17);
+      
+        let formatted = part1;
+        if (part2) formatted += '-' + part2;
+        if (part3) formatted += '-' + part3;
+        if (part4) formatted += '-' + part4;
+        if (part5) formatted += '-' + part5;
+      
+        return formatted;
       }
       
       
