@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { PaySchedule } from 'src/app/payroll-models/PaySchedule';
 import { HelperService } from 'src/app/services/helper.service';
@@ -22,7 +23,8 @@ export class PayScheduleComponent implements OnInit {
   constructor(
     private _payrollConfigurationService : PayrollConfigurationService,
     private _helperService : HelperService,
-    private route : 
+     private _route:ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -129,6 +131,13 @@ export class PayScheduleComponent implements OnInit {
   
         }
       );
-
- 
 }
+
+currentTab: any= 'profile';
+    route(tabName: string) {
+      this.router.navigate(['/payroll/configuration'], {
+        queryParams: { tab: tabName },
+      });
+      this.currentTab=tabName;
+    }
+  }
