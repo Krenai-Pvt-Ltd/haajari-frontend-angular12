@@ -243,7 +243,7 @@
            </div>
            <div class="modal-footer expense-admin bg-white">
               <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
-                 <button class="btn reject-btn" [disabled]="approveToggle || payrollToggle"
+                 <button class="btn btn-soft-danger" [disabled]="approveToggle || payrollToggle"
                  *ngIf="!partiallyPayment && (userExpense?.status.id == 13)" (click)="showExpenseRejectDiv()">Reject</button>
                  <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment"
                  class="btn payroll-btn" (click)="approveOrDeny(userExpense.id, 40, 0)" [disabled]="payrollToggle" >
@@ -254,7 +254,7 @@
                     <span></span>
                  </div>
                  </button>
-                 <button type="button" *ngIf="userExpense?.status.id == 13" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 14, 0)"
+                 <button type="button" *ngIf="userExpense?.status.id == 13" class="btn btn-soft-success text-success" (click)="approveOrDeny(userExpense.id, 14, 0)"
                  [ngClass]="{'btn-border':!(approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount)}"
                  [disabled]="approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" >
                  <span *ngIf="!approveToggle">Approved</span>
@@ -266,7 +266,7 @@
                  </button>
                  <button class="btn approve-btn" [disabled]="partiallyPayment  && (!partialAmount || partialAmount > userExpense.approvedAmount)"
                  *ngIf="!expenseCancelToggle && userExpense?.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
-                 <button class="btn approve-btn" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
+                 <button class="btn btn-soft-success text-success" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
                  *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approved</button>
               </div>

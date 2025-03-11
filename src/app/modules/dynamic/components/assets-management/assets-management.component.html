@@ -651,15 +651,15 @@
                                </div>
                             </div>
                          </div>
-                         <div class="filter-bdg d-flex align-items-center gap-2 mt-3 mb-3" *ngIf="activeFilterTemp.length>0">
+                         <div class="filter-bdg d-flex align-items-center gap-2 mt-3" *ngIf="activeFilterTemp.length>0">
                             <p *ngFor="let filter of activeFilterTemp"
                                class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
                                {{ filter.label }}
                                <i class="bi bi-x-lg pointer" (click)="removeFilters(filter)"></i>
                             </p>
                          </div>
-                         <div class="table-responsive">
-                            <table class="table mb-5 mt-3">
+                         <div class="table-responsive vh-80">
+                            <table class="table mb-5 mt-3 ">
                                <thead>
                                   <tr>
                                      <th>Assets Name</th>
@@ -970,7 +970,7 @@
                             </div>
                          </div>
                       </div>
-                      <div class="filter-bdg d-flex align-items-center gap-2 mt-3 mb-3" *ngIf="selectedFilters.size > 0">
+                      <div class="filter-bdg d-flex align-items-center gap-2 mt-3" *ngIf="selectedFilters.size > 0">
                          <!-- <ng-container > -->
                          <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
                             *ngFor="let filter of selectedFiltersArray">
@@ -1372,13 +1372,16 @@
        </div>
     </div>
  </div>
- <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
+
+
+ 
+ <div class="modal fade delete-modal" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createCategoryModalLabel">
-          Update Category
+          Add Category
         </h5>
         <button type="button" #closeUpdateCategory class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -1402,7 +1405,7 @@
           </div>
         </div>
         <div class="modal-footer ">
-          <button type="submit" class="btn submitActionBtn" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
+          <button type="submit" class="btn submitActionBtn" data-bs-dismiss="modal" aria-label="Close" [disabled]="categoryForm1.invalid || isCategoryUpdateLoading"> Add</button>
         </div>
       </form>
     </div>
@@ -1425,10 +1428,15 @@
  (nzOnClose)="close2()"
    >
    <ng-container *nzDrawerContent>
+      <div class="text-end border-bottom  pb-3">
+        <button class="btn p-0 font-13 fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+         <i class="bi bi-plus font-16 position-relative" style="top: 2px;"></i> Add Category
+      </button>
+      </div>
    <div class="category-lists">
-     <div class="" *ngFor="let category of categorySummary; let i = index">
+     <div *ngFor="let category of categorySummary; let i = index">
         <div class="pt-3 pb-3 border-bottom">
-        <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0 font-14 fw-semibold">{{ category.categoryName }}</h5>
 
         <div class="d-flex align-items-center gap-3">
