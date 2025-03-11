@@ -53,7 +53,9 @@ export class TopbarComponent implements OnInit {
       this.updateTopbarValue();
     });
     this.getUuids();
-    this.getMailNotification(this.UUID, 'mail');
+    setTimeout(() => {
+      this.getMailNotification(this.UUID, 'mail');
+    }, 10);
     this.userInfo =this.rbacService.userInfo;
   }
   routeDesc:any="Here's what's going on today.";
@@ -239,7 +241,7 @@ export class TopbarComponent implements OnInit {
   UUID: any;
   orgUuid: any;
   async getUuids() {
-    this.UUID = await this.rbacService.getUUID();
+    this.UUID = await this.rbacService.getUuid();
     this.employeeProfileRoute = `${Key.EMPLOYEE_PROFILE_ROUTE}?userId=${this.UUID}`;
     // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE +'?userId={{UUID}}';
     this.orgUuid = await this.rbacService.getOrgRefUUID();

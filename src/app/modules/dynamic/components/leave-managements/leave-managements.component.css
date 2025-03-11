@@ -292,10 +292,22 @@
 .action-btn svg{
   width: 18px;
 }
-.actionMenuList {
+/* .actionMenuList {
     box-shadow: 0px 3px 12px -3px #1111111f;
     overflow: hidden;
     padding: 7px !important;
+} */
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
+}
+.actionMenuList .dropdown-item i {
+  font-size: 18px;
+  position: relative;
+  top: 2px;
 }
 .actionMenuList svg{
     width: 18px;
@@ -453,10 +465,10 @@
 }
 
 
-.defaulter-employee img {
+/* .defaulter-employee img {
   width: 50px;
   border-radius: 50px;
-}
+} */
 .defaulter{
   background-color: #F9FAFB;
   padding: 15px;
@@ -464,10 +476,10 @@
 }
 
 
-.filter-bdg {
+/* .filter-bdg {
   overflow-x: scroll;
   flex-wrap: nowrap;
-}
+} */
 
 .filter-pills {
   line-height: 18px;
@@ -571,12 +583,8 @@
 }
 
 .detail-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 15px;
   padding: 8px 12px;
   background-color: #f9f9f9;
-  border-radius: 6px;
 }
 
 .detail-item .label {
@@ -633,3 +641,13 @@
   min-height: 400px;
 }
 
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}
+.action-btn {
+  position: relative;
+  width: 40px; /* Adjust to match your design */
+  height: 40px; /* Adjust to match your design */
+}

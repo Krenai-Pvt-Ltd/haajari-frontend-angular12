@@ -33,6 +33,7 @@ export class AttendanceUpdateComponent implements OnInit {
   attendanceTimeUpdateForm!: FormGroup;
   attendanceData: any = {};
   ngOnInit(): void {
+
     this.userId = this.roleService.getUuid();
     this.initializeForm();
     this.fetchManagerNames();
@@ -42,6 +43,8 @@ export class AttendanceUpdateComponent implements OnInit {
         this.attendanceData = this.data.attendanceRequest;
       }
       this.userId = this.attendanceData.userUuid;
+
+      // this.userId = '731a011e-ae1e-11ee-9597-784f4361d885';
       this.fetchAttendanceDataForReview(); // Fetch data for review mode
       this.attendanceTimeUpdateForm.disable(); // Disable form in review mode
     }

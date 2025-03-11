@@ -26,7 +26,7 @@
               <span class="request-count d-flex align-items-center justify-content-center"
                 *ngIf="attendanceUpdateCount > 0">{{ attendanceUpdateCount }}</span>
             </li>
-            <li class="nav-item d-flex align-items-center d-none">
+            <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" role="tab" (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB_NEW)"
                 class="position-relative" [ngClass]="{
                     'active-tab': ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB_NEW}" aria-controls="pills-notification" aria-selected="false" class="nav-link">Request Records</a>
@@ -112,7 +112,7 @@
       <div id="pills-tabContent" class="tab-content">
         <div *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
           <div class="attendance-list p-3 bg-white mt-4 border-rounded-2">
-           
+
             <div class="attendance-deta mb-2 mt-3">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="staff text-center">
@@ -153,12 +153,12 @@
             </div>
           </div>
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
-           
+
             <div class="asset-assigned-search mt-3">
               <div class="d-flex justify-content-start align-items-center">
                   <div class="search-filter ">
                       <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)" >
-                          Filters 
+                          Filters
                           <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                               <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                               <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
@@ -168,11 +168,11 @@
                               </g>
                           </svg>
                       </button>
-                      
+
                   </div>
                   <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                           <div class="form-group w-100 position-relative">
-                             
+
                               <input type="text" id="searchText" placeholder="Search by name and role"
                               class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search font-13 w-100 bg-white border-rounded-2"
                               (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" />
@@ -188,7 +188,7 @@
                   </div>
               </div>
 
-              <div class="attendance-list-filter p-0 p-0 border position-absolute bg-white border-rounded-2" [ngClass]="{'d-none': !showFilter}">                                   
+              <div class="attendance-list-filter p-0 p-0 border position-absolute bg-white border-rounded-2" [ngClass]="{'d-none': !showFilter}">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                    <h5 class="mb-0 font-14 fw-semibold"> Status Filter</h5>
                    <span class="pointer lh-1" (click)="changeShowFilter(false)">
@@ -386,7 +386,7 @@
                                 &nbsp; &nbsp;<i id="dropdownMenuButton"
                                   class="bi bi-chevron-down text-black"></i>
                               </p>
-                              
+
                               <div class="total-braek-time bg-white position-absolute">
                                 <div *ngIf="
                                     attendanceDetailsResponse.breakTimingsList !==
@@ -537,7 +537,7 @@
                                 else attendanceLogResponseData
                               ">
                           <div class="loges-lading" *ngFor="let item of [].constructor(5)">
-                            
+
                               <h6>
                                 <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
                               </h6>
@@ -547,7 +547,7 @@
                               <h6 class="mt-1">
                                 <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
                               </h6>
-                            
+
                           </div>
                         </ng-container>
 
@@ -703,7 +703,7 @@
                             </nz-empty>
                           </div>
 
-                         
+
 
                           <div class="empty-file mt-20p" *ngIf="networkConnectionErrorPlaceHolder">
                             <nz-empty nzNotFoundImage="assets/images/signal.svg"
@@ -899,7 +899,7 @@
                     </ng-template>
 
                     <ng-template #errorWhileFetchingOvertimePendingRequestResponseListCondition>
-                      
+
                       <div class="empty-file mt-25p" *ngIf="
                           dataNotFoundForOvertimePendingRequestResponse &&
                           !networkConnectionErrorForOvertimePendingRequestResponse
@@ -1019,7 +1019,7 @@
                       </ng-container>
                     </ng-template>
                     <ng-template #errorWhileFetchingOvertimeRequestResponseListCondition>
-                      
+
                       <div class="empty-fil mt-25p" *ngIf="
                           dataNotFoundForOvertimeRequestResponse &&
                           !networkConnectionErrorForOvertimeRequestResponse
@@ -1045,9 +1045,9 @@
                 </div>
                 <hr class="mb-2" />
                 <div class="mb-3 d-flex align-items-center border-rounded-2">
-                 
+
                 </div>
-                
+
 
                 <ng-container *ngIf="
                     isShimmerForOvertimeRequestLogResponse &&
@@ -1167,7 +1167,7 @@
                   </ng-container>
                 </ng-template>
                 <ng-template #errorWhileFetchingOvertimeRequestLogResponseListCondition>
-                  
+
                   <div class="empty-file mt-25p" *ngIf="
                       dataNotFoundForOvertimeRequestLogResponse &&
                       !networkConnectionErrorForOvertimeRequestLogResponse
@@ -1244,7 +1244,7 @@
                             !networkConnectionErrorForAttendanceUpdatePendingRequestResponse;
                           else errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition
                         ">
-                        <div class="leave-history-box">
+                        <div class="leave-history-box" style="max-height: 400px; overflow-y: auto;" #logContainer (scroll)="scrollDownRecentActivity($event)">
                           <div class="row mt-2" *ngFor="let attendanceRequest of attendanceRequests">
                             <div class="col-auto">
                               <img *ngIf="attendanceRequest.userImage" src="{{ attendanceRequest.userImage }}" alt=""
@@ -1259,88 +1259,63 @@
                                   <div class="float-end">
                                     <div class="dropdown d-inline-block">
                                       <div class="align-self-center text-end">
-                                        <small>{{ attendanceRequest.createdDate | date : "medium" || "N/A"  }}</small>
+                                        <small>{{ attendanceRequest.createdDate | date : "medium" || "N/A" }}</small>
                                         <h5 class="fw-semibold">
-                                          <!-- Request Type | {{attendanceRequest.attendanceStatus}} -->
-                                          <span class="badge badge-outline-primary" *ngIf="
-                                              attendanceRequest.requestType ===
-                                              'UPDATE'
-                                            ">Request Type |
-                                            {{
-                                            attendanceRequest.attendanceStatus
-                                            | uppercase
-                                            }}</span>
-                                          <span class="badge badge-outline-primary" *ngIf="
-                                              attendanceRequest.requestType ===
-                                              'CREATE'
-                                            ">New Request !</span>
+                                          <span class="badge badge-outline-primary" *ngIf="attendanceRequest.requestType === 'UPDATE'">
+                                            Request Type | {{ attendanceRequest.attendanceStatus | uppercase }}
+                                          </span>
+                                          <span class="badge badge-outline-primary" *ngIf="attendanceRequest.requestType === 'CREATE'">
+                                            New Request !
+                                          </span>
                                         </h5>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 font-16" (click)="
-                                          routeToUserProfile(
-                                            attendanceRequest.userUuid
-                                          )
-                                        ">
+                                      <h5 class="m-0 font-16" (click)="routeToUserProfile(attendanceRequest.userUuid)">
                                         {{ attendanceRequest.userName }}
                                       </h5>
-                                      <ng-container *ngIf="
-                                          attendanceRequest.requestType ===
-                                          'UPDATE'
-                                        ">
+                                      <ng-container *ngIf="attendanceRequest.requestType === 'UPDATE'">
                                         <small>Previous Time:
-                                          <u>
-                                            {{
-                                            attendanceRequest.oldDate
-                                            | date : "medium" || "N/A"
-                                            }}
-                                          </u></small>
+                                          <u>{{ attendanceRequest.oldDate | date : "medium" || "N/A" }}</u>
+                                        </small>
                                         <br />
                                         <small>Requested Time:
-                                          <u>
-                                            {{
-                                            attendanceRequest.updatedDate
-                                            | date : "medium" || "N/A"
-                                            }}
-                                          </u></small>
+                                          <u>{{ attendanceRequest.updatedDate | date : "medium" || "N/A" }}</u>
+                                        </small>
                                       </ng-container>
-
-                                      <ng-container *ngIf="
-                                          attendanceRequest.requestType ===
-                                          'CREATE'
-                                        ">
+                                      <ng-container *ngIf="attendanceRequest.requestType === 'CREATE'">
                                         <small>In Time:
-                                          <u>
-                                            {{
-                                            attendanceRequest.inRequestTime
-                                            | date : "medium" || "N/A"
-                                            }}
-                                          </u></small>
+                                          <u>{{ attendanceRequest.inRequestTime | date : "medium" || "N/A" }}</u>
+                                        </small>
                                         <br />
                                         <small>Out Time:
-                                          <u>
-                                            {{
-                                            attendanceRequest.outRequestTime
-                                            | date : "medium" || "N/A"
-                                            }}
-                                          </u></small>
+                                          <u>{{ attendanceRequest.outRequestTime | date : "medium" || "N/A" }}</u>
+                                        </small>
                                       </ng-container>
                                     </div>
                                   </div>
                                 </div>
-                                <a href="#" class="text-primary" (click)="
-                                    getAttendanceUpdateRequestActionResponseMethodCall(
-                                      attendanceRequest
-                                    )
-                                  " data-bs-toggle="modal" data-bs-target="#attendance-update-request-action">
+                                <a href="#" class="text-primary" (click)="getAttendanceUpdateRequestActionResponseMethodCall(attendanceRequest)"
+                                  data-bs-toggle="modal" data-bs-target="#attendance-update-request-action">
                                   <i class="fas fa-external-link-square-alt me-1"></i>View
                                 </a>
                               </div>
                             </div>
                             <!--end col-->
+                          </div>
+
+                          <!-- Loading Indicator -->
+                          <div class="text-center py-2" *ngIf="isFullRequestLoader">
+                            <div class="spinner-border text-primary" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </div>
+
+                          <!-- No More Data Message -->
+                          <div class="text-center py-2" *ngIf="!isFullRequestLoader && attendanceRequests.length >= fullAttendanceRequestCount">
+                            No more requests to load
                           </div>
                         </div>
 
@@ -1348,7 +1323,7 @@
                     </ng-template>
 
                     <ng-template #errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition>
-                     
+
                       <div class="empty-file mt-25p" *ngIf="
                           dataNotFoundForAttendanceUpdatePendingRequestResponse &&
                           !networkConnectionErrorForAttendanceUpdatePendingRequestResponse
@@ -1500,7 +1475,7 @@
                       </ng-container>
                     </ng-template>
                     <ng-template #errorWhileFetchingAttendanceUpdateRequestResponseListCondition>
-                     
+
 
                       <div class="empty-file mt-25p" *ngIf="
                           dataNotFoundForOvertimeRequestResponse &&
@@ -1526,7 +1501,7 @@
                   <h4 class="font-14 mb-0 fw-semibold"> Logs</h4>
                 </div>
                 <hr class="mb-0" />
-                
+
 
                 <ng-container *ngIf="
                     isShimmerForAttendanceUpdateRequestLogResponse &&
@@ -1579,7 +1554,7 @@
                                     </span>
                                     <span class="text-danger" *ngIf="attenFullRequestLog.status == 'REJECTED'">Rejected <span> By </span>
                                     </span>
-                                    
+
                                     {{ attenFullRequestLog.managerName }}
                                   </p>
                                 </div>
@@ -1680,7 +1655,7 @@
                           <div class="search-filter">
                             <!-- data-bs-auto-close="false" -->
                               <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)" >
-                                  Filters 
+                                  Filters
                                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                       <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                       <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
@@ -1691,8 +1666,8 @@
                                   </svg>
                               </button>
 
-                             
-                             
+
+
                           </div>
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
@@ -1700,7 +1675,7 @@
                                       <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                   </div>
                           </div>
-                          
+
                       </div>
 
                       <div class="actionMenuList filter-box p-0 position-absolute bg-white border" [ngClass]="{'d-none': !showFilter}">
@@ -1786,7 +1761,7 @@
 
                              <!-- TO DO: Shimmer Loading Ui -->
                                 <!-- <tbody>
-                                    <tr *ngFor="let item of [].constructor(10)"> 
+                                    <tr *ngFor="let item of [].constructor(10)">
                                         <td>
                                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                         </td>
@@ -1874,7 +1849,7 @@
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu actionMenuList">
-                                                
+
                                                     <li>
                                                         <a class="dropdown-item">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -1911,7 +1886,7 @@
                                                             </svg>
                                                             View request </a>
                                                     </li>
-                                                
+
                                             </div>
                                         </div>
                                     </td>
@@ -1951,7 +1926,7 @@
                                               <i class="bi bi-three-dots-vertical"></i>
                                           </button>
                                           <div class="dropdown-menu actionMenuList">
-                                              
+
                                                   <li>
                                                       <a class="dropdown-item">
                                                           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -1988,7 +1963,7 @@
                                                           </svg>
                                                           View request </a>
                                                   </li>
-                                              
+
                                           </div>
                                       </div>
                                   </td>
@@ -2027,7 +2002,7 @@
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu actionMenuList">
-                                            
+
                                                 <li>
                                                     <a class="dropdown-item">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -2064,7 +2039,7 @@
                                                         </svg>
                                                         View request </a>
                                                 </li>
-                                            
+
                                         </div>
                                     </div>
                                 </td>
@@ -2088,7 +2063,7 @@
                           <div class="search-filter dropdown">
                             <!-- data-bs-auto-close="false" -->
                               <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" data-bs-toggle="dropdown"  aria-expanded="false">
-                                  Filters 
+                                  Filters
                                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                       <mask id="mask0_7808_40" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                       <rect x="0.262695" y="0.283112" width="22.4338" height="22.4338" fill="#1C1B1F"/>
@@ -2142,7 +2117,7 @@
                                       <button class="btn submitActionBtn">Apply</button>
                                   </div>
                               </div>
-                             
+
                           </div>
                           <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                                   <div class="form-group w-100 position-relative">
@@ -2150,7 +2125,7 @@
                                       <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                   </div>
                           </div>
-                          
+
                       </div>
                   </div>
                   </div>
@@ -2185,7 +2160,7 @@
 
                              <!-- TO DO: Shimmer Loading Ui -->
                                 <!-- <tbody>
-                                    <tr *ngFor="let item of [].constructor(9)"> 
+                                    <tr *ngFor="let item of [].constructor(9)">
                                         <td>
                                             <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                         </td>
@@ -2273,7 +2248,7 @@
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu actionMenuList">
-                                            
+
                                                 <li>
                                                     <a class="dropdown-item">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -2310,7 +2285,7 @@
                                                         </svg>
                                                         View request </a>
                                                 </li>
-                                            
+
                                         </div>
                                     </div>
                                 </td>
@@ -2350,7 +2325,7 @@
                                           <i class="bi bi-three-dots-vertical"></i>
                                       </button>
                                       <div class="dropdown-menu actionMenuList">
-                                          
+
                                               <li>
                                                   <a class="dropdown-item">
                                                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -2387,7 +2362,7 @@
                                                       </svg>
                                                       View request </a>
                                               </li>
-                                          
+
                                       </div>
                                   </div>
                               </td>
@@ -2426,7 +2401,7 @@
                                         <i class="bi bi-three-dots-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu actionMenuList">
-                                        
+
                                             <li>
                                                 <a class="dropdown-item">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -2463,7 +2438,7 @@
                                                     </svg>
                                                     View request </a>
                                             </li>
-                                        
+
                                     </div>
                                 </div>
                             </td>
@@ -2590,7 +2565,7 @@
                   <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px"
                     *ngIf="attendanceRequestSearchString != ''" (click)="clearSearchUsersOfRequestLogs()"></i>
                 </div>
-              
+
 
                 <div class="empty-file" *ngIf="fullAttendanceRequestCount == 0">
                   <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
@@ -2690,7 +2665,7 @@
                       *ngIf="fullAttendanceRequestSearchString != ''" (click)="clearSearchUsersOfFullLogs()"></i>
                   </div>
 
-                
+
 
                   <div class="empty-file" *ngIf="totalAttendanceRequestCount == 0">
                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">

@@ -28,12 +28,6 @@
               <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                 <h5 class="mb-0">Update Request</h5>
                 <div class="d-flex align-items-center gap-2">
-                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
-                    (click)="removeField('name', requestedData.user.name)">Delete</button>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && fieldLoading"
-                    (click)="approveField('name', requestedData.user.name)">Approve</button> -->
-
                   <div class="d-flex align-items-center gap-2">
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
@@ -69,7 +63,6 @@
                     </svg>
                     Name
                   </h6>
-                  <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                 </div>
                 <div class="d-flex align-items-center gap-2">
                   <div class="stap-bar position-relative">
@@ -89,15 +82,13 @@
 
                 </div>
               </div>
-
-
             </div>
           </ng-template>
 
         </span>
       </div>
         <div class="d-flex align-items-center gap-2 mb-0">
-          <p class="mb-0 text-primary font-14">{{ user.position || '--'}}</p>
+          <p class="mb-0 text-primary font-13">{{ user.position || '--'}}</p>
           <span *ngIf="requestedData?.user?.position != undefined && requestedData?.user?.position != null"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
@@ -182,7 +173,7 @@
 
           </span>
           <span class="separator-border"></span>
-          <p class="mb-0 font-13">Department: {{ user.department || '--'}}</p>
+          <p class="mb-0 font-12">Department: {{ user.department || '--'}}</p>
 
           <span *ngIf="requestedData?.user?.department !== null && requestedData?.user?.department !== undefined"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
@@ -276,7 +267,7 @@
       </div>
 
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
+        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()">
           <button
             class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
             (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
@@ -309,7 +300,7 @@
         <div class="d-flex align-items-center gap-3">
           <div *ngIf="requestedData && rbacService.userInfo.role == 'USER'"
             class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
-          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || rbacService.userInfo.role == 'USER')" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
+          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || this.userId == rbacService.getUuid())" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
             (click)="profileEdit=true; editProfile()">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
               <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
@@ -3594,7 +3585,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="number" class="form__field" formControlName="lastSalary" />
-                <label class="form__label">Salary</label>
+                <label class="form__label" for="lastSalary">Salary</label>
               </div>
               <div
                 *ngIf="(job.get('lastSalary')?.touched || isFormInvalid) && job.get('lastSalary')?.hasError('required')"
@@ -3607,7 +3598,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" class="form__field" formControlName="lastJobDepartment" />
-                <label class="form__label">Department</label>
+                <label class="form__label" for="lastJobDepartment">Department</label>
               </div>
               <div
                 *ngIf="(job.get('lastJobDepartment')?.touched || isFormInvalid) && job.get('lastJobDepartment')?.hasError('required')"

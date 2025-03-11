@@ -456,7 +456,7 @@ export class LoginComponent implements OnInit {
               await this.onboardingService.checkSubscriptionPlan();
               this.helperService.orgStepId = 5;
               this.onboardingService.isLoadingOnboardingStatus = false;
-              // console.log(this.helperServisce.subModuleResponseList);
+              // this.router.navigate([constant.DASHBOARD_ROUTE]);
               this.router.navigate([this.helperService.subModuleResponseList[0].
                 description]);
             }

@@ -5453,6 +5453,46 @@ export class DataService {
       { params }
     );
   }
+
+
+
+  getAttendanceRequestsNew(
+    requestType: string,
+    startDate: string,
+    endDate: string,
+    pageNumber: number,
+    itemPerPage: number,
+    userIds?: number[],
+    selectedRequestTypeIds?: number[],
+    selectedStatusIds?: number[],
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('requestType', requestType)
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+
+    if (userIds && userIds.length > 0) {
+      userIds.forEach(id => params = params.append('userIds', id));
+    }
+
+    if (selectedRequestTypeIds && selectedRequestTypeIds.length > 0) {
+      selectedRequestTypeIds.forEach(id => params = params.append('selectedRequestTypeIds', id));
+    }
+
+    if (selectedStatusIds && selectedStatusIds.length > 0) {
+      selectedStatusIds.forEach(id => params = params.append('selectedStatusIds', id));
+    }
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    const url = `${this.baseUrl}/attendance/requests`;
+    return this.httpClient.get<any>(url, { params });
+  }
 }
 
 

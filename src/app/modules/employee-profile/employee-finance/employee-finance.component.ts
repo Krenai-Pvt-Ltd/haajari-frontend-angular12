@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
-import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
 import { UserPaymentDetail } from 'src/app/models/UserPaymentDetail';
 import { DataService } from 'src/app/services/data.service';
@@ -51,7 +50,6 @@ export class EmployeeFinanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentSalaryDetail();
-    // this.getUserSalaryTemplate();
   }
 
   ngAfterViewInit() {

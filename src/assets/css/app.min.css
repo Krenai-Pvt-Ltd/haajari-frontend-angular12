@@ -887,10 +887,6 @@ body.dark-topbar .app-search form .form-control:focus {
   }
 }
 
-.modal-content {
-  background-color: #fff;
-  border-radius: 0px !important;
-}
 
 .page-item.active .page-link {
   z-index: 3;
@@ -3306,6 +3302,7 @@ a.badge:hover {
 
 .modal-content {
   background-color: #fff;
+  border-radius: 2px !important;
 }
 
 .modal-content .modal-header {
@@ -5722,6 +5719,7 @@ hr.hr-dashed {
   width: 48px;
   font-size: 18px;
   font-weight: 700;
+  object-fit: cover;
 }
 
 .thumb-lg {
@@ -9541,6 +9539,9 @@ ul.pagination.justify-content-end {
   background-color: transparent;
   border: 0;
   cursor: pointer !important;
+}
+.dropdown-item:hover{
+  background-color: #f1f5fa !important;
 }
 
 input[type="time"]::-webkit-datetime-edit-ampm-field {

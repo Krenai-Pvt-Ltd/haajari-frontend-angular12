@@ -118,7 +118,7 @@ span.members-name {
   width: 50%;
   padding-right: 16px;
 }
-.dropdown-item {
+/* .dropdown-item {
   display: block;
   width: 100%;
   padding: 0.25rem 1rem;
@@ -132,7 +132,7 @@ span.members-name {
   border: 0;
   font-size: 13px;
   color: #3e3e3e;
-}
+} */
 .dropdown-menu {
   padding: 0rem 0;
 }
@@ -278,7 +278,7 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
   font-size: 14px !important;
   color: #1f1f1f !important;
 }
-.actionMenuList {
+/* .actionMenuList {
   border: 1px solid #f1f1f1;
   border-radius: 12px;
   box-shadow: 0px 3px 12px -3px #1111111f;
@@ -286,7 +286,7 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
   min-width: 12rem;
   padding: 7px !important;
   background-color: #fff;
-}
+} */
 .actionMenuList .dropdown-item {
   font-size: 14px !important;
   color: #333 !important;
@@ -294,9 +294,9 @@ Remove border from nz-select .ant-select:not(.ant-select-customize-input) .ant-s
   padding: 3px 15px !important;
 
 }
-.actionMenuList .dropdown-item i {
+/* .actionMenuList .dropdown-item i {
   margin-right: 5px;
-}
+} */
 .leave-management-settings {
   background-color: #f5f6ff;
 }
@@ -564,9 +564,9 @@ span.request-count {
   color: #444;
   height: 45px !important;
 }
-.actionMenuList {
+/* .actionMenuList {
   line-height: 35px;
-}
+} */
 .filter-box {
   width: 300px !important;
   border-radius: 2px !important;
@@ -654,10 +654,10 @@ span.request-count {
   font-size: 0.875rem !important;
   font-weight: 400 !important;
 }
-.filter-bdg {
+/* .filter-bdg {
   overflow-x: scroll;
   flex-wrap: nowrap;
-}
+} */
 .filter-pills {
   line-height: 18px;
   color: var(--primary-color);
