@@ -248,6 +248,26 @@ export class StatutoryComponent implements OnInit {
           }
         }
       }
+
+      formatEpfNumber(event: any): void {
+        let value = event.target.value.toUpperCase().replace(/\//g, '');
+      
+        value = value.replace(/[^A-Z0-9]/g, '');
+      
+        const part1 = value.substring(0, 2);
+        const part2 = value.substring(2, 5);
+        const part3 = value.substring(5, 12);
+        const part4 = value.substring(12, 15);
+      
+        let formatted = part1;
+        if (part2) formatted += '/' + part2;
+        if (part3) formatted += '/' + part3;
+        if (part4) formatted += '/' + part4;
+      
+        this.epfDetail.epfNumber = formatted;
+        event.target.value = formatted;
+      }
+      
       
 
 
@@ -303,9 +323,31 @@ export class StatutoryComponent implements OnInit {
 
       private removeEsiNumberDashes(obj: any): void {
         if (obj && obj.esiNumber && typeof obj.esiNumber === 'string') {
-          obj.esiNumber = obj.esiNumber.replace(/-/g, ''); // Remove all dashes
+          obj.esiNumber = obj.esiNumber.replace(/-/g, ''); 
         }
       }
+
+      formatEsiNumber(event: any): void {
+        let value = event.target.value.replace(/-/g, ''); 
+   
+        value = value.replace(/\D/g, '');
+ 
+        const part1 = value.substring(0, 2);
+        const part2 = value.substring(2, 4);
+        const part3 = value.substring(4, 10);
+        const part4 = value.substring(10, 13);
+        const part5 = value.substring(13, 17);
+      
+        let formatted = part1;
+        if (part2) formatted += '-' + part2;
+        if (part3) formatted += '-' + part3;
+        if (part4) formatted += '-' + part4;
+        if (part5) formatted += '-' + part5;
+  
+        this.esiDetail.esiNumber = formatted;
+        event.target.value = formatted;
+      }
+      
       
       
 
