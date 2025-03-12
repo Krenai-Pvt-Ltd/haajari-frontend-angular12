@@ -924,38 +924,36 @@
 <div *ngIf="showLeaveQuotaModal" class="modal-overlay">
     <div class="modal-container p-0 border-rounded-2">
       <div class="modal-header mb-0">
-        <h5>User Leave Quota Information</h5>
-        <button class="close-btn" (click)="closeLeaveQuotaModal()">&times;</button>
+        <h5 class="mb-0">User Leave Quota Information</h5>
+        <button class="close-btn font-24" (click)="closeLeaveQuotaModal()">&times;</button>
       </div>
-
-
 
       <div class="modal-body">
         <div class="info-message border-rounded-2">
-          <p>
+          <p class="mb-0">
               🚫 <strong>Note:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized by the user.
               You can only <strong>reject</strong> this leave request.
           </p>
         </div>
         <div class="quota-details">
           <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
-            <span class="label font-13">👤 User Name:</span>
+            <span class="label font-13 fw-600 color-basic">👤 User Name:</span>
             <span class="font-13">{{ userLeaveQuota?.userName }}</span>
           </div>
           <div class="detail-item border-rounded-2  d-flex alig-items-cennter justify-content-between">
-            <span class="label font-13">📅 Total Leaves:</span>
+            <span class="label font-13 fw-600 color-basic">📅 Total Leaves:</span>
             <span class="font-13">{{ userLeaveQuota?.totalAllocatedLeaves }}</span>
           </div>
           <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
-            <span class="label  font-13">✅ Approved Leaves:</span>
+            <span class="label  font-13 fw-600 color-basic">✅ Approved Leaves:</span>
             <span class="font-13">{{ userLeaveQuota?.approvedLeaves }}</span>
           </div>
           <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
-            <span class="label font-13">❌ Rejected Leaves:</span>
+            <span class="label font-13 fw-600 color-basic">❌ Rejected Leaves:</span>
             <span class="font-13">{{ userLeaveQuota?.rejectedLeaves }}</span>
           </div>
           <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
-            <span class="label font-13">🕒 Remaining Leaves:</span>
+            <span class="label font-13 fw-600 color-basic">🕒 Remaining Leaves:</span>
             <span class="font-13">{{ userLeaveQuota?.remainingLeaves }}</span>
           </div>
         </div>
