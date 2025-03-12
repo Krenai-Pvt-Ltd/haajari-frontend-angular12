@@ -415,15 +415,15 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="col-md-12" *ngFor="let config of selectedEarningComponent.configurations">
+                        <div class="col-md-12" *ngFor="let config of selectedEarningComponent.configurations; let i= index;">
                             <div class="form-check mb-3 d-flex align-items-start gap-2">
-                                <input type="checkbox" id="exampleCheck3" name="congiguraation" class="form-check-input"
-                                [id]="'check-' + config.id" 
+                                <input type="checkbox" name="congiguraation" class="form-check-input"
+                                [id]="'check-' + i" 
                                 [disabled]="!config.editable"
                                 [(ngModel)]="config.checked"
                                 >
                                 <div>
-                                    <label for="exampleCheck3" class="form-check-label font-13">{{config.name}}</label>
+                                    <label [for]="'check-' + i"  class="form-check-label font-13">{{config.name}}</label>
                                     <p class="mb-0 font-12 fw-light text-optional">{{config.description}}</p>
 
                                 </div>

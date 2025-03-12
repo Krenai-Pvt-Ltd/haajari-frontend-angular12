@@ -36,6 +36,7 @@ export class StatutoryComponent implements OnInit {
 }
 
   ngOnInit(): void {
+    window.scroll(0,0);
     this.getEpfDetail();
     this.getPfContribution();
     this.getEsiDetail();

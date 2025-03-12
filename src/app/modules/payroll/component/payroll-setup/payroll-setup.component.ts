@@ -12,73 +12,12 @@ import { TaxSlabService } from 'src/app/services/tax-slab.service';
 export class PayrollSetupComponent implements OnInit {
 
   constructor(private _payrollConfigurationService  : PayrollConfigurationService,
-        private router: Router,
-      private taxSlabService: TaxSlabService
-        
-    
-  ) { }
+        private router: Router) { }
 
   ngOnInit(): void {
+    window.scroll(0,0);
     this.getTodoList();
   }
-
-  // toDoStepList = [
-  //   {
-  //     "id": 1,
-  //     "name": "Organization Profile Setup",
-  //     "description": "Set up your organization details and work locations for accurate payroll processing.",
-  //     "isComplete": false,
-  //     "route": "/task-a",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 2,
-  //     "name": "Pay Schedule Configuration",
-  //     "description": "Define payroll cycles, payment dates, and salary disbursement frequency.",
-  //     "isComplete": true,
-  //     "route": "/task-b",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 3,
-  //     "name": "Statutory Compliance Setup",
-  //     "description": "Enable and configure EPF, ESI, PT, LWF, and other legal deductions.",
-  //     "isComplete": false,
-  //     "route": "/task-c",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 4,
-  //     "name": "Salary Components Management",
-  //     "description": "Customize salary structures, allowances, and deductions as per company policy. ",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 5,
-  //     "name": "Taxes Configuration",
-  //     "description": "Provide necessary tax details to ensure compliance with statutory regulations.",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   },{
-  //     "id": 6,
-  //     "name": "Set Up Salary Template",
-  //     "description": "Standardize payroll processing with predefined templates.",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   },{
-  //     "id": 7,
-  //     "name": "Previous Payroll Import",
-  //     "description": "Upload or configure prior payroll data for seamless payroll continuity.",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   }
-  // ]
-  // ;
   
 
   activeStep(id:number){

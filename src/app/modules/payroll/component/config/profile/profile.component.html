@@ -10,14 +10,13 @@
             <div class="col-md-8">
                 <div class="organization-detail">
                     <div class="row">
-                        <div class="col-md-6" *ngIf="profile.logo;">
+                        <div class="col-md-6" *ngIf="!Constant.EMPTY_STRINGS.includes(profile.logo)">
                             <div class="origination-logo d-flex align-items-center justify-content-center position-relative p-0 border-rounded-2 h-100">
                                 <img [src]="profile.logo" class="img-130">
                             </div>
                         </div>
                       
-                        <div [class.col-md-6]="profile.logo" [class.col-md-12]="!profile.logo">
-                            <!-- <label for="exampleFormControlSelect3 pb-2" style="padding-bottom: 6px;"> Company Logo</label>           -->
+                        <div [ngClass]="{'col-md-6':!Constant.EMPTY_STRINGS.includes(profile.logo), 'col-md-12': Constant.EMPTY_STRINGS.includes(profile.logo)}">
                             <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 "
                             (click)="fileInput.click()">
                                 
@@ -52,7 +51,7 @@
                 <div class="organization-detail">
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <input type="text" placeholder="Address Line 1" required name="companyName" class="form-control whatsapp-login-input" [value]="profile.companyName" disabled>
+                            <input type="text" placeholder="Company Name" required name="companyName" class="form-control whatsapp-login-input" [value]="profile.companyName" disabled>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
@@ -70,7 +69,6 @@
                                         required
                                       >
                                       <nz-option nzLabel="INR" nzValue="INR">INR</nz-option>
-                                  
                                       </nz-select>
                                     </div>
                                 </div>
@@ -119,17 +117,13 @@
                         <div class="col-md-6 mb-3">
                             <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                                 <input type="text" placeholder="Formated Date"  name="formatedDate" class="form-control whatsapp-login-input" 
-                             [(ngModel)]="formattedDate" disabled>
+                                [(ngModel)]="formattedDate" disabled>
                             </div>
                         </div>
                         
                         <div class="col-md-6">
                             <input type="text" placeholder="Business Contact"  name="contactNumber" class="form-control whatsapp-login-input" 
-                             minlength="10"
-                             maxlength="10"
-                             pattern="[0-9]*"
-                             inputmode="numeric"
-                             [(ngModel)]="profile.businessPhone">
+                             minlength="10" maxlength="10" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="profile.businessPhone">
                         </div>
                         <div class="col-md-6">
                             <input type="email" placeholder="Email Address" name="businessEmail" class="form-control whatsapp-login-input" [(ngModel)]="profile.businessEmail">
