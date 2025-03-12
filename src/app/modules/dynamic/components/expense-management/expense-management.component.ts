@@ -8,6 +8,7 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpenseType } from 'src/app/models/ExpenseType';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
+import { ExpenseService } from 'src/app/services/expense.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
@@ -18,7 +19,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class ExpenseManagementComponent implements OnInit {
 
-  constructor(private dataService: DataService, private helperService: HelperService,private cdr: ChangeDetectorRef,
+  constructor(private dataService: DataService, private expenseService: ExpenseService, private helperService: HelperService,private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   showFilter: boolean = false;
@@ -32,7 +33,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.selectedStatus = [];
     this.getExpenses();
     this.getExpensesCount();
-
+    this.getWalletUser();
     this.getRole();
   }
 
@@ -159,89 +160,6 @@ export class ExpenseManagementComponent implements OnInit {
     })
   }
 
-  // statusLabels: { [key: number]: string } = {
-  //   13: "Pending",
-  //   14: "Approved",
-  //   15: "Rejected",
-  //   40: "Approved",
-  //   53: "Approved",
-  //   46: "Approved"
-  // };
-
-
-  // selectedStatus: number[] = [];
-
-  // getUniqueStatusIds(): number[] {
-  //   return Array.from(new Set(Object.keys(this.statusLabels).map(Number))); 
-  // }
-
-  // updateStatusIds(selectedValues: number[]) {
-  //   this.statusIds = selectedValues; // Store selected IDs
-
-  //   // Convert selected IDs into label names
-  //   this.tempSelectedFilter = selectedValues.map(id => this.statusLabels[id]);
-
-  //   console.log('Updated statusIds:', this.statusIds);
-  //   console.log('Selected Filters:', this.tempSelectedFilter);
-  // }
-
-
-
-  // updateStatusIds(event: any, statusIds: number | number[]) {
-  //   const allCheckbox = document.getElementById("all") as HTMLInputElement;
-
-  //   const idsArray = Array.isArray(statusIds) ? statusIds : [statusIds];
-
-  //   if (event.target.checked) {
-  //       idsArray.forEach(id => {
-  //           if (!this.statusIds.includes(id)) {
-  //               this.statusIds.push(id);
-  //               if (this.statusLabels[id] && !this.tempSelectedFilter.includes(this.statusLabels[id])) {
-  //                 this.tempSelectedFilter.push(this.statusLabels[id]); 
-  //             }
-  //           }
-  //       });
-  //   } else {
-  //       this.statusIds = this.statusIds.filter(id => !idsArray.includes(id));
-  //       idsArray.forEach(id => {
-  //         if (this.statusLabels[id]) {
-  //             this.tempSelectedFilter = this.tempSelectedFilter.filter(label => label !== this.statusLabels[id]);
-  //         }
-  //     });
-  //   }
-
-  //   if (!event.target.checked) {
-  //       allCheckbox.checked = false;
-  //   }
-
-  //   console.log('Updated statusIds:', this.statusIds);
-  //   console.log('Selected Filters:', this.tempSelectedFilter);
-  // }
-
-  
-  // updateAllStatus(event: any) {
-  //   const approvedCheckbox = document.getElementById("approved") as HTMLInputElement;
-  //   const rejectedCheckbox = document.getElementById("rejected") as HTMLInputElement;
-  //   const pendingCheckbox = document.getElementById("pending") as HTMLInputElement;
-  
-  //   if (event.target.checked) {
-  //     this.statusIds = [13, 14, 15, 40, 53, 46]; 
-  
-  //     approvedCheckbox.checked = true;
-  //     rejectedCheckbox.checked = true;
-  //     pendingCheckbox.checked = true;
-  //   } else {
-  //     this.statusIds = []; 
-  
-  //     approvedCheckbox.checked = false;
-  //     rejectedCheckbox.checked = false;
-  //     pendingCheckbox.checked = false;
-  //   }
-  
-  //   console.log('Updated statusIds after selecting all:', this.statusIds);
-  // }
-
-
   statusMap: { [label: string]: number[] } = {
     "Pending": [13],
     "Approved": [14, 40, 53, 46],
@@ -296,46 +214,6 @@ export class ExpenseManagementComponent implements OnInit {
     this.getExpenses();  
 }
 
-
-  // resetFilters() {
-  //   this.statusIds = [];
-  
-  //   (document.getElementById("all") as HTMLInputElement).checked = false;
-  //   (document.getElementById("approved") as HTMLInputElement).checked = false;
-  //   (document.getElementById("rejected") as HTMLInputElement).checked = false;
-  //   (document.getElementById("pending") as HTMLInputElement).checked = false;
-  
-  //   console.log("Filters reset. Fetching all expenses...");
-  
-  //   this.getExpenses();
-  //   this.tempSelectedFilter = [];
-  //   this.showFilter = false;
-  // }
-
-//   removeFilter(filter: string) {
-//     const statusIdsToRemove = Object.keys(this.statusLabels)
-//         .filter(key => this.statusLabels[+key] === filter) 
-//         .map(key => +key);
-
-//     if (statusIdsToRemove.length > 0) {
-//         this.statusIds = this.statusIds.filter(id => !statusIdsToRemove.includes(id));
-//         this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== filter);
-
-//         // Uncheck corresponding checkboxes
-//         statusIdsToRemove.forEach(statusId => {
-//             const checkbox = document.getElementById(this.getCheckboxIdByStatus(statusId)) as HTMLInputElement;
-//             if (checkbox) {
-//                 checkbox.checked = false;
-//             }
-//         });
-//     }
-
-//     this.getExpenses();
-//     console.log("Updated Filters:", this.tempSelectedFilter);
-//     console.log("Updated Status IDs:", this.statusIds);
-// }
-
-
 removeFilter(filter: string) {
   const statusIdsToRemove = this.statusMap[filter] || [];
 
@@ -362,23 +240,6 @@ removeDateFilter(filter: { key: string; value: string }): void {
   this.changeShowFilter(false);
   this.applyFilters();
 }
-
-
-// getCheckboxIdByStatus(statusId: number): string {
-//     switch (statusId) {
-//         case 14:
-//         case 40:
-//         case 53:
-//         case 46:
-//             return "approved";
-//         case 15:
-//             return "rejected";
-//         case 13:
-//             return "pending";
-//         default:
-//             return "";
-//     }
-// }
 
 getStartIndex(): number {
   return (this.databaseHelper.currentPage - 1) * this.databaseHelper.itemPerPage + 1;
@@ -445,44 +306,117 @@ openExpenseComponent(expense: any) {
     // }
   }
 
-clearApproveModal() {
-  this.isCheckboxChecked = false;
-  this.partialAmount = '';
-  this.tags = [];
-  this.approvedAmount = '';
-  this.approveAmountChecked = false;
-  this.currentId = 0;
-  this.transactionId = ''
-  this.settledDate = ''
-  this.payCashDiv = false;
-  this.rejectDiv = false;
-  this.showTransactionDiv = false;
+  clearApproveModal() {
+    this.isCheckboxChecked = false;
+    this.partialAmount = '';
+    this.tags = [];
+    this.approvedAmount = '';
+    this.approveAmountChecked = false;
+    this.currentId = 0;
+    this.transactionId = ''
+    this.settledDate = ''
+    this.payCashDiv = false;
+    this.rejectDiv = false;
+    this.showTransactionDiv = false;
 
-  this.expensePaymentType = 'full'
-  this.partialAmount = ''
-  this.partiallyPayment = false;
+    this.expensePaymentType = 'full'
+    this.partialAmount = ''
+    this.partiallyPayment = false;
 
-  this.approveReq.rejectionReason = ''
-  this.expenseData = {};
-}
+    this.approveReq.rejectionReason = ''
+    this.expenseData = {};
+  }
 
-tagsFilteredOptions: string[] = [];
+  tagsFilteredOptions: string[] = [];
 
-fetchedTags: string[] = [];
-searchTag: string = '';
-currentId:number =0;
-rejectDiv: boolean = false;
-showExpenseRejectDiv(){
-  this.rejectDiv = true;
-}
+  fetchedTags: string[] = [];
+  searchTag: string = '';
+  currentId:number =0;
+  rejectDiv: boolean = false;
+  showExpenseRejectDiv(){
+    this.rejectDiv = true;
+  }
 
-payCashDiv: boolean = false;
-showPayCashDiv(){
-  this.payCashDiv = true;
-}
+  payCashDiv: boolean = false;
+  showPayCashDiv(){
+    this.payCashDiv = true;
+  }
 
-partiallyPayment: boolean = false;
-expensePaymentType: string = 'full';
+  partiallyPayment: boolean = false;
+  expensePaymentType: string = 'full';
+
+
+
+  /** View Wallet Balance **/
+
+  walletUserList: any[] = new Array();
+  totalWalletUser : number = 0;
+  
+  async getWalletUser() {
+    debugger
+    this.loading = true;
+    this.walletUserList = []
+  
+    this.expenseService.getAllUserByWallet(
+      this.databaseHelper.currentPage,
+      this.databaseHelper.itemPerPage,
+      this.startDate,
+      this.endDate,
+      '',
+      this.requestsSearch
+    ).subscribe((res: any) => {
+      if (res.status) {
+        this.walletUserList = res.object.map((user : any) => {
+          return {
+            ...user,
+            formattedDate: this.formatDate(user.lastTransactionDate),  // Extract Date
+            formattedDay: this.formatDay(user.lastTransactionDate)    // Extract Day
+          };
+        });
+  
+        this.totalWalletUser = res.totalItems;
+        console.log('WalletUserList: ', this.walletUserList);
+      } else {
+        this.walletUserList = [];
+      }
+      this.loading = false;
+    });
+  }
+  
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');  // Ensure two digits
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;  // Format: **DD-MM-YYYY**
+  }
+  
+  formatDay(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { weekday: 'long' }); 
+  }
+
+
+  userTransactions: any[] = new Array();
+  totalTransaction : number = 0;
+
+  fetchUserTransactions(userId: string) {
+    this.expenseService.getUserTransactions(userId).subscribe((res: any) => {
+      if (res.status) {
+        this.userTransactions = res.object
+        this.totalTransaction = res.totalItems
+        console.log('UserWalletTransactions: ',this.userTransactions)
+ 
+        this.loading = false;
+      }else{
+       this.expenseList = [];
+       this.loading = false;
+      }
+    })
+    
+  }
+
+  
 
 
 
