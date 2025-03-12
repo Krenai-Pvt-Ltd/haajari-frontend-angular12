@@ -24,16 +24,17 @@ export class AttendanceRequestFormComponent implements OnInit {
     selectedDateAttendance!: Date;
     choosenDateString!: string;
     userId: any;
+    source: any;
     updateStatusString: string = 'In';
     attendanceCheckTimeResponse: AttendanceCheckTimeResponse[] = [];
     managers: UserDto[] = [];
-    @ViewChild('closeAttendanceUpdateModal') closeAttendanceUpdateModal!: ElementRef; 
+    @ViewChild('closeAttendanceUpdateModal') closeAttendanceUpdateModal!: ElementRef;
     attendanceUpdateRequestLoader: boolean = false;
     selectedRequest: string = '';
     checkHoliday: boolean = false;
     checkAttendance: boolean = false;
     attendanceLoading: boolean = false;
-    
+
   constructor( private fb: FormBuilder, private helperService: HelperService, private dataService : DataService, private activateRoute: ActivatedRoute, private datePipe: DatePipe) {
 
     if (this.activateRoute.snapshot.queryParamMap.has('userUuid')) {
@@ -44,6 +45,9 @@ export class AttendanceRequestFormComponent implements OnInit {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
       this.getIsAdminForWhatsappLeaveRequest(this.userId);
 
+    }
+    if (this.activateRoute.snapshot.queryParamMap.has('source')) {
+      this.source = this.activateRoute.snapshot.queryParamMap.get('source');
     }
 
     // comment
@@ -64,13 +68,13 @@ export class AttendanceRequestFormComponent implements OnInit {
           managerId: [null, Validators.required],
           requestReason: ['', [Validators.required, Validators.maxLength(255)]],
         });
-    
+
    }
 
   ngOnInit(): void {
     this.fetchManagerNames();
   }
-  
+
 
 
   onDateChange(date: Date | null): void {
@@ -125,7 +129,7 @@ export class AttendanceRequestFormComponent implements OnInit {
   }
 
 
-   
+
     getAttendanceChecktimeListDate(statusString: string): void {
       this.updateStatusString = statusString.charAt(0).toUpperCase() + statusString.slice(1).toLowerCase();
       const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
@@ -139,15 +143,15 @@ export class AttendanceRequestFormComponent implements OnInit {
         console.log(error);
       });
     }
-  
+
     resetError() {
       if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
         this.checkAttendance = false;
       } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
-        this.getAttendanceExistanceStatus(this.selectedDateAttendance);    
+        this.getAttendanceExistanceStatus(this.selectedDateAttendance);
       }
       this.getHolidayForOrganization(this.selectedDateAttendance);
-     
+
     }
 
       submitForm(): void {
@@ -159,7 +163,7 @@ export class AttendanceRequestFormComponent implements OnInit {
           managerId: formValue.managerId,
           requestReason: formValue.requestReason
         };
-    
+
         if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
           attendanceTimeUpdateRequest = {
             ...attendanceTimeUpdateRequest,
@@ -174,12 +178,12 @@ export class AttendanceRequestFormComponent implements OnInit {
             outRequestTime: formValue.createGroup.outRequestTime
           };
         }
-    
+
         this.attendanceUpdateRequestLoader = true;
         attendanceTimeUpdateRequest.userUuid = this.userId;
         attendanceTimeUpdateRequest.requestType = this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value;
         attendanceTimeUpdateRequest.choosenDateString = this.choosenDateString;
-        this.dataService.sendAttendanceTimeUpdateRequestWhatsapp(attendanceTimeUpdateRequest, this.userId).subscribe(
+        this.dataService.sendAttendanceTimeUpdateRequestWhatsapp(attendanceTimeUpdateRequest, this.userId, this.source).subscribe(
           (response) => {
             // console.log('Request sent successfully', response);
             this.attendanceUpdateRequestLoader = false;
@@ -190,7 +194,7 @@ export class AttendanceRequestFormComponent implements OnInit {
               this.closeAttendanceUpdateModal.nativeElement.click();
               // this.attendanceRequestType = 'UPDATE';
               this.attendanceTimeUpdateForm.get('attendanceRequestType')?.setValue('UPDATE');
-    
+
               // this.getAttendanceRequestLogData();
               this.helperService.showToast('Request Sent Successfully.', Key.TOAST_STATUS_SUCCESS);
             } else if (response.status === false) {
@@ -209,23 +213,23 @@ export class AttendanceRequestFormComponent implements OnInit {
         );
         // }
       }
-    
+
     emptySelectRequest() {
         this.selectedRequest = '';
     }
 
 
-      
+
     resetForm(): void {
         this.attendanceTimeUpdateForm.reset();
     }
-      
-      
-  
+
+
+
     disabledDate = (current: Date): boolean => {
       return moment(current).isAfter(moment(), 'day');
     }
-  
+
 
   onRequestChange(value: string) {
     if (value === 'Attendance update') {
