@@ -76,7 +76,7 @@
                             </div>
 
 
-                            <div *ngIf="ROLE != 'ADMIN' && (expenseTypeList && expenseTypeList.length>0)">
+                            <div *ngIf="UUID == userId && (expenseTypeList && expenseTypeList.length>0)">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense"
                                     class="btn new-announcement">New Request
                                 </button>
