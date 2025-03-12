@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   base64: string | null = null;
   isUploading: boolean = false;
   isFileSelected: boolean = false;
+  readonly constants = constant;
 
   readonly Constant = constant
 
@@ -115,7 +116,7 @@ export class ProfileComponent implements OnInit {
   
   // ################# Profile #######################
 
-  //  @ViewChild('profileForms') profileForm!: NgForm;
+    @ViewChild('profileForm') profileForm!: NgForm;
   
   
   formattedDate:string='';
@@ -159,6 +160,8 @@ export class ProfileComponent implements OnInit {
               if(this.profile==null){
                 this.profile = new Profile();
               }
+            const now = new Date();
+            this.formattedDate = this.formatDate(now, this.profile.dateFormat);
               this.profile.currency = this.profile.currency ? this.profile.currency : 'INR';
             }
           },
@@ -175,6 +178,7 @@ export class ProfileComponent implements OnInit {
       this._payrollConfigurationService.saveOrganizationProfile(this.profile).subscribe((response) => {
           if(response.status){
             this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
+            this.profileForm.form.markAsUntouched();
           }else{
             this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
           }

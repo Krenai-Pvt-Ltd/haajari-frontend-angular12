@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { EmployeeStateInsurance } from 'src/app/payroll-models/EmployeeStateInsurance';
 import { EmployeeProvidentFund } from 'src/app/payroll-models/EmployeeProvidentFund';
@@ -11,6 +11,7 @@ import { TaxSlabService } from 'src/app/services/tax-slab.service';
 import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
 import { ActivatedRoute } from '@angular/router';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -44,6 +45,12 @@ export class StatutoryComponent implements OnInit {
     this.getLwfDetail();
     this.getTodoList();
   }
+
+
+  @ViewChild('epfForm') epfForm!: NgForm;
+  @ViewChild('esiForm') esiForm!: NgForm;
+
+  
 
 
   loadingFlags: { [key: string]: boolean } = {}; 
@@ -106,6 +113,7 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this._helperService.showToast("EPF Details saved successfully", Key.TOAST_STATUS_SUCCESS);
+              this.epfForm.form.markAsUntouched();
             }else{
               this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
@@ -320,6 +328,8 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this._helperService.showToast("ESI Details saved successfully", Key.TOAST_STATUS_SUCCESS);
+              this.esiForm.form.markAsUntouched();
+
             }else{
               this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
@@ -501,15 +511,13 @@ export class StatutoryComponent implements OnInit {
 
       changeLwfStatus(isChecked:boolean,state:string){
         const lwf = this.labourWelfareFundDetail.find(pt => pt.state === state);
-        const address = this.addressDetail.find(address => address.state === state)
-        if(lwf && address){
+        if(lwf){
           const newStatus = isChecked ? 11 : 12;
           this.loadingStates[state] = true;
           lwf.status = newStatus; 
-          this._payrollConfigurationService.changeLwfStatus(address.id).subscribe(
+          this._payrollConfigurationService.changeLwfStatus(lwf.id).subscribe(
             (response) => {
               this._helperService.showToast("LWF status changed", Key.TOAST_STATUS_SUCCESS);
-
               this.loadingStates[state] = false;
             },
             (error) => {

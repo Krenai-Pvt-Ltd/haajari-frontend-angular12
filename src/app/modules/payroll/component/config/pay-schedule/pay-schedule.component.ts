@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { PaySchedule } from 'src/app/payroll-models/PaySchedule';
@@ -30,6 +31,9 @@ export class PayScheduleComponent implements OnInit {
     window.scroll(0,0);
     this.getPaySchedule();
   }
+
+  @ViewChild('payScheduleForm') payScheduleForm!: NgForm;
+  
 
   paySchedule:PaySchedule = new PaySchedule();
     getPaySchedule(){
@@ -93,6 +97,7 @@ export class PayScheduleComponent implements OnInit {
         (response) => {
           if(response.status){
             this._helperService.showToast("Your Pay Schedule details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+            this.payScheduleForm.form.markAsUntouched();
           }else{
             this._helperService.showToast("Error in saving your pay schedule.", Key.TOAST_STATUS_ERROR);
           }
@@ -117,6 +122,20 @@ endDateChanged(endDate: number) {
   }
 
 }
+
+onSalaryCalculationModeChange(mode: number) {
+  if (mode == this.SalaryCalculationModeActualDays) {
+    this.paySchedule.modeDay = 0; 
+  }
+}
+
+onPayModeChange(mode: number) {
+  if (mode == this.PayDayLastDay) {
+    this.paySchedule.payDay = 0; 
+  }
+}
+
+
 
 
 currentTab: any= 'profile';
