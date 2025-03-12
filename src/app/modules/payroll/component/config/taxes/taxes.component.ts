@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { Employee } from 'src/app/payroll-models/Employee';
@@ -36,6 +37,8 @@ export class TaxesComponent implements OnInit {
     
   }
 
+  @ViewChild('taxForm') taxForm!: NgForm;
+  
 
   taxDetail:TaxDetail = new TaxDetail();
   getTaxDetail(){
@@ -61,6 +64,7 @@ export class TaxesComponent implements OnInit {
       (response) => {
         if(response.status){
           this._helperService.showToast("Your organization tax details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          this.taxForm.form.markAsUntouched();
         }else{
           this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
         }

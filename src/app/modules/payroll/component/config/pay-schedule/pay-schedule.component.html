@@ -1,4 +1,4 @@
-<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="savePaySchedule()">
+<form #payScheduleForm="ngForm" ngNativeValidate (ngSubmit)="savePaySchedule()">
 <div class="p-4 mb-10">
     <div class="row">
         <div class="col-md-4">
@@ -11,13 +11,18 @@
             <div class="row">
                 <div class="col-md-12 mb-4">
                 <div class="form-check mb-2 d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios1" [value]="SalaryCalculationModeActualDays" [(ngModel)]="paySchedule.salaryCalculationMode">
+                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios1" [value]="SalaryCalculationModeActualDays" [(ngModel)]="paySchedule.salaryCalculationMode"
+                    (ngModelChange)="onSalaryCalculationModeChange($event)"
+                    >
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios1">
                         Actual days in a month
                     </label>
                   </div>
                   <div class="form-check d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios2" [value]="SalaryCalculationModeOrganizationDays" [(ngModel)]="paySchedule.salaryCalculationMode">
+                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios2" [value]="SalaryCalculationModeOrganizationDays" 
+                    [(ngModel)]="paySchedule.salaryCalculationMode"
+                    (ngModelChange)="onSalaryCalculationModeChange($event)"
+                    >
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios2">
                         Organization working days
                     </label>
@@ -36,7 +41,8 @@
                     <nz-option 
                     *ngFor="let days of organizationDays" 
                     [nzLabel]="days.label" 
-                    [nzValue]="days.value">
+                    [nzValue]="days.value"
+                    >
                     </nz-option>
                     </nz-select>
                  </div>
@@ -58,13 +64,17 @@
             <div class="row">
                 <div class="col-md-12 mb-4">
                 <div class="form-check mb-2 d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios3" [value]="PayDayLastDay" [(ngModel)]="paySchedule.payDayType">
+                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios3" [value]="PayDayLastDay" 
+                    [(ngModel)]="paySchedule.payDayType"
+                    (ngModelChange)="onPayModeChange($event)">
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios3">
                         the last working day of every month
                     </label>
                   </div>
                   <div class="form-check d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios4" [value]="PayDaySpecificDay" [(ngModel)]="paySchedule.payDayType">
+                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios4" [value]="PayDaySpecificDay" 
+                    [(ngModel)]="paySchedule.payDayType"
+                    (ngModelChange)="onPayModeChange($event)">
                     <label class="form-check-label font-13 fw-normal" for="exampleRadios4">
                         Set the day of every month
                     </label>
@@ -178,7 +188,7 @@
             
 
 
-<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="payScheduleForm.touched">
     <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
         [disabled]="saveLoader">
         <div *ngIf="saveLoader" class="dot-opacity-loader">
