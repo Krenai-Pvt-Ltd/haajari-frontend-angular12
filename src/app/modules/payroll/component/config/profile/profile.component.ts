@@ -3,6 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { Profile } from 'src/app/payroll-models/Profile';
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
   base64: string | null = null;
   isUploading: boolean = false;
   isFileSelected: boolean = false;
+  readonly constants = constant;
 
 
   isDivVisible: boolean = false;
