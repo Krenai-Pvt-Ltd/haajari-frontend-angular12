@@ -46,12 +46,11 @@ export class StatutoryComponent implements OnInit {
     this.getTodoList();
   }
 
+  isAnyFieldFocused = false;
 
-  @ViewChild('epfForm') epfForm!: NgForm;
-  @ViewChild('esiForm') esiForm!: NgForm;
-
-  
-
+  onFocus() {
+    this.isAnyFieldFocused = true;
+  }
 
   loadingFlags: { [key: string]: boolean } = {}; 
 
@@ -113,7 +112,7 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this._helperService.showToast("EPF Details saved successfully", Key.TOAST_STATUS_SUCCESS);
-              this.epfForm.form.markAsUntouched();
+              this.isAnyFieldFocused=false;
             }else{
               this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
@@ -328,8 +327,7 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this._helperService.showToast("ESI Details saved successfully", Key.TOAST_STATUS_SUCCESS);
-              this.esiForm.form.markAsUntouched();
-
+              this.isAnyFieldFocused=false;
             }else{
               this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }

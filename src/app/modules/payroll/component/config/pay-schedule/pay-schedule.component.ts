@@ -32,8 +32,12 @@ export class PayScheduleComponent implements OnInit {
     this.getPaySchedule();
   }
 
-  @ViewChild('payScheduleForm') payScheduleForm!: NgForm;
-  
+
+  isAnyFieldFocused = false;
+
+  onFocus() {
+    this.isAnyFieldFocused = true;
+  }
 
   paySchedule:PaySchedule = new PaySchedule();
     getPaySchedule(){
@@ -97,7 +101,7 @@ export class PayScheduleComponent implements OnInit {
         (response) => {
           if(response.status){
             this._helperService.showToast("Your Pay Schedule details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
-            this.payScheduleForm.form.markAsUntouched();
+            this.isAnyFieldFocused = false;
           }else{
             this._helperService.showToast("Error in saving your pay schedule.", Key.TOAST_STATUS_ERROR);
           }
