@@ -2013,7 +2013,7 @@
                             </svg>
                           Previous
                           </button>
-                          <button class="btn p-0 next-btn nextBtn" (click)="registerOrganizationShiftTimingMethodCall()"
+                          <button class="btn p-0 next-btn nextBtn" [disabled]="isEditStaffLoader" (click)="registerOrganizationShiftTimingMethodCall()"
                             *ngIf="this.userNameWithShiftName?.length < 1" [disabled]="selectedStaffsUuids.length <1"
                             [ngClass]="{'btn-border':selectedStaffsUuids.length > 0}">
                             <span *ngIf="!isEditStaffLoader">Submit
@@ -3684,7 +3684,7 @@
                         </button>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn btn-primary"
+                        <button type="button" class="btn btn-primary" [disabled]="saveAttendanceRuleDefinitionLoading"
                           (click)="registerAttendanceRuleDefinitionMethodCall()">
 
                           <div class="dot-opacity-loader-new" *ngIf="saveAttendanceRuleDefinitionLoading">

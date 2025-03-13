@@ -499,6 +499,7 @@ export class AttendanceSettingComponent implements OnInit {
   saveAttendanceRuleDefinitionLoading: boolean = false;
 
   registerAttendanceRuleDefinitionMethodCall() {
+
     this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     // console.log(this.selectedStaffsUuids);
@@ -1543,10 +1544,11 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.loadAllShiftCounts();
           this.selectedTeamName = 'All';
           this.getUserByFiltersMethodCall();
           this.helperService.showToast(
-            'Shift Timing registered successfully',
+            'Shift TIme Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
           this.isEditStaffLoader = false;
@@ -1891,7 +1893,7 @@ formatMinutesToTime(minutes: number): string {
       organizationShiftTimingResponse.shiftType.id;
     this.checkForShiftId = organizationShiftTiming.id;
     this.currentShiftId = organizationShiftTiming.shiftType.id;
-    this.selectedStaffsUuids = organizationShiftTiming.userUuids;
+    this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getWeekDays();
 
@@ -3168,6 +3170,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       (response) => {
         // console.log(response);
         this.getAllShiftTimingsMethodCall();
+        this.loadAllShiftCounts();
         // this.helperService.showToast(
         //   'Shift timing deleted successfully',
         //   Key.TOAST_STATUS_SUCCESS
@@ -3182,8 +3185,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       },
       (error) => {
         this.deleteToggle = false;
-        console.log(error);
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Issue in deleting shift. Please try again later", Key.TOAST_STATUS_ERROR);
       }
     );
 }

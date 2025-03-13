@@ -32,12 +32,6 @@
                   class="btn primaryBtnLink">
                   <i class="bi bi-plus-lg"></i> Create Team
                 </button>
-                <!-- <p
-                           style="color: #a1a0a0; margin-bottom: 0px"
-                           *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-                           >
-                           |
-                           </p> -->
                 <span class="btnSeprator" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"></span>
                 <button class="btn primaryBtnLink" (click)="getFlagOfSlackPlaceholder2()"
                   [ngClass]="{ 'disabled-lnk': rotateToggle }" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'">

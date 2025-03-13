@@ -164,7 +164,7 @@
             </g>
           </svg>
           My Inbox
-          <span class="active-notification d-flex align-items-center justify-contet-center text-white font-11"*ngIf="totalNewMailNotification>0" >10</span>
+          <span class="active-notification d-flex align-items-center justify-content-center text-white font-11"*ngIf="totalNewMailNotification>0" >{{totalNewMailNotification}}</span>
         </button>
         <span (click)="routeToEmployeeProfilePage()" class="admin-name font-20 fw-bold d-flex align-items-center justify-content-center text-white pointer">
           {{this.userInfo?.name?.charAt(0)  | uppercase}}
