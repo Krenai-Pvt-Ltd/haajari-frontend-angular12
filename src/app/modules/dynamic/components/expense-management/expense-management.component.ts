@@ -6,6 +6,7 @@ import { Key } from 'src/app/constant/key';
 import { ApproveReq } from 'src/app/models/ApproveReq';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpenseType } from 'src/app/models/ExpenseType';
+import { User } from 'src/app/models/user';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
 import { ExpenseService } from 'src/app/services/expense.service';
@@ -416,8 +417,70 @@ openExpenseComponent(expense: any) {
     
   }
 
-  
 
+  users: User[] = [];
+  selectedUserId: string = '';
+  amount: number = 0;
+  remark: string = '';
+  submitted : boolean = false;
+
+  getUsersByFilterMethodCall() {
+    this.dataService
+      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name', 0)
+      .subscribe((data) => {
+        this.users = data.users;
+        // this.total = data.count;
+
+        // console.log(this.users, this.total);
+      });
+  }
+
+
+  @ViewChild('rechargeModalClose') rechargeModalClose!: ElementRef;
+  rechargeWallet() {
+    this.submitted = true;
+    if (!this.selectedUserId || this.amount <= 0 || !this.remark) {
+      return;
+    }
+
+    const requestBody = {
+      userUuid: this.selectedUserId,
+      walletAmount: this.amount,
+      description: this.remark
+    };
+    console.log("Request Body Parameter : ",requestBody);
+    
+    this.expenseService.rechargeWallet(requestBody).subscribe((res: any) => {
+      if (res.status) {
+        // this.rechargeModel = false;
+        this.rechargeModalClose.nativeElement.click();
+        this.submitted = false;
+        this.resetFields();
+        this.getWalletUser();
+        this.helperService.showToast(`wallet recharge successfully.`, Key.TOAST_STATUS_SUCCESS);
+      }else{
+        this.rechargeModel = true;
+        this.helperService.showToast('failed wallet recharge.', Key.TOAST_STATUS_ERROR);
+      }
+    })
+  }
+
+
+  resetFields() {
+    this.rechargeModel = false;
+    this.submitted = false;
+    this.selectedUserId = '';
+    this.amount = 0;
+    this.remark = '';
+  }
+
+  rechargeModel: boolean = false;
+
+  openRechargeModel(){
+    this.resetFields();
+    // this.rechargeModel = true;
+    this.getUsersByFilterMethodCall();
+  }
 
 
 }

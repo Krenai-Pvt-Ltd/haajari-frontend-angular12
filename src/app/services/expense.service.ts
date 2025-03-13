@@ -46,5 +46,11 @@ export class ExpenseService {
       });
     }
 
+    rechargeWallet(requestBody : any) {
+      // const body = { userId, amount, remark };
+      return this.httpClient.post<any>(`${this.baseUrl}/user-expense-wallet`, requestBody);
+    }
+  
+
 
 }

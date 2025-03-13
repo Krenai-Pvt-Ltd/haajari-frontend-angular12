@@ -725,7 +725,10 @@
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                                                 </div>
                                         </div>
-                                        <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                        <!-- Button to open modal using ID -->
+                                        <button type="button" class="btn primaryBtnLink filter-btn d-block text-center" 
+                                            data-bs-toggle="modal" data-bs-target="#rechargeWalletModal" 
+                                            (click)="openRechargeModel()">
                                             <i class="bi bi-plus font-18 position-relative" style="top: 2px;"></i>
                                             Recharge Wallet
                                         </button>
@@ -939,5 +942,73 @@
     </div>
     </div>
 </div>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="rechargeWalletModal" tabindex="-1" aria-labelledby="rechargeWalletModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rechargeWalletModalLabel">Recharge Wallet</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #rechargeModalClose></button>
+        </div>
+        <div class="modal-body">
+            <form #rechargeForm="ngForm">
+                <!-- User Selection Dropdown -->
+                <div class="mb-3">
+                  <label for="userSelect" class="form-label">Select User</label>
+                  <nz-select 
+                    [(ngModel)]="selectedUserId" 
+                    [nzPlaceHolder]="'Select a user'" 
+                    class="w-100 form-control placeholder-line text-capitalize" 
+                    required 
+                    name="userId">
+                    <nz-option 
+                      *ngFor="let user of users" 
+                      [nzValue]="user.uuid" 
+                      [nzLabel]="user.name + ' (' + (user.email || 'N/A') + ')'">
+                      <span class="fs-6">{{ user.name }}</span>
+                    </nz-option>
+                  </nz-select>
+                  <div *ngIf="!selectedUserId && submitted" class="text-danger">Please select a user.</div>
+                </div>
+              
+                <!-- Amount Input -->
+                <div class="mb-3">
+                  <label for="amount" class="form-label">Amount</label>
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="amount" 
+                    [(ngModel)]="amount" 
+                    name="amount" 
+                    required>
+                  <div *ngIf="amount <= 0 && submitted" class="text-danger">Amount must be greater than 0.</div>
+                </div>
+              
+                <!-- Remark Input -->
+                <div class="mb-3">
+                  <label for="remark" class="form-label">Remark</label>
+                  <textarea 
+                    class="form-control" 
+                    id="remark" 
+                    [(ngModel)]="remark" 
+                    name="remark" 
+                    required>
+                  </textarea>
+                  <div *ngIf="!remark && submitted" class="text-danger">Remark is required.</div>
+                </div>
+              
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" (click)="resetFields()">Cancel</button>
+                  <button type="button" class="btn btn-primary" (click)="rechargeWallet()">Recharge</button>
+                </div>
+              </form>
+              
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
                 
