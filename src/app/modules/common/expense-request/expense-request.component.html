@@ -187,7 +187,7 @@
 
                  <div class="col-md-12" *ngIf="!isModal">
                   <div class="">
-                     <button class="btn submitActionBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">View Attachment</button>
+                     <button *ngIf="userExpense.slipUrls.length > 0" class="btn submitActionBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">View Attachment</button>
                   </div>
                </div>
                  <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46 || userExpense.status.id == 53) && !rejectDiv">

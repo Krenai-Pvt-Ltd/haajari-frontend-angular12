@@ -499,6 +499,7 @@ export class AttendanceSettingComponent implements OnInit {
   saveAttendanceRuleDefinitionLoading: boolean = false;
 
   registerAttendanceRuleDefinitionMethodCall() {
+
     this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     // console.log(this.selectedStaffsUuids);
@@ -1892,7 +1893,7 @@ formatMinutesToTime(minutes: number): string {
       organizationShiftTimingResponse.shiftType.id;
     this.checkForShiftId = organizationShiftTiming.id;
     this.currentShiftId = organizationShiftTiming.shiftType.id;
-    this.selectedStaffsUuids = organizationShiftTiming.userUuids;
+    this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getWeekDays();
 
@@ -3184,8 +3185,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       },
       (error) => {
         this.deleteToggle = false;
-        console.log(error);
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Issue in deleting shift. Please try again later", Key.TOAST_STATUS_ERROR);
       }
     );
 }

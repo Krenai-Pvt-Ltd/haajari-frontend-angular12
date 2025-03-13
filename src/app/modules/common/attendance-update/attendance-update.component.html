@@ -11,6 +11,13 @@
         </g>
       </svg>
     </button>
+    <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+      'badge-soft-success': attendanceData?.status === 'APPROVED',
+      'badge-soft-danger': attendanceData?.status === 'PENDING',
+      'badge-soft-secondary': attendanceData?.status === 'REJECTED'
+    }">
+    {{ attendanceData?.status | uppercase }}
+  </span>
   </div>
   <div class="modal-body">
     <div class="assets-request-form">
@@ -147,7 +154,7 @@
       </form>
     </div>
   </div>
-  <div class="modal-footer d-flex align-items-center justify-content-end">
+  <div *ngIf="isCreate || attendanceData.status === 'PENDING' " class="modal-footer d-flex align-items-center justify-content-end">
     <div class="d-flex align-items-center gap-2">
       <button *ngIf="isCreate" type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" (click)="emptySelectRequest()" #closeAttendanceUpdateModal>Cancel</button>
       <ng-container *ngIf="isCreate">
