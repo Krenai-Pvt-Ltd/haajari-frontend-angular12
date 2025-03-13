@@ -172,7 +172,7 @@
       <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING'">
         <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-success" (click)="approveOrReject(
                   attendanceData.id,
-                  'APPROVE'
+                  'APPROVED'
                 )">
                 <span *ngIf="!approveLoader">Approve</span>
                 <span *ngIf="approveLoader">
@@ -185,7 +185,7 @@
               </button>
         <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-danger" (click)="approveOrReject(
           attendanceData.id,
-          'REJECT'
+          'REJECTED'
         )">
         <span *ngIf="!rejectLoader">Reject</span>
         <span *ngIf="rejectLoader">

@@ -5495,6 +5495,36 @@ export class DataService {
     const url = `${this.baseUrl}/attendance/requests`;
     return this.httpClient.get<any>(url, { params });
   }
+
+  getAttendanceUpdateRequests(
+    userIds?: number[],
+    startDateStr?: string,
+    endDateStr?: string,
+    statuses?: number[],
+    requestTypes?: string[],
+    page: number = 0,
+    size: number = 10,
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (userIds && userIds.length) {
+      userIds.forEach(id => (params = params.append('userIds', id.toString())));
+    }
+    if (search) params = params.set('search', search);
+    if (startDateStr) params = params.set('startDateStr', startDateStr);
+    if (endDateStr) params = params.set('endDateStr', endDateStr);
+    if (statuses && statuses.length) {
+      statuses.forEach(status => (params = params.append('statuses', status.toString())));
+    }
+    if (requestTypes && requestTypes.length) {
+      requestTypes.forEach(type => (params = params.append('requestTypes', type)));
+    }
+
+    return this.httpClient.get(`${this.baseUrl}/attendance/attendance-update-requests`, { params });
+  }
 }
 
 
