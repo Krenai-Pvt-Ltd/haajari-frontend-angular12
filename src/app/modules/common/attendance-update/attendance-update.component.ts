@@ -290,12 +290,13 @@ export class AttendanceUpdateComponent implements OnInit {
     this.closeAttendanceUpdateModal.nativeElement.click();
   }
 
+  @ViewChild('closeButton') closeButton!: ElementRef ;
   approveLoader: boolean = false;
   rejectLoader: boolean = false;
   approveOrReject(id: number, reqString: string) {
-    if (reqString == 'APPROVE') {
+    if (reqString == 'APPROVED') {
       this.approveLoader = true;
-    } else if (reqString == 'REJECT') {
+    } else if (reqString == 'REJECTED') {
       this.rejectLoader = true;
     }
     this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
@@ -317,6 +318,10 @@ export class AttendanceUpdateComponent implements OnInit {
         );
         this.attendanceData.status = 'REJECTED';
         this.cdr.detectChanges();
+      }
+      if(this.isModal){
+        this.closeButton.nativeElement.click();
+        this.closeModal.emit();
       }
       this.cdr.markForCheck();
     }, error => {

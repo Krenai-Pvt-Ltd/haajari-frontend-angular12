@@ -26,6 +26,8 @@ import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-upd
 import { constant } from 'src/app/constant/constant';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -46,7 +48,26 @@ export class TimetableComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe,
     // private headerComponent: HeaderComponent
-  ) { }
+  ) {
+    this.searchTextMissedPunchSubject.pipe(
+      debounceTime(this.DEBOUNCE_TIME),
+      distinctUntilChanged()
+    ).subscribe(searchText => {
+      this.searchTextMissedPunch = searchText;
+      this.currentPageMissedPunch = 1; // Reset to first page on search
+      this.fetchMissedPunchRequests();
+    });
+
+    // Debounce for System Outage search
+    this.searchTextSystemOutageSubject.pipe(
+      debounceTime(this.DEBOUNCE_TIME),
+      distinctUntilChanged()
+    ).subscribe(searchText => {
+      this.searchTextSystemOutage = searchText;
+      this.currentPageSystemOutage = 1; // Reset to first page on search
+      this.fetchSystemOutageRequests();
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
@@ -2181,6 +2202,7 @@ export class TimetableComponent implements OnInit {
   selectedPunchType: string = ''; // 'Check-In', 'Check-Out', 'Both'
   selectedDate1: Date | null = null;
   selectedStatuses: string[] = [];
+  selectedAttendanceStatus: string[] = [];
   searchTextMissedPunch: string = '';
   searchTextSystemOutage: string = '';
 
@@ -2198,11 +2220,21 @@ export class TimetableComponent implements OnInit {
   pageSizeSystemOutage: number = 10;
   totalRecordsSystemOutage: number = 0;
 
+  private searchTextMissedPunchSubject = new Subject<string>();
+  private searchTextSystemOutageSubject = new Subject<string>();
+  private readonly DEBOUNCE_TIME = 300;
+
   // Status mapping for API
   statusMap: { [key: string]: number } = {
     'Pending': 52,
     'Approve': 50,
     'Reject': 51
+  };
+  attendanceStatusMap: { [key: string]: number } = {
+    'in': 1,
+    'out': 2,
+    'break': 3,
+    'back': 4
   };
 
   // Fetch list of users for employee filter
@@ -2240,21 +2272,35 @@ export class TimetableComponent implements OnInit {
     this.selectedPunchType = '';
     this.selectedDate1 = null;
     this.selectedStatuses = [];
+    this.selectedAttendanceStatus = [];
     this.searchTextMissedPunch = '';
     this.searchTextSystemOutage = '';
     this.applyFilters();
+  }
+
+  onSearchTextMissedPunchChange(searchText: string): void {
+    this.currentPageMissedPunch = 1;
+    this.pageSizeMissedPunch = 10;
+    this.searchTextMissedPunchSubject.next(searchText);
+  }
+
+  onSearchTextSystemOutageChange(searchText: string): void {
+    this.currentPageSystemOutage= 1;
+    this.pageSizeSystemOutage = 10;
+    this.searchTextSystemOutageSubject.next(searchText);
   }
 
   // Fetch Missed Punch (CREATE) requests
   fetchMissedPunchRequests(): void {
     this.isLoading = true;
 
-      const startDate= this.selectedDate1 ? this.selectedDate.toISOString().split('T')[0] : '';
-      const endDate= this.selectedDate1 ? this.selectedDate.toISOString().split('T')[0] : '';
+      const startDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const endDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
       const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
+      const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
       const requestTypes = ['CREATE'];
 
-    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, requestTypes, this.currentPageMissedPunch - 1, this.pageSizeMissedPunch, this.searchTextMissedPunch)
+    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageMissedPunch - 1, this.pageSizeMissedPunch, this.searchTextMissedPunch)
       .subscribe(response => {
         this.missedPunchRequests = response.content;
         this.totalRecordsMissedPunch = response.totalElements;
@@ -2267,11 +2313,12 @@ export class TimetableComponent implements OnInit {
   // Fetch System Outage (UPDATE) requests
   fetchSystemOutageRequests(): void {
     this.isLoading = true;
-    const startDate= this.selectedDate1 ? this.selectedDate.toISOString().split('T')[0] : '';
-      const endDate= this.selectedDate1 ? this.selectedDate.toISOString().split('T')[0] : '';
+    const startDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const endDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
       const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
+      const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
       const requestTypes = ['UPDATE'];
-    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, requestTypes, this.currentPageSystemOutage-1, this.pageSizeSystemOutage, this.searchTextSystemOutage)
+    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageSystemOutage-1, this.pageSizeSystemOutage, this.searchTextSystemOutage)
       .subscribe(response => {
         this.systemOutageRequests = response.content;
         this.totalRecordsSystemOutage = response.totalElements;
@@ -2296,6 +2343,7 @@ export class TimetableComponent implements OnInit {
   }
   onAttendanceUpdateClose(){
     this.showAttendanceUpdate=false;
+    this.applyFilters();
   }
 
   getAttendanceUpdateById(id: number): void {
