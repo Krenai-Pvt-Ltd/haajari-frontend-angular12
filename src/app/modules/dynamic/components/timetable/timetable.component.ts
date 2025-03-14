@@ -1200,17 +1200,14 @@ export class TimetableComponent implements OnInit {
       this.attendanceUpdateRequestApproveLoader = false;
       this.attendanceUpdateRequestRejectLoader = false;
       // console.log('requests retrieved successfully', response.listOfObject);
-      if (response.message == 'APPROVED') {
+      if (response.status ) {
         this.helperService.showToast(
-          'Request Approved Successfully.',
-          Key.TOAST_STATUS_SUCCESS
-        );
-      } else if (response.message == 'REJECTED') {
-        this.helperService.showToast(
-          'Request Rejected Successfully.',
+          'Request ' + reqString +' Successfully.',
           Key.TOAST_STATUS_SUCCESS
         );
       }
+
+      this.applyFilters();
 
       this.totalAttendanceRequestCount = 0;
       this.attendanceRequestSearchString = '';
@@ -2253,8 +2250,10 @@ export class TimetableComponent implements OnInit {
   // Apply filters based on current tab
   applyFilters(): void {
     if (this.currentTab === 'missedPunch') {
+      this.updateMissedPunchFilters();
       this.fetchMissedPunchRequests();
     } else {
+      this.updateSystemOutageFilters();
       this.fetchSystemOutageRequests();
     }
     this.showFilter = false;
@@ -2275,6 +2274,8 @@ export class TimetableComponent implements OnInit {
     this.selectedAttendanceStatus = [];
     this.searchTextMissedPunch = '';
     this.searchTextSystemOutage = '';
+    this.activeMissedPunchFilters = [];
+    this.activeSystemOutageFilters = [];
     this.applyFilters();
   }
 
@@ -2302,7 +2303,10 @@ export class TimetableComponent implements OnInit {
 
     this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageMissedPunch - 1, this.pageSizeMissedPunch, this.searchTextMissedPunch)
       .subscribe(response => {
-        this.missedPunchRequests = response.content;
+        this.missedPunchRequests = response.content.map((req: any) => ({
+          ...req,
+          isProcessing: false // Initialize processing flag
+        }));
         this.totalRecordsMissedPunch = response.totalElements;
         this.isLoading = false;
       }, () => {
@@ -2320,7 +2324,10 @@ export class TimetableComponent implements OnInit {
       const requestTypes = ['UPDATE'];
     this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageSystemOutage-1, this.pageSizeSystemOutage, this.searchTextSystemOutage)
       .subscribe(response => {
-        this.systemOutageRequests = response.content;
+        this.systemOutageRequests = response.content.map((req: any) => ({
+          ...req,
+          isProcessing: false // Initialize processing flag
+        }));
         this.totalRecordsSystemOutage = response.totalElements;
         this.isLoading = false;
       }, () => {
@@ -2362,6 +2369,119 @@ export class TimetableComponent implements OnInit {
         console.error('Error fetching attendance update:', error);
       }
     );
+  }
+
+  activeMissedPunchFilters: any[] = [];
+  activeSystemOutageFilters: any[] = [];
+  private updateMissedPunchFilters(): void {
+    this.activeMissedPunchFilters = [];
+
+    if (this.selectedUserIds.length) {
+      const names = this.allUsers.filter(u => this.selectedUserIds.includes(u.id)).map(u => u.userName).join(', ');
+      this.activeMissedPunchFilters.push({
+        type: 'user',
+        label: 'Employee',
+        value: names
+      });
+    }
+
+    if (this.selectedDate1) {
+      this.activeMissedPunchFilters.push({
+        type: 'date',
+        label: 'Date',
+        value: this.selectedDate1.toLocaleDateString()
+      });
+    }
+
+    if (this.selectedStatuses.length) {
+      this.activeMissedPunchFilters.push({
+        type: 'status',
+        label: 'Status',
+        value: this.selectedStatuses.join(', ')
+      });
+    }
+
+    if (this.searchTextMissedPunch) {
+      this.activeMissedPunchFilters.push({
+        type: 'search',
+        label: 'Search',
+        value: this.searchTextMissedPunch
+      });
+    }
+  }
+
+  private updateSystemOutageFilters(): void {
+    this.activeSystemOutageFilters = [];
+
+    if (this.selectedUserIds.length) {
+      const names = this.allUsers.filter(u => this.selectedUserIds.includes(u.id)).map(u => u.userName).join(', ');
+      this.activeSystemOutageFilters.push({
+        type: 'user',
+        label: 'Employee',
+        value: names
+      });
+    }
+
+    if (this.selectedDate1) {
+      this.activeSystemOutageFilters.push({
+        type: 'date',
+        label: 'Date',
+        value: this.selectedDate1.toLocaleDateString()
+      });
+    }
+
+    if (this.selectedStatuses.length) {
+      this.activeSystemOutageFilters.push({
+        type: 'status',
+        label: 'Status',
+        value: this.selectedStatuses.join(', ')
+      });
+    }
+
+    if (this.selectedAttendanceStatus.length) {
+      this.activeSystemOutageFilters.push({
+        type: 'attendanceStatus',
+        label: 'Attendance Status',
+        value: this.selectedAttendanceStatus.join(', ')
+      });
+    }
+
+    if (this.searchTextSystemOutage) {
+      this.activeSystemOutageFilters.push({
+        type: 'search',
+        label: 'Search',
+        value: this.searchTextSystemOutage
+      });
+    }
+  }
+
+  removeFilter(filter: any, tab: string): void {
+    switch (filter.type) {
+      case 'user':
+        this.selectedUserIds = [];
+        break;
+      case 'date':
+        this.selectedDate1 = null;
+        break;
+      case 'status':
+        this.selectedStatuses = [];
+        break;
+      case 'attendanceStatus':
+        this.selectedAttendanceStatus = [];
+        break;
+      case 'search':
+        if (tab === 'missedPunch') this.searchTextMissedPunch = '';
+        if (tab === 'systemOutage') this.searchTextSystemOutage = '';
+        break;
+    }
+
+    if (tab === 'missedPunch') {
+      this.fetchMissedPunchRequests();
+      this.updateMissedPunchFilters();
+    } else {
+      this.fetchSystemOutageRequests();
+      this.updateSystemOutageFilters();
+    }
   }
 
 }
