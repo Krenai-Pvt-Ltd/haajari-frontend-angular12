@@ -5182,6 +5182,7 @@ export class DataService {
       .set('value', value)
       .set('userId', userId);
 
+      console.log(value);
     // Send the DELETE request with parameters and request body (value)
     return this.httpClient.post<any>(
       `${this.baseUrl}/get/onboarding/approve-field-in-requested-data`,

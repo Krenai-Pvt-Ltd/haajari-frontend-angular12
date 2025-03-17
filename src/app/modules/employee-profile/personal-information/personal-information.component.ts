@@ -74,6 +74,7 @@ export class PersonalInformationComponent implements OnInit {
         country: ['',],
         pincode: ['',],
       }),
+      sameAsCurrent: [false],
       refrences: this.fb.array([]),
 
       academicDetails: this.fb.group({
@@ -103,6 +104,27 @@ export class PersonalInformationComponent implements OnInit {
     // this.getPendingRequest();
     this.fetchRequestedData();
     // this.approveRequestedData();
+
+    // Handle checkbox changes
+    this.onboardingForm.get('sameAsCurrent')?.valueChanges.subscribe(value => {
+      const permanentAddress = this.onboardingForm.get('permanentAddress');
+      if (value) {
+        // Copy current address values to permanent address
+        const currentAddress = this.onboardingForm.get('currentAddress')?.value;
+        permanentAddress?.patchValue(currentAddress);
+        permanentAddress?.disable(); // Make permanent address uneditable
+      } else {
+        permanentAddress?.enable(); // Make permanent address editable
+      }
+    });
+
+    // Update permanent address when current address changes and checkbox is checked
+    this.onboardingForm.get('currentAddress')?.valueChanges.subscribe(value => {
+      if (this.onboardingForm.get('sameAsCurrent')?.value) {
+        this.onboardingForm.get('permanentAddress')?.patchValue(value);
+      }
+    });
+
   }
 
 
