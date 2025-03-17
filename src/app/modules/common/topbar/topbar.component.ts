@@ -164,6 +164,12 @@ export class TopbarComponent implements OnInit {
       routeDesc="Control User Roles and Permissions"
       break;
     }
+
+    case this.Routes.ADDROLE:{
+      routeValue = 'Add Role';
+      routeDesc="Control User Roles and Permissions"
+      break;
+    }
     case this.Routes.EXITPOLICY:{
       routeValue = 'Exit-policy';
       routeDesc="Manage Employee Exiting Processes"
@@ -216,6 +222,11 @@ export class TopbarComponent implements OnInit {
     }
     case this.Routes.EARNINGDETAILS:{
       routeValue = 'Earning';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
+    case this.Routes.SALARYTEMPLATE:{
+      routeValue = 'Salary Templates';
       routeDesc="Manage Employee Expense Reimbursements"
       break;
     }
