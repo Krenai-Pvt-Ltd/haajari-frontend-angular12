@@ -1,6 +1,5 @@
 .statutory-tab{
     border-bottom: 1px solid #E3E3E3;
-    background: #FDFDFF;
   }
 .statutory-tab ul li{
   list-style: none;
@@ -90,4 +89,9 @@ Earning
   top: 0px;
   background-color: #F1F1F1;
   right: 0px;
+}
+
+.add-Component{
+  position: relative;
+  bottom: 5px;
 }
