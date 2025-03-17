@@ -142,30 +142,27 @@
             <div class="col-md-8">
                 <div class="Address-box">
                     <!-- TO DO: Empty Notification start-->
-                    <!-- <div class="empty-file">
+                    <div class="empty-file">
                         <nz-empty nzNotFoundImage="assets/images/location-setting-icon.svg" [nzNotFoundContent]="contentTpl">
                           <ng-template #contentTpl>
                             <p class="mb-1 empty-detail font-14">
                               Enter your work space location
                             </p>
-                            <div class="add-filtter">
-                              <a class="text-primary font-14 text-center" data-toggle="modal" data-target="#addLocation" >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                    <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                    <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9159_3509)">
-                                    <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
-                                    </g>
-                                </svg>
-                                Add Location
-                              </a>
+                            <div class="add-filtter d-flex align-items-center justify-content-center gap-3 mt-3">
+                              <button type="button" class="btn fatchLocationBtn font-13 fw-semibold" data-bs-toggle="modal" data-bs-target="#fetchLocation">
+                                Fetch location
+                              </button>
+                              <button type="button" class="btn submitActionBtn text-white font-13 fw-semibold" data-bs-toggle="modal" data-bs-target="#addLocation">
+                                Add location
+                              </button>
                             </div>
                           </ng-template>
                         </nz-empty>
-                      </div> -->
+                      </div>
                       <!-- Empty Notification end-->
-                   <div class="row">
+
+                       <!-- TO DO: Location list start-->
+                   <!-- <div class="row">
                     <div class="address-list">
                        <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -265,7 +262,8 @@
                         </button>
                     </div>
 
-                   </div>
+                   </div> -->
+                    <!-- Location list end-->
                 </div>
             </div>
         </div>
@@ -543,3 +541,74 @@
         </div>
         </div>
     <!-- Add location modal start -->
+
+
+    <!-- Fetch Location  modal Start -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#fetchLocation">
+    Fetch Location 
+  </button>
+  
+  <div class="modal fade" id="fetchLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div> -->
+        <div class="modal-body text-center p-4">
+            <div>
+                <img src="assets/images/payrollstep-img/add-location-img.svg">
+                <h5 class="mb-0 font-18 fw-600 lh-base">Would you like to continue using the <br> same location as before?</h5>
+
+                <!-- <div class="mt-3 p-3 text-start address-box border-rounded-2">
+                    <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users <br> updated automatically.</p>
+                    <h5 class="font-14 mb-0 fw-semibold lh-base mt-3 text-black"><span class="text-warning">Address: </span> First Floor, Landmark Cyberpark, Sector 67,<br> Gurugram, Haryana 122102</h5>
+                </div> -->
+                <div class="mt-3 p-3 text-start address-box border-rounded-2">
+                    <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users updated <br> automatically.</p>
+                    <h5 class="font-14 mb-0 fw-semibold lh-base text-warning  mb-2">Address:</h5>
+
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-1">
+                        <p class="lh-base font-13 fw-normal mb-1">First Floor, Landmark Cyberpark, Sector 67, Gurugram, Haryana 122102</p>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-3">
+                        <p class="lh-base font-13 fw-normal mb-2">4517 Washington Ave. Manchester, Kentucky 39495</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-3">
+                        <p class="lh-base font-13 fw-normal mb-2">3517 W. Gray St. Utica, Pennsylvania 57867</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-3">
+                        <p class="lh-base font-13 fw-normal mb-2">6391 Elgin St. Celina, Delaware 10299</p>
+                        <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-3">
+                        <p class="lh-base font-13 fw-normal mb-2">4140 Parker Rd. Allentown, New Mexico 31134</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn submitActionBtn text-white">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fetch Location  modal end -->
