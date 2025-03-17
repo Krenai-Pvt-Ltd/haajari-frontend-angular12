@@ -38,6 +38,12 @@ export class TaxesComponent implements OnInit {
     
   }
 
+  isAnyFieldFocused = false;
+
+  onFocus() {
+    this.isAnyFieldFocused = true;
+  }
+
   @ViewChild('taxForm') taxForm!: NgForm;
   
 
@@ -65,7 +71,7 @@ export class TaxesComponent implements OnInit {
       (response) => {
         if(response.status){
           this._helperService.showToast("Your organization tax details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
-          this.taxForm.form.markAsUntouched();
+          this.isAnyFieldFocused=false;
         }else{
           this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
         }

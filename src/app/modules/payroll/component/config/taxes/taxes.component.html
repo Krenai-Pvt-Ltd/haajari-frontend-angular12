@@ -1,4 +1,4 @@
-<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="saveTaxDetail()">
+<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="saveTaxDetail()" (focusin)="onFocus()">
 <div class="p-4 mb-10" *ngIf="activeTab === 'taxes'">
     <div class="row">
         <div class="col-md-4">
@@ -130,7 +130,7 @@
 </div>
             
 
-<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="taxForm.touched">
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
 
     <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
     <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"

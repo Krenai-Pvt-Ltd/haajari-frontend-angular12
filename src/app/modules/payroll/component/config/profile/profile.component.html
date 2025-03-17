@@ -1,4 +1,4 @@
-<form #profileForm="ngForm" ngNativeValidate (ngSubmit)="saveOrganizationProfile()">
+<form #profileForm="ngForm" ngNativeValidate (ngSubmit)="saveOrganizationProfile()" (focusin)="onFocus()">
     <div class="p-4 mb-10">
         <div class="row">
             <div class="col-md-4">
@@ -356,7 +356,7 @@
         </div>
     </div>
 </div>
-<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="profileForm.touched">
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
     <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
         [disabled]="saveLoader"  >
         <div *ngIf="saveLoader" class="dot-opacity-loader">

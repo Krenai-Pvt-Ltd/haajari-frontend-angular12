@@ -45,6 +45,12 @@ export class ProfileComponent implements OnInit {
     this.getTodoList();
   }
 
+  isAnyFieldFocused = false;
+
+  onFocus() {
+    this.isAnyFieldFocused = true;
+  }
+
   selectedLocation: string = 'India';
 
   selectedCurrency: string = 'INR'; // INR selected by default
@@ -115,9 +121,6 @@ export class ProfileComponent implements OnInit {
    
   
   // ################# Profile #######################
-
-    @ViewChild('profileForm') profileForm!: NgForm;
-  
   
   formattedDate:string='';
   
@@ -178,7 +181,7 @@ export class ProfileComponent implements OnInit {
       this._payrollConfigurationService.saveOrganizationProfile(this.profile).subscribe((response) => {
           if(response.status){
             this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
-            this.profileForm.form.markAsUntouched();
+            this.isAnyFieldFocused = false;
           }else{
             this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
           }
