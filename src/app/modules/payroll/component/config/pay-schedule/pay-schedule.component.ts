@@ -89,7 +89,7 @@ export class PayScheduleComponent implements OnInit {
   organizationDays = Array.from({ length: 11 }, (_, i) => ({ label: (i + 20).toString(), value: i + 20 }));
   PayDays = Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 }));  
   startAndEndDay = [
-    ...Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 })), 
+    ...Array.from({ length: 27 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 })), 
     { label: 'Last Day', value: 32 } 
   ];
   

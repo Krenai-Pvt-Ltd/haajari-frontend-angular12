@@ -5,8 +5,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { Staff } from 'src/app/models/staff';
+import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
+import { OrganizationAddressWithStaff } from 'src/app/payroll-models/OrganizationAddressWithStaff';
+import { OrganizationUserLocation } from 'src/app/payroll-models/OrganizationUserLocation';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { Profile } from 'src/app/payroll-models/Profile';
+import { StaffAddressDetailsForMultiLocation } from 'src/app/payroll-models/StaffAddressDetailMultiLocation';
+import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
 
@@ -29,6 +36,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
      private _payrollConfigurationService :PayrollConfigurationService,
+     private dataService: DataService,
         private _helperService : HelperService,
         private afStorage: AngularFireStorage,
         private activateRoute: ActivatedRoute,
@@ -43,6 +51,7 @@ export class ProfileComponent implements OnInit {
     window.scroll(0,0);
     this.getProfile();
     this.getTodoList();
+    this.getOrganizationAdddress();
   }
 
   isAnyFieldFocused = false;
@@ -298,4 +307,202 @@ export class ProfileComponent implements OnInit {
       checkAllCompleted(): boolean {
         return this.toDoStepList.every(step => step.completed);
       }
+
+
+
+
+      organizationAddress:OrganizationAddressWithStaff[] = new Array();
+      getOrganizationAdddress(){
+      this._payrollConfigurationService.getOrganizationAddress().subscribe((response) => {
+            if(response.status){
+              this.organizationAddress= response.object;
+              console.log(this.organizationAddress);
+              if(this.organizationAddress==null){
+                this.organizationAddress = [];
+              }
+            }
+          },
+          (error) => {
+    
+          }
+        );
+      }
+
+
+
+      selectedAddressIndexes: number[] = [];
+      onAddressSelect(index: number, event: any) {
+        if (event.target.checked) {
+          if (!this.selectedAddressIndexes.includes(index)) {
+            this.selectedAddressIndexes.push(index);
+          }
+        } 
+      }
+
+
+      selectUsers:number=0;
+      mapUsers(event:any){
+        this.selectUsers=event?1:0;
+      }
+
+      saveFetchedAddressStaff(){
+        this.saveLoader = true;
+        const selectedAddresses = this.selectedAddressIndexes.map(index => this.organizationAddress[index].organizationAddress.id);
+        this._payrollConfigurationService.saveFetchedAddressStaff(selectedAddresses,this.selectUsers).subscribe((response) => {
+            if(response.status){
+              this._helperService.showToast("User Location updated successsfully.", Key.TOAST_STATUS_SUCCESS);
+              this.saveLoader=false;
+            }else{
+              this._helperService.showToast("Error updating.", Key.TOAST_STATUS_ERROR);
+            }
+            this.saveLoader = false;
+          },
+          (error) => {
+            this.saveLoader = false;
+            this._helperService.showToast("Error updating.", Key.TOAST_STATUS_ERROR);
+  
+          }
+        );
+      }
+
+      fetchUserList(){
+        this.getUserByFiltersMethodCall();
+      }
+
+       itemPerPage: number = 8;
+        pageNumber: number = 1;
+        lastPageNumber: number = 0;
+        total!: number;
+        rowNumber: number = 1;
+        searchText: string = '';
+        staffs: Staff[] = [];
+        selectedStaffsUuids: string[] = [];
+        selectedStaffs: Staff[] = [];
+        isAllSelected: boolean = false;
+        totalUserCount: number = 0;
+        selectedTeamId: number = 0;
+        databaseHelper: DatabaseHelper = new DatabaseHelper();
+        getUserByFiltersMethodCall() {
+          debugger;
+          this.dataService
+            .getUsersByFilter(
+              this.databaseHelper.itemPerPage,
+              this.databaseHelper.currentPage,
+              'asc',
+              'id',
+              this.searchText,
+              '',
+              this.selectedTeamId
+            )
+            .subscribe(
+              (response) => {
+                this.staffs = response.users.map((staff: Staff) => ({
+                  ...staff,
+                  selected: this.selectedStaffsUuids.includes(staff.uuid),
+                }));
+                if (this.selectedTeamId == 0 && this.searchText == '') {
+                  this.totalUserCount = response.count;
+                }
+                this.total = response.count;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+                this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
+                this.isAllSelected = this.staffs.every((staff) => staff.selected);
+
+              },
+              (error) => {
+                console.error(error);
+              }
+            );
+        }
+
+        organizationUserLocation:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
+
+        saveUserWorkLocation(){
+          this.saveLoader = true;
+          this.getSelectedStaffUUIDs();
+          const payload = {
+            ...this.organizationUserLocation,
+            userUuidsList: this.selectedStaffUUIDs
+          };
+          this._payrollConfigurationService.saveUserWorkLocation(payload).subscribe((response) => {
+          if(response.status){
+            this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+          }
+          this.saveLoader = false;
+        },
+        (error) => {
+          this.saveLoader = false;
+          this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+
+        }
+      );
+        }
+
+
+
+        checkIndividualSelection() {
+          this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
+          this.isAllSelected = this.isAllUsersSelected;
+          this.updateSelectedStaffs();
+          this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+        }
+
+        isAllUsersSelected: boolean = false;
+        addressId: number = 0;
+
+
+        updateSelectedStaffs() {
+          this.staffs.forEach((staff) => {
+            if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
+              this.selectedStaffsUuids.push(staff.uuid);
+            } else if (
+              !staff.selected &&
+              this.selectedStaffsUuids.includes(staff.uuid)
+            ) {
+              this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+                (uuid) => uuid !== staff.uuid
+              );
+            }
+          });
+      
+        }
+
+        userNameWithBranchName: any;
+    getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
+    this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
+      (response) => {
+        this.userNameWithBranchName = response.listOfObject;
+        if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
+          this.isAllSelected = false;
+          this.isAllUsersSelected = false;
+        }
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  totalItems: number = 0;
+  pageChanged(page: any) {
+   debugger;
+    if (page != this.databaseHelper.currentPage) {
+      this.databaseHelper.currentPage = page;
+      this.getUserByFiltersMethodCall();
+    }
+  }
+
+  selectedStaffUUIDs: string[] = [];
+
+    getSelectedStaffUUIDs(): void {
+    this.selectedStaffUUIDs = this.staffs
+      .filter(staff => staff.selected)  
+      .map(staff => staff.uuid);      
+
+
+    }
+
+        
 }

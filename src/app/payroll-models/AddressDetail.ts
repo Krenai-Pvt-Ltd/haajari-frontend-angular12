@@ -1,10 +1,14 @@
 export class AddressDetail{
-     id:number=0;
-     state:string='';
-     addressLine1:string='';
-     addressLine2:string='';
-     city:string='';
-    isWorkLocation:string='';
-     numberOfusers:string='';
-     branch:string='';
+     addressStatus:string='';
+    id:number=0;	
+      addressLine1:string='';
+      addressLine2:string='';
+      landmark:string='';
+      pincode:string='';
+      city:string='';	
+      state:string='';
+     country:string='';
+      branch:string='';
+      isWorkLocation:boolean=false;
+
 }

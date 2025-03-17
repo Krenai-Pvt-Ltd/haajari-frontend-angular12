@@ -8,6 +8,9 @@ import { EmployeeStateInsurance } from '../payroll-models/EmployeeStateInsurance
 import { Profile } from '../payroll-models/Profile';
 import { add } from 'lodash';
 import { PaySchedule } from '../payroll-models/PaySchedule';
+import { OrganizationAddressWithStaff } from '../payroll-models/OrganizationAddressWithStaff';
+import { StaffAddressDetailsForMultiLocation } from '../payroll-models/StaffAddressDetailMultiLocation';
+import { OrganizationUserLocation } from '../payroll-models/OrganizationUserLocation';
 
 @Injectable({
   providedIn: 'root'
@@ -108,4 +111,23 @@ export class PayrollConfigurationService {
     savePaySchedule(data:PaySchedule): Observable<any>{
       return this._http.put<any>(`${this._key.base_url}/payroll-config/pay-schedule`,data);
     }
+
+    getOrganizationAddress(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/payroll-config/get-multi-location`);
+    }
+
+    saveFetchedAddressStaff(addressIds:number[],isUserMap:number): Observable<any>{
+      let params = new HttpParams()
+      addressIds.forEach(id => {
+        params = params.append("address_ids",id)
+      });
+      params = params.set('is_user_map', isUserMap)
+      return this._http.post<any>(`${this._key.base_url}/payroll-config/save-user-location`,{},{params});
+    }
+
+
+    saveUserWorkLocation(data:StaffAddressDetailsForMultiLocation): Observable<any>{
+      return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,data);
+    }
+
 }

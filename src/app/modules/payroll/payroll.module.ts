@@ -23,6 +23,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { ProfileComponent } from './component/config/profile/profile.component';
 import { SalaryTemplateComponent } from './component/salary-template/salary-template.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 
 
@@ -53,7 +55,8 @@ import { SalaryTemplateComponent } from './component/salary-template/salary-temp
     NzSwitchModule,
     NzEmptyModule,
     NgxShimmerLoadingModule,
-    NgxPhotoEditorModule
+    NgxPhotoEditorModule,
+    NgxPaginationModule
   ]
 })
 export class PayrollModule { }

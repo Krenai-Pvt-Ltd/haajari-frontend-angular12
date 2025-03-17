@@ -141,31 +141,27 @@
             </div>
             <div class="col-md-8">
                 <div class="Address-box">
-                    <!-- TO DO: Empty Notification start-->
-                    <!-- <div class="empty-file">
+                    <div class="empty-file">
                         <nz-empty nzNotFoundImage="assets/images/location-setting-icon.svg" [nzNotFoundContent]="contentTpl">
                           <ng-template #contentTpl>
                             <p class="mb-1 empty-detail font-14">
                               Enter your work space location
                             </p>
-                            <div class="add-filtter">
-                              <a class="text-primary font-14 text-center" data-toggle="modal" data-target="#addLocation" >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                    <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                    <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9159_3509)">
-                                    <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
-                                    </g>
-                                </svg>
-                                Add Location
-                              </a>
+                            <div class="add-filtter d-flex align-items-center justify-content-center gap-3 mt-3">
+                              <button *ngIf="organizationAddress.length>0" type="button" class="btn fatchLocationBtn font-13 fw-semibold" data-bs-toggle="modal" data-bs-target="#fetchLocation">
+                                Fetch location
+                              </button>
+                              <button type="button" class="btn submitActionBtn text-white font-13 fw-semibold" data-bs-toggle="modal" data-bs-target="#addLocation" (click)="fetchUserList()">
+                                Add location
+                              </button>
                             </div>
                           </ng-template>
                         </nz-empty>
-                      </div> -->
-                      <!-- Empty Notification end-->
-                   <div class="row">
+                      </div>
+        
+
+                       <!-- TO DO: Location list start-->
+                   <!-- <div class="row">
                     <div class="address-list">
                        <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -252,7 +248,7 @@
                     </div> 
 
                     <div class="d-flex justify-content-end mb-3">
-                        <button class="btn p-0 font-14 fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#addLocation" type="button">
+                        <button class="btn p-0 font-14 fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#addLocation" type="button" (click)="fetchUserList()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                 <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                 <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -265,7 +261,8 @@
                         </button>
                     </div>
 
-                   </div>
+                   </div> -->
+                    <!-- Location list end-->
                 </div>
             </div>
         </div>
@@ -370,8 +367,10 @@
     </button>
 </div>
 </form>
+
     <!-- Add location modal start -->
         <div class="modal fade" id="addLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
+
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
@@ -379,6 +378,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-0">
+                <form #locationForm="ngForm" ngNativeValidate (ngSubmit)="saveUserWorkLocation()">
+
                 <div class="add-location-modal">
                 <div class="row h-100 p-0 m-0">
                     <div class="col-md-3 p-0 m-0" >
@@ -401,34 +402,49 @@
                                 <div class="configuration-location p-3 row">
                                     <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 1 </label>
-                                        <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input">
+                                        <input type="text" placeholder="Address Line 1" required name="addressLine1" class="form-control whatsapp-login-input" 
+                                        [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.addressLine1">
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 2 </label>
-                                        <input type="text" placeholder="Address Line 2" required="" name="" class="form-control whatsapp-login-input">
+                                        <input type="text" placeholder="Address Line 2" required name="addressLine2" 
+                                        class="form-control whatsapp-login-input"
+                                        [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.addressLine2">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="addressLine1" class="pb-2">Select State </label>
                                         <div class="w-100">
-                                        <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" required>
-                                            <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
+                                        <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" 
+                                        name="state"
+                                        [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.state"
+                                        required>
+                                        <nz-option 
+                                            *ngFor="let state of stateList" 
+                                            [nzValue]="state.name" 
+                                            [nzLabel]="state.name">
+                                        </nz-option>
                                           </nz-select>
                                         </div>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="addressLine1" class="pb-2">Enter City </label>
-                                        <input type="text" placeholder="City" required="" name="" class="form-control whatsapp-login-input">
+                                        <input type="text" placeholder="City" required name="city"
+                                        [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.city"
+                                        class="form-control whatsapp-login-input">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="addressLine1" class="pb-2">Enter PIN Code </label>
-                                        <input type="number" placeholder="PIN Code" required="" name="" class="form-control whatsapp-login-input">
+                                        <input type="number" placeholder="PIN Code" required name="pincode" 
+                                        [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.pincode"
+                                        class="form-control whatsapp-login-input">
                                     </div>
 
 
                                 </div>
 
                                 <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
-                                    <button type="submit" class="btn p-0 next-btn nextBtn" >
+                                    <button  class="btn p-0 next-btn nextBtn"  id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
+                                    type="button" role="tab" #staffSelectionTab>
                                         <span>
                                             <span class="ng-star-inserted">Next</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -468,78 +484,170 @@
                                             </div>
                                         </div>
                                      </div>
-                                     <div class="mt-3 location-user-table">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 5%;">
-                                                        <input type="checkbox" class="form-check-input pointer">
-                                                    </th>
-                                                    <th style="width: 25%;">Name</th>
-                                                    <th style="width: 25%;">Email Address</th>
-                                                    <th style="width: 20%;" >Phone Number</th>
-                                                    <th style="width: 15%;" class="text-center">Action</th>
-                                                </tr>
+                                     <ng-container *ngIf="total > 0">
+                                        <div class="location-user-table">
+                                          <table class="table">
+                                            <thead class="thead-light">
+                                              <tr>
+                                                <th style="width: 0%">
+                                                  <input type="checkbox" class="form-check-input pointer"
+                                                  name="staff"
+                                                    [(ngModel)]="isAllSelected"/>
+                                                </th>
+                                                <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                                                <th style="width: 25%; padding: 12px 15px">Name</th>
+                                                <th style="width: 25%; padding: 12px 15px">Email</th>
+                                                <th style="width: 25%; padding: 12px 15px">Phone</th>
+                                              </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of [].constructor(10)">
-                                                    <td>
-                                                        <input type="checkbox" class="form-check-input pointer">
-                                                    </td>
-                                                    <td class="font-13">
-                                                        Yogesh Kumar
-                                                    </td>
-                                                    <td>
-                                                        <span class="font-13">yogeshkrenai.com</span>
-                                                    </td>
-                                                    <td >
-                                                        <span class="font-13">95499011868</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="text-primary fw-semibold font-13 employee-add-btn">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                                                <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                                                <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                                                </mask>
-                                                                <g mask="url(#mask0_9159_3509)">
-                                                                <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
-                                                                </g>
-                                                            </svg>
-                                                            Add</span>
-                                                    </td>
-                                                </tr>
+                                              <tr *ngFor="
+                                                let staff of staffs
+                                                  
+                                              " style="border-bottom: 1px solid #dddddd">
+                                                <td>
+                                                  
+                                                    <input type="checkbox" class="form-check-input pointer"
+                                                    name="isAllSelected"
+                                                      [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                                 
+                                                </td>
+                                                <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                                                <td style="padding: 12px 15px">{{ staff.name }}</td>
+                                                <td style="padding: 12px 15px">
+                                                  {{ staff.email ? staff.email : "N/A" }}
+                                                </td>
+                                                <td style="padding: 12px 15px">
+                                                  {{ staff.phoneNumber || "N/A" }}
+                                                </td>
+                                              </tr>
                                             </tbody>
-                                        </table>
-                                        
-                                     </div>
+                                          </table>
+                                        </div>
+                                      </ng-container>  
                                      <div class=" config-location-footer">
-                                     <div class="d-flex align-items-center justify-content-between w-100 p-3 bg-white">
-                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
-                                    </div>
-                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                                        <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
+                                            <p class="mb-0">
+                                              Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
+                                              staffs.length + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total
+                                              }} members
+                                            </p>
+                                            <div class="row">
+                                              <div class="col-md-12">
+                                                <ngb-pagination class="pagition-box" [collectionSize]="total" [rotate]="true"
+                                                  (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                                                  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                                              </div>
+                                            </div>
+                                          </div>
+                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white"> 
                                         
-                                        <button type="submit" class="btn p-0 next-btn nextBtn" >
+                                        <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader">
                                             <span>
-                                                <span class="ng-star-inserted"> Create New Location </span>
+                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> Create New Location </span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                                     <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
                                                 </svg>
                                             </span>
                                         </button>
                                     </div>
+                                
                                 </div>
                                     
                                 </div>
+                                
                             </div>
+                            
                         </div>
                     </div>
                 </div>
                 </div>
                 <div>
                 </div>
+                </form>
             </div>
             </div>
         </div>
         </div>
     <!-- Add location modal start -->
+
+
+    <!-- Fetch Location  modal Start -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#fetchLocation">
+    Fetch Location 
+  </button>
+  
+  <div class="modal fade" id="fetchLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div> -->
+        <div class="modal-body text-center p-4">
+            <div>
+                <img src="assets/images/payrollstep-img/add-location-img.svg">
+                <h5 class="mb-0 font-18 fw-600 lh-base">Would you like to continue using the <br> same location as before?</h5>
+
+                <div class="mt-3 p-3 text-start address-box border-rounded-2" *ngIf="organizationAddress.length==1">
+                    <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users <br> updated automatically.</p>
+                    <h5 class="font-14 mb-0 fw-semibold lh-base mt-3 text-black" *ngFor="let address of organizationAddress">
+                        <span class="text-warning" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">Address: </span>
+                        {{address.organizationAddress.addressLine1+", "}}
+                        {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
+                        {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
+                        
+                        <br class="paddress">{{address.organizationAddress.city}} - {{address.organizationAddress.pincode}} |
+                        {{address.organizationAddress.state}},
+                        {{address.organizationAddress.country}}</h5>
+                      
+                </div>
+                <div class="mt-3 p-3 text-start address-box border-rounded-2" *ngIf="organizationAddress.length>1">
+                    <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users updated <br> automatically.</p>
+                    <h5 class="font-14 mb-0 fw-semibold lh-base text-warning  mb-2">Address:</h5>
+
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-1" *ngFor="let address of organizationAddress; let i = index">
+                        <p class="lh-base font-13 fw-normal mb-1" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">
+                            {{address.organizationAddress.addressLine1+", "}}
+                            {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
+                            {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
+                            {{address.organizationAddress.city}},
+                            {{address.organizationAddress.state}} {{address.organizationAddress.pincode}}</p>
+
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                            type="checkbox" value="" 
+                            [id]="'addressCheck' + i"
+                            (change)="onAddressSelect(i, $event)">
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+            <div class="form-check">
+                <input class="form-check-input" 
+                type="checkbox" value="" 
+                [(ngModel)]="selectUsers"
+                (ngModelChange)="mapUsers($event)">
+            </div>
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn submitActionBtn text-white"
+                [disabled]="saveLoader"  (click)="saveFetchedAddressStaff()">
+                <div *ngIf="saveLoader" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span *ngIf="!saveLoader"> Confirm </span>      
+            </button>
+          <!-- <button type="button" class="btn submitActionBtn text-white" (click)="saveFetchedAddressStaff()">Confirm</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fetch Location  modal end -->
