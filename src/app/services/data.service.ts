@@ -5509,7 +5509,8 @@ export class DataService {
   ): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', 'id,DESC');
 
     if (userIds && userIds.length) {
       userIds.forEach(id => (params = params.append('userIds', id.toString())));
