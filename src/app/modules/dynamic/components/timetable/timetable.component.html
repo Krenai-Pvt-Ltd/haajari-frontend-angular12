@@ -27,7 +27,7 @@
                 *ngIf="attendanceUpdateCount > 0">{{ attendanceUpdateCount }}</span>
             </li>
             <li class="nav-item d-flex align-items-center">
-              <a id="pills-notification-tab" role="tab" (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB_NEW)"
+              <a id="pills-notification-tab" role="tab" (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB_NEW); resetFilters();"
                 class="position-relative" [ngClass]="{
                     'active-tab': ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB_NEW}" aria-controls="pills-notification" aria-selected="false" class="nav-link">Request Records</a>
               <span class="request-count d-flex align-items-center justify-content-center"
@@ -1636,11 +1636,11 @@
           <div class="col-md-12 mt-4 mb-4">
             <ul id="pills-tab" role="tablist" class="nav nav-pills nav-pills-punch">
               <li class="nav-item">
-                <a id="pills-announcement-tab" data-bs-toggle="pill" href="#missedPunch" role="tab" (click)="fetchMissedPunchRequests(); this.resetFilters()"
+                <a id="pills-announcement-tab" data-bs-toggle="pill" href="#missedPunch" role="tab" (click)="currentTab='missedPunch';this.resetFilters()"
                   aria-controls="pills-announcement" aria-selected="true" class="nav-link-punch active">Missed Punch</a>
               </li>
               <li class="nav-item d-flex align-items-center">
-                <a id="pills-notification-tab" data-bs-toggle="pill" href="#systemOutage" role="tab" (click)="fetchSystemOutageRequests(); this.resetFilters()"
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#systemOutage" role="tab" (click)="currentTab='systemOutage'; this.resetFilters()"
                   aria-controls="pills-notification" aria-selected="false" class="nav-link-punch">System Outage</a>
               </li>
             </ul>
@@ -1669,7 +1669,8 @@
                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                           <div class="form-group w-100 position-relative">
                             <input type="text" id="searchTextMissedPunch" [(ngModel)]="searchTextMissedPunch"
-                              placeholder="Search by name.." class="form-control me-2 w-100 search-padding" />
+                              (ngModelChange)="onSearchTextMissedPunchChange($event)" placeholder="Search by name, requested reason.."
+                              class="form-control me-2 w-100 search-padding" />
                             <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                           </div>
                         </div>
@@ -1701,17 +1702,10 @@
                           <nz-option *ngFor="let user of allUsers" [nzValue]="user.id" [nzLabel]="user.userName"></nz-option>
                         </nz-select>
                       </div>
-                      <div class="col-md-12 mb-3" *ngIf="currentTab === 'missedPunch'">
-                        <label for="requestType" class="pb-2">Request Type</label>
-                        <nz-select [(ngModel)]="selectedPunchType" nzPlaceHolder="Request Type" class="w-100 form-control placeholder-lines">
-                          <nz-option nzValue="Check-In" nzLabel="Check-In"></nz-option>
-                          <nz-option nzValue="Check-Out" nzLabel="Check-Out"></nz-option>
-                          <nz-option nzValue="Both" nzLabel="Both"></nz-option>
-                        </nz-select>
-                      </div>
+
                       <div class="col-md-12 mb-3">
                         <label for="date" class="pb-2">Date</label>
-                        <nz-date-picker [(ngModel)]="selectedDate" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
+                        <nz-date-picker [(ngModel)]="selectedDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
                       </div>
                       <div class="col-md-12 mb-3">
                         <label for="status" class="pb-2">Status</label>
@@ -1727,6 +1721,14 @@
                       <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
                       <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
                     </div>
+                  </div>
+                  <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+                    <ng-container *ngFor="let filter of activeMissedPunchFilters">
+                      <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                        {{ filter.label }}: {{ filter.value }}
+                        <i class="bi bi-x-lg pointer" (click)="removeFilter(filter, 'missedPunch')"></i>
+                      </p>
+                    </ng-container>
                   </div>
                   <div class="mt-4">
                     <table class="table">
@@ -1794,20 +1796,20 @@
                           </td>
 
                           <td>
-                            <span class="fw-semibold" [ngClass]="{'text-success': request?.status?.response === 'approved', 'text-danger': request?.status?.response === 'rejected', 'text-primary': request?.status?.response === 'pending'}">
-                              {{request?.status?.response}}
+                            <span class="fw-semibold" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
+                              {{request?.status?.response | uppercase}}
                             </span>
                             <p class="mb-0 font-12 fw-light" *ngIf="request.approvedByName">By: {{request.approvedByName}}</p>
                           </td>
                           <td>
-                            <div class="dropdown">
+                            <div class="dropdown" *ngIf="!request.isProcessing; else processingSpinner">
                               <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
                                 class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu actionMenuList">
-                                <li>
-                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED')">
+                                <li *ngIf="request?.status?.id==52">
+                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
                                         <rect x="0.374023" y="0.5" width="24" height="24" fill="#D9D9D9"/>
@@ -1819,8 +1821,8 @@
                                     Approve
                                   </a>
                                 </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED')">
+                                <li *ngIf="request?.status?.id==52">
+                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
                                         <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
@@ -1847,11 +1849,16 @@
                                 </li>
                               </div>
                             </div>
+                            <ng-template #processingSpinner>
+                              <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </ng-template>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    <div class="d-flex align-items-center justify-content-between w-100 pagination-box p-3 bg-white border-top">
+                    <div *ngIf="totalRecordsMissedPunch > pageSizeMissedPunch" class="d-flex align-items-center justify-content-between w-100 pagination-box p-3 bg-white border-top">
                       <p class="mb-0">Showing items {{(currentPageMissedPunch - 1) * pageSizeMissedPunch + 1}} - {{currentPageMissedPunch * pageSizeMissedPunch > totalRecordsMissedPunch ? totalRecordsMissedPunch : currentPageMissedPunch * pageSizeMissedPunch}} of {{totalRecordsMissedPunch}} records</p>
                       <ngb-pagination [collectionSize]="totalRecordsMissedPunch" [(page)]="currentPageMissedPunch" [pageSize]="pageSizeMissedPunch"
                         (pageChange)="fetchMissedPunchRequests()" class="pagition-box"></ngb-pagination>
@@ -1883,7 +1890,8 @@
                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                           <div class="form-group w-100 position-relative">
                             <input type="text" id="searchTextSystemOutage" [(ngModel)]="searchTextSystemOutage"
-                              placeholder="Search by name.." class="form-control me-2 w-100 search-padding" />
+                            (ngModelChange)="onSearchTextSystemOutageChange($event)" placeholder="Search by name, requested reason.."
+                              class="form-control me-2 w-100 search-padding" />
                             <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
                           </div>
                         </div>
@@ -1924,7 +1932,7 @@
                       </div>
                       <div class="col-md-12 mb-3">
                         <label for="date" class="pb-2">Date</label>
-                        <nz-date-picker [(ngModel)]="selectedDate" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
+                        <nz-date-picker [(ngModel)]="selectedDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
                       </div>
                       <div class="col-md-12 mb-3">
                         <label for="status" class="pb-2">Status</label>
@@ -1935,11 +1943,29 @@
                           <nz-option nzValue="Reject" nzLabel="Reject"></nz-option>
                         </nz-select>
                       </div>
+                      <div class="col-md-12 mb-3">
+                        <label for="status" class="pb-2">Status</label>
+                        <nz-select [(ngModel)]="selectedAttendanceStatus" [nzMode]="'multiple'" nzPlaceHolder="Status"
+                          class="w-100 form-control placeholder-lines">
+                          <nz-option nzValue="in" nzLabel="in"></nz-option>
+                          <nz-option nzValue="out" nzLabel="out"></nz-option>
+                          <nz-option nzValue="break" nzLabel="break"></nz-option>
+                          <nz-option nzValue="back" nzLabel="back"></nz-option>
+                        </nz-select>
+                      </div>
                     </div>
                     <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
                       <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
                       <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
                     </div>
+                  </div>
+                  <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+                    <ng-container *ngFor="let filter of activeSystemOutageFilters">
+                      <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                        {{ filter.label }}: {{ filter.value }}
+                        <i class="bi bi-x-lg pointer" (click)="removeFilter(filter, 'systemOutage')"></i>
+                      </p>
+                    </ng-container>
                   </div>
                   <div class="mt-4">
                     <table class="table">
@@ -2006,20 +2032,20 @@
                               [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{request.requestReason}}</span>
                           </td>
                           <td>
-                            <span class="fw-semibold" [ngClass]="{'text-success': request?.status?.response === 'approved', 'text-danger': request?.status?.response === 'rejected', 'text-primary': request?.status?.response === 'pending'}">
-                              {{request?.status?.response}}
+                            <span class="fw-semibold" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
+                              {{request?.status?.response | uppercase}}
                             </span>
                             <p class="mb-0 font-12 fw-light" *ngIf="request.managerName">By: {{request.managerName}}</p>
                           </td>
                           <td>
-                            <div class="dropdown">
+                            <div class="dropdown" *ngIf="!request.isProcessing; else processingSpinner">
                               <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
                                 class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu actionMenuList">
-                                <li>
-                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED')">
+                                <li *ngIf="request?.status?.id==52">
+                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
                                         <rect x="0.374023" y="0.5" width="24" height="24" fill="#D9D9D9"/>
@@ -2031,8 +2057,8 @@
                                     Approve
                                   </a>
                                 </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED')">
+                                <li *ngIf="request?.status?.id==52">
+                                  <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
                                         <rect y="0.5" width="25" height="24" fill="#D9D9D9"/>
@@ -2059,11 +2085,16 @@
                                 </li>
                               </div>
                             </div>
+                            <ng-template #processingSpinner>
+                              <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </ng-template>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    <div class="d-flex align-items-center justify-content-between w-100 pagination-box p-3 bg-white border-top">
+                    <div *ngIf="totalRecordsSystemOutage > pageSizeSystemOutage" class="d-flex align-items-center justify-content-between w-100 pagination-box p-3 bg-white border-top">
                       <p class="mb-0">Showing items {{(currentPageSystemOutage - 1) * pageSizeSystemOutage + 1}} - {{currentPageSystemOutage * pageSizeSystemOutage > totalRecordsSystemOutage ? totalRecordsSystemOutage : currentPageSystemOutage * pageSizeSystemOutage}} of {{totalRecordsSystemOutage}} records</p>
                       <ngb-pagination [collectionSize]="totalRecordsSystemOutage" [(page)]="currentPageSystemOutage" [pageSize]="pageSizeSystemOutage"
                         (pageChange)="fetchSystemOutageRequests()" class="pagition-box"></ngb-pagination>
@@ -2844,6 +2875,12 @@
     <div class="modal fade" id="attendanceRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
       <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
         <app-attendance-update *ngIf="showAttendanceUpdate" [isCreate]="false" [data]="attendanceUpdateData" (closeModal)="onAttendanceUpdateClose()"></app-attendance-update>
+        <button class="d-none" #closeBtn data-bs-dismiss="modal"></button>
+        <div *ngIf="!showAttendanceUpdate" class="modal-body p-0">
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+          </div>
+        </div>
       </div>
     </div>
 <!--attendance request modal end -->

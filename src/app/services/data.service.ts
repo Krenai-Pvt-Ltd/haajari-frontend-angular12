@@ -5501,6 +5501,7 @@ export class DataService {
     startDateStr?: string,
     endDateStr?: string,
     statuses?: number[],
+    attendanceStatuses?: number[],
     requestTypes?: string[],
     page: number = 0,
     size: number = 10,
@@ -5518,6 +5519,9 @@ export class DataService {
     if (endDateStr) params = params.set('endDateStr', endDateStr);
     if (statuses && statuses.length) {
       statuses.forEach(status => (params = params.append('statuses', status.toString())));
+    }
+    if (attendanceStatuses && attendanceStatuses.length) {
+      attendanceStatuses.forEach(status => (params = params.append('attendanceStatuses', status.toString())));
     }
     if (requestTypes && requestTypes.length) {
       requestTypes.forEach(type => (params = params.append('requestTypes', type)));
