@@ -5156,40 +5156,25 @@ export class DataService {
   }
 
   removeKeyValuePair(key: string, userId: string, value: any): Observable<any> {
-    // Set URL parameters for key and userId
-    const params = new HttpParams()
-      .set('key', key)
-      .set('value', value)
-      .set('userId', userId);
-
-    // Send the DELETE request with parameters and request body (value)
-    return this.httpClient.delete<any>(
+    const requestBody = {
+      userId: userId,
+      keyValuePairs: { [key]: String(value) } // Convert value to string
+    };
+    return this.httpClient.post<any>(
       `${this.baseUrl}/get/onboarding/remove-field-in-requested-data`,
-      {
-        params: params,
-      }
+      requestBody
     );
   }
 
-  approveKeyValuePair(
-    key: string,
-    userId: string,
-    value: any
-  ): Observable<any> {
-    // Set URL parameters for key and userId
-    const params = new HttpParams()
-      .set('key', key)
-      .set('value', value)
-      .set('userId', userId);
-
-      console.log(value);
-    // Send the DELETE request with parameters and request body (value)
+  // Approve a single key-value pair
+  approveKeyValuePair(key: string, userId: string, value: any): Observable<any> {
+    const requestBody = {
+      userId: userId,
+      keyValuePairs: { [key]: String(value) } // Convert value to string
+    };
     return this.httpClient.post<any>(
       `${this.baseUrl}/get/onboarding/approve-field-in-requested-data`,
-      null,
-      {
-        params: params,
-      }
+      requestBody
     );
   }
 
