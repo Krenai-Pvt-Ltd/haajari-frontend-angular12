@@ -33,6 +33,8 @@ export class ProfileComponent implements OnInit {
   readonly Constant = constant
 
   isDivVisible: boolean = false;
+  fetchLocationModal: any;
+  bootstrap: any;
 
   constructor(
      private _payrollConfigurationService :PayrollConfigurationService,
@@ -53,6 +55,8 @@ export class ProfileComponent implements OnInit {
     this.getTodoList();
     this.getOrganizationAdddress();
   }
+
+  
 
   isAnyFieldFocused = false;
 
@@ -504,5 +508,89 @@ export class ProfileComponent implements OnInit {
 
     }
 
+    isWorkLocationFalse(): boolean {
+      return this.organizationAddress.length > 0 && this.organizationAddress.some(addr => !addr.organizationAddress.isWorkLocation);
+    }
+    
+
+
+  selectAll(checked: boolean) {
+    this.isAllSelected = checked;
+    this.staffs.forEach((staff) => (staff.selected = checked));
+    if (checked) {
+      this.staffs.forEach((staff) => {
+        if (!this.selectedStaffsUuids.includes(staff.uuid)) {
+          this.selectedStaffsUuids.push(staff.uuid);
+        }
+      });
+    } else {
+      this.staffs.forEach((staff) => {
+        if (this.selectedStaffsUuids.includes(staff.uuid)) {
+          this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+            (uuid) => uuid !== staff.uuid
+          );
+        }
+      });
+    }
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+  }
+
+
+  searchUsers() {
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
+    this.getUserByFiltersMethodCall();
+  }
+
+  clearSearchText() {
+    this.searchText = '';
+    this.getUserByFiltersMethodCall();
+  }
+
+  selectAllUsers(event: any) {
+    const isChecked = event.target.checked;
+    this.isAllUsersSelected = isChecked;
+    this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
+    this.staffs.forEach((staff) => (staff.selected = isChecked));
+
+    if (isChecked) {
+      // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+      this.getAllUserUuidsMethodCall().then((allUuids) => {
+        this.selectedStaffsUuids = allUuids;
+      });
+    } else {
+      this.selectedStaffsUuids = [];
+    }
+  }
+
+  allUserUuids: string[] = [];
+  async getAllUserUuidsMethodCall() {
+    return new Promise<string[]>((resolve, reject) => {
+      this.dataService.getAllUserUuids().subscribe({
+        next: (response) => {
+          this.allUserUuids = response.listOfObject;
+          resolve(this.allUserUuids);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
+  }
+
+  unselectAllUsers() {
+    this.isAllUsersSelected = false;
+    this.isAllSelected = false;
+    this.staffs.forEach((staff) => (staff.selected = false));
+    this.selectedStaffsUuids = [];
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+  }
+
+  onStateChange(event: any) {
+    console.log("Selected State:", event);
+  }
+  
+
+  
         
 }

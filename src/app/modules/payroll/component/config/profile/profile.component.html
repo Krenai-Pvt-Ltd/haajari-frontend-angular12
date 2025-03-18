@@ -141,7 +141,7 @@
             </div>
             <div class="col-md-8">
                 <div class="Address-box">
-                    <div class="empty-file">
+                    <div class="empty-file" *ngIf="isWorkLocationFalse()">
                         <nz-empty nzNotFoundImage="assets/images/location-setting-icon.svg" [nzNotFoundContent]="contentTpl">
                           <ng-template #contentTpl>
                             <p class="mb-1 empty-detail font-14">
@@ -157,18 +157,18 @@
                             </div>
                           </ng-template>
                         </nz-empty>
-                      </div>
+                    </div>
         
 
                        <!-- TO DO: Location list start-->
-                   <!-- <div class="row">
-                    <div class="address-list">
+                   <div class="row" *ngIf="!isWorkLocationFalse()">
+                    <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
                        <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
                                 <i class="bi bi-chevron-down"></i>
                             </span>
-                            <p class="mb-0 fw-semibold font-13">Delhi</p>
+                            <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
                         </div>
                         <div class="d-flex align-items-center gap-3">
                             <span class="pointer">
@@ -261,7 +261,7 @@
                         </button>
                     </div>
 
-                   </div> -->
+                   </div>
                     <!-- Location list end-->
                 </div>
             </div>
@@ -402,12 +402,15 @@
                                 <div class="configuration-location p-3 row">
                                     <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 1 </label>
-                                        <input type="text" placeholder="Address Line 1" required name="addressLine1" class="form-control whatsapp-login-input" 
+                                        <input type="text" placeholder="Address Line 1" required name="addressLine1" 
+                                        maxlength="50"
+                                        class="form-control whatsapp-login-input" 
                                         [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.addressLine1">
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 2 </label>
-                                        <input type="text" placeholder="Address Line 2" required name="addressLine2" 
+                                        <input type="text" placeholder="Address Line 2" required name="addressLine2"
+                                        maxlength="50" 
                                         class="form-control whatsapp-login-input"
                                         [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.addressLine2">
                                     </div>
@@ -417,6 +420,7 @@
                                         <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" 
                                         name="state"
                                         [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.state"
+                                        (ngModelChange)="onStateChange($event)"
                                         required>
                                         <nz-option 
                                             *ngFor="let state of stateList" 
@@ -434,7 +438,10 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="addressLine1" class="pb-2">Enter PIN Code </label>
-                                        <input type="number" placeholder="PIN Code" required name="pincode" 
+                                        <input type="text" placeholder="PIN Code" required name="pincode" 
+                                        pattern="[0-9]*"
+                                        inputmode="numeric"
+                                        maxlength="6"
                                         [(ngModel)]="organizationUserLocation.organizationMultiLocationRequest.pincode"
                                         class="form-control whatsapp-login-input">
                                     </div>
@@ -444,7 +451,7 @@
 
                                 <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
                                     <button  class="btn p-0 next-btn nextBtn"  id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                                    type="button" role="tab" #staffSelectionTab>
+                                    type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
                                         <span>
                                             <span class="ng-star-inserted">Next</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -460,28 +467,65 @@
                                     <div class="col-md-12">
                                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
                                            <div>
-                                              <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                                            <form novalidate="" role="search" (submit)="searchUsers()"
+                                                class="searching ng-untouched ng-pristine ng-valid">
+                                                <div class="form-group position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name and role"
+                                                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                                    (keyup)="searchUsers()" [(ngModel)]="searchText"
+                                                    [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
+
+                                                    <!-- <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn p-0"
+                                                    (click)="clearSearchText()">
+                                                    <i class="bi bi-x mt-auto mb-auto pl-3" ></i>
+                                                    </button> -->
+                                                    <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
+                                                    *ngIf="searchText != ''" (click)="clearSearchText()"></i>
+                                                    <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
+                                                </div>
+                                                </form>
+                                              <!-- <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
                                                  <div class="form-group position-relative">
-                                                    <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 search-input" style="padding: 10px 50px 10px 40px;">
+                                                    <input type="text" id="searchText" placeholder="Search by name and role" 
+                                                    (keyup)="searchUsers()" [(ngModel)]="searchText"
+                                                    [ngModelOptions]="{ standalone: true }"
+                                                    class="form-control me-2 search-input" style="padding: 10px 50px 10px 40px;">
+                                                    <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
+                                                     *ngIf="searchText != ''" (click)="clearSearchText()"></i>
+                                                    <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
                                                     <i class="bi bi-search search-icon position-absolute ng-star-inserted"></i>
                                                 </div>
-                                              </form>
+                                              </form> -->
                                            </div>
-                                           <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list px-3">
-                                            <span class="text-black font-13 pointer">
-                                                <span class="text-primary fw-semibold">10 </span> Selected of <span class="text-primary fw-semibold"> 184 </span>
-                                            </span>
-                                            <span class="separator"></span>
-                                            <span class="text-danger fw-semibold pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
-                                                    <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
-                                                        <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect></mask>
-                                                        <g mask="url(#mask0_4127_2858)"><path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545">
-                                                        </path>
-                                                    </g>
-                                                </svg> Clear Selection 
-                                            </span>
-                                            </div>
+                                           <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
+                                           *ngIf="selectedStaffsUuids.length > 0">
+                                           <span class="text-black font-13 pointer">
+                                             <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
+                                             <span class="text-primary"> {{ totalUserCount }} </span>
+                                           </span>
+                                           <span class="separator"></span>
+                                           <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
+                                               fill="none">
+                                               <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                                 y="0" width="20" height="19">
+                                                 <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545" />
+                                               </mask>
+                                               <g mask="url(#mask0_4127_2858)">
+                                                 <path
+                                                   d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z"
+                                                   fill="#dc3545" />
+                                               </g>
+                                             </svg>
+                                             Clear Selection
+                                           </span>
+                                           <span class="separator"></span>
+                                           <label class="checkbox-label">
+                                             <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                               (change)="selectAllUsers($event)" />&nbsp;
+                                             Select all
+                                           </label>
+                                         </div>
                                         </div>
                                      </div>
                                      <ng-container *ngIf="total > 0">
@@ -492,7 +536,7 @@
                                                 <th style="width: 0%">
                                                   <input type="checkbox" class="form-check-input pointer"
                                                   name="staff"
-                                                    [(ngModel)]="isAllSelected"/>
+                                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)"/>
                                                 </th>
                                                 <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                                                 <th style="width: 25%; padding: 12px 15px">Name</th>
