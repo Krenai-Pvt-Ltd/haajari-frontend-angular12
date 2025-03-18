@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentConfiguration, EarningComponent } from 'src/app/payroll-models/EarrningComponent';
-import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
+import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
-import { ActivatedRoute } from '@angular/router';
-import { TaxSlabService } from 'src/app/services/tax-slab.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { SalaryComponentService } from 'src/app/services/salary-component.service';
+import { ComponentConfiguration } from 'src/app/payroll-models/ComponentConfiguration';
 
 
 @Component({
@@ -34,30 +33,37 @@ export class SalaryComponent implements OnInit {
   shimmer: boolean = false;
   toggle:boolean =false;
 
-  constructor(
-    private _payrollConfigurationService:PayrollConfigurationService,
-    private activateRoute :  ActivatedRoute,
-    private taxSlabService: TaxSlabService,
-    public _helperService : HelperService
-  ) { 
-    // if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
-    //   this.currentTab = this.activateRoute.snapshot.queryParamMap.get('tab');
-    // }
-    
+  constructor(private _salaryComponentService : SalaryComponentService,
+    public _helperService : HelperService) { 
+ 
   }
 
   ngOnInit(): void {
     window.scroll(0,0);
-    this.getEarningComponent();
+    this.getOrganizationEarningComponent();
     
   }
 
+  defaultEarningComponents:EarningComponent[] = new Array();
+  getDefaultEarningComponent(){
+      this._salaryComponentService.getDefaultEarningComponent().subscribe((response) => {
+          if(response.status){
+            this.defaultEarningComponents= response.object;
+            
+          }
+        },
+        (error) => {
+    
+        }
+      );
+    }
+
   showSubComponent:boolean =false;
   earningComponents:EarningComponent[] = new Array();
-    getEarningComponent(){
+  getOrganizationEarningComponent(){
       this.shimmer = true;
       this.earningComponents = [];
-        this._payrollConfigurationService.getEarningComponents().subscribe((response) => {
+        this._salaryComponentService.getOrganizationEarningComponent().subscribe((response) => {
             if(response.status){
               this.earningComponents= response.object;
               this.totalItems = response.totalItems;
@@ -74,6 +80,8 @@ export class SalaryComponent implements OnInit {
           },
           (error) => {
             this.shimmer = false;
+            this.earningComponents= new Array();
+            this.totalItems = 0;
           }
         );
       }
@@ -93,10 +101,10 @@ export class SalaryComponent implements OnInit {
     }
     
 
-    pageChange(page: number): void {
+    pageChange(page: number){
       if(this.currentPage!= page){
         this.currentPage = page;
-        this.getEarningComponent();
+        this.getOrganizationEarningComponent();
       }
     }
 
@@ -105,8 +113,8 @@ export class SalaryComponent implements OnInit {
     selectedTab:number=0;
     editEarning(earningComponent : EarningComponent){
       this.toggle=true;
-      this.selectedEarningComponent= JSON.parse(JSON.stringify(earningComponent)) ;
       this.selectedTab = this.EARNING_COMPONENT;
+      this.selectedEarningComponent= JSON.parse(JSON.stringify(earningComponent)) ;
     }
 
 

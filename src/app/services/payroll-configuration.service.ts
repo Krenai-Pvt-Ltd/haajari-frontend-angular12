@@ -96,13 +96,7 @@ export class PayrollConfigurationService {
     }
 
 
-    getEarningComponents(): Observable<any>{
-      return this._http.get<any>(`${this._key.base_url}/salary-component/earning`);
-    }
-
-    getDefaultEarnning(): Observable<any>{
-      return this._http.get<any>(`${this._key.base_url}/salary-component/default-earning`);
-    }
+   
 
     getPaySchedule(): Observable<any>{
       return this._http.get<any>(`${this._key.base_url}/payroll-config/pay-schedule`);

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
-import { TaxSlabService } from 'src/app/services/tax-slab.service';
 
 @Component({
   selector: 'app-payroll-setup',
