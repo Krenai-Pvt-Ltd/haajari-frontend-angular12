@@ -5,40 +5,31 @@
                 <div class="col-md-3 p-0">
                     <div class="payroll-sidebar-menu h-100 bg-white">
                         <div class="nav flex-column nav-pills side-nav" id="tab" role="tablist" aria-orientation="vertical">
-                            <button id="profile-tab" data-bs-toggle="pill" (click)="route('profile')"  role="tab"
-                            [ngClass]="{'active' : currentTab == 'profile'}"
-                            aria-controls="organization-profile" aria-selected="true" class="nav-link" data-bs-target="organization-profile">
+                            <button id="profile-tab" data-bs-toggle="pill" href="#organization-profile" role="tab"
+                            aria-controls="organization-profilet" aria-selected="true" class="nav-link active" >
                             Organization Profile </button>
-                            <button id="statutory-tab" data-bs-toggle="pill" (click)="route('statutory')" role="tab"
-                            [ngClass]="{'active' : currentTab == 'statutory'}"
-                            aria-controls="statutory" aria-selected="true" class="nav-link" data-bs-target="statutory">
+                            <button id="statutory-tab" data-bs-toggle="pill" href="#statutory" role="tab"
+                            aria-controls="statutory" aria-selected="true" class="nav-link" >
                             Statutory Components</button>
-                            <button id="salary-tab" data-bs-toggle="pill" role="tab" (click)="route('salary')"
-                            [ngClass]="{'active' : currentTab == 'salary'}"
+                            <button id="salary-tab" data-bs-toggle="pill" href="#salary" role="tab"
                             aria-controls="salary" aria-selected="true" class="nav-link" >
                             Salary Components </button>
-                            <button id="taxes-tab" data-bs-toggle="pill" (click)="route('taxes')" role="tab"
-                            [ngClass]="{'active' : currentTab == 'taxes'}"
-                            aria-controls="taxes" aria-selected="true" class="nav-link" >
+                            <button id="taxes-tab" data-bs-toggle="pill" href="#taxes" role="tab"
+                            aria-controls="texes" aria-selected="true" class="nav-link">
                             Taxes </button>
-                            <button id="schedule-tab" data-bs-toggle="pill" (click)="route('pay-schedule')" role="tab"
-                            [ngClass]="{'active' : currentTab == 'pay-schedule'}"
+                            <button id="schedule-tab" data-bs-toggle="pill" href="#pay-schedule" role="tab"
                             aria-controls="pay-schedule" aria-selected="true" class="nav-link">
                             Pay Schedule </button>
-                            <button id="preferences-tab" data-bs-toggle="pill" (click)="route('preferences')"  role="tab"
-                            [ngClass]="{'active' : currentTab == 'preferences'}"
+                            <button id="preferences-tab" data-bs-toggle="pill" href="#preferences" role="tab"
                             aria-controls="preferences" aria-selected="true" class="nav-link">
                             Preferences </button>
-                            <button id="payroll-tab" data-bs-toggle="pill" (click)="route('prior-payroll')" role="tab"
-                            [ngClass]="{'active' : currentTab == 'prior-payroll'}"
+                            <button id="payroll-tab" data-bs-toggle="pill" href="#prior-payroll" role="tab"
                             aria-controls="prior-payroll" aria-selected="true" class="nav-link">
                             Prior Payroll </button>
-                            <button id="form-tab" data-bs-toggle="pill" (click)="route('form-16')" role="tab"
-                            [ngClass]="{'active' : currentTab == 'form-16'}"
+                            <button id="form-tab" data-bs-toggle="pill" href="#form-16" role="tab"
                             aria-controls="form-16" aria-selected="true" class="nav-link">
                             Form 16 </button>
                         </div>
-
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -46,50 +37,26 @@
                        
                         <div class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
                            <app-profile></app-profile>
-
                         </div>
-
-                </div>
-               
-                <div class="col-md-9 p-0">
-                    
-                    <div class="tab-content" id="tabContent">
-
-                        <div class="payroll-setup d-flex align-items-center justify-content-between p-3 px-4">
-
-                            <h5 class="mb-0 font-14 fw-600">Payroll setup</h5>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="progress">
-                                    <div class="progress-bar" style="width: 25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                <p class="mb-0 font-13 fw-normal color-basic lh-1">
-                                    <span class="text-black font-20 fw-600">0</span>/7 Completed
-                                </p>
-                            </div>
-
-                        </div>
-                        <div *ngIf="currentTab == 'profile'" class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <app-profile></app-profile>
-                        </div>
-                        <div *ngIf="currentTab == 'statutory'" class="tab-pane fade show active p-3 pt-0"  id="statutory" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="statutory" role="tabpanel" aria-labelledby="profile-tab">
                         <app-statutory></app-statutory>
                         </div>
-                        <div *ngIf="currentTab == 'salary'" class="tab-pane fade show active p-3 pt-0" id="salary" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="salary" role="tabpanel" aria-labelledby="profile-tab">
                             <app-salary></app-salary>
                         </div>
-                        <div *ngIf="currentTab == 'taxes'" class="tab-pane fade show active"  id="taxes" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="profile-tab">
                             <app-taxes></app-taxes>
                         </div>
-                        <div *ngIf="currentTab == 'pay-schedule'" class="tab-pane fade show active"  id="pay-schedule" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="pay-schedule" role="tabpanel" aria-labelledby="profile-tab">
                             <app-pay-schedule></app-pay-schedule>
                         </div>
-                        <div *ngIf="currentTab == 'preferences'" class="tab-pane fade show active"  id="preferences" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="profile-tab">
                             <app-preferences></app-preferences>
                         </div>
-                        <div *ngIf="currentTab == 'prior-payroll'" class="tab-pane fade show active"  id="prior-payroll" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="prior-payroll" role="tabpanel" aria-labelledby="profile-tab">
                             <app-prior-payroll></app-prior-payroll>
                         </div>
-                        <div *ngIf="currentTab == 'form-16'" class="tab-pane fade show active"  id="form-16" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade" id="form-16" role="tabpanel" aria-labelledby="profile-tab">
                             <app-form></app-form>
                         </div>
                     </div>
@@ -97,17 +64,334 @@
                     
 
                 </div>
-
             </div>
         </div>
     </div>
-
-</div>
-
 </div>
         
 
 
   
- 
+    <!-- Modal EPF Sample Calculation start -->
+      <div class="modal fade" id="EPF-calculation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 900px;">
+        <div class="modal-content ">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">EPF Sample Calculation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="font-14 fw-light">Let's assume the salary packages considered for EPF is as shown as below, the calculation is based on the settings we’ve configured</p>
+            <div class="sample-calculation-data">
+                <div class="sample-calculation p-3 border-rounded-2">
+                    <h5 class="mb-2 font-14 text-primary fw-semibold">PF Contribution Settings</h5>
+                    <p class="mb-1 font-13 fw-light">Employer Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
+                    <p class="font-13 fw-light">Employee Contribution:	<span class="fw-semibold">12% of Actual PF Wage</span></p>
+                </div>
+                <div class="sample-calculation p-3 border-rounded-2 pt-0">
+                    <h5 class="mb-2 font-14 text-primary fw-semibold">Lop Contribution </h5>
+                    <p class="mb-1 font-13 fw-light">Pro-rate Restricted PF Wage:	<span class="fw-semibold">Disabled</span></p>
+                    <p class="font-13 fw-light">Consider all components when PF wage < ₹15,000 after LOP: <span class="fw-semibold">Disabled</span></p>
+                </div>
+              </div>
+              <div class="sample-calculation-list mt-3">
+                <div class="d-flex alig-items-center justify-content-between">
+                    <h5 class="mb-0 font-14 fw-semibold">Salary and EPF Calculation</h5>
+                    <div class="form-check d-flex align-items-center gap-2">
+                        <input type="checkbox" class="form-check-input position-relative" id="exampleCheck6" [(ngModel)]="isLopChecked"  (change)="toggleLOPVisibility()">
+                        <label class="form-check-label font-13" for="exampleCheck6">With 15 days LOP</label>
+                     </div>
+                </div>
+            </div>
+            <div class="table-responisve mt-3">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th class="font-14" style="width:40%;">Salary Components &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
+                            <th class="text-center font-14" style="width:20%;">Package 1</th>
+                            <th class="text-center font-14" style="width:20%;">Package 2</th>
+                            <th class="text-center font-14" style="width:20%;">Package 3</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">Basic</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">Always considered for EPF</p>
+                                </span>
+                            </td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 25000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 18000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 12000) }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
+                                </span>
+                            </td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 4000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 2000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 1500) }}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
+                                </span>
+                            </td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 3500) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 3000) }}</td>
+                            <td class="text-center font-13">₹ {{ calculateValue('basic', 1000) }}</td>
+                        </tr>
+                        <tr class="bg-color">
+                            <th class="font-14" style="width:40%;">EPF Contribution &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
+                            <th class="text-center">
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateValue('basic', 3500) }}</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateValue('basic', 25000) }}</p>
+                                </span>
+                            </th>
+                            <th class="text-center">
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateValue('basic', 2160) }}</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateValue('basic', 18000) }}</p>
+                                </span>
+                            </th>
+                            <th class="text-center">
+                                <span>
+                                    <h5 class="font-13 fw-600 mb-1 ">₹ {{ calculateValue('basic', 1740) }}</h5>
+                                    <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateValue('basic', 14500) }}</p>
+                                </span>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+      </div>
+    <!-- Modal EPF Sample Calculation end -->
 
+    <!-- ModalTax Slabs for Assam start -->
+       <div  class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tax Slabs for {{selectedTaxSlab?.state}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="tax-slabs">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold"></span>{{selectedTaxSlab?.deductionFrequency}}</p>
+                <!-- <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p> -->
+            </div>
+            <div class="modal-body">
+            <div class="tax-slabs">
+                <div class="d-flex align-items-center justify-content-between">
+                    <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold">Monthly</span></p>
+                    <p class="mb-1 font-13 fw-light">Effective Form: <span class="fw-semibold">01/01/2025</span></p>
+                </div>
+
+            <div class="table-responisve sample-tax-slabs-list mt-3">
+                <table class="table">
+                    <tbody>
+                        <tr >
+                            <th class="font-13" style="width:50%;">Monthly Gross Salary ( ₹ )</th>
+                            <th class="font-13" style="width:50%;">Monthly Tax Amount ( ₹ )</th>
+                        </tr>
+                        <tr *ngFor="let slab of selectedTaxSlab?.professionalTaxSlab">
+                            <td class="font-13">₹ {{slab.minAmount ?? 0}}-{{slab.maxAmount ?? 9999999}} </td>
+                            <td class="font-13">₹ {{slab.taxAmount}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+       </div>
+    <!-- ModalTax Slabs for Assam end -->
+
+    <!-- Add location modal start -->
+        <div class="modal fade" id="addLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title m-0"> Add New Location </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="add-location-modal">
+                <div class="row h-100 p-0 m-0">
+                    <div class="col-md-3 p-0 m-0" >
+                    <div class="add-location-menu">
+                        <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
+                            type="button" role="tab" #addlocation>
+                            Add Location
+                        </button>
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
+                            type="button" role="tab" #staffSelectionTab>
+                            Add Employee
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-9 bg-white">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane show active" id="staffLocation" role="tabpanel" #staffLocation>
+                                <div class="configuration-location p-3 row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="addressLine1" class="pb-2">Address Line 1 </label>
+                                        <input type="text" placeholder="Address Line 1" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="addressLine1" class="pb-2">Address Line 2 </label>
+                                        <input type="text" placeholder="Address Line 2" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="addressLine1" class="pb-2">Select State </label>
+                                        <div class="w-100">
+                                        <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" required>
+                                            <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
+                                          </nz-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="addressLine1" class="pb-2">Enter City </label>
+                                        <input type="text" placeholder="City" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="addressLine1" class="pb-2">Enter PIN Code </label>
+                                        <input type="number" placeholder="PIN Code" required="" name="" class="form-control whatsapp-login-input">
+                                    </div>
+
+
+                                </div>
+
+                                <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
+                                    <button type="submit" class="btn p-0 next-btn nextBtn" >
+                                        <span>
+                                            <span class="ng-star-inserted">Next</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="addemployee" role="tabpanel" #addemployee>
+                                <div class="configuration-location p-3">
+
+                                    <div class="col-md-12">
+                                        <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
+                                           <div>
+                                              <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
+                                                 <div class="form-group position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 search-input" style="padding: 10px 50px 10px 40px;">
+                                                    <i class="bi bi-search search-icon position-absolute ng-star-inserted"></i>
+                                                </div>
+                                              </form>
+                                           </div>
+                                           <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list px-3">
+                                            <span class="text-black font-13 pointer">
+                                                <span class="text-primary fw-semibold">10 </span> Selected of <span class="text-primary fw-semibold"> 184 </span>
+                                            </span>
+                                            <span class="separator"></span>
+                                            <span class="text-danger fw-semibold pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+                                                    <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
+                                                        <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect></mask>
+                                                        <g mask="url(#mask0_4127_2858)"><path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545">
+                                                        </path>
+                                                    </g>
+                                                </svg> Clear Selection 
+                                            </span>
+                                            </div>
+                                        </div>
+                                     </div>
+                                     <div class="mt-3 location-user-table">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5%;">
+                                                        <input type="checkbox" class="form-check-input pointer">
+                                                    </th>
+                                                    <th style="width: 25%;">Name</th>
+                                                    <th style="width: 25%;">Email Address</th>
+                                                    <th style="width: 20%;" >Phone Number</th>
+                                                    <th style="width: 15%;" class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of [].constructor(10)">
+                                                    <td>
+                                                        <input type="checkbox" class="form-check-input pointer">
+                                                    </td>
+                                                    <td class="font-13">
+                                                        Yogesh Kumar
+                                                    </td>
+                                                    <td>
+                                                        <span class="font-13">yogeshkrenai.com</span>
+                                                    </td>
+                                                    <td >
+                                                        <span class="font-13">95499011868</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="text-primary fw-semibold font-13 employee-add-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                                                <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                                                <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                                                </mask>
+                                                                <g mask="url(#mask0_9159_3509)">
+                                                                <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
+                                                                </g>
+                                                            </svg>
+                                                            Add</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                     </div>
+                                     <div class=" config-location-footer">
+                                     <div class="d-flex align-items-center justify-content-between w-100 p-3 bg-white">
+                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
+                                    </div>
+                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                                        
+                                        <button type="submit" class="btn p-0 next-btn nextBtn" >
+                                            <span>
+                                                <span class="ng-star-inserted"> Create New Location </span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                    <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    <!-- Add location modal start -->
