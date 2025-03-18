@@ -1671,7 +1671,9 @@
                             <input type="text" id="searchTextMissedPunch" [(ngModel)]="searchTextMissedPunch"
                               (ngModelChange)="onSearchTextMissedPunchChange($event)" placeholder="Search by name, requested reason.."
                               class="form-control me-2 w-100 search-padding" />
-                            <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                            <i *ngIf="searchTextMissedPunch==''" class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                            <i class="bi bi-x-lg search-icon d-flex align-items-center h-100 text-primary"
+                                    *ngIf="searchTextMissedPunch!=''" (click)="searchTextMissedPunch='';applyFilters()"></i>
                           </div>
                         </div>
                       </div>
@@ -1704,8 +1706,12 @@
                       </div>
 
                       <div class="col-md-12 mb-3">
-                        <label for="date" class="pb-2">Date</label>
-                        <nz-date-picker [(ngModel)]="selectedDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
+                        <label for="date" class="pb-2">Start Date</label>
+                        <nz-date-picker [(ngModel)]="startDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
+                      </div>
+                      <div class="col-md-12 mb-3">
+                        <label for="date" class="pb-2">End Date</label>
+                        <nz-date-picker [(ngModel)]="endDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
                       </div>
                       <div class="col-md-12 mb-3">
                         <label for="status" class="pb-2">Status</label>
@@ -1719,7 +1725,7 @@
                     </div>
                     <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
                       <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
-                      <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
+                      <button class="btn submitActionBtn" (click)="currentPageMissedPunch=1;applyFilters()">Apply</button>
                     </div>
                   </div>
                   <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
@@ -1892,7 +1898,9 @@
                             <input type="text" id="searchTextSystemOutage" [(ngModel)]="searchTextSystemOutage"
                             (ngModelChange)="onSearchTextSystemOutageChange($event)" placeholder="Search by name, requested reason.."
                               class="form-control me-2 w-100 search-padding" />
-                            <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                            <i *ngIf="searchTextSystemOutage==''" class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                            <i class="bi bi-x-lg search-icon d-flex align-items-center h-100 text-primary"
+                                    *ngIf="searchTextSystemOutage!=''" (click)="searchTextSystemOutage='';applyFilters()"></i>
                           </div>
                         </div>
                       </div>
@@ -1931,8 +1939,12 @@
                         </nz-select>
                       </div>
                       <div class="col-md-12 mb-3">
-                        <label for="date" class="pb-2">Date</label>
-                        <nz-date-picker [(ngModel)]="selectedDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
+                        <label for="date" class="pb-2">Start Date</label>
+                        <nz-date-picker [(ngModel)]="startDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
+                      </div>
+                      <div class="col-md-12 mb-3">
+                        <label for="date" class="pb-2">End Date</label>
+                        <nz-date-picker [(ngModel)]="endDate1" nzBorderless nzPlaceHolder="dd/mm/yyyy"></nz-date-picker>
                       </div>
                       <div class="col-md-12 mb-3">
                         <label for="status" class="pb-2">Status</label>
@@ -1944,7 +1956,7 @@
                         </nz-select>
                       </div>
                       <div class="col-md-12 mb-3">
-                        <label for="status" class="pb-2">Status</label>
+                        <label for="status" class="pb-2">Attendance Type</label>
                         <nz-select [(ngModel)]="selectedAttendanceStatus" [nzMode]="'multiple'" nzPlaceHolder="Status"
                           class="w-100 form-control placeholder-lines">
                           <nz-option nzValue="in" nzLabel="in"></nz-option>
@@ -1956,7 +1968,7 @@
                     </div>
                     <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
                       <button class="btn cancel-btn mt-0" (click)="resetFilters()">Reset it</button>
-                      <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
+                      <button class="btn submitActionBtn" (click)="currentPageSystemOutage=1;applyFilters()">Apply</button>
                     </div>
                   </div>
                   <div class="filter-bdg d-flex align-items-center gap-2 mt-3">

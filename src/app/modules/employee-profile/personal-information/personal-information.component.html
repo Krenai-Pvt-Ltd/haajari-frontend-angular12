@@ -3149,44 +3149,45 @@
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="email" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
+                <input formControlName="email" type="email" class="form__field"
+                       [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
                 <label class="form__label">Email</label>
               </div>
-              <!-- Validation message -->
-              <!-- Validation message for Email -->
-              <div
-                *ngIf="onboardingForm.get('user.email')?.invalid && (onboardingForm.get('user.email')?.dirty || onboardingForm.get('user.email')?.touched)"
-                class="text-danger">
+              <!-- Validation messages for Email -->
+              <div *ngIf="onboardingForm.get('user.email')?.invalid && (onboardingForm.get('user.email')?.dirty || onboardingForm.get('user.email')?.touched)"
+                   class="text-danger">
                 <span *ngIf="onboardingForm.get('user.email')?.errors?.['required']">Email is required.</span>
                 <span *ngIf="onboardingForm.get('user.email')?.errors?.['email']">Please enter a valid email address.</span>
+                <span *ngIf="onboardingForm.get('user.email')?.errors?.['emailExists']">Email already exists.</span>
               </div>
+            </div>
 
-
-
-              </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker class="form__field custom-date-picker" formControlName="joiningDate"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate" [nzFormat]="'dd/MM/yyyy'"
-                  nzBorderless=true nzPlaceHolder="Select Joining Date"></nz-date-picker>
+                                [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate" [nzFormat]="'dd/MM/yyyy'"
+                                nzBorderless=true nzPlaceHolder="Select Joining Date"></nz-date-picker>
                 <label class="form__label">Joining Date</label>
               </div>
-              <div
-                *ngIf="onboardingForm.get('user.joiningDate')?.invalid && (onboardingForm.get('user.joiningDate')?.dirty || onboardingForm.get('user.joiningDate')?.touched)"
-                class="text-danger">
+              <div *ngIf="onboardingForm.get('user.joiningDate')?.invalid && (onboardingForm.get('user.joiningDate')?.dirty || onboardingForm.get('user.joiningDate')?.touched)"
+                   class="text-danger">
                 <span *ngIf="onboardingForm.get('user.joiningDate')?.errors?.['required']">Joining Date is required.</span>
               </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input minlength="10" maxlength="10" formControlName="phoneNumber" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
+                <input formControlName="phoneNumber" type="tel" class="form__field"
+                       [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
-
-
+              <!-- Validation messages for Phone Number -->
+              <div *ngIf="onboardingForm.get('user.phoneNumber')?.invalid && (onboardingForm.get('user.phoneNumber')?.dirty || onboardingForm.get('user.phoneNumber')?.touched)"
+                   class="text-danger">
+                <span *ngIf="onboardingForm.get('user.phoneNumber')?.errors?.['required']">Phone Number is required.</span>
+                <span *ngIf="onboardingForm.get('user.phoneNumber')?.errors?.['pattern']">Phone Number must be exactly 10 digits.</span>
+                <span *ngIf="onboardingForm.get('user.phoneNumber')?.errors?.['phoneNumberExists']">Phone Number already exists.</span>
+              </div>
             </div>
             <!-- <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">

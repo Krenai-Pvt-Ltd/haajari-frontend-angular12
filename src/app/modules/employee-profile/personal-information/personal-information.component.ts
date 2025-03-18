@@ -15,6 +15,8 @@ import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-information',
@@ -45,9 +47,9 @@ export class PersonalInformationComponent implements OnInit {
       user: this.fb.group({
         name: [''],
         maritalStatus: [''],
-        email: ['', [Validators.required,Validators.email]],
+        email: ['', [Validators.required,Validators.email], [this.emailAsyncValidator.bind(this)]],
         joiningDate: [null, Validators.required],
-        phoneNumber: [''],
+        phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)], [this.phoneNumberAsyncValidator.bind(this)]],
         // currentSalary: [''],
         gender: ['',],
         department: ['',],
@@ -145,6 +147,30 @@ export class PersonalInformationComponent implements OnInit {
         console.error('Error:', error);
       },
     });
+  }
+
+  emailAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+    const email = control.value;
+    if (!email || this.onboardingPreviewData.user.email == email) {
+      return of(null);
+    }
+    return this.dataService.existsUserByEmail(email).pipe(
+      map(exists => (exists.status ? { emailExists: true } : null)),
+      catchError(() => of(null)) // Handle errors gracefully
+    );
+  }
+
+  // Asynchronous validator for phone number uniqueness
+  phoneNumberAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+
+    const phoneNumber = control.value;
+    if (!phoneNumber || this.onboardingPreviewData.user.phoneNumber==phoneNumber) {
+      return of(null);
+    }
+    return this.dataService.existsUserByPhone(phoneNumber).pipe(
+      map((exists: any) => (exists.status ? { phoneNumberExists: true } : null)),
+      catchError(() => of(null)) // Handle errors gracefully
+    );
   }
 
   uanValidator(control: AbstractControl): ValidationErrors | null {

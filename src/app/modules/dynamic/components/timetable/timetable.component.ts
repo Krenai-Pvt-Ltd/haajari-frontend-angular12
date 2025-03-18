@@ -2197,7 +2197,8 @@ export class TimetableComponent implements OnInit {
   currentTab: string = 'missedPunch'; // 'missedPunch' or 'systemOutage'
   selectedUserIds: number[] = [];
   selectedPunchType: string = ''; // 'Check-In', 'Check-Out', 'Both'
-  selectedDate1: Date | null = null;
+  startDate1: Date | null = null;
+  endDate1: Date | null = null;
   selectedStatuses: string[] = [];
   selectedAttendanceStatus: string[] = [];
   searchTextMissedPunch: string = '';
@@ -2251,10 +2252,14 @@ export class TimetableComponent implements OnInit {
   applyFilters(): void {
     if (this.currentTab === 'missedPunch') {
       this.updateMissedPunchFilters();
+      setTimeout(() => {
       this.fetchMissedPunchRequests();
+      }, 10);
     } else {
       this.updateSystemOutageFilters();
+      setTimeout(() => {
       this.fetchSystemOutageRequests();
+      }, 10);
     }
     this.showFilter = false;
   }
@@ -2269,7 +2274,8 @@ export class TimetableComponent implements OnInit {
     this.totalRecordsSystemOutage = 0;
     this.selectedUserIds = [];
     this.selectedPunchType = '';
-    this.selectedDate1 = null;
+    this.startDate1 = null;
+    this.endDate1 = null;
     this.selectedStatuses = [];
     this.selectedAttendanceStatus = [];
     this.searchTextMissedPunch = '';
@@ -2295,8 +2301,8 @@ export class TimetableComponent implements OnInit {
   fetchMissedPunchRequests(): void {
     this.isLoading = true;
 
-      const startDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
-      const endDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const startDate= this.startDate1 ? this.startDate1.toISOString().split('T')[0] : '';
+      const endDate= this.endDate1 ? this.endDate1.toISOString().split('T')[0] : '';
       const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
       const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
       const requestTypes = ['CREATE'];
@@ -2317,8 +2323,8 @@ export class TimetableComponent implements OnInit {
   // Fetch System Outage (UPDATE) requests
   fetchSystemOutageRequests(): void {
     this.isLoading = true;
-    const startDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
-      const endDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+    const startDate= this.startDate1 ? this.startDate1.toISOString().split('T')[0] : '';
+      const endDate= this.endDate1 ? this.endDate1.toISOString().split('T')[0] : '';
       const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
       const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
       const requestTypes = ['UPDATE'];
@@ -2376,23 +2382,31 @@ export class TimetableComponent implements OnInit {
   private updateMissedPunchFilters(): void {
     this.activeMissedPunchFilters = [];
 
-    if (this.selectedUserIds.length) {
-      const names = this.allUsers.filter(u => this.selectedUserIds.includes(u.id)).map(u => u.userName).join(', ');
+    // Add individual user filters
+    this.selectedUserIds.forEach(userId => {
+      const user = this.allUsers.find(u => u.id === userId);
+      if (user) {
+        this.activeMissedPunchFilters.push({
+          type: 'user',
+          label: 'Employee',
+          value: user.userName,
+          userId: userId // Include userId for specific removal
+        });
+      }
+    });
+
+    // Add date range filter
+    if (this.startDate1 || this.endDate1) {
+      const start = this.startDate1 ? this.startDate1.toLocaleDateString() : '<-';
+      const end = this.endDate1 ? this.endDate1.toLocaleDateString() : '->';
       this.activeMissedPunchFilters.push({
-        type: 'user',
-        label: 'Employee',
-        value: names
+        type: 'dateRange',
+        label: 'Date Range',
+        value: `${start} to ${end}`
       });
     }
 
-    if (this.selectedDate1) {
-      this.activeMissedPunchFilters.push({
-        type: 'date',
-        label: 'Date',
-        value: this.selectedDate1.toLocaleDateString()
-      });
-    }
-
+    // Add status filter
     if (this.selectedStatuses.length) {
       this.activeMissedPunchFilters.push({
         type: 'status',
@@ -2401,6 +2415,7 @@ export class TimetableComponent implements OnInit {
       });
     }
 
+    // Add search filter
     if (this.searchTextMissedPunch) {
       this.activeMissedPunchFilters.push({
         type: 'search',
@@ -2413,23 +2428,31 @@ export class TimetableComponent implements OnInit {
   private updateSystemOutageFilters(): void {
     this.activeSystemOutageFilters = [];
 
-    if (this.selectedUserIds.length) {
-      const names = this.allUsers.filter(u => this.selectedUserIds.includes(u.id)).map(u => u.userName).join(', ');
+    // Add individual user filters
+    this.selectedUserIds.forEach(userId => {
+      const user = this.allUsers.find(u => u.id === userId);
+      if (user) {
+        this.activeSystemOutageFilters.push({
+          type: 'user',
+          label: 'Employee',
+          value: user.userName,
+          userId: userId // Include userId for specific removal
+        });
+      }
+    });
+
+    // Add date range filter
+    if (this.startDate1 || this.endDate1) {
+      const start = this.startDate1 ? this.startDate1.toLocaleDateString() : 'N/A';
+      const end = this.endDate1 ? this.endDate1.toLocaleDateString() : 'N/A';
       this.activeSystemOutageFilters.push({
-        type: 'user',
-        label: 'Employee',
-        value: names
+        type: 'dateRange',
+        label: 'Date Range',
+        value: `${start} to ${end}`
       });
     }
 
-    if (this.selectedDate1) {
-      this.activeSystemOutageFilters.push({
-        type: 'date',
-        label: 'Date',
-        value: this.selectedDate1.toLocaleDateString()
-      });
-    }
-
+    // Add status filter
     if (this.selectedStatuses.length) {
       this.activeSystemOutageFilters.push({
         type: 'status',
@@ -2438,6 +2461,7 @@ export class TimetableComponent implements OnInit {
       });
     }
 
+    // Add attendance status filter
     if (this.selectedAttendanceStatus.length) {
       this.activeSystemOutageFilters.push({
         type: 'attendanceStatus',
@@ -2446,6 +2470,7 @@ export class TimetableComponent implements OnInit {
       });
     }
 
+    // Add search filter
     if (this.searchTextSystemOutage) {
       this.activeSystemOutageFilters.push({
         type: 'search',
@@ -2456,25 +2481,29 @@ export class TimetableComponent implements OnInit {
   }
 
   removeFilter(filter: any, tab: string): void {
-    switch (filter.type) {
-      case 'user':
-        this.selectedUserIds = [];
-        break;
-      case 'date':
-        this.selectedDate1 = null;
-        break;
-      case 'status':
-        this.selectedStatuses = [];
-        break;
-      case 'attendanceStatus':
-        this.selectedAttendanceStatus = [];
-        break;
-      case 'search':
-        if (tab === 'missedPunch') this.searchTextMissedPunch = '';
-        if (tab === 'systemOutage') this.searchTextSystemOutage = '';
-        break;
+    if (filter.type === 'user' && filter.userId) {
+      // Remove only the specific user
+      this.selectedUserIds = this.selectedUserIds.filter(id => id !== filter.userId);
+    } else {
+      switch (filter.type) {
+        case 'dateRange':
+          this.startDate1 = null;
+          this.endDate1 = null;
+          break;
+        case 'status':
+          this.selectedStatuses = [];
+          break;
+        case 'attendanceStatus':
+          this.selectedAttendanceStatus = [];
+          break;
+        case 'search':
+          if (tab === 'missedPunch') this.searchTextMissedPunch = '';
+          if (tab === 'systemOutage') this.searchTextSystemOutage = '';
+          break;
+      }
     }
 
+    // Refresh data and filters based on the current tab
     if (tab === 'missedPunch') {
       this.fetchMissedPunchRequests();
       this.updateMissedPunchFilters();

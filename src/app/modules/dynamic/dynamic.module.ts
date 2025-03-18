@@ -75,6 +75,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ExpensePolicyComponent } from './components/expense-policy/expense-policy.component';
 
  @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     LeaveManagementsComponent,
     InboxComponent,
     AssetsManagementComponent,
-    ExpenseManagementComponent
+    ExpenseManagementComponent,
+    ExpensePolicyComponent
   ],
   imports: [
     CommonModule,
