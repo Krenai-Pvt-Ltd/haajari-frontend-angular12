@@ -6,6 +6,9 @@
     background-color: rgba(241, 244, 249, 0.30);
     border: 1px dashed #E1E1E1;
 }
+.compliance-name{
+    border-right: 1px solid #f1f1f1;
+}
 
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
@@ -56,7 +59,29 @@
 .submitActionBtn {
     background-color: var(--primary-background-color);
     border-radius: 2px;
-    width: 100px;
+    width: 120px;
+  }
+
+  .cancel-btn {
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    min-width: 120px;
+  }
+  .fatchLocationBtn{
+    background-color: #fff;
+    border-radius: 2px;
+    border: 1px solid var(--primary-color);
+    width: 130px;
+    color: #6666f2;
+  }
+  .fatchLocationBtn:hover{
+    background-color: var(--primary-background-color);
+    border-radius: 2px;
+    border: 1px solid var(--primary-color);
+    width: 130px;
+    color: #fff;
   }
   .cancel-btn {
     background-color: #fbfbfb;
@@ -91,3 +116,53 @@
 
 
 
+.location-user-table{
+  height: 55vh;
+  overflow: scroll;
+}
+.location-user-table::-webkit-scrollbar{
+  display: none;
+}
+.employee-add-btn{
+  background-color: #E4E7FF;
+  padding: 5px 15px;
+}
+
+.address-box{
+  background-color: #F9F9F9;
+}
+.address-list .form-check input{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.address-list .form-check-input:checked {
+  background-color: #388E3C;
+  border-color: #388E3C;
+}
+.form-check-input:focus{
+  box-shadow: none;
+}
+
+::ng-deep .ant-empty-image img {
+  height: 90%;
+}
+
+.location-data{
+  color: #009688;
+}
+
+.transition {
+  transition: transform 0.3s ease-in-out;
+}
+.list-down-btn[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}
+.address-box{
+  max-height: 300px;
+  overflow: scroll;
+}
+.address-box  ::-webkit-scrollbar{
+  display: none;
+}
