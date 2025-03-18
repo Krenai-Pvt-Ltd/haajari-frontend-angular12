@@ -111,17 +111,15 @@ export class PayrollConfigurationService {
     }
 
     saveFetchedAddressStaff(addressIds:number[],isUserMap:number): Observable<any>{
-      let params = new HttpParams()
-      addressIds.forEach(id => {
-        params = params.append("address_ids",id)
-      });
-      params = params.set('is_user_map', isUserMap)
+      const params = new HttpParams()
+      .set('is_user_map', isUserMap)
+      .set("address_ids",String(addressIds))
       return this._http.post<any>(`${this._key.base_url}/payroll-config/save-user-location`,{},{params});
     }
 
 
-    saveUserWorkLocation(data:StaffAddressDetailsForMultiLocation): Observable<any>{
-      return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,data);
+    saveUserWorkLocation(request:StaffAddressDetailsForMultiLocation): Observable<any>{
+      return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,request);
     }
 
 }
