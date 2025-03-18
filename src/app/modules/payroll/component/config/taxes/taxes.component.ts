@@ -7,7 +7,6 @@ import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { TaxDetail } from 'src/app/payroll-models/TaxDetail';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
-import { TaxSlabService } from 'src/app/services/tax-slab.service';
 
 @Component({
   selector: 'app-taxes',

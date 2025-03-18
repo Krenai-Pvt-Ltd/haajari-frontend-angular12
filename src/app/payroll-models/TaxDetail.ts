@@ -5,7 +5,7 @@ export class TaxDetail{
     deductorName:string='';
     fatherName:string='';
     designation:string='';
-    deductionFrequency:string='MONTH';
+    deductionFrequency:string='Monthly';
 
     
 }

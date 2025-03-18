@@ -1,15 +1,12 @@
 import { ComponentConfiguration } from "./ComponentConfiguration";
 
-export class EarningComponent{
+export class BenefitComponent{
     id:number=0;
     name:string='';
     displayName:string='';
     statusId:number=0;
-    value:number=0;
-    calculationBasedId:number=0;
-    valueTypeId:number=0;
     payTypeId:number=0;
-    canStatusChange:boolean=false;
-    custom:boolean=false;
+    isCustom:boolean=false;
     configurations:ComponentConfiguration[]= new Array();
+
 }
