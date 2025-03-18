@@ -104,3 +104,8 @@ Earning
 /* .border-primary{
   border: 1px solid #6666f2 !important;
 } */
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  border-radius: 2px;
+  width: 120px;
+}
