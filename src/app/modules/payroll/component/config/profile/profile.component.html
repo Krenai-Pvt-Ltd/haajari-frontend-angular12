@@ -166,13 +166,16 @@
                        <div class="mb-3 p-2 payroll-address border-rounded-2 ">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" 
+                                    [attr.aria-expanded]="isDropdownOpen(i)" 
+                                    (click)="toggleDropdown(i)"
+                                    data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
                                         <i class="bi bi-chevron-down transition "></i>
                                     </span>
                                     <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="pointer"  (click)="openLocationEditModal(address)">
+                                    <span class="pointer"  (click)="openLocationEditModal(address.organizationAddress.id,address)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
                                             <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
                                             <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
@@ -182,7 +185,7 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <span class="pointer">
+                                    <span class="pointer" (click)="openLocationEditModal(address.organizationAddress.id,address)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
                                             <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
                                             <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
@@ -207,32 +210,32 @@
                             </div>
 
                             <!--  location list toggle view start -->
-                  <div class="collapse mt-3" id="collapseExample">
+                  <div class="collapse mt-3" [id]="'location-data' + i" [class.show]="isDropdownOpen(i)">
                     <div class="card card-body border-rounded-2 border-0 mb-0">
                       <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Address Line 1 : <span class="location-data"> 4H26+RP Sosan, Himachal Pradesh, India</span></p>
+                                <p class="mb-0 font-12 fw-normal" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)"> Address Line 1 : <span class="location-data"> {{address.organizationAddress.addressLine1}}</span></p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : <span class="location-data"> sec 67</span></p>
+                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : <span class="location-data"> {{address.organizationAddress.addressLine2}}</span></p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> City : <span class="location-data"> Sosan</span></p>
+                                <p class="mb-0 font-12 fw-normal"> City : <span class="location-data"> {{address.organizationAddress.city}}</span></p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> State : <span class="location-data"> Himachal Pradesh</span></p>
+                                <p class="mb-0 font-12 fw-normal"> State : <span class="location-data"> {{address.organizationAddress.state}}</span></p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Pin Code :  <span class="location-data"> 201301</span></p>
+                                <p class="mb-0 font-12 fw-normal"> Pin Code :  <span class="location-data"> {{address.organizationAddress.pincode}}</span></p>
                             </div>
                         </div>
                       </div>
@@ -388,7 +391,7 @@
                             Add Location
                         </button>
                         <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                            type="button" role="tab" #staffSelectionTab>
+                            type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
                             Add Employee
                         </button>
                         </div>
@@ -418,6 +421,7 @@
                                         <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" 
                                         name="state"
                                         [(ngModel)]="organizationUserLocation.state"
+                                        [nzDisabled]="addressId !== 0"
                                         (ngModelChange)="onStateChange($event)"
                                         required>
                                         <nz-option 
@@ -468,8 +472,9 @@
                                             <form novalidate="" role="search" (submit)="searchUsers()"
                                                 class="searching ng-untouched ng-pristine ng-valid">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" id="searchText" placeholder="Search by name and role"
-                                                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                                    <input type="text" id="searchText" placeholder="Search by name"
+                                                    name="search"
+                                                    class="form-control me-2 attendance-details-search"
                                                     (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                     [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
                                                     <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
@@ -503,6 +508,7 @@
                                            <span class="separator"></span>
                                            <label class="checkbox-label">
                                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                             name="AllSelected"
                                                (change)="selectAllUsers($event)" />&nbsp;
                                              Select all
                                            </label>
@@ -526,14 +532,16 @@
                                             </thead>
                                             <tbody>
                                               <tr *ngFor="
-                                                let staff of staffs
+                                                let staff of staffs;
+                                                let i = index;
                                                   
                                               " style="border-bottom: 1px solid #dddddd">
                                                 <td>
-                                                  
-                                                    <input type="checkbox" class="form-check-input pointer"
-                                                    name="selected"
-                                                      [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                                    <input  class="form-check-input" 
+                                                    type="checkbox" 
+                                                    [id]="'staffChecks' + i"
+                                                    [name]="'staffChecks'+i"
+                                                    [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                                  
                                                 </td>
                                                 <td style="padding: 12px 15px">{{ staff.name }}</td>
@@ -568,7 +576,7 @@
                                         
                                         <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader">
                                             <span>
-                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> Create New Location </span>
+                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> Submit </span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                                     <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
                                                 </svg>

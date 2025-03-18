@@ -404,6 +404,7 @@ export class ProfileComponent implements OnInit {
             )
             .subscribe(
               (response) => {
+                
                 this.staffs = response.users.map((staff: Staff) => ({
                   ...staff,
                   selected: this.selectedStaffsUuids.includes(staff.uuid),
@@ -607,11 +608,22 @@ export class ProfileComponent implements OnInit {
 
 
 
-  openLocationEditModal(orgAaddress : OrganizationAddressWithStaff) {
+  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff) {
+    this.addressId=addressId;
     this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress));
     this.addLocation.nativeElement.click();
     this.selectedStaffsUuids = orgAaddress.staffs;
     this.fetchUserList();
+  }
+
+  openDropdownIndex: number | null = null;
+
+  toggleDropdown(index: number) {
+        this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
+      }
+
+  isDropdownOpen(index: number): boolean {
+    return this.openDropdownIndex === index;
   }
 
   
