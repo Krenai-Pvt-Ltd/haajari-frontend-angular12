@@ -324,13 +324,13 @@
 .address-box{
   background-color: #F9F9F9;
 }
-.form-check input{
+.address-list .form-check input{
   width: 20px;
   height: 20px;
   border-radius: 50%;
 }
 
-.form-check-input:checked {
+.address-list .form-check-input:checked {
   background-color: #388E3C;
   border-color: #388E3C;
 }
@@ -340,4 +340,22 @@
 
 ::ng-deep .ant-empty-image img {
   height: 90%;
+}
+
+.location-data{
+  color: #009688;
+}
+
+.transition {
+  transition: transform 0.3s ease-in-out;
+}
+.list-down-btn[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}
+.address-box{
+  max-height: 300px;
+  overflow: scroll;
+}
+.address-box  ::-webkit-scrollbar{
+  display: none;
 }

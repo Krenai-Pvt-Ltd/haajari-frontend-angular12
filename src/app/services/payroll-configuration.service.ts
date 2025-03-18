@@ -122,4 +122,17 @@ export class PayrollConfigurationService {
       return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,request);
     }
 
+    getOrganizationUser(
+      selectedStaffsUuids: string[],
+      addressId: number
+    ): Observable<any> {
+      let params = new HttpParams().set('addressId', addressId);
+  
+      return this._http.post<any>(
+        `${this._key.base_url}/payroll-config/get-organization-user-uuid`,
+        selectedStaffsUuids,
+        { params }
+      );
+    }
+
 }
