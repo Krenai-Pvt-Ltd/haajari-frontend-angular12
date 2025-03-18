@@ -32,6 +32,7 @@ export class ExpenseManagementComponent implements OnInit {
     );
     this.userId = userUuidParam?.toString() ?? ''
     this.selectedStatus = [];
+    this.getPendingTransactionCount();
     this.getExpenses();
     this.getExpensesCount();
     this.getWalletUser();
@@ -42,9 +43,20 @@ export class ExpenseManagementComponent implements OnInit {
     this.showFilter = flag;
   }
 
+  companyWalletChangeShowFilter(flag : boolean){
+    this.changeShowFilter(flag);
+    this.getUsersByFilterMethodCall();
+  }
+
   async getRole(){
     this.ROLE = await this.rbacService.getRole();
   }
+
+
+  // dashboard(): void {
+  //   this.resetFilters()
+  // }
+
 
    /** Create and View Expense start */
   
@@ -86,7 +98,27 @@ export class ExpenseManagementComponent implements OnInit {
     return current && this.filters.toDate && current >= this.filters.toDate;
   };
 
+  expenseRequest(){
+    this.resetFilters();
+    this.statusIds = [13];
+    this.tempSelectedFilter = ['Pending'];
+  }
+
    requestsSearch: string = '';
+   status13Count: number = 0;
+
+   getPendingTransactionCount() {
+    const pendingStatusId: number = 13;
+
+    this.dataService.countPendingTransaction(pendingStatusId).subscribe((res: any) => {
+      if (res.status) {
+        this.status13Count = res.object;
+      }else{
+        this.status13Count = 0;
+      }
+    })
+}
+
 
     async getExpenses() {
      debugger
@@ -112,12 +144,14 @@ export class ExpenseManagementComponent implements OnInit {
        if (res.status) {
          this.expenseList = res.object
          this.totalItems = res.totalItems
-         this.selectedFilters = [...this.tempSelectedFilter];
-         this.dateFilters = [...this.tempDateFilters]; 
-        console.log('expenseList: ',this.expenseList)
+         this.selectedFilters = this.tempSelectedFilter.map(status => `Status: ${status}`);
+         this.dateFilters = [...this.tempDateFilters];
+
+         console.log('expenseList: ',this.expenseList)
   
          this.loading = false;
        }else{
+        this.selectedFilters = this.tempSelectedFilter.map(status => `Status: ${status}`);
         this.expenseList = [];
         this.loading = false;
        }
@@ -162,6 +196,7 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   statusMap: { [label: string]: number[] } = {
+    "All":[13,14,40,53,46,15],
     "Pending": [13],
     "Approved": [14, 40, 53, 46],
     "Rejected": [15]
@@ -208,7 +243,9 @@ export class ExpenseManagementComponent implements OnInit {
   resetFilters() {
     this.statusIds = []; 
     this.selectedStatus = []; 
-    this.tempSelectedFilter = [];  
+    this.tempSelectedFilter = [];
+    this.tempDateFilters = [];
+    this.filters = { fromDate: undefined, toDate: undefined };  
 
     console.log("Filters reset. Fetching all expenses...");
 
@@ -216,20 +253,20 @@ export class ExpenseManagementComponent implements OnInit {
 }
 
 removeFilter(filter: string) {
-  const statusIdsToRemove = this.statusMap[filter] || [];
+  const statusName = filter.replace("Status: ", ""); 
+  const statusIdsToRemove = this.statusMap[statusName] || []; 
 
   if (statusIdsToRemove.length > 0) {
       this.statusIds = this.statusIds.filter(id => !statusIdsToRemove.includes(id));
-      
-      this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== filter);
-
+      this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== statusName);
       this.selectedStatus = this.selectedStatus.filter(f => f !== filter);
   }
-
   this.getExpenses();
+  console.log("Removed Status:", statusName);
   console.log("Updated Filters:", this.tempSelectedFilter);
   console.log("Updated Status IDs:", this.statusIds);
 }
+
 
 
 removeDateFilter(filter: { key: string; value: string }): void {
@@ -350,13 +387,62 @@ openExpenseComponent(expense: any) {
 
   /** View Wallet Balance **/
 
+
+  companyWalletRequest(){
+    this.statusIds = []; 
+    this.selectedStatus = []; 
+    this.tempSelectedFilter = [];
+    this.tempDateFilters = [];
+    this.filters = { fromDate: undefined, toDate: undefined };
+    this.loading = false;
+    this.getWalletUser();    
+}
+
   walletUserList: any[] = new Array();
   totalWalletUser : number = 0;
+  requestedEmployeeId: number[] = [];
+  requestedEmployeeList: string[] = [];
+
+  onEmployeeChange(selectedIds: number[]) {
+    this.requestedEmployeeList = this.users
+        .filter(user => selectedIds.includes(user.id))
+        .map(user => `Employee: ${user.name}`);
+  }
+
+
+  removeWalletFilter(employeeName: string) {
+    const cleanName = employeeName.replace("Employee: ", ""); 
+    const userToRemove = this.users.find(user => user.name === cleanName);
+    
+    if (userToRemove) {
+        this.requestedEmployeeList = this.requestedEmployeeList.filter(name => name !== employeeName);
+        this.requestedEmployeeId = this.requestedEmployeeId.filter(id => id !== userToRemove.id);
+    }
+    
+    this.applyWalletFilters();
+  }
+
+
   
   async getWalletUser() {
     debugger
     this.loading = true;
     this.walletUserList = []
+
+    if (this.filters.fromDate !== undefined && this.filters.toDate !== undefined) {
+      this.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
+      this.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
+    } else {
+        this.startDate = undefined;
+        this.endDate = undefined;
+    }
+
+    // this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
+    // this.endDate = (new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth() + 1, 0).toISOString().split('T')[0])+ " 23:59:59";
+    
+    console.log("Start Date :",this.startDate)
+    console.log("End Date :", this.endDate);
+    console.log("Requested Employee Name : ",this.requestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
       this.databaseHelper.currentPage,
@@ -364,7 +450,8 @@ openExpenseComponent(expense: any) {
       this.startDate,
       this.endDate,
       '',
-      this.requestsSearch
+      this.requestsSearch,
+      this.requestedEmployeeId
     ).subscribe((res: any) => {
       if (res.status) {
         this.walletUserList = res.object.map((user : any) => {
@@ -376,6 +463,7 @@ openExpenseComponent(expense: any) {
         });
   
         this.totalWalletUser = res.totalItems;
+        this.dateFilters = [...this.tempDateFilters];
         console.log('WalletUserList: ', this.walletUserList);
       } else {
         this.walletUserList = [];
@@ -383,6 +471,51 @@ openExpenseComponent(expense: any) {
       this.loading = false;
     });
   }
+
+
+
+  applyWalletFilters() {
+    this.databaseHelper.currentPage = 1;
+    console.log("Selected User IDs:", this.requestedEmployeeId);
+    console.log("Start Date : ",this.filters.fromDate)
+    console.log("End Date : ",this.filters.toDate)
+    if (this.filters.fromDate && this.filters.toDate) {
+        const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
+        const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
+        this.tempDateFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
+      }
+    this.getWalletUser();
+    this.showFilter = false;
+  }
+
+  resetWalletFilters() {
+    this.requestedEmployeeId = [];
+    this.tempDateFilters = [];
+    this.filters = { fromDate: undefined, toDate: undefined };  
+
+    console.log("Filters reset. Fetching all Wallet Users...");
+
+    this.getWalletUser();  
+}
+
+
+removeWalletDateFilter(filter: { key: string; value: string }): void {
+  this.tempDateFilters = [];
+  this.filters = { fromDate: undefined, toDate: undefined };
+
+  console.log("RemoveDate FilterM Start Date :",this.filters.fromDate)
+  console.log("End Date :", this.filters.fromDate);
+  this.changeShowFilter(false);
+  this.applyWalletFilters();
+}
+
+
+searchByEmployeeName(event: Event): void {
+  this.requestsSearch = (event.target as HTMLInputElement).value;
+  this.databaseHelper.currentPage = 1;
+  this.getWalletUser();
+
+}
   
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -436,8 +569,10 @@ openExpenseComponent(expense: any) {
   }
 
 
+  isLoadingHnS: boolean = false;
   @ViewChild('rechargeModalClose') rechargeModalClose!: ElementRef;
   rechargeWallet() {
+    this.isLoadingHnS = true;
     this.submitted = true;
     if (!this.selectedUserId || this.amount <= 0 || !this.remark) {
       return;
@@ -457,6 +592,7 @@ openExpenseComponent(expense: any) {
         this.submitted = false;
         this.resetFields();
         this.getWalletUser();
+        this.isLoadingHnS = false;
         this.helperService.showToast(`wallet recharge successfully.`, Key.TOAST_STATUS_SUCCESS);
       }else{
         this.rechargeModel = true;
@@ -480,6 +616,12 @@ openExpenseComponent(expense: any) {
     this.resetFields();
     // this.rechargeModel = true;
     this.getUsersByFilterMethodCall();
+  }
+
+  showToast(message: string): void {
+    this.getPendingTransactionCount();
+    console.log("Success Message From Successfully Approve",message);
+    this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
   }
 
 

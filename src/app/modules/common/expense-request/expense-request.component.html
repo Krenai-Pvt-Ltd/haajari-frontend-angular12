@@ -74,13 +74,22 @@
                        Expense Type
                        </label>
                        <nz-form-control>
-                          <nz-select disabled style="padding:0px;" nzSize="large" nzPlaceHolder="Select Expense type"
-                          [(ngModel)]="userExpense.expenseTypeId" required id="seleType" name="seleExpType"
-                          #seleExpType="ngModel" class="form-control w-100 placeholder-lineee">
-                          <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
-                          [nzLabel]="expenseType.name">
-                          </nz-option>
-                          </nz-select>
+                        <nz-select 
+                           [disabled]="userExpense.expenseTypeId ? true : false" 
+                           style="padding:0px;" 
+                           nzSize="large" 
+                           nzPlaceHolder="Select Expense type"
+                           [(ngModel)]="userExpense.expenseTypeId" 
+                           required 
+                           id="seleType" 
+                           name="seleExpType"
+                           #seleExpType="ngModel" 
+                           class="form-control w-100 placeholder-lineee">
+                           <nz-option *ngFor="let expenseType of expenseTypeList" 
+                              [nzValue]="expenseType.id"
+                              [nzLabel]="expenseType.name">
+                           </nz-option>
+                        </nz-select>                    
                        </nz-form-control>
                     </div>
                     <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount == null">
