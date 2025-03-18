@@ -435,11 +435,10 @@ export class ProfileComponent implements OnInit {
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
   saveUserWorkLocation(){
        this.saveLoader = true;
-       this.loading = true;
+       this.getSelectedStaffUUIDs();
           var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
           request.organizationMultiLocationRequest = this.organizationUserLocation;
           request.userUuidsList = this.selectedStaffUUIDs;
-        
           this._payrollConfigurationService.saveUserWorkLocation(request).subscribe((response) => {
           if(response.status){
             this.getOrganizationAdddress();
@@ -451,14 +450,11 @@ export class ProfileComponent implements OnInit {
             this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
-          this.isValidated = false;
-          this.loading = false;
         },
         (error) => {
           this.saveLoader = false;
           this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
           this.isRegisterLoad = false;
-          this.loading = false;
 
 
         }
@@ -520,12 +516,10 @@ export class ProfileComponent implements OnInit {
   }
 
   selectedStaffUUIDs: string[] = [];
-
     getSelectedStaffUUIDs(): void {
     this.selectedStaffUUIDs = this.staffs
       .filter(staff => staff.selected)  
       .map(staff => staff.uuid);      
-
 
     }
 
@@ -611,39 +605,6 @@ export class ProfileComponent implements OnInit {
     console.log("Selected State:", event);
   }
 
-  @ViewChild("closeButton2") closeButton2!:ElementRef;
-  registerAddress() {
-    debugger;
-    this.isRegisterLoad = true;
-    this.closeButton2.nativeElement.click();
-    this.saveUserWorkLocation();
-  }
-
-  isValidated: boolean = false;
-  checkValidation() {
-    this.isValidated ? false : true;
-  }
-
-  removeUser(uuid: string) {
-    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-      (id) => id !== uuid
-    );
-    this.staffs.forEach((staff) => {
-      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
-    });
-
-    this.isAllSelected = false;
-    this.userNameWithBranchName = [];
-    this.getOrganizationUser(this.addressId, "SHIFT_USER_EDIT");
-
-  }
-
-  closeModal() {
-    this.isValidated = false;
-    this.getOrganizationUser(this.addressId, "");
-  }
-
-  loading: boolean = false;
 
 
   openLocationEditModal(orgAaddress : OrganizationAddressWithStaff) {
