@@ -163,48 +163,88 @@
                        <!-- TO DO: Location list start-->
                    <div class="row" *ngIf="!isWorkLocationFalse()">
                     <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
-                       <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
-                                <i class="bi bi-chevron-down"></i>
-                            </span>
-                            <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
+                       <div class="mb-3 p-2 payroll-address border-rounded-2 ">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" 
+                                    [attr.aria-expanded]="isDropdownOpen(i)" 
+                                    (click)="toggleDropdown(i)"
+                                    data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
+                                        <i class="bi bi-chevron-down transition "></i>
+                                    </span>
+                                    <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="pointer"  (click)="openLocationEditModal(address.organizationAddress.id,address)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                            <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                            <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
+                                            </mask>
+                                            <g mask="url(#mask0_9177_4748)">
+                                            <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="pointer" (click)="openLocationEditModal(address.organizationAddress.id,address)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                            <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                            <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_9177_4745)">
+                                            <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                            <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                            <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_9177_4742)">
+                                            <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </div>
+                            
+                            </div>
+
+                            <!--  location list toggle view start -->
+                  <div class="collapse mt-3" [id]="'location-data' + i" [class.show]="isDropdownOpen(i)">
+                    <div class="card card-body border-rounded-2 border-0 mb-0">
+                      <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)"> Address Line 1 : <span class="location-data"> {{address.organizationAddress.addressLine1}}</span></p>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                                    <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
-                                    <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9177_4748)">
-                                    <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                                    <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
-                                    <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9177_4745)">
-                                    <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-                                    <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
-                                    <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9177_4742)">
-                                    <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
-                                    </g>
-                                </svg>
-                            </span>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : <span class="location-data"> {{address.organizationAddress.addressLine2}}</span></p>
+                            </div>
                         </div>
-                        
-                       </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> City : <span class="location-data"> {{address.organizationAddress.city}}</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> State : <span class="location-data"> {{address.organizationAddress.state}}</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> Pin Code :  <span class="location-data"> {{address.organizationAddress.pincode}}</span></p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--  location list toggle view end -->
                     </div> 
+
+                </div>
 
                     <div class="d-flex justify-content-end mb-3">
                         <button class="btn p-0 font-14 fw-semibold text-primary"  type="button" (click)="openLocationModal()">
@@ -351,7 +391,7 @@
                             Add Location
                         </button>
                         <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                            type="button" role="tab" #staffSelectionTab>
+                            type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
                             Add Employee
                         </button>
                         </div>
@@ -381,6 +421,7 @@
                                         <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" 
                                         name="state"
                                         [(ngModel)]="organizationUserLocation.state"
+                                        [nzDisabled]="addressId !== 0"
                                         (ngModelChange)="onStateChange($event)"
                                         required>
                                         <nz-option 
@@ -431,8 +472,9 @@
                                             <form novalidate="" role="search" (submit)="searchUsers()"
                                                 class="searching ng-untouched ng-pristine ng-valid">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" id="searchText" placeholder="Search by name and role"
-                                                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                                                    <input type="text" id="searchText" placeholder="Search by name"
+                                                    name="search"
+                                                    class="form-control me-2 attendance-details-search"
                                                     (keyup)="searchUsers()" [(ngModel)]="searchText"
                                                     [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
                                                     <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
@@ -466,6 +508,7 @@
                                            <span class="separator"></span>
                                            <label class="checkbox-label">
                                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                             name="AllSelected"
                                                (change)="selectAllUsers($event)" />&nbsp;
                                              Select all
                                            </label>
@@ -489,14 +532,16 @@
                                             </thead>
                                             <tbody>
                                               <tr *ngFor="
-                                                let staff of staffs
+                                                let staff of staffs;
+                                                let i = index;
                                                   
                                               " style="border-bottom: 1px solid #dddddd">
                                                 <td>
-                                                  
-                                                    <input type="checkbox" class="form-check-input pointer"
-                                                    name="isAllSelected"
-                                                      [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                                    <input  class="form-check-input" 
+                                                    type="checkbox" 
+                                                    [id]="'staffChecks' + i"
+                                                    [name]="'staffChecks'+i"
+                                                    [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                                  
                                                 </td>
                                                 <td style="padding: 12px 15px">{{ staff.name }}</td>
@@ -526,11 +571,12 @@
                                               </div>
                                             </div>
                                           </div>
+                                          
                                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white"> 
                                         
                                         <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader">
                                             <span>
-                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> Create New Location </span>
+                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> Submit </span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                                     <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
                                                 </svg>
@@ -589,7 +635,7 @@
                     <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users updated <br> automatically.</p>
                     <h5 class="font-14 mb-0 fw-semibold lh-base text-warning  mb-2">Address:</h5>
 
-                    <div class="d-flex align-items-center justify-content-between border-bottom pt-1" *ngFor="let address of organizationAddress; let i = index">
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-2 pb-2 address-list" *ngFor="let address of organizationAddress; let i = index">
                         <p class="lh-base font-13 fw-normal mb-1" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">
                             {{address.organizationAddress.addressLine1+", "}}
                             {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
@@ -609,14 +655,18 @@
             </div>
           
         </div>
-        <div class="modal-footer">
-            <div class="form-check">
-                <input class="form-check-input" 
-                type="checkbox" value="" 
-                [(ngModel)]="selectUsers"
-                (ngModelChange)="mapUsers($event)">
+        <div class="modal-footer d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-between">           
+                <div class="form-check">
+                    <input class="form-check-input" 
+                    type="checkbox" value="" 
+                    [(ngModel)]="selectUsers"
+                    (ngModelChange)="mapUsers($event)">
+                </div>
             </div>
-          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
+
+         <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+          <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
           <button type="button" class="btn submitActionBtn text-white" [ngClass]="{'disabled-lnk':saveLoader}"
                  (click)="saveFetchedAddressStaff()">
                 <div *ngIf="saveLoader" class="dot-opacity-loader">
@@ -627,8 +677,9 @@
                 <span *ngIf="!saveLoader"> Confirm </span>      
             </button>
         </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Fetch Location  modal end -->
+  <!-- Fetch Location  modal end -->    

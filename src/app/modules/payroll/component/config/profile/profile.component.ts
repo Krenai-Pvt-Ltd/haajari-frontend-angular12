@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
   isDivVisible: boolean = false;
   fetchLocationModal: any;
   bootstrap: any;
+  addressId:number=0;
 
   constructor(
      private _payrollConfigurationService :PayrollConfigurationService,
@@ -403,6 +404,7 @@ export class ProfileComponent implements OnInit {
             )
             .subscribe(
               (response) => {
+                
                 this.staffs = response.users.map((staff: Staff) => ({
                   ...staff,
                   selected: this.selectedStaffsUuids.includes(staff.uuid),
@@ -431,18 +433,21 @@ export class ProfileComponent implements OnInit {
   }     
 
   @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
+  isRegisterLoad : boolean = false;
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
   saveUserWorkLocation(){
        this.saveLoader = true;
+       this.getSelectedStaffUUIDs();
           var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
           request.organizationMultiLocationRequest = this.organizationUserLocation;
           request.userUuidsList = this.selectedStaffUUIDs;
-        
-          this._payrollConfigurationService.saveUserWorkLocation(request).subscribe((response) => {
+          this._payrollConfigurationService.saveUserWorkLocation(request,this.addressId).subscribe((response) => {
           if(response.status){
             this.getOrganizationAdddress();
             this.closeAddressModal.nativeElement.click();
             this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
+            this.isRegisterLoad = false;
+
           }else{
             this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
           }
@@ -451,6 +456,8 @@ export class ProfileComponent implements OnInit {
         (error) => {
           this.saveLoader = false;
           this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+          this.isRegisterLoad = false;
+
 
         }
       );
@@ -462,11 +469,10 @@ export class ProfileComponent implements OnInit {
           this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
           this.isAllSelected = this.isAllUsersSelected;
           this.updateSelectedStaffs();
-          this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+          this.getOrganizationUser(this.addressId, "");
         }
 
         isAllUsersSelected: boolean = false;
-        addressId: number = 0;
 
 
         updateSelectedStaffs() {
@@ -485,9 +491,9 @@ export class ProfileComponent implements OnInit {
       
         }
 
-        userNameWithBranchName: any;
-    getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
-    this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
+    userNameWithBranchName: any;
+    getOrganizationUser(addressId : number, type:string) {
+    this._payrollConfigurationService.getOrganizationUser(this.selectedStaffsUuids, addressId).subscribe(
       (response) => {
         this.userNameWithBranchName = response.listOfObject;
         if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
@@ -511,12 +517,10 @@ export class ProfileComponent implements OnInit {
   }
 
   selectedStaffUUIDs: string[] = [];
-
     getSelectedStaffUUIDs(): void {
     this.selectedStaffUUIDs = this.staffs
       .filter(staff => staff.selected)  
       .map(staff => staff.uuid);      
-
 
     }
 
@@ -544,7 +548,7 @@ export class ProfileComponent implements OnInit {
         }
       });
     }
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+    this.getOrganizationUser(this.addressId, "");
   }
 
 
@@ -595,13 +599,32 @@ export class ProfileComponent implements OnInit {
     this.isAllSelected = false;
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+    this.getOrganizationUser(this.addressId, "");
   }
 
   onStateChange(event: any) {
     console.log("Selected State:", event);
   }
-  
+
+
+
+  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff) {
+    this.addressId=addressId;
+    this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress));
+    this.addLocation.nativeElement.click();
+    this.selectedStaffsUuids = orgAaddress.staffs;
+    this.fetchUserList();
+  }
+
+  openDropdownIndex: number | null = null;
+
+  toggleDropdown(index: number) {
+        this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
+      }
+
+  isDropdownOpen(index: number): boolean {
+    return this.openDropdownIndex === index;
+  }
 
   
         

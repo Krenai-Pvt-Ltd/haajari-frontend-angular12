@@ -118,8 +118,23 @@ export class PayrollConfigurationService {
     }
 
 
-    saveUserWorkLocation(request:StaffAddressDetailsForMultiLocation): Observable<any>{
-      return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,request);
+    saveUserWorkLocation(request:StaffAddressDetailsForMultiLocation,addressId:number): Observable<any>{
+      const params = new HttpParams()
+      .set('address_id', addressId)
+      return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,request,{params});
+    }
+
+    getOrganizationUser(
+      selectedStaffsUuids: string[],
+      addressId: number
+    ): Observable<any> {
+      let params = new HttpParams().set('addressId', addressId);
+  
+      return this._http.post<any>(
+        `${this._key.base_url}/payroll-config/get-organization-user-uuid`,
+        selectedStaffsUuids,
+        { params }
+      );
     }
 
 }

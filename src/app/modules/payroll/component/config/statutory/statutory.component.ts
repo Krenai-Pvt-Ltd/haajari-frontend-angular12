@@ -565,6 +565,5 @@ export class StatutoryComponent implements OnInit {
     selectedProfessionalTax:ProfessionalTax = new ProfessionalTax();
     viewSelectedSlab(professionalTax:ProfessionalTax){
       this.selectedProfessionalTax = professionalTax;
-
     }
 }
