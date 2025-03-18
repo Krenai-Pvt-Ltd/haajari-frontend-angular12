@@ -96,11 +96,11 @@ Earning
   bottom: 5px;
 }
 
-::ng-deep .placeholder-line .ant-select-selection-placeholder {
+/* ::ng-deep .placeholder-line .ant-select-selection-placeholder {
   color: #6666F2 !important;
   font-weight: 500 !important;
-}
+} */
 
-.border-primary{
+/* .border-primary{
   border: 1px solid #6666f2 !important;
-}
+} */

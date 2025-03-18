@@ -309,3 +309,14 @@
   background-color: #E4E7FF;
   padding: 5px 15px;
 }
+
+.payroll-setup{
+  background-color: #FFF9F2;
+}
+.progress{
+  width: 100px;
+  height: 8px;
+  position: relative;
+  top: 2px;
+  direction: rtl;
+}
