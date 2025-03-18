@@ -171,6 +171,16 @@ export class PersonalInformationComponent implements OnInit {
     });
   }
 
+  restrictToLetters(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only letters (A-Z and a-z)
+    if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || (charCode === 32)) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
+  }
+
   emailAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
     const email = control.value;
     if (!email || this.onboardingPreviewData.user.email == email) {
@@ -230,8 +240,8 @@ export class PersonalInformationComponent implements OnInit {
     return null;
   }
   uanExists:boolean = false;
-  checkUan(uan: string) {
-    if(uan.length==12 && this.onboardingPreviewData.user.uan != uan){
+  checkUan(uan: string | null) {
+    if(uan!=null && uan.length==12 && this.onboardingPreviewData.user.uan != uan){
       this.dataService.existsUserByUan(uan).subscribe(response => {
         this.uanExists = response.status;
         console.log(response.message);
@@ -243,8 +253,8 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   esiExists:boolean = false;
-  checkEsi(esi: string) {
-    if(esi.length==17 && this.onboardingPreviewData.user.esi != esi){
+  checkEsi(esi: string | null) {
+    if(esi!=null && esi.length==17 && this.onboardingPreviewData.user.esi != esi){
       this.dataService.existsUserByEsi(esi).subscribe(response => {
         this.esiExists = response.status;
         console.log(response.message);

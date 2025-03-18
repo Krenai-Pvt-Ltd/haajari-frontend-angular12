@@ -546,6 +546,10 @@ export class DataService {
     );
   }
 
+  getActiveLeaveTemplates(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/existing-assigned-users`);
+  }
+
   getAllUserUuids(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/uuids`);
   }
