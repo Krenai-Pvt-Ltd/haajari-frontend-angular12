@@ -170,6 +170,7 @@ export class ExpenseRequestComponent implements OnInit {
   }
 
   showExpenseRejectDiv(): void {
+    console.log("Reject hthe expense request.....");
     this.rejectDiv = true;
   }
 

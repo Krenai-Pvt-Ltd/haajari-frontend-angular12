@@ -575,6 +575,7 @@ searchByEmployeeName(event: Event): void {
     this.isLoadingHnS = true;
     this.submitted = true;
     if (!this.selectedUserId || this.amount <= 0 || !this.remark) {
+      this.isLoadingHnS = false;
       return;
     }
 
