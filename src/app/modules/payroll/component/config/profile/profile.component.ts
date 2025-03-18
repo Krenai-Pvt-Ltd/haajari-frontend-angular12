@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -320,7 +320,6 @@ export class ProfileComponent implements OnInit {
       this._payrollConfigurationService.getOrganizationAddress().subscribe((response) => {
             if(response.status){
               this.organizationAddress= response.object;
-              console.log(this.organizationAddress);
               if(this.organizationAddress==null){
                 this.organizationAddress = [];
               }
@@ -349,13 +348,17 @@ export class ProfileComponent implements OnInit {
         this.selectUsers=event?1:0;
       }
 
+
+
+      @ViewChild('closeFetchModal') closeFetchModal!:ElementRef;
       saveFetchedAddressStaff(){
         this.saveLoader = true;
         const selectedAddresses = this.selectedAddressIndexes.map(index => this.organizationAddress[index].organizationAddress.id);
         this._payrollConfigurationService.saveFetchedAddressStaff(selectedAddresses,this.selectUsers).subscribe((response) => {
             if(response.status){
+              this.getOrganizationAdddress();
+              this.closeFetchModal.nativeElement.click();
               this._helperService.showToast("User Location updated successsfully.", Key.TOAST_STATUS_SUCCESS);
-              this.saveLoader=false;
             }else{
               this._helperService.showToast("Error updating.", Key.TOAST_STATUS_ERROR);
             }
@@ -419,17 +422,26 @@ export class ProfileComponent implements OnInit {
             );
         }
 
-        organizationUserLocation:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
+  @ViewChild('addLocation') addLocation!:ElementRef; 
+  openLocationModal(){
+    this.fetchUserList();
+    this.organizationUserLocation = new OrganizationUserLocation();
+    this.selectedStaffUUIDs = [];
+    this.addLocation.nativeElement.click();
+  }     
 
-        saveUserWorkLocation(){
-          this.saveLoader = true;
-          this.getSelectedStaffUUIDs();
-          const payload = {
-            ...this.organizationUserLocation,
-            userUuidsList: this.selectedStaffUUIDs
-          };
-          this._payrollConfigurationService.saveUserWorkLocation(payload).subscribe((response) => {
+  @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
+  organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
+  saveUserWorkLocation(){
+       this.saveLoader = true;
+          var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
+          request.organizationMultiLocationRequest = this.organizationUserLocation;
+          request.userUuidsList = this.selectedStaffUUIDs;
+        
+          this._payrollConfigurationService.saveUserWorkLocation(request).subscribe((response) => {
           if(response.status){
+            this.getOrganizationAdddress();
+            this.closeAddressModal.nativeElement.click();
             this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
           }else{
             this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
@@ -442,7 +454,7 @@ export class ProfileComponent implements OnInit {
 
         }
       );
-        }
+    }
 
 
 
