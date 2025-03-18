@@ -1750,6 +1750,16 @@
                           </div>
                         </div>
 
+                        <div class="col-md-4 mb-3">
+                          <label for="autoCheckout" class="pb-2">Auto Checkout Time</label>
+                          <nz-time-picker
+                            [(ngModel)]="organizationShiftTimingRequest.autoCheckout"
+                            [nzUse12Hours]="true"
+                            nzFormat="h:mm a"
+                            [ngModelOptions]="{ standalone: true }"
+                          ></nz-time-picker>
+                        </div>
+
                       </form>
 
 
