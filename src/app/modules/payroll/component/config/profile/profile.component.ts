@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
   isDivVisible: boolean = false;
   fetchLocationModal: any;
   bootstrap: any;
+  addressId:number=0;
 
   constructor(
      private _payrollConfigurationService :PayrollConfigurationService,
@@ -439,7 +440,7 @@ export class ProfileComponent implements OnInit {
           var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
           request.organizationMultiLocationRequest = this.organizationUserLocation;
           request.userUuidsList = this.selectedStaffUUIDs;
-          this._payrollConfigurationService.saveUserWorkLocation(request).subscribe((response) => {
+          this._payrollConfigurationService.saveUserWorkLocation(request,this.addressId).subscribe((response) => {
           if(response.status){
             this.getOrganizationAdddress();
             this.closeAddressModal.nativeElement.click();
@@ -471,7 +472,6 @@ export class ProfileComponent implements OnInit {
         }
 
         isAllUsersSelected: boolean = false;
-        addressId: number = 0;
 
 
         updateSelectedStaffs() {
@@ -608,11 +608,10 @@ export class ProfileComponent implements OnInit {
 
 
   openLocationEditModal(orgAaddress : OrganizationAddressWithStaff) {
-    this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress)); 
+    this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress));
     this.addLocation.nativeElement.click();
     this.selectedStaffsUuids = orgAaddress.staffs;
     this.fetchUserList();
-
   }
 
   
