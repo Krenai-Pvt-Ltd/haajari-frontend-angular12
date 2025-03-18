@@ -163,48 +163,85 @@
                        <!-- TO DO: Location list start-->
                    <div class="row" *ngIf="!isWorkLocationFalse()">
                     <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
-                       <div class="mb-3 p-2 payroll-address border-rounded-2 d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center">
-                                <i class="bi bi-chevron-down"></i>
-                            </span>
-                            <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
+                       <div class="mb-3 p-2 payroll-address border-rounded-2 ">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="bi bi-chevron-down transition "></i>
+                                    </span>
+                                    <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="pointer"  (click)="openLocationEditModal(address)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                            <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                            <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
+                                            </mask>
+                                            <g mask="url(#mask0_9177_4748)">
+                                            <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
+                                            <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
+                                            <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_9177_4745)">
+                                            <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                            <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                            <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_9177_4742)">
+                                            <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </div>
+                            
+                            </div>
+
+                            <!--  location list toggle view start -->
+                  <div class="collapse mt-3" id="collapseExample">
+                    <div class="card card-body border-rounded-2 border-0 mb-0">
+                      <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> Address Line 1 : <span class="location-data"> 4H26+RP Sosan, Himachal Pradesh, India</span></p>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                                    <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
-                                    <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9177_4748)">
-                                    <path d="M5.64048 17.4173H6.81521L16.3476 8.03386L15.1729 6.87748L5.64048 16.2609V17.4173ZM4.24365 18.7923V15.6899L16.5269 3.60384C16.6676 3.47795 16.8231 3.38071 16.9932 3.31211C17.1634 3.24336 17.3419 3.20898 17.5286 3.20898C17.7153 3.20898 17.8961 3.2416 18.0711 3.30684C18.2461 3.37208 18.4011 3.47581 18.536 3.61805L19.6732 4.75151C19.8177 4.88427 19.9207 5.03705 19.9821 5.20984C20.0436 5.38263 20.0743 5.55542 20.0743 5.72821C20.0743 5.91262 20.0424 6.08854 19.9784 6.25598C19.9145 6.42358 19.8127 6.57666 19.6732 6.71523L7.39536 18.7923H4.24365ZM15.75 7.46575L15.1729 6.87748L16.3476 8.03386L15.75 7.46575Z" fill="#444444"/>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
-                                    <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
-                                    <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9177_4745)">
-                                    <path d="M2.38818 17.6983V15.6603C2.38818 15.188 2.51204 14.7664 2.75974 14.3956C3.00744 14.0248 3.33826 13.7363 3.75218 13.5302C4.63715 13.1041 5.52701 12.7756 6.42175 12.5446C7.31665 12.3137 8.30009 12.1983 9.37208 12.1983C10.4442 12.1983 11.4277 12.3137 12.3224 12.5446C13.2173 12.7756 14.1072 13.1041 14.9922 13.5302C15.4061 13.7363 15.7369 14.0248 15.9847 14.3956C16.2324 14.7664 16.3562 15.188 16.3562 15.6603V17.6983H2.38818ZM18.2186 17.6983V15.5476C18.2186 14.946 18.069 14.3725 17.7698 13.8272C17.4704 13.2821 17.0458 12.8144 16.4959 12.4241C17.1203 12.5157 17.7131 12.6576 18.2743 12.8496C18.8353 13.0418 19.3708 13.2689 19.8806 13.5309C20.3618 13.7836 20.7333 14.0815 20.9953 14.4244C21.2573 14.7673 21.3883 15.1417 21.3883 15.5476V17.6983H18.2186ZM9.37208 10.7174C8.47578 10.7174 7.70854 10.4033 7.07034 9.77512C6.43215 9.14674 6.11305 8.39141 6.11305 7.50911C6.11305 6.62682 6.43215 5.87157 7.07034 5.24334C7.70854 4.61497 8.47578 4.30078 9.37208 4.30078C10.2684 4.30078 11.0357 4.61497 11.674 5.24334C12.3122 5.87157 12.6313 6.62682 12.6313 7.50911C12.6313 8.39141 12.3122 9.14674 11.674 9.77512C11.0357 10.4033 10.2684 10.7174 9.37208 10.7174ZM17.4127 7.50911C17.4127 8.39141 17.0936 9.14674 16.4554 9.77512C15.8172 10.4033 15.0499 10.7174 14.1536 10.7174C14.0486 10.7174 13.9149 10.7057 13.7525 10.6822C13.59 10.6586 13.4563 10.6328 13.3514 10.6047C13.7186 10.17 14.0008 9.68788 14.1981 9.1582C14.3952 8.62852 14.4938 8.07852 14.4938 7.5082C14.4938 6.93773 14.3932 6.38979 14.1921 5.86439C13.9909 5.33913 13.7107 4.85559 13.3514 4.41376C13.485 4.3667 13.6187 4.33615 13.7525 4.32209C13.8862 4.30789 14.0199 4.30078 14.1536 4.30078C15.0499 4.30078 15.8172 4.61497 16.4554 5.24334C17.0936 5.87157 17.4127 6.62682 17.4127 7.50911ZM3.78478 16.3233H14.9594V15.6603C14.9594 15.4689 14.9107 15.2986 14.8134 15.1493C14.7163 15 14.562 14.8696 14.3506 14.7579C13.5842 14.3689 12.7951 14.0742 11.9832 13.8738C11.1713 13.6735 10.301 13.5733 9.37208 13.5733C8.44334 13.5733 7.57304 13.6735 6.76118 13.8738C5.94931 14.0742 5.16018 14.3689 4.39379 14.7579C4.18241 14.8696 4.02806 15 3.93074 15.1493C3.83343 15.2986 3.78478 15.4689 3.78478 15.6603V16.3233ZM9.37208 9.34245C9.88425 9.34245 10.3227 9.16293 10.6874 8.80391C11.0521 8.44488 11.2345 8.01328 11.2345 7.50911C11.2345 7.00495 11.0521 6.57335 10.6874 6.21432C10.3227 5.8553 9.88425 5.67578 9.37208 5.67578C8.85991 5.67578 8.42146 5.8553 8.05673 6.21432C7.69201 6.57335 7.50964 7.00495 7.50964 7.50911C7.50964 8.01328 7.69201 8.44488 8.05673 8.80391C8.42146 9.16293 8.85991 9.34245 9.37208 9.34245Z" fill="#444444"/>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-                                    <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
-                                    <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9177_4742)">
-                                    <path d="M7.24939 18.956C6.78502 18.956 6.38832 18.7941 6.05929 18.4704C5.73042 18.1465 5.56598 17.756 5.56598 17.2989V5.66431H4.63477V4.28931H8.82524V3.47852H14.4125V4.28931H18.603V5.66431H17.6718V17.2989C17.6718 17.7619 17.5088 18.1539 17.1829 18.4747C16.857 18.7956 16.4588 18.956 15.9884 18.956H7.24939ZM16.275 5.66431H6.96281V17.2989C6.96281 17.3812 6.98966 17.4488 7.04336 17.5017C7.09706 17.5545 7.16574 17.581 7.24939 17.581H15.9884C16.0601 17.581 16.1258 17.5516 16.1853 17.4927C16.2451 17.4341 16.275 17.3695 16.275 17.2989V5.66431ZM9.20145 15.7476H10.598V7.49764H9.20145V15.7476ZM12.6397 15.7476H14.0363V7.49764H12.6397V15.7476Z" fill="#FF0000"/>
-                                    </g>
-                                </svg>
-                            </span>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : <span class="location-data"> sec 67</span></p>
+                            </div>
                         </div>
-                        
-                       </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> City : <span class="location-data"> Sosan</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> State : <span class="location-data"> Himachal Pradesh</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <p class="mb-0 font-12 fw-normal"> Pin Code :  <span class="location-data"> 201301</span></p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--  location list toggle view end -->
                     </div> 
+
+                </div>
 
                     <div class="d-flex justify-content-end mb-3">
                         <button class="btn p-0 font-14 fw-semibold text-primary"  type="button" (click)="openLocationModal()">
@@ -526,6 +563,7 @@
                                               </div>
                                             </div>
                                           </div>
+                                          
                                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white"> 
                                         
                                         <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader">
@@ -589,7 +627,7 @@
                     <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users updated <br> automatically.</p>
                     <h5 class="font-14 mb-0 fw-semibold lh-base text-warning  mb-2">Address:</h5>
 
-                    <div class="d-flex align-items-center justify-content-between border-bottom pt-1" *ngFor="let address of organizationAddress; let i = index">
+                    <div class="d-flex align-items-center justify-content-between border-bottom pt-2 pb-2 address-list" *ngFor="let address of organizationAddress; let i = index">
                         <p class="lh-base font-13 fw-normal mb-1" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">
                             {{address.organizationAddress.addressLine1+", "}}
                             {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
@@ -609,14 +647,18 @@
             </div>
           
         </div>
-        <div class="modal-footer">
-            <div class="form-check">
-                <input class="form-check-input" 
-                type="checkbox" value="" 
-                [(ngModel)]="selectUsers"
-                (ngModelChange)="mapUsers($event)">
+        <div class="modal-footer d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-between">           
+                <div class="form-check">
+                    <input class="form-check-input" 
+                    type="checkbox" value="" 
+                    [(ngModel)]="selectUsers"
+                    (ngModelChange)="mapUsers($event)">
+                </div>
             </div>
-          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
+
+         <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+          <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
           <button type="button" class="btn submitActionBtn text-white" [ngClass]="{'disabled-lnk':saveLoader}"
                  (click)="saveFetchedAddressStaff()">
                 <div *ngIf="saveLoader" class="dot-opacity-loader">
@@ -627,8 +669,125 @@
                 <span *ngIf="!saveLoader"> Confirm </span>      
             </button>
         </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Fetch Location  modal end -->
+
+
+
+  <!----------------------------------- REMOVE DUPLICATE USER POPUP START-------------------------->
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
+<div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
+  data-bs-backdrop="static" #usersAlreadyAssigned>
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body manualUpload p-0" style="background-image: url(../assets/images/user-alredy-img.svg)">
+        <div class="d-flex align-items-center justify-content-end pt-2 close-icon-btn" style="padding-right: 10px">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton
+            (click)="closeModal()" data-bs-toggle="modal" data-bs-target="#shiftTime">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31" fill="none">
+              <mask id="mask0_3479_11687" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
+                height="31">
+                <rect x="0.972656" y="0.505066" width="30.0938" height="30.075" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_3479_11687)">
+                <path
+                  d="M8.99766 24.3144L7.24219 22.5601L14.2641 15.5426L7.24219 8.52507L8.99766 6.77069L16.0195 13.7882L23.0414 6.77069L24.7969 8.52507L17.775 15.5426L24.7969 22.5601L23.0414 24.3144L16.0195 17.2969L8.99766 24.3144Z"
+                  fill="#181818" />
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <div class="row p-3 pb-4 pt-4 align-items-center">
+          <div class="col-md-8">
+            <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
+              <h5 class="alert-heading text-warning font-16 mb-2">
+                Users Already Assigned to Another Location
+              </h5>
+              <p class="mb-0 text-black">
+                Do you want to add them to the new location? Doing so will
+                remove them from the current location.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="side-img" style="background-image: url(../assets/images/user-img.svg)"></div>
+          </div>
+        </div>
+
+        <div class="p-3 employee-list bg-white">
+          <h4 class="mb-1">Employee List</h4>
+          <div class="manualemployList" *ngIf="userNameWithBranchName?.length > 0">
+            <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
+              *ngFor="let list of userNameWithBranchName">
+              <div class="d-flex align-items-center gap-3">
+                <span class="userName">{{
+                  list.userName.charAt(0).toUpperCase()
+                  }}</span>
+
+                <div>
+                  <h5 class="alert-heading font-13 mb-1">
+                    {{ list.userName }}
+                  </h5>
+                  <div class="d-flex align-items-center gap-2">
+                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
+                    <span class="spreter-line"></span>
+                    <span class="shift-tag">{{ list.branchName || "N/A"}}</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
+                    <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                      width="22" height="23">
+                      <rect x="0.015625" y="0.57843" width="21.8948" height="21.8948" fill="white" />
+                    </mask>
+                    <g mask="url(#mask0_3479_11708)">
+                      <path
+                        d="M6.40482 19.7378C5.90306 19.7378 5.47353 19.5592 5.11622 19.2019C4.75891 18.8446 4.58025 18.415 4.58025 17.9133V6.05359H3.66797V4.22903H8.22939V3.31674H13.7031V4.22903H18.2645V6.05359H17.3522V17.9133C17.3522 18.415 17.1736 18.8446 16.8163 19.2019C16.4589 19.5592 16.0294 19.7378 15.5277 19.7378H6.40482ZM15.5277 6.05359H6.40482V17.9133H15.5277V6.05359ZM8.22939 16.0887H10.054V7.87816H8.22939V16.0887ZM11.8785 16.0887H13.7031V7.87816H11.8785V16.0887Z"
+                        fill="#FF0404" />
+                    </g>
+                  </svg>
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-top p-3">
+        <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
+          <input type="checkbox" id="validationCheck" style="position: relative; top: 2px"
+            class="ng-dirty ng-touched" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
+            for="validationCheck" class="form-check-label iHaveRead">
+            I have validated the information and will proceed to add users to
+            the new location.
+          </label>
+        </div>
+        <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+          <!-- <button class="btn submit-add-more">Cancel</button> -->
+
+          <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
+            Cancel
+          </button>
+          <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated"
+            (click)="registerAddress()">
+            <span *ngIf="!isRegisterLoad">Add all</span>
+            <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-----------------------------------  REMOVE DUPLICATE USER POPUP  END-------------------------->

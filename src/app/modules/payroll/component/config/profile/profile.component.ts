@@ -431,9 +431,11 @@ export class ProfileComponent implements OnInit {
   }     
 
   @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
+  isRegisterLoad : boolean = false;
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
   saveUserWorkLocation(){
        this.saveLoader = true;
+       this.loading = true;
           var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
           request.organizationMultiLocationRequest = this.organizationUserLocation;
           request.userUuidsList = this.selectedStaffUUIDs;
@@ -443,14 +445,21 @@ export class ProfileComponent implements OnInit {
             this.getOrganizationAdddress();
             this.closeAddressModal.nativeElement.click();
             this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
+            this.isRegisterLoad = false;
+
           }else{
             this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
+          this.isValidated = false;
+          this.loading = false;
         },
         (error) => {
           this.saveLoader = false;
           this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+          this.isRegisterLoad = false;
+          this.loading = false;
+
 
         }
       );
@@ -462,7 +471,7 @@ export class ProfileComponent implements OnInit {
           this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
           this.isAllSelected = this.isAllUsersSelected;
           this.updateSelectedStaffs();
-          this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+          this.getOrganizationUser(this.addressId, "");
         }
 
         isAllUsersSelected: boolean = false;
@@ -485,9 +494,9 @@ export class ProfileComponent implements OnInit {
       
         }
 
-        userNameWithBranchName: any;
-    getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
-    this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
+    userNameWithBranchName: any;
+    getOrganizationUser(addressId : number, type:string) {
+    this._payrollConfigurationService.getOrganizationUser(this.selectedStaffsUuids, addressId).subscribe(
       (response) => {
         this.userNameWithBranchName = response.listOfObject;
         if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
@@ -544,7 +553,7 @@ export class ProfileComponent implements OnInit {
         }
       });
     }
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+    this.getOrganizationUser(this.addressId, "");
   }
 
 
@@ -595,13 +604,55 @@ export class ProfileComponent implements OnInit {
     this.isAllSelected = false;
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+    this.getOrganizationUser(this.addressId, "");
   }
 
   onStateChange(event: any) {
     console.log("Selected State:", event);
   }
-  
+
+  @ViewChild("closeButton2") closeButton2!:ElementRef;
+  registerAddress() {
+    debugger;
+    this.isRegisterLoad = true;
+    this.closeButton2.nativeElement.click();
+    this.saveUserWorkLocation();
+  }
+
+  isValidated: boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
+  removeUser(uuid: string) {
+    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+      (id) => id !== uuid
+    );
+    this.staffs.forEach((staff) => {
+      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+    });
+
+    this.isAllSelected = false;
+    this.userNameWithBranchName = [];
+    this.getOrganizationUser(this.addressId, "SHIFT_USER_EDIT");
+
+  }
+
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUser(this.addressId, "");
+  }
+
+  loading: boolean = false;
+
+
+  openLocationEditModal(orgAaddress : OrganizationAddressWithStaff) {
+    this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress)); 
+    this.addLocation.nativeElement.click();
+    this.selectedStaffsUuids = orgAaddress.staffs;
+    this.fetchUserList();
+
+  }
 
   
         
