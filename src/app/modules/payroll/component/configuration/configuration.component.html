@@ -42,16 +42,30 @@
 
                 </div>
                
-                <div class="col-md-9">
+                <div class="col-md-9 p-0">
                     
                     <div class="tab-content" id="tabContent">
+
+                        <div class="payroll-setup d-flex align-items-center justify-content-between p-3 px-4">
+
+                            <h5 class="mb-0 font-14 fw-600">Payroll setup</h5>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                                <p class="mb-0 font-13 fw-normal color-basic lh-1">
+                                    <span class="text-black font-20 fw-600">0</span>/7 Completed
+                                </p>
+                            </div>
+
+                        </div>
                         <div *ngIf="currentTab == 'profile'" class="tab-pane fade show active" id="organization-profile" role="tabpanel" aria-labelledby="profile-tab">
                             <app-profile></app-profile>
                         </div>
-                        <div *ngIf="currentTab == 'statutory'" class="tab-pane fade show active"  id="statutory" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'statutory'" class="tab-pane fade show active p-3 pt-0"  id="statutory" role="tabpanel" aria-labelledby="profile-tab">
                         <app-statutory></app-statutory>
                         </div>
-                        <div *ngIf="currentTab == 'salary'" class="tab-pane fade show active" id="salary" role="tabpanel" aria-labelledby="profile-tab">
+                        <div *ngIf="currentTab == 'salary'" class="tab-pane fade show active p-3 pt-0" id="salary" role="tabpanel" aria-labelledby="profile-tab">
                             <app-salary></app-salary>
                         </div>
                         <div *ngIf="currentTab == 'taxes'" class="tab-pane fade show active"  id="taxes" role="tabpanel" aria-labelledby="profile-tab">
