@@ -134,7 +134,7 @@
               </div>
           </div>
       </div>
-      <div class="d-flex align-items-center justify-content-end gap-2 p-3 modal-footer bg-white" *ngIf="
+      <div class="d-flex align-items-center justify-content-end gap-1 p-3 modal-footer bg-white" *ngIf="
       leave?.managerUuid === logInUserUuid ||
       ROLE == 'ADMIN' && leave?.status == PENDING
     ">
@@ -146,10 +146,10 @@
               <span></span>
             </div>
           </button>
-          <button [disabled]="isLoading" type="button" class="btn reject-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
+          <button [disabled]="isLoading" type="button" class="btn btn-soft-danger" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
               Reject
           </button>
-          <button [disabled]="isLoading" type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
+          <button [disabled]="isLoading" type="submit" class="btn btn-soft-success" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
              <span *ngIf="!isLoading">Approve</span>
               <div class="dot-opacity-loader" *ngIf="isLoading">
                 <span></span>

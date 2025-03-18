@@ -4550,6 +4550,14 @@ export class DataService {
     });
   }
 
+
+  countPendingTransaction(statusId: number) {
+    const params = new HttpParams().set('statusId', statusId.toString());
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count-by-status`, { params });
+  }
+  
+
   saveTags(id: number, tags: string[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.baseUrl}/company-expense/save-tags?id=${id}`;
@@ -5494,6 +5502,40 @@ export class DataService {
 
     const url = `${this.baseUrl}/attendance/requests`;
     return this.httpClient.get<any>(url, { params });
+  }
+
+  getAttendanceUpdateRequests(
+    userIds?: number[],
+    startDateStr?: string,
+    endDateStr?: string,
+    statuses?: number[],
+    attendanceStatuses?: number[],
+    requestTypes?: string[],
+    page: number = 0,
+    size: number = 10,
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (userIds && userIds.length) {
+      userIds.forEach(id => (params = params.append('userIds', id.toString())));
+    }
+    if (search) params = params.set('search', search);
+    if (startDateStr) params = params.set('startDateStr', startDateStr);
+    if (endDateStr) params = params.set('endDateStr', endDateStr);
+    if (statuses && statuses.length) {
+      statuses.forEach(status => (params = params.append('statuses', status.toString())));
+    }
+    if (attendanceStatuses && attendanceStatuses.length) {
+      attendanceStatuses.forEach(status => (params = params.append('attendanceStatuses', status.toString())));
+    }
+    if (requestTypes && requestTypes.length) {
+      requestTypes.forEach(type => (params = params.append('requestTypes', type)));
+    }
+
+    return this.httpClient.get(`${this.baseUrl}/attendance/attendance-update-requests`, { params });
   }
 }
 

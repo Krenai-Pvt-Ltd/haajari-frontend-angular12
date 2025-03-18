@@ -18,7 +18,8 @@ export class ExpenseService {
       startDate: any,
       endDate: any,
       tag: string,
-      search: string
+      search: string,
+      userIds: number[]
     ) {
       let params = new HttpParams()
         .set('currentPage', pageNumber)
@@ -27,8 +28,12 @@ export class ExpenseService {
         .set('sortOrder', 'desc')
         .set('tag', tag)
         .set('search', search);
-  
-      if (startDate && endDate) {
+
+        userIds.forEach(id => {
+          params = params.append('id', id);
+        });
+      
+        if (startDate && endDate) {
         params = params.set('startDate', startDate);
         params = params.set('endDate', endDate);
       }

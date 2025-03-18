@@ -26,6 +26,8 @@ import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-upd
 import { constant } from 'src/app/constant/constant';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -46,7 +48,26 @@ export class TimetableComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe,
     // private headerComponent: HeaderComponent
-  ) { }
+  ) {
+    this.searchTextMissedPunchSubject.pipe(
+      debounceTime(this.DEBOUNCE_TIME),
+      distinctUntilChanged()
+    ).subscribe(searchText => {
+      this.searchTextMissedPunch = searchText;
+      this.currentPageMissedPunch = 1; // Reset to first page on search
+      this.fetchMissedPunchRequests();
+    });
+
+    // Debounce for System Outage search
+    this.searchTextSystemOutageSubject.pipe(
+      debounceTime(this.DEBOUNCE_TIME),
+      distinctUntilChanged()
+    ).subscribe(searchText => {
+      this.searchTextSystemOutage = searchText;
+      this.currentPageSystemOutage = 1; // Reset to first page on search
+      this.fetchSystemOutageRequests();
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
@@ -72,8 +93,8 @@ export class TimetableComponent implements OnInit {
     this.getActiveUsersCountMethodCall();
     this.getHolidayForOrganization();
     this.fetchAttendanceRequests();
-
-
+    this.fetchMissedPunchRequests();
+    this.getAllUsers();
     this.logInUserUuid = await this.rbacService.getUUID();
   }
 
@@ -1179,17 +1200,14 @@ export class TimetableComponent implements OnInit {
       this.attendanceUpdateRequestApproveLoader = false;
       this.attendanceUpdateRequestRejectLoader = false;
       // console.log('requests retrieved successfully', response.listOfObject);
-      if (response.message == 'APPROVED') {
+      if (response.status ) {
         this.helperService.showToast(
-          'Request Approved Successfully.',
-          Key.TOAST_STATUS_SUCCESS
-        );
-      } else if (response.message == 'REJECTED') {
-        this.helperService.showToast(
-          'Request Rejected Successfully.',
+          'Request ' + reqString +' Successfully.',
           Key.TOAST_STATUS_SUCCESS
         );
       }
+
+      this.applyFilters();
 
       this.totalAttendanceRequestCount = 0;
       this.attendanceRequestSearchString = '';
@@ -2173,6 +2191,297 @@ export class TimetableComponent implements OnInit {
         console.error('Error fetching attendance requests:', error);
       }
     );
+  }
+
+  showFilter1: boolean = false;
+  currentTab: string = 'missedPunch'; // 'missedPunch' or 'systemOutage'
+  selectedUserIds: number[] = [];
+  selectedPunchType: string = ''; // 'Check-In', 'Check-Out', 'Both'
+  selectedDate1: Date | null = null;
+  selectedStatuses: string[] = [];
+  selectedAttendanceStatus: string[] = [];
+  searchTextMissedPunch: string = '';
+  searchTextSystemOutage: string = '';
+
+  // Data properties
+  missedPunchRequests: any[] = [];
+  systemOutageRequests: any[] = [];
+  allUsers: any[] = [];
+  isLoading: boolean = false;
+
+  // Pagination properties
+  currentPageMissedPunch: number = 1;
+  pageSizeMissedPunch: number = 10;
+  totalRecordsMissedPunch: number = 0;
+  currentPageSystemOutage: number = 1;
+  pageSizeSystemOutage: number = 10;
+  totalRecordsSystemOutage: number = 0;
+
+  private searchTextMissedPunchSubject = new Subject<string>();
+  private searchTextSystemOutageSubject = new Subject<string>();
+  private readonly DEBOUNCE_TIME = 300;
+
+  // Status mapping for API
+  statusMap: { [key: string]: number } = {
+    'Pending': 52,
+    'Approve': 50,
+    'Reject': 51
+  };
+  attendanceStatusMap: { [key: string]: number } = {
+    'in': 1,
+    'out': 2,
+    'break': 3,
+    'back': 4
+  };
+
+  // Fetch list of users for employee filter
+  getAllUsers(): void {
+    this.dataService.getOrganizationUserList().subscribe(response => {
+      this.allUsers = response.listOfObject; // Assumes { id: number, name: string }[]
+    });
+  }
+
+  // Toggle filter dropdown and set current tab
+  changeShowFilter1(show: boolean, tab: string): void {
+    this.currentTab = tab;
+    this.showFilter = show;
+  }
+
+  // Apply filters based on current tab
+  applyFilters(): void {
+    if (this.currentTab === 'missedPunch') {
+      this.updateMissedPunchFilters();
+      this.fetchMissedPunchRequests();
+    } else {
+      this.updateSystemOutageFilters();
+      this.fetchSystemOutageRequests();
+    }
+    this.showFilter = false;
+  }
+
+  // Reset filters and refresh data
+  resetFilters(): void {
+    this.currentPageMissedPunch = 1;
+    this.pageSizeMissedPunch = 10;
+    this.totalRecordsMissedPunch = 0;
+    this.currentPageSystemOutage= 1;
+    this.pageSizeSystemOutage = 10;
+    this.totalRecordsSystemOutage = 0;
+    this.selectedUserIds = [];
+    this.selectedPunchType = '';
+    this.selectedDate1 = null;
+    this.selectedStatuses = [];
+    this.selectedAttendanceStatus = [];
+    this.searchTextMissedPunch = '';
+    this.searchTextSystemOutage = '';
+    this.activeMissedPunchFilters = [];
+    this.activeSystemOutageFilters = [];
+    this.applyFilters();
+  }
+
+  onSearchTextMissedPunchChange(searchText: string): void {
+    this.currentPageMissedPunch = 1;
+    this.pageSizeMissedPunch = 10;
+    this.searchTextMissedPunchSubject.next(searchText);
+  }
+
+  onSearchTextSystemOutageChange(searchText: string): void {
+    this.currentPageSystemOutage= 1;
+    this.pageSizeSystemOutage = 10;
+    this.searchTextSystemOutageSubject.next(searchText);
+  }
+
+  // Fetch Missed Punch (CREATE) requests
+  fetchMissedPunchRequests(): void {
+    this.isLoading = true;
+
+      const startDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const endDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
+      const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
+      const requestTypes = ['CREATE'];
+
+    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageMissedPunch - 1, this.pageSizeMissedPunch, this.searchTextMissedPunch)
+      .subscribe(response => {
+        this.missedPunchRequests = response.content.map((req: any) => ({
+          ...req,
+          isProcessing: false // Initialize processing flag
+        }));
+        this.totalRecordsMissedPunch = response.totalElements;
+        this.isLoading = false;
+      }, () => {
+        this.isLoading = false;
+      });
+  }
+
+  // Fetch System Outage (UPDATE) requests
+  fetchSystemOutageRequests(): void {
+    this.isLoading = true;
+    const startDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const endDate= this.selectedDate1 ? this.selectedDate1.toISOString().split('T')[0] : '';
+      const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
+      const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
+      const requestTypes = ['UPDATE'];
+    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageSystemOutage-1, this.pageSizeSystemOutage, this.searchTextSystemOutage)
+      .subscribe(response => {
+        this.systemOutageRequests = response.content.map((req: any) => ({
+          ...req,
+          isProcessing: false // Initialize processing flag
+        }));
+        this.totalRecordsSystemOutage = response.totalElements;
+        this.isLoading = false;
+      }, () => {
+        this.isLoading = false;
+      });
+  }
+
+
+
+  showAttendanceUpdate: boolean = false;
+  attendanceUpdateData: any = {};
+
+  viewRequest(request: any): void {
+    this.showAttendanceUpdate=false;
+      this.attendanceUpdateData = {};
+      this.attendanceUpdateData.id = request.id;
+      this.attendanceUpdateData.userType = 'ADMIN';
+      this.attendanceUpdateData.isModal = 1;
+      this.getAttendanceUpdateById(request.id);
+  }
+  onAttendanceUpdateClose(){
+    this.showAttendanceUpdate=false;
+    this.applyFilters();
+  }
+
+  getAttendanceUpdateById(id: number): void {
+    this.dataService.getAttendanceRequestById(id).subscribe(
+      (data) => {
+        if (data.status) {
+          this.attendanceUpdateData.attendanceRequest=data.object;
+          setTimeout(() => {
+            this.showAttendanceUpdate=true;
+          }, 1);
+        } else {
+
+        }
+      },
+      (error) => {
+        console.error('Error fetching attendance update:', error);
+      }
+    );
+  }
+
+  activeMissedPunchFilters: any[] = [];
+  activeSystemOutageFilters: any[] = [];
+  private updateMissedPunchFilters(): void {
+    this.activeMissedPunchFilters = [];
+
+    if (this.selectedUserIds.length) {
+      const names = this.allUsers.filter(u => this.selectedUserIds.includes(u.id)).map(u => u.userName).join(', ');
+      this.activeMissedPunchFilters.push({
+        type: 'user',
+        label: 'Employee',
+        value: names
+      });
+    }
+
+    if (this.selectedDate1) {
+      this.activeMissedPunchFilters.push({
+        type: 'date',
+        label: 'Date',
+        value: this.selectedDate1.toLocaleDateString()
+      });
+    }
+
+    if (this.selectedStatuses.length) {
+      this.activeMissedPunchFilters.push({
+        type: 'status',
+        label: 'Status',
+        value: this.selectedStatuses.join(', ')
+      });
+    }
+
+    if (this.searchTextMissedPunch) {
+      this.activeMissedPunchFilters.push({
+        type: 'search',
+        label: 'Search',
+        value: this.searchTextMissedPunch
+      });
+    }
+  }
+
+  private updateSystemOutageFilters(): void {
+    this.activeSystemOutageFilters = [];
+
+    if (this.selectedUserIds.length) {
+      const names = this.allUsers.filter(u => this.selectedUserIds.includes(u.id)).map(u => u.userName).join(', ');
+      this.activeSystemOutageFilters.push({
+        type: 'user',
+        label: 'Employee',
+        value: names
+      });
+    }
+
+    if (this.selectedDate1) {
+      this.activeSystemOutageFilters.push({
+        type: 'date',
+        label: 'Date',
+        value: this.selectedDate1.toLocaleDateString()
+      });
+    }
+
+    if (this.selectedStatuses.length) {
+      this.activeSystemOutageFilters.push({
+        type: 'status',
+        label: 'Status',
+        value: this.selectedStatuses.join(', ')
+      });
+    }
+
+    if (this.selectedAttendanceStatus.length) {
+      this.activeSystemOutageFilters.push({
+        type: 'attendanceStatus',
+        label: 'Attendance Status',
+        value: this.selectedAttendanceStatus.join(', ')
+      });
+    }
+
+    if (this.searchTextSystemOutage) {
+      this.activeSystemOutageFilters.push({
+        type: 'search',
+        label: 'Search',
+        value: this.searchTextSystemOutage
+      });
+    }
+  }
+
+  removeFilter(filter: any, tab: string): void {
+    switch (filter.type) {
+      case 'user':
+        this.selectedUserIds = [];
+        break;
+      case 'date':
+        this.selectedDate1 = null;
+        break;
+      case 'status':
+        this.selectedStatuses = [];
+        break;
+      case 'attendanceStatus':
+        this.selectedAttendanceStatus = [];
+        break;
+      case 'search':
+        if (tab === 'missedPunch') this.searchTextMissedPunch = '';
+        if (tab === 'systemOutage') this.searchTextSystemOutage = '';
+        break;
+    }
+
+    if (tab === 'missedPunch') {
+      this.fetchMissedPunchRequests();
+      this.updateMissedPunchFilters();
+    } else {
+      this.fetchSystemOutageRequests();
+      this.updateSystemOutageFilters();
+    }
   }
 
 }
