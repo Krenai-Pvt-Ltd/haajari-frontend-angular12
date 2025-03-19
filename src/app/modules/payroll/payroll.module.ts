@@ -24,6 +24,7 @@ import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { ProfileComponent } from './component/config/profile/profile.component';
 import { SalaryTemplateComponent } from './component/salary-template/salary-template.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PayrollManagementComponent } from './component/payroll-management/payroll-management.component';
 
 
 
@@ -40,7 +41,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     PayScheduleComponent,
     PriorPayrollComponent,
     FormComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    PayrollManagementComponent
   ],
   imports: [
     CommonModule,

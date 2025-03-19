@@ -1,0 +1,97 @@
+.Process-payroll-heading{
+    background-color: #EDEFF5;
+}
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    width: 130px;
+  }
+  .payrun-separator{
+    border-left: 1px solid #DCDCE4;
+    height: 50px;
+  }
+  .run-payroll-complete{
+    background-color: #F2F2F2;
+  }
+  .fatchLocationBtn {
+    border: 1px solid var(--primary-color);
+    width: 130px;
+}
+.backBtn{
+    width: 32px;
+    height: 32px;
+    border: 1px solid #6666F2;
+  }
+  .payroll-detail{
+    background-color: #F9FAFC;
+    height: 130px;
+  }
+
+  .approved {
+    border-left: 1px solid #EDEDED;
+    padding-left: 15px;
+}
+.approved::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -1px;
+    background-color: #6666F2;
+    width: 2px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+.calendar-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 20px;
+}
+.total-assets-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #EBEBEB;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.total-assets-icon svg{
+    width: 30px;
+}
+.run-payroll-search {
+    border: 1px solid #EAEAEA;
+}
+.search-date input {
+    border: none;
+    height: 45px !important;
+    border-left: 0;
+    border-right: 1px solid #EAEAEA;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    color: #1f1f1f !important;
+}
+.filter-btn{
+    min-width: 170px;
+}
+.search-icon {
+    font-size: 13px !important;
+    position: absolute !important;
+    top: 0;
+    color: var(--tb-secondary-color) !important;
+    margin: auto auto auto 15px;
+}
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #EFEFEF;
+    background-color: #F9FAFC;
+}
+.actionMenuList .dropdown-item {
+    font-size: 14px !important;
+    color: #333 !important;
+    border-radius: 6px !important;
+    padding: 0px 6px !important;
+}
+.actionMenuList svg {
+    width: 18px;
+    position: relative;
+    top: -1px;
+}

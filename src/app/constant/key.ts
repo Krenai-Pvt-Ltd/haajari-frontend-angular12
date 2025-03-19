@@ -83,7 +83,8 @@ export class Key {
     '/payroll/setup',
     '/payroll/configuration',
     '/payroll/earning-details',
-    '/payroll/salary-template'
+    '/payroll/salary-template',
+    '/payroll/payroll-management'
     
   ];
 
@@ -139,7 +140,8 @@ export class Key {
     '/payroll/setup',
     '/payroll/configuration',
     '/payroll/earning-details',
-    '/payroll/salary-template'
+    '/payroll/salary-template',
+    '/payroll/payroll-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
