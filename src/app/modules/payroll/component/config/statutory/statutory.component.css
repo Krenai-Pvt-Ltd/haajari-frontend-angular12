@@ -1,34 +1,6 @@
-.payroll-sidebar-menu {
-    border-right: 1px solid #f1f1f1;
-    min-height: 100vh;
-    position: relative;
-    z-index: 999;
-}
-
-.payroll-box .col-md-3{
-    width: 22%;
-}
-.payroll-box .col-md-9{
-    width: 78%;
-}
-
-.side-nav {
-    position: sticky;
-    top: 0px;
-}
 
 .nav.nav-pills{
     border-bottom: none;
-}
-.origination-logo{
-    border: 1px solid #eceff5;
-}
-.add-other-file{
-    background-color: rgba(241, 244, 249, 0.30);
-    border: 1px dashed #E1E1E1;
-}
-.compliance-name{
-    border-right: 1px solid #f1f1f1;
 }
 
 
@@ -59,20 +31,8 @@
     justify-content: start;
     padding-left: 20px;
   }
-  .ant-picker{
-    background-color: transparent !important;
-    border: none !important;
-  }
-  .payroll-address{
-    background-color: #F5F8FA;
-  }
-  .list-down-btn{
-    width: 30px;
-    height: 30px;
-  }
-  .address-list svg{
-     width: 20px;
-  }
+ 
+
   .statutory-tab{
     border-bottom: 1px solid #E3E3E3;
     background: #FDFDFF;
@@ -141,43 +101,3 @@
   .location-detail[aria-expanded="true"] svg {
     transform: rotate(180deg);
   }
-  .sample-calculation-data{
-    background-color: #F9FAFC;
-  }
-  .sample-calculation-list .form-check-input{
-    top: -2px;
-  }
-  .sample-calculation-list .table tr th{
-    background-color: #fff !important;
-    font-weight: 500 !important;
-  }
-  .sample-calculation-list .table tr td{
-   border-bottom: none !important;
-   border-right: 1px solid #f1f1f1 !important
-  }
-  
-  .sample-calculation-list .table .bg-color th{
-    background-color: #F9FAFC !important;
-    font-weight: 500 !important;
-    vertical-align: middle;
-    border-right: none !important
-  }
-  .sample-tax-slabs-list .table tr th{
-    background-color: #F9FAFC !important;
-    font-weight: 500 !important;
-  }
-
-  .sample-tax-slabs-list .table tr td{
-    border-bottom: none !important;
-    border-right: 1px solid #f1f1f1 !important
-   }
-   
-   .sample-tax-slabs-list .table .bg-color th{
-     background-color: #F9FAFC !important;
-     font-weight: 500 !important;
-     vertical-align: middle;
-     border-right: none !important
-   }
-   .sample-tax-slabs-list{
-    background-color: #F9FAFC;
-   }
