@@ -33,7 +33,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.userId = userUuidParam?.toString() ?? ''
     this.selectedStatus = [];
     this.getPendingTransactionCount();
-    this.getExpenses();
+    // this.getExpenses();
     this.getExpensesCount();
     this.getWalletUser();
     this.getRole();
@@ -100,6 +100,7 @@ export class ExpenseManagementComponent implements OnInit {
 
   expenseRequest(){
     this.resetFilters();
+    this.getPendingTransactionCount();
     this.statusIds = [13];
     this.tempSelectedFilter = ['Pending'];
   }
@@ -152,6 +153,7 @@ export class ExpenseManagementComponent implements OnInit {
          this.loading = false;
        }else{
         this.selectedFilters = this.tempSelectedFilter.map(status => `Status: ${status}`);
+        this.dateFilters = [...this.tempDateFilters];
         this.expenseList = [];
         this.loading = false;
        }
@@ -232,6 +234,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.databaseHelper.currentPage = 1;
     console.log("Selected Status IDs:", this.statusIds);
     if (this.filters.fromDate && this.filters.toDate) {
+        this.tempDateFilters = [];
         const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
         const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
         this.tempDateFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
@@ -480,6 +483,7 @@ openExpenseComponent(expense: any) {
     console.log("Start Date : ",this.filters.fromDate)
     console.log("End Date : ",this.filters.toDate)
     if (this.filters.fromDate && this.filters.toDate) {
+        this.tempDateFilters = [];
         const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
         const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
         this.tempDateFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
@@ -490,6 +494,7 @@ openExpenseComponent(expense: any) {
 
   resetWalletFilters() {
     this.requestedEmployeeId = [];
+    this.requestedEmployeeList = [];
     this.tempDateFilters = [];
     this.filters = { fromDate: undefined, toDate: undefined };  
 
@@ -623,6 +628,31 @@ searchByEmployeeName(event: Event): void {
     this.getPendingTransactionCount();
     console.log("Success Message From Successfully Approve",message);
     this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+  }
+
+
+  /**  Download Company Expense */
+
+  exportUrl: string =''
+  exportLoading: boolean = false;
+  @ViewChild('expenseDownload') expenseDownload!: ElementRef
+  export(){
+    this.exportLoading = true;
+    this.dataService.exportExpense().subscribe((res: any) => {
+      if(res.status){
+        this.exportUrl = res.object
+        this.exportLoading = false;
+
+        if (this.exportUrl != null) {
+          setTimeout(() => {
+            this.expenseDownload.nativeElement.click();
+          }, 500);
+        }
+      }else{
+        this.exportUrl = ''
+        this.exportLoading = false;
+      }
+    })
   }
 
 
