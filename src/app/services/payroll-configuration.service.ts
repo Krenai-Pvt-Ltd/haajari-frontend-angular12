@@ -137,4 +137,8 @@ export class PayrollConfigurationService {
       );
     }
 
+    getState(): Observable<any>{
+      return this._http.get<any>(`${this._key.base_url}/payroll-config/state`);
+    }
+
 }

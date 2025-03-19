@@ -175,7 +175,7 @@
                                     <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="pointer"  (click)="openLocationEditModal(address.organizationAddress.id,address)">
+                                    <span class="pointer"  (click)="openLocationEditModal(address.organizationAddress.id,address,'location')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
                                             <mask id="mask0_9177_4748" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
                                             <rect x="0.983887" width="22.3492" height="22" fill="#444444"/>
@@ -185,7 +185,7 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <span class="pointer" (click)="openLocationEditModal(address.organizationAddress.id,address)">
+                                    <span class="pointer" (click)="openLocationEditModal(address.organizationAddress.id,address,'employee')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 22" fill="none">
                                             <mask id="mask0_9177_4745" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="22">
                                             <rect x="0.713867" width="22.3492" height="22" fill="#D9D9D9"/>
@@ -387,7 +387,7 @@
                     <div class="add-location-menu">
                         <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
-                            type="button" role="tab" #addlocation>
+                            type="button" role="tab" #locationSettingTab>
                             Add Location
                         </button>
                         <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
@@ -576,7 +576,7 @@
                                         
                                         <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader">
                                             <span>
-                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> Submit </span>
+                                                <span class="ng-star-inserted" *ngIf="!saveLoader"> create new location </span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                                                     <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
                                                 </svg>

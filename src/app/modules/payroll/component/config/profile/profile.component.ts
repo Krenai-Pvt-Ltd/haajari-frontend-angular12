@@ -13,6 +13,7 @@ import { OrganizationUserLocation } from 'src/app/payroll-models/OrganizationUse
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { Profile } from 'src/app/payroll-models/Profile';
 import { StaffAddressDetailsForMultiLocation } from 'src/app/payroll-models/StaffAddressDetailMultiLocation';
+import { State } from 'src/app/payroll-models/State';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
@@ -52,7 +53,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0,0);
-    this.getProfile();
+    this.getStateList();
+       this.getProfile();
     this.getTodoList();
     this.getOrganizationAdddress();
   }
@@ -72,38 +74,26 @@ export class ProfileComponent implements OnInit {
   stateCurrency = [
     { "code": "INR", "name": "INR", "symbol": "₹" }
   ];
+  
+  stateList:State[] = new Array();
+  getStateList(){
+      this._payrollConfigurationService.getState().subscribe((response) => {
+            if(response.status){
+              this.stateList= response.object;
+              if(this.stateList==null){
+                this.stateList = new Array();
+              }
+            }
+ 
+          },
+          (error) => {
+    
+          }
+        );
+      }
 
 
-  stateList=[
-    { "id": 1, "name": "Andhra Pradesh" },
-    { "id": 2, "name": "Arunachal Pradesh" },
-    { "id": 3, "name": "Assam" },
-    { "id": 4, "name": "Bihar" },
-    { "id": 5, "name": "Chhattisgarh" },
-    { "id": 6, "name": "Goa" },
-    { "id": 7, "name": "Gujarat" },
-    { "id": 8, "name": "Haryana" },
-    { "id": 9, "name": "Himachal Pradesh" },
-    { "id": 10, "name": "Jharkhand" },
-    { "id": 11, "name": "Karnataka" },
-    { "id": 12, "name": "Kerala" },
-    { "id": 13, "name": "Madhya Pradesh" },
-    { "id": 14, "name": "Maharashtra" },
-    { "id": 15, "name": "Manipur" },
-    { "id": 16, "name": "Meghalaya" },
-    { "id": 17, "name": "Mizoram" },
-    { "id": 18, "name": "Nagaland" },
-    { "id": 19, "name": "Odisha" },
-    { "id": 20, "name": "Punjab" },
-    { "id": 21, "name": "Rajasthan" },
-    { "id": 22, "name": "Sikkim" },
-    { "id": 23, "name": "Tamil Nadu" },
-    { "id": 24, "name": "Telangana" },
-    { "id": 25, "name": "Tripura" },
-    { "id": 26, "name": "Uttar Pradesh" },
-    { "id": 27, "name": "Uttarakhand" },
-    { "id": 28, "name": "West Bengal" }
-  ]
+  
 
   selectedFile: File | null = null;
   
@@ -187,6 +177,8 @@ export class ProfileComponent implements OnInit {
           }
         );
       }
+
+      
   
   
     saveLoader:boolean=false;
@@ -354,7 +346,14 @@ export class ProfileComponent implements OnInit {
       @ViewChild('closeFetchModal') closeFetchModal!:ElementRef;
       saveFetchedAddressStaff(){
         this.saveLoader = true;
-        const selectedAddresses = this.selectedAddressIndexes.map(index => this.organizationAddress[index].organizationAddress.id);
+        let selectedAddresses = [];
+        if (this.organizationAddress.length == 1) {
+          selectedAddresses = [this.organizationAddress[0].organizationAddress.id];
+        } else {
+          selectedAddresses = this.selectedAddressIndexes.map(
+            index => this.organizationAddress[index].organizationAddress.id
+          );
+        }
         this._payrollConfigurationService.saveFetchedAddressStaff(selectedAddresses,this.selectUsers).subscribe((response) => {
             if(response.status){
               this.getOrganizationAdddress();
@@ -428,8 +427,14 @@ export class ProfileComponent implements OnInit {
   openLocationModal(){
     this.fetchUserList();
     this.organizationUserLocation = new OrganizationUserLocation();
-    this.selectedStaffUUIDs = [];
+    this.selectedStaffsUuids = [];
+    this.selectedStaffs = [];
     this.addLocation.nativeElement.click();
+    setTimeout(() => {
+      if (this.locationSettingTab) {
+        this.locationSettingTab.nativeElement.click();
+      }
+    }, 100);
   }     
 
   @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
@@ -445,17 +450,17 @@ export class ProfileComponent implements OnInit {
           if(response.status){
             this.getOrganizationAdddress();
             this.closeAddressModal.nativeElement.click();
-            this._helperService.showToast("Your Organiization Profile has been saved.", Key.TOAST_STATUS_SUCCESS);
+            this._helperService.showToast("Your user workLocattion update.", Key.TOAST_STATUS_SUCCESS);
             this.isRegisterLoad = false;
 
           }else{
-            this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+            this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
         },
         (error) => {
           this.saveLoader = false;
-          this._helperService.showToast("Error saving your profile.", Key.TOAST_STATUS_ERROR);
+          this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
           this.isRegisterLoad = false;
 
 
@@ -525,7 +530,7 @@ export class ProfileComponent implements OnInit {
     }
 
     isWorkLocationFalse(): boolean {
-      return this.organizationAddress.length > 0 && this.organizationAddress.some(addr => !addr.organizationAddress.isWorkLocation);
+      return this.organizationAddress.length == 0 || this.organizationAddress.some(addr => !addr.organizationAddress.isWorkLocation);
     }
     
 
@@ -608,13 +613,26 @@ export class ProfileComponent implements OnInit {
 
 
 
-  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff) {
+  @ViewChild('locationSettingTab') locationSettingTab!: ElementRef;
+  @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
+  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff,targetTab: 'location' | 'employee') {
     this.addressId=addressId;
     this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress));
     this.addLocation.nativeElement.click();
     this.selectedStaffsUuids = orgAaddress.staffs;
     this.fetchUserList();
+    setTimeout(() => {
+      if (targetTab === 'employee' && this.staffSelectionTab) {
+        this.staffSelectionTab.nativeElement.click();
+      } else if (targetTab === 'location' && this.locationSettingTab) {
+        this.locationSettingTab.nativeElement.click();
+      }
+    }, 100);
+
   }
+
+
+  
 
   openDropdownIndex: number | null = null;
 
