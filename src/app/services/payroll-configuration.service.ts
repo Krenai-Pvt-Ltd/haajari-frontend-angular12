@@ -141,4 +141,8 @@ export class PayrollConfigurationService {
       return this._http.get<any>(`${this._key.base_url}/payroll-config/state`);
     }
 
+    deassociateUsersFromOldAddress(request:string[]): Observable<any>{
+      return this._http.post<any>(`${this._key.base_url}/payroll-config/deassociate-users`,request);
+    }
+
 }
