@@ -333,8 +333,11 @@ export class ProfileComponent implements OnInit {
           if (!this.selectedAddressIndexes.includes(index)) {
             this.selectedAddressIndexes.push(index);
           }
-        } 
+        } else {
+          this.selectedAddressIndexes = this.selectedAddressIndexes.filter(i => i !== index);
+        }
       }
+      
 
 
       selectUsers:number=0;
@@ -440,9 +443,11 @@ export class ProfileComponent implements OnInit {
 
   @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
   isRegisterLoad : boolean = false;
+  loading: boolean = false;
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
   saveUserWorkLocation(){
        this.saveLoader = true;
+       this.loading = true;
        this.getSelectedStaffUUIDs();
           var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
           request.organizationMultiLocationRequest = this.organizationUserLocation;
@@ -453,11 +458,13 @@ export class ProfileComponent implements OnInit {
             this.closeAddressModal.nativeElement.click();
             this._helperService.showToast("Your user workLocattion update.", Key.TOAST_STATUS_SUCCESS);
             this.isRegisterLoad = false;
+            this.isValidated = false;
 
           }else{
             this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
+          this.loading = false;
         },
         (error) => {
           this.saveLoader = false;
@@ -644,6 +651,52 @@ export class ProfileComponent implements OnInit {
   isDropdownOpen(index: number): boolean {
     return this.openDropdownIndex === index;
   }
+
+
+  // duplicate users
+
+  @ViewChild("closeButton2") closeButton2!:ElementRef;
+  registerAddress() {
+    debugger;
+    this.isRegisterLoad = true;
+    this.closeButton2.nativeElement.click();
+    this.saveUserWorkLocation();
+
+    // setTimeout(() => {
+    //   this.closeButton.nativeElement.click();
+    // }, 300);
+  }
+
+
+  isValidated: boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUser(this.addressId, "");
+  }
+
+  removeUser(uuid: string) {
+    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+      (id) => id !== uuid
+    );
+    this.staffs.forEach((staff) => {
+      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+    });
+
+    this.isAllSelected = false;
+    // if(this.selectedStaffsUuids.length <1) {
+      // this.unselectAllUsers();
+    // }
+    // this.updateSelectedStaffs();
+    this.userNameWithBranchName = [];
+    this.getOrganizationUser(this.addressId, "SHIFT_USER_EDIT");
+    // this.getUserByFiltersMethodCall();
+
+  }
+
 
   
         
