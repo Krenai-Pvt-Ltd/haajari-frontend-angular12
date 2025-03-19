@@ -49,11 +49,9 @@ export class SalaryComponent implements OnInit {
       this._salaryComponentService.getDefaultEarningComponent().subscribe((response) => {
           if(response.status){
             this.defaultEarningComponents= response.object;
-            
           }
         },
         (error) => {
-    
         }
       );
     }
@@ -108,11 +106,20 @@ export class SalaryComponent implements OnInit {
       }
     }
 
+    viewSection(tab:number): boolean{
+      if(tab== this.selectedTab){
+        return true;
+      }else{
+        return false;
+      }
+    }
 
-    selectedEarningComponent:EarningComponent = new EarningComponent();
+    selectedEarningComponent!:EarningComponent;
     selectedTab:number=0;
     editEarning(earningComponent : EarningComponent){
       this.toggle=true;
+      this.selectedNewEarning = false;
+      this.isNewComponent = false;
       this.selectedTab = this.EARNING_COMPONENT;
       this.selectedEarningComponent= JSON.parse(JSON.stringify(earningComponent)) ;
     }
@@ -128,4 +135,60 @@ export class SalaryComponent implements OnInit {
       { label: "12% of Actual PF Wage", value: "12% of Actual PF Wage" },
       { label: "10% of Actual PF Wage", value: "10% of Actual PF Wage" }
     ];
+
+
+    isNewComponent:boolean=false;
+    addComponent(component: number) {
+      this.toggle = true;
+      this.isNewComponent = true;
+      switch (component) {
+        case 1: {
+          this.getDefaultEarningComponent();
+          break;
+        }
+        case 2: {
+          // this.getDefaultBenefitComponent();
+          break;
+        }
+        case 3: {
+          // this.getDefaultDeductionComponent();
+          break;
+        }
+      }
+    }
+
+
+
+  selectedNewEarning:boolean=false;
+  selectedEarningType:string='';
+   selectDefaultEarningComponent(type:string){
+    this.selectedNewEarning = true;
+    const selectedComponent = this.defaultEarningComponents.find(x=> x.name == type)
+    this.selectedEarningComponent = JSON.parse(JSON.stringify(selectedComponent));
+   } 
+
+   backFromEarning(){
+    this.toggle = false;
+    this.selectedEarningType = '';
+    this.selectedNewEarning = false;
+    this.isNewComponent = false;
+   }
+
+   saveLoader:boolean=false;
+   saveEarningComponent(){
+      this.saveLoader = true;
+      this._salaryComponentService.saveOrganizationEarningComponent(this.selectedEarningComponent).subscribe((response) => {
+          if(response.status){
+          
+          }else{
+   
+          }
+          this.saveLoader = false;
+        },
+        (error) => {
+          this.saveLoader = false;
+        }
+      );
+
+   }
 }
