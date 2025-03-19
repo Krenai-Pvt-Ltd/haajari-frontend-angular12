@@ -5292,6 +5292,13 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
   }
 
+  existsUserByPhone(uan: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-phone/${uan}`);
+  }
+  existsUserByEmail(uan: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-email/${uan}`);
+  }
+
   existsUserByEsi(esi: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-esi/${esi}`);
   }
@@ -5517,7 +5524,8 @@ export class DataService {
   ): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', 'id,DESC');
 
     if (userIds && userIds.length) {
       userIds.forEach(id => (params = params.append('userIds', id.toString())));
