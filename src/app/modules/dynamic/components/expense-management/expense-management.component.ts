@@ -404,10 +404,11 @@ openExpenseComponent(expense: any) {
   walletUserList: any[] = new Array();
   totalWalletUser : number = 0;
   requestedEmployeeId: number[] = [];
+  tempRequestedEmployeeList: string[] = [];
   requestedEmployeeList: string[] = [];
 
   onEmployeeChange(selectedIds: number[]) {
-    this.requestedEmployeeList = this.users
+    this.tempRequestedEmployeeList = this.users
         .filter(user => selectedIds.includes(user.id))
         .map(user => `Employee: ${user.name}`);
   }
@@ -418,7 +419,7 @@ openExpenseComponent(expense: any) {
     const userToRemove = this.users.find(user => user.name === cleanName);
     
     if (userToRemove) {
-        this.requestedEmployeeList = this.requestedEmployeeList.filter(name => name !== employeeName);
+        this.tempRequestedEmployeeList = this.tempRequestedEmployeeList.filter(name => name !== employeeName);
         this.requestedEmployeeId = this.requestedEmployeeId.filter(id => id !== userToRemove.id);
     }
     
@@ -445,7 +446,7 @@ openExpenseComponent(expense: any) {
     
     console.log("Start Date :",this.startDate)
     console.log("End Date :", this.endDate);
-    console.log("Requested Employee Name : ",this.requestedEmployeeList);
+    console.log("Requested Employee Name : ",this.tempRequestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
       this.databaseHelper.currentPage,
@@ -467,9 +468,12 @@ openExpenseComponent(expense: any) {
   
         this.totalWalletUser = res.totalItems;
         this.dateFilters = [...this.tempDateFilters];
+        this.requestedEmployeeList = [...this.tempRequestedEmployeeList];
         console.log('WalletUserList: ', this.walletUserList);
       } else {
         this.walletUserList = [];
+        this.dateFilters = [...this.tempDateFilters];
+        this.requestedEmployeeList = [...this.tempRequestedEmployeeList];
       }
       this.loading = false;
     });
@@ -494,7 +498,7 @@ openExpenseComponent(expense: any) {
 
   resetWalletFilters() {
     this.requestedEmployeeId = [];
-    this.requestedEmployeeList = [];
+    this.tempRequestedEmployeeList = [];
     this.tempDateFilters = [];
     this.filters = { fromDate: undefined, toDate: undefined };  
 
