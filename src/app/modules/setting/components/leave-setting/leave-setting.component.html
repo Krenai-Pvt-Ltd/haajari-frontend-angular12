@@ -36,7 +36,6 @@
           </div>
         </div>
       </div>
-
       <div *ngIf="leaveTemplates.length == 0 && !isLoading"
         class="row leave-management-settings p-3 mt-2 align-items-center">
         <div class="col-md-6">
@@ -1138,6 +1137,16 @@
                                 </nz-input-number>
                               </div>
 
+                              <div class="mt-3" >
+                                <div class="col-md-12 mb-3" nz-form-item >
+                                  <div class="form-check d-flex align-items-center gap-2">
+                                    <input type="checkbox" formControlName="flexible" id="exampleCheck2" class="form-check-input"
+                                    [checked]="categories.controls[i]!.get('flexible')?.value">
+                                    <!-- getInvalidFormValues($event,i); -->
+                                    <label class="form-check-label" for="exampleCheck2" >Leave is flexible to apply in outside date range</label>
+                                  </div>
+                                </div>
+                              </div>
                               <div class="mt-3" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value==CARRY_FORWARD
                                     && categories.controls[i]!.get('unusedLeaveActionCount')?.value > 0">
                                 <div class="col-md-12 mb-3" nz-form-item >
@@ -1223,6 +1232,9 @@
                                         Accrual Type
                                       </th>
                                       <th class="text-center" style="width: 10%">
+                                        Flexible
+                                      </th>
+                                      <th class="text-center" style="width: 10%">
                                         <span *ngIf="wfhTemplateToggle">WFH</span> <span
                                           *ngIf="!wfhTemplateToggle">Leave</span> Count
                                       </th>
@@ -1230,7 +1242,6 @@
                                         Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
                                           *ngIf="!wfhTemplateToggle">Leave</span> Action
                                       </th>
-
                                         <th class="text-center" style="width: 10%" *ngIf="!wfhTemplateToggle">
                                           Carry Forward On Template Expiry
                                         </th>
@@ -1283,6 +1294,10 @@
                                       <td class="text-center">
                                         <span class="teme-maneger mb-0">
                                           {{ category.accrualName }}</span>
+                                      </td>
+                                      <td class="text-center">
+                                        <span class="teme-maneger mb-0">
+                                          {{ category.isFlexible==1 ? 'Yes' : 'No' }}</span>
                                       </td>
                                       <td class="text-center">
                                         <span class="teme-maneger mb-0 table-font-weight">

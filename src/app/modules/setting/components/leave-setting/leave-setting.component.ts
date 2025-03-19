@@ -115,6 +115,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: [''],
       gender: [''],
       isReset:[true],
+      flexible: [false],
       carryoverAction: [''],
       carryover:['']
     });
@@ -142,6 +143,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: '',
       gender: '',
       isReset:true,
+      flexible:false,
       carryoverAction:'',
       carryover:''
     });
@@ -161,6 +163,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: [''],
       gender: [''],
       isReset:[true],
+      flexible: [false],
       carryoverAction: [''],
       carryover:['']
     });
@@ -248,6 +251,7 @@ export class LeaveSettingComponent implements OnInit {
         accrualTypeId: [''],
         gender: [''],
         isReset:[true],
+        flexible: [false],
         carryoverAction:[''],
         carryover:['']
       });
@@ -2162,7 +2166,8 @@ private updateCurrentPageSelection() {
         gender: category.gender,
         reset: category.isReset,
         carryoverAction: category.carryoverAction,
-        carryover: category.carryover
+        carryover: category.carryover,
+        flexible: category.flexible
       })
     );
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
@@ -2352,7 +2357,7 @@ closeModal() {
   weekOffTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplatesIds: number[] = [8,9];
   weekOffTemplatesIds: number[] = [10];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 11, 12];
 
   getAllLeaveTemplate() {
     debugger
@@ -2382,8 +2387,7 @@ closeModal() {
   this.leaveTemplates = response.object.filter((template: any) =>
     // template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
   this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-
-);
+  );
 
 // console.log('leaveTemplates: ',this.leaveTemplates)
 // console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)

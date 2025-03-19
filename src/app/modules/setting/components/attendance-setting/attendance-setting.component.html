@@ -1752,15 +1752,21 @@
 
                         <div class="col-md-4 mb-3">
                           <label for="autoCheckout" class="pb-2">Auto Checkout Time</label>
-                          <nz-time-picker
-                            [(ngModel)]="organizationShiftTimingRequest.autoCheckout"
-                            [nzUse12Hours]="true"
-                            nzFormat="h:mm a"
-                            [ngModelOptions]="{ standalone: true }"
-                          ></nz-time-picker>
+                          <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.autoCheckout" [nzUse12Hours]="true" nzFormat="h:mm a"
+                            (ngModelChange)="onTimeChange('autoCheckout', $event)"[ngModelOptions]="{ standalone: true }"></nz-time-picker>
                         </div>
 
-                      </form>
+                        <!-- Add this after the Auto Checkout Time picker -->
+                        <div class="col-md-4 mb-3">
+                          <label for="autoCheckoutDifference" class="pb-2">Auto Checkout Difference</label>
+                          <input id="autoCheckoutDifference" type="text" class="form-control input-zorro" readonly
+                            [value]="autoCheckoutDifference" name="autoCheckoutDifference" placeholder="HH:mm" />
+                          <div *ngIf="organizationShiftTimingValidationErrors['autoCheckout']" class="text-danger">
+                            {{ organizationShiftTimingValidationErrors['autoCheckout'] }}
+                          </div>
+                        </div>
+
+                        </form>
 
 
                       <div class="leave-footer">

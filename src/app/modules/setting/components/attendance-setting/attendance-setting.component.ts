@@ -1672,9 +1672,10 @@ export class AttendanceSettingComponent implements OnInit {
 //     }
 // }
 
+autoCheckoutDifference: string = '';
 calculateTimes(): void {
   debugger
-  const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+  const { inTime, outTime, startLunch, endLunch, autoCheckout } = this.organizationShiftTimingRequest;
 
   // Reset errors and calculated times
   this.organizationShiftTimingValidationErrors = {};
@@ -1737,6 +1738,31 @@ calculateTimes(): void {
       if (startLunchMinutes >= endLunchMinutes) {
           this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
       }
+  }
+
+  if (autoCheckout) {
+    if (!outTime) {
+      this.organizationShiftTimingValidationErrors['autoCheckout'] =
+        'Out time is required when setting auto checkout.';
+    } else {
+      const outTimeMinutes = dateToLocalMinutes(outTime);
+      const autoCheckoutMinutes = dateToLocalMinutes(autoCheckout);
+
+      if (autoCheckoutMinutes <= outTimeMinutes) {
+        this.organizationShiftTimingValidationErrors['autoCheckout'] =
+          'Auto checkout must be after out time.';
+      } else {
+        const diffMinutes = autoCheckoutMinutes - outTimeMinutes;
+        if (diffMinutes > 600) { // 10 hours * 60
+          this.organizationShiftTimingValidationErrors['autoCheckout'] =
+            'Auto checkout cannot be more than 10 hours after out time.';
+        }
+        this.autoCheckoutDifference = this.formatMinutesToTime(diffMinutes);
+      }
+    }
+  } else {
+    this.autoCheckoutDifference = '';
+    delete this.organizationShiftTimingValidationErrors['autoCheckout'];
   }
 }
 
@@ -2746,6 +2772,9 @@ getAllAddressDetails(): void {
             break;
         case 'endLunch':
             this.organizationShiftTimingRequest.endLunch = value;
+            break;
+        case 'autoCheckout':
+            this.organizationShiftTimingRequest.autoCheckout = value;
             break;
         default:
             break;
