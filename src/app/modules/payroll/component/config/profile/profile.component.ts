@@ -749,6 +749,15 @@ export class ProfileComponent implements OnInit {
 }
 
 
+openStaffSelection() {
+  this.fetchUserList();
+ this.staffSelectionTab.nativeElement.click();
+
+}
+
+
+
+
   
   
         

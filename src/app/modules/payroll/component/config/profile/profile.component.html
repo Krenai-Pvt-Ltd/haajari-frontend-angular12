@@ -172,7 +172,7 @@
                                     data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
                                         <i class="bi bi-chevron-down transition "></i>
                                     </span>
-                                    <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
+                                    <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.branch}}</p>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <span class="pointer"  (click)="openLocationEditModal(address.organizationAddress.id,address,'location')">
@@ -402,6 +402,13 @@
                             <div class="tab-pane show active" id="staffLocation" role="tabpanel" #staffLocation>
                                 <div class="configuration-location p-3 row">
                                     <div class="col-md-12 mb-3">
+                                        <label for="addressLine1" class="pb-2">Branch Name </label>
+                                        <input type="text" placeholder="Branch Name" required name="branchName" 
+                                        maxlength="50"
+                                        class="form-control whatsapp-login-input" 
+                                        [(ngModel)]="organizationUserLocation.branch">
+                                    </div>
+                                    <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 1 </label>
                                         <input type="text" placeholder="Address Line 1" required name="addressLine1" 
                                         maxlength="50"
@@ -410,7 +417,7 @@
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 2 </label>
-                                        <input type="text" placeholder="Address Line 2" required name="addressLine2"
+                                        <input type="text" placeholder="Address Line 2"  name="addressLine2"
                                         maxlength="50" 
                                         class="form-control whatsapp-login-input"
                                         [(ngModel)]="organizationUserLocation.addressLine2">
@@ -461,7 +468,7 @@
 
                                 <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
                                     <button  class="btn p-0 next-btn nextBtn"  id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                                    type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
+                                    type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid" (click)="openStaffSelection()">
                                         <span>
                                             <span class="ng-star-inserted">Next</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
