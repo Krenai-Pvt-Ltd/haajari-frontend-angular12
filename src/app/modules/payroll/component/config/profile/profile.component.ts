@@ -650,19 +650,20 @@ export class ProfileComponent implements OnInit {
 
   @ViewChild('locationSettingTab') locationSettingTab!: ElementRef;
   @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
-  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff,targetTab: 'location' | 'employee') {
+  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff,targetTab: string) {
+    this.selectedStaffsUuids = orgAaddress.staffs;
     this.addressId=addressId;
     this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress));
     this.addLocation.nativeElement.click();
-    this.selectedStaffsUuids = orgAaddress.staffs;
+   
     this.fetchUserList();
     setTimeout(() => {
-      if (targetTab === 'employee' && this.staffSelectionTab) {
+      if (targetTab == 'employee') {
         this.staffSelectionTab.nativeElement.click();
-      } else if (targetTab === 'location' && this.locationSettingTab) {
+      } else if (targetTab == 'location') {
         this.locationSettingTab.nativeElement.click();
       }
-    }, 100);
+    }, 50);
 
   }
 
