@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
 
   selectedLocation: string = 'India';
 
-  selectedCurrency: string = 'INR'; // INR selected by default
+  selectedCurrency: string = 'INR';
 
   stateCurrency = [
     { "code": "INR", "name": "INR", "symbol": "₹" }
@@ -168,6 +168,7 @@ export class ProfileComponent implements OnInit {
                 this.profile = new Profile();
               }
             const now = new Date();
+            this.profile.dateFormat= this.dateFormats[0].value
             this.formattedDate = this.formatDate(now, this.profile.dateFormat);
               this.profile.currency = this.profile.currency ? this.profile.currency : 'INR';
             }
