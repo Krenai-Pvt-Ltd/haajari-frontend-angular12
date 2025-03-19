@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
   fetchLocationModal: any;
   bootstrap: any;
   addressId:number=0;
+  filteredStateList: State[] | undefined;
 
   constructor(
      private _payrollConfigurationService :PayrollConfigurationService,
@@ -445,37 +446,61 @@ export class ProfileComponent implements OnInit {
   isRegisterLoad : boolean = false;
   loading: boolean = false;
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
-  saveUserWorkLocation(){
-       this.saveLoader = true;
-       this.loading = true;
-       this.getSelectedStaffUUIDs();
-          var request:StaffAddressDetailsForMultiLocation= new StaffAddressDetailsForMultiLocation;
-          request.organizationMultiLocationRequest = this.organizationUserLocation;
-          request.userUuidsList = this.selectedStaffUUIDs;
-          this._payrollConfigurationService.saveUserWorkLocation(request,this.addressId).subscribe((response) => {
-          if(response.status){
+  saveUserWorkLocation() {
+    this.saveLoader = true;
+    this.loading = true;
+    this.getSelectedStaffUUIDs();
+  
+    let request: StaffAddressDetailsForMultiLocation = new StaffAddressDetailsForMultiLocation();
+    request.organizationMultiLocationRequest = this.organizationUserLocation;
+    request.userUuidsList = this.selectedStaffUUIDs;
+  
+    this._payrollConfigurationService.saveUserWorkLocation(request, this.addressId).subscribe(
+      (response) => {
+        this.saveLoader = false;
+        this.loading = false;
+  
+        if (response.status) {
+          if (response.object && response.object.length > 0) {
+            // Filter `staffs` array using the UUIDs in `response.object`
+            this.userNameWithBranchName = this.staffs.filter(staff => 
+              response.object.includes(staff.uuid)
+            );
+            console.log(this.userNameWithBranchName );
+  
+            this.openUserAlreadyAssignedModal();
+          } else {
             this.getOrganizationAdddress();
             this.closeAddressModal.nativeElement.click();
-            this._helperService.showToast("Your user workLocattion update.", Key.TOAST_STATUS_SUCCESS);
+            this._helperService.showToast("Your user work location updated.", Key.TOAST_STATUS_SUCCESS);
             this.isRegisterLoad = false;
             this.isValidated = false;
-
-          }else{
-            this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
           }
-          this.saveLoader = false;
-          this.loading = false;
-        },
-        (error) => {
-          this.saveLoader = false;
+        } else {
           this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
-          this.isRegisterLoad = false;
-
-
         }
-      );
-    }
+      },
+      (error) => {
+        this.saveLoader = false;
+        this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
+        this.isRegisterLoad = false;
+      }
+    );
+  }
+  
+  
+  openUserAlreadyAssignedModal() {
+    setTimeout(() => {
+      let modalButton = document.querySelector("[data-bs-target='#usersAlreadyAssigned']") as HTMLElement | null;
+      if (modalButton) {
+        modalButton.click();
+      }
+    }, 100);
+  }
+  
 
+    
+    
 
 
         checkIndividualSelection() {
@@ -571,6 +596,8 @@ export class ProfileComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
+  
+
   clearSearchText() {
     this.searchText = '';
     this.getUserByFiltersMethodCall();
@@ -623,19 +650,20 @@ export class ProfileComponent implements OnInit {
 
   @ViewChild('locationSettingTab') locationSettingTab!: ElementRef;
   @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
-  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff,targetTab: 'location' | 'employee') {
+  openLocationEditModal(addressId:number,orgAaddress : OrganizationAddressWithStaff,targetTab: string) {
+    this.selectedStaffsUuids = orgAaddress.staffs;
     this.addressId=addressId;
     this.organizationUserLocation = JSON.parse(JSON.stringify(orgAaddress.organizationAddress));
     this.addLocation.nativeElement.click();
-    this.selectedStaffsUuids = orgAaddress.staffs;
+   
     this.fetchUserList();
     setTimeout(() => {
-      if (targetTab === 'employee' && this.staffSelectionTab) {
+      if (targetTab == 'employee') {
         this.staffSelectionTab.nativeElement.click();
-      } else if (targetTab === 'location' && this.locationSettingTab) {
+      } else if (targetTab == 'location') {
         this.locationSettingTab.nativeElement.click();
       }
-    }, 100);
+    }, 50);
 
   }
 
@@ -652,20 +680,34 @@ export class ProfileComponent implements OnInit {
     return this.openDropdownIndex === index;
   }
 
-
-  // duplicate users
-
   @ViewChild("closeButton2") closeButton2!:ElementRef;
   registerAddress() {
-    debugger;
     this.isRegisterLoad = true;
     this.closeButton2.nativeElement.click();
-    this.saveUserWorkLocation();
-
-    // setTimeout(() => {
-    //   this.closeButton.nativeElement.click();
-    // }, 300);
+  
+    // Get selected user UUIDs
+    this.getSelectedStaffUUIDs();
+  
+    // Step 1: Deassociate users first
+    this._payrollConfigurationService.deassociateUsersFromOldAddress(this.selectedStaffUUIDs).subscribe(
+      (response) => {
+        if (response.status) {
+          console.log("Users deassociated successfully. Proceeding to save new location.");
+          this.saveUserWorkLocation(); // Step 2: Now assign them to the new location
+        } else {
+          this.isRegisterLoad = false;
+          this._helperService.showToast("Error deassociating users.", Key.TOAST_STATUS_ERROR);
+        }
+      },
+      (error) => {
+        this.isRegisterLoad = false;
+        console.error("Error during deassociation:", error);
+        this._helperService.showToast("Error deassociating users.", Key.TOAST_STATUS_ERROR);
+      }
+    );
   }
+  
+  
 
 
   isValidated: boolean = false;
@@ -679,25 +721,45 @@ export class ProfileComponent implements OnInit {
   }
 
   removeUser(uuid: string) {
+   
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
       (id) => id !== uuid
     );
-    this.staffs.forEach((staff) => {
-      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
-    });
+  
+    this.staffs = this.staffs.map((staff) => ({
+      ...staff,
+      selected: this.selectedStaffsUuids.includes(staff.uuid),
+    }));
+  
+    this.userNameWithBranchName = this.userNameWithBranchName.filter(
+      (user: { uuid: string; }) => user.uuid !== uuid
+    );
 
-    this.isAllSelected = false;
-    // if(this.selectedStaffsUuids.length <1) {
-      // this.unselectAllUsers();
-    // }
-    // this.updateSelectedStaffs();
-    this.userNameWithBranchName = [];
-    this.getOrganizationUser(this.addressId, "SHIFT_USER_EDIT");
-    // this.getUserByFiltersMethodCall();
-
+    this.isAllSelected = this.staffs.every((staff) => staff.selected);
+  
+    if (this.selectedStaffsUuids.length === 0) {
+      this.getOrganizationUser(this.addressId, "SHIFT_USER_EDIT");
+    }
   }
 
+  searchState(event: string | Event): void {
+    const value = typeof event === 'string' ? event : ''; // Ensure it's a string
+    this.filteredStateList = this.stateList.filter(state =>
+        state.name.toLowerCase().includes(value.toLowerCase())
+    );
+}
 
+
+openStaffSelection() {
+  this.fetchUserList();
+ this.staffSelectionTab.nativeElement.click();
+
+}
+
+
+
+
+  
   
         
 }

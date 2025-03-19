@@ -159,7 +159,6 @@
                         </nz-empty>
                     </div>
         
-
                        <!-- TO DO: Location list start-->
                    <div class="row" *ngIf="!isWorkLocationFalse()">
                     <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
@@ -172,7 +171,7 @@
                                     data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
                                         <i class="bi bi-chevron-down transition "></i>
                                     </span>
-                                    <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.state}}</p>
+                                    <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.branch}}</p>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <span class="pointer"  (click)="openLocationEditModal(address.organizationAddress.id,address,'location')">
@@ -402,6 +401,13 @@
                             <div class="tab-pane show active" id="staffLocation" role="tabpanel" #staffLocation>
                                 <div class="configuration-location p-3 row">
                                     <div class="col-md-12 mb-3">
+                                        <label for="addressLine1" class="pb-2">Branch Name </label>
+                                        <input type="text" placeholder="Branch Name" required name="branchName" 
+                                        maxlength="50"
+                                        class="form-control whatsapp-login-input" 
+                                        [(ngModel)]="organizationUserLocation.branch">
+                                    </div>
+                                    <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 1 </label>
                                         <input type="text" placeholder="Address Line 1" required name="addressLine1" 
                                         maxlength="50"
@@ -410,7 +416,7 @@
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="addressLine1" class="pb-2">Address Line 2 </label>
-                                        <input type="text" placeholder="Address Line 2" required name="addressLine2"
+                                        <input type="text" placeholder="Address Line 2"  name="addressLine2"
                                         maxlength="50" 
                                         class="form-control whatsapp-login-input"
                                         [(ngModel)]="organizationUserLocation.addressLine2">
@@ -418,18 +424,26 @@
                                     <div class="col-md-4 mb-3">
                                         <label for="addressLine1" class="pb-2">Select State </label>
                                         <div class="w-100">
-                                        <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select State" 
-                                        name="state"
-                                        [(ngModel)]="organizationUserLocation.state"
-                                        [nzDisabled]="addressId !== 0"
-                                        (ngModelChange)="onStateChange($event)"
-                                        required>
-                                        <nz-option 
-                                            *ngFor="let state of stateList" 
-                                            [nzValue]="state.name" 
-                                            [nzLabel]="state.name">
-                                        </nz-option>
-                                          </nz-select>
+                                            <nz-select
+                                            class="form-control w-100 placeholder-line"
+                                            nzSize="large"
+                                            nzPlaceHolder="Select State"
+                                            name="state"
+                                            [(ngModel)]="organizationUserLocation.state"
+                                            [nzDisabled]="addressId !== 0"
+                                            (ngModelChange)="onStateChange($event)"
+                                            [nzShowSearch]="true"
+                                            (nzSearchChange)="searchState($event)"
+                                            required
+                                        >
+                                            <nz-option
+                                                *ngFor="let state of stateList"
+                                                [nzValue]="state.name"
+                                                [nzLabel]="state.name"
+                                            >
+                                            </nz-option>
+                                        </nz-select>
+                                        
                                         </div>
                                     </div>
                                     <div class="col-md-4 mb-3">
@@ -453,7 +467,7 @@
 
                                 <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
                                     <button  class="btn p-0 next-btn nextBtn"  id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                                    type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
+                                    type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid" (click)="openStaffSelection()">
                                         <span>
                                             <span class="ng-star-inserted">Next</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -475,7 +489,7 @@
                                                     <input type="text" id="searchText" placeholder="Search by name"
                                                     name="search"
                                                     class="form-control me-2 attendance-details-search"
-                                                    (keyup)="searchUsers()" [(ngModel)]="searchText"
+                                                    [(ngModel)]="searchText"
                                                     [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
                                                     <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
                                                     *ngIf="searchText != ''" (click)="clearSearchText()"></i>
@@ -576,26 +590,7 @@
                                         
                                           
                                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white"> 
-                                        <button type="button" class="btn next-btn nextBtn" *ngIf="
-        this.userNameWithBranchName?.length > 0 && !this.isValidated" data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal"
-                                        [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}" [disabled]="this.selectedStaffsUuids.length < 1
-                                      ">
-                                        <span *ngIf="!loading">Create new location
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
-                                            fill="none">
-                                            <path
-                                              d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
-                                              fill="#6666F2">
-                                            </path>
-                                          </svg>
-                
-                                        </span>
-                                        <div class="dot-opacity-loader-new" *ngIf="loading">
-                                          <span></span>
-                                          <span></span>
-                                          <span></span>
-                                        </div>
-                                      </button>
+                                        
 
                                         
                                         <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader">
@@ -753,27 +748,22 @@
 
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
-          <div class="manualemployList" *ngIf="userNameWithBranchName?.length > 0">
+          <div class="manualemployList">
             <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithBranchName">
               <div class="d-flex align-items-center gap-3">
                 <span class="userName">{{
-                  list.userName.charAt(0).toUpperCase()
+                  list.name
                   }}</span>
 
                 <div>
-                  <h5 class="alert-heading font-13 mb-1">
-                    {{ list.userName }}
-                  </h5>
                   <div class="d-flex align-items-center gap-2">
-                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
-                    <span class="spreter-line"></span>
-                    <span class="shift-tag">{{ list.branchName || "N/A"}}</span>
+                    <p class="mb-0 font-11">{{ list.email || "N/A" }}</p>
                   </div>
                 </div>
               </div>
               <div>
-                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
+                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.uuid)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                     <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                       width="22" height="23">
@@ -809,7 +799,7 @@
             Cancel
           </button>
           <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated"
-            (click)="registerAddress()">
+            (click)="registerAddress()" type="button">
             <span *ngIf="!isRegisterLoad">Add all</span>
             <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
               <span></span>

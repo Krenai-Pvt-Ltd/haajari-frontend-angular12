@@ -124,21 +124,19 @@ export class PayrollConfigurationService {
       return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,request,{params});
     }
 
-    getOrganizationUser(
-      selectedStaffsUuids: string[],
-      addressId: number
-    ): Observable<any> {
-      let params = new HttpParams().set('addressId', addressId);
+    getOrganizationUser(selectedStaffsUuids: string[], addressId: number): Observable<any> {
+      const params = new HttpParams()
+      .set('addressId', addressId);
   
-      return this._http.post<any>(
-        `${this._key.base_url}/payroll-config/get-organization-user-uuid`,
-        selectedStaffsUuids,
-        { params }
-      );
+      return this._http.post<any>(`${this._key.base_url}/payroll-config/get-organization-user-uuid`,selectedStaffsUuids, { params });
     }
 
     getState(): Observable<any>{
       return this._http.get<any>(`${this._key.base_url}/payroll-config/state`);
+    }
+
+    deassociateUsersFromOldAddress(request:string[]): Observable<any>{
+      return this._http.post<any>(`${this._key.base_url}/payroll-config/deassociate-users`,request);
     }
 
 }

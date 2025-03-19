@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { EmployeeStateInsurance } from 'src/app/payroll-models/EmployeeStateInsurance';
 import { EmployeeProvidentFund } from 'src/app/payroll-models/EmployeeProvidentFund';
@@ -8,10 +8,7 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
-import { ActivatedRoute } from '@angular/router';
-import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
-
-
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-statutory',
   templateUrl: './statutory.component.html',
@@ -19,30 +16,45 @@ import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 })
 export class StatutoryComponent implements OnInit {
 
-  activeTab:any;
- 
-
-
-
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
-    private _helperService : HelperService,
-    private activateRoute: ActivatedRoute
-) {
-   if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
-      this.activeTab = this.activateRoute.snapshot.queryParamMap.get('tab');
-    }
+    private _helperService : HelperService) {
+  
  
 }
 
   ngOnInit(): void {
     window.scroll(0,0);
-    this.getEpfDetail();
     this.getPfContribution();
-    this.getEsiDetail();
-    this.getPtDetail();
-    this.getLwfDetail();
-    this.getTodoList();
+    this.getOrganizationEPF();
+    this.getOrganizationESI();
+    this.getProfessionalTax();
+    this.getLabourWelfareFund();
   }
+
+
+  pfContributionRate:PfContributionRate [] = new Array();
+  getPfContribution(){
+    this._payrollConfigurationService.getPfContribution().subscribe(
+      (response) => {
+        if(response.status){
+          this.pfContributionRate = response.object;
+          if(this.pfContributionRate == null){
+            this.pfContributionRate = [];
+          }
+        }
+      },(error) => {
+      }
+    );
+  }
+
+  get filteredEmployerContributions(): PfContributionRate[] {
+    return this.pfContributionRate.filter(pf => pf.contributorType === 1);
+  }
+  
+  get filteredEmployeeContributions(): PfContributionRate[] {
+    return this.pfContributionRate.filter(pf => pf.contributorType === 2);
+  }
+
 
   isAnyFieldFocused = false;
 
@@ -51,17 +63,16 @@ export class StatutoryComponent implements OnInit {
   }
 
   loadingFlags: { [key: string]: boolean } = {}; 
-
   epfDetail:EmployeeProvidentFund = new EmployeeProvidentFund();
-  getEpfDetail(){
+  getOrganizationEPF(){
       this._payrollConfigurationService.getEpfDetail().subscribe((response) => {
           if(response.status){
             this.epfDetail= response.object;
-            this.epfNumberForView = this.formatEpfNumberForView(this.epfDetail.epfNumber);
-      
+            
             if(this.epfDetail==null){
               this.epfDetail = new EmployeeProvidentFund();
             }          
+            this.epfNumberForView = this.formatEpfNumberForView(this.epfDetail.epfNumber);
           }else{
             this.epfDetail = new EmployeeProvidentFund();
           }
@@ -74,33 +85,15 @@ export class StatutoryComponent implements OnInit {
       );
     }
 
-
-    pfContributionRate:PfContributionRate [] = new Array();
-      getPfContribution(){
-        this._payrollConfigurationService.getPfContribution().subscribe(
-          (response) => {
-            if(response.status){
-              this.pfContributionRate = response.object;
-            }
-            if(this.pfContributionRate == null){
-              this.pfContributionRate = [];
-            }
-        
-          },
-          (error) => {
-          }
-        );
-      }
-
-      get filteredEmployerContributions(): PfContributionRate[] {
-        return this.pfContributionRate.filter(pf => pf.contributorType === 1);
-      }
-      
-      get filteredEmployeeContributions(): PfContributionRate[] {
-        return this.pfContributionRate.filter(pf => pf.contributorType === 2);
-      }
-    
-
+    @ViewChild('epfForm') epfForm!:NgForm;
+    @ViewChild('esiForm') esiForm!:NgForm;
+    formReset(){
+      window.scroll(0,0);
+      this.epfForm.form.markAsPristine();
+      this.epfForm.form.markAsUntouched();
+      this.esiForm.form.markAsPristine();
+      this.esiForm.form.markAsUntouched();
+    }
     
     saveLoader:boolean=false;
       saveEpfDetail(){
@@ -109,8 +102,8 @@ export class StatutoryComponent implements OnInit {
         this._payrollConfigurationService.saveEpfDetail(this.epfDetail).subscribe(
           (response) => {
             if(response.status){
+              this.formReset();
               this._helperService.showToast("EPF Details saved successfully", Key.TOAST_STATUS_SUCCESS);
-              this.isAnyFieldFocused=false;
             }else{
               this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
@@ -126,10 +119,6 @@ export class StatutoryComponent implements OnInit {
 
 
       isLopChecked:boolean = false;
-      toggleLOPVisibility(): void {
-        console.log("toggled",this.isLopChecked)
-      }
-  
       calculateValue( value: number): number {
         if (this.isLopChecked) {
           return value/2;
@@ -175,8 +164,6 @@ export class StatutoryComponent implements OnInit {
 
       }
 
-
-
       employerContributorDetail(): string {
         const employerpf = this.pfContributionRate.find(pf => pf.id === this.epfDetail.employerContribution);
         return employerpf ? employerpf.description : ''; 
@@ -190,41 +177,37 @@ export class StatutoryComponent implements OnInit {
 
       totalEpfValue:number=0;
       halfbasic:number=0;
-      calculateEpfValue( basic: number,
-        transport: number,
-        telephone: number): number{
-
-      if(this.isLopChecked){
-        this.halfbasic = basic/2;
-        if(this.epfDetail.condiserLop){
-          if(this.halfbasic<15000){
+      calculateEpfValue( basic: number,transport: number,telephone: number): number{
+        if(this.isLopChecked){
+          this.halfbasic = basic/2;
+          if(this.epfDetail.condiserLop){
+            if(this.halfbasic<15000){
+              this.totalEpfValue = (basic + transport + telephone)/2;
+              return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
+            }
+            return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue = this.halfbasic;
+          }else{
+            if(this.halfbasic<15000){
             this.totalEpfValue = (basic + transport + telephone)/2;
             return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
+
+            }
+            return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000: this.totalEpfValue= this.halfbasic;
           }
-          return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue = this.halfbasic;
         }else{
-          if(this.halfbasic<15000){
-           this.totalEpfValue = (basic + transport + telephone)/2;
-           return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
-
+          if(this.epfDetail.condiserLop){
+            if(basic<15000){
+              return this.totalEpfValue = (basic + transport + telephone);
+            }
+            return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
+          }else{
+            if(basic<15000){
+              return this.totalEpfValue = (basic + transport + telephone);
+            }
+            return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
           }
-          return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000: this.totalEpfValue= this.halfbasic;
+
         }
-      }else{
-        if(this.epfDetail.condiserLop){
-          if(basic<15000){
-            return this.totalEpfValue = (basic + transport + telephone);
-          }
-          return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
-        }else{
-          if(basic<15000){
-            return this.totalEpfValue = (basic + transport + telephone);
-          }
-          return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
-        }
-
-      }
-
       }
 
 
@@ -299,15 +282,15 @@ export class StatutoryComponent implements OnInit {
       //************************           ESI        ******************************** */
 
       esiDetail:EmployeeStateInsurance = new EmployeeStateInsurance();
-      getEsiDetail(){
+      getOrganizationESI(){
         this._payrollConfigurationService.getEsiDetail().subscribe(
           (response) => {
             if(response.status){
               this.esiDetail= response.object;
-              this.esiNumberForView = this.formatEsiNumberForView(this.esiDetail.esiNumber);
               if(this.esiDetail==null){
                 this.esiDetail = new EmployeeStateInsurance();
               }
+              this.esiNumberForView = this.formatEsiNumberForView(this.esiDetail.esiNumber);
             }
             this.transformEsiNumber(this.esiDetail);
           },
@@ -324,8 +307,8 @@ export class StatutoryComponent implements OnInit {
         this._payrollConfigurationService.saveEsiDetail(this.esiDetail.isCtcIncluded,this.esiDetail.esiNumber).subscribe(
           (response) => {
             if(response.status){
+              this.formReset();
               this._helperService.showToast("ESI Details saved successfully", Key.TOAST_STATUS_SUCCESS);
-              this.isAnyFieldFocused=false;
             }else{
               this._helperService.showToast("An error has been occcured while saving.", Key.TOAST_STATUS_ERROR);
             }
@@ -401,7 +384,7 @@ export class StatutoryComponent implements OnInit {
 
 
       professionalTaxDetail:ProfessionalTax[] = new Array();
-      getPtDetail(){
+      getProfessionalTax(){
         this._payrollConfigurationService.getProfessionalTax().subscribe(
           (response) => {
             if(response.status){
@@ -486,7 +469,7 @@ export class StatutoryComponent implements OnInit {
 
       labourWelfareFundDetail:LabourWelfareFund[] = new Array();
       loadingStates: { [key: string]: boolean } = {}; 
-      getLwfDetail(){
+      getLabourWelfareFund(){
         this._payrollConfigurationService.getLabourWelfareFund().subscribe(
           (response) => {
             if(response.status){
@@ -541,25 +524,7 @@ export class StatutoryComponent implements OnInit {
       
 
 
-      toDoStepList:PayrollTodoStep[]=new Array();
-   getTodoList() {
-
-      this._payrollConfigurationService.getTodoList().subscribe(
-        (response) => {
-          if(response.status){
-            this.toDoStepList = response.object;
-            this.checkAllCompleted();
-
-          }
-        },
-        (error) => {
-  
-        }
-      );
-    }
-    checkAllCompleted(): boolean {
-      return this.toDoStepList.every(step => step.completed);
-    }
+   
 
 
     selectedProfessionalTax:ProfessionalTax = new ProfessionalTax();

@@ -1,6 +1,6 @@
 import { AddressDetail } from "./AddressDetail";
 
 export class OrganizationAddressWithStaff{
-    organizationAddress!: AddressDetail;
+    organizationAddress!: AddressDetail; //ToDO
     staffs:string[]=[];
 }
