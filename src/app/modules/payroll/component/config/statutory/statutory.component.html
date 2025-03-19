@@ -26,10 +26,14 @@
 
     <div class="tab-content mt-3" id="tabContent" >
   
+<<<<<<< HEAD
       <div class="tab-pane fade show active" id="epf" role="tabpanel" aria-labelledby="epf-tab">
+=======
+        <div class="tab-pane fade show active" id="epf" role="tabpanel" aria-labelledby="epf-tab">
+>>>>>>> f1cca949091529994387be02312c5f605df553a4
          <form #epfForm="ngForm" ngNativeValidate (ngSubmit)="saveEpfDetail()">
 
-            <div class="p-2 mb-10">
+            <div class="px-4 pt-3 mb-10">
                <div class="row">
                   <div class="col-md-4">
                     
@@ -189,6 +193,7 @@
                </div>
             </div>
 
+<<<<<<< HEAD
             <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2"  *ngIf="!epfForm.pristine">
                <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white" [ngClass]="{'disabled-lnk':saveLoader}">
                   <div *ngIf="saveLoader" class="dot-opacity-loader">
@@ -198,11 +203,29 @@
                   </div>
                   <span *ngIf="!saveLoader"> Save</span>      
                </button>
+=======
+            <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="epfForm.touched">
+                <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
+                        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                [disabled]="saveLoader">
+                <div *ngIf="saveLoader" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span *ngIf="!saveLoader"> Save</span>      
+            </button>
+         
+>>>>>>> f1cca949091529994387be02312c5f605df553a4
             </div>
          </form>
       </div>
  
+<<<<<<< HEAD
       <div class="tab-pane fade" id="esi" role="tabpanel" aria-labelledby="esi-tab">
+=======
+        <div class="tab-pane fade" id="esi" role="tabpanel" aria-labelledby="esi-tab">
+>>>>>>> f1cca949091529994387be02312c5f605df553a4
          <form #esiForm="ngForm" ngNativeValidate (ngSubmit)="saveEsiDetail()">
             <div class="px-4 pt-3 mb-10">
                <div class="row">
@@ -276,6 +299,7 @@
                 </div>
              </div>
             </div>
+<<<<<<< HEAD
             <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!esiForm.pristine">
                <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white" [ngClass]="{'disabled-lnk':saveLoader}">
                   <div *ngIf="saveLoader" class="dot-opacity-loader">
@@ -285,13 +309,26 @@
                   </div>
                   <span *ngIf="!saveLoader"> Save</span>      
                </button>
+=======
+            <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="esiForm.touched">
+                <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
+                <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                [disabled]="saveLoader">
+                <div *ngIf="saveLoader" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span *ngIf="!saveLoader"> Save</span>      
+            </button>
+>>>>>>> f1cca949091529994387be02312c5f605df553a4
             </div>
          </form>
         </div>
       
         <div class="tab-pane fade" id="tax" role="tabpanel" aria-labelledby="tax-tab">
          <div class="px-4 pt-3">
-             <div class="row location-list" *ngIf="professionalTaxDetail.length > 0">
+             <div class="row">
                  <div class="col-md-4">
                     <div class="payroll-details-box">
                        <h4 class="font-14 text-black fw-semibold lh-1">Professional Tax</h4>
@@ -368,7 +405,7 @@
                                       </div>
                                       
                                    </div>
-                                 </form>
+                                                                         </form>
 
                                </div>
                                <div class="col-md-6">
@@ -403,27 +440,11 @@
                      </div>
                  </div>
              </div>
-             <div class="empty-file d-flex align-items-center justify-content-center vh-70" *ngIf="professionalTaxDetail.length == 0">
-               <nz-empty nzNotFoundImage="assets/images/payrollstep-img/empty-location.svg" [nzNotFoundContent]="contentTpl">
-                 <ng-template #contentTpl>
-                   <h5 class="mb-1 empty-detail font-15 fw-semibold mt-3">
-                     Set Up Your First Location
-                   </h5>
-                   <p class="mb-0 font-13 fw-normal color-basic">Before proceeding, ensure that you have added a location <br> to set up the necessary configurations.</p>
-                   <div class="add-filtter d-flex align-items-center justify-content-center gap-3 mt-1">
-                    
-                     <button type="button" class="btn p-0 text-primary font-14 fw-semibold mt-2" >
-                        <i class="bi bi-plus font-20 position-relative" style="top:2px;"></i> Add location
-                     </button>
-                   </div>
-                 </ng-template>
-               </nz-empty>
-           </div>
          </div>
      </div>
       <div class="tab-pane fade" id="fund" role="tabpanel" aria-labelledby="fund-tab">
       <div class="px-4 pt-3">
-          <div class="row" *ngIf="professionalTaxDetail.length > 0">
+          <div class="row">
               <div class="col-md-4">
                  <div class="payroll-details-box">
                     <h4 class="font-13 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
@@ -499,22 +520,6 @@
                   </div>
               </div>
           </div>
-          <div class="empty-file d-flex align-items-center justify-content-center vh-70" *ngIf="professionalTaxDetail.length == 0">
-            <nz-empty nzNotFoundImage="assets/images/payrollstep-img/empty-location.svg" [nzNotFoundContent]="contentTpl">
-              <ng-template #contentTpl>
-                <h5 class="mb-1 empty-detail font-15 fw-semibold mt-3">
-                  Set Up Your First Location
-                </h5>
-                <p class="mb-0 font-13 fw-normal color-basic">Before proceeding, ensure that you have added a location <br> to set up the necessary configurations.</p>
-                <div class="add-filtter d-flex align-items-center justify-content-center gap-3 mt-1">
-                 
-                  <button type="button" class="btn p-0 text-primary font-14 fw-semibold mt-2" >
-                     <i class="bi bi-plus font-20 position-relative" style="top:2px;"></i> Add location
-                  </button>
-                </div>
-              </ng-template>
-            </nz-empty>
-        </div>
       </div>
       </div>
     </div>
