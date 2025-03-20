@@ -20,24 +20,14 @@ export class PayScheduleComponent implements OnInit {
 
   selectedMonth: Date | null = null;
 
-  constructor(
-    private _payrollConfigurationService : PayrollConfigurationService,
-    private _helperService : HelperService,
-     private _route:ActivatedRoute,
-    private router: Router
-  ) { }
+  constructor(private _payrollConfigurationService : PayrollConfigurationService,
+    private _helperService : HelperService) { }
 
   ngOnInit(): void {
     window.scroll(0,0);
     this.getPaySchedule();
   }
 
-
-  isAnyFieldFocused = false;
-
-  onFocus() {
-    this.isAnyFieldFocused = true;
-  }
 
   paySchedule:PaySchedule = new PaySchedule();
     getPaySchedule(){
@@ -49,8 +39,7 @@ export class PayScheduleComponent implements OnInit {
               this.paySchedule = new PaySchedule();
             }
           }
-        },
-        (error) => {
+        },(error) => {
   
         }
       );
@@ -84,31 +73,33 @@ export class PayScheduleComponent implements OnInit {
       );
     };
 
-    saveLoader:boolean=false;
+
 
   organizationDays = Array.from({ length: 11 }, (_, i) => ({ label: (i + 20).toString(), value: i + 20 }));
   PayDays = Array.from({ length: 28 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 }));  
-  startAndEndDay = [
-    ...Array.from({ length: 27 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 })), 
+  startAndEndDay = [...Array.from({ length: 27 }, (_, i) => ({ label: (i + 1).toString(), value: i + 1 })), 
     { label: 'Last Day', value: 32 } 
   ];
   
-  
-  
+  @ViewChild('payScheduleForm') payScheduleForm!:NgForm;
+  formReset(){
+    window.scroll(0,0);
+    this.payScheduleForm.form.markAsPristine();
+    this.payScheduleForm.form.markAsUntouched();
+  }
+
+  saveLoader:boolean=false;
   savePaySchedule(){
       this.saveLoader = true;
-      this._payrollConfigurationService. savePaySchedule(this.paySchedule).subscribe(
+      this._payrollConfigurationService.savePaySchedule(this.paySchedule).subscribe(
         (response) => {
           if(response.status){
+            this.formReset();
             this._helperService.showToast("Your Pay Schedule details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
-            this.isAnyFieldFocused = false;
           }else{
             this._helperService.showToast("Error in saving your pay schedule.", Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
-        //   setTimeout(() => {
-        //     this.route('prior-payroll');
-        // }, 2000);
         },
         (error) => {
           this.saveLoader = false;
@@ -116,37 +107,27 @@ export class PayScheduleComponent implements OnInit {
   
         }
       );
-}
-
-endDateChanged(endDate: number) {
-  if(endDate == 32){
-    this.paySchedule.startDate = 1;
-  }else{
-    this.paySchedule.startDate = endDate+1;
   }
 
-}
+  endDateChanged(endDate: number) {
+    if(endDate == 32){
+      this.paySchedule.startDate = 1;
+    }else{
+      this.paySchedule.startDate = endDate+1;
+    }
 
-onSalaryCalculationModeChange(mode: number) {
-  if (mode == this.SalaryCalculationModeActualDays) {
-    this.paySchedule.modeDay = 0; 
   }
-}
 
-onPayModeChange(mode: number) {
-  if (mode == this.PayDayLastDay) {
-    this.paySchedule.payDay = 0; 
-  }
-}
-
-
-
-
-currentTab: any= 'profile';
-    route(tabName: string) {
-      this.router.navigate(['/payroll/configuration'], {
-        queryParams: { tab: tabName },
-      });
-      this.currentTab=tabName;
+  onSalaryCalculationModeChange(mode: number) {
+    if (mode == this.SalaryCalculationModeActualDays) {
+      this.paySchedule.modeDay = 0; 
     }
   }
+
+  onPayModeChange(mode: number) {
+    if (mode == this.PayDayLastDay) {
+      this.paySchedule.payDay = 0; 
+    }
+  }
+
+}
