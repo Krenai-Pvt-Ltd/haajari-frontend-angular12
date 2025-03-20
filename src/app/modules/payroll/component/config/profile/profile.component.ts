@@ -1,13 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Staff } from 'src/app/models/staff';
-import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { OrganizationAddressWithStaff } from 'src/app/payroll-models/OrganizationAddressWithStaff';
 import { OrganizationUserLocation } from 'src/app/payroll-models/OrganizationUserLocation';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
@@ -28,13 +27,11 @@ export class ProfileComponent implements OnInit {
   base64: string | null = null;
   isUploading: boolean = false;
   isFileSelected: boolean = false;
-  readonly constants = constant;
 
-  readonly Constant = constant;
 
-  isDivVisible: boolean = false;
+  readonly constant = constant;
+
   fetchLocationModal: any;
-  bootstrap: any;
   addressId: number = 0;
   filteredStateList: State[] | undefined;
 
@@ -43,28 +40,22 @@ export class ProfileComponent implements OnInit {
     private dataService: DataService,
     private _helperService: HelperService,
     private afStorage: AngularFireStorage,
-    private activateRoute: ActivatedRoute,
-    private router: Router
+    private _router: Router
   ) {
-    if (this.activateRoute.snapshot.queryParamMap.has('tab')) {
-      this.currentTab = this.activateRoute.snapshot.queryParamMap.get('tab');
-    }
+
   }
 
   ngOnInit(): void {
     window.scroll(0, 0);
-    this.getStateList();
     this.getProfile();
-    this.getTodoList();
     this.getOrganizationAdddress();
+    this.getStateList();
+    this.getTodoList();
   }
 
   selectedLocation: string = 'India';
-
   selectedCurrency: string = 'INR';
-
   stateCurrency = [{ code: 'INR', name: 'INR', symbol: '₹' }];
-
   stateList: State[] = new Array();
   getStateList() {
     this._payrollConfigurationService.getState().subscribe(
@@ -81,31 +72,6 @@ export class ProfileComponent implements OnInit {
   }
 
   selectedFile: File | null = null;
-
-  toggleDiv() {
-    this.isDivVisible = !this.isDivVisible;
-  }
-  closeStatutoryDiv() {
-    this.isDivVisible = false;
-    this.tab = '';
-  }
-
-  selectedPfWage = '12% of Actual PF Wage';
-
-  employer = [
-    { label: '12% of Actual PF Wage', value: '12% of Actual PF Wage' },
-    { label: '10% of Actual PF Wage', value: '10% of Actual PF Wage' },
-  ];
-  employee = [
-    { label: '12% of Actual PF Wage', value: '12% of Actual PF Wage' },
-    { label: '10% of Actual PF Wage', value: '10% of Actual PF Wage' },
-  ];
-
-  tab: string = '';
-  switchTab(tab: string) {
-    this.tab = tab;
-  }
-
   // ################# Profile #######################
 
   formattedDate: string = '';
@@ -161,22 +127,24 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+    @ViewChild('profileForm') profileForm!:NgForm;
+      formReset(){
+        window.scroll(0,0);
+        this.profileForm.form.markAsPristine();
+        this.profileForm.form.markAsUntouched();
+      }
+
   saveLoader: boolean = false;
   saveOrganizationProfile() {
     this.saveLoader = true;
-    this._payrollConfigurationService
-      .saveOrganizationProfile(this.profile)
-      .subscribe(
-        (response) => {
+    this._payrollConfigurationService.saveOrganizationProfile(this.profile).subscribe((response) => {
           if (response.status) {
+            this.formReset();
             this._helperService.showToast('Your Organiization Profile has been saved.',Key.TOAST_STATUS_SUCCESS);
           } else {
             this._helperService.showToast('Error saving your profile.',Key.TOAST_STATUS_ERROR);
           }
           this.saveLoader = false;
-          setTimeout(() => {
-            this.route('statutory');
-          }, 2000);
         },
         (error) => {
           this.saveLoader = false;
@@ -203,13 +171,6 @@ export class ProfileComponent implements OnInit {
       .subscribe();
   }
 
-  currentTab: any = 'profile';
-  route(tabName: string) {
-    this.router.navigate(['/payroll/configuration'], {
-      queryParams: { tab: tabName },
-    });
-    this.currentTab = tabName;
-  }
 
   fileChangeEvent(event: any): void {
     if (event.target.files.length > 0) {
@@ -244,6 +205,7 @@ export class ProfileComponent implements OnInit {
           fileRef.getDownloadURL().subscribe((url) => {
             this.profile.logo = url;
             this.isUploading = false;
+            this.profileForm.form.markAsDirty();
           });
         })
       )
@@ -705,5 +667,10 @@ export class ProfileComponent implements OnInit {
   deleteLocation(addressId: number) {
     this.addressId = addressId;
     this.deleteLocationButton.nativeElement.click();
+  }
+
+
+  routeToStatutory() {
+    this._router.navigate(['/payroll/configuration'], {queryParams: { tab: 'statutory'},});
   }
 }

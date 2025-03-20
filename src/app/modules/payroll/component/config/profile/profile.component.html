@@ -10,18 +10,15 @@
             <div class="col-md-8">
                 <div class="organization-detail">
                     <div class="row">
-                        <div class="col-md-6" *ngIf="!constants.EMPTY_STRINGS.includes(profile.logo)">
+                        <div class="col-md-6" *ngIf="!constant.EMPTY_STRINGS.includes(profile.logo)">
                             <div class="origination-logo d-flex align-items-center justify-content-center position-relative p-0 border-rounded-2 h-100">
                                 <img [src]="profile.logo" class="img-130">
                             </div>
                         </div>
                       
-                        <div [ngClass]="{'col-md-6':!Constant.EMPTY_STRINGS.includes(profile.logo), 'col-md-12': Constant.EMPTY_STRINGS.includes(profile.logo)}">
-                            <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 "
-                            (click)="fileInput.click()">
-                                
-                                <input #fileInput type="file" (change)="fileChangeEvent($event)" accept="image/*" hidden />
-
+                        <div [ngClass]="{'col-md-6':!constant.EMPTY_STRINGS.includes(profile.logo), 'col-md-12': constant.EMPTY_STRINGS.includes(profile.logo)}">
+                            <div class=" origination-logo p-2 d-flex align-items-center justify-content-center flex-column add-other-file border-rounded-2 " (click)="fileInput.click()">
+                                <input #fileInput type="file" (change)="fileChangeEvent($event)" accept="image/*" hidden ngModel/>
                                 <ngx-photo-editor
                                   [imageChangedEvent]="imageChangedEvent"
                                   (imageCropped)="imageCropped($event)"
@@ -32,7 +29,7 @@
                                   <img *ngIf="!isUploading" src="assets/images/payrollstep-img/organization-logo.svg" class="img-40">
                                   <img *ngIf="isUploading" src="assets/images/payrollstep-img/tube-spinner.svg" class="img-40 animate-spin" width="40" height="40">
                                 </span>
-                                <p class="mb-0 font-11 fw-normal mt-11 "><span class="text-primary fw-semibold text-decoration-underline"> Click to upload </span> or drag and drop <span class="text-muted fw-semibold">(SVG, PNG, JPG or GIF)</span> </p>
+                                <p class="mb-0 font-11 fw-normal mt-11 "><span class="text-primary fw-semibold text-decoration-underline"> Click to upload </span> or drag and drop <span class="text-muted fw-semibold">(SVG, PNG, JPG or JPEG)</span> </p>
                              </div>
                         </div>
                     </div>
@@ -126,7 +123,8 @@
                              minlength="10" maxlength="10" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="profile.businessPhone">
                         </div>
                         <div class="col-md-6">
-                            <input type="email" placeholder="Email Address" name="businessEmail" class="form-control whatsapp-login-input" [(ngModel)]="profile.businessEmail">
+                            <input type="email" placeholder="Business Email" name="businessEmail" class="form-control whatsapp-login-input" 
+                            [(ngModel)]="profile.businessEmail">
                         </div> 
                 </div>
             </div>
@@ -158,17 +156,13 @@
                           </ng-template>
                         </nz-empty>
                     </div>
-        
-                       <!-- TO DO: Location list start-->
                    <div class="row" *ngIf="!isWorkLocationFalse()">
-                    <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
+                      <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
                        <div class="mb-3 p-2 payroll-address border-rounded-2 ">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" 
-                                    [attr.aria-expanded]="isDropdownOpen(i)" 
-                                    (click)="toggleDropdown(i)"
-                                    data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
+                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" [attr.aria-expanded]="isDropdownOpen(i)" 
+                                    (click)="toggleDropdown(i)" data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
                                         <i class="bi bi-chevron-down transition "></i>
                                     </span>
                                     <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.branch}}</p>
@@ -207,34 +201,42 @@
                                 </div>
                             
                             </div>
-
-                            <!--  location list toggle view start -->
                   <div class="collapse mt-3" [id]="'location-data' + i" [class.show]="isDropdownOpen(i)">
                     <div class="card card-body border-rounded-2 border-0 mb-0">
                       <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)"> Address Line 1 : <span class="location-data"> {{address.organizationAddress.addressLine1}}</span></p>
+                                <p class="mb-0 font-12 fw-normal"> Address Line 1 : 
+                                  <span class="location-data"> {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)?address.organizationAddress.addressLine1: 'N/A'}}</span>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : <span class="location-data"> {{address.organizationAddress.addressLine2}}</span></p>
+                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : 
+                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2: 'N/A'}}</span>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> City : <span class="location-data"> {{address.organizationAddress.city}}</span></p>
+                                <p class="mb-0 font-12 fw-normal"> City : 
+                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.city)?address.organizationAddress.city: 'N/A'}}</span>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> State : <span class="location-data"> {{address.organizationAddress.state}}</span></p>
+                                <p class="mb-0 font-12 fw-normal"> State : 
+                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.state)?address.organizationAddress.state: 'N/A'}}</span>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Pin Code :  <span class="location-data"> {{address.organizationAddress.pincode}}</span></p>
+                                <p class="mb-0 font-12 fw-normal"> Pin Code :  
+                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.pincode)?address.organizationAddress.pincode: 'N/A'}}</span>
+                                </p>
                             </div>
                         </div>
                       </div>
@@ -243,9 +245,8 @@
                   <!--  location list toggle view end -->
                     </div> 
 
-                </div>
-
-                    <div class="d-flex justify-content-end mb-3">
+                      </div>
+                      <div class="d-flex justify-content-end mb-3">
                         <button class="btn p-0 font-14 fw-semibold text-primary"  type="button" (click)="openLocationModal()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                 <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -257,14 +258,14 @@
                             </svg>
                             New Address
                         </button>
-                    </div>
+                      </div>
                    </div>
-                    <!-- Location list end-->
                 </div>
             </div>
         </div>
         <hr class="mt-5 mb-5">
-        <div class="row" *ngIf="profile.gstn || profile.cin || profile.epf || profile.esi">
+        <div class="row" *ngIf="!constant.EMPTY_STRINGS.includes(profile.gstn) || !constant.EMPTY_STRINGS.includes(profile.cin) || 
+        !constant.EMPTY_STRINGS.includes(profile.epf) || !constant.EMPTY_STRINGS.includes(profile.esi)">
             <div class="col-md-4">
                 <div class="payroll-details-box">
                     <h4 class="font-13 text-black fw-semibold lh-1">Company Registration & Compliance</h4>
@@ -275,26 +276,24 @@
                 <div class="compliance-list-box">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constants.EMPTY_STRINGS.includes(profile.gstn)">
+                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constant.EMPTY_STRINGS.includes(profile.gstn)">
                                 <div class="w-25 currency-types-border">
                                     <p class="mb-0 font-12 fw-light">GST Number</p>
                                 </div>
                                 <div class="w-75 position-relative">
-                                    <input type="text" placeholder="Enter GST Number"  name="gstn" class="form-control borderLess" 
-                                    [value]="profile.gstn" disabled>
+                                    <input type="text" placeholder="Enter GST Number"  name="gstn" class="form-control borderLess" [value]="profile.gstn" disabled>
                                     <button class="btn p-0 font-13 fw-semibold text-success editBtn" type="button">Verify <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
                                         <path d="M7.72809 8.00564C7.44476 7.72231 7.01976 7.72231 6.73643 8.00564C6.45309 8.28897 6.45309 8.71397 6.73643 8.99731L8.86143 11.1223C9.00309 11.264 9.14476 11.3348 9.35726 11.3348C9.56976 11.3348 9.71143 11.264 9.85309 11.1223L14.8114 5.45564C15.0239 5.10147 15.0239 4.67647 14.6698 4.46397C14.3864 4.25147 13.9614 4.25147 13.7489 4.53481L9.35726 9.56397L7.72809 8.00564Z" fill="#22b783"/>
                                         <path d="M15.7323 7.79297C15.3073 7.79297 15.0239 8.0763 15.0239 8.5013C15.0239 11.618 12.4739 14.168 9.35726 14.168C6.24059 14.168 3.69059 11.618 3.69059 8.5013C3.69059 7.0138 4.25726 5.59714 5.31976 4.53464C6.38226 3.4013 7.79893 2.83464 9.35726 2.83464C9.78226 2.83464 10.2781 2.90547 10.7031 2.9763C11.0573 3.11797 11.4823 2.90547 11.6239 2.48047C11.7656 2.05547 11.4823 1.77214 11.1281 1.63047H11.0573C10.4906 1.4888 9.92393 1.41797 9.35726 1.41797C5.46143 1.41797 2.27393 4.60547 2.27393 8.57214C2.27393 10.4138 3.05309 12.2555 4.32809 13.5305C5.67393 14.8763 7.44476 15.5846 9.28643 15.5846C13.1823 15.5846 16.3698 12.3971 16.3698 8.5013C16.4406 8.0763 16.0864 7.79297 15.7323 7.79297Z" fill="#22b783"/>
                                         </svg></button>
                                 </div>
                             </div>
-                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constants.EMPTY_STRINGS.includes(profile.cin)">
+                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constant.EMPTY_STRINGS.includes(profile.cin)">
                                 <div class="w-25 currency-types-border">
                                     <p class="mb-0 font-12 fw-light">CIN Number</p>
                                 </div>
                                 <div class="w-75 position-relative">
-                                    <input type="text" placeholder="Enter CIN Number" name="cin" class="form-control borderLess" 
-                                    [value]="profile.cin" disabled>
+                                    <input type="text" placeholder="Enter CIN Number" name="cin" class="form-control borderLess" [value]="profile.cin" disabled>
                                     <!-- <button class="btn p-0 font-13 fw-semibold text-black editBtn">View Detail 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                             <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
@@ -307,13 +306,13 @@
                                     </button> -->
                                 </div>
                             </div>
-                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constants.EMPTY_STRINGS.includes(profile.epf)">
+                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constant.EMPTY_STRINGS.includes(profile.epf)">
                                 <div class="w-25 currency-types-border">
                                     <p class="mb-0 font-12 fw-light">EPF Number</p>
                                 </div>
                                 <div class="w-75 position-relative">
                                     <input type="text" placeholder="EPF Number" name="epf" class="form-control borderLess" [value]="profile.epf" disabled>
-                                    <button class="btn p-0 font-13 fw-semibold text-black editBtn" type="button">
+                                    <button class="btn p-0 font-13 fw-semibold text-black editBtn" type="button" (click)="routeToStatutory()">
                                         <span>View Detail</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                             <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
@@ -326,13 +325,13 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constants.EMPTY_STRINGS.includes(profile.esi)">
+                            <div class="mb-3 compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngIf="!constant.EMPTY_STRINGS.includes(profile.esi)">
                                 <div class="w-25 currency-types-border">
                                     <p class="mb-0 font-12 fw-light">ESI Number</p>
                                 </div>
                                 <div class="w-75 position-relative ">
                                     <input type="text" placeholder="ESI number"  name="esi" class="form-control borderLess" [value]="profile.esi" disabled>
-                                    <button class="btn p-0 font-13 fw-semibold text-black editBtn" type="button">
+                                    <button class="btn p-0 font-13 fw-semibold text-black editBtn" type="button" (click)="routeToStatutory()">
                                         <span>View Detail</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                             <mask id="mask0_9159_3729" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
@@ -353,8 +352,7 @@
     </div>
 </div>
 <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!profileForm.pristine">
-    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
-        [disabled]="saveLoader"  >
+    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white" [ngClass]="{'disabled-lnk':saveLoader}">
         <div *ngIf="saveLoader" class="dot-opacity-loader">
             <span></span>
             <span></span>
@@ -365,270 +363,264 @@
 </div>
 </form>
 
-    <!-- Add location modal start -->
-    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#location" #addLocation>
-        Add Adddress Modal 
-    </button>
-        <div class="modal fade" id="location" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
+<!----------------------------------- ADDRESS MODAL START -------------------------->
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#location" #addLocation></button>
+  <div class="modal fade" id="location" tabindex="-1" role="dialog"  aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title m-0"> Add New Location </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeAddressModal></button>
+      </div>
+      <div class="modal-body p-0">
+          <form #locationForm="ngForm" ngNativeValidate (ngSubmit)="saveUserWorkLocation()">
 
-        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title m-0"> Add New Location </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeAddressModal></button>
-            </div>
-            <div class="modal-body p-0">
-                <form #locationForm="ngForm" ngNativeValidate (ngSubmit)="saveUserWorkLocation()">
-
-                <div class="add-location-modal">
-                <div class="row h-100 p-0 m-0">
-                    <div class="col-md-3 p-0 m-0" >
-                    <div class="add-location-menu">
-                        <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
-                            type="button" role="tab" #locationSettingTab>
-                            Add Location
-                        </button>
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                            type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
-                            Add Employee
-                        </button>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-9 bg-white">
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane show active" id="staffLocation" role="tabpanel" #staffLocation>
-                                <div class="configuration-location p-3 row">
-                                    <div class="col-md-12 mb-3">
-                                        <label for="addressLine1" class="pb-2">Branch Name </label><span class="text-danger">*</span>
-                                        <input type="text" placeholder="Branch Name" required name="branchName" 
-                                        maxlength="50"
-                                        class="form-control whatsapp-login-input" 
-                                        [(ngModel)]="organizationUserLocation.branch">
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="addressLine1" class="pb-2">Address Line 1 </label><span class="text-danger">*</span>
-                                        <input type="text" placeholder="Address Line 1" required name="addressLine1" 
-                                        maxlength="50"
-                                        class="form-control whatsapp-login-input" 
-                                        [(ngModel)]="organizationUserLocation.addressLine1">
-                                    </div>
-                                    <div class="col-md-12 mb-3">
-                                        <label for="addressLine1" class="pb-2">Address Line 2 </label>
-                                        <input type="text" placeholder="Address Line 2"  name="addressLine2"
-                                        maxlength="50" 
-                                        class="form-control whatsapp-login-input"
-                                        [(ngModel)]="organizationUserLocation.addressLine2">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="addressLine1" class="pb-2">Select State </label><span class="text-danger">*</span>
-                                        <div class="w-100">
-                                            <nz-select
-                                            class="form-control w-100 placeholder-line"
-                                            nzSize="large"
-                                            nzPlaceHolder="Select State"
-                                            name="state"
-                                            [(ngModel)]="organizationUserLocation.state"
-                                            [nzDisabled]="organizationUserLocation.id != 0"
-                                            (ngModelChange)="onStateChange($event)"
-                                            [nzShowSearch]="true"
-                                            (nzSearchChange)="searchState($event)"
-                                            required
-                                        >
-                                            <nz-option
-                                                *ngFor="let state of stateList"
-                                                [nzValue]="state.name"
-                                                [nzLabel]="state.name"
-                                            >
-                                            </nz-option>
-                                        </nz-select>
-                                        
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="addressLine1" class="pb-2">Enter City </label><span class="text-danger">*</span>
-                                        <input type="text" placeholder="City" required name="city"
-                                        [(ngModel)]="organizationUserLocation.city"
-                                        class="form-control whatsapp-login-input">
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="addressLine1" class="pb-2">Enter PIN Code </label><span class="text-danger">*</span>
-                                        <input type="text" placeholder="PIN Code" required name="pincode" 
-                                        pattern="[0-9]*"
-                                        inputmode="numeric"
-                                        maxlength="6"
-                                        [(ngModel)]="organizationUserLocation.pincode"
-                                        class="form-control whatsapp-login-input">
-                                    </div>
+          <div class="add-location-modal">
+          <div class="row h-100 p-0 m-0">
+              <div class="col-md-3 p-0 m-0" >
+              <div class="add-location-menu">
+                  <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
+                      type="button" role="tab" #locationSettingTab>
+                      Add Location
+                  </button>
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
+                      type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
+                      Add Employee
+                  </button>
+                  </div>
+              </div>
+              </div>
+              <div class="col-md-9 bg-white">
+                  <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane show active" id="staffLocation" role="tabpanel" #staffLocation>
+                          <div class="configuration-location p-3 row">
+                              <div class="col-md-12 mb-3">
+                                  <label for="addressLine1" class="pb-2">Branch Name </label><span class="text-danger">*</span>
+                                  <input type="text" placeholder="Branch Name" required name="branchName" 
+                                  maxlength="50"
+                                  class="form-control whatsapp-login-input" 
+                                  [(ngModel)]="organizationUserLocation.branch">
+                              </div>
+                              <div class="col-md-12 mb-3">
+                                  <label for="addressLine1" class="pb-2">Address Line 1 </label><span class="text-danger">*</span>
+                                  <input type="text" placeholder="Address Line 1" required name="addressLine1" 
+                                  maxlength="50"
+                                  class="form-control whatsapp-login-input" 
+                                  [(ngModel)]="organizationUserLocation.addressLine1">
+                              </div>
+                              <div class="col-md-12 mb-3">
+                                  <label for="addressLine1" class="pb-2">Address Line 2 </label>
+                                  <input type="text" placeholder="Address Line 2"  name="addressLine2"
+                                  maxlength="50" 
+                                  class="form-control whatsapp-login-input"
+                                  [(ngModel)]="organizationUserLocation.addressLine2">
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                  <label for="addressLine1" class="pb-2">Select State </label><span class="text-danger">*</span>
+                                  <div class="w-100">
+                                      <nz-select
+                                      class="form-control w-100 placeholder-line"
+                                      nzSize="large"
+                                      nzPlaceHolder="Select State"
+                                      name="state"
+                                      [(ngModel)]="organizationUserLocation.state"
+                                      [nzDisabled]="organizationUserLocation.id != 0"
+                                      (ngModelChange)="onStateChange($event)"
+                                      [nzShowSearch]="true"
+                                      (nzSearchChange)="searchState($event)"
+                                      required
+                                  >
+                                      <nz-option
+                                          *ngFor="let state of stateList"
+                                          [nzValue]="state.name"
+                                          [nzLabel]="state.name"
+                                      >
+                                      </nz-option>
+                                  </nz-select>
+                                  
+                                  </div>
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                  <label for="addressLine1" class="pb-2">Enter City </label><span class="text-danger">*</span>
+                                  <input type="text" placeholder="City" required name="city"
+                                  [(ngModel)]="organizationUserLocation.city"
+                                  class="form-control whatsapp-login-input">
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                  <label for="addressLine1" class="pb-2">Enter PIN Code </label><span class="text-danger">*</span>
+                                  <input type="text" placeholder="PIN Code" required name="pincode" 
+                                  pattern="[0-9]*"
+                                  inputmode="numeric"
+                                  maxlength="6"
+                                  [(ngModel)]="organizationUserLocation.pincode"
+                                  class="form-control whatsapp-login-input">
+                              </div>
 
 
-                                </div>
+                          </div>
 
-                                <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
-                                    <button  class="btn p-0 next-btn nextBtn"  id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
-                                    type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid" (click)="openStaffSelection()">
-                                        <span>
-                                            <span class="ng-star-inserted">Next</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
-                                            </svg>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="addemployee" role="tabpanel" #addemployee>
-                                <div class="configuration-location p-3">
+                          <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
+                              <button  class="btn p-0 next-btn nextBtn"  id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
+                              type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid" (click)="openStaffSelection()">
+                                  <span>
+                                      <span class="ng-star-inserted">Next</span>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                          <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                                      </svg>
+                                  </span>
+                              </button>
+                          </div>
+                      </div>
+                      <div class="tab-pane fade" id="addemployee" role="tabpanel" #addemployee>
+                          <div class="configuration-location p-3">
 
-                                    <div class="col-md-12">
-                                        <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
-                                           <div>
-                                            <form novalidate="" role="search" (submit)="searchUsers()"
-                                                class="searching ng-untouched ng-pristine ng-valid">
-                                                <div class="form-group position-relative">
-                                                    <input type="text" id="searchText" placeholder="Search by name"
-                                                    name="search"
-                                                    class="form-control me-2 attendance-details-search"
-                                                    [(ngModel)]="searchText"
-                                                    [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
-                                                    <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
-                                                    *ngIf="searchText != ''" (click)="clearSearchText()"></i>
-                                                    <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
-                                                </div>
-                                            </form>
-                                           </div>
-                                           <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
-                                           *ngIf="selectedStaffsUuids.length > 0">
-                                           <span class="text-black font-13 pointer">
-                                             <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
-                                             <span class="text-primary"> {{ totalUserCount }} </span>
-                                           </span>
-                                           <span class="separator"></span>
-                                           <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
-                                               fill="none">
-                                               <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
-                                                 y="0" width="20" height="19">
-                                                 <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545" />
-                                               </mask>
-                                               <g mask="url(#mask0_4127_2858)">
-                                                 <path
-                                                   d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z"
-                                                   fill="#dc3545" />
-                                               </g>
-                                             </svg>
-                                             Clear Selection
-                                           </span>
-                                           <span class="separator"></span>
-                                           <label class="checkbox-label">
-                                             <input type="checkbox" [(ngModel)]="isAllUsersSelected"
-                                             name="AllSelected"
-                                               (change)="selectAllUsers($event)" />&nbsp;
-                                             Select all
-                                           </label>
-                                         </div>
-                                        </div>
-                                     </div>
-                                     <ng-container *ngIf="total > 0">
-                                        <div class="location-user-table">
-                                          <table class="table">
-                                            <thead class="thead-light">
-                                              <tr>
-                                                <th style="width: 0%">
-                                                  <input type="checkbox" class="form-check-input pointer"
-                                                  name="staff"
-                                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)"/>
-                                                </th>
-                                                <th style="width: 25%; padding: 12px 15px">Name</th>
-                                                <th style="width: 25%; padding: 12px 15px">Email</th>
-                                                <th style="width: 25%; padding: 12px 15px">Phone</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr *ngFor="
-                                                let staff of staffs;
-                                                let i = index;
-                                                  
-                                              " style="border-bottom: 1px solid #dddddd">
-                                                <td>
-                                                    <input  class="form-check-input" 
-                                                    type="checkbox" 
-                                                    [id]="'staffChecks' + i"
-                                                    [name]="'staffChecks'+i"
-                                                    [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
-                                                 
-                                                </td>
-                                                <td style="padding: 12px 15px">{{ staff.name }}</td>
-                                                <td style="padding: 12px 15px">
-                                                  {{ staff.email ? staff.email : "N/A" }}
-                                                </td>
-                                                <td style="padding: 12px 15px">
-                                                  {{ staff.phoneNumber || "N/A" }}
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </div>
-                                      </ng-container>  
-                                     <div class=" config-location-footer">
-                                        <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
-                                            <p class="mb-0">
-                                              Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
-                                              staffs.length + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total
-                                              }} members
-                                            </p>
-                                            <div class="row">
-                                              <div class="col-md-12">
-                                                <ngb-pagination class="pagition-box" [collectionSize]="total" [rotate]="true"
-                                                  (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
-                                                  [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
-                                              </div>
-                                            </div>
+                              <div class="col-md-12">
+                                  <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
+                                      <div>
+                                      <form novalidate="" role="search" (submit)="searchUsers()"
+                                          class="searching ng-untouched ng-pristine ng-valid">
+                                          <div class="form-group position-relative">
+                                              <input type="text" id="searchText" placeholder="Search by name"
+                                              name="search"
+                                              class="form-control me-2 attendance-details-search"
+                                              [(ngModel)]="searchText"
+                                              [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
+                                              <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
+                                              *ngIf="searchText != ''" (click)="clearSearchText()"></i>
+                                              <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
                                           </div>
-
-                                         
-                                        
-                                          
-                                     <div class="modal-footer d-flex align-items-center justify-content-end bg-white"> 
-                                        <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader || this.selectedStaffsUuids.length < 1 ">
-                                            <span>    
-                                                <span class="ng-star-inserted" *ngIf="!saveLoader">
-                                                    <span *ngIf="organizationUserLocation.id==0"> create new location </span>
-                                                    <span *ngIf="organizationUserLocation.id!=0"> update location </span>
-                                                    </span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                    <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
-                                                </svg>
-                                            </span>
-                                        </button>
+                                      </form>
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
+                                      *ngIf="selectedStaffsUuids.length > 0">
+                                      <span class="text-black font-13 pointer">
+                                        <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
+                                        <span class="text-primary"> {{ totalUserCount }} </span>
+                                      </span>
+                                      <span class="separator"></span>
+                                      <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
+                                          fill="none">
+                                          <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                            y="0" width="20" height="19">
+                                            <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545" />
+                                          </mask>
+                                          <g mask="url(#mask0_4127_2858)">
+                                            <path
+                                              d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z"
+                                              fill="#dc3545" />
+                                          </g>
+                                        </svg>
+                                        Clear Selection
+                                      </span>
+                                      <span class="separator"></span>
+                                      <label class="checkbox-label">
+                                        <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                        name="AllSelected"
+                                          (change)="selectAllUsers($event)" />&nbsp;
+                                        Select all
+                                      </label>
                                     </div>
-                                
+                                  </div>
                                 </div>
+                                <ng-container *ngIf="total > 0">
+                                  <div class="location-user-table">
+                                    <table class="table">
+                                      <thead class="thead-light">
+                                        <tr>
+                                          <th style="width: 0%">
+                                            <input type="checkbox" class="form-check-input pointer"
+                                            name="staff"
+                                            [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)"/>
+                                          </th>
+                                          <th style="width: 25%; padding: 12px 15px">Name</th>
+                                          <th style="width: 25%; padding: 12px 15px">Email</th>
+                                          <th style="width: 25%; padding: 12px 15px">Phone</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="
+                                          let staff of staffs;
+                                          let i = index;
+                                            
+                                        " style="border-bottom: 1px solid #dddddd">
+                                          <td>
+                                              <input  class="form-check-input" 
+                                              type="checkbox" 
+                                              [id]="'staffChecks' + i"
+                                              [name]="'staffChecks'+i"
+                                              [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                            
+                                          </td>
+                                          <td style="padding: 12px 15px">{{ staff.name }}</td>
+                                          <td style="padding: 12px 15px">
+                                            {{ staff.email ? staff.email : "N/A" }}
+                                          </td>
+                                          <td style="padding: 12px 15px">
+                                            {{ staff.phoneNumber || "N/A" }}
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </ng-container>  
+                                <div class=" config-location-footer">
+                                  <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
+                                      <p class="mb-0">
+                                        Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
+                                        staffs.length + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total
+                                        }} members
+                                      </p>
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <ngb-pagination class="pagition-box" [collectionSize]="total" [rotate]="true"
+                                            (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                                            [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true"></ngb-pagination>
+                                        </div>
+                                      </div>
+                                    </div>
+
                                     
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div>
-                </div>
-                </form>
-            </div>
-            </div>
-        </div>
-        </div>
-    <!-- Add location modal start -->
+                                  
+                                    
+                                <div class="modal-footer d-flex align-items-center justify-content-end bg-white"> 
+                                  <button type="submit" class="btn p-0 next-btn nextBtn" [disabled]="saveLoader || this.selectedStaffsUuids.length < 1 ">
+                                      <span>    
+                                          <span class="ng-star-inserted" *ngIf="!saveLoader">
+                                              <span *ngIf="organizationUserLocation.id==0"> create new location </span>
+                                              <span *ngIf="organizationUserLocation.id!=0"> update location </span>
+                                              </span>
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                              <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                                          </svg>
+                                      </span>
+                                  </button>
+                              </div>
+                          
+                          </div>
+                              
+                          </div>
+                          
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
+          </div>
+          <div>
+          </div>
+          </form>
+      </div>
+      </div>
+  </div>
+  </div>
+<!----------------------------------- ADDRESS MODAL END -------------------------->
 
 
-    <!-- Fetch Location  modal Start -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#fetchLocation">
-    Fetch Location Modal
-</button>
-
-  <div class="modal fade" id="fetchLocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" aria-hidden="true" data-bs-backdrop="static">
+<!-----------------------------------FETCH LOCATION  MODAL START -------------------------->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#fetchLocation"></button>
+  <div class="modal fade" id="fetchLocation" tabindex="-1"  aria-hidden="true" aria-hidden="true" data-bs-backdrop="static">
 
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -640,10 +632,10 @@
                 <div class="mt-3 p-3 text-start address-box border-rounded-2" *ngIf="organizationAddress.length==1">
                     <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users <br> updated automatically.</p>
                     <h5 class="font-14 mb-0 fw-semibold lh-base mt-3 text-black" *ngFor="let address of organizationAddress">
-                        <span class="text-warning" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">Address: </span>
+                        <span class="text-warning" *ngIf="!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">Address: </span>
                         {{address.organizationAddress.addressLine1+", "}}
-                        {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
-                        {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
+                        {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
+                        {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
                         
                         <br class="paddress">{{address.organizationAddress.city}} - {{address.organizationAddress.pincode}} |
                         {{address.organizationAddress.state}},
@@ -655,10 +647,10 @@
                     <h5 class="font-14 mb-0 fw-semibold lh-base text-warning  mb-2">Address:</h5>
 
                     <div class="d-flex align-items-center justify-content-between border-bottom pt-2 pb-2 address-list" *ngFor="let address of organizationAddress; let i = index">
-                        <p class="lh-base font-13 fw-normal mb-1" *ngIf="!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">
+                        <p class="lh-base font-13 fw-normal mb-1" *ngIf="!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">
                             {{address.organizationAddress.addressLine1+", "}}
-                            {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
-                            {{!Constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
+                            {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
+                            {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
                             {{address.organizationAddress.city}},
                             {{address.organizationAddress.state}} {{address.organizationAddress.pincode}}</p>
 
@@ -700,12 +692,11 @@
       </div>
     </div>
   </div>
-
-  <!-- Fetch Location  modal end -->   
+<!---------------------------------- FETCH LOCATION  MODAL END --------------------------> 
 
    
   
-  <!----------------------------------- REMOVE DUPLICATE USER POPUP START-------------------------->
+<!----------------------------------- REMOVE DUPLICATE USER MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
 <div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
   data-bs-backdrop="static" #usersAlreadyAssigned>
@@ -812,9 +803,11 @@
     </div>
   </div>
 </div>
-<!-----------------------------------  REMOVE DUPLICATE USER POPUP  END-------------------------->
+<!-----------------------------------  REMOVE DUPLICATE USER MODAL  END-------------------------->
 
-<!----------------------------------- DELETE ADDRESS POPUP START-------------------------->
+
+
+<!----------------------------------- DELETE ADDRESS MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-address" #deleteLocationButton></button>
 <div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
