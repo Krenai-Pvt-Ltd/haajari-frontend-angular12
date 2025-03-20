@@ -217,6 +217,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
+    this.dataService.onNotification().subscribe(() => {
+      this.getShiftData();
+    });
 
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
@@ -777,11 +780,11 @@ appliedFilters: string[] = []
 
   positionFilteredOptions: string[] = [];
   onChange(value: string): void {
-
+    if (value) {
       this.positionFilteredOptions = this.jobTitles.filter((option) =>
         option.toLowerCase().includes(value.toLowerCase())
       );
-
+    }
   }
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;

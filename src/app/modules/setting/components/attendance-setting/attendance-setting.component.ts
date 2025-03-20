@@ -1544,6 +1544,7 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.dataService.sendNotification();
           this.loadAllShiftCounts();
           this.selectedTeamName = 'All';
           this.getUserByFiltersMethodCall();

@@ -2225,8 +2225,8 @@ export class TimetableComponent implements OnInit {
   // Status mapping for API
   statusMap: { [key: string]: number } = {
     'Pending': 52,
-    'Approve': 50,
-    'Reject': 51
+    'Approved': 50,
+    'Rejected': 51
   };
   attendanceStatusMap: { [key: string]: number } = {
     'in': 1,

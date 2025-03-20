@@ -304,11 +304,12 @@ export class LeaveSettingComponent implements OnInit {
     this.editToggle = true;
     this.editingIndex = index;
 
+    setTimeout(() => {
     const category = this.leaveCategories1[this.leaveCategories1.length - 1];
     this.form.patchValue(category);
 
     // console.log('Edit form: ', this.form)
-
+    },100);
   }
 
   deleteCategory(index: number) {
