@@ -389,6 +389,9 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this.professionalTaxDetail= response.object;
+              if(this.professionalTaxDetail==null ){
+                this.professionalTaxDetail= [];
+              }
             }
           },
           (error) => {

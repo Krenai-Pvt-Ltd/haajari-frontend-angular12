@@ -118,9 +118,10 @@ export class PayrollConfigurationService {
     }
 
 
-    saveUserWorkLocation(request:StaffAddressDetailsForMultiLocation,addressId:number): Observable<any>{
+    saveUserWorkLocation(request:StaffAddressDetailsForMultiLocation,addressId:number,isForceUpdate:boolean): Observable<any>{
       const params = new HttpParams()
       .set('address_id', addressId)
+      .set('is_force_update',isForceUpdate)
       return this._http.put<any>(`${this._key.base_url}/payroll-config/save-user-location`,request,{params});
     }
 
@@ -135,8 +136,10 @@ export class PayrollConfigurationService {
       return this._http.get<any>(`${this._key.base_url}/payroll-config/state`);
     }
 
-    deassociateUsersFromOldAddress(request:string[]): Observable<any>{
-      return this._http.post<any>(`${this._key.base_url}/payroll-config/deassociate-users`,request);
+    deleteAddress(addressId: number): Observable<any>{
+      const params = new HttpParams()
+      .set('address_id', addressId);
+      return this._http.delete<any>(`${this._key.base_url}/payroll-config/work-location-address`,{params});
     }
 
 }

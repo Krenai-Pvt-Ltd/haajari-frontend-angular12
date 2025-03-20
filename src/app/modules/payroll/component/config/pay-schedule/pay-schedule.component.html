@@ -1,202 +1,179 @@
-<form #payScheduleForm="ngForm" ngNativeValidate (ngSubmit)="savePaySchedule()" (focusin)="onFocus()">
-<div class="p-4 mb-10">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="payroll-details-box">
-                <h4 class="font-14 text-black fw-semibold lh-1">Salary Calculation</h4>
-                <p class="text-muted font-11 fw-normal lh-base mb-0">Your registered business name</p>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                <div class="form-check mb-2 d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios1" [value]="SalaryCalculationModeActualDays" [(ngModel)]="paySchedule.salaryCalculationMode"
-                    (ngModelChange)="onSalaryCalculationModeChange($event)"
-                    >
-                    <label class="form-check-label font-13 fw-normal" for="exampleRadios1">
-                        Actual days in a month
-                    </label>
-                  </div>
-                  <div class="form-check d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="calculationMode" id="exampleRadios2" [value]="SalaryCalculationModeOrganizationDays" 
-                    [(ngModel)]="paySchedule.salaryCalculationMode"
-                    (ngModelChange)="onSalaryCalculationModeChange($event)"
-                    >
-                    <label class="form-check-label font-13 fw-normal" for="exampleRadios2">
-                        Organization working days
-                    </label>
-                  </div>
+<form #payScheduleForm="ngForm" ngNativeValidate (ngSubmit)="savePaySchedule()">
+    <div class="p-4 mb-10">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="payroll-details-box">
+                    <h4 class="font-14 text-black fw-semibold lh-1">Salary Calculation</h4>
+                    <p class="text-muted font-11 fw-normal lh-base mb-0">Your registered business name</p>
                 </div>
-
-                  <div class="col-md-6 mb-4" *ngIf="paySchedule.salaryCalculationMode == SalaryCalculationModeOrganizationDays">
-                    <nz-select 
-                    class="form-control w-100 placeholder-line" 
-                    nzSize="large"
-                    nzPlaceHolder="Select"
-                    name="modeDay"
-                    [(ngModel)]="paySchedule.modeDay" 
-                    [disabled]="paySchedule.salaryCalculationMode !== SalaryCalculationModeOrganizationDays" 
-                    >
-                    <nz-option 
-                    *ngFor="let days of organizationDays" 
-                    [nzLabel]="days.label" 
-                    [nzValue]="days.value"
-                    >
-                    </nz-option>
-                    </nz-select>
-                 </div>
-                 <div class="col-md-6 mt-1" *ngIf="paySchedule.salaryCalculationMode == SalaryCalculationModeOrganizationDays">
-                    <p class="mb-0 font-13 fw-normal pt-2 px-3">days per month</p>
-                 </div>
             </div>
-        </div>
-    </div>
-    <hr class="mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="payroll-details-box">
-                <h4 class="font-14 text-black fw-semibold lh-1">Payment Date</h4>
-                <p class="text-muted font-11 mb-0 lh-base fw-normal">Your registered business name</p>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                <div class="form-check mb-2 d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios3" [value]="PayDayLastDay" 
-                    [(ngModel)]="paySchedule.payDayType"
-                    (ngModelChange)="onPayModeChange($event)">
-                    <label class="form-check-label font-13 fw-normal" for="exampleRadios3">
-                        the last working day of every month
-                    </label>
-                  </div>
-                  <div class="form-check d-flex align-items-center gap-2">
-                    <input class="form-check-input" type="radio" name="PayDay" id="exampleRadios4" [value]="PayDaySpecificDay" 
-                    [(ngModel)]="paySchedule.payDayType"
-                    (ngModelChange)="onPayModeChange($event)">
-                    <label class="form-check-label font-13 fw-normal" for="exampleRadios4">
-                        Set the day of every month
-                    </label>
-                  </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="form-check mb-2 d-flex align-items-center gap-2">
+                            <input class="form-check-input" type="radio" name="calculationMode" id="calculationMode1" 
+                            [value]="SalaryCalculationModeActualDays" [(ngModel)]="paySchedule.salaryCalculationMode"
+                            (ngModelChange)="onSalaryCalculationModeChange($event)">
+                            <label class="form-check-label font-13 fw-normal" for="calculationMode1">
+                                Actual days in a month
+                            </label>
+                        </div>
+                        <div class="form-check d-flex align-items-center gap-2">
+                            <input class="form-check-input" type="radio" name="calculationMode" id="calculationMode2" 
+                            [value]="SalaryCalculationModeOrganizationDays" [(ngModel)]="paySchedule.salaryCalculationMode"
+                            (ngModelChange)="onSalaryCalculationModeChange($event)">
+                            <label class="form-check-label font-13 fw-normal" for="calculationMode2">
+                                Organization working days
+                            </label>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="paySchedule.salaryCalculationMode == 2">
+                        <div class="col-md-6 mb-4">
+                            <nz-select class="form-control w-100 placeholder-line" 
+                                nzSize="large" nzPlaceHolder="Select" name="modeDay"
+                                [(ngModel)]="paySchedule.modeDay" >
+                                    <nz-option *ngFor="let days of organizationDays" 
+                                    [nzLabel]="days.label" 
+                                    [nzValue]="days.value">
+                                    </nz-option>
+                            </nz-select>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <p class="mb-0 font-13 fw-normal pt-2 px-3">days per month</p>
+                        </div>
+                    </ng-container>
                 </div>
-
-                  <div class="col-md-6 mb-4" *ngIf="paySchedule.payDayType == PayDaySpecificDay">
-                    <nz-select 
-                    class="form-control w-100 placeholder-line" 
-                    nzSize="large" 
-                    name="payday"
-                    [(ngModel)]="paySchedule.payDay" 
-                    nzPlaceHolder="Select"
-                    [disabled]="paySchedule.payDayType !== PayDaySpecificDay" 
-                    required>
-                    <nz-option 
-                    *ngFor="let days of PayDays" 
-                    [nzLabel]="days.label" 
-                    [nzValue]="days.value">
-                    </nz-option>
-                    </nz-select>
-                 </div>
-                 <div class="col-md-6 mt-1" *ngIf="paySchedule.payDayType == PayDaySpecificDay">
-                    <p class="mb-0 font-13 fw-normal pt-2 px-3">every month</p>
-                 </div>
             </div>
         </div>
-    </div>
-    <hr class="mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="payroll-details-box">
-                <h4 class="font-15 text-black fw-semibold lh-1">Start your first payroll from</h4>
-                <span class="text-muted font-12 fw-normal">Your registered business name</span>
+        <hr class="mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="payroll-details-box">
+                    <h4 class="font-14 text-black fw-semibold lh-1">Payment Date</h4>
+                    <p class="text-muted font-11 mb-0 lh-base fw-normal">Your registered business name</p>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="form-check mb-2 d-flex align-items-center gap-2">
+                            <input class="form-check-input" type="radio" name="PayDay" id="PayDay1" [value]="PayDayLastDay" 
+                            [(ngModel)]="paySchedule.payDayType"
+                            (ngModelChange)="onPayModeChange($event)">
+                            <label class="form-check-label font-13 fw-normal" for="PayDay1">
+                                the last working day of every month
+                            </label>
+                        </div>
+                        <div class="form-check d-flex align-items-center gap-2">
+                            <input class="form-check-input" type="radio" name="PayDay" id="PayDay2" [value]="PayDaySpecificDay" 
+                            [(ngModel)]="paySchedule.payDayType"
+                            (ngModelChange)="onPayModeChange($event)">
+                            <label class="form-check-label font-13 fw-normal" for="PayDay2">
+                                Set the day of every month
+                            </label>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="paySchedule.payDayType == 2">
+                        <div class="col-md-6 mb-4">
+                            <nz-select class="form-control w-100 placeholder-line" nzSize="large" 
+                            name="payday" [(ngModel)]="paySchedule.payDay" nzPlaceHolder="Select"
+                            required>
+                                <nz-option *ngFor="let days of PayDays" 
+                                [nzLabel]="days.label" 
+                                [nzValue]="days.value">
+                                </nz-option>
+                            </nz-select>
+                        </div>
+                        <div class="col-md-6 mt-1">
+                            <p class="mb-0 font-13 fw-normal pt-2 px-3">every month</p>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <div>
-                        <nz-date-picker class="form-control w-100 placeholder-line" nzMode="month" 
-                        name="financialYear"
-                        nzBorderless nzFormat="MM/yyyy" nzPlaceHolder="Starting Month"
-                        [(ngModel)]="paySchedule.payrollStartDate"
-                        [nzDisabledDate]="disableFinancialYearMonths"
-                        ></nz-date-picker>
+        <hr class="mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="payroll-details-box">
+                    <h4 class="font-15 text-black fw-semibold lh-1">Start your first payroll from</h4>
+                    <span class="text-muted font-12 fw-normal">Your registered business name</span>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <nz-date-picker class="form-control w-100 placeholder-line" nzMode="month" 
+                            name="financialYear" nzBorderless nzFormat="MM/yyyy" nzPlaceHolder="Starting Month"
+                            [(ngModel)]="paySchedule.payrollStartDate" [nzDisabledDate]="disableFinancialYearMonths"
+                            ></nz-date-picker>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- <hr class="mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="payroll-details-box">
-                <h4 class="font-15 text-black fw-semibold lh-1">Select a pay date for your first payroll</h4>
-                <span class="text-muted font-12 fw-normal">Your registered business name</span>
+        <!-- <hr class="mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="payroll-details-box">
+                    <h4 class="font-15 text-black fw-semibold lh-1">Select a pay date for your first payroll</h4>
+                    <span class="text-muted font-12 fw-normal">Your registered business name</span>
+                </div>
             </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <div>
-                        <nz-date-picker class="form-control w-100 placeholder-line" 
-                        [(ngModel)]="paySchedule.payrollStartDate" 
-                        name="payrollDate"   
-                        nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"
-                        [nzDisabledDate]="disabledDate"
-                        ></nz-date-picker>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <nz-date-picker class="form-control w-100 placeholder-line" 
+                            [(ngModel)]="paySchedule.payrollStartDate" 
+                            name="payrollDate"   
+                            nzBorderless nzFormat="dd/MM/yyyy" nzPlaceHolder="Starting Date"
+                            [nzDisabledDate]="disabledDate"
+                            ></nz-date-picker>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div> -->
+        </div> -->
 
-    <hr class="mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="payroll-details-box">
-                <h4 class="font-15 text-black fw-semibold lh-1">Pay Date for First Payroll</h4>
-                <span class="text-muted font-12 fw-normal">Your registered business name</span>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" placeholder="End Date" name="startDate" class="form-control whatsapp-login-input" [(ngModel)]="paySchedule.startDate"  disabled>
-                </div>
-                <div class="col-md-6">
-                    <div>
-                        <nz-select 
-                        class="form-control w-100 placeholder-line" 
-                        nzSize="large" 
-                        name="endDate"
-                        [(ngModel)]="paySchedule.endDate"
-                        (ngModelChange)="endDateChanged($event)"
-                        required>
-                        <nz-option 
-                        *ngFor="let days of startAndEndDay" 
-                        [nzLabel]="days.label" 
-                        [nzValue]="days.value">
-                        </nz-option>
-                        </nz-select>                    
-                     </div>
+        <hr class="mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="payroll-details-box">
+                    <h4 class="font-15 text-black fw-semibold lh-1">Pay Date for First Payroll</h4>
+                    <span class="text-muted font-12 fw-normal">Your registered business name</span>
                 </div>
             </div>
-        </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" placeholder="Start Date" name="startDate" class="form-control whatsapp-login-input" [(ngModel)]="paySchedule.startDate"  disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <nz-select class="form-control w-100 placeholder-line" name="endDate"
+                                nzSize="large"  nzPlaceHolder="Select" [(ngModel)]="paySchedule.endDate"
+                                (ngModelChange)="endDateChanged($event)" required>
+                                <nz-option 
+                                *ngFor="let days of startAndEndDay" 
+                                [nzLabel]="days.label" 
+                                [nzValue]="days.value">
+                                </nz-option>
+                            </nz-select>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
-    
-</div>
-            
-
-
-<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
-    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
-        [disabled]="saveLoader">
-        <div *ngIf="saveLoader" class="dot-opacity-loader">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <span *ngIf="!saveLoader"> Save </span>      
-    </button>
-</div>
+    <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!payScheduleForm.pristine">
+        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white" [ngClass]="{'disabled-lnk':saveLoader}">
+            <div *ngIf="saveLoader" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span *ngIf="!saveLoader"> Save </span>      
+        </button>
+    </div>
 </form>
