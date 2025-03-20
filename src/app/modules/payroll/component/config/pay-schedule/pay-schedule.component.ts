@@ -28,7 +28,6 @@ export class PayScheduleComponent implements OnInit {
     this.getPaySchedule();
   }
 
-
   paySchedule:PaySchedule = new PaySchedule();
     getPaySchedule(){
       this._payrollConfigurationService.getPaySchedule().subscribe(

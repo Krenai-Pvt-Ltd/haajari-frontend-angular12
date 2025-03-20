@@ -74,6 +74,7 @@ export class PersonalInformationComponent implements OnInit {
         country: ['',],
         pincode: ['',],
       }),
+      sameAsCurrent: [false],
       refrences: this.fb.array([]),
 
       academicDetails: this.fb.group({
@@ -103,6 +104,27 @@ export class PersonalInformationComponent implements OnInit {
     // this.getPendingRequest();
     this.fetchRequestedData();
     // this.approveRequestedData();
+
+    // Handle checkbox changes
+    this.onboardingForm.get('sameAsCurrent')?.valueChanges.subscribe(value => {
+      const permanentAddress = this.onboardingForm.get('permanentAddress');
+      if (value) {
+        // Copy current address values to permanent address
+        const currentAddress = this.onboardingForm.get('currentAddress')?.value;
+        permanentAddress?.patchValue(currentAddress);
+        permanentAddress?.disable(); // Make permanent address uneditable
+      } else {
+        permanentAddress?.enable(); // Make permanent address editable
+      }
+    });
+
+    // Update permanent address when current address changes and checkbox is checked
+    this.onboardingForm.get('currentAddress')?.valueChanges.subscribe(value => {
+      if (this.onboardingForm.get('sameAsCurrent')?.value) {
+        this.onboardingForm.get('permanentAddress')?.patchValue(value);
+      }
+    });
+
   }
 
 
@@ -147,6 +169,16 @@ export class PersonalInformationComponent implements OnInit {
         console.error('Error:', error);
       },
     });
+  }
+
+  restrictToLetters(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only letters (A-Z and a-z)
+    if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || (charCode === 32)) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
   }
 
   emailAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
@@ -208,8 +240,8 @@ export class PersonalInformationComponent implements OnInit {
     return null;
   }
   uanExists:boolean = false;
-  checkUan(uan: string) {
-    if(uan.length==12 && this.onboardingPreviewData.user.uan != uan){
+  checkUan(uan: string | null) {
+    if(uan!=null && uan.length==12 && this.onboardingPreviewData.user.uan != uan){
       this.dataService.existsUserByUan(uan).subscribe(response => {
         this.uanExists = response.status;
         console.log(response.message);
@@ -221,8 +253,8 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   esiExists:boolean = false;
-  checkEsi(esi: string) {
-    if(esi.length==17 && this.onboardingPreviewData.user.esi != esi){
+  checkEsi(esi: string | null) {
+    if(esi!=null && esi.length==17 && this.onboardingPreviewData.user.esi != esi){
       this.dataService.existsUserByEsi(esi).subscribe(response => {
         this.esiExists = response.status;
         console.log(response.message);
