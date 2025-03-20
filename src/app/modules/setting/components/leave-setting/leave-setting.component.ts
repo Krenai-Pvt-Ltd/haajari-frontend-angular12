@@ -514,7 +514,9 @@ assignedUsers: any[]=[];
 fetchAssignedUsers(): void {
   this.dataService.getActiveLeaveTemplates().subscribe(
     (data) => {
+      if(data){
       this.assignedUsers = data;
+      }
     },
     (error) => {
       console.error('Error fetching leave templates', error);
