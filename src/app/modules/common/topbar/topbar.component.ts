@@ -217,7 +217,7 @@ export class TopbarComponent implements OnInit {
     }
     case this.Routes.CONFIGURATION:{
       routeValue = 'Configuration';
-      routeDesc="Manage Employee Expense Reimbursements"
+      routeDesc=" View payroll summaries, upcoming payouts, and key insights."
       break;
     }
     case this.Routes.EARNINGDETAILS:{
@@ -227,7 +227,12 @@ export class TopbarComponent implements OnInit {
     }
     case this.Routes.SALARYTEMPLATE:{
       routeValue = 'Salary Templates';
-      routeDesc="Manage Employee Expense Reimbursements"
+      routeDesc=" Create predefined salary structures for employees."
+      break;
+    }
+    case this.Routes.PAYROLLMANAGEMENT:{
+      routeValue = 'Payroll Management ';
+      routeDesc="Process salaries, generate payslips, and track payments."
       break;
     }
 
