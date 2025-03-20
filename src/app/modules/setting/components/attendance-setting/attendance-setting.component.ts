@@ -1766,6 +1766,12 @@ calculateTimes(): void {
   }
 }
 
+isAutoCheckoutEnabled: boolean = false;
+toggleAutoCheckout(value: boolean): void {
+  this.isAutoCheckoutEnabled = value;
+  console.log('Auto Checkout Enabled:', this.isAutoCheckoutEnabled);
+}
+
 // Helper method to format minutes into HH:mm format
 formatMinutesToTime(minutes: number): string {
     const hours = Math.floor(minutes / 60);
