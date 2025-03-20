@@ -8,6 +8,7 @@ export class LeaveTemplateCategoryRequest {
 
     accrualTypeId: number =0;
     reset : boolean = true;
+    flexible: boolean = true;
     carryover:number=0;
     carryoverAction:string='';
 }

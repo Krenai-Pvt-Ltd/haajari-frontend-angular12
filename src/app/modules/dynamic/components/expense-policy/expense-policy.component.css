@@ -106,3 +106,27 @@
 .expanse-policy-list {
     border: 1px solid #e8ebf3;
 }
+.policy-action-btn{
+  width: 30px;
+  height: 30px;
+
+}
+
+.expanse-policy-list{
+  border: 1px solid #F1F1F1;
+  background: #F5F8FA;
+}
+.expanse-policy-heading {
+  background-color: #eeeefd;
+}
+.expanse-policy-detail{
+    background-color: #fff;
+    min-height: 130px;
+}
+.transition {
+  transition: transform 0.3s ease-in-out;
+}
+
+.location-detail[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}

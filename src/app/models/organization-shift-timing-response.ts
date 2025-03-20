@@ -8,6 +8,7 @@ export class OrganizationShiftTimingResponse {
     name : string = '';
     inTime !: Date;
     outTime !: Date;
+    autoCheckout !: Date;
     startLunch !: Date;
     endLunch !: Date;
     inTimeDate?: Date;

@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0,0);
     this.getStateList();
-       this.getProfile();
+    this.getProfile();
     this.getTodoList();
     this.getOrganizationAdddress();
   }
