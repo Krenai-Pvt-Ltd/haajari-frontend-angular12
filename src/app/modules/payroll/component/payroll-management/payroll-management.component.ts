@@ -80,4 +80,12 @@ export class PayrollManagementComponent implements OnInit {
     this.showPayrollDetail = !this.showPayrollDetail;
   }
 
+  payrollData: any[] = [
+    { paymentDate: '3rd May 2025', payrollType: 'Off Cycle Payroll', details: '3rd May 2025 - 4th May 2025', paymentState: 'Paid on 03/04/2025' },
+    { paymentDate: '12th May 2025', payrollType: 'Off Cycle Payroll', details: '3rd May 2025 - 4th May 2025', paymentState: 'Paid on 03/04/2025' },
+    { paymentDate: '22nd May 2025', payrollType: 'Regular Payroll', details: '3rd May 2025 - 4th May 2025', paymentState: 'Paid on 03/04/2025' },
+    { paymentDate: '23rd May 2025', payrollType: 'Off Cycle Payroll', details: '3rd May 2025 - 4th May 2025', paymentState: 'Paid on 03/04/2025' },
+    { paymentDate: '26th May 2025', payrollType: 'Regular Payroll', details: '3rd May 2025 - 4th May 2025', paymentState: 'Paid on 03/04/2025' }
+  ];
 }
+

@@ -95,3 +95,21 @@
     position: relative;
     top: -1px;
 }
+.overall-insights-icon{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #EBEBEB;
+    border-radius: 5px;
+    background-color: #F6F6F6;
+}
+.summary-dot{
+    width: 10px;
+    height: 10px;
+    background-color: #6666F2;
+}
+.transition {
+    transition: transform 0.3s ease-in-out;
+  }
+.list-down-btn[aria-expanded="true"] i {
+    transform: rotate(180deg);
+    }
