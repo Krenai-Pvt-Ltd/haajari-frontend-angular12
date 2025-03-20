@@ -9,6 +9,8 @@ import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
 import { AddressDetail } from 'src/app/payroll-models/AddressDetail';
 import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { constant } from 'src/app/constant/constant';
 @Component({
   selector: 'app-statutory',
   templateUrl: './statutory.component.html',
@@ -16,12 +18,13 @@ import { NgForm } from '@angular/forms';
 })
 export class StatutoryComponent implements OnInit {
 
-  constructor(private _payrollConfigurationService : PayrollConfigurationService, 
-    private _helperService : HelperService) {
-  
- 
-}
+  readonly constant = constant;
 
+  constructor(private _payrollConfigurationService : PayrollConfigurationService, 
+    private _helperService : HelperService,
+    private _router : Router) {
+    
+  }
   ngOnInit(): void {
     window.scroll(0,0);
     this.getPfContribution();
@@ -55,12 +58,6 @@ export class StatutoryComponent implements OnInit {
     return this.pfContributionRate.filter(pf => pf.contributorType === 2);
   }
 
-
-  isAnyFieldFocused = false;
-
-  onFocus() {
-    this.isAnyFieldFocused = true;
-  }
 
   loadingFlags: { [key: string]: boolean } = {}; 
   epfDetail:EmployeeProvidentFund = new EmployeeProvidentFund();
@@ -526,12 +523,12 @@ export class StatutoryComponent implements OnInit {
       }
       
 
-
-   
-
-
     selectedProfessionalTax:ProfessionalTax = new ProfessionalTax();
     viewSelectedSlab(professionalTax:ProfessionalTax){
       this.selectedProfessionalTax = professionalTax;
+    }
+
+    routeToProfile() {
+      this._router.navigate(['/payroll/configuration'], {queryParams: { tab: 'profile'},});
     }
 }

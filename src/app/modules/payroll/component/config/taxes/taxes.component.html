@@ -15,10 +15,9 @@
                                 <p class="mb-0 font-14 fw-light">PAN Number</p>
                             </div>
                             <div class="w-50 position-relative">
-                                <input type="text" placeholder="AAAAA0000A" required name="pan"
+                                <input type="text" placeholder="Enter PAN" required name="pan"
                                     class="form-control borderLess" maxlength="10" minlength="10"
-                                    [(ngModel)]="taxDetail.panNumber"
-                                    pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"
+                                    [(ngModel)]="taxDetail.panNumber" pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"
                                     oninput="this.value = this.value.toUpperCase()
                                     .replace(/[^A-Z0-9]/g, '')  /* Remove non-alphanumeric */
                                     .replace(/^(.{5})[^0-9]/g, '$1') /* Ensure 6th char is a digit */
@@ -34,17 +33,15 @@
                                 <p class="mb-0 font-14 fw-light">TAN Number </p>
                             </div>
                             <div class="w-50 position-relative">
-                                <input type="text" placeholder="AAAAA0000Z"  name="tan" class="form-control borderLess" [(ngModel)] = "taxDetail.tanNumber"
-                                maxlength="10" 
-                                pattern="^[A-Z]{4}[0-9]{5}[A-Z]$"
+                                <input type="text" placeholder="Enter TAN"  name="tan" class="form-control borderLess" 
+                                [(ngModel)]="taxDetail.tanNumber" minlength="10" maxlength="10" pattern="^[A-Z]{4}[0-9]{5}[A-Z]$"
                                 oninput="this.value = this.value.toUpperCase() 
                                                         .replace(/[^A-Z0-9]/g, '') 
                                                         .replace(/^(.{4})[^0-9]/g, '$1') 
-                                                        .replace(/^(.{5}[0-9]{4})[^A-Z]/g, '$1');"
-                                >
+                                                        .replace(/^(.{5}[0-9]{4})[^A-Z]/g, '$1')">
                             </div>
                         </div>
-                        <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AAAAA0000Z</p>
+                        <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AAAA00000A</p>
                     </div>
 
                     <div class="col-md-12 mb-3">
@@ -100,8 +97,7 @@
                                     nzSize="large"
                                     nzPlaceHolder="Select name"
                                     [(ngModel)]="taxDetail.deductorName"
-                                    (ngModelChange)="selectedEmployee($event)"
-                                >
+                                    (ngModelChange)="selectedEmployee($event)" required>
                                     <nz-option 
                                     *ngFor="let emp of employees" 
                                     [nzLabel]="emp.name"
@@ -115,14 +111,17 @@
 
         
                     <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId ==2 ">
-                        <input type="text" placeholder="Deductor Name" name="deductorName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)] = "taxDetail.deductorName" >
+                        <input type="text" placeholder="Deductor Name" name="deductorName" class="form-control whatsapp-login-input"
+                         pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)]="taxDetail.deductorName" >
                     </div>
                     <div class="col-md-6 mb-3">
-                        <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)] = "taxDetail.fatherName" [disabled]="taxDetail.deductorTypeId == 1" >
+                        <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" 
+                        pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)]="taxDetail.fatherName" [disabled]="taxDetail.deductorTypeId == 1" >
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" [(ngModel)] = "taxDetail.designation" [disabled]="taxDetail.deductorTypeId == 1">
+                        <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" 
+                        [(ngModel)] = "taxDetail.designation" [disabled]="taxDetail.deductorTypeId == 1">
                     </div>
                 </ng-container>
                 </div>
@@ -130,8 +129,7 @@
         </div>
     </div>
     <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!taxForm.pristine">
-        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white" 
-            [disabled]="saveLoader">
+        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"  [ngClass]="{'disabled-lnk':saveLoader}">
             <div *ngIf="saveLoader" class="dot-opacity-loader">
                 <span></span>
                 <span></span>
