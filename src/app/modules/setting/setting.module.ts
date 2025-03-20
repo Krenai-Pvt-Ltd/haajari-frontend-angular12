@@ -28,7 +28,6 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -77,7 +76,6 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzIconModule,
     NzInputModule,
     NzSelectModule,
-    ImageCropperModule,
     NzButtonModule,
     NzFormModule,
     NzToolTipModule,

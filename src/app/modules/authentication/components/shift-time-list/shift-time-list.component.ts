@@ -41,7 +41,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.defaultOutOpenTime.setMinutes(0, 0, 0);
     this.defaultStartLunchOpenTime.setMinutes(0, 0, 0);
     this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
-   
+
   }
 
   selectedStaffsUuids: string[] = [];
@@ -334,7 +334,7 @@ export class ShiftTimeListComponent implements OnInit {
             response.message,
             Key.TOAST_STATUS_SUCCESS
           );
-         
+
           this.dataService.markStepAsCompleted(5);
         },
         (error) => {
@@ -467,7 +467,7 @@ export class ShiftTimeListComponent implements OnInit {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
-   
+
   }
   async getAllUsersUuids(): Promise<string[]> {
     // Replace with your actual API call to get all users
@@ -672,7 +672,7 @@ calculateTimes(): void {
     this.calculateTimes();
 
 }
-  
+
 
   formatMinutesToTime(minutes: any) {
     const hours = Math.floor(minutes / 60);
@@ -790,7 +790,7 @@ calculateTimes(): void {
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
 
 
-    
+
   }
 
   @ViewChild('closeButton2') closeButton2!: ElementRef;
@@ -829,9 +829,9 @@ calculateTimes(): void {
     this.SHIFT_TIME_STEP_ID = this.WEEK_OFF_ID;
   }
 
-  //  new 
+  //  new
      weekDay: WeekDay[] = [];
-  
+
      getWeekDays() {
       this.dataService.getWeekDays().subscribe((holidays) => {
         this.weekDay = holidays.map((day) => ({
@@ -843,20 +843,20 @@ calculateTimes(): void {
         // console.log(this.weekDay);
       });
     }
-  
-  
+
+
     toggleSelection(i: number): void {
       this.weekDay[i].selected = !this.weekDay[i].selected;
-  
+
       // Automatically set isAlternate to false when a day is selected
       this.weekDay[i].isAlternate = false;
     }
-  
+
     toggleAlternate(i: number, isAlternate: boolean): void {
       debugger;
       this.weekDay[i].isAlternate = isAlternate;
       this.weekDay[i].weekOffType = 1;
-  
+
       // Reset weekOffType to 0 when "All" is selected
       if (!isAlternate) {
         this.weekDay[i].weekOffType = 0;

@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Validator } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { Employee } from 'src/app/payroll-models/Employee';
+import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { TaxDetail } from 'src/app/payroll-models/TaxDetail';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
@@ -13,15 +15,36 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 })
 export class TaxesComponent implements OnInit {
 
-  constructor(private _payrollConfigurationService : PayrollConfigurationService,
-    private _helperService:HelperService
-  ) { }
+  activeTab:string=''
+  allCompleted = false;
 
-  ngOnInit(): void {
-    this.getTaxDetail();
-    this.getEmployee();
+
+  constructor(private _payrollConfigurationService : PayrollConfigurationService,
+    private _helperService:HelperService,
+    private _route:ActivatedRoute,
+    private router: Router
+  ) { 
+    this._route.queryParams.subscribe(params => {
+      this.activeTab = params['tab'] ; 
+    });
   }
 
+  ngOnInit(): void {
+    window.scroll(0,0);
+    this.getTaxDetail();
+    this.getEmployee();
+    this.getTodoList();
+    
+  }
+
+  isAnyFieldFocused = false;
+
+  onFocus() {
+    this.isAnyFieldFocused = true;
+  }
+
+  @ViewChild('taxForm') taxForm!: NgForm;
+  
 
   taxDetail:TaxDetail = new TaxDetail();
   getTaxDetail(){
@@ -46,14 +69,20 @@ export class TaxesComponent implements OnInit {
     this._payrollConfigurationService. saveTaxDetail(this.taxDetail).subscribe(
       (response) => {
         if(response.status){
-          this._helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this._helperService.showToast("Your organization tax details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          this.isAnyFieldFocused=false;
         }else{
-          this._helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+          this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
         }
         this.saveLoader = false;
+      //   setTimeout(() => {
+      //     this.route('pay-schedule');
+      // }, 2000);
       },
       (error) => {
         this.saveLoader = false;
+        this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
+
       }
     );
   }
@@ -90,6 +119,34 @@ export class TaxesComponent implements OnInit {
     }
 
   }
+
+  toDoStepList:PayrollTodoStep[]=new Array();
+   getTodoList() {
+
+      this._payrollConfigurationService.getTodoList().subscribe(
+        (response) => {
+          if(response.status){
+            this.toDoStepList = response.object;
+            this.checkAllCompleted();
+
+          }
+        },
+        (error) => {
+  
+        }
+      );
+    }
+    checkAllCompleted(): boolean {
+      return this.toDoStepList.every(step => step.completed);
+    }
+
+    currentTab: any= 'profile';
+    route(tabName: string) {
+      this.router.navigate(['/payroll/configuration'], {
+        queryParams: { tab: tabName },
+      });
+      this.currentTab=tabName;
+    }
 
 
 }

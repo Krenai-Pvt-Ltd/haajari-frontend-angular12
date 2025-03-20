@@ -35,6 +35,8 @@ import { SubscriptionExpiredComponent } from './modules/common/subscription-expi
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
 import { AgmCoreModule } from '@agm/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {NgxPhotoEditorModule} from "ngx-photo-editor";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,6 +75,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatButtonModule,
     NzSwitchModule,
     NzPopoverModule,
+    NgxPhotoEditorModule,
+
+
 
     // OnboardingSidebarResponse
 

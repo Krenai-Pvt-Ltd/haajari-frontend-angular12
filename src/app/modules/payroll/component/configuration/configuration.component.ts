@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfessionalTax } from 'src/app/payroll-models/ProfeessionalTax';
-import { TaxSlabService } from 'src/app/services/tax-slab.service';
+
 
 @Component({
   selector: 'app-configuration',
@@ -12,15 +12,9 @@ export class ConfigurationComponent implements OnInit {
 
 
   isDivVisible: boolean = false;
-  constructor(private taxSlabService: TaxSlabService) {}
 
   ngOnInit(): void {
-    this.taxSlabService.taxSlab$.subscribe(taxData => {
-      if (taxData) {
-        console.log("opening modal")
-        this.selectedTaxSlab = taxData;
-      }
-    });
+    
   }
 
   toggleDiv() {
@@ -134,4 +128,3 @@ selectedTaxSlab!: ProfessionalTax;
 
 
   
-
