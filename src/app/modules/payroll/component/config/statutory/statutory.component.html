@@ -342,6 +342,7 @@
                                        <div class="w-75 position-relative" >
                                           <input type="text" placeholder="Professional Tax no." required name="ptNumber" class="form-control borderLess" 
                                           pattern="^[A-Z]{2}[PT]{1,2}[0-9]{5,12}$"
+                                          maxlength="20"
                                           [(ngModel)]="professionalTax.professionalTaxNumber" [ngModelOptions]="{standalone: true}"
                                           [disabled]="!editingStates[professionalTax.state]">
                                           <button class="btn p-0 editBtn" (click)="toggleEdit(professionalTax.state)" *ngIf="!editingStates[professionalTax.state]">
