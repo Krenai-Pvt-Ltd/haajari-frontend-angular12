@@ -45,7 +45,7 @@
                                  [(ngModel)]="epfNumberForView" (input)="formatEpfNumber($event)" required>
                               <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AA/AAA/0000000/AAA</p>
                            </div>
-                           <div class="col-md-6 mb-3">
+                           <!-- <div class="col-md-6 mb-3">
                               <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                                  <div class="w-50 currency-types-border">
                                     <p class="mb-0 font-13 fw-light">Employee Contribution</p><span class="text-danger">*</span>
@@ -79,7 +79,7 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>
+                           </div> -->
                         </div>
                      </div>
                   </div>
@@ -88,8 +88,54 @@
                <div class="row">
                   <div class="col-md-4">
                      <div class="payroll-details-box">
+                        <h4 class="font-13 text-black fw-semibold lh-1">Employee Contribution </h4>
+                        <p class="text-muted font-11 fw-normal lh-base mb-0">This section contain EPF no,<br> deduction cycle</p>
+                     </div>
+                  </div>
+                  <div class="col-md-8">
+                     <div class="organization-detail">
+                        <div class="row">
+                           <div class="col-md-7">
+                     <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                           <div class="w-100">
+                              <nz-select  name="employeeContriution" class="form-control w-100 placeholder-line currency-types" 
+                              nzSize="large" nzPlaceHolder="Select Employee Contribution"
+                              [(ngModel)]="epfDetail.employeeContribution" 
+                              [disabled]="epfDetail.employerContribution == 1" 
+                              (ngModelChange)="calculatePFContribution()"
+                              #eeContributionRef="ngModel" required>
+                                 <nz-option 
+                                 *ngFor="let pf of filteredEmployeeContributions" 
+                                 [nzLabel]="pf.description" 
+                                 [nzValue]="pf.id">
+                                 </nz-option>
+                              </nz-select>
+                           </div>
+                     </div>
+                  </div>
+                  <div class="col-md-5">
+                     <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                        <div class="w-50 currency-types-border">
+                           <p class="mb-0 font-13 fw-light">Deduction Cycle</p>
+                        </div>
+                        <div class="w-50">
+                           <div class="w-100">
+                              <h5 class="mb-0 font-14 fw-semibold px-3">Monthly</h5>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                     </div>
+                     </div>
+
+                  </div>
+               </div>
+               <hr class="mt-5 mb-5">
+               <div class="row">
+                  <div class="col-md-4">
+                     <div class="payroll-details-box">
                         <h4 class="font-13 text-black fw-semibold lh-1">Employer Contribution Rate </h4>
-                        <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
+                        <p class="text-muted font-11 fw-normal lh-base mb-0">his section contain EPF no,<br> deduction cycle</p>
                      </div>
                   </div>
                   <div class="col-md-8">
@@ -198,7 +244,7 @@
       </div>
       <div class="tab-pane fade" id="esi" role="tabpanel" aria-labelledby="esi-tab">
          <form #esiForm="ngForm" ngNativeValidate (ngSubmit)="saveEsiDetail()">
-            <div class="px-4 pt-3 mb-10">
+            <div class="p-2 mb-10">
                <div class="row">
                 <div class="col-md-4">
                    <div class="payroll-details-box">
@@ -283,7 +329,7 @@
          </form>
       </div>
       <div class="tab-pane fade" id="tax" role="tabpanel" aria-labelledby="tax-tab">
-         <div class="px-4 pt-3">
+         <div class="p-2">
              <div class="row location-list" *ngIf="professionalTaxDetail.length > 0">
                  <div class="col-md-4">
                     <div class="payroll-details-box">
@@ -416,7 +462,7 @@
          </div>
      </div>
       <div class="tab-pane fade" id="fund" role="tabpanel" aria-labelledby="fund-tab">
-      <div class="px-4 pt-3">
+      <div class="p-2">
           <div class="row" *ngIf="professionalTaxDetail.length > 0">
               <div class="col-md-4">
                  <div class="payroll-details-box">
