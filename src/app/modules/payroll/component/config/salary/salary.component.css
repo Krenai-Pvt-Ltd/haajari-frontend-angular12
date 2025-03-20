@@ -146,3 +146,20 @@ Earning
     opacity: 1;
   }
 }
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
+}
+.actionMenuList {
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px;
+  box-shadow: 0px 3px 12px -3px #1111111f;
+  overflow: hidden;
+  min-width: 10.5rem !important;
+  padding: 7px !important;
+  background-color: #fff !important;
+  line-height: 35px;
+}

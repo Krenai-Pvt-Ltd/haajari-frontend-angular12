@@ -19,13 +19,38 @@
         </ul>
 
 
-        <div class="add-Component" style="width:200px;">
+        <!-- <div class="add-Component" style="width:200px;">
             <nz-select class="form-control w-100 placeholder-line " nzPlaceHolder="Add Component"
             [(ngModel)]="selectedTab" (ngModelChange)="addComponent(selectedTab)">
                 <nz-option [nzValue]="EARNING_COMPONENT" nzLabel="Earning" ></nz-option>
                 <nz-option [nzValue]="BENEFIT_COMPONENT" nzLabel="Benefit" ></nz-option>
                 <nz-option [nzValue]="DEDUCTION_COMPONENT" nzLabel="Deduction"></nz-option>
               </nz-select>
+        </div> -->
+
+        <div class="dropdown">
+            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn text-primary border-primary dropdown-toggle d-flex align-items-center justify-content-center font-13 fw-semibold">
+                Add Component
+                <i class="bi bi-chevron-down px-4" style="padding-right: 0px !important;"></i>
+            </button>
+            <div class="dropdown-menu actionMenuList">
+                <li>
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal">
+                        Earning
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal">
+                        Benefit
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal">
+                        Deduction
+                    </a>
+                </li>
+                
+            </div>
         </div>
     </div>
 
