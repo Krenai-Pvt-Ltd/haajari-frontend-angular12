@@ -13,7 +13,7 @@
                         <a id="pills-notification-tab" data-bs-toggle="pill" href="#expense-request" role="tab"
                             aria-controls="pills-request" aria-selected="false" (click)="expenseRequest()"
                             class="nav-link">Expense Request </a>
-                            <span class="request-count d-flex align-items-center justify-content-center">{{status13Count}}</span>
+                            <span *ngIf="status13Count > 0" class="request-count d-flex align-items-center justify-content-center">{{status13Count}}</span>
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <a id="pills-notification-tab" data-bs-toggle="pill" href="#expense-policy" role="tab"
@@ -699,7 +699,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="expense-policy" role="tabpanel" aria-labelledby="employee-tab">
-
+                             <app-expense-policy></app-expense-policy>
                         </div>
                         <div class="tab-pane fade" id="expense-wallet" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="mt-3">
