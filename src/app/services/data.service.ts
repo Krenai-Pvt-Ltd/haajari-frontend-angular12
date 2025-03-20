@@ -1094,11 +1094,13 @@ export class DataService {
     userPersonalInformationRequest: UserPersonalInformationRequest,
     userUuid: string,
     selectedTeamIds: number[],
-    selectedShift: number,
+    selectedShift: number | null,
     selectedLeaveIds: number[],
     invite: boolean
   ): Observable<any> {
-    debugger;
+    if(selectedShift==null){
+      selectedShift=0;
+    }
     let params = new HttpParams()
       .set('userUuid', userUuid)
       .set('selectedShiftId', selectedShift)
