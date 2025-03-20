@@ -445,7 +445,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
   isRegisterLoad : boolean = false;
   loading: boolean = false;
-  isForceUpdate:boolean=true;
+  isForceUpdate:boolean=false;
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
   saveUserWorkLocation() {
     this.saveLoader = true;
@@ -463,7 +463,6 @@ export class ProfileComponent implements OnInit {
   
         if (response.status) {
           if (response.object && response.object.length > 0) {
-            // Filter `staffs` array using the UUIDs in `response.object`
             this.userNameWithBranchName = this.staffs.filter(staff => 
               response.object.includes(staff.uuid)
             );
@@ -476,6 +475,7 @@ export class ProfileComponent implements OnInit {
             this._helperService.showToast("Your user work location updated.", Key.TOAST_STATUS_SUCCESS);
             this.isRegisterLoad = false;
             this.isValidated = false;
+            this.isForceUpdate=false;
           }
         } else {
           this._helperService.showToast("Error updating your work location.", Key.TOAST_STATUS_ERROR);
@@ -738,23 +738,35 @@ openStaffSelection() {
 
 }
 
-deleteAddress(addressId:number){
-  this.addressId=addressId;
+deleteAddress(){
+  this.deleteToggle= true;
+
   this._payrollConfigurationService.deleteAddress(this.addressId).subscribe(
     (response) => { 
       if (response.status) {
         this.getOrganizationAdddress();
         this._helperService.showToast("Worklocation deleted.", Key.TOAST_STATUS_SUCCESS);
+        this.deleteLocationCloseButton.nativeElement.click();
 
       } else {
         this._helperService.showToast("Error deleting your work location.", Key.TOAST_STATUS_ERROR);
       }
+      this.deleteToggle= false;
     },
     (error) => {
       this._helperService.showToast("Error deleting your work location.", Key.TOAST_STATUS_ERROR);
+      this.deleteToggle= false;
 
     }
   );
+}
+
+@ViewChild("deleteLocationButton")deleteLocationButton!: ElementRef;
+@ViewChild("deleteLocationCloseButton")deleteLocationCloseButton!: ElementRef;
+deleteToggle: boolean = false;
+deleteLocation(addressId: number) {
+  this.addressId=addressId;
+  this.deleteLocationButton.nativeElement.click();
 }
 
 
