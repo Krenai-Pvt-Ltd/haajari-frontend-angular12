@@ -181,6 +181,17 @@ export class PersonalInformationComponent implements OnInit {
     return false;
   }
 
+  restrictToNumbers(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only numbers (0-9)
+    if (charCode >= 48 && charCode <= 57) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
+  }
+
+
   emailAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
     const email = control.value;
     if (!email || this.onboardingPreviewData.user.email == email) {
@@ -683,6 +694,7 @@ export class PersonalInformationComponent implements OnInit {
       emailId: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].emailId, [Validators.required, Validators.email]],
     });
     this.references.push(referenceGroup);
+    this.onboardingForm.get('references')?.untouched;
   }
 
   removeReference(index: number) {
@@ -714,6 +726,7 @@ export class PersonalInformationComponent implements OnInit {
         jobResponsibilities: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].jobResponisibilities, Validators.required],
       })
     );
+    this.onboardingForm.get('userExperience')?.untouched;
   }
 
   // Remove a job experience by index
@@ -740,6 +753,8 @@ export class PersonalInformationComponent implements OnInit {
       contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactName, Validators.required],
       contactNumber: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     }));
+    this.onboardingForm.get('userEmergencyContacts')?.untouched;
+
   }
 
   removeEmergencyContact(index: number) {

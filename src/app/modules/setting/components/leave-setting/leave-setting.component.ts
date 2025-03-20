@@ -2312,7 +2312,7 @@ registerShift() {
 
 checkValidation() {
     // Toggle isValidated based on checkbox
-    this.isValidated = !this.isValidated;
+   // this.isValidated = !this.isValidated;
 }
 
 closeModal() {
