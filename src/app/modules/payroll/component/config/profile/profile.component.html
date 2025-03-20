@@ -194,7 +194,7 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <span class="pointer">
+                                    <span class="pointer" (click)="deleteAddress(address.organizationAddress.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                             <mask id="mask0_9177_4742" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
                                             <rect x="0.444336" y="0.164062" width="22.3492" height="22" fill="#D9D9D9"/>
@@ -430,7 +430,6 @@
                                             nzPlaceHolder="Select State"
                                             name="state"
                                             [(ngModel)]="organizationUserLocation.state"
-                                            [nzDisabled]="addressId !== 0"
                                             (ngModelChange)="onStateChange($event)"
                                             [nzShowSearch]="true"
                                             (nzSearchChange)="searchState($event)"

@@ -445,6 +445,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild('closeAddressModal') closeAddressModal!:ElementRef;
   isRegisterLoad : boolean = false;
   loading: boolean = false;
+  isForceUpdate:boolean=true;
   organizationUserLocation:OrganizationUserLocation = new OrganizationUserLocation();
   saveUserWorkLocation() {
     this.saveLoader = true;
@@ -455,7 +456,7 @@ export class ProfileComponent implements OnInit {
     request.organizationMultiLocationRequest = this.organizationUserLocation;
     request.userUuidsList = this.selectedStaffUUIDs;
   
-    this._payrollConfigurationService.saveUserWorkLocation(request, this.addressId).subscribe(
+    this._payrollConfigurationService.saveUserWorkLocation(request, this.addressId,this.isForceUpdate).subscribe(
       (response) => {
         this.saveLoader = false;
         this.loading = false;
@@ -684,27 +685,8 @@ export class ProfileComponent implements OnInit {
   registerAddress() {
     this.isRegisterLoad = true;
     this.closeButton2.nativeElement.click();
-  
-    // Get selected user UUIDs
-    this.getSelectedStaffUUIDs();
-  
-    // Step 1: Deassociate users first
-    this._payrollConfigurationService.deassociateUsersFromOldAddress(this.selectedStaffUUIDs).subscribe(
-      (response) => {
-        if (response.status) {
-          console.log("Users deassociated successfully. Proceeding to save new location.");
-          this.saveUserWorkLocation(); // Step 2: Now assign them to the new location
-        } else {
-          this.isRegisterLoad = false;
-          this._helperService.showToast("Error deassociating users.", Key.TOAST_STATUS_ERROR);
-        }
-      },
-      (error) => {
-        this.isRegisterLoad = false;
-        console.error("Error during deassociation:", error);
-        this._helperService.showToast("Error deassociating users.", Key.TOAST_STATUS_ERROR);
-      }
-    );
+    this.isForceUpdate = true;
+    this.saveUserWorkLocation(); 
   }
   
   
@@ -743,7 +725,7 @@ export class ProfileComponent implements OnInit {
   }
 
   searchState(event: string | Event): void {
-    const value = typeof event === 'string' ? event : ''; // Ensure it's a string
+    const value = typeof event === 'string' ? event : ''; 
     this.filteredStateList = this.stateList.filter(state =>
         state.name.toLowerCase().includes(value.toLowerCase())
     );
@@ -754,6 +736,25 @@ openStaffSelection() {
   this.fetchUserList();
  this.staffSelectionTab.nativeElement.click();
 
+}
+
+deleteAddress(addressId:number){
+  this.addressId=addressId;
+  this._payrollConfigurationService.deleteAddress(this.addressId).subscribe(
+    (response) => { 
+      if (response.status) {
+        this.getOrganizationAdddress();
+        this._helperService.showToast("Worklocation deleted.", Key.TOAST_STATUS_SUCCESS);
+
+      } else {
+        this._helperService.showToast("Error deleting your work location.", Key.TOAST_STATUS_ERROR);
+      }
+    },
+    (error) => {
+      this._helperService.showToast("Error deleting your work location.", Key.TOAST_STATUS_ERROR);
+
+    }
+  );
 }
 
 
