@@ -151,6 +151,20 @@ export class ExpensePolicyComponent implements OnInit {
     this.getExpenses();
   }
 
+
+  viewForm : boolean = false;
+  viewAddBtn : boolean = false;
+  changeViewForm(){
+    this.viewForm = true;
+    this.viewAddBtn = false;
+  }
+
+  toggleViewForm() {
+    this.viewForm = true;
+    this.viewAddBtn = false;
+  }
+
+
   /** Expense start **/
   clearData(){
     debugger
@@ -1254,7 +1268,9 @@ this.expenseTypeName = selectedExpense.name
     // this.companyExpenseReq = new CompanyExpense();
     // this.tempCompanyExpenseReq = new CompanyExpense();
     this.clearPolicyForm();
-    form.resetForm()
+    form.resetForm();
+    this.viewForm = false;
+    this.viewAddBtn = false;
   }
 
   policyName: string = ''
@@ -1864,6 +1880,8 @@ this.expenseTypeName = selectedExpense.name
   getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
 
     debugger
+    this.viewForm = false;
+    this.viewAddBtn = true;
     this.updateToggle = true;
     this.companyExpensePolicyId = companyExpense.id
     this.tempExpPolicyId = companyExpense.id;
