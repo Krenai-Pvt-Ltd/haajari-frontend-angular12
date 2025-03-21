@@ -19,8 +19,21 @@
     {{ attendanceData?.status | uppercase }}
   </span>
   </div>
-  <div class="modal-body">
-    <div class="assets-request-form">
+  <div class="modal-body p-0">
+    <div class="d-flex align-items-center justify-content-between p-3 user-detail">
+      <div class="d-flex align-items-center gap-2">
+         <img src="assets/images/user.png" class="img-50 radius-50">
+         <div>
+            <h5 class="mb-0 font-14">Kunal </h5>
+            <p class="mb-0 font-12"></p>
+         </div>
+      </div>
+      <div class="text-end">
+         <p class="font-12 mb-2"> Date: 21-03-2025 02:09:26 PM</p>
+         <span  class="badge rounded-pill bg-soft-success"> APPROVED </span>
+      </div>
+   </div>
+    <div class="assets-request-form p-3">
       <form [formGroup]="attendanceTimeUpdateForm">
         <div class="row register-form-box">
           <div class="col-md-12 mb-3">

@@ -2881,7 +2881,7 @@
 
 <!--attendance request modal start -->
     <div class="modal fade" id="attendanceRequest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-      <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+      <div class="modal-dialog modal-dialog-centered">
         <app-attendance-update *ngIf="showAttendanceUpdate" [isCreate]="false" [data]="attendanceUpdateData" (closeModal)="onAttendanceUpdateClose()"></app-attendance-update>
         <button class="d-none" #closeBtn data-bs-dismiss="modal"></button>
         <div *ngIf="!showAttendanceUpdate" class="modal-body p-0">
