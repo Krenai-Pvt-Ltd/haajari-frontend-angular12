@@ -1,27 +1,8 @@
-/* Modal Structure */
-.modal-content {
-  /* No direct styling in provided CSS, but typically has defaults like border-radius, background, etc. */
-}
-
-.modal-header {
-  /* No direct styling in provided CSS, but typically includes padding and border-bottom */
-}
-
-.modal-title {
-  /* No direct styling, defaults apply (e.g., font-size from h5) */
-}
 
 .close-btn svg {
   width: 20px;
 }
 
-.modal-body {
-  /* No direct styling in provided CSS */
-}
-
-.modal-footer {
-  /* No direct styling, but flex properties are applied inline in HTML */
-}
 
 /* Form Elements */
 .register-form-box label {
@@ -182,4 +163,13 @@
   font-family: bootstrap-icons !important;
   font-style: normal;
   font-weight: 600 !important;
+}
+
+.user-detail {
+  background-color: #FAFAFA;
+}
+
+.user-detail p {
+  color: #6B7280;
+  margin-bottom: 0;
 }
