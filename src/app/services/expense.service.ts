@@ -56,6 +56,21 @@ export class ExpenseService {
       return this.httpClient.post<any>(`${this.baseUrl}/user-expense-wallet`, requestBody);
     }
   
+    //Get Full Expeanse Summary
+    getExpenseSummary(){
+      return this.httpClient.get<any>(`${this.baseUrl}/company-expense/expense-summary`);
+    }
+
+    //get expense by selecting type
+    getExpenseBytype(startDate: any, endDate: any,){
+      let params = new HttpParams();
+      
+      if (startDate && endDate) {
+        params = params.set('startDate', startDate);
+        params = params.set('endDate', endDate);
+      }
+      return this.httpClient.get<any>(`${this.baseUrl}/company-expense/expense-summary-by-type`,{ params });
+    }
 
 
 }

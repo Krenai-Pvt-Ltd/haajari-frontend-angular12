@@ -37,6 +37,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.getExpensesCount();
     this.getWalletUser();
     this.getRole();
+    this.fetchDashboardData();
   }
 
   changeShowFilter(flag : boolean) {
@@ -398,6 +399,7 @@ openExpenseComponent(expense: any) {
     this.tempDateFilters = [];
     this.filters = { fromDate: undefined, toDate: undefined };
     this.loading = false;
+    this.dashBoardDateView = false;
     this.getWalletUser();    
 }
 
@@ -458,13 +460,18 @@ openExpenseComponent(expense: any) {
       this.requestedEmployeeId
     ).subscribe((res: any) => {
       if (res.status) {
-        this.walletUserList = res.object.map((user : any) => {
-          return {
-            ...user,
-            formattedDate: this.formatDate(user.lastTransactionDate),  // Extract Date
-            formattedDay: this.formatDay(user.lastTransactionDate)    // Extract Day
-          };
-        });
+        if(!this.dashBoardDateView){
+          this.walletUserList = res.object.map((user : any) => {
+            return {
+              ...user,
+              formattedDate: this.formatDate(user.lastTransactionDate),  // Extract Date
+              formattedDay: this.formatDay(user.lastTransactionDate)    // Extract Day
+            };
+          });
+        }else{
+          this.walletUserList = res.object;
+        }
+        
   
         this.totalWalletUser = res.totalItems;
         this.dateFilters = [...this.tempDateFilters];
@@ -659,5 +666,83 @@ searchByEmployeeName(event: Event): void {
     })
   }
 
+  /* Expense Dashboard Fetch Starts */
+
+  dashBoardDateView : boolean = false;
+  fetchDashboardData(){
+    this.startDate = '';
+    this.endDate = '';
+    this.getExpenseSummaryByType();
+    this.getExpenseSummary();
+    this.tempDateFilters = [];
+    this.filters = { fromDate: undefined, toDate: undefined };
+    this.getWalletUser();
+    this.dashBoardDateView = true;
+  }
+
+  expenseSummary: any[] = [];
+
+  settledAmount: number = 0;
+  unsettledAmount: number = 0;
+  rejectedAmount: number = 0;
+  pendingAmount: number = 0;
+  payrollAmount: number = 0;
+  
+  getExpenseSummary() {
+    this.expenseService.getExpenseSummary().subscribe((res: any) => {
+      if (res.status) {
+        this.expenseSummary = res.object;
+
+        this.settledAmount = 0;
+        this.unsettledAmount = 0;
+        this.rejectedAmount = 0;
+        this.pendingAmount = 0;
+        this.payrollAmount = 0;
+
+        for (let expense of this.expenseSummary) {
+          switch (expense.status.id) {
+            case 41: // Paid
+              this.settledAmount = expense.totalAmount;
+              break;
+            case 15: // Rejected
+              this.rejectedAmount = expense.totalAmount;
+              break;
+            case 14: // Approved
+              this.unsettledAmount = expense.totalAmount;
+              break;
+            case 13: // Pending
+              this.pendingAmount = expense.pendingAmount;
+              break;
+            case 40: // Payroll
+            case 53: // Payroll Partial
+              this.payrollAmount += expense.totalAmount;
+              break;
+            default:
+              break;
+          }
+        }
+  
+        console.log("Expense Summary:", res);
+      }
+    });
+  }
+
+
+  expenseTypeSummery : any[] = [];
+  totalExpenseType : number = 0;
+
+  getExpenseSummaryByType() {
+    this.expenseService.getExpenseBytype(this.startDate, this.endDate).subscribe((res: any) => {
+      if (res.status) {
+        this.expenseTypeSummery = res.object;
+        this.totalExpenseType = res.totalItems;
+      }
+      
+      console.log("ExpenseSummaryByType :", res);
+      });
+  }
+
+
+  
 
 }

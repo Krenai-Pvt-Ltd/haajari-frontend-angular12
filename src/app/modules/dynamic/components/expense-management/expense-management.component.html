@@ -6,7 +6,7 @@
                     <ul id="pills-tab" role="tablist" class="nav nav-pills ">
                         <li class="nav-item">
                         <a id="pills-announcement-tab" data-bs-toggle="pill" href="#dashboard" role="tab" 
-                            aria-controls="pills-dashboard" aria-selected="false" 
+                            aria-controls="pills-dashboard" aria-selected="false" (click)="fetchDashboardData()" 
                             class="nav-link active">Dashboard</a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
@@ -102,17 +102,18 @@
                                             <h5 class="mb-0 font-14 fw-normal color-basic">Employee Wallet Transactions</h5>
                                             <!-- <h5 class="mb-0 font-14 fw-normal color-basic">Employee Transactions</h5> -->
                                             <div class="wallet-transactions-list mt-4">
-                                                <div class="d-flex align-items-center justify-content-between mb-4" *ngFor="let item of [].constructor(10)">
+                                                <div class="d-flex align-items-center justify-content-between mb-4" *ngFor="let user of walletUserList">
                                                     <div class="d-flex align-items-center gap-2 ">
-                                                        <img src="assets/images/pushpendra.jpeg"> 
+                                                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                                                                    [src]="user.imageUrl || 'assets/images/user.png'">
                                                         <div>
-                                                            <h5 class="mb-1 font-14 fw-semibold">Pushpendra Yadav</h5>
-                                                            <p class="mb-0 fw-light font-12">Department | <span class="text-black fw-normal">IT department</span></p>
+                                                            <h5 class="mb-1 font-14 fw-semibold">{{user.userName}}</h5>
+                                                            <p class="mb-0 fw-light font-12">Department | <span class="text-black fw-normal">{{user.department}}</span></p>
                                                         </div>
                                                     </div>
                                                     <div class="text-end">
-                                                        <h5 class="mb-1 font-14 fw-semibold">₹10,894</h5>
-                                                        <p class="mb-0 fw-light font-12 color-basic">Jan,23</p>
+                                                        <h5 class="mb-1 font-14 fw-semibold">₹{{user.walletAmount}}</h5>
+                                                        <p class="mb-0 fw-light font-12 color-basic">{{ user.lastTransactionDate | date: 'MMM dd' }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,7 +139,7 @@
                                                         </span>
                                                         <p class="mb-0 font-23 ">Settled Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹1,24,420</h5>
+                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{settledAmount }}</h5>
 
                                                     <p class="mb-0 font-12 week-count">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -162,7 +163,7 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">U-Settled Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹80,240</h5>
+                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{unsettledAmount}}</h5>
 
                                                     <p class="mb-0 font-12 week-count">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
@@ -186,7 +187,7 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">In Process</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹34,240</h5>
+                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{pendingAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
                                                         <span class="text-black fw-semibold">24 Request</span> in this week
                                                     </p>
@@ -207,7 +208,7 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">Rejected Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹1,240</h5>
+                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{rejectedAmount }}</h5>
 
                                                     <p class="mb-0 font-12 week-count">
                                                         <span class="text-black fw-semibold">12 Request</span> in this week
@@ -227,9 +228,9 @@
                                                                 </g>
                                                             </svg>    
                                                         </span>
-                                                        <p class="mb-0 font-13 ">Client Expense</p>
+                                                        <p class="mb-0 font-13 ">Payroll Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹1,440</h5>
+                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{payrollAmount }}</h5>
 
                                                     <p class="mb-0 font-12 week-count">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -256,71 +257,27 @@
                                                     <div class="p-3">
                                                         <div class="d-flex align-items-center justify-content-between">
                                                             <div>
-                                                                <h5 class="mb-1 font-20 fw-semibold">10 <span class="font-13 fw-semibold">Types Of Expense </span></h5>
-                                                                <p class="font-12 fw-normal color-basic">Defined By Your organisation</p>
+                                                                <h5 class="mb-1 font-20 fw-semibold">{{ totalExpenseType }}
+                                                                    <span class="font-13 fw-semibold">Types Of Expense</span>
+                                                                </h5>
+                                                                <p class="font-12 fw-normal color-basic">Defined By Your Organisation</p>
                                                             </div>
                                                             <img src="assets/images/sidebar-icon/expensecat-graph.svg" style="width: 80px;">
                                                         </div>
+                                                    
                                                         <div class="mt-4">
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
+                                                            <div *ngFor="let expense of expenseTypeSummery" class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                                 <div class="d-flex align-items-center gap-2">
                                                                     <span class="earned-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Travel & Transportation <span class="fw-light">(20%)</span></p>
+                                                                    <p class="mb-0 text-black fw-semibold font-13">
+                                                                        {{ expense.expenseTypeName }} <span class="fw-light">({{ expense.percentage }}%)</span>
+                                                                    </p>
                                                                 </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹80,240</h5>
+                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹{{ expense.approvedAmount | number }}</h5>
                                                             </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="casual-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Employee Reimbursements <span class="fw-light">(18%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹23,240</h5>
-                                                            </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="sick-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Office & Administration <span class="fw-light">(11%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹13,240</h5>
-                                                            </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="lop"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Client Engagement & Entertainment   <span class="fw-light">(9%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹11,240</h5>
-                                                            </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="maternity-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Training & Development  <span class="fw-light">(8%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹10,240</h5>
-                                                            </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="paternity-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Professional Fees <span class="fw-light">(10%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹20,240</h5>
-                                                            </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="earned-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">IT & Software <span class="fw-light">(20%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹40,240</h5>
-                                                            </div>
-                                                            <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
-                                                                <div class="d-flex align-items-center gap-2">
-                                                                    <span class="earned-leave"></span>
-                                                                <p class="mb-0 text-black fw-semibold font-13">Miscellaneous Expenses <span class="fw-light">(6%)</span></p>
-                                                                </div>
-                                                                <h5 class="mb-0 font-13 text-black fw-semibold">₹50,240</h5>
-                                                            </div>
-
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

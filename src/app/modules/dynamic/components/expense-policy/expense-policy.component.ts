@@ -154,15 +154,24 @@ export class ExpensePolicyComponent implements OnInit {
 
   viewForm : boolean = false;
   viewAddBtn : boolean = false;
+  selectedExpensesId : number[] = [];
+  
+  // when user click add button
   changeViewForm(){
     this.viewForm = true;
     this.viewAddBtn = false;
   }
 
+  //when urer will click create-expense-policy
   toggleViewForm() {
     this.viewForm = true;
     this.viewAddBtn = false;
   }
+
+
+  isExpenseTypeDisabled(expenseTypeId: number): boolean {
+    return this.expensePolicyReqList.some(expensePolicy => expensePolicy.expenseTypeId === expenseTypeId);
+  }  
 
 
   /** Expense start **/
@@ -624,10 +633,9 @@ export class ExpensePolicyComponent implements OnInit {
 
   }
 
-  @ViewChild('expenseTypeTab') expenseTypeTab!: ElementRef;
+  
   isStaffSelectionFlag: boolean = false;
   expenseTypeSelectionTab() {
-    this.expenseTypeTab.nativeElement.click();
     this.isStaffSelectionFlag = false;
     this.activeTab = 'expensePolicy';
   }
@@ -1393,12 +1401,14 @@ this.expenseTypeName = selectedExpense.name
         this.tempPolicyName = ''
         this.tempExpPolicyId = 0
         this.pName = ''
+        this.userMappedLoading = false;
         if(this.isMappedUserModalOpen){
           this.usersAlreadyAssigned?.nativeElement.click();
           this.isMappedUserModalOpen = false
         }
         this.companyExpenseReq = new CompanyExpense();
         this.tempCompanyExpenseReq = new CompanyExpense();
+        this.getAllCompanyExpensePolicy();
         this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
       }else{
         this.clearPolicyForm();
@@ -1697,21 +1707,22 @@ this.expenseTypeName = selectedExpense.name
       this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser
 
       this.tempCompanyExpenseReq.deSelectedUserIds = this.userNameWithBranchName.map(item => item.id);
-      this.userMappedLoading = false;
-      this.closeExpenseButton.nativeElement.click();
-      this.helperService.showToast(`policy created successfully.`, Key.TOAST_STATUS_SUCCESS);  
+      // this.userMappedLoading = false;
+      // this.closeExpenseButton.nativeElement.click();
+      // this.helperService.showToast(`policy created successfully.`, Key.TOAST_STATUS_SUCCESS);
+      this.registerCompanyExpense(form);  
       }
 
       console.log('userLen: ',this.userNameWithBranchName.length)
         if( this.userNameWithBranchName.length != 0) {
           this.isMappedUserModalOpen = true;
           // console.log('Opening modal..')
-          this.closeExpensePolicyModal.nativeElement.click();
+          // this.closeExpensePolicyModal.nativeElement.click();
           this.usersAlreadyAssigned.nativeElement.click();
           this.userMappedLoading = false;
         }else{
           // console.log('Going to create..')
-          this.registerCompanyExpense(form);
+          // this.registerCompanyExpense(form);
         }
 
       },

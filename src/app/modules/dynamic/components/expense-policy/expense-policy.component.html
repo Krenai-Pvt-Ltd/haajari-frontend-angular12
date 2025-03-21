@@ -133,7 +133,7 @@
                                               [(ngModel)]="expenseTypeId" (ngModelChange)="selectExpenseType($event)" required id="seleType"
                                               name="seleExpType" #seleExpType="ngModel" class="form-control">
                                               <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
-                                                [nzLabel]="expenseType.name">
+                                                [nzLabel]="expenseType.name" [nzDisabled]="isExpenseTypeDisabled(expenseType.id)">
                                               </nz-option>
                                             </nz-select>
                                           </nz-form-control>
