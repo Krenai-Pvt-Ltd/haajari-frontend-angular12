@@ -652,7 +652,7 @@
                                      <th class="text-left font-13" style="width: 10%;">Status</th>
                                      <th class="text-left font-13" style="width: 15%;">Leave Note</th>
                                      <th class="text-left font-13" style="width: 15%;">Cancellation Reason</th>
-                                     
+
                                      <th class="text-end font-13 stickyColTdend" style="width: 10%;">Action </th>
                                   </tr>
                                </thead>
@@ -735,7 +735,7 @@
                                           }">{{leave.status|  uppercase}} </span>
 
                                       </div>
-                                      <p class="mb-0 mt-0 fw-normal font-13 color-basic">By: {{leave.managerName || '-'}} </p>
+                                      <p class="mb-0 mt-0 fw-normal font-13 color-basic">By: {{leave.actionByName || '-'}} </p>
                                   </td>
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space"  nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.notes}}</span>
@@ -743,7 +743,7 @@
                                      <td>
                                         <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.rejectionReason || "N/A"}}</span>
                                     </td>
-                                   
+
                                      <td class="text-end stickyColTdend">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
                                             <span *ngIf="!isExpanded(i)"
@@ -786,7 +786,7 @@
                                                 </ng-template>
                                               </span>
                                               <div class="dropdown-menu actionMenuList">
-                                                <li *ngIf="leave.status == PENDING && (logInUserUuid!=leave.uuid || ROLE=='ADMIN')">
+                                                <li *ngIf="leave.status == PENDING && ((logInUserUuid!=leave.uuid && logInUserUuid==leave.managerUuid)  || ROLE=='ADMIN')">
                                                   <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
                                                     <a class="dropdown-item">
                                                       <i class="bi bi-check2"></i>
@@ -794,7 +794,7 @@
                                                     </a>
                                                   </span>
                                                 </li>
-                                                <li *ngIf="leave.status == PENDING && (logInUserUuid!=leave.uuid || ROLE=='ADMIN')">
+                                                <li *ngIf="leave.status == PENDING && ((logInUserUuid!=leave.uuid && logInUserUuid==leave.managerUuid) || ROLE=='ADMIN')">
                                                   <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
                                                     <a class="dropdown-item">
                                                       <i class="bi bi-x"></i>
