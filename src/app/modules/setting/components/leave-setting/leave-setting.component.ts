@@ -2199,7 +2199,7 @@ userNameWithShiftName: any[] = [];
     const usersToCheck = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
     this.existingAssignedUsers = this.assignedUsers.filter(user =>
         usersToCheck.includes(user.userId) &&
-        user.leaveTemplateName !== this.leaveTemplateRequest.name
+        user.leaveTemplateId != this.leaveTemplateRequest.id
     );
 
     if (this.existingAssignedUsers.length > 0 && !this.isValidated) {
