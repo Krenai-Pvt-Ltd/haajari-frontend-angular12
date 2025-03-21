@@ -31,7 +31,7 @@
                 class="position-relative" [ngClass]="{
                     'active-tab': ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB_NEW}" aria-controls="pills-notification" aria-selected="false" class="nav-link">Request Records</a>
               <span class="request-count d-flex align-items-center justify-content-center"
-                *ngIf="attendanceUpdateCount > 0">{{ attendanceUpdateCount }}</span>
+                *ngIf="totalPendingRequests > 0">{{ totalPendingRequests }}</span>
             </li>
           </ul>
           <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB; else attendanceSectionOtherTabCondition">
@@ -1744,7 +1744,7 @@
                           <th class="text-left">Requested To</th>
                           <th class="text-left">In Time</th>
                           <th class="text-left">Out Time</th>
-                          <th class="text-left">Leave Note</th>
+                          <th class="text-left">Note</th>
                           <th class="text-left">Status</th>
                           <th class="text-left">Action</th>
                         </tr>
@@ -2052,7 +2052,7 @@
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu actionMenuList">
-                                <li *ngIf="request?.status?.id==52">
+                                <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')">
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -2065,7 +2065,7 @@
                                     Approve
                                   </a>
                                 </li>
-                                <li *ngIf="request?.status?.id==52">
+                                <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')" >
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">

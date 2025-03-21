@@ -94,6 +94,7 @@ export class TimetableComponent implements OnInit {
     this.getHolidayForOrganization();
     this.fetchAttendanceRequests();
     this.fetchMissedPunchRequests();
+    this.findPendingRequests();
     this.getAllUsers();
     this.logInUserUuid = await this.rbacService.getUUID();
   }
@@ -2276,7 +2277,7 @@ export class TimetableComponent implements OnInit {
     this.selectedPunchType = '';
     this.startDate1 = null;
     this.endDate1 = null;
-    this.selectedStatuses = [];
+    this.selectedStatuses = ['Pending'];
     this.selectedAttendanceStatus = [];
     this.searchTextMissedPunch = '';
     this.searchTextSystemOutage = '';
@@ -2317,6 +2318,18 @@ export class TimetableComponent implements OnInit {
         this.isLoading = false;
       }, () => {
         this.isLoading = false;
+      });
+  }
+
+  totalPendingRequests: number = 0;
+  findPendingRequests(): void {
+    this.selectedStatuses = ['Pending'];
+    const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
+    this.dataService.getAttendanceUpdateRequests(undefined, undefined, undefined, statuses, undefined, undefined, this.currentPageSystemOutage-1, 1, undefined)
+      .subscribe(response => {
+        this.totalPendingRequests = response.totalElements;
+      }, () => {
+
       });
   }
 

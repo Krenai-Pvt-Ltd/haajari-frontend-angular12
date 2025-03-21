@@ -33,7 +33,7 @@ export class EmployeeFinanceComponent implements OnInit {
   financeBlur: boolean = true;
   isLoading: boolean = false;
   firstTimeLoad: boolean = true;
-
+  ROLE!:any;
   constructor(private _dataService: DataService,
     public _helperService: HelperService,
     private _salaryService: SalaryService,
@@ -42,7 +42,7 @@ export class EmployeeFinanceComponent implements OnInit {
     private _userService: UserService,
     public _roleService: RoleBasedAccessControlService
   ) {
-
+      this.ROLE=this._roleService.getRole();
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
     this.userUuid = userUuidParam?.toString() ?? ''
   }
