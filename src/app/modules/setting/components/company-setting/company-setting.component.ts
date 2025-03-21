@@ -47,6 +47,8 @@ export class CompanySettingComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService
   ) { }
 
+  public constants = constant;
+
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getROLE();
@@ -1060,7 +1062,7 @@ export class CompanySettingComponent implements OnInit {
     this.isDefaultAddressSelected=isDefaultAddressSelected;
     if(this.locationSettingTab){
       this.locationSettingTab.nativeElement.click();
-      
+
     }
     var staffLocation=document.getElementById("staffLocation");
 
@@ -1350,7 +1352,7 @@ export class CompanySettingComponent implements OnInit {
           this.toggle = false;
 
           this.getOrganizationAddressDetailMethodCall();
-    
+
           this.getAllAddressDetails();
           // this.closeButtonLocationDefaultAddress.nativeElement.click();
           this.closeButtonLocation.nativeElement.click();
@@ -1373,7 +1375,7 @@ export class CompanySettingComponent implements OnInit {
     this.isDefaultAddressSelected=isDefaultAddressSelected;
     if(this.locationSettingTab){
       this.locationSettingTab.nativeElement.click();
-      
+
     }
     var staffLocation=document.getElementById("staffLocation");
 
@@ -1606,7 +1608,7 @@ getAddressFromCoords(lat: number, lng: number): void {
   const geocoder = new google.maps.Geocoder();
   geocoder.geocode({ location: { lat, lng } }, (results, status) => {
     if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
-      this.handleAddressChange2(results[0]); 
+      this.handleAddressChange2(results[0]);
     } else {
       console.error('Geocode was not successful for the following reason: ' + status);
     }
@@ -1620,7 +1622,7 @@ debugger
  // this.lat = e.geometry.location.lat();
  // this.lng = e.geometry.location.lng();
 
- 
+
  // this.organizationAddressDetail = new OrganizationAddressDetail();
  this.organizationAddressDetail.longitude = this.newLng;
  this.organizationAddressDetail.latitude = this.newLat;
@@ -1698,7 +1700,7 @@ onOrganizationAddressSubmit(){
 }
 }
 
-// notification setting 
+// notification setting
 
 // notificationTypesList: any;
 
@@ -1758,15 +1760,15 @@ notificationTypes(): Promise<void> {
 
 convertTimeStringToDate(timeString: string): Date {
 
-  if (timeString == null || timeString == undefined) {
+  if (timeString == null || timeString == undefined || timeString=='0') {
      return this.convertTimeStringToDate('00:00');
   }
-  
+
   const timeParts = timeString.split(':');
   const hours = parseInt(timeParts[0], 10);
   const minutes = parseInt(timeParts[1], 10);
   const seconds = 0;  // Default seconds to 0 if missing
-  
+
   const date = new Date();
   date.setHours(hours);
   date.setMinutes(minutes);
@@ -1791,9 +1793,9 @@ isAttendanceType(type: string): boolean {
 
 isSaveDisabled(notification: any): boolean {
   debugger;
-  
+
   console.log("Notification Object:", notification);
-  
+
   // Check if minutes is a valid Date
   const isMinutesValid = notification.minutes instanceof Date && !isNaN(notification.minutes.getTime());
   // console.log("isMinutesValid:", isMinutesValid, "notification.minutes:", notification.minutes);
@@ -1851,16 +1853,16 @@ saveNotification(notification: any, type: string, index: number): void {
 
   if (type === 'Other') {
     notificationData = {
-      id: 0, 
+      id: 0,
       notificationTypeId: notification.notificationTypeId,
-      minutes: '', 
-      sendReminderType: '', 
-      reminderType: '', 
+      minutes: '',
+      sendReminderType: '',
+      reminderType: '',
       status: notification.isEnable ? 'DISABLE' : 'ENABLE'
     };
   } else {
     notificationData = {
-      id: notification.id ?? 0, 
+      id: notification.id ?? 0,
       notificationTypeId: notification.notificationTypeId,
       minutes: notification.minutes ? this.convertDateToTimeString(notification.minutes) : '',
       sendReminderType: notification.isBefore === 1 ?  'BEFORE' : 'AFTER',
@@ -1912,11 +1914,11 @@ toggleNotificationValue(notification: any, field: string, operationFlag: boolean
   // if (field === 'isEnable') {
   //   // Handle isEnable toggling
   //   notification.isEnable = notification.isEnable === 1 ? 0 : 1;
-  // } 
+  // }
   // else if (field === 'isBefore') {
   //   // Handle isBefore toggling
   //   notification.isBefore = notification.isBefore === 1 ? 0 : 1;
-  // } 
+  // }
   // else if (field === 'isForced') {
   //   // Handle isForced toggling (this is already handled by ngModel)
   //   notification.isForced = notification.isForced === 1 ? 0 : 1;
@@ -1924,11 +1926,11 @@ toggleNotificationValue(notification: any, field: string, operationFlag: boolean
   if (field === 'isEnable') {
     // Handle isEnable toggling
     notification.isEnable = operationFlag;
-  } 
+  }
   else if (field === 'isBefore') {
     // Handle isBefore toggling
     notification.isBefore = operationFlag;
-  } 
+  }
   else if (field === 'isForced') {
     // Handle isForced toggling (this is already handled by ngModel)
     notification.isForced = operationFlag;
@@ -1942,7 +1944,7 @@ toggleNotificationValue(notification: any, field: string, operationFlag: boolean
 // }
 
 isSwitchEnabled: { [key: string]: boolean } = {};
-loadingFlags: { [key: string]: boolean } = {}; 
+loadingFlags: { [key: string]: boolean } = {};
 currentType: string | null = null;
 disableConfirmed: boolean = false; // Track if user confirmed disable
 switchValueString : string = '';
@@ -1960,7 +1962,7 @@ shouldShowSwitch(type: string, cancelDisableFlag : boolean): boolean {
   // Check if the switch is manually enabled or if any notification for the type is enabled
   return this.isSwitchEnabled[type] ?? this.notifications?.[type]?.some(notification => notification.isEnable === 1) ?? false;
 }
- 
+
 onSwitchToggle(event: boolean, type: string, switchValue: string): void {
   // debugger
   console.log("event :", event);
@@ -1994,7 +1996,7 @@ onToggle(event: boolean, notification: any, type: string, index: number, switchV
     this.switchValueString = switchValue;
     this.index = index;
     this.notification = notification;
-    this.disableConfirmed = false; 
+    this.disableConfirmed = false;
 
     setTimeout(() => {
       const modal = document.getElementById('disableConfirmationModal');
@@ -2026,11 +2028,11 @@ onToggle(event: boolean, notification: any, type: string, index: number, switchV
 cancelDisable(): void {
   debugger
   if (this.currentType) {
-    // this.isSwitchEnabled[this.currentType] = true; 
+    // this.isSwitchEnabled[this.currentType] = true;
     // this.shouldShowSwitch(this.currentType, true);
     // this.notificationTypes();
     if(String(this.switchValueString).trim() === 'SHIFT_SWITCH' && this.currentType) {
-      this.isSwitchEnabled[this.currentType] = true; 
+      this.isSwitchEnabled[this.currentType] = true;
       this.shouldShowSwitch(this.currentType, true);
       // this.updateNotificationState(this.currentType);
       this.currentType = '';
@@ -2164,8 +2166,8 @@ handleSwitchDisable(type: string): Promise<void> {
     );
   }
 
-  //  new 
-  
+  //  new
+
 
 
 

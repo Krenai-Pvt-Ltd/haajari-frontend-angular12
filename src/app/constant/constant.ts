@@ -53,6 +53,9 @@ export class constant {
         constant.PUBLIC_SERVER_ERROR, constant.PUBLIC_ONBOARDING_FORM,constant.PUBLIC_APPLY_ATENDANCE_UPDATE, constant.FAQ_URL
     ];
 
+    // Notifications Type Id constants
+
+    public static  NOTIFICATION_TYPE_CHECKOUT_REPORT = 24;
 
     public static  jobTitles: string[] = [
         'Accountant',
