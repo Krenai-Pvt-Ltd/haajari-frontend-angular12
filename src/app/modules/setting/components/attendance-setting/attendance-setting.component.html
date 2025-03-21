@@ -1749,13 +1749,13 @@
                               placeholder="Lunch break hours" />
                           </div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="pb-2">Enable Auto Checkout </label>
+                        <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+                          <label>Enable Auto Checkout </label>
                           <nz-switch id="isAutoCheckout" name="isAutoCheckout" [(ngModel)]="organizationShiftTimingRequest.autoCheckedOut" ></nz-switch>
                         </div>
 
-                        <div *ngIf="organizationShiftTimingRequest.autoCheckedOut">
-                          <div class="col-md-4 mb-3">
+                        <div class="row" *ngIf="organizationShiftTimingRequest.autoCheckedOut">
+                          <div class="col-md-6 mb-3">
                             <label for="autoCheckout" class="pb-2">Auto Checkout Time</label>
                             <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.autoCheckout"
                                             [nzUse12Hours]="true" nzFormat="h:mm a"
@@ -1764,7 +1764,7 @@
                             </nz-time-picker>
                           </div>
 
-                          <div class="col-md-4 mb-3">
+                          <div class="col-md-6 mb-3">
                             <label for="autoCheckoutDifference" class="pb-2">Auto Checkout Difference</label>
                             <input id="autoCheckoutDifference" type="text" class="form-control input-zorro" readonly
                                    [value]="autoCheckoutDifference" name="autoCheckoutDifference" placeholder="HH:mm" />
