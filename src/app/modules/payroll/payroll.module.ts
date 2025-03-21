@@ -25,6 +25,7 @@ import { ProfileComponent } from './component/config/profile/profile.component';
 import { SalaryTemplateComponent } from './component/salary-template/salary-template.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PayrollManagementComponent } from './component/payroll-management/payroll-management.component';
+import { StatutoryDeductionComponent } from './component/statutory-deduction/statutory-deduction.component';
 
 
 
@@ -42,7 +43,8 @@ import { PayrollManagementComponent } from './component/payroll-management/payro
     PriorPayrollComponent,
     FormComponent,
     PreferencesComponent,
-    PayrollManagementComponent
+    PayrollManagementComponent,
+    StatutoryDeductionComponent
   ],
   imports: [
     CommonModule,

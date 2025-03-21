@@ -1,0 +1,1304 @@
+<div class="page-wrapper">
+    <div class="page-content-tab">
+       <div class="container-fluid mb-4">
+          <div class="row mt-3">
+                <div class="col-md-12">
+                    <ul id="pills-tab" role="tablist" class="nav nav-pills ">
+                        <li class="nav-item">
+                            <a id="pills-announcement-tab" data-bs-toggle="pill" href="#epf" role="tab" 
+                                aria-controls="pills-dashboard" aria-selected="false"
+                                class="nav-link active">EPF</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#esi" role="tab"
+                                aria-controls="pills-request" aria-selected="false"
+                                class="nav-link">ESI </a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#professional-tax" role="tab"
+                                aria-controls="pills-request" aria-selected="false"
+                                class="nav-link">Professional Tax </a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#labour-welfare-fund" role="tab"
+                                aria-controls="pills-request" aria-selected="false"
+                                class="nav-link">Labour Welfare Fund </a>
+                        </li>
+                    </ul>
+                    <div cid="pills-tabContent" class="tab-content">
+                        <div class="tab-pane active show" id="epf" role="tabpanel" aria-labelledby="employee-tab">
+                            <div class="mt-3" *ngIf="!showDeductionDetail">
+                                <div class="payroll-history border border-rounded-2 mb-3">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 Process-payroll-heading border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">EPF - March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-primary font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-4">
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                             <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                             <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                             <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                             <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                             <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                          </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold" (click)="toggleDeductionList()">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="mt-3" *ngIf="showDeductionDetail">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="backBtn radius-50 d-flex align-items-center justify-content-center pointer" (click)="toggleDeductionList()">
+                                            <i class="bi bi-chevron-left text-primary font-18"></i>
+                                        </span>
+                                       <h5 class="mb-0 font-14 fw-semibold">EPF- March 2025</h5>
+                                       <span class="badge rounded-pill bg-soft-primary fw-normal font-12">Overdue By 214 Days</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="run-payroll-search">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                                                <div class="form-group w-100 position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                                <i class="bi bi-download"></i>&nbsp;
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive mt-3">
+                                        <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Employee Name</th>
+                                                <th>Employee ID</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>UAN Number</th>
+                                                <th>EPF Number</th>
+                                                <th>Employee’s Contribution  </th>
+                                                <th>Employer’s Contribution</th>
+                                              </tr>
+                                            </thead>
+                                             <!-- TO DO: Shimmer Loading Ui -->
+                                            <!-- <tbody>
+                                                <tr *ngFor="let item of [].constructor(10)"> 
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'80%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                            </tbody> -->
+
+                                             <!-- Shimmer Loading Ui End -->
+                                            <tbody>
+                                              <tr *ngFor="let item of [].constructor(10)">
+                                                <td class="font-13">Leslie Alexander</td>
+                                                <td class="font-13">AB- 120</td>
+                                                <td class="font-13">tim.jennings@example.com</td>
+                                                <td class="font-13">9876543210</td>
+                                                <td class="font-13">123456789098</td>
+                                                <td class="font-13">12345678909876</td>
+                                                <td class="font-13 text-center">₹0.00</td>
+                                                <td class="font-13 text-center">₹75,031.00</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                          
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                <ngb-pagination class="pagition-box"> </ngb-pagination>
+                             </div>
+                            
+                        </div>
+                        <div class="tab-pane fade" id="esi" role="tabpanel" aria-labelledby="employee-tab">
+                            <div class="mt-3" *ngIf="!showDeductionDetail">
+                                <div class="payroll-history border border-rounded-2 mb-3">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 Process-payroll-heading border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">ESI - March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-primary font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-4">
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                             <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                             <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                             <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                             <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                             <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                          </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold" (click)="toggleDeductionList()">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="mt-3" *ngIf="showDeductionDetail">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="backBtn radius-50 d-flex align-items-center justify-content-center pointer" (click)="toggleDeductionList()">
+                                            <i class="bi bi-chevron-left text-primary font-18"></i>
+                                        </span>
+                                       <h5 class="mb-0 font-14 fw-semibold">EPF- March 2025</h5>
+                                       <span class="badge rounded-pill bg-soft-primary fw-normal font-12">Overdue By 214 Days</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="run-payroll-search">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                                                <div class="form-group w-100 position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                                <i class="bi bi-download"></i>&nbsp;
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive mt-3">
+                                        <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Employee Name</th>
+                                                <th>Employee ID</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>UAN Number</th>
+                                                <th>EPF Number</th>
+                                                <th>Employee’s Contribution  </th>
+                                                <th>Employer’s Contribution</th>
+                                              </tr>
+                                            </thead>
+                                             <!-- TO DO: Shimmer Loading Ui -->
+                                            <!-- <tbody>
+                                                <tr *ngFor="let item of [].constructor(10)"> 
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'80%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                            </tbody> -->
+
+                                             <!-- Shimmer Loading Ui End -->
+                                            <tbody>
+                                              <tr *ngFor="let item of [].constructor(10)">
+                                                <td class="font-13">Leslie Alexander</td>
+                                                <td class="font-13">AB- 120</td>
+                                                <td class="font-13">tim.jennings@example.com</td>
+                                                <td class="font-13">9876543210</td>
+                                                <td class="font-13">123456789098</td>
+                                                <td class="font-13">12345678909876</td>
+                                                <td class="font-13 text-center">₹0.00</td>
+                                                <td class="font-13 text-center">₹75,031.00</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                          
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                <ngb-pagination class="pagition-box"> </ngb-pagination>
+                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="professional-tax" role="tabpanel" aria-labelledby="employee-tab">
+                            <div class="mt-3" *ngIf="!showDeductionDetail">
+                                <div class="payroll-history border border-rounded-2 mb-3">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 Process-payroll-heading border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Professional Tax - March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-primary font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-4">
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                             <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                             <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                             <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                             <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                             <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                          </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold" (click)="toggleDeductionList()">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="mt-3" *ngIf="showDeductionDetail">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="backBtn radius-50 d-flex align-items-center justify-content-center pointer" (click)="toggleDeductionList()">
+                                            <i class="bi bi-chevron-left text-primary font-18"></i>
+                                        </span>
+                                       <h5 class="mb-0 font-14 fw-semibold">EPF- March 2025</h5>
+                                       <span class="badge rounded-pill bg-soft-primary fw-normal font-12">Overdue By 214 Days</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="run-payroll-search">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                                                <div class="form-group w-100 position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                                <i class="bi bi-download"></i>&nbsp;
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive mt-3">
+                                        <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Employee Name</th>
+                                                <th>Employee ID</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>UAN Number</th>
+                                                <th>EPF Number</th>
+                                                <th>Employee’s Contribution  </th>
+                                                <th>Employer’s Contribution</th>
+                                              </tr>
+                                            </thead>
+                                             <!-- TO DO: Shimmer Loading Ui -->
+                                            <!-- <tbody>
+                                                <tr *ngFor="let item of [].constructor(10)"> 
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'80%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                            </tbody> -->
+
+                                             <!-- Shimmer Loading Ui End -->
+                                            <tbody>
+                                              <tr *ngFor="let item of [].constructor(10)">
+                                                <td class="font-13">Leslie Alexander</td>
+                                                <td class="font-13">AB- 120</td>
+                                                <td class="font-13">tim.jennings@example.com</td>
+                                                <td class="font-13">9876543210</td>
+                                                <td class="font-13">123456789098</td>
+                                                <td class="font-13">12345678909876</td>
+                                                <td class="font-13 text-center">₹0.00</td>
+                                                <td class="font-13 text-center">₹75,031.00</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                          
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                <ngb-pagination class="pagition-box"> </ngb-pagination>
+                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="labour-welfare-fund" role="tabpanel" aria-labelledby="employee-tab">
+                            <div class="mt-3" *ngIf="!showDeductionDetail">
+                                <div class="payroll-history border border-rounded-2 mb-3">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 Process-payroll-heading border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Labour Welfare Fund - March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-primary font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-4">
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                             <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                             <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                             <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                             <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                          </div>
+                                          <div class="payrun-separator"></div>
+                                          <div>
+                                             <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                             <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                          </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold" (click)="toggleDeductionList()">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                                 <div class="payroll-history border border-rounded-2 mb-3 run-payroll-complete">
+                                    <div class="d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
+                                       <div class="d-flex align-items-center gap-3">
+                                          <h5 class="mb-0 font-13 fw-semibold">Process Pay Run For March 2025</h5>
+                                          <span class="badge rounded-pill bg-soft-secondary text-black font-12 fw-normal">Overdue By 214 Days</span>
+                                       </div>
+                                    </div>
+                                    <div class="p-3 d-flex align-items-center justify-content-between py-4">
+                                       <div class="d-flex align-items-center gap-5">
+                                        <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Total EPF</h5>
+                                            <span class="font-12 fw-normal text-black">₹34,20,200</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Period</h5>
+                                            <span class="font-12 fw-normal text-black">01/03/2025-30/03/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Due Date</h5>
+                                            <span class="font-12 fw-normal text-black">09/05/2025</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employee’s Contribution  </h5>
+                                            <span class="font-12 fw-normal text-black">₹5,000.00</span>
+                                         </div>
+                                         <div class="payrun-separator"></div>
+                                         <div>
+                                            <h5 class="mb-2 font-13 fw-semibold">Employer’s Contribution</h5>
+                                            <span class="font-12 fw-normal text-black">₹1,800.00</span>
+                                         </div>
+                                       </div>
+                                       <button class="btn submitActionBtn font-13 text-white fw-semibold border-rounded-2 ">View Details</button>
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="mt-3" *ngIf="showDeductionDetail">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="backBtn radius-50 d-flex align-items-center justify-content-center pointer" (click)="toggleDeductionList()">
+                                            <i class="bi bi-chevron-left text-primary font-18"></i>
+                                        </span>
+                                       <h5 class="mb-0 font-14 fw-semibold">EPF- March 2025</h5>
+                                       <span class="badge rounded-pill bg-soft-primary fw-normal font-12">Overdue By 214 Days</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="run-payroll-search">
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                                                <div class="form-group w-100 position-relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name.." class="form-control me-2 w-100" style="padding: 10px 45px;" />
+                                                    <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
+                                                <i class="bi bi-download"></i>&nbsp;
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive mt-3">
+                                        <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Employee Name</th>
+                                                <th>Employee ID</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>UAN Number</th>
+                                                <th>EPF Number</th>
+                                                <th>Employee’s Contribution  </th>
+                                                <th>Employer’s Contribution</th>
+                                              </tr>
+                                            </thead>
+                                             <!-- TO DO: Shimmer Loading Ui -->
+                                            <!-- <tbody>
+                                                <tr *ngFor="let item of [].constructor(10)"> 
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'80%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'90%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                                    <td>
+                                                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                    </td>
+                                            </tbody> -->
+
+                                             <!-- Shimmer Loading Ui End -->
+                                            <tbody>
+                                              <tr *ngFor="let item of [].constructor(10)">
+                                                <td class="font-13">Leslie Alexander</td>
+                                                <td class="font-13">AB- 120</td>
+                                                <td class="font-13">tim.jennings@example.com</td>
+                                                <td class="font-13">9876543210</td>
+                                                <td class="font-13">123456789098</td>
+                                                <td class="font-13">12345678909876</td>
+                                                <td class="font-13 text-center">₹0.00</td>
+                                                <td class="font-13 text-center">₹75,031.00</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                          
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+                                <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                                <ngb-pagination class="pagition-box"> </ngb-pagination>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                

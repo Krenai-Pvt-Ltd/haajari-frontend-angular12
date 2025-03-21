@@ -49,6 +49,11 @@ export class RequestInterceptorService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const token = localStorage.getItem('token');
+    // request = request.clone({
+    //   setHeaders: {
+    //     "ngrok-skip-browser-warning": "69420",
+    //   }
+    // });
     if (token !== null) {
       request = this.addTokenToHeaders(request, token);
   

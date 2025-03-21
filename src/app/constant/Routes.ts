@@ -56,6 +56,7 @@ export class Routes {
     public static EARNINGDETAILS = "/payroll/earning-details"
     public static SALARYTEMPLATE = "/payroll/salary-template"
     public static PAYROLLMANAGEMENT = "/payroll/payroll-management"
+    public static STATUTORYDEDUCTION = "/payroll/statutory-deduction"
     
  /**
     * DYNAMIC ROUTES END
@@ -68,4 +69,5 @@ export class Routes {
 
     // routes for slack auth to exclude from onboarding service check and if needed then call explicitly onboarding service
     static SLACK_AUTH_ROUTES = [Routes.SLACK_AUTH,Routes.SLACK_SIGN_IN];
+
 }
