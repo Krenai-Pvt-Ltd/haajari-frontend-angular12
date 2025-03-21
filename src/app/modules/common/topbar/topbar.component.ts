@@ -235,6 +235,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Process salaries, generate payslips, and track payments."
       break;
     }
+    case this.Routes.STATUTORYDEDUCTION:{
+      routeValue = 'Statutory Deduction ';
+      routeDesc="Manage tax deductions like PF, ESI, PT, and TDS.."
+      break;
+    }
 
    }
 
