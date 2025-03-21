@@ -19,14 +19,7 @@
         </ul>
 
 
-        <!-- <div class="add-Component" style="width:200px;">
-            <nz-select class="form-control w-100 placeholder-line " nzPlaceHolder="Add Component"
-            [(ngModel)]="selectedTab" (ngModelChange)="addComponent(selectedTab)">
-                <nz-option [nzValue]="EARNING_COMPONENT" nzLabel="Earning" ></nz-option>
-                <nz-option [nzValue]="BENEFIT_COMPONENT" nzLabel="Benefit" ></nz-option>
-                <nz-option [nzValue]="DEDUCTION_COMPONENT" nzLabel="Deduction"></nz-option>
-              </nz-select>
-        </div> -->
+      
 
         <div class="dropdown">
             <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn text-primary border-primary dropdown-toggle d-flex align-items-center justify-content-center font-13 fw-semibold">
@@ -35,17 +28,17 @@
             </button>
             <div class="dropdown-menu actionMenuList">
                 <li>
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal">
+                    <a class="dropdown-item" (click)="addComponent(EARNING_COMPONENT)">
                         Earning
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal">
+                    <a class="dropdown-item" (click)="addComponent(BENEFIT_COMPONENT)">
                         Benefit
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal">
+                    <a class="dropdown-item" (click)="addComponent(DEDUCTION_COMPONENT)">
                         Deduction
                     </a>
                 </li>
