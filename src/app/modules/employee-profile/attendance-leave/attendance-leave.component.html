@@ -1681,7 +1681,10 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <!-- error message for date range -->
+                                    <div *ngIf="dateRange.length==2"
+                                        class="text-danger font-12">You can apply {{currentUserLeaveType}} between {{dateRange[0]}} - {{dateRange[1]}}
+                                      </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
