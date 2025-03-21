@@ -31,8 +31,9 @@ export class LeaveRequestComponent implements OnInit {
 
     isModal: boolean = true;
   ngOnInit(): void {
-    
+
     this.ROLE = this.rbacService.userInfo.role;
+    this.logInUserUuid = this.rbacService.userInfo.uuid;
     if(this.data.leave) {
       this.leave = this.data.leave;
     }

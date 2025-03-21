@@ -303,7 +303,7 @@ export class AttendanceUpdateComponent implements OnInit {
       this.approveLoader = false;
       this.rejectLoader = false;
       // console.log('requests retrieved successfully', response.listOfObject);
-      if (response.message == 'APPROVE') {
+      if (response.status && reqString == 'APPROVED') {
         this.helperService.showToast(
           'Request Approved Successfully.',
           Key.TOAST_STATUS_SUCCESS
@@ -311,7 +311,7 @@ export class AttendanceUpdateComponent implements OnInit {
 
         this.attendanceData.status = 'APPROVED';
         this.cdr.detectChanges();
-      } else if (response.message == 'REJECT') {
+      } else if (response.status && reqString == 'REJECTED') {
         this.helperService.showToast(
           'Request Rejected Successfully.',
           Key.TOAST_STATUS_SUCCESS
