@@ -192,8 +192,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   routeToAddUserInShift() {
-    this.router.navigate([Key.ATTENDANCE_SETTING_ROUTE]);
+    window.open(this.router.serializeUrl(this.router.createUrlTree([Key.ATTENDANCE_SETTING_ROUTE])), '_blank');
   }
+
   routeToAddUserInLeavePolicy() {
     this.router.navigate([Key.LEAVE_SETTING_ROUTE]);
 
@@ -749,7 +750,7 @@ appliedFilters: string[] = []
           this.selectedTeamIds = [];
           this.selectedLeaveIds = [];
           this.selectedTeams = [];
-          this.selectedShift = 0;
+          this.selectedShift = null;
           this.getUsersByFiltersFunction();
 
           if(invite) {
@@ -795,8 +796,8 @@ appliedFilters: string[] = []
   }
 
   shiftList: { value: number, label: string }[] = [];
-  selectedShift: number = 0;
-  selectedLeave: number = 0;
+  selectedShift: number | null = null;
+  selectedLeave: number | null = null;
   isLoadingShifts = false;
   getShiftData() {
     this.isLoadingShifts = true;
