@@ -280,14 +280,12 @@ export class AttendanceUpdateComponent implements OnInit {
   // Approve or Reject actions for review mode
   approveRequest(): void {
     // Implement approve logic (e.g., API call)
-    console.log('Approved:', this.attendanceTimeUpdateForm.value);
     this.helperService.showToast('Request Approved Successfully.', Key.TOAST_STATUS_SUCCESS);
     this.closeAttendanceUpdateModal.nativeElement.click();
   }
 
   rejectRequest(): void {
     // Implement reject logic (e.g., API call)
-    console.log('Rejected:', this.attendanceTimeUpdateForm.value);
     this.helperService.showToast('Request Rejected.', Key.TOAST_STATUS_ERROR);
     this.closeAttendanceUpdateModal.nativeElement.click();
   }
