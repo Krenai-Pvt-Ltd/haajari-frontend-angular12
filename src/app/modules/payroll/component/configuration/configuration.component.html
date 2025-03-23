@@ -46,15 +46,15 @@
                     
                     <div class="tab-content" id="tabContent">
 
-                        <div class="payroll-setup d-flex align-items-center justify-content-between p-3 px-4">
+                        <div class="payroll-setup d-flex align-items-center justify-content-between p-3 px-4" *ngIf="['profile', 'statutory', 'salary','taxes','pay-schedule'].includes(currentTab)">
 
                             <h5 class="mb-0 font-14 fw-600">Payroll setup</h5>
                             <div class="d-flex align-items-center gap-3">
                                 <div class="progress">
-                                    <div class="progress-bar" style="width: 25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" [style.width.%]="(completedStep/toDoStepList.length)*100" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                   </div>
                                 <p class="mb-0 font-13 fw-normal color-basic lh-1">
-                                    <span class="text-black font-20 fw-600">0</span>/7 Completed
+                                    <span class="text-black font-20 fw-600">{{completedStep}}</span>/{{toDoStepList.length}} Completed
                                 </p>
                             </div>
 

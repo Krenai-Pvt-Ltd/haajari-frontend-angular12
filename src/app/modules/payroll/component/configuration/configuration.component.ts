@@ -33,25 +33,31 @@ export class ConfigurationComponent implements OnInit {
     this.currentTab=tabName;
   }
 
+  completedStep:number=0;
   toDoStepList:PayrollTodoStep[]=new Array();
    getTodoList() {
 
-      this._payrollConfigurationService.getTodoList().subscribe(
-        (response) => {
-          if(response.status){
-            this.toDoStepList = response.object;
-            this.checkAllCompleted();
-
+    this._payrollConfigurationService.getTodoList().subscribe(
+      (response) => {
+        if(response.status){
+          this.toDoStepList = response.object;
+          var firstIncomplete = this.toDoStepList.find(obj => !obj.completed);
+          if (firstIncomplete) {
+            firstIncomplete.isActive = true;
           }
-        },
-        (error) => {
-  
+          this.completedStep= this.toDoStepList.filter(obj => obj.completed).length;
         }
-      );
+       
+      },
+      (error) => {
+
+      }
+    );
     }
     checkAllCompleted(): boolean {
       return this.toDoStepList.every(step => step.completed);
     }
+
 
 
 }

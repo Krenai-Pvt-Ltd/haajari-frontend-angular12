@@ -474,7 +474,6 @@ export class StatutoryComponent implements OnInit {
           (response) => {
             if(response.status){
               this.labourWelfareFundDetail= response.object;
-              console.log(response);
             }
           },
           (error) => {
