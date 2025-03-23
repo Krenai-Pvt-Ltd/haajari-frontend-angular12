@@ -26,7 +26,8 @@
                 *ngIf="totalPendingRequests > 0">{{ totalPendingRequests }}</span>
             </li>
           </ul>
-          <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB; else attendanceSectionOtherTabCondition">
+          <!-- ; else attendanceSectionOtherTabCondition -->
+          <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
             <div class="d-flex align-items-center attendance-date position-relative attendance-date-picker">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectPreviousDay()">
@@ -62,7 +63,7 @@
               </span>
             </div>
           </ng-container>
-          <ng-template #attendanceSectionOtherTabCondition>
+          <!-- <ng-template #attendanceSectionOtherTabCondition>
             <div class="d-flex align-items-center attendance-date position-relative attendance-date-picker">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectPreviousMonth()">
@@ -97,7 +98,7 @@
                 </svg>
               </span>
             </div>
-          </ng-template>
+          </ng-template> -->
         </div>
       </div>
 
@@ -208,7 +209,7 @@
                         <nz-option nzValue="Leave" nzLabel="Leave"></nz-option>
                       </nz-select>
                     </div>
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-3 d-none">
                       <label for="type" class="pb-2">Attendance Date</label>
                       <nz-date-picker class="ant-picker ant-picker-borderless"
                       nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate"
