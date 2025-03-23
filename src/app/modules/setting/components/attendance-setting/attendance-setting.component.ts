@@ -499,6 +499,7 @@ export class AttendanceSettingComponent implements OnInit {
   saveAttendanceRuleDefinitionLoading: boolean = false;
 
   registerAttendanceRuleDefinitionMethodCall() {
+
     this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     // console.log(this.selectedStaffsUuids);
@@ -1543,6 +1544,7 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.dataService.sendNotification();
           this.loadAllShiftCounts();
           this.selectedTeamName = 'All';
           this.getUserByFiltersMethodCall();
@@ -1671,9 +1673,10 @@ export class AttendanceSettingComponent implements OnInit {
 //     }
 // }
 
+autoCheckoutDifference: string = '';
 calculateTimes(): void {
   debugger
-  const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+  const { inTime, outTime, startLunch, endLunch, autoCheckout } = this.organizationShiftTimingRequest;
 
   // Reset errors and calculated times
   this.organizationShiftTimingValidationErrors = {};
@@ -1737,6 +1740,37 @@ calculateTimes(): void {
           this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
       }
   }
+
+  if (autoCheckout) {
+    if (!outTime) {
+      this.organizationShiftTimingValidationErrors['autoCheckout'] =
+        'Out time is required when setting auto checkout.';
+    } else {
+      const outTimeMinutes = dateToLocalMinutes(outTime);
+      const autoCheckoutMinutes = dateToLocalMinutes(autoCheckout);
+
+      if (autoCheckoutMinutes <= outTimeMinutes) {
+        this.organizationShiftTimingValidationErrors['autoCheckout'] =
+          'Auto checkout must be after out time.';
+      } else {
+        const diffMinutes = autoCheckoutMinutes - outTimeMinutes;
+        if (diffMinutes > 600) { // 10 hours * 60
+          this.organizationShiftTimingValidationErrors['autoCheckout'] =
+            'Auto checkout cannot be more than 10 hours after out time.';
+        }
+        this.autoCheckoutDifference = this.formatMinutesToTime(diffMinutes);
+      }
+    }
+  } else {
+    this.autoCheckoutDifference = '';
+    delete this.organizationShiftTimingValidationErrors['autoCheckout'];
+  }
+}
+
+isAutoCheckoutEnabled: boolean = false;
+toggleAutoCheckout(value: boolean): void {
+  this.isAutoCheckoutEnabled = value;
+  console.log('Auto Checkout Enabled:', this.isAutoCheckoutEnabled);
 }
 
 // Helper method to format minutes into HH:mm format
@@ -1892,7 +1926,7 @@ formatMinutesToTime(minutes: number): string {
       organizationShiftTimingResponse.shiftType.id;
     this.checkForShiftId = organizationShiftTiming.id;
     this.currentShiftId = organizationShiftTiming.shiftType.id;
-    this.selectedStaffsUuids = organizationShiftTiming.userUuids;
+    this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getWeekDays();
 
@@ -2746,6 +2780,9 @@ getAllAddressDetails(): void {
         case 'endLunch':
             this.organizationShiftTimingRequest.endLunch = value;
             break;
+        case 'autoCheckout':
+            this.organizationShiftTimingRequest.autoCheckout = value;
+            break;
         default:
             break;
 
@@ -3184,8 +3221,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       },
       (error) => {
         this.deleteToggle = false;
-        console.log(error);
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Issue in deleting shift. Please try again later", Key.TOAST_STATUS_ERROR);
       }
     );
 }

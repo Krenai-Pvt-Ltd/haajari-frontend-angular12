@@ -77,6 +77,10 @@ export class LeaveSettingComponent implements OnInit {
     setTimeout(() => {
       this.loadStaffIdsCache();
     }, 2000);
+
+    setTimeout(()=> {
+      this.fetchAssignedUsers();
+    }, 1000);
   }
 
 
@@ -111,6 +115,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: [''],
       gender: [''],
       isReset:[true],
+      flexible: [false],
       carryoverAction: [''],
       carryover:['']
     });
@@ -138,6 +143,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: '',
       gender: '',
       isReset:true,
+      flexible:false,
       carryoverAction:'',
       carryover:''
     });
@@ -157,6 +163,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: [''],
       gender: [''],
       isReset:[true],
+      flexible: [false],
       carryoverAction: [''],
       carryover:['']
     });
@@ -244,6 +251,7 @@ export class LeaveSettingComponent implements OnInit {
         accrualTypeId: [''],
         gender: [''],
         isReset:[true],
+        flexible: [false],
         carryoverAction:[''],
         carryover:['']
       });
@@ -296,11 +304,12 @@ export class LeaveSettingComponent implements OnInit {
     this.editToggle = true;
     this.editingIndex = index;
 
+    setTimeout(() => {
     const category = this.leaveCategories1[this.leaveCategories1.length - 1];
     this.form.patchValue(category);
 
     // console.log('Edit form: ', this.form)
-
+    },100);
   }
 
   deleteCategory(index: number) {
@@ -500,6 +509,20 @@ selectAllStaffAcrossPages() {
     // Optional: Refresh current page
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
   }
+}
+
+assignedUsers: any[]=[];
+fetchAssignedUsers(): void {
+  this.dataService.getActiveLeaveTemplates().subscribe(
+    (data) => {
+      if(data){
+      this.assignedUsers = data;
+      }
+    },
+    (error) => {
+      console.error('Error fetching leave templates', error);
+    }
+  );
 }
 
 // Helper method to update current page display
@@ -2146,7 +2169,8 @@ private updateCurrentPageSelection() {
         gender: category.gender,
         reset: category.isReset,
         carryoverAction: category.carryoverAction,
-        carryover: category.carryover
+        carryover: category.carryover,
+        flexible: category.flexible
       })
     );
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
@@ -2161,12 +2185,43 @@ private updateCurrentPageSelection() {
   @ViewChild('templateSettingTab1') templateSettingTab1!: ElementRef;
   @ViewChild('requestLeaveCloseModel1') requestLeaveCloseModel1!: ElementRef;
   isSubmitted: boolean = true;
+  existingAssignedUsers: any[] = [];
+showUsersAlreadyAssignedModal = false;
+isValidated = false;
+userNameWithShiftName: any[] = [];
   registerLeaveTemplateMethodCall() {
     debugger
-    this.registerToggle = true;
     this.isSubmitted = false;
     this.allselected = false;
     this.setFieldsToLeaveTemplateRequest();
+
+    // Check for existing assigned users
+    const usersToCheck = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
+    this.existingAssignedUsers = this.assignedUsers.filter(user =>
+        usersToCheck.includes(user.userId) &&
+        user.leaveTemplateId != this.leaveTemplateRequest.id
+    );
+
+    if(false){
+    // if (this.existingAssignedUsers.length > 0 && !this.isValidated) {
+        // // Prepare data for modal
+        // this.userNameWithShiftName = this.existingAssignedUsers.map(user => ({
+        //     userId: user.userId,
+        //     userName: user.userName,
+        //     shiftName: user.leaveTemplateName
+        // }));
+
+        // // Show modal (trigger programmatically)
+        // const modalElement = document.getElementById('usersAlreadyAssigned');
+        // if (modalElement) {
+        //     const modal = new (window as any).bootstrap.Modal(modalElement);
+        //     modal.show();
+        // }
+        // this.registerToggle = false;
+        // return; // Wait for modal confirmation
+    }else{
+
+      this.registerToggle = true;
 
     // console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
@@ -2187,7 +2242,7 @@ private updateCurrentPageSelection() {
       this.getAllLeaveTemplate();
       this.registerToggle = false;
       this.requestLeaveCloseModel1.nativeElement.click();
-
+      this.fetchAssignedUsers();
 
       this.form.reset();
       this.leaveTemplateDefinitionForm.reset();
@@ -2227,8 +2282,52 @@ private updateCurrentPageSelection() {
     // console.log('clear field')
     this.leaveTemplateRequest.name = ''; // Reset the template name
     this.leaveTemplateDefinitionForm.reset(); // Reset the form state
-
   }
+  }
+
+  removeUserFromList(userId: number) {
+    // Remove from selected users
+    this.selectedStaffIds = this.selectedStaffIds.filter(id => id !== userId);
+    this.selectedStaffIdsUser = this.selectedStaffIdsUser.filter(id => id !== userId);
+
+    const staffIndex = this.staffs.findIndex(staff => staff.id === userId);
+    if (staffIndex !== -1) {
+        this.staffs[staffIndex].checked = false;
+    }
+
+    // Remove from display list
+    this.userNameWithShiftName = this.userNameWithShiftName.filter(user => user.userId !== userId);
+
+    this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
+    // If no users left, close modal
+    if (this.userNameWithShiftName.length === 0) {
+        this.closeModal();
+    }
+}
+
+registerShift() {
+    if (!this.isValidated) return;
+    this.registerLeaveTemplateMethodCall();
+    // Close modal
+    this.closeModal();
+}
+
+checkValidation() {
+    // Toggle isValidated based on checkbox
+   // this.isValidated = !this.isValidated;
+}
+
+closeModal() {
+    const modalElement = document.getElementById('usersAlreadyAssigned');
+    if (modalElement) {
+        const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
+        }
+    }
+    this.isValidated = false;
+    this.userNameWithShiftName = [];
+}
 
 
   isShimmerForLeaveTemplateResponse = false;
@@ -2262,7 +2361,7 @@ private updateCurrentPageSelection() {
   weekOffTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplatesIds: number[] = [8,9];
   weekOffTemplatesIds: number[] = [10];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 11, 12];
 
   getAllLeaveTemplate() {
     debugger
@@ -2292,8 +2391,7 @@ private updateCurrentPageSelection() {
   this.leaveTemplates = response.object.filter((template: any) =>
     // template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
   this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-
-);
+  );
 
 // console.log('leaveTemplates: ',this.leaveTemplates)
 // console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)

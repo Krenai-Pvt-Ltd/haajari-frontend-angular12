@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { PayrollRoutingModule } from './payroll-routing.module';
 import { PayrollSetupComponent } from './component/payroll-setup/payroll-setup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,13 +17,15 @@ import { PayScheduleComponent } from './component/config/pay-schedule/pay-schedu
 import { PriorPayrollComponent } from './component/config/prior-payroll/prior-payroll.component';
 import { FormComponent } from './component/config/form/form.component';
 import { PreferencesComponent } from './component/config/preferences/preferences.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { EarningDetailsComponent } from './component/config/earning-details/earning-details.component';
-import { BenefitDetailsComponent } from './component/config/benefit-details/benefit-details.component';
-import { DeductionsDetailsComponent } from './component/config/deductions-details/deductions-details.component';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { NgxPhotoEditorModule } from 'ngx-photo-editor';
 import { ProfileComponent } from './component/config/profile/profile.component';
+import { SalaryTemplateComponent } from './component/salary-template/salary-template.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+
 
 
 @NgModule({
@@ -39,10 +40,7 @@ import { ProfileComponent } from './component/config/profile/profile.component';
     PayScheduleComponent,
     PriorPayrollComponent,
     FormComponent,
-    PreferencesComponent,
-    EarningDetailsComponent,
-    BenefitDetailsComponent,
-    DeductionsDetailsComponent
+    PreferencesComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +53,10 @@ import { ProfileComponent } from './component/config/profile/profile.component';
     NzSelectModule,
     NzDatePickerModule,
     NzSwitchModule,
-    NzEmptyModule
+    NzEmptyModule,
+    NgxShimmerLoadingModule,
+    NgxPhotoEditorModule,
+    NgxPaginationModule
   ]
 })
 export class PayrollModule { }

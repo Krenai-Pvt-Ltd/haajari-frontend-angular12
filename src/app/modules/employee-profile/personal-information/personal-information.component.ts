@@ -15,6 +15,8 @@ import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-information',
@@ -45,9 +47,9 @@ export class PersonalInformationComponent implements OnInit {
       user: this.fb.group({
         name: [''],
         maritalStatus: [''],
-        email: ['', [Validators.required,Validators.email]],
+        email: ['', [Validators.required,Validators.email], [this.emailAsyncValidator.bind(this)]],
         joiningDate: [null, Validators.required],
-        phoneNumber: [''],
+        phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)], [this.phoneNumberAsyncValidator.bind(this)]],
         // currentSalary: [''],
         gender: ['',],
         department: ['',],
@@ -72,6 +74,7 @@ export class PersonalInformationComponent implements OnInit {
         country: ['',],
         pincode: ['',],
       }),
+      sameAsCurrent: [false],
       refrences: this.fb.array([]),
 
       academicDetails: this.fb.group({
@@ -101,6 +104,27 @@ export class PersonalInformationComponent implements OnInit {
     // this.getPendingRequest();
     this.fetchRequestedData();
     // this.approveRequestedData();
+
+    // Handle checkbox changes
+    this.onboardingForm.get('sameAsCurrent')?.valueChanges.subscribe(value => {
+      const permanentAddress = this.onboardingForm.get('permanentAddress');
+      if (value) {
+        // Copy current address values to permanent address
+        const currentAddress = this.onboardingForm.get('currentAddress')?.value;
+        permanentAddress?.patchValue(currentAddress);
+        permanentAddress?.disable(); // Make permanent address uneditable
+      } else {
+        permanentAddress?.enable(); // Make permanent address editable
+      }
+    });
+
+    // Update permanent address when current address changes and checkbox is checked
+    this.onboardingForm.get('currentAddress')?.valueChanges.subscribe(value => {
+      if (this.onboardingForm.get('sameAsCurrent')?.value) {
+        this.onboardingForm.get('permanentAddress')?.patchValue(value);
+      }
+    });
+
   }
 
 
@@ -147,6 +171,51 @@ export class PersonalInformationComponent implements OnInit {
     });
   }
 
+  restrictToLetters(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only letters (A-Z and a-z)
+    if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || (charCode === 32)) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
+  }
+
+  restrictToNumbers(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only numbers (0-9)
+    if (charCode >= 48 && charCode <= 57) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
+  }
+
+
+  emailAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+    const email = control.value;
+    if (!email || this.onboardingPreviewData.user.email == email) {
+      return of(null);
+    }
+    return this.dataService.existsUserByEmail(email).pipe(
+      map(exists => (exists.status ? { emailExists: true } : null)),
+      catchError(() => of(null)) // Handle errors gracefully
+    );
+  }
+
+  // Asynchronous validator for phone number uniqueness
+  phoneNumberAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+
+    const phoneNumber = control.value;
+    if (!phoneNumber || this.onboardingPreviewData.user.phoneNumber==phoneNumber) {
+      return of(null);
+    }
+    return this.dataService.existsUserByPhone(phoneNumber).pipe(
+      map((exists: any) => (exists.status ? { phoneNumberExists: true } : null)),
+      catchError(() => of(null)) // Handle errors gracefully
+    );
+  }
+
   uanValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     if (value && value.trim() !== '') {
@@ -182,8 +251,8 @@ export class PersonalInformationComponent implements OnInit {
     return null;
   }
   uanExists:boolean = false;
-  checkUan(uan: string) {
-    if(uan.length==12 && this.onboardingPreviewData.user.uan != uan){
+  checkUan(uan: string | null) {
+    if(uan!=null && uan.length==12 && this.onboardingPreviewData.user.uan != uan){
       this.dataService.existsUserByUan(uan).subscribe(response => {
         this.uanExists = response.status;
         console.log(response.message);
@@ -195,8 +264,8 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   esiExists:boolean = false;
-  checkEsi(esi: string) {
-    if(esi.length==17 && this.onboardingPreviewData.user.esi != esi){
+  checkEsi(esi: string | null) {
+    if(esi!=null && esi.length==17 && this.onboardingPreviewData.user.esi != esi){
       this.dataService.existsUserByEsi(esi).subscribe(response => {
         this.esiExists = response.status;
         console.log(response.message);
@@ -625,6 +694,7 @@ export class PersonalInformationComponent implements OnInit {
       emailId: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].emailId, [Validators.required, Validators.email]],
     });
     this.references.push(referenceGroup);
+    this.onboardingForm.get('references')?.untouched;
   }
 
   removeReference(index: number) {
@@ -656,6 +726,7 @@ export class PersonalInformationComponent implements OnInit {
         jobResponsibilities: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].jobResponisibilities, Validators.required],
       })
     );
+    this.onboardingForm.get('userExperience')?.untouched;
   }
 
   // Remove a job experience by index
@@ -682,6 +753,8 @@ export class PersonalInformationComponent implements OnInit {
       contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactName, Validators.required],
       contactNumber: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     }));
+    this.onboardingForm.get('userEmergencyContacts')?.untouched;
+
   }
 
   removeEmergencyContact(index: number) {

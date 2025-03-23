@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     private onboardingService: OnboardingService,
     private dataService: DataService
   ) {
-  
+
   }
   step!: number;
   UUID: any;
@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot,): Promise<boolean> {
     const token = localStorage.getItem('token');
-    
+
     if (!await this.isValidTokenFormat(token)) {
       this.router.navigate(['/auth/login']);
       return false;
@@ -63,11 +63,11 @@ export class AuthGuard implements CanActivate {
 
       this.ROLE = await this.rbacService.getRole();
 
-    
+
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     this.currentRoute = state.url;
-    if (this.currentRoute != null) {  
+    if (this.currentRoute != null) {
         this.currentRoute = this.currentRoute.split("?")[0];
       if(this._helperService.restrictedModules == undefined){
         await this._helperService.getRestrictedModules();
@@ -81,16 +81,16 @@ export class AuthGuard implements CanActivate {
       }
 
 
-      if ((this.ROLE != 'ADMIN' && this.ROLE != 'MANAGER') && this.currentRoute == '/dashboard') {
+      if ((this.ROLE == 'USER') && this.currentRoute == '/dashboard') {
         debugger
         this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
             dashboardActive: 'true',
           },
-          
+
         }
-      
+
       );
         return false;
       }
@@ -101,7 +101,7 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
-    } 
+    }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return true;
   }

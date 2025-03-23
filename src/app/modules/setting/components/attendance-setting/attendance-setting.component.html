@@ -1749,15 +1749,39 @@
                               placeholder="Lunch break hours" />
                           </div>
                         </div>
+                        <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+                          <label>Enable Auto Checkout </label>
+                          <nz-switch id="isAutoCheckout" name="isAutoCheckout" [(ngModel)]="organizationShiftTimingRequest.autoCheckedOut" ></nz-switch>
+                        </div>
 
-                      </form>
+                        <div class="row" *ngIf="organizationShiftTimingRequest.autoCheckedOut">
+                          <div class="col-md-6 mb-3">
+                            <label for="autoCheckout" class="pb-2">Auto Checkout Time</label>
+                            <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.autoCheckout"
+                                            [nzUse12Hours]="true" nzFormat="h:mm a"
+                                            (ngModelChange)="onTimeChange('autoCheckout', $event)"
+                                            [ngModelOptions]="{ standalone: true }">
+                            </nz-time-picker>
+                          </div>
+
+                          <div class="col-md-6 mb-3">
+                            <label for="autoCheckoutDifference" class="pb-2">Auto Checkout Difference</label>
+                            <input id="autoCheckoutDifference" type="text" class="form-control input-zorro" readonly
+                                   [value]="autoCheckoutDifference" name="autoCheckoutDifference" placeholder="HH:mm" />
+                            <div *ngIf="organizationShiftTimingValidationErrors['autoCheckout']" class="text-danger">
+                              {{ organizationShiftTimingValidationErrors['autoCheckout'] }}
+                            </div>
+                          </div>
+                        </div>
+
+                        </form>
 
 
                       <div class="leave-footer">
-                        <p class=" p-3 alreadyMemberBox fw-saminbold font-13 text-warning mb-0">
+                        <!-- <p class=" p-3 alreadyMemberBox fw-saminbold font-13 text-warning mb-0">
                           <i class="bi bi-info-circle"></i>&nbsp; If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check
                           them out one hour later.
-                        </p>
+                        </p> -->
 
 
                         <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
@@ -2013,7 +2037,7 @@
                             </svg>
                           Previous
                           </button>
-                          <button class="btn p-0 next-btn nextBtn" (click)="registerOrganizationShiftTimingMethodCall()"
+                          <button class="btn p-0 next-btn nextBtn" [disabled]="isEditStaffLoader" (click)="registerOrganizationShiftTimingMethodCall()"
                             *ngIf="this.userNameWithShiftName?.length < 1" [disabled]="selectedStaffsUuids.length <1"
                             [ngClass]="{'btn-border':selectedStaffsUuids.length > 0}">
                             <span *ngIf="!isEditStaffLoader">Submit
@@ -3684,7 +3708,7 @@
                         </button>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn btn-primary"
+                        <button type="button" class="btn btn-primary" [disabled]="saveAttendanceRuleDefinitionLoading"
                           (click)="registerAttendanceRuleDefinitionMethodCall()">
 
                           <div class="dot-opacity-loader-new" *ngIf="saveAttendanceRuleDefinitionLoading">

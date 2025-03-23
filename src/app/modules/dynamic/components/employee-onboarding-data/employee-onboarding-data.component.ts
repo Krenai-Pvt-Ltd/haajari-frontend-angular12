@@ -192,8 +192,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   routeToAddUserInShift() {
-    this.router.navigate([Key.ATTENDANCE_SETTING_ROUTE]);
+    window.open(this.router.serializeUrl(this.router.createUrlTree([Key.ATTENDANCE_SETTING_ROUTE])), '_blank');
   }
+
   routeToAddUserInLeavePolicy() {
     this.router.navigate([Key.LEAVE_SETTING_ROUTE]);
 
@@ -216,6 +217,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
+    this.dataService.onNotification().subscribe(() => {
+      this.getShiftData();
+    });
 
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
@@ -397,7 +401,7 @@ appliedFilters: string[] = []
   // Reset Filters and Reload Data
   resetFilters() {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
-    this.selectedAccessibilityFilters = ['Active']; // Reset accessibility filters
+    this.selectedAccessibilityFilters = ['ACTIVE']; // Reset accessibility filters
     this.appliedFilters = [];
     this.getUsersByFiltersFunction();
   }
@@ -749,7 +753,7 @@ appliedFilters: string[] = []
           this.selectedTeamIds = [];
           this.selectedLeaveIds = [];
           this.selectedTeams = [];
-          this.selectedShift = 0;
+          this.selectedShift = null;
           this.getUsersByFiltersFunction();
 
           if(invite) {
@@ -776,11 +780,11 @@ appliedFilters: string[] = []
 
   positionFilteredOptions: string[] = [];
   onChange(value: string): void {
-
+    if (value) {
       this.positionFilteredOptions = this.jobTitles.filter((option) =>
         option.toLowerCase().includes(value.toLowerCase())
       );
-
+    }
   }
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -795,8 +799,8 @@ appliedFilters: string[] = []
   }
 
   shiftList: { value: number, label: string }[] = [];
-  selectedShift: number = 0;
-  selectedLeave: number = 0;
+  selectedShift: number | null = null;
+  selectedLeave: number | null = null;
   isLoadingShifts = false;
   getShiftData() {
     this.isLoadingShifts = true;

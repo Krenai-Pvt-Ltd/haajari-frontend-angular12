@@ -5,7 +5,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { Organization } from '../models/users';
 import { Savel } from '../models/savel';
 import { DailyQuestionsCheckout } from '../models/daily-questions-check-out';
@@ -95,7 +95,15 @@ export class DataService {
   ]);
   orgId: any;
   private readonly _key: Key = new Key();
-  constructor(private readonly httpClient: HttpClient) {}
+
+  constructor(private readonly httpClient: HttpClient) {
+    window.addEventListener('storage', (event) => {
+      if (event.key === this.notificationKey) {
+        this.messageSubject.next();
+      }
+    });
+  }
+
   private readonly orgIdEmitter = new EventEmitter<number>();
   activeTab: boolean = false;
   setOrgId(orgId: number) {
@@ -110,6 +118,18 @@ export class DataService {
   openSidebar: boolean = true;
 
   markAttendanceModal: boolean = false;
+
+  private messageSubject = new Subject<void>();
+  private notificationKey = 'notification';
+  // Method to send a notification by updating localStorage
+  sendNotification() {
+    localStorage.setItem(this.notificationKey, Date.now().toString());
+  }
+
+  // Observable for components to subscribe to notifications
+  onNotification(): Observable<void> {
+    return this.messageSubject.asObservable();
+  }
 
   registerOrganizationUsingCodeParam(
     code: string,
@@ -544,6 +564,10 @@ export class DataService {
       `${this.baseUrl}/users/get/all/by-filters`,
       { params }
     );
+  }
+
+  getActiveLeaveTemplates(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/existing-assigned-users`);
   }
 
   getAllUserUuids(): Observable<any> {
@@ -1090,11 +1114,13 @@ export class DataService {
     userPersonalInformationRequest: UserPersonalInformationRequest,
     userUuid: string,
     selectedTeamIds: number[],
-    selectedShift: number,
+    selectedShift: number | null,
     selectedLeaveIds: number[],
     invite: boolean
   ): Observable<any> {
-    debugger;
+    if(selectedShift==null){
+      selectedShift=0;
+    }
     let params = new HttpParams()
       .set('userUuid', userUuid)
       .set('selectedShiftId', selectedShift)
@@ -3832,9 +3858,11 @@ export class DataService {
 
   sendAttendanceTimeUpdateRequestWhatsapp(
     attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto,
-    userUuid: string
+    userUuid: string,
+    source: string
   ): Observable<any> {
-    const params = new HttpParams().set('userUuid', userUuid);
+    const params = new HttpParams().set('userUuid', userUuid).set('source', source);
+
 
     const url = `${this.baseUrl}/attendance/request-update-whatsapp`;
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {
@@ -3952,7 +3980,7 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams()
       .set('attendanceRequestId', attendanceReqId)
-      .set('requestString', requestString);
+      .set('status', requestString);
     const url = `${this.baseUrl}/attendance/approve/reject/attendance/requests`;
     return this.httpClient.put<any>(url, {}, { params });
   }
@@ -5154,39 +5182,25 @@ export class DataService {
   }
 
   removeKeyValuePair(key: string, userId: string, value: any): Observable<any> {
-    // Set URL parameters for key and userId
-    const params = new HttpParams()
-      .set('key', key)
-      .set('value', value)
-      .set('userId', userId);
-
-    // Send the DELETE request with parameters and request body (value)
-    return this.httpClient.delete<any>(
+    const requestBody = {
+      userId: userId,
+      keyValuePairs: { [key]: String(value) } // Convert value to string
+    };
+    return this.httpClient.post<any>(
       `${this.baseUrl}/get/onboarding/remove-field-in-requested-data`,
-      {
-        params: params,
-      }
+      requestBody
     );
   }
 
-  approveKeyValuePair(
-    key: string,
-    userId: string,
-    value: any
-  ): Observable<any> {
-    // Set URL parameters for key and userId
-    const params = new HttpParams()
-      .set('key', key)
-      .set('value', value)
-      .set('userId', userId);
-
-    // Send the DELETE request with parameters and request body (value)
+  // Approve a single key-value pair
+  approveKeyValuePair(key: string, userId: string, value: any): Observable<any> {
+    const requestBody = {
+      userId: userId,
+      keyValuePairs: { [key]: String(value) } // Convert value to string
+    };
     return this.httpClient.post<any>(
       `${this.baseUrl}/get/onboarding/approve-field-in-requested-data`,
-      null,
-      {
-        params: params,
-      }
+      requestBody
     );
   }
 
@@ -5280,6 +5294,13 @@ export class DataService {
 
   existsUserByUan(uan: string): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/by-uan/${uan}`);
+  }
+
+  existsUserByPhone(uan: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-phone/${uan}`);
+  }
+  existsUserByEmail(uan: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/by-email/${uan}`);
   }
 
   existsUserByEsi(esi: string): Observable<any> {
@@ -5452,6 +5473,81 @@ export class DataService {
       `${this.baseUrl}/leave/quota/by-user-leave-template-id`,
       { params }
     );
+  }
+
+
+
+  getAttendanceRequestsNew(
+    requestType: string,
+    startDate: string,
+    endDate: string,
+    pageNumber: number,
+    itemPerPage: number,
+    userIds?: number[],
+    selectedRequestTypeIds?: number[],
+    selectedStatusIds?: number[],
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('requestType', requestType)
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+
+    if (userIds && userIds.length > 0) {
+      userIds.forEach(id => params = params.append('userIds', id));
+    }
+
+    if (selectedRequestTypeIds && selectedRequestTypeIds.length > 0) {
+      selectedRequestTypeIds.forEach(id => params = params.append('selectedRequestTypeIds', id));
+    }
+
+    if (selectedStatusIds && selectedStatusIds.length > 0) {
+      selectedStatusIds.forEach(id => params = params.append('selectedStatusIds', id));
+    }
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    const url = `${this.baseUrl}/attendance/requests`;
+    return this.httpClient.get<any>(url, { params });
+  }
+
+  getAttendanceUpdateRequests(
+    userIds?: number[],
+    startDateStr?: string,
+    endDateStr?: string,
+    statuses?: number[],
+    attendanceStatuses?: number[],
+    requestTypes?: string[],
+    page: number = 0,
+    size: number = 10,
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', 'id,DESC');
+
+    if (userIds && userIds.length) {
+      userIds.forEach(id => (params = params.append('userIds', id.toString())));
+    }
+    if (search) params = params.set('search', search);
+    if (startDateStr) params = params.set('startDateStr', startDateStr);
+    if (endDateStr) params = params.set('endDateStr', endDateStr);
+    if (statuses && statuses.length) {
+      statuses.forEach(status => (params = params.append('statuses', status.toString())));
+    }
+    if (attendanceStatuses && attendanceStatuses.length) {
+      attendanceStatuses.forEach(status => (params = params.append('attendanceStatuses', status.toString())));
+    }
+    if (requestTypes && requestTypes.length) {
+      requestTypes.forEach(type => (params = params.append('requestTypes', type)));
+    }
+
+    return this.httpClient.get(`${this.baseUrl}/attendance/attendance-update-requests`, { params });
   }
 }
 

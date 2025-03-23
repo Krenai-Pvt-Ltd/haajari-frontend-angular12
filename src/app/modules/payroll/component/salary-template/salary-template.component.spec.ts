@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeductionsDetailsComponent } from './deductions-details.component';
+import { SalaryTemplateComponent } from './salary-template.component';
 
-describe('DeductionsDetailsComponent', () => {
-  let component: DeductionsDetailsComponent;
-  let fixture: ComponentFixture<DeductionsDetailsComponent>;
+describe('SalaryTemplateComponent', () => {
+  let component: SalaryTemplateComponent;
+  let fixture: ComponentFixture<SalaryTemplateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeductionsDetailsComponent ]
+      declarations: [ SalaryTemplateComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeductionsDetailsComponent);
+    fixture = TestBed.createComponent(SalaryTemplateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

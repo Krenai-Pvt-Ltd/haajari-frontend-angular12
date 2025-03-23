@@ -1,5 +1,5 @@
-<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="saveTaxDetail()">
-<div class="p-4 mb-10">
+<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="saveTaxDetail()" (focusin)="onFocus()">
+<div class="p-4 mb-10" *ngIf="activeTab == 'taxes'">
     <div class="row">
         <div class="col-md-4">
             <div class="payroll-details-box">
@@ -117,11 +117,11 @@
                     <input type="text" placeholder="Deductor Name" name="deductorName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)] = "taxDetail.deductorName" >
                 </div>
                 <div class="col-md-6 mb-3">
-                    <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)] = "taxDetail.fatherName" >
+                    <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)] = "taxDetail.fatherName" [disabled]="taxDetail.deductorTypeId == 1" >
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" [(ngModel)] = "taxDetail.designation">
+                    <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" [(ngModel)] = "taxDetail.designation" [disabled]="taxDetail.deductorTypeId == 1">
                 </div>
             </ng-container>
             </div>
@@ -130,7 +130,8 @@
 </div>
             
 
-<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
+
     <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
     <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
         [disabled]="saveLoader">
@@ -139,7 +140,7 @@
             <span></span>
             <span></span>
         </div>
-        <span *ngIf="!saveLoader"> Submit</span>      
+        <span *ngIf="!saveLoader"> Save</span>      
     </button>
 </div>
 </form>

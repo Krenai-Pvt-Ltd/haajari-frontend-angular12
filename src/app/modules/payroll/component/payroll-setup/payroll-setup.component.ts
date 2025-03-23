@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
 
@@ -9,69 +10,13 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 })
 export class PayrollSetupComponent implements OnInit {
 
-  constructor(private _payrollConfigurationService  : PayrollConfigurationService) { }
+  constructor(private _payrollConfigurationService  : PayrollConfigurationService,
+        private router: Router) { }
 
   ngOnInit(): void {
+    window.scroll(0,0);
     this.getTodoList();
   }
-
-  // toDoStepList = [
-  //   {
-  //     "id": 1,
-  //     "name": "Organization Profile Setup",
-  //     "description": "Set up your organization details and work locations for accurate payroll processing.",
-  //     "isComplete": false,
-  //     "route": "/task-a",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 2,
-  //     "name": "Pay Schedule Configuration",
-  //     "description": "Define payroll cycles, payment dates, and salary disbursement frequency.",
-  //     "isComplete": true,
-  //     "route": "/task-b",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 3,
-  //     "name": "Statutory Compliance Setup",
-  //     "description": "Enable and configure EPF, ESI, PT, LWF, and other legal deductions.",
-  //     "isComplete": false,
-  //     "route": "/task-c",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 4,
-  //     "name": "Salary Components Management",
-  //     "description": "Customize salary structures, allowances, and deductions as per company policy. ",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   },
-  //   {
-  //     "id": 5,
-  //     "name": "Taxes Configuration",
-  //     "description": "Provide necessary tax details to ensure compliance with statutory regulations.",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   },{
-  //     "id": 6,
-  //     "name": "Set Up Salary Template",
-  //     "description": "Standardize payroll processing with predefined templates.",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   },{
-  //     "id": 7,
-  //     "name": "Previous Payroll Import",
-  //     "description": "Upload or configure prior payroll data for seamless payroll continuity.",
-  //     "isComplete": false,
-  //     "route": "/task-d",
-  //     "active": false
-  //   }
-  // ]
-  // ;
   
 
   activeStep(id:number){
@@ -105,5 +50,28 @@ export class PayrollSetupComponent implements OnInit {
         }
       );
     }
+
+    currentTab: any= 'profile';
+    route(tabName: string) {
+      this.router.navigate(['/payroll/configuration'], {
+        queryParams: { tab: tabName },
+      });
+      this.currentTab=tabName;
+    }
+     
+
+
+    getStepRoute(stepId: number): string {
+      switch (stepId) {
+          case 1: return 'profile';
+          case 2: return 'pay-schedule';
+          case 3: return 'statutory';
+          case 4: return 'salary';
+          case 5: return 'taxes';
+          case 6: return 'profile';
+          case 7: return 'prior-payroll';
+          default: return 'profile';
+      }
+  }
 
 }

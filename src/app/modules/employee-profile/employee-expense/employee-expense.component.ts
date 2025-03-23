@@ -23,6 +23,7 @@ export class EmployeeExpenseComponent implements OnInit {
   ROLE: any;
   UUID:any;
   userId: any;
+  // UUID: any;
   ngOnInit(): void {
 
     const userUuidParam = new URLSearchParams(window.location.search).get(
@@ -43,7 +44,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
   async getRole(){
     this.ROLE = await this.rbacService.getRole();
-    this.UUID= await this.rbacService.getUuid();  
+    this.UUID = await this.rbacService.getUuid();
   }
 
  /** Create and View Expense start */

@@ -1641,7 +1641,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" (click)="resetUserLeave()" id="exampleModalLabel">Apply for a leave</h5>
+                    <!-- <h5 class="modal-title" (click)="resetUserLeave()" id="exampleModalLabel">Apply for a leave</h5>
                     <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -1654,7 +1654,9 @@
                                     fill="black" />
                             </g>
                         </svg>
-                    </button>
+                    </button> -->
+                    <h5 class="modal-title" id="exampleModalLabel">Apply for a leave</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetUserLeave()"></button>
                 </div>
                 <div class="modal-body">
                     <div class="assets-request-form">
@@ -1679,7 +1681,10 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <!-- error message for date range -->
+                                    <div *ngIf="dateRange.length==2"
+                                        class="text-danger font-12">You can apply {{currentUserLeaveType}} between {{dateRange[0]}} - {{dateRange[1]}}
+                                      </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
@@ -2255,46 +2260,44 @@
 
 <!-- Leave Quota Modal -->
 <div *ngIf="showLeaveQuotaModal" class="modal-overlay">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>User Leave Quota Information</h2>
-      <button class="close-btn" (click)="closeLeaveQuotaModal()">&times;</button>
+  <div class="modal-content p-0 border-rounded-2" style="width:30%;">
+    <div class="modal-header mb-0 border-bottom">
+      <h5 class="mb-0">User Leave Quota Information</h5>
+      <button class="close-btn font-24" (click)="closeLeaveQuotaModal()">&times;</button>
     </div>
-
-    <div class="info-message" *ngIf="userLeaveQuota?.remainingLeaves === 0">
-      <p>
-        🚫 <strong>Note:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized.
-        Please apply in another category or apply for leave without pay.
-      </p>
-    </div>
-
     <div class="modal-body">
-      <div class="quota-details">
-        <div class="detail-item">
-          <span class="label">👤 User Name:</span>
-          <span>{{ userLeaveQuota?.userName }}</span>
+        <div class="info-message border-rounded-2" *ngIf="userLeaveQuota?.remainingLeaves === 0">
+            <p class="mb-0">
+              🚫 <strong>Note:</strong> The leave quota for <strong>{{userLeaveQuota.category}}</strong> has been fully utilized.
+              Please apply in another category or apply for leave without pay.
+            </p>
+          </div>
+      <div class="quota-details d-flex flex-column gap-3">
+        <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+          <span class="label font-13 fw-600 color-basic">👤 User Name:</span>
+          <span class="font-13">{{ userLeaveQuota?.userName }}</span>
         </div>
-        <div class="detail-item">
-          <span class="label">📅 Total Leaves:</span>
-          <span>{{ userLeaveQuota?.totalAllocatedLeaves }}</span>
+        <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+          <span class="label font-13 fw-600 color-basic">📅 Total Leaves:</span>
+          <span class="font-13">{{ userLeaveQuota?.totalAllocatedLeaves }}</span>
         </div>
-        <div class="detail-item">
-          <span class="label">✅ Approved Leaves:</span>
-          <span>{{ userLeaveQuota?.approvedLeaves }}</span>
+        <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+          <span class="label font-13 fw-600 color-basic">✅ Approved Leaves:</span>
+          <span class="font-13">{{ userLeaveQuota?.approvedLeaves }}</span>
         </div>
-        <div class="detail-item">
-          <span class="label">❌ Rejected Leaves:</span>
-          <span>{{ userLeaveQuota?.rejectedLeaves }}</span>
+        <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+          <span class="label font-13 fw-600 color-basic">❌ Rejected Leaves:</span>
+          <span class="font-13">{{ userLeaveQuota?.rejectedLeaves }}</span>
         </div>
-        <div class="detail-item">
-          <span class="label">🕒 Remaining Leaves:</span>
-          <span>{{ userLeaveQuota?.remainingLeaves }}</span>
+        <div class="detail-item border-rounded-2 d-flex alig-items-cennter justify-content-between">
+          <span class="label font-13 fw-600 color-basic">🕒 Remaining Leaves:</span>
+          <span class="font-13">{{ userLeaveQuota?.remainingLeaves }}</span>
         </div>
       </div>
     </div>
 
-    <div class="modal-footer">
-      <button class="action-btn-modal" (click)="closeLeaveQuotaModal()">Close</button>
-    </div>
+    <!-- <div class="modal-footer border-top mt-0">
+        <button class="btn cancel-btn font-13 fw-semibold mt-0" (click)="closeLeaveQuotaModal()">Cancel</button>
+      </div> -->
   </div>
 </div>
