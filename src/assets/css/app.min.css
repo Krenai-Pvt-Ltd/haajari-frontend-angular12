@@ -133,6 +133,12 @@
   padding-right: 0px;
 }
 
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border: 1px solid #EFEFEF;
+}
 
 .material-switch>input[type="checkbox"] {
   display: none;

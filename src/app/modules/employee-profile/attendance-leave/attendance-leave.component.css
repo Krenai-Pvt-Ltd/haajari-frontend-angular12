@@ -1227,16 +1227,16 @@ div[ngbTooltip] {
 
 .requests-btn li {
     display: inline-block;
-    border-radius: 40px;
-    border: 1px solid #CECDFF;
     background: #F4F5FF;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 5px 25px;
     margin-right: 10px;
-    color: #000;
     text-transform: capitalize;
     cursor: pointer;
+    padding: 7px 25px;
+    color: #6B7280;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #BEBEBE;
+    border-radius: 20px;
 }
 .requests-btn .active{
     background-color: #6666F2;
