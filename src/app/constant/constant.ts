@@ -53,6 +53,9 @@ export class constant {
         constant.PUBLIC_SERVER_ERROR, constant.PUBLIC_ONBOARDING_FORM,constant.PUBLIC_APPLY_ATENDANCE_UPDATE, constant.FAQ_URL
     ];
 
+    // Notifications Type Id constants
+
+    public static  NOTIFICATION_TYPE_CHECKOUT_REPORT = 24;
 
     public static  jobTitles: string[] = [
         'Accountant',
@@ -228,5 +231,12 @@ export class constant {
        * CHART COLORS
        */
       public static COLORS: string[] = ['#8989F5','#B8B8F9','#E7E7FD'];
+
+      public static  STRUCTURE_FLEXIBLE : string="FLEXIBLE";
+      public static  STRUCTURE_FIXED : string="FIXED";
+
+      public static  AMOUNT : string="AMOUNT";
+      public static  PERCENTAGE : string="PERCENTAGE";
+
 }
 

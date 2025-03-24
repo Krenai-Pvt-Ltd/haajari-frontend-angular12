@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
+import { Color } from 'chart.js';
 import moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { ApproveReq } from 'src/app/models/ApproveReq';
@@ -12,6 +13,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+
 
 @Component({
   selector: 'app-expense-management',
@@ -753,19 +755,76 @@ onDateRangeChange(dates: [Date, Date] | null) {
 
   expenseTypeSummery : any[] = [];
   totalExpenseType : number = 0;
+  totalAmount: number = 0;
+  sChartLoaded: boolean = false;
+  chartOptions: any;
 
   getExpenseSummaryByType() {
-    console.log("Summery startDate : ",this.startDate);
-    console.log("Summery endDate : ",this.endDate);
+    console.log("Summary startDate: ", this.startDate);
+    console.log("Summary endDate: ", this.endDate);
+    
     this.expenseService.getExpenseBytype(this.startDate, this.endDate).subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeSummery = res.object;
+        
+        // Calculate total approved amount
+        this.totalAmount = this.expenseTypeSummery.reduce((sum, item) => sum + item.approvedAmount, 0);
+  
+        // Add percentage field to each item
+        this.expenseTypeSummery = this.expenseTypeSummery.map(item => ({
+          ...item,
+          percentage: this.totalAmount > 0 ? ((item.approvedAmount / this.totalAmount) * 100).toFixed(2) : "0.00"
+        }));
+  
         this.totalExpenseType = res.totalItems;
+        this.initializeDonutChart();
+        console.log("ExpenseSummaryByType :", this.expenseTypeSummery);
       }
-      
-      console.log("ExpenseSummaryByType :", res);
-      });
+    });
   }
+
+  initializeDonutChart() {
+    this.chartOptions = {
+      series: this.expenseTypeSummery.map(item => parseFloat(item.percentage) || 0), // Convert to number and prevent NaN
+      chart: {
+        width: 180,
+        type: "donut"
+      },
+      colors: this.getDynamicColors(this.expenseTypeSummery),
+      labels: this.expenseTypeSummery.map(item => item.expenseTypeName),
+      dataLabels: {
+        enabled: false
+      },
+      fill: {
+        type: "gradient"
+      },
+      legend: {
+        show: false
+      },
+      plotOptions: {
+        pie: {
+          startAngle: -90,
+          endAngle: 90,
+          offsetY: 10
+        }
+      },
+      tooltip: {
+        enabled: true,
+        y: {
+          formatter: (value: number) => `${value.toFixed(2)}%` // Ensure 2 decimal places
+        }
+      }
+    };
+  
+    this.sChartLoaded = true;
+  }
+  
+
+  getDynamicColors(data: any[]): string[] {
+    const colors = ["#CA365F", "#F3A73D", "#47539F", "#4BC0C0", "#9966FF", "#FF9F40"];
+    return data.map((_, index) => colors[index % colors.length]);
+  }
+  
 
   //Get Expense Trend for every ststus
   expenseTrend : any[] = [];

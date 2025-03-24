@@ -139,13 +139,21 @@
                                                     </div>
                                                     <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{ settledAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                            <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                        </svg>&nbsp;
+                                                        <ng-container *ngIf="amountChanges['settled'] >= 0; else negativeIcon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                            </svg>
+                                                        </ng-container>
+                                                        <ng-template #negativeIcon>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                                <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                            </svg>
+                                                        </ng-template>
                                                         <span [ngClass]="{'text-success': amountChanges['settled'] >= 0, 'text-danger': amountChanges['settled'] < 0}">
-                                                            {{ amountChanges['settled'] | number:'1.2-2' }}% {{ amountChanges['settled'] >= 0 ? 'Up' : 'Down' }} past week
+                                                            {{ amountChanges['settled'] | number:'1.0-0' }}% {{ amountChanges['settled'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
+                                                    
 
                                                 </div>
                                             </div>
@@ -166,11 +174,18 @@
                                                     </div>
                                                     <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{ unsettledAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                            <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                        </svg>&nbsp;
+                                                        <ng-container *ngIf="amountChanges['unsettled'] >= 0; else negativeIcon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                            </svg>
+                                                        </ng-container>
+                                                        <ng-template #negativeIcon>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                                <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                            </svg>
+                                                        </ng-template>
                                                         <span [ngClass]="{'text-success': amountChanges['unsettled'] >= 0, 'text-danger': amountChanges['unsettled'] < 0}">
-                                                            {{ amountChanges['unsettled'] | number:'1.2-2' }}% {{ amountChanges['unsettled'] >= 0 ? 'Up' : 'Down' }} past week
+                                                            {{ amountChanges['unsettled'] | number:'1.0-0' }}% {{ amountChanges['unsettled'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
                                                 </div>
@@ -235,11 +250,18 @@
                                                     </div>
                                                     <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{ payrollAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                            <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
-                                                        </svg>&nbsp;
+                                                        <ng-container *ngIf="amountChanges['payroll'] >= 0; else negativeIcon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                <path d="M13.1918 4.94434L15.0661 6.81861L11.072 10.8127L7.79819 7.53886L1.7334 13.6118L2.88743 14.7659L7.79819 9.8551L11.072 13.1289L16.2283 7.98082L18.1026 9.8551V4.94434H13.1918Z" fill="#22b783"/>
+                                                            </svg>
+                                                        </ng-container>
+                                                        <ng-template #negativeIcon>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                                                <path d="M14.0644 14.7659L15.9387 12.8916L11.9446 8.8975L8.67075 12.1713L2.60596 6.09837L3.75999 4.94434L8.67075 9.8551L11.9446 6.58126L17.1009 11.7294L18.9752 9.8551V14.7659H14.0644Z" fill="#F93C65"/>
+                                                            </svg>
+                                                        </ng-template>
                                                         <span [ngClass]="{'text-success': amountChanges['payroll'] >= 0, 'text-danger': amountChanges['payroll'] < 0}">
-                                                            {{ amountChanges['payroll'] }}% {{ amountChanges['payroll'] >= 0 ? 'Up' : 'Down' }} past week
+                                                            {{ amountChanges['payroll'] | number:'1.0-0' }}% {{ amountChanges['payroll'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
                                                 </div>
@@ -250,14 +272,14 @@
                                                 <div class="categories-report border-rounded-2">
                                                     <div class="report-header p-3 d-flex align-items-center justify-content-between border-bottom">
                                                         <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                                        <div>
+                                                        <!-- <div>
                                                             <nz-select class="week-filter" ngModel="Week 1" style="width: 100px;">
                                                                 <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
                                                                 <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
                                                                 <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
                                                                 <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
                                                               </nz-select>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                     <div class="p-3">
                                                         <div class="d-flex align-items-center justify-content-between">
@@ -267,13 +289,27 @@
                                                                 </h5>
                                                                 <p class="font-12 fw-normal color-basic">Defined By Your Organisation</p>
                                                             </div>
-                                                            <img src="assets/images/sidebar-icon/expensecat-graph.svg" style="width: 80px;">
+                                                            <!-- Half-circle chart container -->
+                                                            <div *ngIf="sChartLoaded && chartOptions">
+                                                                <apx-chart 
+                                                                  [series]="chartOptions.series"
+                                                                  [chart]="chartOptions.chart"
+                                                                  [labels]="chartOptions.labels"
+                                                                  [colors]="chartOptions.colors"
+                                                                  [dataLabels]="chartOptions.dataLabels"
+                                                                  [fill]="chartOptions.fill"
+                                                                  [plotOptions]="chartOptions.plotOptions"
+                                                                  [legend]="chartOptions.legend"
+                                                                  [tooltip]="chartOptions.tooltip">
+                                                                </apx-chart>
+                                                              </div>                                                              
                                                         </div>
                                                     
                                                         <div class="mt-4">
                                                             <div *ngFor="let expense of expenseTypeSummery" class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                                 <div class="d-flex align-items-center gap-2">
-                                                                    <span class="earned-leave"></span>
+                                                                    <!-- different color icon span -->
+                                                                    <span class="earned-leave" [ngStyle]="{'background-color': getDynamicColors(expenseTypeSummery)[expenseTypeSummery.indexOf(expense)]}"></span>
                                                                     <p class="mb-0 text-black fw-semibold font-13">
                                                                         {{ expense.expenseTypeName }} <span class="fw-light">({{ expense.percentage }}%)</span>
                                                                     </p>
@@ -289,14 +325,14 @@
                                                 <div class="categories-report border-rounded-2">
                                                     <div class="report-header p-3 d-flex align-items-center justify-content-between border-bottom">
                                                         <h5 class="mb-0 font-15 fw-semibold">Client Report</h5>
-                                                        <div>
+                                                        <!-- <div>
                                                             <nz-select class="week-filter" ngModel="Week 1" style="width: 100px;">
                                                                 <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
                                                                 <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
                                                                 <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
                                                                 <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
                                                               </nz-select>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
 
                                                     <div class="p-3">

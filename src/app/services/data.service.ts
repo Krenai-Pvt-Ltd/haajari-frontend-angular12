@@ -5,7 +5,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { Organization } from '../models/users';
 import { Savel } from '../models/savel';
 import { DailyQuestionsCheckout } from '../models/daily-questions-check-out';
@@ -95,7 +95,15 @@ export class DataService {
   ]);
   orgId: any;
   private readonly _key: Key = new Key();
-  constructor(private readonly httpClient: HttpClient) {}
+
+  constructor(private readonly httpClient: HttpClient) {
+    window.addEventListener('storage', (event) => {
+      if (event.key === this.notificationKey) {
+        this.messageSubject.next();
+      }
+    });
+  }
+
   private readonly orgIdEmitter = new EventEmitter<number>();
   activeTab: boolean = false;
   setOrgId(orgId: number) {
@@ -110,6 +118,18 @@ export class DataService {
   openSidebar: boolean = true;
 
   markAttendanceModal: boolean = false;
+
+  private messageSubject = new Subject<void>();
+  private notificationKey = 'notification';
+  // Method to send a notification by updating localStorage
+  sendNotification() {
+    localStorage.setItem(this.notificationKey, Date.now().toString());
+  }
+
+  // Observable for components to subscribe to notifications
+  onNotification(): Observable<void> {
+    return this.messageSubject.asObservable();
+  }
 
   registerOrganizationUsingCodeParam(
     code: string,

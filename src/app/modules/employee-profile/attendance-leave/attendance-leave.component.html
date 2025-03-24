@@ -1681,7 +1681,10 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <!-- error message for date range -->
+                                    <div *ngIf="dateRange.length==2"
+                                        class="text-danger font-12">You can apply {{currentUserLeaveType}} between {{dateRange[0]}} - {{dateRange[1]}}
+                                      </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
@@ -2257,7 +2260,7 @@
 
 <!-- Leave Quota Modal -->
 <div *ngIf="showLeaveQuotaModal" class="modal-overlay">
-  <div class="modal-content p-0 border-rounded-2">
+  <div class="modal-content p-0 border-rounded-2" style="width:30%;">
     <div class="modal-header mb-0 border-bottom">
       <h5 class="mb-0">User Leave Quota Information</h5>
       <button class="close-btn font-24" (click)="closeLeaveQuotaModal()">&times;</button>
@@ -2293,8 +2296,8 @@
       </div>
     </div>
 
-    <div class="modal-footer border-top mt-0">
+    <!-- <div class="modal-footer border-top mt-0">
         <button class="btn cancel-btn font-13 fw-semibold mt-0" (click)="closeLeaveQuotaModal()">Cancel</button>
-      </div>
+      </div> -->
   </div>
 </div>
