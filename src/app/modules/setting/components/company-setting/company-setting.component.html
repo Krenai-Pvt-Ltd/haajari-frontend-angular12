@@ -1,6 +1,8 @@
 <div class="page-wrapper">
-  <div class="page-content-tab mt-3">
-    <ul id="myTab" role="tablist" class="nav nav-tabs ml-2" style="margin-right: 10px;">
+  <div class="page-content-tab mt-3 pl-1">
+    <div class="row px-2">
+    <div class="col-md-12">
+    <ul id="myTab" role="tablist" class="nav nav-pills">
       <li role="presentation" class="nav-item">
         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
           aria-controls="profile" [attr.aria-selected]="activeTab === 'companySetting'"
@@ -42,7 +44,8 @@
         </button>
       </li>
     </ul>
-
+  </div>
+</div>
 
     <div class="container-fluid">
 
@@ -52,7 +55,7 @@
 
           <div class="row">
             <div class="col-md-4">
-              <div class="company-details-box p-3" id="company-details-box">
+              <div class="company-details-box p-1" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
                 <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
@@ -183,7 +186,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="company-details-box p-3">
+              <div class="company-details-box p-1">
                 <h4 class="card-title">Tagline</h4>
                 <span class="text-muted font-12 fw-normal">A quick snapshot of your company.
                 </span>
@@ -227,7 +230,7 @@
       </form>
       <div class="row">
         <div class="col-md-4" *ngIf="activeTab === 'companySetting'">
-          <div class="company-details-box" style="padding: 15px">
+          <div class="company-details-box p-1" >
             <h4 class="card-title">HR Policy</h4>
             <span class="text-muted font-12 fw-normal">A quick snapshot of your company HR policies.</span>
           </div>
@@ -329,11 +332,11 @@
         <div class="mt-4" *ngIf="activeTab === 'locationSetting'">
           <div class="row">
         <div class="col-md-4"  >
-          <div class="form-roe-data p-3">
+          <div class="form-roe-data p-1">
             <h5>Location Setting</h5>
             <p class="font-12">A quick snapshot of your company.</p>
           </div>
-          <div class="total-shifts p-3 mt-4 m-3" *ngIf="allAddresses?.length > 1">
+          <div class="total-shifts p-3 mt-4 m-1" *ngIf="allAddresses?.length > 1">
             <div class="d-flex align-items-center justify-content-between">
               <div>
                 <h6 class="text-truncate">Total Locations</h6>
@@ -681,7 +684,7 @@
           <div class="row">
 
         <div class="col-md-4">
-          <div class="form-roe-data p-3">
+          <div class="form-roe-data p-1">
             <h5>Employee Onboarding Setting</h5>
             <p>A quick snapshot of your company.</p>
           </div>
@@ -727,7 +730,7 @@
           <div *ngFor="let type of notificationKeys; let i = index">
             <div class="row">
               <div class="col-md-4">
-                <div class="form-roe-data p-3" *ngIf="i==0">
+                <div class="form-roe-data p-1" *ngIf="i==0">
                   <h5 class="text-black mb-2">Attendance Notification</h5>
                   <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
                 </div>
@@ -912,7 +915,8 @@
         </div>
       </div>
     </div>
-  </div>
+  
+</div>
 
   <!-- Modal to view document -->
   <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
