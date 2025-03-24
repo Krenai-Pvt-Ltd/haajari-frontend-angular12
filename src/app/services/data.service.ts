@@ -2087,7 +2087,7 @@ export class DataService {
   }
 
   getUserResignations(
-    status: string | null,
+    status: string[] | null,
     name: string | null,
     page: number = 1,
     size: number = 10
@@ -2096,8 +2096,11 @@ export class DataService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (status) {
-      params = params.set('status', status);
+      if (status && Array.isArray(status)) {
+        // Add multiple status IDs as separate parameters
+        status.forEach(statusId => {
+            params = params.append('statusIds', statusId);
+        });
     }
 
     if (name) {
