@@ -4,6 +4,7 @@ import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryComponentService } from 'src/app/services/salary-component.service';
 import { ComponentConfiguration } from 'src/app/payroll-models/ComponentConfiguration';
+import { ReimbursementComponent } from 'src/app/payroll-models/ReimbursementComponent';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class SalaryComponent implements OnInit {
   readonly EARNING_COMPONENT =1;
   readonly BENEFIT_COMPONENT =2;
   readonly DEDUCTION_COMPONENT =3;
+  readonly REIMBURSEMENT_COMPONENT =4;
 
   currentPage = 1;
   itemPerPage = 10;
@@ -32,6 +34,8 @@ export class SalaryComponent implements OnInit {
 
   shimmer: boolean = false;
   toggle:boolean =false;
+  saveLoader:boolean=false;
+  isNewComponent:boolean=false;
 
   constructor(private _salaryComponentService : SalaryComponentService,
     public _helperService : HelperService) { 
@@ -44,6 +48,40 @@ export class SalaryComponent implements OnInit {
     
   }
 
+
+    addComponent(component: number) {
+      this.toggle = true;
+      this.isNewComponent = true;
+      switch (component) {
+        //earning
+        case 1: {
+          this.getDefaultEarningComponent();
+          break;
+        }
+        //benefit
+        case 2: {
+          // this.getDefaultBenefitComponent();
+          break;
+        }
+        //deduction
+        case 3: {
+          // this.getDefaultDeductionComponent();
+          break;
+        }
+        //reimbursement
+        case 4: {
+          this.getDefaultReimbursementComponent();
+          break;
+        }
+      }
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       EARNING COMPONENT                                                                                 // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  earningComponents:EarningComponent[] = new Array();
+  showSubComponent:boolean =false;
   defaultEarningComponents:EarningComponent[] = new Array();
   getDefaultEarningComponent(){
       this._salaryComponentService.getDefaultEarningComponent().subscribe((response) => {
@@ -56,8 +94,7 @@ export class SalaryComponent implements OnInit {
       );
     }
 
-  showSubComponent:boolean =false;
-  earningComponents:EarningComponent[] = new Array();
+
   getOrganizationEarningComponent(){
       this.shimmer = true;
       this.earningComponents = [];
@@ -137,25 +174,7 @@ export class SalaryComponent implements OnInit {
     ];
 
 
-    isNewComponent:boolean=false;
-    addComponent(component: number) {
-      this.toggle = true;
-      this.isNewComponent = true;
-      switch (component) {
-        case 1: {
-          this.getDefaultEarningComponent();
-          break;
-        }
-        case 2: {
-          // this.getDefaultBenefitComponent();
-          break;
-        }
-        case 3: {
-          // this.getDefaultDeductionComponent();
-          break;
-        }
-      }
-    }
+    
 
 
 
@@ -174,10 +193,10 @@ export class SalaryComponent implements OnInit {
     this.isNewComponent = false;
    }
 
-   saveLoader:boolean=false;
+ 
    saveEarningComponent(){
       this.saveLoader = true;
-      this._salaryComponentService.saveOrganizationEarningComponent(this.selectedEarningComponent).subscribe((response) => {
+      this._salaryComponentService.saveEarningComponent(this.selectedEarningComponent).subscribe((response) => {
           if(response.status){
           
           }else{
@@ -191,4 +210,184 @@ export class SalaryComponent implements OnInit {
       );
 
    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       BENEFIT COMPONENT                                                                           // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// defaultReimbursementComponents:ReimbursementComponent[] = new Array();
+// getDefaultBenefitComponent(){
+//     this._salaryComponentService.getDefaultReimbursementComponent().subscribe((response) => {
+//         if(response.status){
+//           this.defaultReimbursementComponents= response.object;
+//         }
+//       },
+//       (error) => {
+//       }
+//     );
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       DEDUCTION COMPONENT                                                                           // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// defaultReimbursementComponents:ReimbursementComponent[] = new Array();
+// getDefaultDeductionComponent(){
+//     this._salaryComponentService.getDefaultReimbursementComponent().subscribe((response) => {
+//         if(response.status){
+//           this.defaultReimbursementComponents= response.object;
+//         }
+//       },
+//       (error) => {
+//       }
+//     );
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       REIMBURSEMENT COMPONENT                                                                           // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  reimbursementComponents:ReimbursementComponent[] = new Array();
+  defaultReimbursementComponents:ReimbursementComponent[] = new Array();
+  selecteReimbursementComponent!:ReimbursementComponent;
+  getDefaultReimbursementComponent(){
+       this._salaryComponentService.getDefaultReimbursementComponent().subscribe((response) => {
+           if(response.status){
+             this.defaultReimbursementComponents= response.object;
+           }
+         },
+         (error) => {
+         }
+       );
+  }
+
+
+  
+  getOrganizationReimbursementComponent(){
+  this.shimmer = true;
+  this.reimbursementComponents = [];
+    this._salaryComponentService.getOrganizationReimbursementComponent().subscribe((response) => {
+        if(response.status){
+          this.reimbursementComponents= response.object;
+          this.totalItems = response.totalItems;
+
+          if(this.reimbursementComponents==null){
+            this.reimbursementComponents= new Array();
+            this.totalItems = 0;
+          }
+        }else{
+          this.reimbursementComponents= new Array();
+          this.totalItems = 0;
+        }
+        this.shimmer = false;
+      },
+      (error) => {
+        this.shimmer = false;
+        this.reimbursementComponents= new Array();
+        this.totalItems = 0;
+      }
+    );
+  }
+
+
+  saveReimbursementComponent(){
+    this.saveLoader = true;
+    this._salaryComponentService.saveReimbursementComponent(this.selectedEarningComponent).subscribe((response) => {
+        if(response.status){
+        
+        }else{
+  
+        }
+        this.saveLoader = false;
+      },
+      (error) => {
+        this.saveLoader = false;
+      }
+    );
+
+  }
+
+
+  editReimbursementComponent(reimbursementComponent : ReimbursementComponent){
+    this.toggle=true;
+    this.selectedTab = this.REIMBURSEMENT_COMPONENT;
+    this.selecteReimbursementComponent= JSON.parse(JSON.stringify(reimbursementComponent)) ;
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  
+
 }

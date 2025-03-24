@@ -4,13 +4,18 @@
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
                 aria-controls="pills-dashboard" aria-selected="false"
-                class="nav-link active">Earning</a>
+                class="nav-link active">Earnings</a>
             </li>
             <li class="nav-item d-flex align-items-center">
             <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link">Benefits & Deductions </a>
+                class="nav-link">Benefits </a>
             </li>
+            <li class="nav-item d-flex align-items-center">
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#deductions" role="tab"
+                    aria-controls="pills-request" aria-selected="false"
+                    class="nav-link">Deductions </a>
+                </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
                     aria-controls="pills-request" aria-selected="false"
@@ -41,7 +46,11 @@
                         Deduction
                     </a>
                 </li>
-                
+                <li>
+                    <a class="dropdown-item" (click)="addComponent(REIMBURSEMENT_COMPONENT)">
+                        Reimbursement
+                    </a>
+                </li>
             </div>
         </div>
     </div>
@@ -179,6 +188,73 @@
                         <thead>
                             <tr>
                                 <th class="font-13" style="width: 20%;">Name</th>
+                                <th class="font-13" style="width: 25%;">Benefit Type</th>
+                                <th class="font-13" style="width: 25%;">Benefit Frequency</th>
+                                <th class="font-13" style="width: 20%;">Status</th>
+                                <th  class="font-13"style="width: 10%;">Action</th>
+                            </tr>
+                        </thead>
+                            <tbody *ngIf="shimmer">
+                                <tr *ngFor="let item of [].constructor(14)">
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="!shimmer">
+                                <tr>
+                                    <td>
+                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Voluntary Provident Fund</a>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">Voluntary Provident Fund</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">	Recurring</p>
+                                    </td>
+                                    <td>
+                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>
+                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                        <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+                        <div class="pagition-box">
+                            <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
+                            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+                            </ngb-pagination>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="deductions" role="tabpanel" aria-labelledby="deductions-tab">
+            <div class="mt-2">
+                <div class="table-responive benefits-list">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th class="font-13" style="width: 20%;">Name</th>
                                 <th class="font-13" style="width: 25%;">Deduction Type</th>
                                 <th class="font-13" style="width: 25%;">Deduction Frequency</th>
                                 <th class="font-13" style="width: 20%;">Status</th>
@@ -205,98 +281,147 @@
                                 </tr>
                             </tbody>
                             <tbody *ngIf="!shimmer">
-                                    <td colspan="5" class="benefits-list-td">
-                                        <table class="border-0 table w-100">
-                                            <tbody class="border-0">
-                                                <tr>
-                                                    <td colspan="5" class="border-0 pb-0">Benefits</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Voluntary Provident Fund</a>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 font-13 fw-normal">Voluntary Provident Fund</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 font-13 fw-normal">	Recurring</p>
-                                                    </td>
-                                                    <td>
-                                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                
                                 <tr>
-                                    <td colspan="5" class="benefits-list-td">
-                                        <table class="border-0 table w-100">
-                                            <tbody class="border-0">
-                                                <tr>
-                                                    <td colspan="5" class="border-0 pb-0" >Deductions</td>
-                                                </tr >
-                                                <tr>
-                                                    <td class="border-0 pb-0">
-                                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
-                                                    </td>
-                                                    <td class="border-0 pb-0">
-                                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
-                                                    </td>
-                                                    <td class="border-0 pb-0">
-                                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
-                                                    </td>
-                                                    <td class="border-0">
-                                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                                    </td>
-                                                    <td class="border-0 pb-0">
-                                                        <div class="dropdown">
-                                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
-                                                    </td>
-                                                    <td>
-                                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
-                                                    </td>
-                                                    <td>
-                                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                                    </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                                <i class="bi bi-three-dots-vertical"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <td >
+                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
+                                    </td>
+                                    <td >
+                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
+                                    </td>
+                                    <td >
+                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
+                                    </td>
+                                    <td class="border-0">
+                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                    </td>
+                                    <td >
+                                        <div class="dropdown">
+                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
+                                    </td>
+                                    <td>
+                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
                     </table>
+                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                        <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+                        <div class="pagition-box">
+                            <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
+                            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+                            </ngb-pagination>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </div>
         <div class="tab-pane fade" id="reimbursements" role="tabpanel" aria-labelledby="reimbursements-tab">
-            <div class="">
-                
+            <div class="mt-2">
+                <div class="table-responive benefits-list">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th class="font-13" style="width: 20%;">Name</th>
+                                <th class="font-13" style="width: 25%;">Reimbursement Type</th>
+                                <th class="font-13" style="width: 25%;">Maximum Amount</th>
+                                <th class="font-13" style="width: 20%;">Status</th>
+                                <th  class="font-13"style="width: 10%;">Action</th>
+                            </tr>
+                        </thead>
+                            <tbody *ngIf="shimmer">
+                                <tr *ngFor="let item of [].constructor(14)">
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="!shimmer">
+                                <tr *ngFor="let reimbursement of reimbursementComponents"> 
+                                    <td >
+                                        <a class="font-13 fw-normal text-primary" (click)="editReimbursementComponent(reimbursement)">{{reimbursement.displayName}}</a>
+                                    </td>
+                                    <td >
+                                        <p class="mb-0 font-13 fw-normal">{{reimbursement.name}}</p>
+                                    </td>
+                                    <td >
+                                        <p class="mb-0 font-13 fw-normal">{{reimbursement.value}}</p>
+                                    </td>
+                                    <td class="border-0">
+                                        <nz-switch [ngModel]="checkStatus(reimbursement.statusId)"></nz-switch>
+                                    </td>
+                                    <td >
+                                        <div class="dropdown">
+                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
+                                    </td>
+                                    <td>
+                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
+                                    </td>
+                                    <td>
+                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>
+                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                        <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
+                        <div class="pagition-box">
+                            <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
+                            [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
+                            </ngb-pagination>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -651,8 +776,185 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(REIMBURSEMENT_COMPONENT)">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-chevron-left text-primary font-18"></i>
+                    </span>
+                    <h5 class="mb-0 font-15 fw-semibold">Edit Reimbursement</h5>
+                </div>
+    
+    
+                <div class="mt-5 earninng-edit-box pl-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Name in Payslip*</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                    
+                                <div class="col-md-12">
+                                    <input type="text" placeholder="Notice Pay Deduction" required class="form-control"> 
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-5 mb-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Select the deduction frequency*</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no,<br> deduction cycle</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                              
+                                <div class="col-md-12 mt-2">
+                                    <div class="col-md-8">
+                                        <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                                            <div class="w-50 currency-types-border">
+                                                <p class="mb-0 font-12 fw-light ">
+                                               Enter Amount
+                                                    </p>
+                                            </div>
+                                            <div class="w-50 background-light position-relative">
+                                                <input type="number"  name="value" class="form-control borderLess"  required> 
+                                                <span class="percentage-icon d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-currency-rupee font-18"></i>
+                                            
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                
+    
+                                </div>
+                                <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
+                                    <p class="mb-0 font-13 text-black fw-normal lh-base">
+                                        <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name in Payslip and <br> Amount. The changes you make to Amount will apply only to new employees.
+                                    </p>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div class="form-check d-flex align-items-start gap-2 mb-3">
+                            <input type="radio" id="radioCheckbox1" name="exampleRadios" class="form-check-input" checked>
+                            <div>
+                                <label for="radioCheckbox1" class="form-check-label font-13 fw-normal">One-time deduction</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </ng-container>
 
+
+<!----------------------------------- STATUS CHANGE CONFIRMATION MODAL START-------------------------->
+<!-- <button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteLocationButton></button> -->
+<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #deleteLocationCloseButton>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this component?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [ngClass]="{'disabled-lnk':false}" class="btn continue-btn"
+              >
+              Continue
+              <i class="fa fa-spinner fa-spin d-none"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------- STATUS CHANGE CONFIRMATION MODAL END-------------------------->
+
+<!----------------------------------- DELETE CONFIRMATION MODAL START-------------------------->
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteLocationButton></button>
+<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #deleteLocationCloseButton>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this component?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [ngClass]="{'disabled-lnk':false}" class="btn continue-btn"
+              >
+              Continue
+              <i class="fa fa-spinner fa-spin d-none"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------- DELETE CONFIRMATION MODAL END-------------------------->
