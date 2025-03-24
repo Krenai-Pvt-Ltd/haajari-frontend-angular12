@@ -1457,12 +1457,21 @@
                         </div>
                         <div class="mt-3">
                           <div class="employ-list-height table-responsive">
-                            <nz-alert *ngIf="cachedStaffIdsWithoutJoiningDate.length>0" class=""
+                            <!-- <nz-alert *ngIf="cachedStaffIdsWithoutJoiningDate.length>0" class="mb-3"
                             nzType="info"
                             nzMessage="{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date"
                             nzDescription="Please add joining date to add them in this Template."
                             nzShowIcon
-                          ></nz-alert>
+                          ></nz-alert> -->
+                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
+
+                            <span><i class="bi bi-exclamation-circle font-18 position-relative" style="top: -4px;"></i></span>
+                            <div>
+                              <h5 class="mb-1 font-14 text-black">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
+                              <p class="font-12 mb-0">Please add joining date to add them in this Template.</p>
+                            </div>
+
+                          </div>
                             <table class="table table-striped">
                               <thead class="thead-light">
                                 <tr>
