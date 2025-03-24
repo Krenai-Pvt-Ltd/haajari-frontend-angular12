@@ -45,7 +45,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="employeeTypeId" class="mb-2">Select Date</label>
-                  <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
+                  <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="dd-MM-yyyy" class="ant-picker ant-picker-borderless"
                     [nzDisabled]="!isCreate" (ngModelChange)="onDateChange($event)" nzPlaceHolder="Choose Date" name="selectDate" [nzDisabledDate]="disabledDate">
                   </nz-date-picker>
                   <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was holiday on selected date!</small>
