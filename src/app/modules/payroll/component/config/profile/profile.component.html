@@ -517,9 +517,9 @@
                                       </span>
                                       <span class="separator"></span>
                                       <label class="checkbox-label">
-                                        <input type="checkbox" [(ngModel)]="isAllUsersSelected"
-                                        name="AllSelected"
-                                          (change)="selectAllUsers($event)" />&nbsp;
+                                        <input type="checkbox" class="form-check-input pointer"
+                                        name="staff"
+                                        [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)"/>
                                         Select all
                                       </label>
                                     </div>
