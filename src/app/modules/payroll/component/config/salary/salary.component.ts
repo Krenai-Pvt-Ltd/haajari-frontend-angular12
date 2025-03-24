@@ -45,9 +45,7 @@ export class SalaryComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0,0);
     this.getOrganizationEarningComponent();
-    this.getOrganizationReimbursementComponent();
-    this.getDefaultReimbursementComponent();
-    
+    this.getOrganizationReimbursementComponent();    
   }
 
 
@@ -200,7 +198,7 @@ export class SalaryComponent implements OnInit {
       this.saveLoader = true;
       this._salaryComponentService.saveEarningComponent(this.selectedEarningComponent).subscribe((response) => {
           if(response.status){
-          
+            this.getOrganizationEarningComponent();
           }else{
    
           }
@@ -368,7 +366,7 @@ export class SalaryComponent implements OnInit {
     this.saveLoader = true;
     this._salaryComponentService.saveReimbursementComponent(this.selecteReimbursementComponent).subscribe((response) => {
         if(response.status){
-        
+          this.getOrganizationReimbursementComponent();   
         }else{
   
         }
@@ -387,6 +385,9 @@ export class SalaryComponent implements OnInit {
     this.selectedTab = this.REIMBURSEMENT_COMPONENT;
     this.selecteReimbursementComponent= JSON.parse(JSON.stringify(reimbursementComponent)) ;
   }
+
+
+  
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
