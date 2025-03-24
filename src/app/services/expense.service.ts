@@ -72,5 +72,10 @@ export class ExpenseService {
       return this.httpClient.get<any>(`${this.baseUrl}/company-expense/expense-summary-by-type`,{ params });
     }
 
+    //get trends date on expense
+    getExpenseTrends(){
+      return this.httpClient.get<any>(`${this.baseUrl}/company-expense/compare-weekly`);
+    }
+
 
 }

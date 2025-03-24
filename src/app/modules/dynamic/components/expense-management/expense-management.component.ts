@@ -435,12 +435,14 @@ openExpenseComponent(expense: any) {
     this.loading = true;
     this.walletUserList = []
 
-    if (this.filters.fromDate !== undefined && this.filters.toDate !== undefined) {
-      this.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
-      this.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
-    } else {
-        this.startDate = undefined;
-        this.endDate = undefined;
+    if(!this.dashBoardDateView){
+      if (this.filters.fromDate !== undefined && this.filters.toDate !== undefined) {
+        this.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
+        this.endDate = moment(this.filters.toDate).format(this.networkDateFormat);
+      } else {
+          this.startDate = undefined;
+          this.endDate = undefined;
+      }
     }
 
     // this.startDate =( new Date(this.expenseSelectedDate.getFullYear(), this.expenseSelectedDate.getMonth(), 1).toISOString().split('T')[0])+ " 00:00:00";
@@ -668,6 +670,25 @@ searchByEmployeeName(event: Event): void {
 
   /* Expense Dashboard Fetch Starts */
 
+  selectedDateRange: [Date, Date] | null = null;
+
+onDateRangeChange(dates: [Date, Date] | null) {
+  this.selectedDateRange = dates;
+
+  if (dates && dates.length === 2) {
+    this.startDate = moment(dates[0]).format(this.networkDateFormat);
+    this.endDate = moment(dates[1]).format(this.networkDateFormat);
+  } else {
+    this.startDate = null;
+    this.endDate = null;
+  }
+  console.log("Dashboard startdate:", this.startDate);
+  console.log("Dashboard enddate:", this.endDate);
+  this.getWalletUser();
+  this.getExpenseSummaryByType();
+}
+
+
   dashBoardDateView : boolean = false;
   fetchDashboardData(){
     this.startDate = '';
@@ -678,6 +699,8 @@ searchByEmployeeName(event: Event): void {
     this.filters = { fromDate: undefined, toDate: undefined };
     this.getWalletUser();
     this.dashBoardDateView = true;
+    this.loading = false;
+    this.getExpenseTrend();
   }
 
   expenseSummary: any[] = [];
@@ -696,7 +719,7 @@ searchByEmployeeName(event: Event): void {
         this.settledAmount = 0;
         this.unsettledAmount = 0;
         this.rejectedAmount = 0;
-        this.pendingAmount = 0;
+        this.pendingAmount = 0; // Showing as InProcess
         this.payrollAmount = 0;
 
         for (let expense of this.expenseSummary) {
@@ -710,7 +733,7 @@ searchByEmployeeName(event: Event): void {
             case 14: // Approved
               this.unsettledAmount = expense.totalAmount;
               break;
-            case 13: // Pending
+            case 13: // Pending -> showing as Inprocess
               this.pendingAmount = expense.pendingAmount;
               break;
             case 40: // Payroll
@@ -732,6 +755,8 @@ searchByEmployeeName(event: Event): void {
   totalExpenseType : number = 0;
 
   getExpenseSummaryByType() {
+    console.log("Summery startDate : ",this.startDate);
+    console.log("Summery endDate : ",this.endDate);
     this.expenseService.getExpenseBytype(this.startDate, this.endDate).subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeSummery = res.object;
@@ -740,6 +765,45 @@ searchByEmployeeName(event: Event): void {
       
       console.log("ExpenseSummaryByType :", res);
       });
+  }
+
+  //Get Expense Trend for every ststus
+  expenseTrend : any[] = [];
+  getExpenseTrend() {
+    this.expenseService.getExpenseTrends().subscribe((res: any) => {
+      if (res.status) {
+        this.expenseTrend = res.object;
+        this.mapExpenseData();
+      }
+      
+      console.log("ExpenseTrend Data :", res);
+      });
+  }
+
+  amountChanges: { [key: string]: number } = {};
+  rejectedExpenseCountByWeek : number = 0;
+  pendingExpenseCountByWeek : number = 0;
+
+  mapExpenseData() {
+    this.expenseTrend.forEach(expense => {
+      switch (expense.statusId) {
+        case 41: // PAID -> Settled Expense
+          this.amountChanges['settled'] = expense.amountPercentageChange;
+          break;
+        case 14: // APPROVED -> Unsettled Expense
+          this.amountChanges['unsettled'] = expense.amountPercentageChange;
+          break;
+        case 15: // REJECTED -> Rejected Expense
+          this.rejectedExpenseCountByWeek = expense.currentWeekCount;
+          break;
+        case 13: // PENDING -> Pending Expense -> showing as In Process
+          this.pendingExpenseCountByWeek = expense.currentWeekCount;
+          break;
+        case 40: // PAYROLL -> Payroll Expense
+        this.amountChanges['payroll'] = expense.amountPercentageChange;
+          break;
+      }
+    });
   }
 
 
