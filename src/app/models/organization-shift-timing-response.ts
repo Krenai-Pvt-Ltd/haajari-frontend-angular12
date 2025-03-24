@@ -8,6 +8,8 @@ export class OrganizationShiftTimingResponse {
     name : string = '';
     inTime !: Date;
     outTime !: Date;
+    autoCheckedOut : boolean = false;
+    autoCheckout !: Date;
     startLunch !: Date;
     endLunch !: Date;
     inTimeDate?: Date;
@@ -21,5 +23,6 @@ export class OrganizationShiftTimingResponse {
     weekDayResponse : WeekDay[] = [];
     weekdayInfos: OrganizationWeekoffInformation[] = [];
     updateFrom !: Date;
+    updateId : number = 0;
 }
 

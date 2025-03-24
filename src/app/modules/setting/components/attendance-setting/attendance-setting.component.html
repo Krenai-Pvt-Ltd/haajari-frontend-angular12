@@ -252,8 +252,23 @@
                             <div class="">
                               <p class="mb-0">
                                 <i class="bi bi-arrow-right" style="padding-right: 10px"></i>
-                                {{ organizationShiftTimingResponse.name }} <span class="text-danger" *ngIf="organizationShiftTimingResponse.updateFrom"> ( New shift update from {{ organizationShiftTimingResponse.updateFrom | date: 'd MMM' }} at {{ organizationShiftTimingResponse.updateFrom | date: 'hh:mm a' }}) </span>
+                                {{ organizationShiftTimingResponse.name }}
+
                               </p>
+                              <div  *ngIf="organizationShiftTimingResponse.updateFrom" class="badge rounded-pill badge-soft-danger"
+                              [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">
+                              New Shift</div>
+                            <ng-template #contentTemplate>
+                              <div class="request-g">
+                                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                  <h5 class="mb-0 font-14">New Updated Shift</h5>
+                                </div>
+                                <div class="p-3">
+                                  <p class="mb-0 font-13 fw-semibold"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( New shift update from {{ organizationShiftTimingResponse.updateFrom | date: 'd MMM' }} at {{ organizationShiftTimingResponse.updateFrom | date: 'hh:mm a' }}) </span></p>
+                                </div>
+                                <a data-bs-toggle="modal" data-bs-target="#shiftTime" *ngIf="organizationShiftTimingResponse.updateId > 0" (click)="fetchShiftTiming(organizationShiftTimingResponse)">View</a>
+                              </div>
+                            </ng-template>
                             </div>
                             <div class="d-flex align-items-center gap-4">
                               <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-people"></i><i class="bi bi-trash pointer text-danger"></i> -->
@@ -1734,15 +1749,39 @@
                               placeholder="Lunch break hours" />
                           </div>
                         </div>
+                        <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+                          <label>Enable Auto Checkout </label>
+                          <nz-switch id="isAutoCheckout" name="isAutoCheckout" [(ngModel)]="organizationShiftTimingRequest.autoCheckedOut" ></nz-switch>
+                        </div>
 
-                      </form>
+                        <div class="row" *ngIf="organizationShiftTimingRequest.autoCheckedOut">
+                          <div class="col-md-6 mb-3">
+                            <label for="autoCheckout" class="pb-2">Auto Checkout Time</label>
+                            <nz-time-picker [(ngModel)]="organizationShiftTimingRequest.autoCheckout"
+                                            [nzUse12Hours]="true" nzFormat="h:mm a"
+                                            (ngModelChange)="onTimeChange('autoCheckout', $event)"
+                                            [ngModelOptions]="{ standalone: true }">
+                            </nz-time-picker>
+                          </div>
+
+                          <div class="col-md-6 mb-3">
+                            <label for="autoCheckoutDifference" class="pb-2">Auto Checkout Difference</label>
+                            <input id="autoCheckoutDifference" type="text" class="form-control input-zorro" readonly
+                                   [value]="autoCheckoutDifference" name="autoCheckoutDifference" placeholder="HH:mm" />
+                            <div *ngIf="organizationShiftTimingValidationErrors['autoCheckout']" class="text-danger">
+                              {{ organizationShiftTimingValidationErrors['autoCheckout'] }}
+                            </div>
+                          </div>
+                        </div>
+
+                        </form>
 
 
                       <div class="leave-footer">
-                        <p class=" p-3 alreadyMemberBox fw-saminbold font-13 text-warning mb-0">
+                        <!-- <p class=" p-3 alreadyMemberBox fw-saminbold font-13 text-warning mb-0">
                           <i class="bi bi-info-circle"></i>&nbsp; If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check
                           them out one hour later.
-                        </p>
+                        </p> -->
 
 
                         <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
@@ -1825,7 +1864,7 @@
                           Next
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                             viewBox="0 0 22 22" fill="none">
-                            <path 
+                            <path
                               d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
                               fill="#6666F2">
                             </path>
@@ -1998,7 +2037,7 @@
                             </svg>
                           Previous
                           </button>
-                          <button class="btn p-0 next-btn nextBtn" (click)="registerOrganizationShiftTimingMethodCall()"
+                          <button class="btn p-0 next-btn nextBtn" [disabled]="isEditStaffLoader" (click)="registerOrganizationShiftTimingMethodCall()"
                             *ngIf="this.userNameWithShiftName?.length < 1" [disabled]="selectedStaffsUuids.length <1"
                             [ngClass]="{'btn-border':selectedStaffsUuids.length > 0}">
                             <span *ngIf="!isEditStaffLoader">Submit
@@ -2294,7 +2333,7 @@
                                     [checked]="!day.isAlternate"
                                   /> -->
                         <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
-                        <!--               
+                        <!--
                                   <input
                                     type="radio"
                                     class="btn-check"
@@ -2529,7 +2568,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalDefaultLabel" >
     <div class="modal-dialog modal-xl" role="document">
@@ -3669,7 +3708,7 @@
                         </button>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn btn-primary"
+                        <button type="button" class="btn btn-primary" [disabled]="saveAttendanceRuleDefinitionLoading"
                           (click)="registerAttendanceRuleDefinitionMethodCall()">
 
                           <div class="dot-opacity-loader-new" *ngIf="saveAttendanceRuleDefinitionLoading">
@@ -4109,7 +4148,7 @@
               aria-label="Close"
             ></button>
           </div>
-         
+
           <div class="modal-body">
             <div class="form-group">
               <div class="row">
@@ -4190,7 +4229,7 @@
                 </div>
               </div>
             </div>
-           
+
             <div class="mb-10" *ngIf="isShowMap">
               <section>
                 <div class="el-card-item">
@@ -4220,7 +4259,7 @@
                           (dragEnd)="onMarkerDragEnd($event)"
                         ></agm-marker>
                       </agm-map>
-                     
+
                       <div class="map-locate-me">
                         <button
                           type="button"
@@ -4233,7 +4272,7 @@
                     </div>
                   </div>
                 </div>
-               
+
               </section>
             </div>
           </div>

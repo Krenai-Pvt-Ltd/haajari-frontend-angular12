@@ -34,6 +34,9 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
 import { AgmCoreModule } from '@agm/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {NgxPhotoEditorModule} from "ngx-photo-editor";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +62,7 @@ import { AgmCoreModule } from '@agm/core';
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxShimmerLoadingModule,
+    InfiniteScrollModule,
     SharedModule,
     NgbModule,
     FullCalendarModule,
@@ -71,6 +75,9 @@ import { AgmCoreModule } from '@agm/core';
     MatButtonModule,
     NzSwitchModule,
     NzPopoverModule,
+    NgxPhotoEditorModule,
+
+
 
     // OnboardingSidebarResponse
 

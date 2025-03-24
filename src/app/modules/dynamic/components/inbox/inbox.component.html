@@ -82,7 +82,7 @@
                       <div
                         *ngFor="let mail of mails"
                         class="d-flex align-items-center justify-content-between pointer border-bottom p-3"
-                        [ngClass]="{ 'active': mail.isRead === 0 }"
+                        [ngClass]="{ 'active': mail.isRead === 0 || mail == currentMail}"
                       >
                         <div class="d-flex align-items-start gap-3 position-relative" (click)="openMail(mail)">
                           <span
@@ -173,7 +173,7 @@
                           </app-expense-request>
                           <app-attendance-update *ngIf="showAttendanceUpdate" [isCreate]="false" [data]="attendanceUpdateData" (closeModal)="onAttendanceUpdateClose()"></app-attendance-update>
 
-                          <app-leave-request *ngIf="showLeaveComponent" [data]="leaveData" (closeModal)="onLeaveComponentClose()"></app-leave-request>
+                          <app-leave-request *ngIf="showLeaveComponent" [data]="leaveData"  (notFetching)="onNotFetchingLeave()" (closeModal)="onLeaveComponentClose()"></app-leave-request>
 
                           <div *ngIf="!isAnyModalOpen() &&  !isLoadingData" class=" d-flex align-items-centar justify-content-center w-100" style="margin-top: 12%; margin-bottom: 12%;">
                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -185,6 +185,11 @@
                                </ng-template>
                             </nz-empty>
                          </div>
+                         <div *ngIf="isLoadingData" class="modal-body p-0">
+                          <div class="d-flex align-items-center justify-content-center">
+                            <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                          </div>
+                        </div>
                         </div>
 
                     </div>

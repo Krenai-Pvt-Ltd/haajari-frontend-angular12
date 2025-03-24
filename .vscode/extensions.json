@@ -2,6 +2,8 @@
     "recommendations": [
         "streetsidesoftware.code-spell-checker",
         "github.copilot",
-        "chakrounanas.turbo-console-log"
+        "chakrounanas.turbo-console-log",
+        "sonarsource.sonarlint-vscode",
+        "kisstkondoros.vscode-codemetrics"
     ]
 }

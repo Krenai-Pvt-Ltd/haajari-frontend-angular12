@@ -57,7 +57,7 @@ export class InboxComponent implements OnInit {
           }
           if(this.pageNumber == 0){
             if(this.mails && this.mails.length>0){
-              this.currentMail = this.mails[0];
+              // this.currentMail = this.mails[0];
             }
 
           }
@@ -193,7 +193,9 @@ export class InboxComponent implements OnInit {
   onLeaveComponentClose() {
     // this.showLeaveComponent = false;
   }
-
+  onNotFetchingLeave(){
+    this.showLeaveComponent = false;
+  }
 
   readNotification(mail: any){
     if(!mail.isRead ){
@@ -245,7 +247,7 @@ export class InboxComponent implements OnInit {
       this.attendanceUpdateData.userType = 'ADMIN';
       this.attendanceUpdateData.isModal = 0;
       this.getAttendanceUpdateById(mail.resourceId);
-    }else if(mail.categoryId === 24) {
+    }else if(mail.categoryId === 24 || mail.categoryId === 20) {
       this.showLeaveComponent = false;
       this.leaveData = {};
       this.leaveData.id = mail.resourceId;
@@ -404,11 +406,11 @@ export class InboxComponent implements OnInit {
       ids: [],
       svgPath: ""
     },
-    {
-      type: "Onboarding",
-      ids: [1, 2, 3, 4],
-      svgPath: "M10 10m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" // Simple circle (e.g., person’s head)
-    },
+    // {
+    //   type: "Onboarding",
+    //   ids: [1, 2, 3, 4],
+    //   svgPath: "M10 10m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" // Simple circle (e.g., person’s head)
+    // },
     {
       type: "Profile Update",
       ids: [10, 11, 12, 13],

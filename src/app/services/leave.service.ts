@@ -113,7 +113,7 @@ export class LeaveService {
       .set('startDate', startDate)
       .set('endDate', endDate);
     return this.http.get<any>(
-      `${API_URLS.base_url}/leave/team-overview/report`,
+      `${API_URLS.base_url}/leave/leave-summary`,
       { params }
     );
   }
@@ -133,20 +133,8 @@ export class LeaveService {
   }
 
 
-  getLeaveTopDefaulterUser(
-    startDate: string,
-    endDate: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('startDate', startDate)
-      .set('endDate', endDate);
-    return this.http.get<any>(
-      `${API_URLS.base_url}/leave/top-defaulter-user`,
-      {params }
-    );
-  }
 
-  
+
 
   getTopAbsentDays(
     startDate: string,
@@ -161,9 +149,9 @@ export class LeaveService {
     );
   }
 
-  
-  
-  
+
+
+
   getLeaveById(id: number): Observable<any> {
     const params = new HttpParams().set('id', id.toString());
     return this.http.get<any>(`${API_URLS.base_url}/leave/by-id`, { params });
@@ -174,6 +162,31 @@ export class LeaveService {
     return this.http.get<any>(`${API_URLS.base_url}/leave/quota/by-id`, { params });
   }
 
+
+  // Get users with maximum leaves
+  getUsersWithMaximumLeaves(pageNumber: number, itemPerPage: number): Observable<any> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+
+    return this.http.get(`${API_URLS.base_url}/leave/max-leaves`, { params });
+  }
+
+  // Get top 10 users with minimum leaves
+  getUsersWithMinimumLeaves(pageNumber: number, itemPerPage: number): Observable<any> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+
+    return this.http.get(`${API_URLS.base_url}/leave/min-leaves`, { params });
+  }
+
+  // Get users on leave within a range
+  getUsersOnLeaveInRange(startDate: string, endDate: string): Observable<any> {
+    let params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+
+    return this.http.get(`${API_URLS.base_url}/leave/on-leave`, { params });
+  }
 
 
 

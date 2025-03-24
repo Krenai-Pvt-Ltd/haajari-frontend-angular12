@@ -368,11 +368,20 @@ input[type=checkbox] {
     border: 1px solid #e9e9e9;
     border-radius: 2px;
 }
+.vh-80{
+    height: 80vh;
+}
 
-.filter-bdg {
-    overflow-x: scroll;
-    flex-wrap: nowrap;
-  }
+.border-bottom {
+    border-bottom: 1px solid #f0f0f0 !important;
+}
+
+  .actionMenuList .dropdown-item {
+    font-size: 14px !important;
+    color: #333 !important;
+    border-radius: 6px;
+    padding: 3px 15px !important;
+}
 
   .filter-pills {
     line-height: 18px;
@@ -478,4 +487,23 @@ input[type=checkbox] {
   line-height: 45px !important;
   font-size: 0.875rem !important;
   font-weight: 400 !important;
+}
+
+.delete-modal {
+  z-index: 1100 !important;
+}
+
+.modal-backdrop {
+  z-index: 1999 !important;
+}
+
+.ant-drawer {
+  z-index: 1000 !important;
+}
+
+.ant-drawer-mask {
+  z-index: 999 !important;
+}
+.select-container .ant-select-dropdown {
+  z-index: 2000 !important;
 }

@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -69,7 +70,8 @@ export class AttendanceSettingComponent implements OnInit {
     private router: Router,
     private el: ElementRef,
     private placesService: PlacesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -100,7 +102,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const name = params['name'];
       if (name === 'Automation Rules') {
-        this.shouldScrollToAutomationRules = true; 
+        this.shouldScrollToAutomationRules = true;
       }
     });
 
@@ -110,15 +112,15 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('automationRules') automationRules!: ElementRef;
   private shouldScrollToAutomationRules: boolean = false;
   ngAfterViewInit() {
-   
+
     if (this.shouldScrollToAutomationRules) {
-      this.scrollToAutomationRules(); 
+      this.scrollToAutomationRules();
     }
   }
 
   @ViewChild("automationRuless") automationRuless!:ElementRef;
   private scrollToAutomationRules() {
-    
+
     setTimeout(() => {
       if (this.automationRules) {
         this.automationRules.nativeElement.scrollIntoView({ behavior: 'smooth' });
@@ -126,7 +128,7 @@ export class AttendanceSettingComponent implements OnInit {
         // this.attendanceRuleWithAttendanceRuleDefinitionResponseList.push(new AttendanceRuleWithAttendanceRuleDefinitionResponse());
         // this.dataNotFoundPlaceholderForAttendanceRule=false;
         // this.networkConnectionErrorPlaceHolderForAttendanceRule=false;
-        this.shouldScrollToAutomationRules = false; 
+        this.shouldScrollToAutomationRules = false;
       }
     }, 100);
   }
@@ -266,7 +268,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.selectedHalfDayOvertimeType = new OvertimeType();
     }
   }
-  
+
   resetFullDaySection(ruleType : number){
     if(ruleType == this.DEDUCTION_RULE_DEFINITION){
       this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction = new FullDaySalaryDeduction();
@@ -288,25 +290,25 @@ export class AttendanceSettingComponent implements OnInit {
   COL_MD_12 = Key.COL_MD_12;
   getDeductionRuleDefinitionComponentCount(deductionRuleDefinitionResponse: DeductionRuleDefinitionResponse): number {
     const { customSalaryDeduction, halfDaySalaryDeduction, fullDaySalaryDeduction } = deductionRuleDefinitionResponse;
-  
+
     let count = 0;
     if (customSalaryDeduction?.lateDuration) count++;
     if (halfDaySalaryDeduction?.lateDuration) count++;
     if (fullDaySalaryDeduction?.lateDuration) count++;
-  
+
     return count;
   }
 
   getOvertimeRuleDefinitionComponentCount(overtimeRuleDefinitionResponse: OvertimeRuleDefinitionResponse): number {
-  
+
     let count = 0;
     if (overtimeRuleDefinitionResponse?.customDuration) count++;
     if (overtimeRuleDefinitionResponse?.halfDayDuration) count++;
     if (overtimeRuleDefinitionResponse?.fullDayDuration) count++;
-  
+
     return count;
   }
-  
+
 
   @ViewChild('attendanceRuleForm') attendanceRuleForm!: NgForm;
   @ViewChild('lateDuration') lateDurationControl!: NgModel;
@@ -345,48 +347,48 @@ export class AttendanceSettingComponent implements OnInit {
     if (!this.customCheckbox && !this.halfDayCheckbox && !this.fullDayCheckbox) {
       return true;
     }
-  
+
     // Custom deduction validation
     if (this.customCheckbox) {
       if (!this.customLateDurationValue || this.selectedCustomDeductionType?.type === '') {
         return true;
       }
-  
-      if (this.selectedCustomDeductionType?.type === 'FIXED AMOUNT' && 
+
+      if (this.selectedCustomDeductionType?.type === 'FIXED AMOUNT' &&
           !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.amountInRupees) {
         return true;
       }
-  
-      if (this.customOccurrenceCheckbox && 
+
+      if (this.customOccurrenceCheckbox &&
           !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.occurrenceCount) {
         return true;
       }
     }
-  
+
     // Half-day deduction validation
     if (this.halfDayCheckbox) {
       if (!this.halfDayLateDurationValue) {
         return true;
       }
-  
-      if (this.halfDayOccurrenceCheckbox && 
+
+      if (this.halfDayOccurrenceCheckbox &&
           !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount) {
         return true;
       }
     }
-  
+
     // Full-day deduction validation
     if (this.fullDayCheckbox) {
       if (!this.fullDayLateDurationValue) {
         return true;
       }
-  
-      if (this.fullDayOccurrenceCheckbox && 
+
+      if (this.fullDayOccurrenceCheckbox &&
           !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceCount) {
         return true;
       }
     }
-  
+
     // If no validation fails, return false (button should be enabled)
     return false;
   }
@@ -397,50 +399,50 @@ export class AttendanceSettingComponent implements OnInit {
     if (!this.customCheckbox && !this.halfDayCheckbox && !this.fullDayCheckbox) {
       return true;
     }
-  
+
     // Custom deduction validation
     if (this.customCheckbox) {
       if (!this.customOvertimeDurationValue || this.selectedCustomOvertimeType?.type === '') {
         return true;
       }
-  
-      if (this.selectedCustomOvertimeType?.type === 'FIXED AMOUNT' && 
+
+      if (this.selectedCustomOvertimeType?.type === 'FIXED AMOUNT' &&
           !this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.customAmountInRupees) {
         return true;
       }
-  
+
     }
-  
+
     // Half-day deduction validation
     if (this.halfDayCheckbox) {
       if (!this.halfDayOvertimeDurationValue || this.selectedHalfDayOvertimeType?.type === '') {
         return true;
       }
 
-      if (this.selectedHalfDayOvertimeType?.type === 'FIXED AMOUNT' && 
+      if (this.selectedHalfDayOvertimeType?.type === 'FIXED AMOUNT' &&
           !this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.halfDayAmountInRupees) {
         return true;
       }
 
     }
-  
+
     // Full-day deduction validation
     if (this.fullDayCheckbox) {
       if (!this.fullDayOvertimeDurationValue || this.selectedFullDayOvertimeType?.type === '') {
         return true;
       }
 
-      if (this.selectedFullDayOvertimeType?.type === 'FIXED AMOUNT' && 
+      if (this.selectedFullDayOvertimeType?.type === 'FIXED AMOUNT' &&
           !this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.fullDayAmountInRupees) {
         return true;
       }
-  
+
     }
-  
+
     // If no validation fails, return false (button should be enabled)
     return false;
   }
-  
+
 
   attendanceRuleResponseList: AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall() {
@@ -497,6 +499,7 @@ export class AttendanceSettingComponent implements OnInit {
   saveAttendanceRuleDefinitionLoading: boolean = false;
 
   registerAttendanceRuleDefinitionMethodCall() {
+
     this.saveAttendanceRuleDefinitionLoading = true;
     this.attendanceRuleDefinitionRequest.userUuids = this.selectedStaffsUuids;
     // console.log(this.selectedStaffsUuids);
@@ -546,7 +549,7 @@ export class AttendanceSettingComponent implements OnInit {
   deleteAttendanceRuleTemplateLoader(id: any): boolean {
     return this.deleteAttendanceRuleLoaderStatus[id] || false;
   }
-  
+
 
   customLateDurationValue!: Date | null;
   halfDayLateDurationValue!: Date | null;
@@ -1186,7 +1189,7 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   searchUsers() {
-   
+
       this.databaseHelper.currentPage = 1;
       this.databaseHelper.itemPerPage = 10;
     this.getUserByFiltersMethodCall();
@@ -1370,7 +1373,7 @@ export class AttendanceSettingComponent implements OnInit {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
-   
+
   }
 
   selectAll(checked: boolean) {
@@ -1541,10 +1544,12 @@ export class AttendanceSettingComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
+          this.dataService.sendNotification();
+          this.loadAllShiftCounts();
           this.selectedTeamName = 'All';
           this.getUserByFiltersMethodCall();
           this.helperService.showToast(
-            'Shift Timing registered successfully',
+            'Shift TIme Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
           this.isEditStaffLoader = false;
@@ -1668,9 +1673,10 @@ export class AttendanceSettingComponent implements OnInit {
 //     }
 // }
 
+autoCheckoutDifference: string = '';
 calculateTimes(): void {
   debugger
-  const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+  const { inTime, outTime, startLunch, endLunch, autoCheckout } = this.organizationShiftTimingRequest;
 
   // Reset errors and calculated times
   this.organizationShiftTimingValidationErrors = {};
@@ -1734,6 +1740,37 @@ calculateTimes(): void {
           this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
       }
   }
+
+  if (autoCheckout) {
+    if (!outTime) {
+      this.organizationShiftTimingValidationErrors['autoCheckout'] =
+        'Out time is required when setting auto checkout.';
+    } else {
+      const outTimeMinutes = dateToLocalMinutes(outTime);
+      const autoCheckoutMinutes = dateToLocalMinutes(autoCheckout);
+
+      if (autoCheckoutMinutes <= outTimeMinutes) {
+        this.organizationShiftTimingValidationErrors['autoCheckout'] =
+          'Auto checkout must be after out time.';
+      } else {
+        const diffMinutes = autoCheckoutMinutes - outTimeMinutes;
+        if (diffMinutes > 600) { // 10 hours * 60
+          this.organizationShiftTimingValidationErrors['autoCheckout'] =
+            'Auto checkout cannot be more than 10 hours after out time.';
+        }
+        this.autoCheckoutDifference = this.formatMinutesToTime(diffMinutes);
+      }
+    }
+  } else {
+    this.autoCheckoutDifference = '';
+    delete this.organizationShiftTimingValidationErrors['autoCheckout'];
+  }
+}
+
+isAutoCheckoutEnabled: boolean = false;
+toggleAutoCheckout(value: boolean): void {
+  this.isAutoCheckoutEnabled = value;
+  console.log('Auto Checkout Enabled:', this.isAutoCheckoutEnabled);
 }
 
 // Helper method to format minutes into HH:mm format
@@ -1857,6 +1894,59 @@ formatMinutesToTime(minutes: number): string {
     );
   }
 
+
+  fetchShiftTiming(organizationShiftTiming: any): void {
+    this.dataService.getShiftTimingById(organizationShiftTiming.updateId).subscribe({
+      next: (response) => {
+        this.isShiftNamePresent = false;
+        this.activeTab = 'shiftime';
+        const organizationShiftTimingResponse = response;
+        this.weekDay = organizationShiftTimingResponse.weekDayResponse;
+
+    this.organizationShiftTimingRequest = organizationShiftTimingResponse;
+    this.organizationShiftTimingRequest.inTimeDate = organizationShiftTimingResponse.inTime;
+    this.organizationShiftTimingRequest.outTimeDate = organizationShiftTimingResponse.outTime;
+    this.organizationShiftTimingRequest.startLunchDate = organizationShiftTimingResponse.startLunch;
+    this.organizationShiftTimingRequest.endLunchDate = organizationShiftTimingResponse.endLunch;
+    const inLocalTime = new Date(organizationShiftTimingResponse.inTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const outLocalTime = new Date(organizationShiftTimingResponse.outTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const startLunchLocalTime = new Date(organizationShiftTimingResponse.startLunch.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const endLunchLocalTime = new Date(organizationShiftTimingResponse.endLunch.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+        setTimeout(() =>{
+    this.organizationShiftTimingRequest.inTime = inLocalTime;
+    this.organizationShiftTimingRequest.outTime = outLocalTime;
+    this.organizationShiftTimingRequest.startLunch = startLunchLocalTime;
+    this.organizationShiftTimingRequest.endLunch = endLunchLocalTime;
+
+    console.log(this.organizationShiftTimingRequest);
+        }, 10);
+
+    this.organizationShiftTimingRequest.shiftTypeId =
+      organizationShiftTimingResponse.shiftType.id;
+    this.checkForShiftId = organizationShiftTiming.id;
+    this.currentShiftId = organizationShiftTiming.shiftType.id;
+    this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
+
+    // this.getWeekDays();
+
+    this.getShiftTypeMethodCall();
+    this.selectedShiftType = organizationShiftTimingResponse.shiftType;
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
+    this.getUserByFiltersMethodCall();
+    // this.getUserByFiltersMethodCall();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
+
+
+      },
+      error: (error) => {
+        console.error('Error fetching shift timing:', error);
+      }
+    });
+  }
+
   shiftTypeList: ShiftType[] = [];
   getShiftTypeMethodCall() {
     debugger;
@@ -1915,7 +2005,6 @@ formatMinutesToTime(minutes: number): string {
     this.checkForShiftId = organizationShiftTimingResponse.id;
     this.currentShiftId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
-
     // this.getWeekDays();
 
     this.getShiftTypeMethodCall();
@@ -2676,7 +2765,7 @@ getAllAddressDetails(): void {
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
 
-    
+
     // Set the field value directly
     switch (field) {
         case 'inTime':
@@ -2690,6 +2779,9 @@ getAllAddressDetails(): void {
             break;
         case 'endLunch':
             this.organizationShiftTimingRequest.endLunch = value;
+            break;
+        case 'autoCheckout':
+            this.organizationShiftTimingRequest.autoCheckout = value;
             break;
         default:
             break;
@@ -2783,7 +2875,7 @@ getAllAddressDetails(): void {
     this.postHourOvertimeSettingResponse.loading = false;
     this.overtimeSettingRequest = new OvertimeSettingRequest();
   }
-  
+
 
   overtimeSettingRequest : OvertimeSettingRequest = new OvertimeSettingRequest();
   enableOrDisablePreHourOvertimeSettingMethodCall(){
@@ -2831,14 +2923,14 @@ getAllAddressDetails(): void {
     })
   }
 
-  locationType: string = 'flexible'; 
+  locationType: string = 'flexible';
 
 // onLocationTypeChange() {
 //   if (this.locationType === 'fixed') {
 //     this.organizationAddressDetail.addressLine1 = '';
 //     this.organizationAddressDetail.radius = '';
 //   }
-   
+
 // }
 addressModes: AddressModeTypeRequest[] = [];
 
@@ -2875,7 +2967,7 @@ saveFlexibleModes(): void {
 
 // saveAttendaceFlexibleModeInfo() {
 //   this.dataService.saveFlexibleAttendanceMode(this.locationType, this.addressId).subscribe((response) => {
-      
+
 //   }, (error) => {
 //      console.log(error);
 //   })
@@ -3035,7 +3127,7 @@ removeUser(uuid: string) {
   this.isRegisterLoad = false;
 
 
-  
+
 }
 
 @ViewChild('closeButton2') closeButton2!: ElementRef;
@@ -3114,6 +3206,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       (response) => {
         // console.log(response);
         this.getAllShiftTimingsMethodCall();
+        this.loadAllShiftCounts();
         // this.helperService.showToast(
         //   'Shift timing deleted successfully',
         //   Key.TOAST_STATUS_SUCCESS
@@ -3128,8 +3221,7 @@ deleteOrganizationShiftTimingMethodCall(organizationShiftTimingId: number) {
       },
       (error) => {
         this.deleteToggle = false;
-        console.log(error);
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Issue in deleting shift. Please try again later", Key.TOAST_STATUS_ERROR);
       }
     );
 }

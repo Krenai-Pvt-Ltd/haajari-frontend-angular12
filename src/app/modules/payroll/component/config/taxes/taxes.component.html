@@ -1,8 +1,9 @@
-<div class="p-4 mb-10">
+<form #taxForm="ngForm" ngNativeValidate (ngSubmit)="saveTaxDetail()" (focusin)="onFocus()">
+<div class="p-4 mb-10" *ngIf="activeTab == 'taxes'">
     <div class="row">
         <div class="col-md-4">
             <div class="payroll-details-box">
-                <h4 class="font-14 text-black fw-semibold lh-1">ESI Details</h4>
+                <h4 class="font-14 text-black fw-semibold lh-1">Tax Detail</h4>
                 <p class="text-muted font-11 mb-0 lh-base fw-normal">this section contain EPF no, deduction cycle pattern <br> and employee contribution rate</p>
             </div>
         </div>
@@ -14,11 +15,18 @@
                             <p class="mb-0 font-14 fw-light">PAN Number</p>
                         </div>
                         <div class="w-50 position-relative">
-                            <input type="text" placeholder="AAAAA0000A" required="" name="" class="form-control borderLess" >
-                            
+                            <input type="text" placeholder="AAAAA0000A" required name="pan"
+                                class="form-control borderLess" maxlength="10" minlength="10"
+                                [(ngModel)]="taxDetail.panNumber"
+                                pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"
+                                oninput="this.value = this.value.toUpperCase()
+                                .replace(/[^A-Z0-9]/g, '')  /* Remove non-alphanumeric */
+                                .replace(/^(.{5})[^0-9]/g, '$1') /* Ensure 6th char is a digit */
+                                .replace(/^(.{5}[0-9]{4})[^A-Z]/g, '$1')"> 
+                                                    
                         </div>
                     </div>
-                    <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AA/AAA/0000000/XXX</p>
+                    <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AAAAA0000A</p>
                 </div>
                 <div class="col-md-6 mb-3 ">
                     <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
@@ -26,7 +34,14 @@
                             <p class="mb-0 font-14 fw-light">TAN Number</p>
                         </div>
                         <div class="w-50 position-relative">
-                            <input type="text" placeholder="AAAAA0000A" required="" name="" class="form-control borderLess" >
+                            <input type="text" placeholder="AAAA00000A"  name="tan" class="form-control borderLess" [(ngModel)] = "taxDetail.tanNumber"
+                            maxlength="10" 
+                            pattern="^[A-Z]{4}[0-9]{5}[A-Z]$"
+                            oninput="this.value = this.value.toUpperCase() 
+                                                    .replace(/[^A-Z0-9]/g, '') 
+                                                    .replace(/^(.{4})[^0-9]/g, '$1') 
+                                                    .replace(/^(.{5}[0-9]{4})[^A-Z]/g, '$1');"
+                            >
                         </div>
                     </div>
                 </div>
@@ -38,7 +53,7 @@
                        </div>
                        <div class="w-75">
                           <div class="w-100">
-                             <h5 class="mb-0 font-14 fw-semibold px-3">Monthly</h5>
+                             <h5 class="mb-0 font-14 fw-semibold px-3">{{taxDetail.deductionFrequency}}</h5>
                           </div>
                        </div>
                     </div>
@@ -61,50 +76,71 @@
 
                 <div class="col-md-6 mb-3">
                     <label class="form-check tax-employee d-flex align-items-center justify-content-start">
-                        <input type="radio" name="recommendDay" id="complete" value="Complete" class="form-check-input">
-                        <p for="exampleRadios3" required="" class="form-check-label mb-0"> Employee </p>
+                        <input type="radio" name="deductorType"   class="form-check-input" [value]="1"  [(ngModel)]="taxDetail.deductorTypeId" (click)="clearDeductorDetail()">
+                        <p class="form-check-label mb-0" > Employee </p>
                 </label>
             </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-check tax-employee d-flex align-items-center justify-content-start">
-                        <input type="radio" name="recommendDay" id="complete" value="Complete" class="form-check-input">
-                        <p for="exampleRadios3" required="" class="form-check-label mb-0"> Non-Employee </p>
+                        <input type="radio" name="deductorType"  class="form-check-input"  [value]="2" [(ngModel)]="taxDetail.deductorTypeId"(click)="clearDeductorDetail()">
+                        <p  class="form-check-label mb-0" > Non-Employee </p>
                 </label>
             </div>
-                <div class="col-md-6 mb-3">
+            <ng-container  *ngIf="taxDetail.deductorTypeId != 0">
+                <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId ==1 ">
                     <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                         <div class="w-50 currency-types-border">
-                            <p class="mb-0 font-14 fw-light">Currency Types</p>
+                            <p class="mb-0 font-14 fw-light">Deductor’s Name</p>
                         </div>
                         <div class="w-50">
                             <div class="w-100">
-                                <nz-select 
+                                <nz-select name="deductorName"
                                 class="form-control w-100 placeholder-line currency-types"
                                 nzSize="large"
-                                nzPlaceHolder="Select Currency"
-                                [(ngModel)]="selectedCurrency"
-                                required
+                                nzPlaceHolder="Select name"
+                                [(ngModel)]="taxDetail.deductorName"
+                                (ngModelChange)="selectedEmployee($event)"
                               >
                                 <nz-option 
-                                  *ngFor="let currency of stateCurrency" 
-                                  [nzValue]="currency.name" 
-                                  [nzLabel]="currency.name" nzDisabled>
+                                *ngFor="let emp of employees" 
+                                [nzLabel]="emp.name"
+                                [nzValue]="emp.uuid">
                                 </nz-option>
                               </nz-select>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <input type="text" placeholder="Deductor’s Father’s Name" required="" name="" class="form-control whatsapp-login-input">
+
+       
+                <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId ==2 ">
+                    <input type="text" placeholder="Deductor Name" name="deductorName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)] = "taxDetail.deductorName" >
                 </div>
+                <div class="col-md-6 mb-3">
+                    <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)] = "taxDetail.fatherName" [disabled]="taxDetail.deductorTypeId == 1" >
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" [(ngModel)] = "taxDetail.designation" [disabled]="taxDetail.deductorTypeId == 1">
+                </div>
+            </ng-container>
             </div>
         </div>
     </div>
 </div>
             
 
-<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
-    <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button>
-    <button class="btn submitActionBtn font-13 fw-semibold text-white">Submit</button>
+<div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
+
+    <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
+    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+        [disabled]="saveLoader">
+        <div *ngIf="saveLoader" class="dot-opacity-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span *ngIf="!saveLoader"> Save</span>      
+    </button>
 </div>
+</form>

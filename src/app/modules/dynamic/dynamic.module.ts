@@ -14,18 +14,14 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
-import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { RoleComponent } from './components/role/role.component';
 import { SupportComponent } from './components/support/support.component';
-import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 import { TeamComponent } from './components/team/team.component';
-import { TestingComponent } from './components/testing/testing.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { UserlistComponent } from './components/userlist/userlist.component';
 import { WaitingPageComponent } from './components/waiting-page/waiting-page.component';
@@ -47,7 +43,6 @@ import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
-import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -69,7 +64,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
-import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { LeaveManagementsComponent } from './components/leave-managements/leave-managements.component';
@@ -80,7 +74,8 @@ import { ExpenseManagementComponent } from './components/expense-management/expe
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ExpensePolicyComponent } from './components/expense-policy/expense-policy.component';
 
  @NgModule({
   declarations: [
@@ -89,8 +84,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     DashboardComponent,
     TimetableComponent,
     ProjectComponent,
-    TaskManagerComponent,
-    LiveManagerComponent,
     OnboardingComponent,
     UserlistComponent,
     DateFormatPipe,
@@ -101,32 +94,29 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     TeamDetailComponent,
     RoleComponent,
     ReportsComponent,
-    EmployeeProfileComponent,
-    TestingComponent,
     PrivacyComponent,
     SupportComponent,
     SafePipe,
     RoleAddComponent,
     EmployeeOnboardingDataComponent,
-    EmployeeProfileComponent,
-    LeaveManagementComponent,
     AssetsComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,
     SubscriptionComponent,
     ReferFriendComponent,
-    NewEmployeeProfileComponent,
     CreateExpenseComponent,
     // ExistPolicyComponent,
     LeaveManagementsComponent,
     InboxComponent,
     AssetsManagementComponent,
-    ExpenseManagementComponent
+    ExpenseManagementComponent,
+    ExpensePolicyComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    InfiniteScrollModule,
     DynamicRoutingModule,
     ReactiveFormsModule,
     WebcamModule,
@@ -183,4 +173,5 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
+
 export class DynamicModule {}

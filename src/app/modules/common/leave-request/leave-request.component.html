@@ -1,5 +1,5 @@
 
-  <div class="modal-header">
+  <div *ngIf="!isLeaveLoading" class="modal-header">
       <h5 class="modal-title" id="exampleModalLabel">Leave Request</h5>
       <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closebutton>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -14,8 +14,15 @@
               </g>
           </svg>
       </button>
+      <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+          'badge-soft-success': leave?.status === 'approved',
+          'badge-soft-danger': leave?.status === 'rejected',
+          'badge-soft-secondary': leave?.status === 'pending'
+        }">
+        {{ leave?.status | uppercase }}
+      </span>
   </div>
-  <div class="modal-body p-0">
+  <div *ngIf="!isLeaveLoading" class="modal-body p-0">
        <div class="row">
           <div class="col-md-5" *ngIf="leave?.attachment">
               <div >
@@ -38,20 +45,17 @@
                       <div class="d-flex align-items-center gap-2">
                               <img src="assets/images/user.png" >
                               <div>
-                                <h5 class="mb-0 font-15">{{leave?.username}} </h5>
+                                <h5 class="mb-0 font-14">{{leave?.username}} </h5>
                                 <p class="mb-0 font-12">{{ leave?.email }}</p>
                             </div>
                       </div>
-                      <p class="mb-0 font-13 fw-semibold text-black"> Date: {{
-                          leave?.leaveDate
-                          | date : "dd MMM yyyy hh:mm:ss a"
-                          }}
-
-                       </p>
-                       <p> Total Days: {{leave?.totalValidDays}}</p>
+                      <div  class="text-end">
+                      <p class="font-12"> Date: {{ leave?.leaveDate | date : "dd-MM-yyyy hh:mm:ss a"}}</p>
+                       <p class="font-12"> Total Days: {{leave?.totalDays}}</p>
+                       </div>
                   </div>
-                  <div class="leave-form-data">
-                      <div class="row p-3">
+                  <div class="leave-form-data p-3">
+                      <div class="row">
                           <div class="col-md-6 mb-3">
                               <label for="leave-type" class="pb-2">Leave Type</label>
                               <div class="requested-to">
@@ -130,9 +134,9 @@
               </div>
           </div>
       </div>
-      <div class="d-flex align-items-center justify-content-end gap-2 p-3 modal-footer bg-white" *ngIf="
-      leave?.managerUuid === logInUserUuid ||
-      ROLE == 'ADMIN' && leave?.status == PENDING
+      <div class="d-flex align-items-center justify-content-end gap-1 p-3 modal-footer bg-white" *ngIf="
+      (leave?.managerUuid === logInUserUuid ||
+      ROLE == 'ADMIN') && leave?.status == PENDING
     ">
           <button type="button" class="btn reject-btn" *ngIf="rejectionReasonFlag" (click)="approveOrRejectLeave(leave?.id || 0, REJECTED)">
             <span *ngIf="!rejectLoading"> Save</span>
@@ -142,11 +146,11 @@
               <span></span>
             </div>
           </button>
-          <button [disabled]="isLoading" type="button" class="btn reject-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
+          <button [disabled]="isLoading" type="button" class="btn btn-soft-danger" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, REJECTED)">
               Reject
           </button>
-          <button [disabled]="isLoading" type="submit" class="btn approved-btn" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
-             <span *ngIf="!isLoading">Approved</span>
+          <button [disabled]="isLoading" type="submit" class="btn btn-soft-success" *ngIf="!rejectionReasonFlag" (click)="approveOrRejectLeaveCall(leave?.id || 0, APPROVED)">
+             <span *ngIf="!isLoading">Approve</span>
               <div class="dot-opacity-loader" *ngIf="isLoading">
                 <span></span>
                 <span></span>
@@ -156,6 +160,11 @@
       </div>
   </div>
 
+  <div *ngIf="isLeaveLoading" class="modal-body p-0">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+    </div>
+  </div>
 
-  
+
 

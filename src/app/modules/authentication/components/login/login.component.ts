@@ -82,6 +82,7 @@ export class LoginComponent implements OnInit {
   UUID: any;
 
   signIn() {
+
     debugger
     this.loginButtonLoader = true;
     this.dataService.loginUser(this.email, this.password).pipe(
@@ -140,6 +141,10 @@ export class LoginComponent implements OnInit {
         catchError((error) => {
           console.log(error);
           this.loginButtonLoader = false;
+          this.loginErrorMessage = error.error.message;
+          setTimeout(() => {
+            this.loginErrorMessage = '';
+          }, 5000);
           return of(null); // handle error appropriately
         })
       )
@@ -266,10 +271,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  loginErrorMessage: string = '';
   showMessageFlag: boolean = false;
   checkUserPresence() {
     this.checkFormValidation();
-
     if (this.isFormInvalid == true) {
       return;
     } else {
@@ -451,7 +456,7 @@ export class LoginComponent implements OnInit {
               await this.onboardingService.checkSubscriptionPlan();
               this.helperService.orgStepId = 5;
               this.onboardingService.isLoadingOnboardingStatus = false;
-              // console.log(this.helperServisce.subModuleResponseList);
+              // this.router.navigate([constant.DASHBOARD_ROUTE]);
               this.router.navigate([this.helperService.subModuleResponseList[0].
                 description]);
             }
@@ -675,4 +680,18 @@ export class LoginComponent implements OnInit {
      this.isPasting = false;
     }, 500);
   }
+
+  restrictNonNumeric(event: KeyboardEvent): void {
+    const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+  
+  blockArrowKeys(event: KeyboardEvent): void {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+    }
+  }
+  
 }

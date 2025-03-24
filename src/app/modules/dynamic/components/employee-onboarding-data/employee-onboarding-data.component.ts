@@ -25,15 +25,14 @@ import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
 import { debounceTime } from 'rxjs/operators';
 import { ModalService } from 'src/app/services/modal.service';
-import {  ApexLegend, ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
   ApexChart,
+  ApexLegend,
   ApexPlotOptions,
   ApexGrid,
 } from "ng-apexcharts";
-import { AttendanceTimeUpdateRequestDto } from 'src/app/models/user-dto.model';
 
 export interface Team {
   label: string;
@@ -168,9 +167,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.currentPage = page;
   }
   get paginatedData() {
-    var start = (this.currentPage - 1) * this.pageSize;
+    let start = (this.currentPage - 1) * this.pageSize;
     start=start+1;
-    // var temp=this.data.slice(1);
     return this.data.slice(start, start + this.pageSize);
   }
 
@@ -188,23 +186,20 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    // this.router.navigate(['/employee'], navExtra);
     const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
     window.open(url, '_blank');
   }
 
 
   routeToAddUserInShift() {
-    this.router.navigate([Key.ATTENDANCE_SETTING_ROUTE]);
-    // const url = this.router.createUrlTree([Key.ATTENDANCE_SETTING_ROUTE]).toString();
-    // window.open(url, '_blank');
+    window.open(this.router.serializeUrl(this.router.createUrlTree([Key.ATTENDANCE_SETTING_ROUTE])), '_blank');
   }
+
   routeToAddUserInLeavePolicy() {
     this.router.navigate([Key.LEAVE_SETTING_ROUTE]);
 
   }
 
-  // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
   searchChange$ = new BehaviorSubject('');
   optionList: string[] = [];
   selectedUser?: string;
@@ -214,11 +209,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     window.scroll(0, 0);
     this.sampleFileUrl ="assets/samples/HajiriBulkSheet.xlsx"
     this.getUsersCountByStatus();
-      // 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
-    // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
-    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
-    // this.getEmpLastApprovedAndLastRejecetdStatus();
     this.getUsersByFiltersFunction();
     this.getTeamNames();
     this.getLeaveNames();
@@ -226,8 +217,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
-    // this.selectStatus('ACTIVE');
-    //this.fetchPendingRequests();
+    this.dataService.onNotification().subscribe(() => {
+      this.getShiftData();
+    });
 
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
@@ -280,8 +272,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   toggleStatusFilter(status: string) {
     this.selectedStatusFilters = [];
-    // this.selectedAccessibilityFilters = ['ALL', 'ACTIVE', 'INACTIVE'];
-    // this.selectedAccessibilityFilters = ['ALL'];
     this.pageNumber = 1;
     this.selectedAccessibilityFilters = ['ACTIVE'];
     this.toggleStatus(status);
@@ -305,42 +295,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   }
 
-  // getCombinedFilters(): string[] {
-  //   return [...this.selectedStatusFilters, ...this.selectedAccessibilityFilters].filter(f => f !== 'ALL');
-  // }
-
-  // getCombinedFilters(): string[] {
-  //   return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
-  // }
-
-
-  // Remove selected filter and refresh users
-// removeFilter(filter: string) {
-
-//   debugger
-//   this.appliedFilters = this.appliedFilters.filter(f => f !== filter);
-
-//   // Check if the filter exists in Status Filters and remove it
-//   if (this.selectedStatusFilters.includes(filter)) {
-//     this.selectedStatusFilters = this.selectedStatusFilters.filter(s => s !== filter);
-//   }
-
-//   // Check if the filter exists in Accessibility Filters and remove it
-//   if (this.selectedAccessibilityFilters.includes(filter)) {
-//     this.selectedAccessibilityFilters = this.selectedAccessibilityFilters.filter(a => a !== filter);
-//   }
-
-//   // If all filters are removed, reset to 'ALL'
-//   if (this.selectedStatusFilters.length === 0) {
-//     this.selectedStatusFilters = ['ALL'];
-//   }
-//   if (this.selectedAccessibilityFilters.length === 0) {
-//     this.selectedAccessibilityFilters = ['ALL'];
-//   }
-
-//   // Fetch users again with updated filters
-//   this.getUsersByFiltersFunction();
-// }
 
 removeFilter(filter: string) {
   debugger;
@@ -371,11 +325,7 @@ removeFilter(filter: string) {
   this.getUsersByFiltersFunction();
 }
 
-// selectedFul
-// Ensure filters contain unique values
-// getCombinedFilters(): string[] {
-//   return Array.from(new Set([...this.selectedStatusFilters, ...this.selectedAccessibilityFilters])).filter(f => f !== 'ALL');
-// }
+
 
 getCombinedFilters(): string[] {
   const rawFilters = [...this.selectedStatusFilters, ...this.selectedAccessibilityFilters]
@@ -407,10 +357,6 @@ appliedFilters: string[] = []
     this.isUserShimer = true;
 
     this.debounceTimer = setTimeout(() => {
-      // let finalStatusFilters = this.selectedStatusFilters.includes('ALL') ? [] : this.selectedStatusFilters;
-      // let finalAccessibilityFilters = this.selectedAccessibilityFilters.includes('ALL') ? [] : this.selectedAccessibilityFilters;
-      // [...finalStatusFilters, ...finalAccessibilityFilters] // Merging both filters
-      // this.appliedFilters = this.getCombinedFilters();
 
       this.appliedFilters = this.getCombinedFilters(); // Show "Status: Approved" in UI
 
@@ -455,7 +401,7 @@ appliedFilters: string[] = []
   // Reset Filters and Reload Data
   resetFilters() {
     this.selectedStatusFilters = ['ALL']; // Reset status filters
-    this.selectedAccessibilityFilters = ['Active']; // Reset accessibility filters
+    this.selectedAccessibilityFilters = ['ACTIVE']; // Reset accessibility filters
     this.appliedFilters = [];
     this.getUsersByFiltersFunction();
   }
@@ -464,19 +410,7 @@ appliedFilters: string[] = []
 
 
   onboardUserTeam : any[] = [];
-  // getTeamNamesNew(uuid: string): void {
-  //   console.log("userUuid" + uuid);
-  //   debugger
-  //   this.onboardUserTeam = [];
-  //   this.dataService.getAllTeamsByUuid(uuid).subscribe({
-  //     next: (response: any) => {
-  //       this.onboardUserTeam = response.object;
-  //     },
-  //     error: (error) => {
-  //       console.error('Failed to fetch team names:', error);
-  //     },
-  //   });
-  // }
+
 
   getTeamNamesNew(teamList: any[]): void {
     if (teamList?.length > 1) {
@@ -486,141 +420,6 @@ appliedFilters: string[] = []
     }
   }
 
-
-
-
-  //  corrceted
-
-// isUserShimer: boolean = true;
-// placeholder: boolean = false;
-// errorToggleTop: boolean = false;
-// isMainPlaceholder: boolean = false;
-// debounceTimer: any;
-// isResignationUser: number = 0;
-// selectedFilters: string[] = []; // Array to store selected filters
-
-// // Function to toggle selected filters
-
-// selectStatus2(status: string) {
-//   debugger
-//   if (this.selectedFilters.includes(status)) {
-//     this.selectedFilters = this.selectedFilters.filter(item => item !== status);
-//     this.getUsersByFiltersFunction();
-//   } else {
-//     this.selectedFilters.push(status);
-//   }
-// }
-
-// // Fetch Users Based on Filters
-// getUsersByFiltersFunction(debounceTime: number = 300) {
-//   debugger
-//   if (this.debounceTimer) {
-//     clearTimeout(this.debounceTimer);
-//   }
-
-//   this.isUserShimer = true;
-
-//   this.debounceTimer = setTimeout(() => {
-//     this.dataService
-//       .getUsersByFilterForEmpOnboardingNew(
-//         this.itemPerPage,
-//         this.pageNumber,
-//         'asc',
-//         'id',
-//         this.searchText,
-//         this.searchCriteria,
-//         this.isResignationUser,
-//         this.selectedFilters // Pass filters array
-//       )
-//       .subscribe(
-//         (response: any) => {
-//           this.users = response.users;
-//           this.total = response.count;
-
-//           this.isMainPlaceholder = this.searchText == '' && response.count < 1 && this.selectedFilters.length == 0;
-
-//           this.users = this.users ?? [];
-//           this.placeholder = this.users.length === 0;
-//           this.isUserShimer = false;
-//           this.getUsersCountByStatus();
-//         },
-//         (error) => {
-//           this.isUserShimer = false;
-//           this.errorToggleTop = true;
-//           this.users = [];
-//         }
-//       );
-//   }, debounceTime);
-// }
-
-// // Reset Filters and Reload Data
-// resetFilters() {
-//   this.selectedFilters = [];
-//   this.getUsersByFiltersFunction();
-// }
-
-//  corrceted
-
-  // isUserShimer: boolean = true;
-  // placeholder: boolean = false;
-  // errorToggleTop: boolean = false;
-  // isMainPlaceholder: boolean = false;
-  // debounceTimer: any;
-  // isResignationUser: number = 0
-  // getUsersByFiltersFunction(debounceTime: number = 300) {
-  //   if (this.debounceTimer) {
-  //     clearTimeout(this.debounceTimer);
-  //   }
-
-
-  //   this.isUserShimer = true;
-  //   this.debounceTimer = setTimeout(() => {
-  //     this.dataService
-  //       .getUsersByFilterForEmpOnboarding(
-  //         this.itemPerPage,
-  //         this.pageNumber,
-  //         'asc',
-  //         'id',
-  //         this.searchText,
-  //         this.searchCriteria,
-  //         this.isResignationUser
-  //       )
-  //       .subscribe(
-  //         (response: any) => {
-  //           this.users = response.users;
-  //           this.total = response.count;
-
-  //           if(this.searchText == '' && response.count <1) {
-  //             this.isMainPlaceholder = true;
-  //           }else {
-  //             this.isMainPlaceholder = false;
-  //           }
-  //           if (this.users == null) {
-  //             this.users = [];
-  //           }
-  //           if (this.users.length == 0) {
-  //             this.placeholder = true;
-  //             // this.errorToggleTop = false;
-  //             // this.searchUserPlaceholderFlag=true;
-  //           } else {
-  //           }
-  //           // this.isResignationUser = 0;
-
-  //           if(this.isResignationUser == 1){
-  //             this.isMainPlaceholder = false;
-  //           }
-
-  //           this.isUserShimer = false;
-  //           this.getUsersCountByStatus();
-  //         },
-  //         (error) => {
-  //           this.isUserShimer = false;
-  //           this.errorToggleTop = true;
-  //           this.users = []
-  //         }
-  //       );
-  //   }, debounceTime);
-  // }
 
   usersPage: any | null = null;
   //search: string = '';
@@ -760,14 +559,6 @@ appliedFilters: string[] = []
 
     this.users = [];
     this.isResignationUser = 0
-
-    // if (status == 'ALL') {
-    //   this.selectedStatus = 'All';
-    //   this.searchUsers('any');
-    // } else {
-    //   this.selectedStatus = status;
-    //   this.searchUsers(status);
-    // }
     this.search = '';
     this.crossFlag = false;
     this.resetFilters();
@@ -786,7 +577,6 @@ appliedFilters: string[] = []
 
   searchUsers(searchString: string) {
     this.crossFlag = true;
-    // this.searchUserPlaceholderFlag=true;
     if (searchString === 'any') {
       this.searchText = this.search;
       this.searchCriteria = '';
@@ -800,15 +590,8 @@ appliedFilters: string[] = []
     if (this.searchText === '') {
       this.crossFlag = false;
     }
-
-    // if ((this.searchText === '' )||(this.searchText=="APPROVED") || (this.searchText=="PENDING" ) ||(this.searchText =="REJECTED")) {
-    //   this.crossFlag = false;
-    // }
   }
 
-  // reloadPage() {
-  //   location.reload();
-  // }
 
   reloadPage() {
     this.search = '';
@@ -818,7 +601,6 @@ appliedFilters: string[] = []
     this.itemPerPage = 12;
     this.getUsersByFiltersFunction();
     this.crossFlag = false;
-    // location.reload();
   }
 
 
@@ -887,10 +669,7 @@ appliedFilters: string[] = []
 
   employeeStatus: any = {};
 
-  // lastApproved: User[] = [];
-  // lastRejected: User[] = [];
-
-  isPendingShimmer: Boolean = false;
+  isPendingShimmer: boolean = false;
   networkConnectionErrorPlaceHolder: boolean = false;
   dataNotFoundPlaceHolderForLastApproved = false;
   dataNotFoundPlaceHolderForLastRejected = false;
@@ -903,8 +682,6 @@ appliedFilters: string[] = []
 
   getEmpLastApprovedAndLastRejecetdStatus() {
     this.preMethodCallForShimmersAndOtherConditions();
-    // this.isPendingShimmer=true;
-    debugger;
     this.dataService.getLastApprovedAndLastRejecetd().subscribe(
       (data) => {
         this.employeeStatus = data;
@@ -927,14 +704,6 @@ appliedFilters: string[] = []
         if (data.last3PendingUsers.length == 0) {
           this.dataNotFoundPlaceHolderForLast3PendingUsers = true;
         }
-
-        // this.networkConnectionErrorPlaceHolder=false;
-        // if(this.employeeStatus!=null){
-        //  this.lastApproved= this.employeeStatus.lastApprovedUser;
-        //  this.lastRejected= this.employeeStatus.lastRejectedUser;
-        // }
-        // console.log(this.lastApproved);
-        // console.log(this.lastRejected);
       },
       (error) => {
         this.isPendingShimmer = false;
@@ -947,7 +716,6 @@ appliedFilters: string[] = []
   emailAlreadyExists = false;
   toggle1 = false;
   toggle2 = false;
-  // inviteLoader: boolean = false;
   setEmployeePersonalDetailsMethodCall(invite: boolean) {
     // Reset the flag
     debugger
@@ -985,7 +753,7 @@ appliedFilters: string[] = []
           this.selectedTeamIds = [];
           this.selectedLeaveIds = [];
           this.selectedTeams = [];
-          this.selectedShift = 0;
+          this.selectedShift = null;
           this.getUsersByFiltersFunction();
 
           if(invite) {
@@ -1012,11 +780,11 @@ appliedFilters: string[] = []
 
   positionFilteredOptions: string[] = [];
   onChange(value: string): void {
-
+    if (value) {
       this.positionFilteredOptions = this.jobTitles.filter((option) =>
         option.toLowerCase().includes(value.toLowerCase())
       );
-
+    }
   }
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
@@ -1031,8 +799,8 @@ appliedFilters: string[] = []
   }
 
   shiftList: { value: number, label: string }[] = [];
-  selectedShift: number = 0;
-  selectedLeave: number = 0;
+  selectedShift: number | null = null;
+  selectedLeave: number | null = null;
   isLoadingShifts = false;
   getShiftData() {
     this.isLoadingShifts = true;
@@ -1072,12 +840,6 @@ appliedFilters: string[] = []
   closeModal() {
     this.closeInviteModal.nativeElement.click();
   }
-
-  // loadingDeleteUser: { [key: string]: boolean } = {};
-  // disableUserLoader(user: any): boolean {
-  //   return this.loadingDeleteUser[user.id] || false;
-  // }
-
   sendingMailLoaderForUser(user: any): boolean {
     return this.loadingStatus[user.email] || false;
   }
@@ -1085,7 +847,6 @@ appliedFilters: string[] = []
   // sendingMailLoader = false;
   loadingStatus: { [key: string]: boolean } = {};
 
-  // requestFlag:boolean=false;
   sendMailToEmployees(user: any) {
     // this.sendingMailLoader = true;
     debugger;
@@ -1095,12 +856,9 @@ appliedFilters: string[] = []
       .sendMailToEmployeesToCompleteOnboarding(userEmail)
       .subscribe(
         (response) => {
-          // this.requestFlag=true;
           this.getUsersByFiltersFunction();
           this.getEmpLastApprovedAndLastRejecetdStatus();
           this.getEmployeesOnboardingStatus();
-          // location.reload();
-          // this.sendingMailLoader=false;
           this.loadingStatus[userEmail] = false;
 
           this.helperService.showToast(
@@ -1109,8 +867,6 @@ appliedFilters: string[] = []
           );
         },
         (error) => {
-          // console.error(error);
-          // location.reload();
           this.loadingStatus[userEmail] = false;
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
@@ -1159,9 +915,6 @@ appliedFilters: string[] = []
   currentUserPresenceStatus: boolean= false;
   currentUserUuid: string = '';
   deleteOrDisableUserString: string = '';
-  // deleteOrDisableString: string = '';
-
-  // deleteConfirmationModalRef!: NgbModalRef;
 
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
@@ -1171,18 +924,15 @@ appliedFilters: string[] = []
     this.currentUserPresenceStatus = presenceStatus;
     this.currentUserUuid = uuid;
     this.deleteOrDisableUserString = stringStr;
-    // this.deleteConfirmationModalRef = this.modalService.open(this.deleteConfirmationModal);
   }
 
 
   deleteOrDisable() {
     if(this.deleteOrDisableUserString === constant.DELETE) {
-      // this.deleteOrDisableString = "Delete";
       if (this.currentUserId !== null) {
        this.deleteUser();
       }
     }else if (this.deleteOrDisableUserString === constant.DISABLE){
-      // this.deleteOrDisableString = "Delete";
       if(this.currentUserUuid != '') {
         const statusToSend = !this.currentUserPresenceStatus;
         this.changeStatusActive(statusToSend, this.currentUserUuid);
@@ -1193,7 +943,6 @@ appliedFilters: string[] = []
   deleteUser() {
     if (this.currentUserId !== null) {
       this.disableUser(this.currentUserId);
-      // this.modalService.dismissAll();
       this.currentUserId = null;
     }
   }
@@ -1204,53 +953,25 @@ appliedFilters: string[] = []
 
 
   text = '';
-  // changeStatus() {
-  //   debugger;
-  //   this.disableUserLoader = true;
-  //   const statusToSend = !this.currentUserPresenceStatus;
-  //   this.dataService.changeStatusById(statusToSend, this.currentUserUuid).subscribe(
-  //     (data) => {
-  //       // location.reload();
-  //       this.disableUserLoader = false;
 
-  //       this.getUsersByFiltersFunction();
-
-  //       this.currentUserPresenceStatus = false;
-  //       this.currentUserUuid = '';
-  //       this.deleteOrDisableString = '';
-  //       this.helperService.showToast("User disabled succefully", Key.TOAST_STATUS_SUCCESS);
-  //     },
-  //     (error) => {
-  //       this.disableUserLoader = false;
-  //       this.getUsersByFiltersFunction();
-  //       // location.reload();
-  //     }
-  //   );
-  // }
   changeStatusActive(status: boolean, userUuid: string) {
     debugger;
     this.disableUserLoader = true;
     this.dataService.changeStatusById(status, userUuid).subscribe(
       (data) => {
-        // location.reload();
         this.disableUserLoader = false;
         this.getUsersByFiltersFunction();
         this.currentUserPresenceStatus = false;
         this.currentUserUuid = '';
-        // this.deleteOrDisableString = '';
         this.helperService.showToast("User disabled succefully", Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
         this.disableUserLoader = false;
         this.getUsersByFiltersFunction();
-        // location.reload();
       }
     );
   }
 
-  // dismissModal() {
-  //   this.modalService.dismissAll();
-  // }
 
   isShowPendingVerificationTab: boolean = false;
 
@@ -1299,10 +1020,6 @@ appliedFilters: string[] = []
 
   selectedTeamIds: number[] = [];
   selectedLeaveIds: number[] = [];
-  // onTeamSelectionChange(selectedTeams: string[]): void {
-  //   this.selectedTeamIds = selectedTeams.map((id) => parseInt(id, 10));
-  //   console.log('Selected team IDs:', this.selectedTeams);
-  // }
 
   onTeamSelectionChange(selectedTeams: string[]): void {
     this.selectedTeamIds = selectedTeams.map((id) => parseInt(id, 10));
@@ -1469,7 +1186,6 @@ appliedFilters: string[] = []
             // Scroll into view if element exists
             if (this.elementToScroll) {
               this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              console.log('Values:', values);
             }
 
             // Split values into chunks of 50 and add line breaks
@@ -2064,19 +1780,6 @@ console.log(this.data);
       emailNotificationEnabled: onboardUser.emailNotificationEnabled,
       whatsappNotificationEnabled: onboardUser.whatsappNotificationEnabled,
     };
-
-    // this.dataService.updateNotificationSettings(payload).subscribe(
-    //   (response: any) => {
-    //     if (response.status) {
-    //       console.log('Notification settings updated successfully.');
-    //     } else {
-    //       console.error('Failed to update notification settings.');
-    //     }
-    //   },
-    //   (error) => {
-    //     console.error('Error updating notification settings', error);
-    //   }
-    // );
   }
 
 
@@ -2091,7 +1794,6 @@ console.log(this.data);
         if (response.status) {
           this.getUsersByFiltersFunction();
           this.getUser();
-          // this.getUser();
         }
       },
       (error) => {}
@@ -2102,8 +1804,6 @@ console.log(this.data);
 
   isEmailExist: boolean = false;
   checkEmailExistance(index: number, email: string, uuid: string) {
-    debugger;
-    // this.userList[index].isEmailExist = false;
     if (email != null && email.length > 5) {
       this._onboardingService
         .checkEmployeeEmailExist(email, uuid)
@@ -2326,7 +2026,6 @@ console.log(this.data);
             this.userList[index].isPhoneExist = response;
           }
           this.isNumberExist = response;
-          // console.log(response);
         });
     }
   }
@@ -2387,14 +2086,6 @@ console.log(this.data);
     }
   }
 
-  // shiftList: OrganizationShift[] = [];
-  // getShiftData(){
-  //   this.dataService.getShifts().subscribe((response) => {
-  //     this.organizationShift = response.listOfObject;
-  //   }, (error) => {
-
-  //   })
-  // }
 
   checkPhoneExistance(number: string) {
     if (number != '' && number.length >= 10) {
@@ -2442,12 +2133,10 @@ console.log(this.data);
 
           if(response.status === true) {
             this.isSlackUserFlag = false;
-            // console.log("success");
             this.reloadPage();
             this.helperService.showToast("Slack User Id Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
           }else{
             this.isSlackUserFlag = false;
-            // console.log("success");
             this.reloadPage();
             this.helperService.showToast("Sync failed: Please ensure the user exists in your Slack workspace!", Key.TOAST_STATUS_ERROR);
           }
@@ -2455,7 +2144,6 @@ console.log(this.data);
         (error) => {
           this.helperService.showToast("Sync failed: Please ensure the user exists in your Slack workspace!", Key.TOAST_STATUS_ERROR);
           this.isSlackUserFlag = false;
-          // console.log("error");
         }
       );
   }
@@ -2507,16 +2195,11 @@ console.log(this.data);
 @ViewChild('sampleFileModalButton') bulkUpload!:ElementRef;
 @ViewChild('duesWarningModalButton') duesWarning!:ElementRef;
   validateDuesInvoice(modal:any){
-    // console.log("================validate======",modal);
-    // if(this._subscriptionService.isDuesInvoice){
-    //   this.duesWarning.nativeElement.click();
-    // }else{
       if(modal == 'add'){
         this.addEmployee.nativeElement.click();
       }else{
         this.bulkUpload.nativeElement.click();
       }
-    // }
   }
 
 
@@ -2542,7 +2225,6 @@ console.log(this.data);
     this.userResignationReq.createdBy = 'ADMIN'
     this.userResignationReq.uuid = this.userUuid
     this.userResignationReq.userExitTypeId = this.userExitTypeId
-    // console.log('request form : ',this.userResignationReq)
 
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
         if(res.status){
@@ -2615,24 +2297,17 @@ console.log(this.data);
    // Function to disable future dates
    disableFutureDates = (current: Date): boolean => {
     const today = new Date();
-    // const maxDate = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
 
-    // this.lastWorkingDay = maxDate;
-    // console.log("Max Date: ", this.lastWorkingDay);
     // Disable dates from today to maxDate (inclusive)
     return current < today || current > maxDate;
   };
 
   calculateLasWorkingDay(){
     const today = new Date();
-    // const maxDate = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
-
-    // this.lastWorkingDay = maxDate;
-    // this.userResignationReq.lastWorkingDay = maxDate
     this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
     // console.log("Max Date: ", this.lastWorkingDay);
   }

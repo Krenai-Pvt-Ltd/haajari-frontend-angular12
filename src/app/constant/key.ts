@@ -81,7 +81,10 @@ export class Key {
     '/faq-detail',
     '/expense-management',
     '/payroll/setup',
-    '/payroll/configuration'
+    '/payroll/configuration',
+    '/payroll/earning-details',
+    '/payroll/salary-template'
+    
   ];
 
   public static TOPBAR_ROUTES = [
@@ -134,7 +137,9 @@ export class Key {
     '/faq-detail',
     '/expense-management',
     '/payroll/setup',
-    '/payroll/configuration'
+    '/payroll/configuration',
+    '/payroll/earning-details',
+    '/payroll/salary-template'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -151,6 +156,7 @@ export class Key {
     '/auth/shift-time-list',
     '/auth/attendance-mode',
     '/auth/add-shift-placeholder',
+
   ];
 
   // Deduction Ids

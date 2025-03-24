@@ -28,7 +28,6 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -38,6 +37,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 
 @NgModule({
@@ -66,6 +66,7 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     DynamicModule,
     NgxMaskModule.forRoot(),
     NzInputNumberModule,
+    NzPopoverModule,
     NzDatePickerModule,
     NzTimePickerModule,
     NzCalendarModule,
@@ -75,7 +76,6 @@ import { ExistPolicyComponent } from './components/exist-policy/exist-policy.com
     NzIconModule,
     NzInputModule,
     NzSelectModule,
-    ImageCropperModule,
     NzButtonModule,
     NzFormModule,
     NzToolTipModule,

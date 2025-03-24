@@ -11,9 +11,33 @@
         </g>
       </svg>
     </button>
+    <!-- <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+      'badge-soft-success': attendanceData?.status === 'APPROVED',
+      'badge-soft-danger': attendanceData?.status === 'PENDING',
+      'badge-soft-secondary': attendanceData?.status === 'REJECTED'
+    }">
+    {{ attendanceData?.status | uppercase }}
+  </span> -->
   </div>
-  <div class="modal-body">
-    <div class="assets-request-form">
+  <div class="modal-body p-0">
+    <div class="d-flex align-items-center justify-content-between p-3 user-detail">
+      <div class="d-flex align-items-center gap-2">
+         <img src="assets/images/user.png" class="img-50 radius-50">
+         <div>
+            <h5 class="mb-0 font-14">{{attendanceData?.userName}} </h5>
+            <p class="mb-0 font-12"></p>
+         </div>
+      </div>
+      <div class="text-end">
+         <!-- <p class="font-12 mb-2"> Date: 21-03-2025 02:09:26 PM</p> -->
+         <span  class="badge rounded-pill" [ngClass]="{
+          'badge-soft-success': attendanceData?.status === 'APPROVED',
+          'badge-soft-danger': attendanceData?.status === 'PENDING',
+          'badge-soft-secondary': attendanceData?.status === 'REJECTED'
+        }">  {{ attendanceData?.status | uppercase }} </span>
+      </div>
+   </div>
+    <div class="assets-request-form p-3">
       <form [formGroup]="attendanceTimeUpdateForm">
         <div class="row register-form-box">
           <div class="col-md-12 mb-3">
@@ -21,7 +45,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="employeeTypeId" class="mb-2">Select Date</label>
-                  <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
+                  <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="dd-MM-yyyy" class="ant-picker ant-picker-borderless"
                     [nzDisabled]="!isCreate" (ngModelChange)="onDateChange($event)" nzPlaceHolder="Choose Date" name="selectDate" [nzDisabledDate]="disabledDate">
                   </nz-date-picker>
                   <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was holiday on selected date!</small>
@@ -89,9 +113,9 @@
             <div class="col-md-12 mb-3">
               <div class="form-group updated-timing position-relative">
                 <label for="employeeTypeId" class="mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <!-- SVG content remains unchanged -->
-                  </svg>
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                   
+                  </svg> -->
                   Updated Timing
                 </label>
                 <nz-time-picker nzBorderless formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time" [nzDisabled]="!isCreate"></nz-time-picker>
@@ -106,9 +130,9 @@
             <div class="col-md-12 mb-3">
               <div class="form-group updated-timing">
                 <label for="employeeTypeId" class="mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <!-- SVG content remains unchanged -->
-                  </svg>
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                 
+                  </svg> -->
                   Updated Timing
                 </label>
                 <div class="row time-update">
@@ -147,7 +171,7 @@
       </form>
     </div>
   </div>
-  <div class="modal-footer d-flex align-items-center justify-content-end">
+  <div *ngIf="isCreate || attendanceData.status === 'PENDING' " class="modal-footer d-flex align-items-center justify-content-end">
     <div class="d-flex align-items-center gap-2">
       <button *ngIf="isCreate" type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" (click)="emptySelectRequest()" #closeAttendanceUpdateModal>Cancel</button>
       <ng-container *ngIf="isCreate">
@@ -162,10 +186,10 @@
           </ng-container>
         </button>
       </ng-container>
-      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING'">
-        <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-success" (click)="approveOrReject(
+      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING' && (ROLE=='ADMIN' || attendanceData.managerUuid == userId)">
+        <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-soft-success" (click)="approveOrReject(
                   attendanceData.id,
-                  'APPROVE'
+                  'APPROVED'
                 )">
                 <span *ngIf="!approveLoader">Approve</span>
                 <span *ngIf="approveLoader">
@@ -176,9 +200,9 @@
                   </div>
                 </span>
               </button>
-        <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-danger" (click)="approveOrReject(
+        <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-soft-danger" (click)="approveOrReject(
           attendanceData.id,
-          'REJECT'
+          'REJECTED'
         )">
         <span *ngIf="!rejectLoader">Reject</span>
         <span *ngIf="rejectLoader">

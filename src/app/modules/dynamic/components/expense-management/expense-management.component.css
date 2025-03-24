@@ -234,10 +234,10 @@
     min-width: 170px;
 }
 
-.filter-bdg {
+/* .filter-bdg {
     overflow-x: scroll;
     flex-wrap: nowrap;
-}
+} */
 
 .filter-pills {
     line-height: 18px;
