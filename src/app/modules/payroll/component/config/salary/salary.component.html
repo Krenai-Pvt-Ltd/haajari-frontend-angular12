@@ -283,7 +283,7 @@
                             <tbody *ngIf="!shimmer">
                                 <tr>
                                     <td >
-                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
+                                        <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
                                     </td>
                                     <td >
                                         <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
@@ -605,7 +605,7 @@
             </div>
             <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(BENEFIT_COMPONENT)">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="toggle = false;">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromEarning()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
                     <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
@@ -687,7 +687,7 @@
             </div>
             <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(DEDUCTION_COMPONENT)">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromEarning()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
                     <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
@@ -760,11 +760,35 @@
                     <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
-                    <h5 class="mb-0 font-15 fw-semibold">Edit Reimbursement</h5>
+                    <h5 class="mb-0 font-15 fw-semibold"><span *ngIf="isNewComponent">New</span><span *ngIf="!isNewComponent">Edit</span> Reimbursement</h5>
                 </div>
     
     
                 <div class="mt-5 earninng-edit-box pl-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="payroll-details-box">
+                                <h4 class="font-13 text-black fw-semibold lh-1">Reimbursement Type</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                    <div class="col-md-12">
+                                        <nz-select 
+                                        class="form-control w-100 placeholder-line" 
+                                        nzSize="large" 
+                                        [(ngModel)]="selectedPfWage" 
+                                        nzPlaceHolder="Select">
+                                        <nz-option *ngFor="let component of defaultReimbursementComponents" 
+                                        [nzLabel]="component.name" 
+                                        [nzValue]="component.name">
+                                        </nz-option>
+                                        </nz-select>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="payroll-details-box">
@@ -776,7 +800,7 @@
                             <div class="row">
                                     
                                 <div class="col-md-12">
-                                    <input type="text" placeholder="Notice Pay Deduction" required class="form-control"> 
+                                    <input type="text" placeholder="Enter name" required class="form-control"> 
                                 </div>
     
                             </div>
@@ -821,12 +845,6 @@
                                 </div>
                             </div>
     
-                        </div>
-                        <div class="form-check d-flex align-items-start gap-2 mb-3">
-                            <input type="radio" id="radioCheckbox1" name="exampleRadios" class="form-check-input" checked>
-                            <div>
-                                <label for="radioCheckbox1" class="form-check-label font-13 fw-normal">One-time deduction</label>
-                            </div>
                         </div>
                     </div>
                 </div>

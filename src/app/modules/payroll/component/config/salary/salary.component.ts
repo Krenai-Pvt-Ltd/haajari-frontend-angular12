@@ -33,7 +33,7 @@ export class SalaryComponent implements OnInit {
   totalItems = 0;
 
   shimmer: boolean = false;
-  toggle:boolean =false;
+  toggle:boolean =true;
   saveLoader:boolean=false;
   isNewComponent:boolean=false;
 
