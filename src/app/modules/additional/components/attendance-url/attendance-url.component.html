@@ -80,10 +80,7 @@
                     </div>
                 </div>
                 <div class="mt-4 d-flex align-items-center desktop-action-btn" 
-                [ngClass]="{
-                  'justify-content-end': !isInvalid || !isLogoVisible, 
-                  'justify-content-between': isInvalid && isLogoVisible
-                }">
+                [ngClass]="{ 'justify-content-end': !isInvalid || !isLogoVisible, 'justify-content-between': isInvalid && isLogoVisible }">
                     <p *ngIf="!isInvalid && isLogoVisible" class="mb-0 font-13 fw-semibold">This link will expire soon if no action is taken.
                         Please proceed promptly.</p>
 
