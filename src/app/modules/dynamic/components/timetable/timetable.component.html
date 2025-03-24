@@ -3,7 +3,7 @@
   <div class="page-content-tab">
     <div class="container-fluid mb-4">
       <div class="row">
-        <div class="col-md-12 mt-3 d-flex align-items-center justify-content-between border-bottom">
+        <div class="col-md-12 mt-3">
 
           <ul id="pills-tab" role="tablist" class="nav nav-pills position-relative attendance-tab">
             <li class="nav-item">
@@ -27,7 +27,7 @@
             </li>
           </ul>
           <!-- ; else attendanceSectionOtherTabCondition -->
-          <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
+          <!-- <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
             <div class="d-flex align-items-center attendance-date position-relative attendance-date-picker">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
                 (click)="selectPreviousDay()">
@@ -62,7 +62,7 @@
                 </svg>
               </span>
             </div>
-          </ng-container>
+          </ng-container> -->
           <!-- <ng-template #attendanceSectionOtherTabCondition>
             <div class="d-flex align-items-center attendance-date position-relative attendance-date-picker">
               <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn"
