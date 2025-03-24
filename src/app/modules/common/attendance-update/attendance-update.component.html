@@ -11,26 +11,30 @@
         </g>
       </svg>
     </button>
-    <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+    <!-- <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
       'badge-soft-success': attendanceData?.status === 'APPROVED',
       'badge-soft-danger': attendanceData?.status === 'PENDING',
       'badge-soft-secondary': attendanceData?.status === 'REJECTED'
     }">
     {{ attendanceData?.status | uppercase }}
-  </span>
+  </span> -->
   </div>
   <div class="modal-body p-0">
     <div class="d-flex align-items-center justify-content-between p-3 user-detail">
       <div class="d-flex align-items-center gap-2">
          <img src="assets/images/user.png" class="img-50 radius-50">
          <div>
-            <h5 class="mb-0 font-14">Kunal </h5>
+            <h5 class="mb-0 font-14">{{attendanceData?.userName}} </h5>
             <p class="mb-0 font-12"></p>
          </div>
       </div>
       <div class="text-end">
-         <p class="font-12 mb-2"> Date: 21-03-2025 02:09:26 PM</p>
-         <span  class="badge rounded-pill bg-soft-success"> APPROVED </span>
+         <!-- <p class="font-12 mb-2"> Date: 21-03-2025 02:09:26 PM</p> -->
+         <span  class="badge rounded-pill" [ngClass]="{
+          'badge-soft-success': attendanceData?.status === 'APPROVED',
+          'badge-soft-danger': attendanceData?.status === 'PENDING',
+          'badge-soft-secondary': attendanceData?.status === 'REJECTED'
+        }">  {{ attendanceData?.status | uppercase }} </span>
       </div>
    </div>
     <div class="assets-request-form p-3">
@@ -182,7 +186,7 @@
           </ng-container>
         </button>
       </ng-container>
-      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING'">
+      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING' && (ROLE=='ADMIN' || attendanceData.managerUuid == userId)">
         <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-soft-success" (click)="approveOrReject(
                   attendanceData.id,
                   'APPROVED'

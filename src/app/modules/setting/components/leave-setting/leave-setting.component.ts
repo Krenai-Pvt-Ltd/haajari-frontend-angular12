@@ -2199,25 +2199,26 @@ userNameWithShiftName: any[] = [];
     const usersToCheck = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
     this.existingAssignedUsers = this.assignedUsers.filter(user =>
         usersToCheck.includes(user.userId) &&
-        user.leaveTemplateName !== this.leaveTemplateRequest.name
+        user.leaveTemplateId != this.leaveTemplateRequest.id
     );
 
-    if (this.existingAssignedUsers.length > 0 && !this.isValidated) {
-        // Prepare data for modal
-        this.userNameWithShiftName = this.existingAssignedUsers.map(user => ({
-            userId: user.userId,
-            userName: user.userName,
-            shiftName: user.leaveTemplateName
-        }));
+    if(false){
+    // if (this.existingAssignedUsers.length > 0 && !this.isValidated) {
+        // // Prepare data for modal
+        // this.userNameWithShiftName = this.existingAssignedUsers.map(user => ({
+        //     userId: user.userId,
+        //     userName: user.userName,
+        //     shiftName: user.leaveTemplateName
+        // }));
 
-        // Show modal (trigger programmatically)
-        const modalElement = document.getElementById('usersAlreadyAssigned');
-        if (modalElement) {
-            const modal = new (window as any).bootstrap.Modal(modalElement);
-            modal.show();
-        }
-        this.registerToggle = false;
-        return; // Wait for modal confirmation
+        // // Show modal (trigger programmatically)
+        // const modalElement = document.getElementById('usersAlreadyAssigned');
+        // if (modalElement) {
+        //     const modal = new (window as any).bootstrap.Modal(modalElement);
+        //     modal.show();
+        // }
+        // this.registerToggle = false;
+        // return; // Wait for modal confirmation
     }else{
 
       this.registerToggle = true;
