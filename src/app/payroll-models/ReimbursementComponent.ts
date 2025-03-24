@@ -7,4 +7,5 @@ export class ReimbursementComponent{
     statusId:number=0;
     value:number=0;
     custom:boolean=false;
+    reimbursementTypeId:number=0;
 }

@@ -37,7 +37,7 @@ export class SalaryComponentService {
 
 
   getDefaultReimbursementComponent(): Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary-component/default-reimbursement`);
+    return this._http.get<any>(`${this._key.base_url}/salary-component/reimbursement-types`);
   }
 
   getOrganizationReimbursementComponent(): Observable<any>{

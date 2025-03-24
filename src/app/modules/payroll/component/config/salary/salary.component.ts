@@ -45,6 +45,8 @@ export class SalaryComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0,0);
     this.getOrganizationEarningComponent();
+    this.getOrganizationReimbursementComponent();
+    this.getDefaultReimbursementComponent();
     
   }
 
@@ -364,7 +366,7 @@ export class SalaryComponent implements OnInit {
 
   saveReimbursementComponent(){
     this.saveLoader = true;
-    this._salaryComponentService.saveReimbursementComponent(this.selectedEarningComponent).subscribe((response) => {
+    this._salaryComponentService.saveReimbursementComponent(this.selecteReimbursementComponent).subscribe((response) => {
         if(response.status){
         
         }else{
