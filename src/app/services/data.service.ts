@@ -525,7 +525,8 @@ export class DataService {
     searchBy: string,
     leaveSettingId: number,
     teamId: number,
-    selectedStaffIdsUser: any
+    selectedStaffIdsUser: any,
+    isProbation?: Boolean
   ): Observable<any> {
     let params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -541,6 +542,9 @@ export class DataService {
     if (search != null && search != '') {
       params = params.set('page_number', 0);
       params = params.set('item_per_page', 0);
+    }
+    if (isProbation) {
+      params = params.set('probation', isProbation.toString());
     }
 
     return this.httpClient.get<any>(

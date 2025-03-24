@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
 import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke, ApexLegend,} from 'ng-apexcharts';
 import { constant } from 'src/app/constant/constant';
+import { NavigationExtras, Router } from '@angular/router';
 
 
 export type ChartOptions = {
@@ -48,7 +49,10 @@ export type ChartOptions1 = {
 })
 export class LeaveManagementsComponent implements OnInit {
 
-  constructor(private leaveService:LeaveService,private helperService: HelperService,  private dataService: DataService,   private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
+  constructor(private leaveService:LeaveService,
+    private helperService: HelperService,  private dataService: DataService,
+       private rbacService: RoleBasedAccessControlService,
+       private datePipe: DatePipe, private router: Router
   ,private cdr: ChangeDetectorRef) {
 
   }
@@ -329,6 +333,13 @@ organizationRegistrationDate: string = '';
    * GET LEAVES START
    */
 
+  routeToUserDetails(uuid: string) {
+      let navExtra: NavigationExtras = {
+        queryParams: { userId: uuid },
+      };
+      const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+      window.open(url, '_blank');
+    }
 
   pendingLeaveCount: number = 0;
   isFirstLoad: boolean = true;

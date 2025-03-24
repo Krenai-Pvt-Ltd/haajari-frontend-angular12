@@ -1342,7 +1342,7 @@
                       </tbody>
                       <tbody *ngIf="!isLoading && missedPunchRequests.length > 0">
                         <tr *ngFor="let request of missedPunchRequests ">
-                          <td class="fw-normal">{{request.userName}}</td>
+                          <td (click)="routeToUserDetails(request.userUuid)" class="fw-normal pointer">{{request.userName}}</td>
                           <td>
                             <span>
                               <h5 class="mb-1 font-13 fw-semibold">{{request.inRequestTime | date: 'dd MMM, yyyy'}}</h5>
@@ -1583,7 +1583,7 @@
                       </tbody>
                       <tbody *ngIf="!isLoading && systemOutageRequests.length > 0">
                         <tr *ngFor="let request of systemOutageRequests">
-                          <td class="fw-normal">{{request.userName}}</td>
+                          <td (click)="routeToUserDetails(request.userUuid)" class="fw-normal pointer">{{request.userName}}</td>
                           <td>
                             <span>
                               <h5 class="mb-1 font-13 fw-semibold">{{request.createdDate | date: 'yyyy-MM-dd'}}</h5>
