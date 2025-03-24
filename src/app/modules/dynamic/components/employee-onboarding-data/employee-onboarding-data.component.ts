@@ -491,7 +491,8 @@ appliedFilters: string[] = []
     resignations: any[] = [];
     page: number = 1;
     size: number = 10;
-    status: string | null = '13';
+    status: string[] | null = ['13'];
+    actualStatus: string[] = ['13'];
     resignationSearch: string | null = '';
     totalRequests: number = 0;
     isResignationLoading: boolean = false;
@@ -506,12 +507,13 @@ appliedFilters: string[] = []
     loadResignations(): void {
       this.isResignationLoading=true;
       this.dataService
-        .getUserResignations(this.status, this.resignationSearch, this.page, this.size)
+        .getUserResignations(this.selectedStatuses, this.resignationSearch, this.page, this.size)
         .subscribe({
           next: (data) => {
             this.isResignationLoading=false;
             this.resignations = data.content;
             this.totalRequests =data.totalElements;
+            this.actualStatus = this.selectedStatuses;
           },
           error: (err) => {
             this.isResignationLoading=false;
@@ -520,6 +522,63 @@ appliedFilters: string[] = []
         });
     }
 
+    selectedStatuses: string[] = ['13'];
+    onStatusChange(statusValue: string, event: Event): void {
+      const isChecked = (event.target as HTMLInputElement).checked;
+
+      console.log('Status value:', statusValue, isChecked);
+      console.log('Selected statuses:', this.selectedStatuses);
+      if (statusValue === '' && isChecked) {
+        // If "All" is selected, clear other selections
+        this.selectedStatuses = [];
+      } else if (isChecked) {
+        // Remove "All" if it exists and add new status
+        this.selectedStatuses = this.selectedStatuses.filter(s => s !== '');
+        this.selectedStatuses.push(statusValue);
+      } else {
+        // Remove the unchecked status
+        this.selectedStatuses = this.selectedStatuses.filter(s => s !== statusValue);
+      }
+
+    }
+
+    // Update status label (optional, can be removed if not needed elsewhere)
+    updateStatusLabel(): void {
+      if (this.selectedStatuses.length === 0 || this.selectedStatuses.includes('')) {
+        this.statusLabel = 'All';
+      } else {
+        this.statusLabel = ''; // We'll rely on pills instead
+      }
+    }
+
+    // Reset filters
+    resetFilter(): void {
+      this.selectedStatuses = [];
+      this.statusLabel = 'All';
+      this.resignationSearch = '';
+      this.loadResignations();
+      this.showFilter = false;
+    }
+
+    // Apply filters
+    applyFilters(): void {
+      this.loadResignations();
+      this.showFilter = false;
+    }
+    // Remove single status filter
+  removeStatus(status: string): void {
+    this.selectedStatuses = this.selectedStatuses.filter(s => s !== status);
+    this.actualStatus = this.actualStatus.filter(s => s !== status);
+    setTimeout(() => {
+    this.updateStatusLabel();
+    this.loadResignations();
+    }, 10);
+  }
+
+  // Get label for a status value
+  getStatusLabel(value: string): string {
+    return this.statusOptions.find(opt => opt.value === value)?.label || '';
+  }
     onResignationSearch(): void {
       if(this.resignationSearch!=null){
         this.searchSubject.next(this.resignationSearch);
@@ -530,14 +589,15 @@ appliedFilters: string[] = []
       this.page = page;
       this.loadResignations();
     }
-    selectResignationStatus(status: string, label:string){
-      if(status=='ALL'){
-        status='';
+    selectResignationStatus(statuses: string[] | 'ALL', label: string) {
+      if (statuses === 'ALL') {
+          this.status = null;  // Changed to null instead of empty string
+      } else {
+          this.status = statuses;
       }
-      this.status=status;
-      this.statusLabel=label;
+      this.statusLabel = label;
       this.loadResignations();
-    }
+  }
 
 
 

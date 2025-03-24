@@ -1684,13 +1684,23 @@ calculateTimes(): void {
   // this.organizationShiftTimingRequest.workingHour = '';
 
   // Helper function to convert Date object to minutes from start of the day in local time
-  const dateToLocalMinutes = (date: Date | undefined) => {
-      if (!date) return 0;
-      const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-      const hours = localDate.getHours();
-      const minutes = localDate.getMinutes();
-      return hours * 60 + minutes;
-  };
+  const dateToLocalMinutes = (date: Date | string | undefined) => {
+    if (!date) return 0;
+
+    // If date is a string, convert it to a Date object
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+
+    // Check if parsedDate is a valid Date object
+    if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
+        return 0; // Return 0 for invalid dates
+    }
+
+    // Adjust for timezone offset to get local time
+    const localDate = new Date(parsedDate.getTime() + parsedDate.getTimezoneOffset() * 60000);
+    const hours = localDate.getHours();
+    const minutes = localDate.getMinutes();
+    return hours * 60 + minutes;
+};
 
   // Convert times to local minutes
   const inTimeMinutes = dateToLocalMinutes(inTime);
@@ -1741,6 +1751,9 @@ calculateTimes(): void {
       }
   }
 
+  console.log('Auto Checkout:', autoCheckout);
+  console.log('Out Time:', outTime);
+  console.log('Auto Checkout' , autoCheckout);
   if (autoCheckout) {
     if (!outTime) {
       this.organizationShiftTimingValidationErrors['autoCheckout'] =
@@ -1759,6 +1772,7 @@ calculateTimes(): void {
             'Auto checkout cannot be more than 10 hours after out time.';
         }
         this.autoCheckoutDifference = this.formatMinutesToTime(diffMinutes);
+        console.log('Auto Checkout Difference:', this.autoCheckoutDifference);
       }
     }
   } else {
@@ -2015,7 +2029,7 @@ formatMinutesToTime(minutes: number): string {
     this.getUserByFiltersMethodCall();
     // this.getUserByFiltersMethodCall();
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
-
+    this.calculateTimes();
     setTimeout(() => {
       if (tab == 'STAFF_SELECTION') {
         this.staffActiveTabInShiftTimingMethod();

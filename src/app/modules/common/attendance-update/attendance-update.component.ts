@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import moment from 'moment';
 import { Key } from 'src/app/constant/key';
@@ -55,19 +55,19 @@ export class AttendanceUpdateComponent implements OnInit {
   // Initialize the form with controls
   initializeForm(): void {
     this.attendanceTimeUpdateForm = this.fb.group({
-      requestedDate: [null],
+      requestedDate: [null, Validators.required],
       attendanceRequestType: ['UPDATE'],
       updateGroup: this.fb.group({
-        requestType: [''],
-        attendanceId: [''],
-        updatedTime: [null],
+        requestType: ['', Validators.required],
+        attendanceId: ['', Validators.required],
+        updatedTime: [null, Validators.required],
       }),
       createGroup: this.fb.group({
-        inRequestTime: [null],
-        outRequestTime: [null],
+        inRequestTime: [null , Validators.required],
+        outRequestTime: [null , Validators.required],
       }),
-      managerId: [''],
-      requestReason: ['']
+      managerId: ['', Validators.required],
+      requestReason: ['', Validators.required],
     });
   }
 
@@ -202,18 +202,19 @@ export class AttendanceUpdateComponent implements OnInit {
     if (this.checkHoliday === true || this.checkAttendance === true) {
       return false;
     }
+    const requestedDate = this.attendanceTimeUpdateForm.get('requestedDate');
     if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
       const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-      return (updateGroup ? updateGroup.valid : false) &&
+      return (updateGroup ? updateGroup.valid : false) && (requestedDate ? requestedDate.valid : false) &&
         (managerId ? managerId.valid : false) &&
         (requestReason ? requestReason.valid : false);
     } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
       const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-      return (createGroup ? createGroup.valid : false) &&
+      return (createGroup ? createGroup.valid : false) && (requestedDate ? requestedDate.valid : false) &&
         (managerId ? managerId.valid : false) &&
         (requestReason ? requestReason.valid : false);
     }
