@@ -1542,7 +1542,7 @@ export class TimetableComponent implements OnInit {
     return formattedTime.isValid() ? formattedTime.format('HH:mm:ss') : null;
   }
 
-  
+
   isExcelFile(file: File): boolean {
     const allowedMimeTypes = [
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
@@ -1935,7 +1935,9 @@ export class TimetableComponent implements OnInit {
     this.searchTextSystemOutage = '';
     this.activeMissedPunchFilters = [];
     this.activeSystemOutageFilters = [];
-    this.applyFilters();
+    setTimeout(()=>{
+      this.applyFilters();
+    }, 10);
   }
 
   onSearchTextMissedPunchChange(searchText: string): void {
