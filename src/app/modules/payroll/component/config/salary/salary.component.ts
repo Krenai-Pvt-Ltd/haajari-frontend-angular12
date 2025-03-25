@@ -46,7 +46,6 @@ export class SalaryComponent implements OnInit {
     window.scroll(0,0);
     this.getOrganizationEarningComponent();
     this.getOrganizationReimbursementComponent();
-    this.getDefaultReimbursementComponent();
     
   }
 
