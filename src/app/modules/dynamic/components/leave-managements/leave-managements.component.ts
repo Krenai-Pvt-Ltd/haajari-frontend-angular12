@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke, ApexLegend,} from 'ng-apexcharts';
 import { constant } from 'src/app/constant/constant';
 import { NavigationExtras, Router } from '@angular/router';
+import { Routes } from 'src/app/constant/Routes';
 
 
 export type ChartOptions = {
@@ -76,6 +77,8 @@ export class LeaveManagementsComponent implements OnInit {
   HALFDAY = Key.HALFDAY;
 
   readonly Constants=constant;
+  readonly Routes=Routes;
+
 
   ALL: string = 'all';
   isLoadingLeaves:boolean = false;
@@ -1471,6 +1474,10 @@ routeToUserProfile(uuid: string) {
 
 
 
-
+showLeaveActionButton(leave:any): boolean { 
+  return (leave.status == this.PENDING &&
+     ((this.logInUserUuid!=leave.uuid && this.logInUserUuid==leave.managerUuid)
+      ||this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)));
+ }
 
 }
