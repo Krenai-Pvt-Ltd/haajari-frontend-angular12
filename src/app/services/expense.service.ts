@@ -43,13 +43,11 @@ export class ExpenseService {
       });
     }
 
-    getUserTransactions(userId: string){
-      let params = new HttpParams();
-      params.set('userUuid',userId);
-      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/user-transactions`, {
-        params,
-      });
-    }
+    getUserTransactions(userId: string) {
+      let params = new HttpParams().set('userUuid', userId); 
+      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/user-transactions`, { params });
+  }
+  
 
     rechargeWallet(requestBody : any) {
       // const body = { userId, amount, remark };

@@ -389,6 +389,14 @@ openExpenseComponent(expense: any) {
   partiallyPayment: boolean = false;
   expensePaymentType: string = 'full';
 
+  resetPagination() {
+    this.databaseHelper.search = ""; 
+    this.databaseHelper.searchBy = "";
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
+    this.databaseHelper.sortBy = "";
+    this.databaseHelper.sortOrder = ""; 
+}
 
 
   /** View Wallet Balance **/
@@ -402,8 +410,9 @@ openExpenseComponent(expense: any) {
     this.filters = { fromDate: undefined, toDate: undefined };
     this.loading = false;
     this.dashBoardDateView = false;
+    this.resetPagination();
     this.getWalletUser();    
-}
+ }
 
   walletUserList: any[] = new Array();
   totalWalletUser : number = 0;
@@ -428,6 +437,17 @@ openExpenseComponent(expense: any) {
     }
     
     this.applyWalletFilters();
+  }
+
+  walletPageChanged(page:any) {
+    debugger
+    this.databaseHelper.currentPage = page;
+    this.getWalletUser();
+  }
+
+  walletgetEndIndex(): number {
+    const endIndex = this.databaseHelper.currentPage * this.databaseHelper.itemPerPage;
+    return endIndex > this.totalWalletUser ? this.totalWalletUser : endIndex;
   }
 
 
@@ -553,22 +573,53 @@ searchByEmployeeName(event: Event): void {
 
   userTransactions: any[] = new Array();
   totalTransaction : number = 0;
+  totalUsedAmount : number = 0;
+  lastTransactionDate : any = '';
+  userTransactionLoading : boolean = false;
+
+  fetchUserTransactionsByClick(userId: string){
+    this.userTransactions = [];
+    if(this.userTransactions.length <= 0){
+      this.fetchUserTransactions(userId);
+    }
+  }
 
   fetchUserTransactions(userId: string) {
+    this.userTransactionLoading = true;
     this.expenseService.getUserTransactions(userId).subscribe((res: any) => {
       if (res.status) {
-        this.userTransactions = res.object
-        this.totalTransaction = res.totalItems
-        console.log('UserWalletTransactions: ',this.userTransactions)
- 
+        this.userTransactions = res.object;
+        this.totalTransaction = res.totalItem;
+
+        // Calculate total used amount (sum of DEBIT transactions)
+        this.totalUsedAmount = this.userTransactions
+          .filter(transaction => transaction.type === 'DEBIT')
+          .reduce((sum, transaction) => sum + transaction.requestedAmount, 0);
+
+        // Get the latest transaction date
+        if (this.userTransactions.length > 0) {
+          this.lastTransactionDate = this.userTransactions
+            .map(transaction => new Date(transaction.transactionDate))
+            .sort((a, b) => b.getTime() - a.getTime())[0]; // Get the most recent date
+        } else {
+          this.lastTransactionDate = null;
+        }
+
+        console.log('User Wallet Transactions:', this.userTransactions);
+        console.log('Total Used Amount:', this.totalUsedAmount);
+        console.log('Last Transaction Date:', this.lastTransactionDate);
+        this.userTransactionLoading = false;
         this.loading = false;
-      }else{
-       this.expenseList = [];
-       this.loading = false;
+      } else {
+        this.userTransactions = [];
+        this.totalUsedAmount = 0;
+        this.lastTransactionDate = null;
+        this.loading = false;
+        this.userTransactionLoading = false;
       }
-    })
-    
-  }
+    });
+}
+
 
 
   users: User[] = [];
@@ -727,26 +778,27 @@ onDateRangeChange(dates: [Date, Date] | null) {
         for (let expense of this.expenseSummary) {
           switch (expense.status.id) {
             case 41: // Paid
-              this.settledAmount = expense.totalAmount;
+              this.settledAmount = expense.settledAmount;
+              this.unsettledAmount = expense.unSettledAmount;
               break;
             case 15: // Rejected
-              this.rejectedAmount = expense.totalAmount;
+              this.rejectedAmount = expense.requestedAmount;
               break;
             case 14: // Approved
-              this.unsettledAmount = expense.totalAmount;
+              this.unsettledAmount += expense.requestedAmount;
               break;
             case 13: // Pending -> showing as Inprocess
-              this.pendingAmount = expense.pendingAmount;
+              this.pendingAmount = expense.requestedAmount;
               break;
             case 40: // Payroll
             case 53: // Payroll Partial
-              this.payrollAmount += expense.totalAmount;
+              this.payrollAmount += expense.requestedAmount;
               break;
             default:
               break;
           }
         }
-  
+        console.log("Unsettled Amount : ",this.unsettledAmount);
         console.log("Expense Summary:", res);
       }
     });
@@ -863,6 +915,19 @@ onDateRangeChange(dates: [Date, Date] | null) {
           break;
       }
     });
+  }
+
+
+  expandedStates: boolean[] = [];
+  expandedIndex: number | null = null;
+
+  toggleCollapse(index: number): void {
+    this.expandedIndex = this.expandedIndex === index ? null : index;
+    this.expandedStates[index] = !this.expandedStates[index];
+  }
+  
+  isExpanded(index: number): boolean {
+    return this.expandedIndex === index;
   }
 
 

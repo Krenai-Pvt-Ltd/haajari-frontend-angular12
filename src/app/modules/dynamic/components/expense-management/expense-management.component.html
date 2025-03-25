@@ -203,7 +203,7 @@
                                                                 </g>
                                                             </svg>    
                                                         </span>
-                                                        <p class="mb-0 font-13 ">In Process</p>
+                                                        <p class="mb-0 font-13 ">Pending</p>
                                                     </div>
                                                     <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{pendingAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
@@ -609,7 +609,7 @@
                                            <tbody *ngIf="!loading">
                                             <ng-container *ngIf="expenseList.length == 0">
                                                 <tr>
-                                                    <td colspan="8">
+                                                    <td colspan="10">
                                                         <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
                                                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                                 [nzNotFoundContent]="contentTpl">
@@ -641,7 +641,7 @@
                                                     <span class="table-font-weight"> ₹ {{expense.approvedAmount == null ? 0 : expense.approvedAmount }} </span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
+                                                    <span class="table-font-weight"> ₹ {{ (expense.amount - expense.approvedAmount) === expense.amount ? 0 : expense.amount - expense.approvedAmount}} </span>
                                                 </td>
                                                 <td class="text-left">
                                                     <span class="table-font-weight white-space"> {{expense.notes}}  </span>
@@ -811,9 +811,9 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 60%;">Staff Name</th>
-                                                <th>Transaction Date</th>
+                                                <th>Last Recharge Date</th>
                                                 <th>Wallet Amount</th>
-                                                <th>Balance</th>
+                                                <th>Used Amount</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -837,26 +837,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                        <!-- Shimmer Loading Ui End-->
-
-                                        <!-- TO DO: empty notification  -->
-                                        <!-- <tbody>
-                                            <tr>
-                                              <td colspan="5">
-                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
-                                                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                    [nzNotFoundContent]="contentTpl">
-                                                    <ng-template #contentTpl>
-                                                      <p class="mb-1 empty-detail font-16">
-                                                        No data for now
-                                                      </p>
-                                                    </ng-template>
-                                                  </nz-empty>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody> -->
-                                           <!-- empty notification end -->
+                                        
                                         <tbody *ngIf="!loading">
                                             <ng-container *ngIf="walletUserList.length == 0">
                                                 <tr>
@@ -872,7 +853,8 @@
                                                     </td>
                                                 </tr>
                                             </ng-container>
-                                            <tr *ngFor="let user of walletUserList; let i= index">
+                                            <ng-container *ngFor="let user of walletUserList; let i= index">
+                                            <tr>
                                                 
                                                 <td>
                                                     <div class="d-flex align-items-center gap-3 wallet-transactions-list">
@@ -896,18 +878,19 @@
                                                     <span class="text-success fw-normal">+₹2,54,240</span>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed"
-                                                    data-bs-toggle="collapse" href="#expenseList" role="button" aria-expanded="false" aria-controls="expenseList">
+                                                    <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed" 
+                                                        data-bs-toggle="collapse" href="#expenseList" role="button" aria-expanded="false" 
+                                                        aria-controls="expenseList" (click)="toggleCollapse(i); fetchUserTransactionsByClick(user.userUuid);">
                                                         <i class="bi bi-chevron-down font-14 position-relative" style="top: 1px;"></i>
                                                     </button>
-                                                </td>
+                                                </td>                                                
                                             </tr>
-                                            <tr class="collapse" id="expenseList">
+                                            <tr class="collapse" [id]="'collapseExamplesheet' + i" [ngClass]="{'show': isExpanded(i)}">
                                                 <td colspan="5" class="" style="padding: 0px !important;">
                                                     <div class="expense-list p-3">
                                                         <div class="d-flex align-items-centar justify-content-between">
-                                                            <p class="mb-0 font-13 fw-normal color-basic">Latest Transaction of money on: <span class="fw-semibold text-black"> 17June,2025</span> </p>
-                                                            <p class="mb-0 font-13 fw-normal color-basic">Amount Used Till Now: <span class="text-primary fw-semibold">₹35,000</span></p>
+                                                            <p class="mb-0 font-13 fw-normal color-basic">Latest Transaction of money on: <span class="fw-semibold text-black"> {{ lastTransactionDate ? (lastTransactionDate | date:'dd-MMM-yyyy') : 'N/A' }}</span> </p>
+                                                            <p class="mb-0 font-13 fw-normal color-basic">Amount Used Till Now: <span class="text-primary fw-semibold">₹{{ totalUsedAmount }}</span></p>
                                                         </div>
                                                         <table class="table border mt-3">
                                                             <thead>
@@ -916,16 +899,54 @@
                                                                     <th class="text-center">Expense Amount</th>
                                                                     <th class="text-center">Amount Rejected</th>
                                                                     <th class="text-center">Wallet Balance</th>
-                                                                    <th class="text-center">Settled Date</th>
+                                                                    <th class="text-center">Description</th>
                                                             </thead>
+                                                            <tbody *ngIf="userTransactionLoading">
+                                                                <tr *ngFor="let item of [].constructor(1)"> 
+                                                                    <td>
+                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                    </td>
+                                                                    <td>
+                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                    </td>
+                                                                    <td>
+                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                    </td>
+                                                                    <td>
+                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                    </td>
+                                                                    <td>
+                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                    </td>
+                                                                    <td>
+                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                    </td>
+                                                    
+                                                                </tr>
+                                                            </tbody>
                                                             <tbody>
-                                                                <tr>
+                                                                <tr *ngFor="let transaction of userTransactions; let i= index" >
                                                                     <td><span class="fw-normal font-13">Travel & Transportation </span></td>
-                                                                    <td><span class="fw-normal font-13">12th-24th May,Fri</span></td>
-                                                                    <td class="text-center"><span class="fw-normal font-13">₹9,000</span></td>
+                                                                    <td><span class="fw-normal font-13">{{transaction.transactionDate | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
+                                                                    <td class="text-center"><span class="fw-normal font-13">₹{{transaction.requestedAmount}}</span></td>
                                                                     <td class="text-center"><span class="fw-normal font-13">₹0</span></td>
-                                                                    <td class="text-center"><span class="text-success font-13 fw-semibold">+₹46,894</span></td>
-                                                                    <td class="text-center"><span class="fw-normal font-13">12th-24th May,Fri</span></td>
+                                                                    <td class="text-center">
+                                                                        <span 
+                                                                            class="font-13 fw-semibold" 
+                                                                            [ngClass]="{
+                                                                                'text-success': transaction.type === 'CREDIT',
+                                                                                'text-danger': transaction.type === 'DEBIT'
+                                                                            }">
+                                                                            <ng-container *ngIf="transaction.type === 'CREDIT'"> 
+                                                                               +
+                                                                            </ng-container>
+                                                                            <ng-container *ngIf="transaction.type === 'DEBIT'"> 
+                                                                                -
+                                                                            </ng-container>
+                                                                            ₹{{ transaction.walletAmount }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="text-center"><span class="fw-normal font-13">{{ transaction.description ? transaction.description : '---' }}</span></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -933,15 +954,15 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            
+                                            </ng-container>
                                         </tbody>
                                     </table>
 
                                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="walletUserList.length > 0 && totalWalletUser > 9">
                                         <p class="mb-0">
-                                            Showing {{ getStartIndex() }} to {{ getEndIndex() }} of {{ totalWalletUser }} records
+                                            Showing {{ getStartIndex() }} to {{ walletgetEndIndex() }} of {{ totalWalletUser }} records
                                         </p>                                        
-                                        <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalWalletUser" [rotate]="true" (pageChange)="pageChanged($event)"
+                                        <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalWalletUser" [rotate]="true" (pageChange)="walletPageChanged($event)"
                                         [pageSize]="databaseHelper.itemPerPage"
                                         [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
                                         </ngb-pagination>
@@ -970,11 +991,11 @@
          #closeApproveModal></button>
       </div>
       <app-expense-request 
-  *ngIf="showExpenseComponent" 
-  [data]="expenseData" 
-  (closeEvent)="onExpenseComponentClose()" 
-  (actionCompleted)="showToast($event)">
-</app-expense-request>
+        *ngIf="showExpenseComponent" 
+        [data]="expenseData" 
+        (closeEvent)="onExpenseComponentClose()" 
+        (actionCompleted)="showToast($event)">
+     </app-expense-request>
 
     </div>
     </div>
@@ -994,10 +1015,10 @@
                 <!-- User Selection Dropdown -->
                 <div class="mb-3">
                   <label for="userSelect" class="form-label">Select User</label>
-                  <nz-select 
+                  <nz-select nzShowSearch 
                     [(ngModel)]="selectedUserId" 
                     [nzPlaceHolder]="'Select a user'" 
-                    class="w-100 form-control placeholder-line text-capitalize" 
+                    class="w-100 form-control placeholder-lines" 
                     required 
                     name="userId">
                     <nz-option 

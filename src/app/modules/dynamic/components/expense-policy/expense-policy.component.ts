@@ -681,17 +681,6 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
         break;
       }
     }
-    // this.type = type;
-    // this.expensePolicyReq.paymentType=type;
-    // this.expensePolicyReq.isFixed = isFixed
-    // this.expensePolicyItem.paymentTypeStr=paymentType;
-    // this.paymentType = paymentType;
-    // if (  this.expensePolicyItem.paymentTypeStr === 'fixed') {
-    //   this.flexibleAmount = null; // Clear flexible amount if "Fixed" is selected
-    // }
-    // if (  this.expensePolicyItem.isFixed) {
-    //   this.flexibleAmount = null; // Clear flexible amount if "Fixed" is selected
-    // }
   }
 
   // staff selection
@@ -1215,19 +1204,8 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     console.log(this.expensePolicyItem);
 
     this.tempPolicyName = this.policyName;
-    // this.expensePolicyReq=    this.expensePolicyItem;
-
-      // this.expensePolicyReq.paymentType = this.type
-      // this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
-      // this.expensePolicyReq.expenseTypeId = this.expenseTypeId
-      // this.expensePolicyReq.expenseTypeName = this.expenseTypeName
-      // this.expensePolicyReq.amount = Number(this.policyAmount)
-      // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
-      // this.expensePolicyReq.isThresold = this.isThresholdSelected
-      // this.expensePolicyReq.isFixed = this.paymentType
-      // this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
-      // this.policyAmount = this.policyAmount
-      this.flexibleAmount = this.flexibleAmount
+   
+    this.flexibleAmount = this.flexibleAmount
 
     if(!this.editIndexPolicyToggle){
       this.expensePolicyReqList.push(this.expensePolicyItem)
@@ -1236,18 +1214,11 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     }
 
     this.expensePolicyReq = new ExpensePolicy();
-    // this.expensePolicyItem.expenseTypeName=this.tempPolicyName
-
-    // this.expenseTypeName = this.tempPolicyName
+  
     this.expensePolicyItem= new ExpensePolicy(); 
-
-    // this.expenseTypeId = 0
-    // this.expenseTypeName = ''
 
     this.isExpenseTypeSelected = false;
     this.editIndexPolicyToggle = false;
-    // this.policyAmount = ''
-    // this.paymentType = '';
     this.flexibleAmount = null;
     this.editIndex = 0
 
@@ -1279,23 +1250,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     this.companyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
     this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
 
-    console.log('Create: ',this.companyExpenseReq)
-
-    // this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
-    //   if(res.status){
-    //     this.closeExpensePolicyModal.nativeElement.click()
-    //     form.resetForm()
-    //     this.clearPolicyForm();
-    //     this.getAllCompanyExpensePolicy()
-    //     this.resetThresholdOptions()
-    //     this.registerToggle = false
-    //     if(this.isMappedUserModalOpen){
-    //       this.usersAlreadyAssigned?.nativeElement.click();
-    //       this.isMappedUserModalOpen = false
-    //     }
-    //     this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
-    //   }
-    // })
+    console.log('Create: ',this.companyExpenseReq);
 
   }
 
@@ -1338,33 +1293,6 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     if(this.tempExpPolicyId > 0){
       this.companyExpenseReq.id = this.tempExpPolicyId
     }
-
-    // console.log('Create: ',this.companyExpenseReq)
-    //      this.closeExpensePolicyModal.nativeElement.click()
-    //     form.resetForm()
-    //     this.clearPolicyForm();
-    //     this.getAllCompanyExpensePolicy()
-    //     this.resetThresholdOptions()
-    //     this.registerToggle = false
-    //     this.userMappedLoading = false;
-    //     this.updateToggle = false;
-    //     this.isValidated = false;
-    //     this.tempSelectedStaffIdsUser = []
-    //     this.oldSelectedStaffIdsUser = []
-
-    //     this.companyExpensePolicyId = 0
-    //     this.companyExpenseReq.id = 0
-    //     this.tempExpPolicyId = 0
-    //     this.policyName = ''
-    //     this.tempPolicyName = ''
-    //     if(this.isMappedUserModalOpen){
-    //       this.usersAlreadyAssigned?.nativeElement.click();
-    //       this.isMappedUserModalOpen = false
-    //     }
-
-    //     this.companyExpenseReq = new CompanyExpense();
-    //     this.tempCompanyExpenseReq = new CompanyExpense();
-    //     this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
 
 
     this.companyExpenseReq.expensePolicyList.forEach((expensePolicyList: ExpensePolicy)=>{
@@ -1472,44 +1400,12 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
         this.tempCompanyExpenseReq = new CompanyExpense();
         this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
 
-
-    // this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
-    //   if(res.status){
-    //     this.closeExpensePolicyModal.nativeElement.click()
-    //     form.resetForm()
-    //     this.clearPolicyForm();
-    //     this.getAllCompanyExpensePolicy()
-    //     this.resetThresholdOptions()
-    //     this.registerToggle = false
-    //     this.userMappedLoading = false;
-    //     this.updateToggle = false;
-    //     this.isValidated = false;
-    //     this.companyExpensePolicyId = 0
-    //     this.companyExpenseReq.id = 0
-    //     this.policyName = ''
-    //     this.tempPolicyName = ''
-    //     this.pName = ''
-    //     if(this.isMappedUserModalOpen){
-    //       this.usersAlreadyAssigned?.nativeElement.click();
-    //       this.isMappedUserModalOpen = false
-    //       // this.tempCompanyExpenseReq = new CompanyExpense();
-    //     }
-    //     this.companyExpenseReq = new CompanyExpense();
-    //     this.tempCompanyExpenseReq = new CompanyExpense();
-    //     this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
-    //   }else{
-    //     this.clearPolicyForm();
-    //     this.companyExpensePolicyId = 0
-    //     this.companyExpenseReq.id = 0
-    //   }
-    // })
-
   }
 
   clearPolicyForm(){
     this.companyExpenseReq = new CompanyExpense();
     // this.tempCompanyExpenseReq = new CompanyExpense();
-this.expensePolicyItem= new ExpensePolicy();
+    this.expensePolicyItem= new ExpensePolicy();
     this.expensePolicyReqList = []
     this.selectedStaffIdsUser = []
     this.deSelectedStaffIdsUser = []
@@ -1537,29 +1433,14 @@ this.expensePolicyItem= new ExpensePolicy();
   editIndex: number = 0
   async editExpensePolicy(index: number){
     debugger
+    this.viewForm = true;
+    this.viewAddBtn = false;
     this.editIndexPolicyToggle = true;
     this.editIndex = index;
     const item = this.expensePolicyReqList[index];
 
     this.expensePolicyItem=item;
-    console.log("🚀 ~ ExpensePolicyComponent ~ editExpensePolicy ~ this.expensePolicyItem:", this.expensePolicyItem)
-
-    // const defaultExpenseType = this.getDefaultExpenseType(item.expenseTypeId);
-    // this.expensePolicyItem.
-    // this.selectExpenseType(defaultExpenseType)
-    // this.expensePolicyReq.paymentType = item.paymentType
-    // this.expensePolicyReq.limitAmount = item.limitAmount
-    // this.expensePolicyReq.expenseTypeId = item.expenseTypeId
-    // this.policyAmount = item.amount.toString()
-    // this.paymentType = this.paymentType
-    // this.isThresholdSelected = this.isThresholdSelected
-    // this.flexibleAmount = item.limitAmount
-    // this.thresholdType = this.thresholdType
-    // this.expensePolicyReq.expenseTypeName = this.expenseTypeName
-
-    // this.paymentType = item.isFixed
-    // this.thresholdType = item.isPercent
-    // this.isThresholdSelected = item.isThresold
+    console.log("🚀 ~ ExpensePolicyComponent ~ editExpensePolicy ~ this.expensePolicyItem:", this.expensePolicyItem);
   }
 
    getDefaultExpenseType(id: number) {
@@ -1646,12 +1527,6 @@ this.expensePolicyItem= new ExpensePolicy();
         break;
       }
     }
-
-    // this.thresholdType = type;
-    // this.expensePolicyReq.isPercentage = isPercentagFlag
-    // this.expensePolicyReq.isPercent = isPercentagFlag==1?true:false;
-
-    // this.thresholdAmount = 0; // Reset threshold amount when changing type
   }
 
   private resetThresholdOptions(): void {
@@ -1660,7 +1535,8 @@ this.expensePolicyItem= new ExpensePolicy();
     this.thresholdType = null;
     this.thresholdAmount = 0;
     this.flexibleAmount = null
-    this.expensePolicyReq.isPercentage
+    this.expensePolicyReq.isPercentage = 0;
+    this.expensePolicyItem.isPercentage= 0;
   }
 
 
@@ -1743,11 +1619,6 @@ this.expensePolicyItem= new ExpensePolicy();
   removeUserIds: number[] = [];
   removeUser(userId: number) {
     debugger
-
-    // if(!this.updateToggle){
-    //   this.deSelectedStaffIdsUser = []
-    // }
-
     console.log('temp req: ',this.tempCompanyExpenseReq)
 
     this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
@@ -1775,16 +1646,6 @@ this.expensePolicyItem= new ExpensePolicy();
 
     this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
 
-    // if(this.removeUserIds.length > 0){
-    //   if (this.tempCompanyExpenseReq.selectedUserIds.includes(userId)) {
-    //     const index = this.tempCompanyExpenseReq.selectedUserIds.indexOf(userId);
-    //     if (index > -1) {
-    //       this.tempCompanyExpenseReq.selectedUserIds.splice(index, 1);
-    //     }
-    //   }
-    // }
-
-    // this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
   }
 
 
@@ -1832,29 +1693,13 @@ this.expensePolicyItem= new ExpensePolicy();
       this.updateToggle = true;
       this.expensePolicyReq = new ExpensePolicy()
 
-      console.log('expense obj: ',companyExpense)
-
-      // const item = this.expensePolicyReqList[index];
-
-      // console.log('update item: ',item)
-
-      // const defaultExpenseType = this.getDefaultExpenseType(companyExpense.companyExpensePolicyTypeRes.expenseTypeId);
-
-      // this.expensePolicyReqList = companyExpense.companyExpensePolicyTypeRes;
-
+      console.log('expense obj: ',companyExpense);
 
       companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
-        // this.expensePolicyReq.paymentType = expenseType.isFlexibleAmount
-        // this.expensePolicyReq.limitAmount = expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount
-        this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId
-        this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName
-        this.expensePolicyReq.amount = Number(expenseType.amount)
-
-        // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
-        // this.expensePolicyReq.isThresold = this.isThresholdSelected
-        // this.expensePolicyReq.isFixed = this.paymentType
-        this.expensePolicyReq.isPercentage = expenseType.isPercentage
-        // this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
+        this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId;
+        this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName;
+        this.expensePolicyReq.amount = Number(expenseType.amount);
+        this.expensePolicyReq.isPercentage = expenseType.isPercentage;
 
         this.expensePolicyReqList.push(this.expensePolicyReq)
       })
@@ -1872,22 +1717,6 @@ this.expensePolicyItem= new ExpensePolicy();
       });
 
       this.policyName = companyExpense.policyName
-
-      // set expense type end
-
-      // this.selectExpenseType(defaultExpenseType)
-      // this.expensePolicyReq.paymentType = item.paymentType
-      // this.expensePolicyReq.limitAmount = item.limitAmount
-      // this.expensePolicyReq.expenseTypeId = item.expenseTypeId
-      // this.policyAmount = item.amount.toString()
-
-      // this.flexibleAmount = item.limitAmount
-
-      // this.paymentType = item.isFixed
-      // this.thresholdType = item.isPercent
-      // this.isThresholdSelected = item.isThresold
-
-      // this.updateToggle = false;
 
       console.log('update expensePolicyReq: ',this.expensePolicyReq)
   }
@@ -2051,13 +1880,6 @@ selectFile(event: any) {
         // this.totalPage = Math.ceil(this.data.length / this.pageSize);
         this.totalPage = 10;
 
-        // if(this.areAllFalse() && this.mismatches.length===0){
-        //   this.isinvalid=false;
-        //   this.uploadUserFile(file, this.fileName);
-        // }else{
-        //   this.isinvalid=true;
-        // }
-
         this.updatePaginatedData();
 
       } else {
@@ -2122,33 +1944,16 @@ saveFile() {
   const dataTransfer = new DataTransfer();
   dataTransfer.items.add(file);
 
-// Create a fake event to pass to selectFile
-// const event = new Event('change');
-// Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
-// this.selectFile(event);
 
   this.validateRows(this.data.slice(1));
 
-  // if(this.validateRowToggle){
-  //   this.updatePaginatedData();
-  // }else{
-  //   this.uploadUserFile(file, 'edited_file.xlsx');
-  // }
-
-setTimeout(() => {
-   if(this.validateRowToggle){
-    this.updatePaginatedData();
-  }else{
-    this.uploadUserFile(file, 'edited_file.xlsx');
-  }
-}, 300)
-// }, 200)
-
-// setTimeout(() =>{
-//   if(!this.validateRowToggle){
-//     this.uploadUserFile(file, 'edited_file.xlsx');
-//   }
-// },200)
+  setTimeout(() => {
+    if(this.validateRowToggle){
+      this.updatePaginatedData();
+    }else{
+      this.uploadUserFile(file, 'edited_file.xlsx');
+    }
+  }, 300)
 
 }
 
@@ -2195,25 +2000,8 @@ pageSize: number = 10; // Adjust based on your requirements
 totalPage: number = 0;
 
 onPageChange(page: number) {
-  // this.bulkShift=null;
-  // this.bulkLeave=[];
-  // this.bulkTeam=[];
-  // this.selectAllCurrentPage=false;
   this.currentPage = page;
 }
-
-  // firstUpload:boolean=true;
-  // areAllFalse(): boolean {
-  //   if(this.firstUpload===true){
-  //     this.firstUpload=false;
-  //     return false;
-  //   }
-  //   return this.invalidCells
-  //     .reduce((acc, row, rowIndex) => {
-  //       return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
-  //     }, [])
-  //     .every(value => value === false);
-  // }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
     const byteArray = new Uint8Array(buffer);
