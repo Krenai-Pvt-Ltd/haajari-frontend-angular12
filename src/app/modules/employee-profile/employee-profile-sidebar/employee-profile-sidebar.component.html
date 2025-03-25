@@ -14,7 +14,7 @@
         <div class="position-relative">
             <div *ngIf="employeeProfileResponseData?.profilePic; else namePlaceholder">
                 <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                    [src]="dataService.employeeData.profilePic" alt="Profile Picture">
+                    [src]="dataService.employeeData.profilePic" alt="Profile Picture" class="image-100 radius-50 object-fit-cover">
             </div>
 
             <ng-template #namePlaceholder>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="mt-3 d-flex align-items-center gap-3">
-            <h5 class="mb-0">{{employeeProfileResponseData?.userName}}</h5>
+            <h5 class="mb-0 text-black font-20 fw-600 lh-lg text-capitalize">{{employeeProfileResponseData?.userName}}</h5>
 
 
             <ng-container *ngIf="!toggle">

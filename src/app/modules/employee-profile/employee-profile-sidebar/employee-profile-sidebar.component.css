@@ -12,25 +12,12 @@
     height: 90px;
 }
 
-.employee-detail img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-}
 
 .employee-detail {
     margin-top: -75px;
 }
 
 .employee-detail h5 {
-    color: #000;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 26.208px;
-    /* 100.798% */
-    letter-spacing: 0.357px;
-    text-transform: capitalize;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
