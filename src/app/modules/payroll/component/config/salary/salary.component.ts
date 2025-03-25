@@ -341,7 +341,7 @@ export class SalaryComponent implements OnInit {
   this.reimbursementComponents = [];
     this._salaryComponentService.getOrganizationReimbursementComponent().subscribe((response) => {
         if(response.status){
-          this.reimbursementComponents= response.object;
+          this.reimbursementComponents= response.object.content;
           this.totalItems = response.totalItems;
 
           if(this.reimbursementComponents==null){
