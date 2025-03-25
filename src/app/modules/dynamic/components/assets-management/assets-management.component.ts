@@ -24,6 +24,8 @@ import {
   ApexLegend
 } from "ng-apexcharts";
 import { constant } from 'src/app/constant/constant';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -54,12 +56,15 @@ export class AssetsManagementComponent implements OnInit {
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
-     private cdr: ChangeDetectorRef,) {  this.getMonthlyAssignmentsAssets();}
+     private cdr: ChangeDetectorRef,
+     public rbacService: RoleBasedAccessControlService
+    ) {  this.getMonthlyAssignmentsAssets();}
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
 
   isEditing: boolean[] = [];
   loading: boolean[] = [];
+  readonly Routes=Routes;
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
