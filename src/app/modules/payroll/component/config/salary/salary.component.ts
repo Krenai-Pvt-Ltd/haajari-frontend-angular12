@@ -33,7 +33,7 @@ export class SalaryComponent implements OnInit {
   totalItems = 0;
 
   shimmer: boolean = false;
-  toggle:boolean =true;
+  toggle:boolean =false;
   saveLoader:boolean=false;
   isNewComponent:boolean=false;
 
@@ -340,8 +340,8 @@ export class SalaryComponent implements OnInit {
   this.reimbursementComponents = [];
     this._salaryComponentService.getOrganizationReimbursementComponent().subscribe((response) => {
         if(response.status){
-          this.reimbursementComponents= response.object;
-          this.totalItems = response.totalItems;
+          this.reimbursementComponents= response.object.content;
+          this.totalItems = response.object.totalElements;
 
           if(this.reimbursementComponents==null){
             this.reimbursementComponents= new Array();
