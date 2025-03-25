@@ -14,6 +14,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { TeamLocation } from 'src/app/models/team-location';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { NgForm } from '@angular/forms';
+import { Routes } from 'src/app/constant/Routes';
 
 export class RegisterTeamRequest {
   userUuids!: string[];
@@ -27,47 +28,35 @@ export class RegisterTeamRequest {
   styleUrls: ['./team.component.css'],
 })
 export class TeamComponent implements OnInit {
-  // slackDataSaved: boolean = false;
-  // localStorageKey: string = 'slackDataSaved';
-
-  // itemPerPage : number = 5;
-  // pageNumber : number = 1;
-  // total !: number;
   teamName: string = '';
   teamDescription: string = '';
-
   teamsNew: TeamResponse[] = [];
   filteredUsers: Users[] = [];
   itemPerPage: number = 12;
   pageNumber: number = 1;
   total!: number;
   rowNumber: number = 1;
+  teams: TeamResponse[] = [];
 
   loginDetails = this.helperService.getDecodedValueFromToken();
+  readonly Routes=Routes;
   async assignRole() {
-    // this.role =  await this.rbacService.getRole();
-    // this.userUuid = await this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
-  // role: any;
-  // userUuid : any;
   orgRefId: any;
   ROLE: any;
   onboardingVia: string = '';
   logInUserUuid: string = '';
   showManagerTickForUuid: string = '';
+  addTeamFlag: boolean = false;
 
   async ngOnInit(): Promise<void> {
     window.scroll(0, 0);
-    // this.getAllUsersByFiltersFunction();
     this.assignRole();
-    // this.getAllUser();
     this.ROLE = await this.rbacService.getRole();
     this.logInUserUuid = await this.rbacService.getUUID();
     this.getTeamsByFiltersFunction();
     this.getUsersRoleFromLocalStorage();
-    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
-    // const localStorageFlag = localStorage.getItem(this.localStorageKey);
     const localStorageUniqueUuid = localStorage.getItem('uniqueId');
     if (localStorageUniqueUuid) {
       this.uniqueUuid = localStorageUniqueUuid;
@@ -79,17 +68,6 @@ export class TeamComponent implements OnInit {
       this.uniqueUuid = localStorageUniqueSlackUuid;
       this.getFirebaseDataOfReload();
     }
-
-    // const localStorageRotateToggle = localStorage.getItem('rotateToggle');
-    // if(localStorageRotateToggle){
-    //   this.rotateToggle = true;
-    // }
-
-    // if (!localStorageFlag && this.localStorageRoleAdminFlag==true) {
-    //   this.saveSlackChannelsDataToTeam();
-    //   localStorage.setItem(this.localStorageKey, 'true');
-    // }
-
     this.getOnboardingVia();
   }
 
@@ -100,7 +78,7 @@ export class TeamComponent implements OnInit {
     private modalService: ModalService,
     private helperService: HelperService,
     private db: AngularFireDatabase,
-    private rbacService: RoleBasedAccessControlService
+    public rbacService: RoleBasedAccessControlService
   ) {
     this.Settings = {
       singleSelection: false,
@@ -113,17 +91,7 @@ export class TeamComponent implements OnInit {
 
   // ############################
 
-  // showManagerTick(uuid: string) {
-  //   this.showManagerTickForUuid = uuid;
-  // }
 
-  addTeamFlag: boolean = false;
-
-  // openTeamModal(teamId: number) {
-  //   this.router.navigate(['/team-detail'], { queryParams: { teamId: teamId } });
-  //   // this.openModal();
-
-  // }
 
   getOnboardingVia() {
     debugger;
@@ -140,12 +108,6 @@ export class TeamComponent implements OnInit {
   openModal() {
     this.modalService.openModal();
   }
-
-  // callModal() {
-  //   const modalRef = this.modalService.open(TeamDetailComponent,
-  //     { size: 'xl', backdrop: 'static', keyboard: false, windowClass:'modal fade'
-  //     });
-  // }
 
   // ###############################
 
@@ -275,9 +237,6 @@ export class TeamComponent implements OnInit {
       this.registerTeamRequest.teamLocationRequest = new TeamLocation();
     }
 
-    // console.log('Testing' + this.registerTeamRequest.userUuids);
-    // console.log('Testing' + this.registerTeamRequest.teamLocationRequest);
-
     this.dataService
       .registerTeam(
         this.teamName,
@@ -286,7 +245,6 @@ export class TeamComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          // location.reload();
           this.locationEnabled = false;
           this.teamLocationRequest = new TeamLocation();
           this.teamName = '';
@@ -313,55 +271,11 @@ export class TeamComponent implements OnInit {
       );
   }
 
-  // getLoginDetailsOrgRefId(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-  //     return loginData.orgRefId;
-  //   }
-  // }
-
-  // showMultiselectDropdown: boolean = true;
-  // searchTxt: string = '';
-
-  // selectedMembers: number[] = [];
-  // filteredMembers: any[] = [];
-
-  // filterMembers() {
-  //   this.filteredMembers = this.emailIdPairs.filter(user =>
-  //     user.name.toLowerCase().includes(this.searchTxt.toLowerCase())
-  //   );
-  // }
-
-  // toggleMember(user: any) {
-  //   if (this.selectedMembers.includes(user.id)) {
-  //     this.selectedMembers = this.selectedMembers.filter(id => id !== user.id);
-  //   } else {
-  //     this.selectedMembers.push(user.id);
-  //   }
-  // }
+  
 
   // ######################################## Home #################################
 
-  teams: TeamResponse[] = [];
 
-  //  teamId!:any;
-  //  index=0;
-
-  // teamIds:number[]=new Array();
-  // getAllUser(){
-  //   debugger
-  //   this.dataService.getAllTeamsWithUsersByUserId(this.getLoginDetailsId()).subscribe(data => {
-  //     this.teams = data;
-
-  //     console.log(this.teams);
-  //   });
-  // }
-
-  // teams: TeamResponse[] = [];
-
-  // userId = 117;
-  //  index=0;
 
   getAllUser() {
     this.dataService.getAllTeamsWithUsersByUserId().subscribe((data) => {
@@ -371,44 +285,7 @@ export class TeamComponent implements OnInit {
     });
   }
 
-  // getTeamDetailByUserId(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-  //     return loginData.id;
-  //   }
-  // }
-
-  // getTeamDetailByUserRole(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-
-  //     return loginData.role;
-
-  //   }
-  // }
-
-  // getLoginDetailsId(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-
-  //     return loginData.id;
-
-  //   }
-  // }
-
-  // getLoginDetailsRole(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-  //     return loginData.role;
-  //   }
-  // }
-
   routeToTeamDetails(uuid: string, managerId: string) {
-    console.log("managerId" + managerId);
     if (managerId !== 'noManager') {
       let navExtra: NavigationExtras = {
         queryParams: { teamId: uuid, Id: managerId },
