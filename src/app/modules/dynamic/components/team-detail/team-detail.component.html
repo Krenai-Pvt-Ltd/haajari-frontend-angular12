@@ -72,26 +72,27 @@
 
                       <div class="row mt-3">
                         <div class="col-md-4">
-                         
+                         <!-- 
+                            *ngIf="localStorageRoleAdminFlag" -->
                           <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
                             data-bs-toggle="modal"
                             data-bs-target="#addteam"
-                            *ngIf="localStorageRoleAdminFlag"
+                            *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)"
                           >
                             <span class="members-names">
                               <i class="bi bi-plus"></i>
                             </span>
                             <p class="mb-0">Add member</p>
                           </div>
-                        
+                          <!-- *ngIf="managerIdFlag && !localStorageRoleAdminFlag" -->
                           <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
                             data-bs-toggle="modal"
                             data-bs-target="#viewteam"
-                            *ngIf="managerIdFlag && !localStorageRoleAdminFlag"
+                            *ngIf="rbacService.hasReadOnlyAccess(Routes.TEAMDETAIL)"
                           >
                             <span class="members-names">
                               <i class="bi bi-plus"></i>
@@ -99,18 +100,6 @@
                             <p class="mb-0">View Members</p>
                           </div>
 
-                          <div
-                            class="members-list d-flex align-items-center"
-                            style="gap: 10px"
-                            data-bs-toggle="modal"
-                            data-bs-target="#viewteam"
-                            *ngIf="!managerIdFlag && !localStorageRoleAdminFlag"
-                          >
-                            <span class="members-names">
-                              <i class="bi bi-plus"></i>
-                            </span>
-                            <p class="mb-0">View Members</p>
-                          </div>
                         </div>
                         <div class="col-md-4" *ngFor="let ul of team.userList">
                           <div
@@ -130,28 +119,27 @@
                               *ngIf="ul.image === null"
                               >{{ ul.name[0] }}</span
                             >
-                            <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" *ngIf="localStorageRoleAdminFlag">
+                            <!-- *ngIf="localStorageRoleAdminFlag" -->
+                            <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" >
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
                                 class="bi bi-patch-check-fill"
                                 *ngIf="ul.roleId == 3"
                               ></i>
                             </p>
-                            <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
+                            <!-- <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
                                 class="bi bi-patch-check-fill"
                                 *ngIf="ul.roleId == 3"
                               ></i>
-                            </p>
+                            </p> -->
 
-                            <div
-                              class="dropdown d-inline-block"
-                              *ngIf="
+                            <!--  *ngIf="
                                 localStorageRoleAdminFlag == true ||
                                 managerIdFlag == true
-                              "
-                            >
+                              " -->
+                            <div class="dropdown d-inline-block"  *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)">
                              
                               <a
                                 class="dropdown-toggle"
@@ -162,61 +150,35 @@
                                 aria-haspopup="false"
                                 aria-expanded="false"
                               >
-                                <i
-                                  class="bi bi-chevron-down font-14 text-muted"
-                                ></i>
+                                <i class="bi bi-chevron-down font-14 text-muted" ></i>
                               </a>
-                              <div
+                              <div  *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)"
                                 class="dropdown-menu dropdown-menu-end list-top"
                                 aria-labelledby="dLabel1"
                               >
-                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag">
-                                  <a
-                                    class="dropdown-item"
-                                    *ngIf="ul.roleId == 2"
-                                    (click)="
-                                      assignManagerRoleToMemberMethodCall(
-                                        team.uuid,
-                                        ul.uuid
-                                      )
-                                    "
+                              <!-- *ngIf="localStorageRoleAdminFlag" -->
+                               <ng-container *ngIf="rbacService.idAdminOnlyAccess()">
+                                <div class="manager-list" >
+                                  <a class="dropdown-item"
+                                    (click)="assignManagerRoleToMemberMethodCall(team.uuid, ul.uuid)"
                                     >Make Manager
                                   </a>
                                 </div>
-                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag">
-                                  <a
-                                    class="dropdown-item"
-                                    *ngIf="ul.roleId == 3"
-                                    (click)="
-                                      assignMemberRoleToManagerMethodCall(
-                                        team.uuid,
-                                        ul.uuid
-                                      )
-                                    "
-                                    >Remove Manager</a
-                                  >
+                                <div class="manager-list" >
+                                  <a class="dropdown-item" *ngIf="ul.roleId == 3"
+                                    (click)="assignMemberRoleToManagerMethodCall( team.uuid,ul.uuid) "
+                                    >Remove Manager</a>
                                 </div>
+                              </ng-container>
                                 <div class="manager-list">
-                                  <a
-                                    class="dropdown-item"
-                                    (click)="routeToUserDetails(ul.uuid)"
-                                    >View Profile</a
-                                  >
+                                  <a class="dropdown-item"(click)="routeToUserDetails(ul.uuid)"
+                                    >View Profile</a>
                                 </div>
-                                <div class="manager-list remove-team" *ngIf="localStorageRoleAdminFlag">
-                                  <a
-                                    class="dropdown-item StaticMenuItemBase-button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteConfirmationModal"
-                                    (click)="
-                                      openDeleteConfirmationModal(
-                                        team.uuid,
-                                        ul.uuid
-                                      )
-                                    "
-                                  >
-                                    <span>Remove from team</span></a
-                                  >
+                                <div class="manager-list remove-team">
+                                  <a class="dropdown-item StaticMenuItemBase-button"
+                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                    (click)=" openDeleteConfirmationModal(team.uuid, ul.uuid)">
+                                    <span>Remove from team</span></a>
                                 </div>
                               </div>
                             </div>
@@ -763,37 +725,27 @@
                               class="bi bi-chevron-down font-14 text-muted"
                             ></i>
                           </a>
-
+                          <ng-container *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)">
                           <div
                             class="dropdown-menu dropdown-menu-end list-top"
                             aria-labelledby="dLabel1"
                           >
+                          <ng-container *ngIf="rbacService.idAdminOnlyAccess()">
                             <div class="manager-list">
                               <a
                                 class="dropdown-item"
                                 *ngIf="ul.roleId == 2"
-                                (click)="
-                                  assignManagerRoleToMemberMethodCall(
-                                    team.uuid,
-                                    ul.uuid
-                                  )
-                                "
+                                (click)="assignManagerRoleToMemberMethodCall(team.uuid, ul.uuid)"
                                 >Make Manager
                               </a>
                             </div>
                             <div class="manager-list">
-                              <a
-                                class="dropdown-item"
-                                *ngIf="ul.roleId == 3"
-                                (click)="
-                                  assignMemberRoleToManagerMethodCall(
-                                    team.uuid,
-                                    ul.uuid
-                                  )
-                                "
+                              <a class="dropdown-item"  *ngIf="ul.roleId == 3"
+                                (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)"
                                 >Remove Manager</a
                               >
                             </div>
+                            </ng-container>
                             <div class="manager-list">
                               <a
                                 class="dropdown-item"
@@ -810,6 +762,7 @@
                               >
                             </div>
                           </div>
+                        </ng-container>
                         </div>
                       </div>
                     </div>

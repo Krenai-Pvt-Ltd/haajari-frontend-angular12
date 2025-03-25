@@ -7,6 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-team-detail',
@@ -19,7 +20,7 @@ export class TeamDetailComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private helperService: HelperService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService
+    public rbacService: RoleBasedAccessControlService
   ) {
     debugger;
     if (this.activateRoute.snapshot.queryParamMap.has('teamId')) {
@@ -41,6 +42,7 @@ export class TeamDetailComponent implements OnInit {
   role: any;
   userUuid: any;
   orgRefId: any;
+  readonly Routes=Routes;
 
   async ngOnInit(): Promise<void> {
     window.scroll(0, 0);

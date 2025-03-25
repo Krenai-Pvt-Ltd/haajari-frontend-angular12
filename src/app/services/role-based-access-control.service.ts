@@ -156,31 +156,38 @@ export class RoleBasedAccessControlService {
     });
   }
 
-  hasWriteAccess(route:string):boolean{
-    if(this.ROLE == Key.ADMIN){
+  hasWriteAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
       return true;
-    }else{
-      if(this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0){
-        return this.helperService.subModuleResponseList.some((module: any) => {
-          module.description == route &&
-          module.privilegeId==2
-      });
-      }
     }
-    return true;
+  
+    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+      return this.helperService.subModuleResponseList.some((module: any) => 
+        module.description === route && module.privilegeId === 2
+      );
+    }
+  
+    return false; // Ensures default behavior if no match is found
   }
+  
 
-  hasReadOnlyAccess(route:string):boolean{
-    if(this.ROLE == Key.ADMIN){
+  hasReadOnlyAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
       return false;
-    }else{
-      if(this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0){
-        return this.helperService.subModuleResponseList.some((module: any) => {
-          module.description == route &&
-          module.privilegeId==1
-      });
-      }
     }
+    if ( this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0 ) {
+      return this.helperService.subModuleResponseList.some((module: any) =>
+         module.description === route && module.privilegeId === 1);
+    }
+  
     return true;
   }
+  idAdminOnlyAccess(): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return true;
+    }
+    
+    return false;
+  }
+  
 }
