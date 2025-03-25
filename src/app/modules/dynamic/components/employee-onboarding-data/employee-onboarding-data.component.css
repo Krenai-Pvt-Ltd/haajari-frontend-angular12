@@ -668,13 +668,7 @@ span.request-count {
   margin-bottom: 0 !important;
   background-color: #557ef826;
 }
-.btnAction {
-  background-color: #F9FAFC;
-  width: 30px;
-  height: 33px;
-  border-radius: 2px;
-  border: 1px solid #EFEFEF;
-}
+
 .employee-apex-chart{
   top: -8px;
 }
