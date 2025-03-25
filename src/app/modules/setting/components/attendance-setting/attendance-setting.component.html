@@ -256,7 +256,7 @@
                                 {{ organizationShiftTimingResponse.name }}
 
                               </p>
-                              <div  *ngIf="organizationShiftTimingResponse.updateFrom" class="badge rounded-pill badge-soft-danger font-12"
+                             <div  *ngIf="organizationShiftTimingResponse.updateFrom && !organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
                               [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">
                               New Shift</div>
                             </div>
@@ -271,8 +271,23 @@
                                 <a data-bs-toggle="modal" data-bs-target="#shiftTime" *ngIf="organizationShiftTimingResponse.updateId > 0" (click)="fetchShiftTiming(organizationShiftTimingResponse)">View</a>
                               </div>
                             </ng-template>
+                            <div  *ngIf="organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
+                            [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate1" nz-popover nzPopoverPlacement="left">
+                            Delete Shift
+                          </div>
+
+                          <ng-template #contentTemplate1>
+                            <div class="request-g p-0">
+                              <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                <h5 class="mb-0 font-14">Shift Scheduled to be deleted</h5>
+                              </div>
+                              <div class="p-3">
+                                <p class="mb-0 font-13 fw-semibold"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( Shift will be deleted today after 1 hour of out time) </span></p>
+                              </div>
+                             </div>
+                          </ng-template>
                             </div>
-                            <div class="d-flex align-items-center gap-4">
+                            <div *ngIf="!organizationShiftTimingResponse.scheduledToDelete" class="d-flex align-items-center gap-4">
                               <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-people"></i><i class="bi bi-trash pointer text-danger"></i> -->
                               <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                                   updateOrganizationShiftTiming(
