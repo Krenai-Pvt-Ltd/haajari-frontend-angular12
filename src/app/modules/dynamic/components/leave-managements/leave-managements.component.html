@@ -711,7 +711,7 @@
                               ">
                               <!-- class="new-request" -->
                                 <tr >
-                                    <td class="text-left"><span class="team-maneger mb-0">{{leave.username}} </span></td>
+                                    <td class="text-left"><span (click)="routeToUserDetails(leave.uuid)" class="team-maneger mb-0 pointer">{{leave.username}} </span></td>
                                      <td class="text-left">
                                         <p class="mb-1 font-12 fw-semibold">{{ leave.leaveType }}</p>
                                         <span class="team-maneger mb-0 table-font-weight text-optional">on {{ leave.leaveDate | date : "dd-MM-yyyy" || "N/A" }}</span>

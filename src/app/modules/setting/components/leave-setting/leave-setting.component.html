@@ -772,7 +772,7 @@
                       <span *ngIf="!weekOffTemplateToggle">On Duty Categories</span>
                     </button>
 
-                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" (click)="this.getUserByFiltersMethodCall(this.idOfLeaveSetting);"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" [disabled]="displayedCategories.length == 0" #staffSelectionTab1>
                       Staff selection

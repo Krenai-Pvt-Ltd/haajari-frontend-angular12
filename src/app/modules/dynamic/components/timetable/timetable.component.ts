@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -28,8 +27,8 @@ import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Routes } from 'src/app/constant/Routes';
 
-// import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 @Component({
   selector: 'app-timetable',
@@ -148,6 +147,7 @@ export class TimetableComponent implements OnInit {
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
   readonly key = Key;
   readonly Constant = constant;
+  readonly Routes = Routes;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',
@@ -168,7 +168,7 @@ export class TimetableComponent implements OnInit {
     private dataService: DataService,
     public helperService: HelperService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe
@@ -1888,6 +1888,14 @@ export class TimetableComponent implements OnInit {
     back: 4,
   };
 
+  routeToUserDetails(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+  }
+
   // Fetch list of users for employee filter
   getAllUsers(): void {
     this.dataService.getOrganizationUserList().subscribe((response) => {
@@ -2132,10 +2140,12 @@ export class TimetableComponent implements OnInit {
 
     // Add status filter
     if (this.selectedStatuses.length) {
-      this.activeMissedPunchFilters.push({
-        type: 'status',
-        label: 'Status',
-        value: this.selectedStatuses.join(', '),
+      this.selectedStatuses.forEach((status) => {
+        this.activeMissedPunchFilters.push({
+          type: 'status',
+          label: 'Status',
+          value: status,
+        });
       });
     }
 
@@ -2180,19 +2190,23 @@ export class TimetableComponent implements OnInit {
 
     // Add status filter
     if (this.selectedStatuses.length) {
-      this.activeSystemOutageFilters.push({
-        type: 'status',
-        label: 'Status',
-        value: this.selectedStatuses.join(', '),
+      this.selectedStatuses.forEach((status) => {
+        this.activeSystemOutageFilters.push({
+          type: 'status',
+          label: 'Status',
+          value: status,
+        });
       });
     }
 
     // Add attendance status filter
     if (this.selectedAttendanceStatus.length) {
-      this.activeSystemOutageFilters.push({
-        type: 'attendanceStatus',
-        label: 'Attendance Status',
-        value: this.selectedAttendanceStatus.join(', '),
+      this.selectedAttendanceStatus.forEach((status) => {
+        this.activeSystemOutageFilters.push({
+          type: 'attendanceStatus',
+          label: 'Attendance Status',
+          value: status,
+        });
       });
     }
 
@@ -2219,10 +2233,14 @@ export class TimetableComponent implements OnInit {
           this.endDate1 = null;
           break;
         case 'status':
-          this.selectedStatuses = [];
+          this.selectedStatuses = this.selectedStatuses.filter(
+            (status) => status !== filter.value
+          );
           break;
         case 'attendanceStatus':
-          this.selectedAttendanceStatus = [];
+          this.selectedAttendanceStatus = this.selectedAttendanceStatus.filter(
+            (status) => status !== filter.value
+          );
           break;
         case 'search':
           if (tab === 'missedPunch') this.searchTextMissedPunch = '';
@@ -2239,5 +2257,9 @@ export class TimetableComponent implements OnInit {
       this.fetchSystemOutageRequests();
       this.updateSystemOutageFilters();
     }
+  }
+
+  showAttendnaceUpdateActionButton(request:any): boolean { 
+   return (request?.status?.id==52 && (request?.managerUuid==this.userUuid || this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)))
   }
 }

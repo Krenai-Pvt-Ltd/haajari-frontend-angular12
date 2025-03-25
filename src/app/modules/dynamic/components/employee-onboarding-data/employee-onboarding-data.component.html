@@ -476,8 +476,10 @@
                                 </svg>
                                   Download
                               </button>
+                              <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                               <span class="btn-separator"></span>
-                              <button type="button" class="btn p-0 text-primary font-14 fw-semibold" (click)="resetForm(); validateDuesInvoice('add')">
+                              <button type="button" class="btn p-0 text-primary font-14 fw-semibold"
+                              (click)="resetForm(); validateDuesInvoice('add')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                   <mask id="mask0_8190_18517" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                   <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -488,8 +490,11 @@
                                 </svg>
                                 Add Employee
                             </button>
+                            </ng-container>
+                            <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                             <span class="btn-separator"></span>
-                            <button type="button" class="btn p-0 text-primary font-14 fw-semibold" (click)="validateDuesInvoice('sample')">
+                            <button type="button" class="btn p-0 text-primary font-14 fw-semibold"
+                             (click)="validateDuesInvoice('sample')">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                 <mask id="mask0_8190_18523" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                 <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -500,6 +505,7 @@
                               </svg>
                               Upload Employee
                           </button>
+                        </ng-container>
                           </div>
                       </div>
 
@@ -790,7 +796,7 @@
                                       class="bi bi-eye"></i>
                                     View Profile</a>
                                 </li>
-                                <li *ngIf="user.email != null && user.email != '' && user.email != undefined">
+                                <li *ngIf="!Constants.EMPTY_STRINGS.includes(user.email) && rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                   <a class="dropdown-item" (click)="sendMailToEmployees(user)" *ngIf="
                                         !sendingMailLoaderForUser(user) &&
                                         user.onboardingStatus != approvedResponse &&
@@ -798,7 +804,7 @@
                                       "><i class="bi bi-file-earmark-text"></i> Request
                                     Again</a>
                                 </li>
-                                <li>
+                                <li  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                   <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#deleteConfirmationModal"
                                     (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete')"><i class="bi bi-trash3"></i> Delete
@@ -806,7 +812,7 @@
                                   </a>
                                 </li>
 
-                                <li>
+                                <li  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                   <a class="dropdown-item initiate-btn" (click)="getUserUuid(user.uuid);" data-bs-toggle="modal"
                                   data-bs-target="#initiateExit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
@@ -1001,45 +1007,7 @@
               </div>
             </div>
             <div class="tab-pane fade pt-3" id="resignationRequest" role="tabpanel" aria-labelledby="resignation-tab">
-              <!-- <div> -->
-              <div class="onboard-add row align-items-center mx-0 attendance-border">
-                <div class="col-md-12">
-                  <div class="row justify-content-between align-items-center mx-0">
-                    <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
-                      <div class="d-flex justify-content-start align-items-center">
 
-                        <div class="onboarding-date d-flex align-items-center position-relative">
-                          <div class="dropdown empFilerDropfilter">
-                            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                              aria-expanded="false" class="btn btn-secondary dropdown-toggle new-dropdown">
-                              {{ statusLabel || "All" }}
-                              <i class="bi bi-chevron-down"></i>
-                            </button>
-                            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
-                              <li *ngFor="let status of statusOptions">
-                                <a class="dropdown-item" (click)="selectResignationStatus(status.value,status.label)">{{ status.label }}</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <form role="search" class="searching w-100 d-flex justify-content-start">
-                            <div class="form-group w-100 position-relative">
-                              <input type="text" id="searchText"
-                                placeholder="Search by name..." class="form-control me-2 search-padding"
-                                (keyup)="onResignationSearch();" [(ngModel)]="resignationSearch"
-                                [ngModelOptions]="{ standalone: true }" />
-                              <i class="bi bi-search search-icon ms-3  m-auto"
-                                *ngIf="resignationSearch==''"></i>
-                              <i class="bi bi-x search-icon ms-3 m-auto font-20" *ngIf="resignationSearch!=''"
-                                (click)="this.resignationSearch=''; loadResignations()"></i>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-             
-            </div>
             <div class="asset-assigned-search mt-3">
               <div class="d-flex justify-content-start align-items-center">
                  <div class="search-filter dropdown">
@@ -1087,37 +1055,33 @@
                  <div class="row p-3">
                     <h5 class="mb-0 font-14 fw-semibold">Status Filter</h5>
                     <div class="mt-3">
-                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                          <input type="checkbox" class="form-check-input" id="all" >
-                          <label class="form-check-label fw-normal" for="all">All</label>
-                       </div>
-                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                          <input type="checkbox" class="form-check-input" id="approved" >
-                          <label class="form-check-label fw-normal" for="approved">Notice Period </label>
-                       </div>
-                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                        <input type="checkbox" class="form-check-input" id="pending" >
-                        <label class="form-check-label fw-normal" for="pending">Pending </label>
-                     </div>
-                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                          <input type="checkbox" class="form-check-input" id="rejected">
-                          <label class="form-check-label fw-normal" for="rejected">Revoked</label>
-                       </div>
-                      
+                      <div *ngFor="let option of statusOptions"
+                        class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                        <input type="checkbox" class="form-check-input" [id]="'status-' + option.value"
+                          [checked]="selectedStatuses.includes(option.value) || (option.value === '' && selectedStatuses.length === 0)"
+                          (change)="onStatusChange(option.value, $event)">
+                        <label class="form-check-label fw-normal" [for]="'status-' + option.value">
+                          {{ option.label }}
+                        </label>
+                      </div>
+
                     </div>
                  </div>
                  <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                    <button class="btn cancel-btn mt-0" >Reset it</button>
-                    <button class="btn submitActionBtn" >Apply</button>
+                  <button class="btn cancel-btn mt-0" (click)="resetFilter()">Reset it</button>
+                  <button class="btn submitActionBtn" (click)="applyFilters()">Apply</button>
                  </div>
               </div>
            </div>
 
-           <div class="filter-bdg d-flex align-items-center gap-2 mt-3" >
-            <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
-              Pending
-                <i class="bi bi-x-lg pointer" ></i>
+           <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
+            <ng-container *ngIf="selectedStatuses.length > 0 && !selectedStatuses.includes('')">
+              <p *ngFor="let status of actualStatus"
+                 class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
+                {{ getStatusLabel(status) }}
+                <i class="bi bi-x-lg pointer" (click)="removeStatus(status)"></i>
               </p>
+            </ng-container>
 
           </div>
               <div class="col-md-12 mt-3">
@@ -1219,13 +1183,14 @@
                             <div class="dropdown-menu actionMenuList">
 
                               <li>
-                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" data-bs-toggle="modal"
+                                <!-- *ngIf="user.status=='PENDING'" -->
+                                <a  class="dropdown-item" data-bs-toggle="modal"
                                  data-bs-target="#viewExitRequest" (click)="onInitiateExitClick(user?.uuid)" ><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
                               <li>
-                              <li>
+                              <li  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                   data-bs-target="#deleteConfirmationModal"
                                   (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete Resignation Request'); currentResignationID=user.id"><i class="bi bi-trash3"></i> Delete

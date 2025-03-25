@@ -20,7 +20,7 @@ export const RAZOR_PAY_KEY: string = 'rzp_test_Wd1RYd0fng3673';
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// export const BASE_URL = 'http://localhost:8082/api/v2';
+// export const BASE_URL = 'http://localhost:8080/api/v2';
 
 // /* ------------------  Staging urls ----------------*/
  export const BASE_URL = 'https://staging.hajiri.work/api/v2';
@@ -36,3 +36,5 @@ export const RAZOR_PAY_KEY: string = 'rzp_test_Wd1RYd0fng3673';
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+
+
