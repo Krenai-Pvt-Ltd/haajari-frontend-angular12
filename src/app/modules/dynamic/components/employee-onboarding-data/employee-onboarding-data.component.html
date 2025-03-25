@@ -476,8 +476,10 @@
                                 </svg>
                                   Download
                               </button>
+                              <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                               <span class="btn-separator"></span>
-                              <button type="button" class="btn p-0 text-primary font-14 fw-semibold" (click)="resetForm(); validateDuesInvoice('add')">
+                              <button type="button" class="btn p-0 text-primary font-14 fw-semibold"
+                              (click)="resetForm(); validateDuesInvoice('add')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                   <mask id="mask0_8190_18517" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                   <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -488,8 +490,11 @@
                                 </svg>
                                 Add Employee
                             </button>
+                            </ng-container>
+                            <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                             <span class="btn-separator"></span>
-                            <button type="button" class="btn p-0 text-primary font-14 fw-semibold" (click)="validateDuesInvoice('sample')">
+                            <button type="button" class="btn p-0 text-primary font-14 fw-semibold"
+                             (click)="validateDuesInvoice('sample')">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                 <mask id="mask0_8190_18523" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                 <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -500,6 +505,7 @@
                               </svg>
                               Upload Employee
                           </button>
+                        </ng-container>
                           </div>
                       </div>
 
@@ -790,7 +796,7 @@
                                       class="bi bi-eye"></i>
                                     View Profile</a>
                                 </li>
-                                <li *ngIf="user.email != null && user.email != '' && user.email != undefined">
+                                <li *ngIf="!Constants.EMPTY_STRINGS.includes(user.email) && rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                   <a class="dropdown-item" (click)="sendMailToEmployees(user)" *ngIf="
                                         !sendingMailLoaderForUser(user) &&
                                         user.onboardingStatus != approvedResponse &&
@@ -798,7 +804,7 @@
                                       "><i class="bi bi-file-earmark-text"></i> Request
                                     Again</a>
                                 </li>
-                                <li>
+                                <li  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                   <a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#deleteConfirmationModal"
                                     (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete')"><i class="bi bi-trash3"></i> Delete
@@ -806,7 +812,7 @@
                                   </a>
                                 </li>
 
-                                <li>
+                                <li  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                   <a class="dropdown-item initiate-btn" (click)="getUserUuid(user.uuid);" data-bs-toggle="modal"
                                   data-bs-target="#initiateExit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
@@ -1177,13 +1183,14 @@
                             <div class="dropdown-menu actionMenuList">
 
                               <li>
-                                <a *ngIf="user.status=='PENDING'" class="dropdown-item" data-bs-toggle="modal"
+                                <!-- *ngIf="user.status=='PENDING'" -->
+                                <a  class="dropdown-item" data-bs-toggle="modal"
                                  data-bs-target="#viewExitRequest" (click)="onInitiateExitClick(user?.uuid)" ><i
                                     class="bi bi-eye"></i>
                                   View Request</a>
                               </li>
                               <li>
-                              <li>
+                              <li  *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                                 <a class="dropdown-item" data-bs-toggle="modal"
                                   data-bs-target="#deleteConfirmationModal"
                                   (click)="openDeleteConfirmationModal(user.id, false, '', 'Delete Resignation Request'); currentResignationID=user.id"><i class="bi bi-trash3"></i> Delete

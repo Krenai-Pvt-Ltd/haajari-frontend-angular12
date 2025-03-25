@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -28,8 +27,8 @@ import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Routes } from 'src/app/constant/Routes';
 
-// import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 @Component({
   selector: 'app-timetable',
@@ -148,6 +147,7 @@ export class TimetableComponent implements OnInit {
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
   readonly key = Key;
   readonly Constant = constant;
+  readonly Routes = Routes;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',
@@ -168,7 +168,7 @@ export class TimetableComponent implements OnInit {
     private dataService: DataService,
     public helperService: HelperService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe
@@ -2257,5 +2257,9 @@ export class TimetableComponent implements OnInit {
       this.fetchSystemOutageRequests();
       this.updateSystemOutageFilters();
     }
+  }
+
+  showAttendnaceUpdateActionButton(request:any): boolean { 
+   return (request?.status?.id==52 && (request?.managerUuid==this.userUuid || this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)))
   }
 }

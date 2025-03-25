@@ -33,6 +33,8 @@ import {
   ApexPlotOptions,
   ApexGrid,
 } from "ng-apexcharts";
+import { Routes } from 'src/app/constant/Routes';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 export interface Team {
   label: string;
@@ -134,14 +136,18 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     new UserPersonalInformationRequest();
 
   @ViewChild('importModalOpen') importModalOpen!: ElementRef;
+
+    readonly Routes = Routes;
+    readonly Constants = constant;  
   constructor(
     private dataService: DataService,
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
     private ngbModal: NgbModal,
-    private _subscriptionService:SubscriptionPlanService,
-    private modalService: ModalService
+    private _subscriptionService:SubscriptionPlanService,   
+     public rbacService: RoleBasedAccessControlService,
+    
   ) {}
   // users: EmployeeOnboardingDataDto[] = [];
   users: EmployeeOnboardingDataDto[] = new Array();

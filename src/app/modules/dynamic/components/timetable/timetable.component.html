@@ -173,7 +173,7 @@
                               <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="searchText.length == 0"></i>
                           </div>
                   </div>
-                  <div>
+                  <div *ngIf="rbacService.hasWriteAccess(Routes.TIMETABLE)">
                       <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" data-bs-toggle="modal"
                       data-bs-target="#sampleFileModal">
                         <i class="bi bi-upload"></i> Upload Attendance
@@ -330,11 +330,13 @@
                             {{ attendanceDetailsResponse.currentStatus }}
                           </p>
                           <div class="add-note d-flex gap-2">
+                            <ng-container *ngIf="rbacService.hasWriteAccess(Routes.TIMETABLE)">
                             <a class="font-14 text-primary fw-semibold pointer" data-bs-toggle="modal" data-bs-target="#addnotes" (click)="
                                 addNotesModel(attendanceDetailsResponse.uuid)
                               ">
                               Add Note</a>
                             <a>|</a>
+                          </ng-container>
                             <a class="font-14 text-primary fw-semibold pointer" data-bs-toggle="modal" data-bs-target="#viewlog"
                               (click)="viewLogs(attendanceDetailsResponse.uuid)">
                               View Logs</a>
@@ -1614,7 +1616,8 @@
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu actionMenuList">
-                                <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')">
+                                <!-- <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')"> -->
+                                  <li *ngIf="showAttendnaceUpdateActionButton(request)">
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -1627,7 +1630,8 @@
                                     Approve
                                   </a>
                                 </li>
-                                <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')" >
+                                <!-- <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')" > -->
+                                  <li *ngIf="showAttendnaceUpdateActionButton(request)">
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
