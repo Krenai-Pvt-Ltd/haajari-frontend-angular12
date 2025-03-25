@@ -368,6 +368,8 @@ export class ProfileComponent implements OnInit {
     }, 100);
   }
 
+  
+
   @ViewChild('closeAddressModal') closeAddressModal!: ElementRef;
   isRegisterLoad: boolean = false;
   isForceUpdate: boolean = false;
