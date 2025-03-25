@@ -4,22 +4,22 @@
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
                 aria-controls="pills-dashboard" aria-selected="false"
-                class="nav-link active">Earnings</a>
+                class="nav-link active" (click)="selectedTab=1;">Earnings</a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#deductions" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link">Deductions </a>
+                    class="nav-link" (click)="selectedTab=2;">Deductions </a>
                 </li>
             <li class="nav-item d-flex align-items-center">
             <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link">Benefits </a>
+                class="nav-link" (click)="selectedTab=3;">Benefits </a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link">Reimbursements</a>
+                    class="nav-link" (click)="selectedTab=4;">Reimbursements</a>
             </li>
         </ul>
 
@@ -213,25 +213,49 @@
                                 </td>
                                 </tr>
                             </tbody>
-                            <tbody *ngIf="!shimmer">
+                            <tbody *ngIf="benefitComponents.length==0 && !shimmer">
                                 <tr>
+                                <td colspan="8">
+                                    <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                    </div>
+                                </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="!shimmer">
+                                <tr *ngFor="let benefit of benefitComponents">
                                     <td>
-                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Voluntary Provident Fund</a>
+                                        <a class="font-13 fw-normal text-primary" (click)="editBenefit(benefit)">{{benefit.name}}</a>
                                     </td>
                                     <td>
-                                        <p class="mb-0 font-13 fw-normal">Voluntary Provident Fund</p>
+                                        <p class="mb-0 font-13 fw-normal">{{benefit.name}}</p>
                                     </td>
                                     <td>
-                                        <p class="mb-0 font-13 fw-normal">	Recurring</p>
+                                        <p class="mb-0 font-13 fw-normal" *ngIf="benefit.frequencyId == FREQUENCY_RECURRING"> Recurring</p>
                                     </td>
                                     <td>
-                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                        <nz-switch [ngModel]="checkStatus(benefit.statusId)"></nz-switch>
                                     </td>
                                     <td>
                                         <div class="dropdown">
-                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
+                                            
+                                                <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <div class="dropdown-menu actionMenuList">
+                                                    <li >
+                                                        <a class="dropdown-item" (click)="editBenefit(benefit)"><i class="bi bi-pencil"></i> Edit </a>
+                                                    </li>
+                                                    <li class="ng-star-inserted"></li>
+                                                    
+                                                    
+                                                
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -280,47 +304,53 @@
                                 </td>
                                 </tr>
                             </tbody>
-                            <tbody *ngIf="!shimmer">
+                            <tbody *ngIf="deductionComponents.length==0 && !shimmer">
                                 <tr>
-                                    <td >
-                                        <a class="font-13 fw-normal text-primary" (click)="showSubComponent=!showSubComponent">Notice Pay Deduction</a>
+                                <td colspan="8">
+                                    <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                    </div>
+                                </td>
+                                </tr>
+                            </tbody>    
+                            <tbody *ngIf="!shimmer">
+                                <tr *ngFor="let deduction of deductionComponents" >
+                                    <td>
+                                        <a class="font-13 fw-normal text-primary" (click)="editDeduction(deduction)">{{deduction.displayName}}</a>
                                     </td>
                                     <td >
-                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
+                                        <p class="mb-0 font-13 fw-normal">{{deduction.displayName}}</p>
                                     </td>
                                     <td >
-                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
+                                        <p class="mb-0 font-13 fw-normal">
+                                        <span [ngSwitch]="deduction.frequencyId">
+                                            <span *ngSwitchCase="FREQUENCY_ONE_TIME">One Time</span>
+                                            <span *ngSwitchCase="FREQUENCY_RECURRING">Recurring</span>
+                                            </span>
+                                        </p>
                                     </td>
                                     <td class="border-0">
-                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
+                                        <nz-switch nzSize="small" [ngModel]="checkStatus(deduction.statusId)"></nz-switch>
                                     </td>
                                     <td >
                                         <div class="dropdown">
+                                            
                                             <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </button>
+                                            <div class="dropdown-menu actionMenuList">
+                                                <li >
+                                                    <a class="dropdown-item" (click)="editDeduction(deduction)"><i class="bi bi-pencil"></i> Edit </a>
+                                                </li>
+                                                <li class="ng-star-inserted"></li>
+ 
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a class="font-13 fw-normal text-primary">Notice Pay Deduction</a>
-                                    </td>
-                                    <td>
-                                        <p class="mb-0 font-13 fw-normal">Notice Pay Deduction</p>
-                                    </td>
-                                    <td>
-                                        <p class="mb-0 font-13 fw-normal">	One Time</p>
-                                    </td>
-                                    <td>
-                                        <nz-switch nzSize="small" [ngModel]="true"></nz-switch>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                                <i class="bi bi-three-dots-vertical"></i>
-                                            </button>
-                                        </div>
+                                    </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -368,6 +398,20 @@
                                 </td>
                                 </tr>
                             </tbody>
+                            <tbody *ngIf="reimbursementComponents.length==0 && !shimmer">
+                                <tr>
+                                <td colspan="8">
+                                    <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                    </div>
+                                </td>
+                                </tr>
+                            </tbody>    
                             <tbody *ngIf="!shimmer">
                                 <tr *ngFor="let reimbursement of reimbursementComponents"> 
                                     <td >
@@ -380,14 +424,22 @@
                                         <p class="mb-0 font-13 fw-normal">{{reimbursement.value}}</p>
                                     </td>
                                     <td class="border-0">
-                                        <nz-switch [ngModel]="checkStatus(reimbursement.statusId)"></nz-switch>
+                                        <nz-switch   [ngModel]="checkStatus(reimbursement.statusId)"></nz-switch>
                                     </td>
                                     <td >
                                         <div class="dropdown">
+                                            
                                             <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </button>
+                                            <div class="dropdown-menu actionMenuList">
+                                                <li >
+                                                    <a class="dropdown-item" (click)="editReimbursementComponent(reimbursement)"><i class="bi bi-pencil"></i> Edit </a>
+                                                </li>
+                                                <li class="ng-star-inserted"></li>
+ 
                                         </div>
+                                    </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -411,12 +463,12 @@
         <div class="container-fluid" >
             <div class="earning-detail mt-4 mb-100"  *ngIf="viewSection(EARNING_COMPONENT)">
                 <div class="d-flex align-items-center gap-2" >
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromEarning()">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromEarning();">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
                     <h5 class="mb-0 font-15 fw-semibold" ><span *ngIf="isNewComponent">New</span><span *ngIf="!isNewComponent">Edit</span>  Earning</h5>
                 </div>
-                <!-- <form #earningForm="ngForm" ngNativeValidate (ngSubmit)="saveEarningComponent()">  -->
+                <form #earningForm="ngForm" ngNativeValidate (ngSubmit)="saveEarningComponent()"> 
                 <ng-container *ngIf="isNewComponent">
                     <div class="mt-5 earninng-edit-box pl-5">
                         <div class="row" >
@@ -428,7 +480,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-12"> 
-                                    <nz-select class="form-control w-100 placeholder-line" nzSize="large" 
+                                    <nz-select class="form-control w-100 placeholder-line" nzSize="large" name="selectedEarnig"
                                     [(ngModel)]="selectedEarningType" nzPlaceHolder="Select" (ngModelChange)="selectDefaultEarningComponent($event)">
                                         <nz-option *ngFor="let component of defaultEarningComponents" 
                                             [nzLabel]="component.name" [nzValue]="component.name">
@@ -569,13 +621,13 @@
                         <div class="col-md-8">
                             <div class="col-md-12" *ngFor="let config of selectedEarningComponent.configurations; let i= index;">
                                 <div class="form-check mb-3 d-flex align-items-start gap-2">
-                                    <input type="checkbox" name="congiguraation" class="form-check-input"
-                                    [id]="'check-' + i" 
+                                    <input type="checkbox" name="congiguraation{{i}}" class="form-check-input"
+                                    [id]="'configcheck-' + i" 
                                     [disabled]="!config.editable"
                                     [(ngModel)]="config.checked"
                                     >
                                     <div>
-                                        <label [for]="'check-' + i"  class="form-check-label font-13">{{config.name}}</label>
+                                        <label [for]="'configcheck-' + i"  class="form-check-label font-13">{{config.name}}</label>
                                         <p class="mb-0 font-12 fw-light text-optional">{{config.description}}</p>
 
                                     </div>
@@ -590,7 +642,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2">
+                <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!earningForm.pristine">
                     <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
                         [disabled]="saveLoader"  >
                         <div *ngIf="saveLoader" class="dot-opacity-loader">
@@ -601,17 +653,17 @@
                         <span *ngIf="!saveLoader"> Save </span>      
                     </button>
                 </div>
-               <!-- </form> -->
+               </form>
             </div>
             <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(BENEFIT_COMPONENT)">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="toggle = false;">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromBenefit()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
-                    <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
+                    <h5 class="mb-0 font-15 fw-semibold"><span *ngIf="isNewComponent">New</span><span *ngIf="!isNewComponent">Edit</span>Benefit</h5>
                 </div>
 
-
+                <form #benefitForm="ngForm" ngNativeValidate (ngSubmit)="saveBenefitComponent()">     
                 <div class="mt-5 earninng-edit-box pl-5">
                     <div class="row">
                         <div class="col-md-4">
@@ -626,18 +678,32 @@
                                         <nz-select 
                                         class="form-control w-100 placeholder-line" 
                                         nzSize="large" 
-                                        [(ngModel)]="selectedPfWage" 
+                                        name="Benefit Plan"
+                                        [(ngModel)]="selecteBenefitComponent.benefitTypeId"
+                                        [disabled]="selecteBenefitComponent.benefitTypeId== VPF" 
+                                        (ngModelChange)="onBenefitPlanChange($event)" 
                                         required
                                         nzPlaceHolder="Benefit Plan">
-                                        <nz-option *ngFor="let option of employer" 
-                                        [nzLabel]="option.label" 
-                                        [nzValue]="option.value">
+                                        <nz-option *ngFor="let type of benefitPlanType" 
+                                        [nzLabel]="type.name" 
+                                        [nzValue]="type.id">
                                         </nz-option>
                                         </nz-select>
                                     </div>
-                                <div class="col-md-6">
-                                    <input type="text" placeholder="Associate this benefit with" required class="form-control"> 
-                                </div>
+                                    <div class="col-md-6" *ngIf="selecteBenefitComponent.benefitTypeId == 3">
+                                        <nz-select 
+                                        class="form-control w-100 placeholder-line" 
+                                        nzSize="large" 
+                                        name="Tax"
+                                        [(ngModel)]="selecteBenefitComponent.taxExemptionId"
+                                        required
+                                        nzPlaceHolder="Tax Exemption Section">
+                                        <nz-option *ngFor="let tax of taxExemptionSection" 
+                                        [nzLabel]="tax.description" 
+                                        [nzValue]="tax.id">
+                                        </nz-option>
+                                        </nz-select>
+                                    </div>
                                 <!-- <div class="col-md-12 mb-3">
                                     <input type="text" placeholder="Associate this benefit with" required class="form-control"> 
                                 </div> -->
@@ -656,23 +722,21 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-12 mb-4">
-                                    <input type="text" placeholder="Voluntary Provident Fund" required class="form-control" value="Voluntary Provident Fund"> 
+                                    <input type="text" placeholder="Voluntary Provident Fund" name="payslipName" required class="form-control" value="Name in Payslip" [(ngModel)]="selecteBenefitComponent.name"> 
                                 </div>
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-12 mt-2"  *ngFor="let config of selecteBenefitComponent.configurations; let i= index;">
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="checkbox" id="exampleCheckbox1" name="exampleRadios" class="form-check-input" checked>
+                                        <input type="checkbox" name="congiguraation{{i}}" class="form-check-input"
+                                        [id]="'configcheck-' + i" 
+                                        [disabled]="!config.editable"
+                                        [(ngModel)]="config.checked"
+                                        >
                                         <div>
-                                            <label for="exampleCheckbox1" class="form-check-label font-13">Calculate on pro-rata basis</label>
-                                            <p class="mb-0 font-12 fw-light text-optional">Pay will be adjusted based on employee working days.</p>
+                                            <label [for]="'configcheck-' + i"  class="form-check-label font-13">{{config.name}}</label>
+                                            <p class="mb-0 font-12 fw-light text-optional">{{config.description}}</p>
+    
                                         </div>
                                     </div>
-                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="checkbox" id="exampleCheckbox2" name="exampleRadios" class="form-check-input">
-                                        <div>
-                                            <label for="exampleCheckbox2" class="form-check-label font-13">Mark this as Active</label>
-                                    </div>
-                                    </div>
-
                                 </div>
                                 <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
                                     <p class="mb-0 font-13 text-black fw-normal lh-base">
@@ -684,16 +748,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!benefitForm.pristine">
+                    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                        [disabled]="saveLoader"  >
+                        <div *ngIf="saveLoader" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span *ngIf="!saveLoader"> Save </span>      
+                    </button>
+                </div>
+                </form>
             </div>
             <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(DEDUCTION_COMPONENT)">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromDeduction()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
-                    <h5 class="mb-0 font-15 fw-semibold">Edit Benefit</h5>
+                    <h5 class="mb-0 font-15 fw-semibold"><span *ngIf="isNewComponent">New</span><span *ngIf="!isNewComponent">Edit</span> Deduction</h5>
                 </div>
     
-    
+                <form #deductionForm="ngForm" ngNativeValidate (ngSubmit)="saveDeductionComponent()">     
                 <div class="mt-5 earninng-edit-box pl-5">
                     <div class="row">
                         <div class="col-md-4">
@@ -706,7 +782,7 @@
                             <div class="row">
                                     
                                 <div class="col-md-12">
-                                    <input type="text" placeholder="Notice Pay Deduction" required class="form-control"> 
+                                    <input type="text" placeholder="Notice Pay Deduction" name="deductionName" required class="form-control" [(ngModel)]="selecteDeductionComponent.name"> 
                                 </div>
     
                             </div>
@@ -725,24 +801,17 @@
                               
                                 <div class="col-md-12 mt-2">
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="radio" id="radioCheckbox1" name="exampleRadios" class="form-check-input" checked>
+                                        <input type="radio" id="deduction-frequency1" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_ONE_TIME">
                                         <div>
-                                            <label for="radioCheckbox1" class="form-check-label font-13 fw-normal">One-time deduction</label>
+                                            <label for="deduction-frequency1" class="form-check-label font-13 fw-normal">One-time deduction</label>
                                         </div>
                                     </div>
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="radio" id="radioCheckbox2" name="exampleRadios" class="form-check-input" >
+                                        <input type="radio" id="deduction-frequency2" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_RECURRING" >
                                         <div>
-                                            <label for="radioCheckbox2" class="form-check-label font-13 fw-normal">Recurring deduction for subsequent Payrolls</label>
+                                            <label for="radioCheckbox2" class="form-check-label font-13 fw-normal" >Recurring deduction for subsequent Payrolls</label>
                                         </div>
                                     </div>
-                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="checkbox" id="checkbox1" name="exampleRadios" class="form-check-input" checked>
-                                        <div>
-                                            <label for="checkbox11r" class="form-check-label font-13">Mark this as Active</label>
-                                    </div>
-                                    </div>
-    
                                 </div>
                                 <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
                                     <p class="mb-0 font-13 text-black fw-normal lh-base">
@@ -754,10 +823,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!deductionForm.pristine">
+                    <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                        [disabled]="saveLoader"  >
+                        <div *ngIf="saveLoader" class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span *ngIf="!saveLoader"> Save </span>      
+                    </button>
+                </div>
+                </form>
             </div>
             <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(REIMBURSEMENT_COMPONENT)">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromDeduction()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
                     <h5 class="mb-0 font-15 fw-semibold">Edit Reimbursement</h5>

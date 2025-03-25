@@ -6,4 +6,5 @@ export class DeductionComponent{
     statusId:number=0;
     payTypeId:number=0;
     isCustom:boolean=false;
+    frequencyId:number=8;
 }

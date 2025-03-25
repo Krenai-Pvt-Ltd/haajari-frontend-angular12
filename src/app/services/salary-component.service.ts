@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { EarningComponent } from '../payroll-models/EarrningComponent';
 import { ReimbursementComponent } from '../payroll-models/ReimbursementComponent';
+import { DeductionComponent } from '../payroll-models/DeductionComponent';
+import { BenefitComponent } from '../payroll-models/BenefitComponent';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +33,25 @@ export class SalaryComponentService {
     return this._http.get<any>(`${this._key.base_url}/salary-component/benefit`);
   }
 
+  getBenefitPlanType(): Observable<any>{
+    return this._http.get<any>(`${this._key.base_url}/salary-component/benefit-plan-type`);
+  }
+
+  saveBenefitComponent(benefitComponent: BenefitComponent): Observable<any>{
+    return this._http.post<any>(`${this._key.base_url}/salary-component/benefit`,benefitComponent);
+  }
+
+
+  getTaxExemptionSection(): Observable<any>{
+    return this._http.get<any>(`${this._key.base_url}/salary-component/tax-exemption-section`);
+  }
+
   getOrganizationDeductionComponent(): Observable<any>{
     return this._http.get<any>(`${this._key.base_url}/salary-component/deduction`);
+  }
+
+  saveDeductionComponent(deductionComponent: DeductionComponent): Observable<any>{
+    return this._http.post<any>(`${this._key.base_url}/salary-component/deduction`,deductionComponent);
   }
 
 
