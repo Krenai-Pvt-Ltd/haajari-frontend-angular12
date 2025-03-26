@@ -1130,9 +1130,14 @@ onMonthChange(month: Date): void {
   getReportDetailsForLeaveTeamOverview(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDateWeek, this.endDateWeek).subscribe({
       next: (response: any) => {
+        if(response.status){
         this.leaveReportResponse = response.object;
         const approvedLeaveCounts = response.object?.approvedLeaveCounts ?? [];
         this.initChartData(approvedLeaveCounts);
+        }else {
+          this.series = [];
+          this.isChartInitialized = true;
+        }
       },
       error: (err) => console.error('Error fetching leave data', err),
     });
@@ -1176,8 +1181,12 @@ onMonthChange(month: Date): void {
   getReportDetailsForLeaveTeamOverviewForHeatMap(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
       next: (response: any) => {
+        if(response.status){
         const approvedLeaveCounts = response.object?.approvedLeaveCounts ?? [];
         this.initChartDataHeatMap(approvedLeaveCounts);
+        } else {
+            this.initChartDataHeatMap([]);
+        }
       },
       error: (err) => console.error('Error fetching leave data', err),
     });
@@ -1474,7 +1483,7 @@ routeToUserProfile(uuid: string) {
 
 
 
-showLeaveActionButton(leave:any): boolean { 
+showLeaveActionButton(leave:any): boolean {
   return (leave.status == this.PENDING &&
      ((this.logInUserUuid!=leave.uuid && this.logInUserUuid==leave.managerUuid)
       ||this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)));

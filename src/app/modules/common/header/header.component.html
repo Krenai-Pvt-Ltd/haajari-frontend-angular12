@@ -99,7 +99,7 @@
 
         <div class="">
           <div *ngIf="checkModule(management)" class="sidebar-menu-heding">
-            MANAGEMENT 
+            MANAGEMENT
           </div>
           <ul class="sidebar-menu">
             <div class="sliderNav" [ngStyle]="sliderStyle"></div>
@@ -124,7 +124,7 @@
             <li class="pointer" [class.active]="visibleIndex(1) === activeIndex"
               (mouseover)="activateTab('leaves');updateSliderStyle(visibleIndex(1))" (mouseout)="resetHoverIndex()"
               (click)="setActive(visibleIndex(1));checkRestriction('/leave-management');activateTab('leaves')"
-              *ngIf="this.rbacService.shouldDisplay('leave-management')" routerLinkActive="sidebar-menu-active"
+              *ngIf="this.rbacService.shouldDisplay('leave management')" routerLinkActive="sidebar-menu-active"
               routerLink="/leave-management">
               <a class="sidebar-menu-link">
                 <span>
@@ -152,7 +152,7 @@
             <li class="pointer" [class.active]="visibleIndex(3) === activeIndex"
               (mouseover)="updateSliderStyle(visibleIndex(3))" (mouseout)="resetHoverIndex()"
               (click)="setActive(visibleIndex(3));checkRestriction('/assets');activateTab('assets')"
-              *ngIf="this.rbacService.shouldDisplay('assets')" routerLinkActive="sidebar-menu-active"
+              *ngIf="this.rbacService.shouldDisplay('asset')" routerLinkActive="sidebar-menu-active"
               routerLink="/assets">
               <a class="sidebar-menu-link">
                 <span>
@@ -167,7 +167,7 @@
             <li class="pointer" [class.active]="visibleIndex(4) === activeIndex"
               (mouseover)="updateSliderStyle(visibleIndex(4))" (mouseout)="resetHoverIndex()"
               (click)="setActive(visibleIndex(4));checkRestriction('/reports');activateTab('report')"
-              *ngIf="this.rbacService.shouldDisplay('reports')" routerLinkActive="sidebar-menu-active"
+              *ngIf="this.rbacService.shouldDisplay('report')" routerLinkActive="sidebar-menu-active"
               routerLink="/reports">
               <a class="sidebar-menu-link">
                 <span>
@@ -272,7 +272,7 @@
         </div>
 
         <div class="" *ngIf="
-            checkModule(payroll) 
+            checkModule(payroll)
           ">
           <div class="sidebar-menu-heding">PAYROLL</div>
           <ul class="sidebar-menu">

@@ -247,7 +247,7 @@
                                 {{ organizationShiftTimingResponse.name }}
 
                               </p>
-                              <div  *ngIf="organizationShiftTimingResponse.updateFrom" class="badge rounded-pill badge-soft-danger font-12"
+                             <div  *ngIf="organizationShiftTimingResponse.updateFrom && !organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
                               [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">
                               New Shift</div>
                             </div>
@@ -262,8 +262,23 @@
                                 <a data-bs-toggle="modal" data-bs-target="#shiftTime" *ngIf="organizationShiftTimingResponse.updateId > 0" (click)="fetchShiftTiming(organizationShiftTimingResponse)">View</a>
                               </div>
                             </ng-template>
+                            <div  *ngIf="organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
+                            [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate1" nz-popover nzPopoverPlacement="left">
+                            Delete Shift
+                          </div>
+
+                          <ng-template #contentTemplate1>
+                            <div class="request-g p-0">
+                              <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                <h5 class="mb-0 font-14">Shift Scheduled to be deleted</h5>
+                              </div>
+                              <div class="p-3">
+                                <p class="mb-0 font-13 fw-semibold"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( Shift will be deleted today after 1 hour of out time) </span></p>
+                              </div>
+                             </div>
+                          </ng-template>
                             </div>
-                            <div class="d-flex align-items-center gap-4">
+                            <div class="d-flex align-items-center gap-4"  *ngIf="!organizationShiftTimingResponse.scheduledToDelete" >
                               <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                                   updateOrganizationShiftTiming(
                                     organizationShiftTimingResponse,
@@ -272,7 +287,7 @@
                                 ">
                                 <i class="bi bi-people"></i>
                               </a>
-                             
+
                               <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                                   updateOrganizationShiftTiming(
                                     organizationShiftTimingResponse,
@@ -292,7 +307,7 @@
                                 ">
                                 <i class="bi bi-trash pointer text-danger"></i>
                               </a>
-                            
+
                             </div>
                           </div>
                           <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
@@ -370,7 +385,7 @@
               </ng-container>
             </ng-template>
             <ng-template #errorInFetchingOrganizationShiftTimingData>
-             
+
 
               <!-- {{dataNotFoundPlaceholder}} -->
               <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
@@ -394,14 +409,14 @@
                     <p class="mb-1 empty-detail font-14">
                       Something went wrong
                     </p>
-              
+
                   </ng-template>
                 </nz-empty>
               </div>
-           
+
             </ng-template>
           </div>
-          
+
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -455,13 +470,13 @@
                 <div class="row holiday-list-box-height" [ngClass]="{
                     'holiday-list-box': loadMoreHolidaysBoolean == true
                   }">
-                 
+
 
                   <div class="empty-file" *ngIf="holidays.length == 0">
                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
                       <ng-template #contentTpl>
                         <p class="mb-1 empty-detail font-14">No Data Found</p>
-             
+
                       </ng-template>
                     </nz-empty>
                   </div>
@@ -503,7 +518,7 @@
               </div>
             </div>
           </div>
-         
+
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -679,13 +694,13 @@
                               <i class="bi  pointer" [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.ATTENDANCESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"></i>
                             </a>
 
-                            
+
                             <a class="delete-rule" style="cursor: pointer" data-bs-toggle="modal"
                              data-bs-target="#delete-automation" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                               (click)="getAutomationTemplateId(attendanceRuleDefinitionResponse.id, attendanceRuleDefinitionResponse.attendanceRuleTypeId  ) " >
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
-                           
+
                           </div>
                         </div>
                         <div class="row mt-3" *ngIf="
@@ -1587,7 +1602,7 @@
 
 
                       <div class="leave-footer" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
-                     
+
 
 
                         <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
@@ -1631,7 +1646,7 @@
                               </div>
                               <div *ngIf="day.selected">
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                  <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}" 
+                                  <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}"
                                   [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                     autocomplete="off" (click)="toggleAlternate(i, false)" [value]="false"
                                     [(ngModel)]="day.isAlternate" />
@@ -1738,7 +1753,7 @@
                                     </a>
                                     <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                                     <span class="separator"></span>
-                                    <span class="clear-button text-danger fw-semibold pointer" 
+                                    <span class="clear-button text-danger fw-semibold pointer"
                                       (click)="unselectAllUsers()">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
                                         fill="none">
@@ -1775,7 +1790,7 @@
                               <thead class="thead-light">
                                 <tr>
                                   <th style="width: 0%">
-                                    <input type="checkbox" style="cursor: pointer" class="form-check-input" 
+                                    <input type="checkbox" style="cursor: pointer" class="form-check-input"
                                     [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"
                                       [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                                   </th>
@@ -2106,7 +2121,7 @@
                 WeekOff Settings
               </button>
             </li>
-           
+
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
@@ -2116,14 +2131,14 @@
                 <div class="col-md-12">
                   <div class="week-checkbox d-flex align-items-center gap-3" *ngFor="let day of weekDay; let i = index">
                     <div class="form-check d-flex align-items-center gap-2">
-                    
+
                       <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
                     </div>
                     <div *ngIf="day.selected">
                       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                 
+
                         <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
-                    
+
                         <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
                       </div>
                       <div class="btn-group radio-btn" role="group" aria-label="Basic radio toggle button group"
@@ -3217,10 +3232,10 @@
                         <div class="col-md-12">
                           <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
                             <div class="" style="width: 70%">
-                              <form novalidate="" role="search" (submit)="searchUsers()" 
+                              <form novalidate="" role="search" (submit)="searchUsers()"
                                 class="searching ng-untouched ng-pristine ng-valid">
                                 <div class="form-group" style="position: relative">
-                                  <input type="text" id="searchText" placeholder="Search by name and role" 
+                                  <input type="text" id="searchText" placeholder="Search by name and role"
                                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                                     (keyup)="searchUsers()" [(ngModel)]="searchText"
                                     [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
@@ -3581,7 +3596,7 @@
             <div class="form-group">
               <div class="d-flex align-items-center mb-3">
                 <label class="me-3">Location Type:</label>
-               
+
               </div>
 
               <!-- Conditional display based on location type -->
@@ -3610,7 +3625,7 @@
                     </div>
                   </div>
                   <div class="col-md-4">
-                    
+
                     <div class="mb-3">
                       <label for="radius" class="pb-2">
                         Employee location Must be in
@@ -3698,7 +3713,7 @@
       </form>
     </div>
   </div>
-  
+
 </div>
 
 <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1"
@@ -3800,7 +3815,7 @@
                   </div>
                 </div>
               </div>
-        
+
             </div>
           </div>
         </div>
