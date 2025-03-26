@@ -356,7 +356,7 @@
                                                 <li >
                                                     <a class="dropdown-item" (click)="editDeduction(deduction)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
-                                                <li >
+                                                <li *ngIf="!deduction.displayName">
                                                     <a class="dropdown-item" (click)="openDeleteModal(deduction.id,'deduction')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
  
