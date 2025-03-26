@@ -131,7 +131,7 @@
                                         </span>; 
                                             <span [ngSwitch]="earning.valueTypeId">
                                                 <span *ngSwitchCase="VALUE_TYPE_PERCENTAGE">{{earning.value}}  % of</span>
-                                                <span *ngSwitchCase="VALUE_TYPE_FLAT">  {{ earning.value === 0 ? 'Flat Amount' : 'FLAT of ' + earning.value }}</span>
+                                                <span *ngSwitchCase="VALUE_TYPE_FLAT">  {{ earning.value === 0 ? 'Flat Amount' : 'Flat amount of ' + earning.value }}</span>
                                             </span> 
                                             <span *ngIf="earning.valueTypeId !== VALUE_TYPE_FLAT">
                                             <span [ngSwitch]="earning.calculationBasedId">
