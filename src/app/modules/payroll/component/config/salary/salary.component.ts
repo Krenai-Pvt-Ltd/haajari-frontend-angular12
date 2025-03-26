@@ -144,14 +144,19 @@ export class SalaryComponent implements OnInit {
         );
       }
 
-      
-    getEarningStatus(configurations: ComponentConfiguration[], configId: number): string {
-        return configurations.some(config => config.configurationId === configId) ? 'Yes' : 'No';
+      getEarningStatus(configurations: ComponentConfiguration[], configId: number): string {
+        return configurations.some(config => config.configurationId === configId && config.checked === true) 
+            ? 'Yes' 
+            : 'No';
     }
     
+    
     getEarningClass(configurations: ComponentConfiguration[], configId: number): string {
-        return configurations.some(config => config.configurationId === configId) ? 'text-success' : 'text-danger';
-    }
+      return configurations.some(config => config.configurationId === configId && config.checked === true) 
+          ? 'text-success' 
+          : 'text-danger';
+  }
+  
     
 
     checkStatus(statusId: number): boolean {
