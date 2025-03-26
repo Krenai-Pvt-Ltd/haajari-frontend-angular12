@@ -208,7 +208,6 @@ export class SalaryComponent implements OnInit {
     this.selectedEarningType = '';
     this.selectedNewEarning = false;
     this.isNewComponent = false;
-    this.selectedTab = this.EARNING_COMPONENT;
    }
 
  
@@ -334,8 +333,6 @@ getOrganizationBenefitComponent(){
     this.selectedNewBenefit = false;
      this.isNewComponent = false;
      this.selecteBenefitComponent=new BenefitComponent;
-     this.selectedTab = 3;         
-
   }
 
 
@@ -522,7 +519,6 @@ getOrganizationDeductionComponent(){
     this.selectedNewDeduction = false;
      this.isNewComponent = false;
      this.selecteDeductionComponent=new DeductionComponent;
-     this.selectedTab = 2; 
   }
 
 
@@ -641,7 +637,6 @@ getOrganizationDeductionComponent(){
     this.toggle = false;
      this.isNewComponent = false;
      this.selectedReimbursementComponent=new ReimbursementComponent;
-     this.selectedTab = 4; 
   }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
