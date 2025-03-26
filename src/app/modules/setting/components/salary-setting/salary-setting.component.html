@@ -10,8 +10,9 @@
               <p>This will be displayed on your profile.</p>
             </div>
           </div>
-          <div class="col-md-7">
-            <ng-container
+          <div class="col-md-7"  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}">
+          
+            <ng-container 
               *ngIf="
                 isShimmerForSalaryCalculationMode &&
                   salaryCalculationModeList.length === 0 &&
@@ -261,12 +262,8 @@
                               Salary Template’s
                             </h6>
                           </div>
-                          <div>
-                            <a
-                              data-bs-toggle="modal"
-                              data-bs-target="#addsalarytemplate"
-                              class="add-shift-time-btn"
-                            >
+                          <div *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)">
+                            <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate" class="add-shift-time-btn">
                               <i class="bi bi-plus"></i> Create your own salary
                               template
                             </a>
@@ -274,11 +271,7 @@
                         </div>
                         <div
                           class="shift-set"
-                          *ngFor="
-                            let salaryTemplateComponentResponse of salaryTemplateComponentResponseList;
-                            let i = index
-                          "
-                        >
+                          *ngFor="let salaryTemplateComponentResponse of salaryTemplateComponentResponseList;let i = index ">
                           <div class="shift-time p-3 m-3 ng-star-inserted">
                             <div>
                               <div
@@ -296,9 +289,6 @@
                                     <h6 class="text-truncate mb-0">
                                       {{ salaryTemplateComponentResponse.name }}
                                     </h6>
-                                    <!-- <small class="text-muted"
-                                  >Salary Templates</small
-                                > -->
                                   </div>
                                 </div>
                                 <div class="d-flex align-items-center gap-4">
@@ -325,33 +315,15 @@
                                           SALARY_TEMPLATE_STEP
                                         )
                                       "
-                                      style="cursor: pointer"
-                                    >
-                                      <i class="bi bi-pencil pointer"></i>
+                                      style="cursor: pointer" >
+                                    <i class="bi  pointer"
+                                      [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.SALARYSETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}" ></i>
                                     </a>
-                                    <a
-                                      class="delete-rule"
-                                      style="cursor: pointer"
-                                      (click)="
-                                        deleteSalaryTemplateByIdMethodCall(
-                                          salaryTemplateComponentResponse.id
-                                        )
-                                      "
-                                    >
-                                      <i
-                                        class="bi bi-trash pointer text-danger"
-                                      ></i>
+                                    <a *ngIf=":rbacService.hasWriteAccess(Routes.SALARYSETTING)" class="delete-rule" style="cursor: pointer" 
+                                    (click)="deleteSalaryTemplateByIdMethodCall(salaryTemplateComponentResponse.id )" >
+                                      <i class="bi bi-trash pointer text-danger"></i>
                                     </a>
                                   </div>
-                                  <!-- <span
-                                    data-bs-toggle="collapse"
-                                    role="button"
-                                    class="automation-rules-toogel-btn pointer collapsed"
-                                    data-bs-target="#multiCollapseExample0"
-                                    aria-controls="multiCollapseExample0"
-                                    aria-expanded="false"
-                                    ><i class="bi bi-chevron-down"></i
-                                  ></span> -->
                                   <span
                                     data-bs-toggle="collapse"
                                     role="button"
@@ -376,16 +348,8 @@
                                 [id]="'multiCollapseExample' + i"
                                 [class.show]="activeIndex === i"
                               >
-                                <div
-                                  class="d-flex align-items-center justify-content-between mt-3"
-                                >
+                                <div class="d-flex align-items-center justify-content-between mt-3" >
                                   <div>
-                                    <!-- <p class="mb-0"><i
-                                        class="bi bi-arrow-right"
-                                        style="padding-right: 10px"
-                                      ></i>
-                                      Credily Day Shift
-                                    </p> -->
                                   </div>
                                 </div>
                                 <div class="m-3 holiday-list">
@@ -440,34 +404,7 @@
                   </ng-template>
 
                   <ng-template #errorInFetchingSalaryTemplate>
-                    <!-- <div class="empty-file">
-                      <div class="errorboxmain">
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img
-                              src="assets/images/empty-box.svg"
-                              style="width: 80px"
-                            />
-                          </div>
-                          <div class="">
-                            <h5 class="mb-0">Salary Templates Not Found</h5>
-                          </div>
-                          <div
-                            class="add-filtter mt-2 mb-3"
-                            style="text-align: center"
-                          >
-                            <a
-                              class=""
-                              style="font-size: 14px; color: #6666f3"
-                              data-bs-toggle="modal"
-                              data-bs-target="#addsalarytemplate"
-                            >
-                              <i class="bi bi-plus"></i> Create salary template
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
+                    
 
                     <div
                       class="empty-file"
@@ -542,12 +479,6 @@
                 <div
                   class="upload-salary-detail-box p-3 d-flex align-items-center justify-content-between"
                 >
-                  <!-- <p class="mb-0">
-                    <a class="text-primary" href="{{ sampleExcelFile }}"
-                      >Download a sample excel file.</a
-                    >
-                    Update the data
-                  </p> -->
                   <div class="d-flex align-items-center gap-3" [ngClass]="{'disabled-lnk':downloading}">
                     <p class="mb-0" (click)="getCurrentSalaryReport()">    
                       <a class="text-primary" 
@@ -559,7 +490,7 @@
                     </div>
                   </div>
 
-                  <div class="d-flex align-items-center gap-3" [ngClass]="{'disabled-lnk':uploading}">
+                  <div class="d-flex align-items-center gap-3" [ngClass]="{'disabled-lnk':uploading}" *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)">
                     <p class="mb-0">
                       <input
                       id="fileSelect"
@@ -672,18 +603,8 @@
                     viewBox="0 0 17 17"
                     fill="none"
                   >
-                    <mask
-                      id="mask0_4339_929"
-                      style="mask-type: alpha"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="17"
-                      height="17"
-                    >
-                      <rect width="17" height="17" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_4339_929)">
+                    <mask id="mask0_4339_929" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17"
+                    > <rect width="17" height="17" fill="#D9D9D9" /></mask>  <g mask="url(#mask0_4339_929)">
                       <path
                         d="M4.95833 6.3737V4.95703H14.875V6.3737H4.95833ZM4.95833 9.20703V7.79036H14.875V9.20703H4.95833ZM4.95833 12.0404V10.6237H14.875V12.0404H4.95833ZM2.83333 6.3737C2.63264 6.3737 2.46441 6.30582 2.32865 6.17005C2.19288 6.03429 2.125 5.86606 2.125 5.66536C2.125 5.46467 2.19288 5.29644 2.32865 5.16068C2.46441 5.02491 2.63264 4.95703 2.83333 4.95703C3.03403 4.95703 3.20226 5.02491 3.33802 5.16068C3.47378 5.29644 3.54167 5.46467 3.54167 5.66536C3.54167 5.86606 3.47378 6.03429 3.33802 6.17005C3.20226 6.30582 3.03403 6.3737 2.83333 6.3737ZM2.83333 9.20703C2.63264 9.20703 2.46441 9.13915 2.32865 9.00339C2.19288 8.86762 2.125 8.69939 2.125 8.4987C2.125 8.298 2.19288 8.12977 2.32865 7.99401C2.46441 7.85825 2.63264 7.79036 2.83333 7.79036C3.03403 7.79036 3.20226 7.85825 3.33802 7.99401C3.47378 8.12977 3.54167 8.298 3.54167 8.4987C3.54167 8.69939 3.47378 8.86762 3.33802 9.00339C3.20226 9.13915 3.03403 9.20703 2.83333 9.20703ZM2.83333 12.0404C2.63264 12.0404 2.46441 11.9725 2.32865 11.8367C2.19288 11.701 2.125 11.5327 2.125 11.332C2.125 11.1313 2.19288 10.9631 2.32865 10.8273C2.46441 10.6916 2.63264 10.6237 2.83333 10.6237C3.03403 10.6237 3.20226 10.6916 3.33802 10.8273C3.47378 10.9631 3.54167 11.1313 3.54167 11.332C3.54167 11.5327 3.47378 11.701 3.33802 11.8367C3.20226 11.9725 3.03403 12.0404 2.83333 12.0404Z"
                         fill="#6666F2"
@@ -788,13 +709,18 @@
                         </label>
                       </div>
                       <div class="active-check">
-                        <nz-switch
+                        <nz-switch  *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
                           [(ngModel)]="statutoryResponse.switchValue"
                           [ngModelOptions]="{ standalone: true }"
                           [nzControl]="true"
                           (click)="toggleStatutory(statutoryResponse)"
                           [nzLoading]="statutoryResponse.loading"
                         ></nz-switch>
+                        <nz-switch [ngModel]="statutoryResponse.switchValue" [ngModelOptions]="{ standalone: true }"
+                          [class.no-click]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                            *ngIf="!rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
+                         [attr.checked]="statutoryResponse.switchValue"  (ngModelChange)="helperService.showPrivilegeErrorToast()"></nz-switch>
+
                       </div>
                     </div>
                   </div>
@@ -1691,11 +1617,7 @@
   >
     <div class="modal-content">
       <div class="modal-header border-bottom" style="background-color: white">
-        <h3
-          class="modal-title m-0"
-          id="exampleModalDefaultLabel"
-          style="color: black; font-size: large"
-        >
+        <h3 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large">
           Create your salary template
         </h3>
         <button
@@ -1745,11 +1667,8 @@
           </ul>
 
           <div class="tab-content" id="myTabContent">
-            <div
-              class="tab-pane fade show active"
-              id="salarytemplate"
-              role="tabpanel"
-            >
+            <div [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}" 
+            class="tab-pane fade show active" id="salarytemplate" role="tabpanel" >
               <div class="row p-3">
                 <div class="description-main-box">
                   <span class="eTjDuD">1</span>
@@ -1846,9 +1765,6 @@
                   >
                     <div class="basic-text">
                       <h5>{{ salaryComponent.name }}</h5>
-                      <!-- <i class="bi bi-exclamation-circle tolltip-icon"
-                            ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace. To reinstall Hajiri, please visit the Hajiri website and use the 'Add to Slack' feature."
-                            placement="top"></i> -->
                     </div>
                     <div class="enter-ammount position-relative">
                       <div class="">
@@ -1870,11 +1786,16 @@
                       class="delete-btn d-flex align-items-center justify-content-end"
                       style="gap: 25px"
                     >
-                      <nz-switch
+                      <nz-switch   *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
                         [(ngModel)]="salaryComponent.toggle"
                         [ngModelOptions]="{ standalone: true }"
                         [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
                       ></nz-switch>
+                      <nz-switch [ngModel]="salaryComponent.toggle" [ngModelOptions]="{ standalone: true }"
+                          [class.no-click]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                            *ngIf="!rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
+                         [attr.checked]="salaryComponent.toggle"  (ngModelChange)="helperService.showPrivilegeErrorToast()"></nz-switch>
+
                     </div>
                   </div>
                   <!-- <div class="d-flex align-items-center information-box"><div class="basic-text"><h5>HRA (House Rent Allowance)</h5></div><div class="enter-ammount position-relative"><div class=""><input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount"><i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i></div></div><div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px"><i class="bi bi-pencil-square edit-icon"></i><i class="bi bi-trash"></i></div></div><div class="d-flex align-items-center information-box"><div class="basic-text"><h5>Medical Allowance</h5></div><div class="enter-ammount position-relative"><div class=""><input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount"><i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i></div></div><div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px"><i class="bi bi-pencil-square edit-icon"></i><i class="bi bi-trash"></i></div></div><div class="d-flex align-items-center information-box"><div class="basic-text"><h5>Special Allowance</h5></div><div class="enter-ammount position-relative"><div class=""><input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount"><i class="bi bi-percent search-icon" style="margin: auto; margin-left: 10px;"></i></div></div><div class="delete-btn d-flex align-items-center justify-content-end" style="gap:25px"><i class="bi bi-pencil-square edit-icon"></i><i class="bi bi-trash"></i></div></div> -->
@@ -1954,9 +1875,8 @@
                               {{ selectedStaffsUuids.length }} selected of
                               {{ totalUserCount }}
                             </a>
-                            <span
+                            <span  *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)"
                               class="clear-button text-danger"
-                              *ngIf="selectedStaffsUuids.length > 0"
                               (click)="unselectAllUsers()"
                             >
                               Clear all users <i class="bi bi-x"></i>
@@ -1973,6 +1893,7 @@
                     <tr>
                       <th style="width: 0%">
                         <input
+                        [disabled]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
                           type="checkbox"
                           style="cursor: pointer"
                           class="form-check-input"
@@ -2076,16 +1997,15 @@
                         >
                           <td>
                             <div class="form-check">
-                              <input
+                              <input [disabled]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
                                 type="checkbox"
                                 style="cursor: pointer"
                                 class="form-check-input"
                                 [(ngModel)]="staff.selected"
-                                (change)="checkIndividualSelection()"
+                                (change)="checkIndividualSelection(true)"
                               />
                             </div>
                           </td>
-                          <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                           <td style="padding: 12px 15px">{{ staff.name }}</td>
                           <td style="padding: 12px 15px">
                             {{ staff.email ? staff.email : "N/A" }}
@@ -2187,7 +2107,7 @@
        
       </div>
       <!-- Reusable footer component -->
-      <div
+      <div *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)"
         class="modal-footer d-flex align-items-center justify-content-between"
       >
         <ng-container
@@ -2460,7 +2380,7 @@
                                     style="cursor: pointer"
                                     class="form-check-input"
                                     [(ngModel)]="staff.selected"
-                                    (change)="checkIndividualSelection()"
+                                    (change)="checkIndividualSelection(true)"
                                   />
                                 </div>
                               </td>
