@@ -4,22 +4,22 @@
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
                 aria-controls="pills-dashboard" aria-selected="false"
-                class="nav-link active" (click)="selectedTab=1;">Earnings</a>
+                class="nav-link"  [class.active]="selectedTab == 1" (click)="selectedTab=1;">Earnings</a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#deductions" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" (click)="selectedTab=2;">Deductions </a>
+                    class="nav-link" [class.active]="selectedTab == 2"  (click)="selectedTab=2;">Deductions </a>
                 </li>
             <li class="nav-item d-flex align-items-center">
             <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link" (click)="selectedTab=3;">Benefits </a>
+                class="nav-link" [class.active]="selectedTab == 3" (click)="selectedTab=3;">Benefits </a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" (click)="selectedTab=4;">Reimbursements</a>
+                    class="nav-link" [class.active]="selectedTab == 4"  (click)="selectedTab=4;">Reimbursements</a>
             </li>
         </ul>
 
@@ -58,7 +58,8 @@
 
 
     <div class="tab-content mt-2" id="tabContent">
-        <div class="tab-pane fade show active" id="earning" role="tabpanel" aria-labelledby="earning-tab">
+        <div class="tab-pane fade show" [class.show]="selectedTab == 1" 
+        [class.active]="selectedTab == 1"  id="earning" role="tabpanel" aria-labelledby="earning-tab">
             <div class="mt-3">
                 <div class="table-responive salary-compontant-list" >
                     <table class="table">
@@ -181,7 +182,8 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="benefits" role="tabpanel" aria-labelledby="benefits-tab">
+        <div class="tab-pane fade" id="benefits" [class.show]="selectedTab == 3" 
+        [class.active]="selectedTab == 3" role="tabpanel" aria-labelledby="benefits-tab">
             <div class="mt-2">
                 <div class="table-responive benefits-list">
                     <table class="table table-borderless">
@@ -272,7 +274,8 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="deductions" role="tabpanel" aria-labelledby="deductions-tab">
+        <div class="tab-pane fade"  [class.show]="selectedTab == 2" 
+        [class.active]="selectedTab == 2" id="deductions" role="tabpanel" aria-labelledby="deductions-tab">
             <div class="mt-2">
                 <div class="table-responive benefits-list">
                     <table class="table table-borderless">
@@ -335,7 +338,7 @@
                                         </p>
                                     </td>
                                     <td class="border-0">
-                                        <nz-switch nzSize="small" [ngModel]="checkStatus(deduction.statusId)"></nz-switch>
+                                        <nz-switch [ngModel]="checkStatus(deduction.statusId)"></nz-switch>
                                     </td>
                                     <td >
                                         <div class="dropdown">
@@ -366,7 +369,8 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="reimbursements" role="tabpanel" aria-labelledby="reimbursements-tab">
+        <div class="tab-pane fade" [class.show]="selectedTab == 4" 
+        [class.active]="selectedTab == 4" id="reimbursements" role="tabpanel" aria-labelledby="reimbursements-tab">
             <div class="mt-2">
                 <div class="table-responive benefits-list">
                     <table class="table table-borderless">
@@ -838,7 +842,7 @@
             </div>
             <div class="earning-detail mt-4 mb-100" *ngIf="viewSection(REIMBURSEMENT_COMPONENT)">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromDeduction()">
+                    <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromReimursement()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
                     <h5 class="mb-0 font-15 fw-semibold">Edit Reimbursement</h5>

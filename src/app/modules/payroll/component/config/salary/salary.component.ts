@@ -208,6 +208,7 @@ export class SalaryComponent implements OnInit {
     this.selectedEarningType = '';
     this.selectedNewEarning = false;
     this.isNewComponent = false;
+    this.selectedTab = this.EARNING_COMPONENT;
    }
 
  
@@ -216,9 +217,13 @@ export class SalaryComponent implements OnInit {
       this._salaryComponentService.saveEarningComponent(this.selectedEarningComponent).subscribe((response) => {
           if(response.status){
             this.getOrganizationEarningComponent();
+            this._helperService.showToast('Earning component saved successfully.',Key.TOAST_STATUS_SUCCESS);  
+
           }else{
-   
+            this._helperService.showToast('Error saving Earning component.',Key.TOAST_STATUS_ERROR);
+
           }
+          this.backFromEarning();
           this.saveLoader = false;
         },
         (error) => {
@@ -329,8 +334,7 @@ getOrganizationBenefitComponent(){
     this.selectedNewBenefit = false;
      this.isNewComponent = false;
      this.selecteBenefitComponent=new BenefitComponent;
-     this.selectedTab = 3; 
-           
+     this.selectedTab = 3;         
 
   }
 
@@ -518,6 +522,7 @@ getOrganizationDeductionComponent(){
     this.selectedNewDeduction = false;
      this.isNewComponent = false;
      this.selecteDeductionComponent=new DeductionComponent;
+     this.selectedTab = 2; 
   }
 
 
@@ -584,7 +589,7 @@ getOrganizationDeductionComponent(){
   getOrganizationReimbursementComponent(){
   this.shimmer = true;
   this.reimbursementComponents = [];
-    this._salaryComponentService.getOrganizationReimbursementComponent().subscribe((response) => {
+    this._salaryComponentService.getOrganizationReimbursementComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
         if(response.status){
           this.reimbursementComponents= response.object.content;
           this.totalItems = response.object.totalElements;
@@ -630,6 +635,13 @@ getOrganizationDeductionComponent(){
     this.toggle=true;
     this.selectedTab = this.REIMBURSEMENT_COMPONENT;
     this.selecteReimbursementComponent= JSON.parse(JSON.stringify(reimbursementComponent)) ;
+  }
+
+  backFromReimursement(){
+    this.toggle = false;
+     this.isNewComponent = false;
+     this.selecteReimbursementComponent=new ReimbursementComponent;
+     this.selectedTab = 4; 
   }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

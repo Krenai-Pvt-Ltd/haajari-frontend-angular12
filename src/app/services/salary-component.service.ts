@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Key } from '../constant/key';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { EarningComponent } from '../payroll-models/EarrningComponent';
 import { ReimbursementComponent } from '../payroll-models/ReimbursementComponent';
 import { DeductionComponent } from '../payroll-models/DeductionComponent';
@@ -59,8 +59,11 @@ export class SalaryComponentService {
     return this._http.get<any>(`${this._key.base_url}/salary-component/reimbursement-types`);
   }
 
-  getOrganizationReimbursementComponent(): Observable<any>{
-  return this._http.get<any>(`${this._key.base_url}/salary-component/reimbursement`);
+  getOrganizationReimbursementComponent(currentPage:number,itemPerPage:number): Observable<any>{
+    const params = new HttpParams()
+    .set('currentPage', currentPage)
+    .set('itemPerPage', itemPerPage);
+  return this._http.get<any>(`${this._key.base_url}/salary-component/reimbursement`,{ params });
   }
 
   saveReimbursementComponent(reimbursementComponent: ReimbursementComponent): Observable<any>{
