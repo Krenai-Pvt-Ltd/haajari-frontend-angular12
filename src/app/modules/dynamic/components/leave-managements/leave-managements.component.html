@@ -13,8 +13,6 @@
                   <a id="pills-notification-tab" data-bs-toggle="pill" href="#request" role="tab" (click)="requests()"
                      aria-controls="pills-request" aria-selected="false"
                     class="nav-link">Leave Request </a>
-                    <!-- {{pendingLeaveCount}} -->
-                    <!-- {{pendingLeaveCount}} -- {{isPendingChange}} -- {{isFirstLoad}} -- {{this.filters.status}} -->
                     <span class="request-count d-flex align-items-center justify-content-center" *ngIf="pendingLeaveCount > 0">{{ pendingLeaveCount }}</span>
                 </li>
               </ul>
@@ -41,8 +39,6 @@
                                             <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy"
                                                 [(ngModel)]="selectedDate"  (ngModelChange)="onMonthChange($event)"
                                                 [nzDisabledDate]="disableMonths"></nz-date-picker>
-
-                                            <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                                         </div>
 
                                         <span class="calendar-separator"></span>
@@ -93,17 +89,14 @@
                                             <div class="approved position-relative">
                                                 <h5 class="font-12 mb-2">Approved</h5>
                                                 <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalApproved}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
-                                                <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="pending position-relative">
                                                 <h5 class="font-12 mb-2">Pending </h5>
                                                 <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalPending}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
-                                                <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                             <div class="rejected position-relative">
                                                 <h5 class="font-12 mb-2">Rejected</h5>
                                                 <h5 class="font-18 mb-1 fw-semibold">{{leaveReportResponse?.reportGraphUserLeave?.totalRejected}} <span class="font-13 fw-semibold" style="color: #444;">requests</span></h5>
-                                                <!-- <p class="mb-0 font-13 fw-light">Since least week</p> -->
                                             </div>
                                         </div>
 
@@ -113,10 +106,9 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="dashboard-report">
-                                <div class="report-chart" style="    height: 505px;">
+                                <div class="report-chart" style="height: 505px;">
                                     <div class="report-header p-3 d-flex align-items-center justify-content-between">
                                         <h5 class="mb-0 font-13 fw-semibold">Months Pattern</h5>
-                                        <!-- <button class="btn p-0 font-11 text-black fw-semibold">Summary</button> -->
                                     </div>
                                     <div class="p-3">
                                         <div class="d-flex align-items-center justify-content-between mt-2 border-bottom pb-4">
@@ -130,7 +122,6 @@
                                               </div>
                                             <h5 class="font-11 mb-0 fw-semibold"> {{selectedDate | date:"MMMM, yyyy" }}</h5>
                                         </div>
-                                        <!-- <img src="assets/images/months-report.png" class="w-100 text-center"> -->
                                         <apx-chart
                                         *ngIf="chartOptions?.series?.length"
                                         [series]="chartOptions.series!"
@@ -709,7 +700,6 @@
                                 <ng-container *ngFor="let leave of leaves;
                                 let i = index
                               ">
-                              <!-- class="new-request" -->
                                 <tr >
                                     <td class="text-left"><span (click)="routeToUserDetails(leave.uuid)" class="team-maneger mb-0 pointer">{{leave.username}} </span></td>
                                      <td class="text-left">
@@ -720,9 +710,6 @@
                                         <span class="team-maneger mb-0 fw-semibold font-12 "> Start Date - <span class="text-optional fw-normal"> {{ leave.startDate | date : 'dd-MM-yyyy' || "N/A" }}</span> <br>
                                           Ending Date -  <span class="text-optional fw-normal">{{ leave.endDate | date : 'dd-MM-yyyy' || "N/A" }} </span>
                                         </span>
-                                        <!-- <p class="mb-0 font-12 fw-semibold" >
-                                            Monday
-                                        </p> -->
                                      </td>
                                      <td class="text-left"><span class=" mb-0 font-13 fw-semibold">{{leave.managerName}} </span></td>
 
@@ -770,7 +757,7 @@
                                                 </ng-template>
                                               </span>
                                               <div class="dropdown-menu actionMenuList">
-                                                <li *ngIf="leave.status == PENDING && ((logInUserUuid!=leave.uuid && logInUserUuid==leave.managerUuid)  || ROLE=='ADMIN')">
+                                                <li  *ngIf="showLeaveActionButton(leave)">
                                                   <span (click)="approveOrRejectLeave(leave.id, APPROVED)">
                                                     <a class="dropdown-item">
                                                       <i class="bi bi-check2"></i>
@@ -778,7 +765,7 @@
                                                     </a>
                                                   </span>
                                                 </li>
-                                                <li *ngIf="leave.status == PENDING && ((logInUserUuid!=leave.uuid && logInUserUuid==leave.managerUuid) || ROLE=='ADMIN')">
+                                                <li *ngIf="showLeaveActionButton(leave)">
                                                   <span (click)="approveOrRejectLeave(leave.id, REJECTED)">
                                                     <a class="dropdown-item">
                                                       <i class="bi bi-x"></i>
