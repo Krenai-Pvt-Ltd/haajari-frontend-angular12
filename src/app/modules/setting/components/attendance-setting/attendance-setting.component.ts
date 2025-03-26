@@ -1,18 +1,17 @@
 import { DatePipe } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import {
-  FormBuilder,
   NgForm,
   NgModel,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Routes } from 'src/app/constant/Routes';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -48,6 +47,7 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 // declare var google: any;
 
 @Component({
@@ -61,23 +61,21 @@ export class AttendanceSettingComponent implements OnInit {
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
   readonly  constant = constant;
+  readonly Routes=Routes;
 
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
     public helperService: HelperService,
-    private fb: FormBuilder,
     private router: Router,
-    private el: ElementRef,
     private placesService: PlacesService,
     private activatedRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getTeamNames();
-    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -86,7 +84,6 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     this.loadAllShiftCounts();
-    // this.getCurrentLocation();
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
     }
@@ -1318,6 +1315,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   checkIndividualSelection() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+  }
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
@@ -1377,6 +1378,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   selectAll(checked: boolean) {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+        this.helperService.showPrivilegeErrorToast();
+        return;
+    }
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
 
@@ -1522,9 +1527,10 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('closeShiftTimingModal') closeShiftTimingModal!: ElementRef;
   isEditStaffLoader = false;
   registerOrganizationShiftTimingMethodCall() {
-    debugger;
-    // this.submitWeeklyHolidays();
-    // this.organizationShiftTimingRequest.shiftTypeId = 1;
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+  }
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
@@ -1684,13 +1690,23 @@ calculateTimes(): void {
   // this.organizationShiftTimingRequest.workingHour = '';
 
   // Helper function to convert Date object to minutes from start of the day in local time
-  const dateToLocalMinutes = (date: Date | undefined) => {
-      if (!date) return 0;
-      const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-      const hours = localDate.getHours();
-      const minutes = localDate.getMinutes();
-      return hours * 60 + minutes;
-  };
+  const dateToLocalMinutes = (date: Date | string | undefined) => {
+    if (!date) return 0;
+
+    // If date is a string, convert it to a Date object
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+
+    // Check if parsedDate is a valid Date object
+    if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
+        return 0; // Return 0 for invalid dates
+    }
+
+    // Adjust for timezone offset to get local time
+    const localDate = new Date(parsedDate.getTime() + parsedDate.getTimezoneOffset() * 60000);
+    const hours = localDate.getHours();
+    const minutes = localDate.getMinutes();
+    return hours * 60 + minutes;
+};
 
   // Convert times to local minutes
   const inTimeMinutes = dateToLocalMinutes(inTime);
@@ -1741,6 +1757,9 @@ calculateTimes(): void {
       }
   }
 
+  console.log('Auto Checkout:', autoCheckout);
+  console.log('Out Time:', outTime);
+  console.log('Auto Checkout' , autoCheckout);
   if (autoCheckout) {
     if (!outTime) {
       this.organizationShiftTimingValidationErrors['autoCheckout'] =
@@ -1759,6 +1778,7 @@ calculateTimes(): void {
             'Auto checkout cannot be more than 10 hours after out time.';
         }
         this.autoCheckoutDifference = this.formatMinutesToTime(diffMinutes);
+        console.log('Auto Checkout Difference:', this.autoCheckoutDifference);
       }
     }
   } else {
@@ -2015,7 +2035,7 @@ formatMinutesToTime(minutes: number): string {
     this.getUserByFiltersMethodCall();
     // this.getUserByFiltersMethodCall();
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
-
+    this.calculateTimes();
     setTimeout(() => {
       if (tab == 'STAFF_SELECTION') {
         this.staffActiveTabInShiftTimingMethod();
@@ -2043,6 +2063,12 @@ formatMinutesToTime(minutes: number): string {
   @ViewChild('attendancewithlocationssButton')
   attendancewithlocationssButton!: ElementRef;
   updateAttendanceModeMethodCall(attendanceModeId: number) {
+
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast()
+      return;
+    }
+
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         // console.log(response);
@@ -2313,6 +2339,10 @@ getAllAddressDetails(): void {
   // }
 
   toggleSelection(i: number): void {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.weekDay[i].selected = !this.weekDay[i].selected;
 
     // Automatically set isAlternate to false when a day is selected
@@ -2387,10 +2417,12 @@ getAllAddressDetails(): void {
   }
 
   deleteCustomHolidays(id: number) {
-    debugger
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.dataService.deleteCustomHolidays(id).subscribe(
       (response) => {
-        // console.log(response);
         this.holidays = [];
         this.loadHolidays();
       },

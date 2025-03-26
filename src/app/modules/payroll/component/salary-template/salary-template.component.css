@@ -86,13 +86,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.btnAction {
-    background-color: #F9FAFC;
-    width: 30px;
-    height: 33px;
-    border-radius: 2px;
-    border: 1px solid #EFEFEF;
-}
+
 .actionMenuList .dropdown-item {
     font-size: 14px !important;
     color: #333 !important;

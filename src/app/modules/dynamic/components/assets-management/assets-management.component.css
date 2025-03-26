@@ -295,13 +295,7 @@
 .table tbody {
     border: 1px solid #f1f1f1;
 }
-.btnAction{
-    background-color: #F9FAFC;
-    width: 30px;
-    height: 33px;
-    border-radius: 2px;
-    border: 1px solid #EFEFEF;
-}
+
 
 .actionMenuList{
     line-height: 35px;
@@ -490,9 +484,9 @@ input[type=checkbox] {
 }
 
 .delete-modal {
-  z-index: 1100 !important;
-}
-
+    z-index: 1100 !important;
+  }
+  
 .modal-backdrop {
   z-index: 1999 !important;
 }

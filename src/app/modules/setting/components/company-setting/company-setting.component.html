@@ -1,6 +1,8 @@
 <div class="page-wrapper">
-  <div class="page-content-tab mt-3">
-    <ul id="myTab" role="tablist" class="nav nav-tabs ml-2" style="margin-right: 10px;">
+  <div class="page-content-tab mt-3 pl-1">
+    <div class="row px-2">
+    <div class="col-md-12">
+    <ul id="myTab" role="tablist" class="nav nav-pills">
       <li role="presentation" class="nav-item">
         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
           aria-controls="profile" [attr.aria-selected]="activeTab === 'companySetting'"
@@ -24,8 +26,8 @@
           Onboarding Setting
         </button>
       </li>
-      <!-- TODO : dynamic for now -->
-      <li role="presentation" class="nav-item" *ngIf="ROLE === 'ADMIN' && masterAttendanceModeId === 1">
+      <!-- TODO : dynamic for now -->  
+      <li role="presentation" class="nav-item" *ngIf="masterAttendanceModeId === 1">
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
           [ngClass]="{'active': activeTab === 'notificationsSetting'}" class="nav-link"
@@ -33,7 +35,8 @@
           Notifications Configuration
         </button>
       </li>
-       <li role="presentation" class="nav-item" *ngIf="ROLE === 'ADMIN'">
+      <!-- *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)" -->
+       <li role="presentation" class="nav-item" >
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#exitPolicy" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'exitPolicy'"
           [ngClass]="{'active': activeTab === 'exitPolicy'}" class="nav-link"
@@ -42,7 +45,8 @@
         </button>
       </li>
     </ul>
-
+  </div>
+</div>
 
     <div class="container-fluid">
 
@@ -52,7 +56,7 @@
 
           <div class="row">
             <div class="col-md-4">
-              <div class="company-details-box p-3" id="company-details-box">
+              <div class="company-details-box p-1" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
                 <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
@@ -183,7 +187,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="company-details-box p-3">
+              <div class="company-details-box p-1">
                 <h4 class="card-title">Tagline</h4>
                 <span class="text-muted font-12 fw-normal">A quick snapshot of your company.
                 </span>
@@ -205,7 +209,7 @@
             <div class="col-md-1"></div>
           </div>
 
-          <div class="col-md-11 mt-3">
+          <div class="col-md-11 mt-3" *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
             <div class="edit-submit-btn d-flex align-items-center justify-content-end">
               <p class="mb-0 font-14" *ngIf="!isEditMode">
                 All data is pre-filled. Do you want to edit?
@@ -227,14 +231,14 @@
       </form>
       <div class="row">
         <div class="col-md-4" *ngIf="activeTab === 'companySetting'">
-          <div class="company-details-box" style="padding: 15px">
+          <div class="company-details-box p-1" >
             <h4 class="card-title">HR Policy</h4>
             <span class="text-muted font-12 fw-normal">A quick snapshot of your company HR policies.</span>
           </div>
         </div>
         <div class="col-md-7 mt-4" *ngIf="activeTab === 'companySetting'">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12"  *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
               <div class="p-3 excel-uplode-file-box text-center poiter" type="button" data-bs-toggle="modal"
                 data-bs-target="#addDocument">
                 <button type="button" class="btn p-0 text-primary font-13 ">
@@ -288,26 +292,9 @@
                       </g>
                     </svg>
                   </span>
-                  <!-- (click)="downloadFile(fileUrl)" -->
                   <input id="hrpolicies" type="file" name="hrpolicies" class="input" accept="application/pdf"
                     (change)="onFileSelectedHrPolicies($event)" style="display: none;" />
-                  <!-- <span>
-                    <div *ngIf="isUpdatingHrPolicies" class="spinner-border text-primary" role="status"></div>
-                  </span> -->
-                  <!-- <span (click)="triggerFileInput()" *ngIf="!isUpdatingHrPolicies">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                      <mask id="mask0_4339_1623" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="23" height="22">
-                        <rect x="0.267578" width="21.8342" height="21.8342" fill="#444444" />
-                      </mask>
-                      <g mask="url(#mask0_4339_1623)">
-                        <path
-                          d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
-                          fill="#444444" />
-                      </g>
-                    </svg>
-                  </span> -->
-                  <span (click)="deleteDocument(document.id)">
+                  <span (click)="deleteDocument(document.id)" *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
                       <mask id="mask0_4339_1620" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="23" height="22">
@@ -329,11 +316,11 @@
         <div class="mt-4" *ngIf="activeTab === 'locationSetting'">
           <div class="row">
         <div class="col-md-4"  >
-          <div class="form-roe-data p-3">
+          <div class="form-roe-data p-1">
             <h5>Location Setting</h5>
             <p class="font-12">A quick snapshot of your company.</p>
           </div>
-          <div class="total-shifts p-3 mt-4 m-3" *ngIf="allAddresses?.length > 1">
+          <div class="total-shifts p-3 mt-4 m-1" *ngIf="allAddresses?.length > 1">
             <div class="d-flex align-items-center justify-content-between">
               <div>
                 <h6 class="text-truncate">Total Locations</h6>
@@ -435,10 +422,10 @@
               ">
               <div class="add-shift-main-box">
                 <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                  <div class="">
+                  <div >
                     <h6 class="text-truncate mb-0">Locations</h6>
                   </div>
-                  <div class="">
+                  <div *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                     <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime"
                       (click)="clearLocationModel()">
                       <i class="bi bi-plus"></i> Add New Location
@@ -448,15 +435,15 @@
 
                 <div class="shift-set">
                   <div class="shift-time p-3 m-3" *ngFor="let item of allAddresses; let i = index">
-                    <div class="">
+                    <div >
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
-                          <div class="">
+                          <div >
                             <span class="automation-rules-icon d-flex align-items-center justify-content-center">
                               <img src="assets/images/rule-icon.svg" />
                             </span>
                           </div>
-                          <div class="">
+                          <div>
                             <h6 class="text-truncate mb-0" *ngIf="
                             item.organizationAddress.addressStatus ==
                             'Default address'
@@ -508,8 +495,14 @@
 
                             <!-- shifTimeDefaultAddress -->
                             <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                            *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                               (click)="getOrganizationAddressDetailMethodCall(true)">
                               <i class="bi bi-pencil pointer"></i>
+                            </a>
+                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                            *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
+                              (click)="getOrganizationAddressDetailMethodCall(true)">
+                              <i class="bi bi-eye pointer"></i>
                             </a>
 
                           </div>
@@ -518,31 +511,24 @@
                               'Default address'
                             ">
                             <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
-                                getUsersOfAddressDeatils(
-                                  item.organizationAddress.id,
-                                  item.organizationAddress.addressStatus
-                                )
-                              ">
+                                getUsersOfAddressDeatils( item.organizationAddress.id,  item.organizationAddress.addressStatus ) ">
                               <i class="bi bi-people"></i>
                             </a>
-                            <!-- getAddressDetails(
-                              item.organizationAddress.id,
-                              item.organizationAddress.addressStatus
-                            ) -->
+                            
+                            <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                             <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="openEditAddressTab(item.organizationAddress.id,
-                                  item.organizationAddress.addressStatus,false)
-
-                              ">
+                                  item.organizationAddress.addressStatus,false) " >
                               <i class="bi bi-pencil pointer"></i>
                             </a>
-                            <!-- (click)="
-                                deleteAddress(item.organizationAddress.id)
-                              "> -->
                             <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal"
-                              data-bs-target="#delete-address" (click)="
-                                getAddressTemplateId(item.organizationAddress.id)
-                              ">
+                              data-bs-target="#delete-address" (click)=" getAddressTemplateId(item.organizationAddress.id) "   >
                               <i class="bi bi-trash pointer text-danger"></i>
+                            </a>
+                          </ng-container>
+                          <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"  *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
+                           (click)="openEditAddressTab(item.organizationAddress.id,
+                                  item.organizationAddress.addressStatus,false) " >
+                              <i class="bi bi-eye pointer"></i>
                             </a>
                           </div>
                         </div>
@@ -681,7 +667,7 @@
           <div class="row">
 
         <div class="col-md-4">
-          <div class="form-roe-data p-3">
+          <div class="form-roe-data p-1">
             <h5>Employee Onboarding Setting</h5>
             <p>A quick snapshot of your company.</p>
           </div>
@@ -701,15 +687,15 @@
                         <h5 class="mb-0 font-15">{{ module.name }}</h5>
                       </div>
                       <div class="form-check">
-                        <!-- <input
-                          type="checkbox"
-                          class="form-check-input"
-                          id="enableModule{{ module.id }}"
-                          [checked]="module.isFlag"
-                          (change)="onModuleSelect(i, $event)"
-                        /> -->
-                        <nz-switch [(ngModel)]="module.isFlag" [ngModelOptions]="{ standalone: true }"
+                        <!-- COMPANYSETTING -->
+                        <nz-switch [(ngModel)]="module.isFlag" [ngModelOptions]="{ standalone: true }" 
+                        *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                           id="enableModule{{ module.id }}" (ngModelChange)="onModuleSelect(i)"></nz-switch>
+                        
+                          <nz-switch [ngModel]="module.isFlag" [ngModelOptions]="{ standalone: true }"
+                          [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
+                            *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" 
+                         [attr.checked]="module.isFlag" id="enableModule{{ module.id }}" (ngModelChange)="helperService.showPrivilegeErrorToast()"></nz-switch>
 
                       </div>
                     </div>
@@ -727,7 +713,7 @@
           <div *ngFor="let type of notificationKeys; let i = index">
             <div class="row">
               <div class="col-md-4">
-                <div class="form-roe-data p-3" *ngIf="i==0">
+                <div class="form-roe-data p-1" *ngIf="i==0">
                   <h5 class="text-black mb-2">Attendance Notification</h5>
                   <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
                 </div>
@@ -740,8 +726,15 @@
                       <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
                     </div>
                     <div>
-                      <nz-switch [ngModel]="shouldShowSwitch(type, false)" (ngModelChange)="onToggle($event, null, type, 0, 'SHIFT_SWITCH')" [nzLoading]="loadingFlags[type]"></nz-switch>
-                      <!-- <nz-switch [ngModel]="shouldShowSwitch(type)" (ngModelChange)="onSwitchToggle($event, type)" [nzLoading]="loadingFlags[type]" data-bs-toggle="modal" data-bs-target="#disableConfirmationModal" *ngIf="shouldShowSwitch(type)"></nz-switch> -->
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)" (ngModelChange)="onToggle($event, null, type, 0, 'SHIFT_SWITCH')" 
+                      *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)" 
+                      [nzLoading]="loadingFlags[type]"></nz-switch>
+
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)"  (ngModelChange)="helperService.showPrivilegeErrorToast()" 
+                      [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
+                      *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" ></nz-switch>
+
+                   
                     </div>
                   </div>
                   <div *ngIf="shouldShowSwitch(type, false)">
@@ -754,13 +747,13 @@
                           [checked]="notification.isEnable"
                           [id]="'checkbox-' + i + '-' + j"
                           [name]="'checkbox-' + i + '-' + j"
-                          class="form-check-input" (change)="onToggle(!notification.isEnable, notification, type, j, 'SHIFT_CHECKBOX')">
+                          class="form-check-input" (change)="onToggle(!notification.isEnable, notification, type, j, 'SHIFT_CHECKBOX')"
+                          [disabled]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
+
                         <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
                       </div>
-                      <!-- {{!notification.isEditMode}} -- {{notification.isEnable}} -->
-                      <!-- *ngIf="!notification.isEditMode && notification.isEnable === 1" -->
-                      <!-- *ngIf="notification.isEditMode && notification.isEnable === 1" -->
-                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn"  *ngIf="!notification.isEditMode && notification.isEnable"
+                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn"  
+                        *ngIf="!notification.isEditMode && notification.isEnable && rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                         (click)="toggleNotification(notification, type, j)">
                           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
                           <mask id="mask0_8032_1956" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="15" height="16">
@@ -895,8 +888,13 @@
                         <div>
                           <nz-switch [(ngModel)]="notification.isEnable" [ngModelOptions]="{ standalone: true }"
                             [nzLoading]="loadingFlags2?.[type]?.[j] || false"
+                            *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                             (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')">
                           </nz-switch>
+
+                          <nz-switch [ngModel]="notification.isEnable"  (ngModelChange)="helperService.showPrivilegeErrorToast()" 
+                          [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
+                          *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" ></nz-switch>
                         </div>
 
 
@@ -912,7 +910,8 @@
         </div>
       </div>
     </div>
-  </div>
+  
+</div>
 
   <!-- Modal to view document -->
   <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
@@ -972,7 +971,7 @@
               <div class="tab-content" id="myTabContent">
 
                 <div class="tab-pane fade show active" id="staffLocation" #staffLocation role="tabpanel" #shifttime>
-                  <form #organizationAddressNgForm="ngForm" (ngSubmit)="onOrganizationAddressSubmit()">
+                  <form #organizationAddressNgForm="ngForm" (ngSubmit)="onOrganizationAddressSubmit()"  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}">
                     <div class="form-group p-3 staff-location">
                       <div class="row">
 
@@ -1229,7 +1228,7 @@
 
                     </div>
                     <!-- NEXT BUTTON FOR NORMAL ADDRESS(other than DEFAULT) START-->
-                    <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer" >
+                    <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer" *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)" >
                       <button type="submit" class="btn p-0 next-btn nextBtn"
                         [ngClass]="{'btn-border': (organizationAddressNgForm.form.valid)}">
                         <span *ngIf="toggle" class="dot-opacity-loader-new">
@@ -1300,10 +1299,6 @@
                                   (keyup)="searchUsers()" [(ngModel)]="searchText"
                                   [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
 
-                                <!-- <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn p-0"
-                                  (click)="clearSearchText()">
-                                  <i class="bi bi-x mt-auto mb-auto pl-3" ></i>
-                                </button> -->
                                 <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
                                   *ngIf="searchText != ''" (click)="clearSearchText()"></i>
                                 <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
@@ -1317,6 +1312,7 @@
                               <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
                               <span class="text-primary"> {{ totalUserCount }} </span>
                             </span>
+                            <ng-container *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                             <span class="separator"></span>
                             <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
@@ -1339,6 +1335,7 @@
                                 (change)="selectAllUsers($event)" />&nbsp;
                               Select all
                             </label>
+                          </ng-container>
                           </div>
                         </div>
                       </div>
@@ -1350,6 +1347,7 @@
                             <tr>
                               <th style="width: 0%">
                                 <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
                                   [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                               </th>
                               <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
@@ -1371,6 +1369,7 @@
                               <td>
                                 <div class="form-check">
                                   <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
                                     [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                 </div>
                               </td>
@@ -1418,7 +1417,7 @@
                       </div>
                     </div>
 
-                    <div class="modal-footer d-flex align-items-center justify-content-between">
+                    <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                       <button type="button" class="btn p-0 text-black next-btn previousBtn"
                         (click)="openLocationSetting()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">

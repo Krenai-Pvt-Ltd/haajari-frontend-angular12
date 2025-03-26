@@ -79,7 +79,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-4 d-flex align-items-center justify-content-between desktop-action-btn">
+                <div class="mt-4 d-flex align-items-center desktop-action-btn" 
+                [ngClass]="{ 'justify-content-end': !isInvalid || !isLogoVisible, 'justify-content-between': isInvalid && isLogoVisible }">
                     <p *ngIf="!isInvalid && isLogoVisible" class="mb-0 font-13 fw-semibold">This link will expire soon if no action is taken.
                         Please proceed promptly.</p>
 
@@ -103,7 +104,7 @@
                         
                     <div class="d-flex justify-content-end">
                     <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle || disableButton || isInvalid"
-                    [ngClass]="{'btn-border': (enableSubmitToggle && !isInvalid)}" class="text-end btn p-0 mt-3 font-15 fw-semibold next-step-btn">
+                    [ngClass]="{'btn-border': (enableSubmitToggle && !isInvalid)}" class="text-end btn p-0 mt-3 font-14 fw-semibold next-step-btn">
                         <div *ngIf="toggle" class="dot-opacity-loader">
                             <span></span>
                             <span></span>

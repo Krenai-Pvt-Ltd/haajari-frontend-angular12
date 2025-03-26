@@ -298,16 +298,14 @@
             *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading">
 
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-              <div class="">
+              <div>
                 <h6 class="text-truncate mb-0">Leave</h6>
               </div>
-              <div class="" *ngIf="!idFlag">
+              <div *ngIf="!idFlag">
 
-                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="
-                  emptyAddLeaveSettingRule();
-                  preMethodCallToCreateLeaveTemplate();
-                  enableWFH(false)
-                ">
+                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" 
+                *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)"
+                (click)="emptyAddLeaveSettingRule();preMethodCallToCreateLeaveTemplate();enableWFH(false)">
                   <i class="bi bi-plus"></i> Create another template
                 </a>
               </div>
@@ -343,16 +341,12 @@
                       <div class="d-flex align-items-center gap-3">
 
                         <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
-                          <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
-                            getLeaveSettingInformationById(
-                              newLeaveSetting.id,
-                              false
-                            )
-                          "></i>
+                          <i class="bi bi-pencil pointer" [ngClass]="{'bi-pencil': rbacService.hasWriteAccess(Routes.LEAVESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}"
+                          style="color: #6666f3" (click)="getLeaveSettingInformationById(newLeaveSetting.id, false)"></i>
                         </a>
-                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                          getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
-                        " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave"  
+                        (click)=" getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)"
+                         *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id) && rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                           <i class="bi bi-trash pointer text-danger"></i>
                         </a>
 
@@ -447,7 +441,8 @@
               <div class="">
                 <h6 class="text-truncate mb-0">On Duty</h6>
               </div>
-              <div class="" *ngIf="!idFlag">
+              <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
+              <div *ngIf="!idFlag">
 
                 <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="
                   emptyAddLeaveSettingRule();
@@ -457,6 +452,7 @@
                   <i class="bi bi-plus"></i> Create another template
                 </a>
               </div>
+            </ng-container>
             </div>
 
             <div *ngIf="wfhLeaveTemplates.length == 0" class="col-md-12">
@@ -489,16 +485,13 @@
                       <div class="d-flex align-items-center gap-3">
 
                         <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
-                          <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
-                          getLeaveSettingInformationById(
-                            newLeaveSetting.id,
-                            true
-                          )
-                        "></i>
+                          <i class="bi pointer"   style="color: #6666f3"
+                          [ngClass]="{'bi-pencil': rbacService.hasWriteAccess(Routes.LEAVESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}"
+                          (click)=" getLeaveSettingInformationById(newLeaveSetting.id,true)"></i>
                         </a>
-                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                        getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
-                      " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave"
+                         (click)="getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount) " 
+                         *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id) && rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                           <i class="bi bi-trash pointer text-danger"></i>
                         </a>
 
@@ -539,12 +532,10 @@
                             </h4>
                             <div class="d-flex align-items-center gap-3">
 
-                              <i *ngIf="
-                              newLeaveSetting.leaveTemplateCategoryRes
-                                .length > 1
-                            " data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                              getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount)
-                            " class="bi bi-trash pointer text-danger"></i>
+                              <i *ngIf=" newLeaveSetting.leaveTemplateCategoryRes.length > 1 && rbacService.hasWriteAccess(Routes.LEAVESETTING)" 
+                                data-bs-toggle="modal" data-bs-target="#delete-leave"
+                                 (click)="getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount) " 
+                                class="bi bi-trash pointer text-danger"></i>
                             </div>
                           </div>
                           <div class="custom-salary-para p-3">
@@ -587,6 +578,7 @@
              <div class="">
                <h6 class="text-truncate mb-0">Week Off</h6>
              </div>
+             <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
              <div class="" *ngIf="!idFlag">
 
                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="
@@ -597,6 +589,7 @@
                  <i class="bi bi-plus"></i> Create another template
                </a>
              </div>
+            </ng-container>
            </div>
 
            <div *ngIf="weekOffTemplates.length == 0" class="col-md-12">
@@ -629,16 +622,13 @@
                      <div class="d-flex align-items-center gap-3">
 
                        <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
-                         <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
-                         getLeaveSettingInformationById(
-                           newLeaveSetting.id,
-                           true
-                         )
-                       "></i>
+                         <i class="bi pointer" style="color: #6666f3"
+                         [ngClass]="{'bi-pencil': rbacService.hasWriteAccess(Routes.LEAVESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}"
+                         (click)="getLeaveSettingInformationById(newLeaveSetting.id,true) "></i>
                        </a>
                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
                        getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
-                     " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                     " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id) && rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                          <i class="bi bi-trash pointer text-danger"></i>
                        </a>
 
@@ -663,15 +653,10 @@
                    [class.show]="onDutyActiveIndex === i">
                    <div class="row mt-3">
                      <div [ngClass]="{
-                     'col-md-4':
-                       newLeaveSetting.leaveTemplateCategoryRes.length > 2,
-                     'col-md-6':
-                       newLeaveSetting.leaveTemplateCategoryRes.length == 2,
-                     'col-md-12':
-                       newLeaveSetting.leaveTemplateCategoryRes.length == 1
-                   }" *ngFor="
-                     let category of newLeaveSetting.leaveTemplateCategoryRes
-                   ">
+                     'col-md-4': newLeaveSetting.leaveTemplateCategoryRes.length > 2,
+                     'col-md-6': newLeaveSetting.leaveTemplateCategoryRes.length == 2,
+                     'col-md-12': newLeaveSetting.leaveTemplateCategoryRes.length == 1
+                   }" *ngFor=" let category of newLeaveSetting.leaveTemplateCategoryRes ">
                        <div class="custom-salary">
                          <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
                            <h4 class="mb-0">
@@ -679,10 +664,8 @@
                            </h4>
                            <div class="d-flex align-items-center gap-3">
 
-                             <i *ngIf="
-                             newLeaveSetting.leaveTemplateCategoryRes
-                               .length > 1
-                           " data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                             <i *ngIf=" newLeaveSetting.leaveTemplateCategoryRes.length > 1 &&  rbacService.hasWriteAccess(Routes.LEAVESETTING) "
+                               data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
                              getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount)
                            " class="bi bi-trash pointer text-danger"></i>
                            </div>
@@ -772,7 +755,7 @@
                       <span *ngIf="!weekOffTemplateToggle">On Duty Categories</span>
                     </button>
 
-                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" (click)="this.getUserByFiltersMethodCall(this.idOfLeaveSetting);"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" [disabled]="displayedCategories.length == 0" #staffSelectionTab1>
                       Staff selection
@@ -786,7 +769,7 @@
                   <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                       aria-labelledby="v-pills-home-tab">
-                      <form nz-form #leaveTemplateDefinitionForm="ngForm">
+                      <form nz-form #leaveTemplateDefinitionForm="ngForm" [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                         <div class="row register-form-box">
                           <div class="col-md-12 mb-3" nz-form-item>
                             <label for="templateName" class="pb-2">
@@ -900,7 +883,7 @@
                           </div>
                         </div>
 
-                        <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
+                        <div class="modal-footer d-flex align-items-center justify-content-end leave-footer" *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                           <button type="submit" class="btn p-0 next-btn" (click)="goToLeaveCategoryTab();" [ngClass]="{'btn-border': !(!leaveTemplateDefinitionForm.valid ||
                               employeeTypeId == 0)}" [disabled]="
                               !leaveTemplateDefinitionForm.valid ||
@@ -924,18 +907,11 @@
 
                         <div formArrayName="categories">
 
-                          <div class="row" *ngFor="
-                              let category of categories.controls;
-                              let i = index
-                            " [formGroupName]="i">
+                          <div class="row" *ngFor="let category of categories.controls;let i = index" [formGroupName]="i">
 
-                            <div class="row" *ngIf="
-                                !editToggle
-                                  ? i === categories.controls.length - 1
-                                  : i === editingIndex
-                              ">
-
-
+                            <div class="row" *ngIf=" (!editToggle? i === categories.controls.length - 1: i === editingIndex )  ">
+                              <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
+                              <div class="row" >
 
                               <div *ngIf="!wfhTemplateToggle" class="col-md-6 mb-3">
                                 <div class="form-group">
@@ -980,7 +956,6 @@
 
                               </div>
 
-                              <!-- [ngModel]="'All'"  -->
                               <div *ngIf="wfhTemplateToggle" class="col-md-6 mb-3" style="cursor: default;">
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2">Select Gender</label>
@@ -995,7 +970,6 @@
                                 </div>
                               </div>
 
-                              <!-- [ngModel]="defaultLeaveCategoryId"  -->
                               <div *ngIf="wfhTemplateToggle" class="col-md-6 mb-3" nz-form-item>
                                 <label for="leaveCategoryId" class="pb-2">
                                   WFH Category Name
@@ -1101,9 +1075,6 @@
                                 </nz-select>
                               </div>
 
-
-
-
                               <div class="col-md-3 mb-2" nz-form-item>
                                 <label for="leaveRenewalCycle" class="pb-2">
                                   Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
@@ -1142,7 +1113,6 @@
                                   <div class="form-check d-flex align-items-center gap-2">
                                     <input type="checkbox" formControlName="flexible" id="exampleCheck2" class="form-check-input"
                                     [checked]="categories.controls[i]!.get('flexible')?.value">
-                                    <!-- getInvalidFormValues($event,i); -->
                                     <label class="form-check-label" for="exampleCheck2" >Leave is flexible to apply in outside date range</label>
                                   </div>
                                 </div>
@@ -1191,6 +1161,7 @@
                               </div>
 
                               <!-- Unused action leave count end -->
+                              </div>
 
                               <div class="d-flex align-items-center justify-content-end">
 
@@ -1211,7 +1182,7 @@
                                   }}
                                 </button>
                               </div>
-
+                               </ng-container>
                               <div class="table-responsive bg-white mt-4 leave-category-list"
                                 *ngIf="displayedCategories.length > 0">
                                 <table class="table empOnnoardtable">
@@ -1374,7 +1345,7 @@
                           <!-- forarray -->
                         </div>
 
-                        <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
+                        <div class="modal-footer d-flex align-items-center justify-content-end leave-footer" *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
 
                           <button [ngClass]="{'btn-border': displayedCategories.length > 0}"
                             [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
@@ -1427,7 +1398,7 @@
                               class="mapped-user mb-0 font-13 pointer" (click)="showAllUser()">
                               View All Users
                             </p>
-
+                            <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                             <span class="separator"></span>
                                     <label class="checkbox-label " style="width:100px;">
                                       <input type="checkbox" [(ngModel)]="selectAllPages" name="selectAllPages" id="selectAllPages"
@@ -1453,18 +1424,13 @@
                               </svg>
                               Clear Selection
                             </button>
+                          </ng-container>
                           </div>
                         </div>
                         <div class="mt-3">
                           <div class="employ-list-height table-responsive">
-                            <!-- <nz-alert *ngIf="cachedStaffIdsWithoutJoiningDate.length>0" class="mb-3"
-                            nzType="info"
-                            nzMessage="{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date"
-                            nzDescription="Please add joining date to add them in this Template."
-                            nzShowIcon
-                          ></nz-alert> -->
+                           
                           <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
-
                             <span><i class="bi bi-exclamation-circle font-18 position-relative" style="top: -4px;"></i></span>
                             <div>
                               <h5 class="mb-1 font-14 text-black">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
@@ -1476,7 +1442,7 @@
                               <thead class="thead-light">
                                 <tr>
                                   <th style="width: 2%" class="text-left">
-                                    <input type="checkBox" (click)="selectAllEmployee($event)"
+                                    <input type="checkBox" (click)="selectAllEmployee($event)"  [disabled]="!rbacService.hasWriteAccess(Routes.LEAVESETTING)"
                                       [checked]="allselected" />
                                   </th>
                                   <th style="width: 15%" class="text-left">
@@ -1514,39 +1480,29 @@
 
                                 <tr *ngFor="let staff of staffs; let i = index">
                                   <td class="text-left">
-                                    <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}" [disabled]="!staff.joiningDate?true:null"
+                                    <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                    [disabled]="!staff.joiningDate?true:null  ||  !rbacService.hasWriteAccess(Routes.LEAVESETTING)"
                                       (click)="selectSingle(staff, i)" [checked]="staff.checked" />
 
                                   </td>
                                   <td class="text-left">{{ staff.name }}</td>
                                   <td class="text-left">
-                                    {{
-                                    staff.email != null
-                                    ? staff.email
-                                    : "- - -"
-                                    }}
+                                    {{staff.email != null ? staff.email: "- - -" }}
                                   </td>
                                   <td class="text-left">
-                                    {{
-                                    staff.phoneNumber != null
-                                    ? staff.phoneNumber
-                                    : "- - -"
-                                    }}
+                                    {{staff.phoneNumber != null? staff.phoneNumber: "- - -"}}
                                   </td>
                                   <td class="text-center">
                                     <button class="add-employee" *ngIf="!addEmployeeLoader(staff) && staff.joiningDate"
+                                    [disabled]="!rbacService.hasWriteAccess(Routes.LEAVESETTING)"
                                       (click)="selectSingle(staff, i)">
-                                      <i class="{{
-                                          staff.checked
-                                            ? 'bi bi-minus-lg'
-                                            : 'bi bi-plus-lg'
-                                        }}"></i>
+                                      <i class="{{ staff.checked? 'bi bi-minus-lg': 'bi bi-plus-lg' }}"></i>
                                       {{ staff.checked ? "Remove" : "Add" }}
                                     </button>
 
                                   <nz-date-picker nzBorderless *ngIf="editingStaff === staff" name="addJoiningDate" id="addJoiningDate"
-                                                    nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="tempJoiningDate"
-                                                     ></nz-date-picker>
+                                   nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="tempJoiningDate"
+                                   ></nz-date-picker>
 
                                   <div *ngIf="editingStaff === staff" class="d-flex align-items-center mt-2">
                                     <button class="btn btn-primary me-2" (click)="saveJoiningDate(staff)">
@@ -1557,16 +1513,10 @@
                                     </button>
                                   </div>
 
-                                  <button
-                                    class="add-employee mt-2"
+                                  <button class="add-employee mt-2" [disabled]="!rbacService.hasWriteAccess(Routes.LEAVESETTING)"
                                     *ngIf="!addEmployeeLoader(staff) && !staff.joiningDate && editingStaff !== staff"
-                                    (click)="editJoiningDate(staff)"
-                                  >
-                                    <i
-                                      class="{{
-                                        staff.checked ? 'bi bi-minus-lg' : 'bi bi-plus-lg'
-                                      }}"
-                                    ></i>
+                                    (click)="editJoiningDate(staff)" >
+                                    <i class="{{ staff.checked ? 'bi bi-minus-lg' : 'bi bi-plus-lg'}}"></i>
                                     Add Joining Date
                                   </button>
 
@@ -1582,7 +1532,7 @@
                           <!-- ngb Pagination end-->
 
                         </div>
-                        <div class="leave-footer bg-white">
+                        <div class="leave-footer bg-white" *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                           <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
                             <p class="mb-0" style="padding-left: 15px">
                               Showing {{ staffs.length }} of {{ total }} members

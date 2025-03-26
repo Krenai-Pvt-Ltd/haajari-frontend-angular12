@@ -1581,7 +1581,9 @@
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 <span
-                                                    class="badge rounded-pill badge-soft-warning">{{item?.status}}</span>
+                                                    class="badge rounded-pill"
+                                                    [ngClass]="{'badge-soft-warning': item?.status == 'PENDING', 'badge-soft-danger': item?.status == 'REJECTED', 'badge-soft-success': item?.status == 'APPROVED'}"
+                                                    >{{item?.status}}</span>
                                                 <!-- Delete Button -->
                                                 <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" data-bs-toggle="modal" data-bs-target="#delete-request"
                                                     (click)="currentId=item.id">
