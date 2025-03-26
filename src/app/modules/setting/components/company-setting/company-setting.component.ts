@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { async } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { StaffAddressDetailsForMultiLocationRequest } from 'src/app/models/StaffAddressDetailsForMultiLocationRequest';
@@ -20,9 +19,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { constant } from 'src/app/constant/constant';
-import { NotificationType } from 'src/app/models/NotificationType';
 import { NotificationTypeInfoRequest } from 'src/app/models/NotificationType';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-company-setting',
@@ -44,10 +43,12 @@ export class CompanySettingComponent implements OnInit {
     private placesService: PlacesService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private rbacService: RoleBasedAccessControlService
+    public rbacService: RoleBasedAccessControlService
   ) { }
 
-  public constants = constant;
+  public readonly constants = constant;
+  readonly Routes=Routes;
+
 
   ngOnInit(): void {
     window.scroll(0, 0);
@@ -141,7 +142,14 @@ export class CompanySettingComponent implements OnInit {
         console.error('Error saving modules:', error);
       });
   }
-
+  showErrorToast(){
+    // module.isFlag = isFlag;  // Revert the change
+    this.helperService.showToast(
+      'You can not update the configuration . You have Read Only access !',
+      Key.TOAST_STATUS_ERROR
+    );
+  }
+  
   isFileSelected = false;
   onFileSelected(event: Event): void {
     debugger;

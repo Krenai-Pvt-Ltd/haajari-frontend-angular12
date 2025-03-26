@@ -176,7 +176,7 @@
                   <div class="">
                     <h6 class="text-truncate mb-0">Exit Policy</h6>
                   </div>
-                  <div>
+                  <div  *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                     <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
                       <i class="bi bi-plus"></i> Create exit policy
                     </a>
@@ -215,9 +215,9 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
-                          <div class="d-flex align-items-center gap-3">
+                          <div class="d-flex align-items-center gap-3" >
   
-                            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()"> -->
+                            <ng-container *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                             <a href="" data-bs-toggle="modal" data-bs-target="#create-exit-policy" >
                               <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getExitPolicyInformationById(exitPolicy)"></i>
                             </a>
@@ -226,65 +226,19 @@
                                       getExitPolicyId(exitPolicy.id)">
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
-  
+                          </ng-container>
+                          <ng-container *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#create-exit-policy" >
+                              <i class="bi bi-eye pointer" style="color: #6666f3" (click)="getExitPolicyInformationById(exitPolicy)"></i>
+                            </a>
+                            </ng-container>
+
                           </div>
   
                           <span class="staff-leave-setting bg-white">Staff - {{ exitPolicy.totalEmployees }}</span>
-                          
-                          <!-- <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
-                            [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
-                            [attr.aria-controls]="'multiCollapseExample' + i"
-                            [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
-                            <i class="bi bi-chevron-down"></i>
-                          </span> -->
-
                         </div>
                       </div>
   
-                      <!-- <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
-                        [class.show]="activeIndex === i">
-                        <div class="row mt-3">
-                          <div [ngClass]="{
-                                      'col-md-4':
-                                      expensePolicy.companyExpensePolicyTypeRes.length > 2,
-                                      'col-md-6':
-                                      expensePolicy.companyExpensePolicyTypeRes.length == 2,
-                                      'col-md-12':
-                                      expensePolicy.companyExpensePolicyTypeRes.length == 1
-                                    }" *ngFor="let expensePolicyType of expensePolicy.companyExpensePolicyTypeRes">
-                            <div class="custom-salary">
-                              <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
-                                <h4 class="mb-0">
-                                  {{ expensePolicyType?.expenseTypeName || "N/A" }}
-                                </h4>
-                                <div class="d-flex align-items-center gap-3">
-  
-                                  <i *ngIf="
-                                            expensePolicy.companyExpensePolicyTypeRes.length > 1" data-bs-toggle="modal"
-                                    data-bs-target="#delete-policy" (click)="
-                                            getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.id, false, 0)"
-                                    class="bi bi-trash pointer text-danger"></i>
-                                </div>
-                              </div>
-                              <div class="custom-salary-para p-3">
-                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                  <p class="mb-0">Amount</p>
-                                  <span style="color: #3f988f">{{
-                                    expensePolicyType?.amount || "0"
-                                    }}</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                  <p class="mb-0">Flexible Amount</p>
-                                  <span style="color: #3f988f">{{
-                                    expensePolicyType?.flexibleAmount || "0"}} <span
-                                      *ngIf="expensePolicyType.isPercentage == 1">%</span> </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
-
                     </div>
                   </div>
                 </div>
@@ -308,7 +262,7 @@
 
 
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
-  Apply for expense
+  Create exit policy
 </button>
 
 <!-- Modal -->
@@ -344,14 +298,6 @@
                     [class.active]="activeTab === 'exitPolicy'" (click)="exitPolicySelectionTab()" #exitPolicyTab>
                     Policy Creation
                   </button>
-                
-                  <!-- <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
-                  [attr.tabindex]="exitForm.invalid ? -1 : null" [attr.aria-selected]="!exitForm.invalid"
-                    type="button" role="tab" aria-controls="staffselection" aria-selected="false" 
-                    #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
-                    (click)="staffActiveTabInShiftTimingMethod()" [disabled]="policyName == '' || noticePeriodDuration == ''">
-                    Staff selection
-                  </button> -->
                   <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#staffselection"
                   [attr.tabindex]="exitForm.invalid ? -1 : null" [attr.aria-selected]="!exitForm.invalid"
                     type="button" role="tab" aria-controls="staffselection" aria-selected="false" 
@@ -369,14 +315,13 @@
                   <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
                   [class.show]="activeTab === 'exitPolicy'" [class.active]="activeTab === 'exitPolicy'"  aria-labelledby="v-pills-home-tab">
                     
-                  <form #exitForm="ngForm" ngNativeValidate >
+                  <form #exitForm="ngForm" ngNativeValidate [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}">
 
                     <div class="row register-form-box">
                       <div class="col-md-12 mb-3">
                         <label for="templateName" class="pb-2">
                           Policy Name
                         </label>
-                        <!-- <input type="" class="form-control input-zorro" placeholder="Enter the Policy name here" name="tempNamed" required /> -->
                         <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
                         id="policyNameInput" placeholder="Enter policy name" required [(ngModel)]="policyName"
                         name="policyNameInput" #policyNameInput="ngModel" />
@@ -389,7 +334,6 @@
                         <label for="templateName" class="pb-2">
                           Notice Duration
                         </label>
-                        <!-- <input type="number" class="form-control input-zorro" placeholder="Enter notice duration" name="tempNamed" required /> -->
                         <input type="number" class="form-control whatapp-login-input" min="1" 
                         id="noticePeriod" placeholder="Enter notice period" required [(ngModel)]="noticePeriodDuration" 
                         name="noticePeriodInput" #noticePeriodInput="ngModel" />
@@ -401,7 +345,6 @@
                         <label for="templateName" class="pb-2">
                           FNF Duration
                         </label>
-                        <!-- <input type="number" class="form-control input-zorro" placeholder="Enter FNF duration" name="tempNamed" required /> -->
                         <input type="number" class="form-control whatapp-login-input" min="1" 
                         id="fnfPeriod" placeholder="Enter FNF duration" required [(ngModel)]="fnfPeriodDuration" 
                         name="fnfPeriodInput" #fnfPeriodInput="ngModel" />
@@ -410,13 +353,6 @@
                         </div>
 
                       </div>
-                     
-                      <!-- <div class="form-check policy-checkbox">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                          Dou Want to set threshold
-                        </label>
-                      </div> -->
 
                       <div class="col-md-12">
                         <label for="templateName" class="pb-2">
@@ -425,7 +361,6 @@
                         <div class="row">
                           <div class="col-md-6">
                             <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                              <!-- <input type="radio" name="halfLeave" value="firstHalf" class="form-check-input"> -->
                               <input type="radio" id="yes" name="leaveType" value="yes" class="form-check-input"
                               [(ngModel)]="exitLeaveType" (change)="onExitLeaveChange(1)">
                               <p class="form-check-label mb-0">Certainly, Yes</p>
@@ -461,7 +396,7 @@
                         Information</h5>
                       <p class="mb-0 font-12">A notice period template outlines the required working days, leave utilization policy, and schedule for final settlements during an employee's notice period.</p>
                       </div>
-                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white" *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                         <button type="submit" class="btn p-0 next-btn" (click)="staffActiveTabInShiftTimingMethod()"
                         [disabled]="policyName == '' || noticePeriodDuration == '' || fnfPeriodDuration == '' || exitLeaveType == '' || exitForm.invalid">
                           Next 
@@ -477,7 +412,6 @@
                   </div>
 
                    <!-- Staff selection start -->
-                  <!-- <div class="tab-pane fade" id="staff-selection" role="tabpanel" ria-labelledby="v-pills-profile-tab"> -->
                   <div class="tab-pane fade" id="staffselection" role="tabpanel" [class.show]="activeTab === 'staffselection'"
                   [class.active]="activeTab === 'staffselection'">
 
@@ -501,7 +435,6 @@
                                         <path d="M10 18.5V16.5H14V18.5H10ZM6 13.5V11.5H18V13.5H6ZM3 8.5V6.5H21V8.5H3Z" fill="#1C1B1F" />
                                       </g>
                                     </svg>&nbsp;
-                                      <!-- Filter <i class="bi bi-caret-down-fill"></i> -->
                                       {{ selectedTeamName }} <i class="bi bi-caret-down-fill"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="statusDropdown">
@@ -534,7 +467,7 @@
                                       <div class="d-flex align-items-center gap-3 w-100 justify-content-end">
                                          <a class="text-primary all-select">{{ selectedStaffIdsUser.length }} selected of
                                           {{ totalUserCount }}</a>
-                                         <a *ngIf="selectedStaffIdsUser.length > 0" class="text-danger close-all-select" (click)="clearIds()">Clear all users</a>
+                                         <a *ngIf="selectedStaffIdsUser.length > 0 && rbacService.hasWriteAccess(Routes.COMPANYSETTING)" class="text-danger close-all-select" (click)="clearIds()">Clear all users</a>
                                       </div>
                                     </form>
                       
@@ -572,13 +505,12 @@
                             </tr>
                           </tbody>
 
-                            <!-- <tr *ngFor="let item of [].constructor(10)"> -->
                           <tbody *ngIf="!staffLoading">
                             <tr *ngFor="let staff of staffs; let i = index">
                               <td>
                                 <div class="form-check policy-checkbox">
-                                  <!-- <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"> -->
-                                  <input class="form-check-input" type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                  <input class="form-check-input" type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}" 
+                                  [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
                                   (click)="selectSingle(staff, i)" [checked]="staff.checked" />
                                 </div>
                               </td>
@@ -600,13 +532,8 @@
                     <div class="leave-footer">
                       <div class="p-3 d-flex align-items-center justify-content-between bg-white">
 
-                        <!-- <p class="mb-0 font-13"><span class="text-primary">1523 </span> Employees Add</p> -->
                         <p class="mb-0 font-13">Showing {{ staffs.length }} of {{ total }} members</p>
 
-                        <!-- <ngb-pagination class="pagination-ul" [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
-                          [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                          [boundaryLinks]="true">
-                        </ngb-pagination> -->
                         <ngb-pagination lass="pagination-ul" [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
                         [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
                         [boundaryLinks]="true"></ngb-pagination>
@@ -614,7 +541,7 @@
 
 
                       </div>
-                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white" *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                         <button *ngIf="!userMappedLoading" type="button" (click)="getUserMappedWithPolicy(exitForm)"
                         [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading" class="btn p-0 next-btn">
                         {{this.exitPolicyReq.id == 0 ? 'Submit' : 'Update'}}
@@ -683,21 +610,7 @@
             <p class="font-11">You will not be able to recover this</p>
           </div>
 
-          <!-- <div *ngIf="expenseAppliedCount > 0">
-            <h5 class="alert-heading font-18 mb-2">
-              Are you sure ?
-            </h5>
-            <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense
-              associated with this policy.
-              Deleting this policy will permanently remove all related data and cannot be recovered</p>
-          </div> -->
-
           <div class="mt-4 d-flex align-items-center flex-column">
-            <!-- <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId > 0"
-              (click)="deleteExpensePolicyById()">
-              Continue
-              <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
-            </button> -->
 
             <button [disabled]="deletePolicyToggle" class="btn continue-btn" 
               (click)="deleteExitPolicy()">
