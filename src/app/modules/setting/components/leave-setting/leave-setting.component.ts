@@ -397,11 +397,21 @@ export class LeaveSettingComponent implements OnInit {
     }
     debugger
 
+    let isProbation: Boolean | undefined=undefined;
+    if(this.employeeTypeId!=1){
+      if(this.employeeTypeId == 2){
+        isProbation = true;
+      }else if(this.employeeTypeId == 3){
+        isProbation = false;
+      }
+    }
+    console.log(this.leaveTemplateRequest.yearTypeName);
+    console.log(this.employeeTypeList);
     this.debounceTimer = setTimeout(() => {
       this.selectedStaffIds = [];
 
       // this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds)
-      this.dataService.getUsersByFilterForLeaveSetting(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds)
+      this.dataService.getUsersByFilterForLeaveSetting(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds, isProbation)
         .subscribe(
           (response) => {
 

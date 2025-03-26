@@ -875,7 +875,7 @@
                                                 </td>
                                                 <td class="fw-normal">₹ {{user.walletAmount}}</td>
                                                 <td>
-                                                    <span class="text-success fw-normal">+₹2,54,240</span>
+                                                    <span class="fw-normal">₹{{user.totalUsedAmount}}</span>
                                                 </td>
                                                 <td>
                                                     <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed" 
@@ -897,7 +897,7 @@
                                                                     <th class="">Expense Type</th>
                                                                     <th class="">Date Range</th>
                                                                     <th class="text-center">Expense Amount</th>
-                                                                    <th class="text-center">Amount Rejected</th>
+                                                                    <!-- <th class="text-center">Amount Rejected</th> -->
                                                                     <th class="text-center">Wallet Balance</th>
                                                                     <th class="text-center">Description</th>
                                                             </thead>
@@ -926,10 +926,9 @@
                                                             </tbody>
                                                             <tbody>
                                                                 <tr *ngFor="let transaction of userTransactions; let i= index" >
-                                                                    <td><span class="fw-normal font-13">Travel & Transportation </span></td>
+                                                                    <td><span class="fw-normal font-13"> {{ getTransactionLabel(transaction) }}</span></td>
                                                                     <td><span class="fw-normal font-13">{{transaction.transactionDate | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
-                                                                    <td class="text-center"><span class="fw-normal font-13">₹{{transaction.requestedAmount}}</span></td>
-                                                                    <td class="text-center"><span class="fw-normal font-13">₹0</span></td>
+                                                                    <!-- <td class="text-center"><span class="fw-normal font-13">₹{{transaction.requestedAmount}}</span></td> -->
                                                                     <td class="text-center">
                                                                         <span 
                                                                             class="font-13 fw-semibold" 
@@ -943,8 +942,12 @@
                                                                             <ng-container *ngIf="transaction.type === 'DEBIT'"> 
                                                                                 -
                                                                             </ng-container>
-                                                                            ₹{{ transaction.walletAmount }}
+                                                                            ₹{{ transaction.requestedAmount }}
                                                                         </span>
+                                                                    </td>
+                                                                    <!-- <td class="text-center"><span class="fw-normal font-13">₹0</span></td> -->
+                                                                    <td class="text-center">
+                                                                        <span class="font-13 fw-semibold"> ₹{{ transaction.walletAmount }} </span>
                                                                     </td>
                                                                     <td class="text-center"><span class="fw-normal font-13">{{ transaction.description ? transaction.description : '---' }}</span></td>
                                                                 </tr>

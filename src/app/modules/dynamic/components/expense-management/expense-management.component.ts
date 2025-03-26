@@ -577,12 +577,17 @@ searchByEmployeeName(event: Event): void {
   lastTransactionDate : any = '';
   userTransactionLoading : boolean = false;
 
-  fetchUserTransactionsByClick(userId: string){
-    this.userTransactions = [];
-    if(this.userTransactions.length <= 0){
-      this.fetchUserTransactions(userId);
+  fetchUserTransactionsByClick(userId: string) {
+    
+    console.log("Transaction Length : ",this.userTransactions.length );
+    if (this.userTransactions.length != 0) {
+      this.userTransactions = [];
+      return;
     }
+    this.fetchUserTransactions(userId);
+    
   }
+  
 
   fetchUserTransactions(userId: string) {
     this.userTransactionLoading = true;
@@ -620,6 +625,16 @@ searchByEmployeeName(event: Event): void {
     });
 }
 
+
+  getTransactionLabel(transaction: any): string {
+    if (transaction.type === 'CREDIT') {
+      return 'Recharge Wallet';
+    } else if (transaction.type === 'DEBIT' && transaction.expenseType) {
+      return transaction.expenseType;
+    } else {
+      return '---';
+    }
+  }
 
 
   users: User[] = [];
