@@ -36,8 +36,8 @@
 Earning
 */
 .backBtn{
-  width: 35px;
-  height: 35px;
+  width: 33px;
+  height: 33px;
   border: 1px solid #6666F2;
 }
 .background-light {
@@ -89,6 +89,14 @@ Earning
   top: 0px;
   background-color: #F1F1F1;
   right: 0px;
+}
+.percentage-icon-left{
+  width: 50px;
+  height: 45px;
+  position: absolute;
+  top: 0px;
+  background-color: #F1F1F1;
+  left: 0px;
 }
 
 .add-Component{
@@ -147,13 +155,13 @@ Earning
   }
 }
 
-.actionMenuList .dropdown-item {
+.actionAdddropdown .dropdown-item {
   font-size: 14px !important;
   color: #333 !important;
   border-radius: 6px;
   padding: 3px 15px !important;
 }
-.actionMenuList {
+.actionAdddropdown {
   border: 1px solid #f1f1f1 !important;
   border-radius: 2px;
   box-shadow: 0px 3px 12px -3px #1111111f;
@@ -162,4 +170,11 @@ Earning
   padding: 7px !important;
   background-color: #fff !important;
   line-height: 35px;
+}
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
 }

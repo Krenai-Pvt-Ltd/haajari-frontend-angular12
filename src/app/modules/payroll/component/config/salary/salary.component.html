@@ -1,5 +1,5 @@
 <ng-container *ngIf="!toggle">
-    <div class="mt-3 d-flex align-items-center justify-content-between" >
+    <div class="mt-3 d-flex align-items-center justify-content-between border-bottom" >
         <ul id="pills-tab" role="tablist" class="nav nav-pills ">
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
@@ -30,7 +30,7 @@
                 Add Component
                 <i class="bi bi-chevron-down px-4" style="padding-right: 0px !important;"></i>
             </button>
-            <div class="dropdown-menu actionMenuList">
+            <div class="dropdown-menu actionAdddropdown">
                 <li>
                     <a class="dropdown-item" (click)="addComponent(EARNING_COMPONENT)">
                         Earning
@@ -184,7 +184,7 @@
         </div>
         <div class="tab-pane fade" id="benefits" [class.show]="selectedTab == 3" 
         [class.active]="selectedTab == 3" role="tabpanel" aria-labelledby="benefits-tab">
-            <div class="mt-2">
+            <div class="mt-3">
                 <div class="table-responive benefits-list">
                     <table class="table table-borderless">
                         <thead>
@@ -232,7 +232,7 @@
                             <tbody *ngIf="!shimmer">
                                 <tr *ngFor="let benefit of benefitComponents">
                                     <td>
-                                        <a class="font-13 fw-normal text-primary" (click)="editBenefit(benefit)">{{benefit.name}}</a>
+                                        <a class="font-13 fw-semibold text-primary pointer" (click)="editBenefit(benefit)">{{benefit.name}}</a>
                                     </td>
                                     <td>
                                         <p class="mb-0 font-13 fw-normal">{{benefit.name}}</p>
@@ -276,7 +276,7 @@
         </div>
         <div class="tab-pane fade"  [class.show]="selectedTab == 2" 
         [class.active]="selectedTab == 2" id="deductions" role="tabpanel" aria-labelledby="deductions-tab">
-            <div class="mt-2">
+            <div class="mt-3">
                 <div class="table-responive benefits-list">
                     <table class="table table-borderless">
                         <thead>
@@ -324,12 +324,12 @@
                             <tbody *ngIf="!shimmer">
                                 <tr *ngFor="let deduction of deductionComponents" >
                                     <td>
-                                        <a class="font-13 fw-normal text-primary" (click)="editDeduction(deduction)">{{deduction.displayName}}</a>
+                                        <a class="font-13 fw-semibold text-primary pointer" (click)="editDeduction(deduction)">{{deduction.displayName}}</a>
                                     </td>
-                                    <td >
+                                    <td>
                                         <p class="mb-0 font-13 fw-normal">{{deduction.displayName}}</p>
                                     </td>
-                                    <td >
+                                    <td>
                                         <p class="mb-0 font-13 fw-normal">
                                         <span [ngSwitch]="deduction.frequencyId">
                                             <span *ngSwitchCase="FREQUENCY_ONE_TIME">One Time</span>
@@ -337,10 +337,10 @@
                                             </span>
                                         </p>
                                     </td>
-                                    <td class="border-0">
+                                    <td>
                                         <nz-switch [ngModel]="checkStatus(deduction.statusId)"></nz-switch>
                                     </td>
-                                    <td >
+                                    <td>
                                         <div class="dropdown">
                                             
                                             <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
@@ -371,14 +371,14 @@
         </div>
         <div class="tab-pane fade" [class.show]="selectedTab == 4" 
         [class.active]="selectedTab == 4" id="reimbursements" role="tabpanel" aria-labelledby="reimbursements-tab">
-            <div class="mt-2">
+            <div class="mt-3">
                 <div class="table-responive benefits-list">
                     <table class="table table-borderless">
                         <thead>
                             <tr>
                                 <th class="font-13" style="width: 20%;">Name</th>
                                 <th class="font-13" style="width: 25%;">Reimbursement Type</th>
-                                <th class="font-13" style="width: 25%;">Maximum Amount</th>
+                                <th class="font-13 text-center" style="width: 25%;">Maximum Amount</th>
                                 <th class="font-13" style="width: 20%;">Status</th>
                                 <th  class="font-13"style="width: 10%;">Action</th>
                             </tr>
@@ -418,19 +418,19 @@
                             </tbody>    
                             <tbody *ngIf="!shimmer">
                                 <tr *ngFor="let reimbursement of reimbursementComponents"> 
-                                    <td >
-                                        <a class="font-13 fw-normal text-primary" (click)="editReimbursementComponent(reimbursement)">{{reimbursement.displayName}}</a>
+                                    <td>
+                                        <a class="font-13 fw-semibold text-primary pointer" (click)="editReimbursementComponent(reimbursement)">{{reimbursement.displayName}}</a>
                                     </td>
-                                    <td >
+                                    <td>
                                         <p class="mb-0 font-13 fw-normal">{{reimbursement.type}}</p>
                                     </td>
-                                    <td >
+                                    <td class="text-center">
                                         <p class="mb-0 font-13 fw-normal">{{reimbursement.value}}</p>
                                     </td>
-                                    <td class="border-0">
+                                    <td>
                                         <nz-switch   [ngModel]="checkStatus(reimbursement.statusId)"></nz-switch>
                                     </td>
-                                    <td >
+                                    <td>
                                         <div class="dropdown">
                                             
                                             <button type="button" data-bs-toggle="dropdown" aria-expanded="false" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
@@ -440,7 +440,10 @@
                                                 <li >
                                                     <a class="dropdown-item" (click)="editReimbursementComponent(reimbursement)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
-                                                <li class="ng-star-inserted"></li>
+                                                <li >
+                                                    <a class="dropdown-item" (click)="editReimbursementComponent(reimbursement)"><i class="bi bi-trash"></i> Delete </a>
+                                                </li>
+                                                
  
                                         </div>
                                     </div>
@@ -853,17 +856,19 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="payroll-details-box">
-                                <h4 class="font-13 text-black fw-semibold lh-1">Name in Payslip*</h4>
-                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
+                                <h4 class="font-13 text-black fw-semibold lh-1">Reimbursement Type</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">this section contain EPF no, deduction cycle <br> pattern and employee contribution rate</p>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="row">
-                                    
                                 <div class="col-md-12">
-                                    <input type="text" placeholder="Notice Pay Deduction" required class="form-control"> 
+                                    <nz-select nzPlaceHolder="Notice Pay Deduction" class="form-control w-100 placeholder-line currency-typep">
+                                        <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+                                        <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+                                        <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+                                      </nz-select>
                                 </div>
-    
                             </div>
                         </div>
                     </div>
@@ -871,14 +876,28 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="payroll-details-box">
-                                <h4 class="font-13 text-black fw-semibold lh-1">Select the deduction frequency*</h4>
-                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no,<br> deduction cycle</p>
+                                <h4 class="font-13 text-black fw-semibold lh-1">Name in Payslip*</h4>
+                                <p class="text-muted font-11 lh-base fw-normal">This section contain EPF no, deduction cycle pattern and <br> employee contribution rate</p>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="row">
+
+                                <div class="col-md-12 mb-3">
+                                    <input type="text" placeholder="Notice Pay Deduction" required class="form-control"> 
+                                </div>
+                                
+                                <div class="col-md-12 mt-3">
+                                    <div class="form-check d-flex align-items-start gap-2 mb-3">
+                                        <input type="checkbox" id="checkCheckbox1" name="exampleCheck" class="form-check-input" checked>
+                                        <div>
+                                            <label for="checkCheckbox1" class="form-check-label font-13">Include this as a Flexible Benefit Plan Component</label>
+                                            <p class="mb-0 font-12 fw-light text-optional">FBP allows your employees to personalis their salary structure by choosing <br> how much they want to receive under each FBP component.</p>
+                                        </div>
+                                    </div>
+                                </div>
                               
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-12 mt-3">
                                     <div class="col-md-8">
                                         <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
                                             <div class="w-50 currency-types-border">
@@ -887,7 +906,7 @@
                                                     </p>
                                             </div>
                                             <div class="w-50 background-light position-relative">
-                                                <input type="number"  name="value" class="form-control borderLess"  required> 
+                                                <input type="number"  name="value" class="form-control borderLess" placeholder="0"  required> 
                                                 <span class="percentage-icon d-flex align-items-center justify-content-center">
                                                     <i class="bi bi-currency-rupee font-18"></i>
                                             
@@ -895,24 +914,27 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
-                                
-    
                                 </div>
+                                <!-- <div class="col-md-6 mt-3">
+                                    <label class="pb-2">Enter Amount</label>
+                                    <div class="border-rounded-2 attendance-border">
+                                    <div class="background-light position-relative">
+                                        <span class="percentage-icon-left d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-currency-rupee font-18"></i>
+                                        </span>
+                                        <input type="number"  name="value" class="form-control borderLess" placeholder="0" style="padding-left: 70px"  required> 
+                                    </div>
+                                </div>
+                                </div> -->
                                 <div class="employee-calculation p-3 border-rounded-2 mb-4 mt-4">
                                     <p class="mb-0 font-13 text-black fw-normal lh-base">
-                                        <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name in Payslip and <br> Amount. The changes you make to Amount will apply only to new employees.
+                                        <span class="fw-600 text-warning">Note: </span> Once you associate this component with an employee, you will only be able to edit the Name and Amount/Percentage. The changes you make to Amount/Percentage will apply only to new employees.
                                     </p>
                                 </div>
                             </div>
     
                         </div>
-                        <div class="form-check d-flex align-items-start gap-2 mb-3">
-                            <input type="radio" id="radioCheckbox1" name="exampleRadios" class="form-check-input" checked>
-                            <div>
-                                <label for="radioCheckbox1" class="form-check-label font-13 fw-normal">One-time deduction</label>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
