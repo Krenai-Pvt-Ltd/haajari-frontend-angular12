@@ -148,6 +148,8 @@
                                     </td>
                                     <td class="text-center">
                                         <nz-switch [ngClass]="{'disabled-lnk': !earning.canStatusChange}"
+                                        [nzLoading]="load(earning.id)"
+                                        (click)="changeStatus(earning.id,'earning')"
                                         [ngModel]="checkStatus(earning.statusId)">
                                         </nz-switch>
                                     </td>
@@ -161,7 +163,7 @@
                                                     <a class="dropdown-item" (click)="editEarning(earning)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
                                                 <li *ngIf="earning.canStatusChange">
-                                                    <a class="dropdown-item"><i class="bi bi-trash"></i> Delete </a>
+                                                    <a class="dropdown-item" (click)="openDeleteModal(earning.id,'earning')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
                                             </div>
                                         </div>
@@ -233,13 +235,16 @@
                                         <a class="font-13 fw-semibold text-primary pointer" (click)="editBenefit(benefit)">{{benefit.name}}</a>
                                     </td>
                                     <td>
-                                        <p class="mb-0 font-13 fw-normal">{{benefit.name}}</p>
+                                        <p class="mb-0 font-13 fw-normal">{{benefit.displayName}}</p>
                                     </td>
                                     <td>
                                         <p class="mb-0 font-13 fw-normal" *ngIf="benefit.frequencyId == FREQUENCY_RECURRING"> Recurring</p>
                                     </td>
                                     <td>
-                                        <nz-switch [ngModel]="checkStatus(benefit.statusId)"></nz-switch>
+                                        <nz-switch 
+                                        [nzLoading]="load(benefit.id)"
+                                        (click)="changeStatus(benefit.id,'benefit')"
+                                        [ngModel]="checkStatus(benefit.statusId)"></nz-switch>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -251,8 +256,8 @@
                                                     <li >
                                                         <a class="dropdown-item" (click)="editBenefit(benefit)"><i class="bi bi-pencil"></i> Edit </a>
                                                     </li>
-                                                    <li >
-                                                        <a class="dropdown-item"><i class="bi bi-trash"></i> Delete </a>
+                                                    <li *ngIf="benefit.benefitTypeId != VPF">
+                                                        <a class="dropdown-item" (click)="openDeleteModal(benefit.id,'benefit')"><i class="bi bi-trash"></i> Delete </a>
                                                     </li>
                                             </div>
                                         </div>
@@ -321,10 +326,11 @@
                             <tbody *ngIf="!shimmer">
                                 <tr *ngFor="let deduction of deductionComponents" >
                                     <td>
-                                        <a class="font-13 fw-semibold text-primary pointer" (click)="editDeduction(deduction)">{{deduction.displayName}}</a>
+                                        <a class="font-13 fw-semibold text-primary pointer" (click)="editDeduction(deduction)">{{deduction.name}}</a>
                                     </td>
                                     <td>
-                                        <p class="mb-0 font-13 fw-normal">{{deduction.displayName}}</p>
+                                        <p class="mb-0 font-13 fw-normal" *ngIf="deduction.displayName">{{deduction.displayName}}</p>
+                                        <p class="mb-0 font-13 fw-normal" *ngIf="!deduction.displayName">Other Deduction</p>
                                     </td>
                                     <td>
                                         <p class="mb-0 font-13 fw-normal">
@@ -335,7 +341,10 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <nz-switch [ngModel]="checkStatus(deduction.statusId)"></nz-switch>
+                                        <nz-switch 
+                                        [nzLoading]="load(deduction.id)"
+                                        (click)="changeStatus(deduction.id,'deduction')"
+                                        [ngModel]="checkStatus(deduction.statusId)"></nz-switch>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -348,7 +357,7 @@
                                                     <a class="dropdown-item" (click)="editDeduction(deduction)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
                                                 <li >
-                                                    <a class="dropdown-item"><i class="bi bi-trash"></i> Delete </a>
+                                                    <a class="dropdown-item" (click)="openDeleteModal(deduction.id,'deduction')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
  
                                         </div>
@@ -427,7 +436,10 @@
                                         <p class="mb-0 font-13 fw-normal">{{reimbursement.value}}</p>
                                     </td>
                                     <td>
-                                        <nz-switch   [ngModel]="checkStatus(reimbursement.statusId)"></nz-switch>
+                                        <nz-switch 
+                                        [nzLoading]="load(reimbursement.id)"
+                                        (click)="changeStatus(reimbursement.id,'reimbursement')"
+                                        [ngModel]="checkStatus(reimbursement.statusId)"></nz-switch>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -440,7 +452,7 @@
                                                     <a class="dropdown-item" (click)="editReimbursementComponent(reimbursement)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
                                                 <li >
-                                                    <a class="dropdown-item"><i class="bi bi-trash"></i> Delete </a>
+                                                    <a class="dropdown-item" (click)="openDeleteModal(reimbursement.id,'reimbursement')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
                                                 
  
@@ -488,6 +500,14 @@
                                 <div class="col-md-12"> 
                                     <nz-select class="form-control w-100 placeholder-line" nzSize="large" name="selectedEarnig"
                                     [(ngModel)]="selectedEarningType" nzPlaceHolder="Select" (ngModelChange)="selectDefaultEarningComponent($event)">
+
+                                    <ng-container *ngIf="isLoading">
+                                        <nz-option nzCustomContent>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <i class="fa fa-spinner fa-spin me-2"></i> 
+                                            </div>
+                                        </nz-option>
+                                    </ng-container>
                                         <nz-option *ngFor="let component of defaultEarningComponents" 
                                             [nzLabel]="component.name" [nzValue]="component.name">
                                         </nz-option>
@@ -690,7 +710,7 @@
                                         required
                                         nzPlaceHolder="Benefit Plan">
                                         <nz-option *ngFor="let type of benefitPlanType" 
-                                        [nzLabel]="type.name" 
+                                        [nzLabel]="type.description" 
                                         [nzValue]="type.id">
                                         </nz-option>
                                         </nz-select>
@@ -861,6 +881,8 @@
                                     <div class="col-md-12">
                                         <nz-select class="form-control w-100 placeholder-line currency-typep"
                                             [(ngModel)]="selectedReimbursementComponent.type"
+                                            (ngModelChange)="onReimbursementTypeChange($event)" 
+                                            name="reimbursementType"
                                             nzPlaceHolder="Select">
                                             <nz-option *ngFor="let reimbursement of defaultReimbursementComponents" 
                                             [nzLabel]="reimbursement.name" 
@@ -956,14 +978,14 @@
 
 
 <!----------------------------------- STATUS CHANGE CONFIRMATION MODAL START-------------------------->
-<!-- <button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteLocationButton></button> -->
-<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#status-change" #statusChange></button>
+<div class="modal fade" id="status-change" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #deleteLocationCloseButton>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #statusChangeCloseButton>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
@@ -983,19 +1005,20 @@
 
           <div>
             <h5 class="alert-heading font-18 mb-2">
-              Are you sure you want to delete <br />
+              Are you sure you want to update status for<br />
               this component?
             </h5>
             <p class="font-11">You will not be able to recover this</p>
           </div>
 
           <div class="mt-4 d-flex align-items-center flex-column">
-            <button [ngClass]="{'disabled-lnk':false}" class="btn continue-btn"
+            <button [ngClass]="{'disabled-lnk':statusToggle}" class="btn continue-btn"
+            (click)="chnageComponentStatus()"
               >
               Continue
-              <i class="fa fa-spinner fa-spin d-none"></i>
+              <i class="fa fa-spinner fa-spin" *ngIf="statusToggle"></i>
             </button>
-            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()">
               Cancel
             </button>
           </div>
@@ -1007,14 +1030,14 @@
 <!----------------------------------- STATUS CHANGE CONFIRMATION MODAL END-------------------------->
 
 <!----------------------------------- DELETE CONFIRMATION MODAL START-------------------------->
-<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteLocationButton></button>
-<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-hidden="true">
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteComponentButton></button>
+<div class="modal fade" id="delete-component" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #deleteLocationCloseButton>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #deleteComponentCloseButton>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">
@@ -1041,10 +1064,10 @@
           </div>
 
           <div class="mt-4 d-flex align-items-center flex-column">
-            <button [ngClass]="{'disabled-lnk':false}" class="btn continue-btn"
-              >
+            <button [ngClass]="{'disabled-lnk':saveLoader}" class="btn continue-btn"
+              (click)="confirmDeleteComponent()">
               Continue
-              <i class="fa fa-spinner fa-spin d-none"></i>
+              <i class="fa fa-spinner fa-spin" *ngIf="saveLoader"></i>
             </button>
             <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
               Cancel
