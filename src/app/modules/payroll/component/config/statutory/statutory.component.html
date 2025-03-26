@@ -338,108 +338,114 @@
                     </div>
                  </div>
                  <div class="col-md-8">
-                    <div class="tax-location-list">
-                         <div class="" *ngFor="let professionalTax of professionalTaxDetail; let i = index;">
-                           <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
-                             <div class="d-flex align-items-center gap-3">
-                                 <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                         <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-                                         <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
-                                         </mask>
-                                         <g mask="url(#mask0_9267_9258)">
-                                         <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
-                                         </g>
-                                     </svg>
-                                 </span>
-                                 <h5 class="mb-0 font-14 fww-semibold">{{professionalTax.branch}}</h5>
-                             </div>
-                             <div class="d-flex align-itemms-center gap-3" *ngIf="!professionalTax.taxApplicable">
-                                 <p class="mb-0 font-13 fw-normal text-danger">Tax Not Applicable</p>
-                             </div>
-                             <div class="d-flex align-items-center gap-3" *ngIf="professionalTax.taxApplicable">
-                              <button class="btn p-0 font-13 fw-normal text-primary " data-bs-toggle="modal" data-bs-target="#taxSlabs" (click)="viewSelectedSlab(professionalTax)">View Tax Slabs</button>
-                              <span class="location-detail d-flex align-items-center justify-content-center"
-                                    [attr.aria-expanded]="isDropdownOpen(i)" (click)="toggleDropdown(i)"
-                                    data-bs-toggle="collapse" [attr.data-bs-target]="'#tax-detail'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'tax-detail' + i">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
-                                       class="transition">
-                                      <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
-                                  </svg>
-                              </span>
-                          </div>
-                        </div>
+                    <div class="tax-location-list border">
 
-                          <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom" [id]="'tax-detail' + i" [class.show]="isDropdownOpen(i)">
-                           <div class="row">
-                               <div class="col-md-12 mb-3 ">
-                                 <form #ptForm="ngForm" ngNativeValidate (ngSubmit)="savePtNumber(professionalTax.state)">
-
-                                   <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
-                                       <div class="w-25 currency-types-border">
-                                           <p class="mb-0 font-14 fw-light">PT Number</p>
-                                       </div>
-                                       <div class="w-75 position-relative" >
-                                          <input type="text" placeholder="Professional Tax no." required name="ptNumber" class="form-control borderLess" 
-                                          pattern="^[A-Z]{2}[PT]{1,2}[0-9]{5,12}$"
-                                          maxlength="20"
-                                          [(ngModel)]="professionalTax.professionalTaxNumber" [ngModelOptions]="{standalone: true}"
-                                          [disabled]="!editingStates[professionalTax.state]">
-                                          <button class="btn p-0 editBtn" (click)="toggleEdit(professionalTax.state)" *ngIf="!editingStates[professionalTax.state]">
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                                                  <mask id="mask0_9271_10147" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
-                                                  <rect x="0.211914" y="0.03125" width="23.9346" height="23.9346" fill="#D9D9D9"/>
-                                                  </mask>
-                                                  <g mask="url(#mask0_9271_10147)">
-                                                  <path d="M5.19865 18.9798H6.61977L16.3681 9.23148L14.947 7.81036L5.19865 17.5587V18.9798ZM3.2041 20.9744V16.736L16.3681 3.59687C16.5676 3.41404 16.7878 3.27276 17.0288 3.17303C17.2698 3.0733 17.5233 3.02344 17.7893 3.02344C18.0552 3.02344 18.3128 3.0733 18.5621 3.17303C18.8115 3.27276 19.0275 3.42235 19.2104 3.6218L20.5816 5.01799C20.7811 5.20082 20.9265 5.4169 21.0179 5.66622C21.1093 5.91554 21.1551 6.16485 21.1551 6.41417C21.1551 6.68011 21.1093 6.93359 21.0179 7.1746C20.9265 7.4156 20.7811 7.63584 20.5816 7.83529L7.44252 20.9744H3.2041ZM15.6451 8.53338L14.947 7.81036L16.3681 9.23148L15.6451 8.53338Z" fill="#1C1B1F"/>
-                                                  </g>
-                                              </svg>
-                                          </button>
-                                          <button type="submit" class="btn p-0 font-14 fw-semibold text-primary saveBtn" *ngIf="editingStates[professionalTax.state]"
-                                             [ngClass]="{'disabled-lnk': saveLoader }">
-                                          <div class="text-center" *ngIf="saveLoader">
-                                             <div class="spinner-border text-center" role="status" >
-                                                <span class="visually-hidden">Loading...</span>
-                                             </div>
-                                           </div>
-                                          <span *ngIf="!saveLoader"> Save</span>      
-                                      </button>
-                                                                  
-                                      </div>
-                                      
-                                   </div>
-                                 </form>
-
-                               </div>
-                               <div class="col-md-6">
-                                   <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
-                                      <div class="w-50 p-3 currency-types-border">
-                                         <p class="mb-0 font-13 fw-light">State </p>
-                                      </div>
-                                      <div class="w-50">
-                                         <div class="w-100">
-                                            <h5 class="mb-0 font-14 fw-semibold px-3">{{professionalTax.state}}</h5>
-                                         </div>
-                                      </div>
-                                   </div>
-                                </div>
-                                <div class="col-md-6">
-                                   <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
-                                      <div class="w-50 p-3 currency-types-border">
-                                         <p class="mb-0 font-13 fw-light">Deduction </p>
-                                      </div>
-                                      <div class="w-50">
-                                         <div class="w-100">
-                                            <h5 class="mb-0 font-14 fw-semibold px-3">{{professionalTax.deductionFrequency}}</h5>
-                                         </div>
-                                      </div>
-                                   </div>
-                                </div>
-                           </div>
-
-                       </div>
+                     <div class="p-3 d-flex align-items-center justify-content-between border-bottom">
+                       <h5 class="fw-600 font-14 mb-0">Location</h5>
+                       <h5 class="fw-semibold font-14 mb-0">5 <span class="text-muted">location</span></h5>
                      </div>
-               
+                     <div class="p-2">
+                        <div class="tex-location-list mb-3 p-2 border-rounded-2" *ngFor="let professionalTax of professionalTaxDetail; let i = index;">
+                           <div class="d-flex align-items-center justify-content-between ">
+                              <div class="d-flex align-items-center gap-3">
+                                    <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                          <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                          <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
+                                          </mask>
+                                          <g mask="url(#mask0_9267_9258)">
+                                          <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
+                                          </g>
+                                       </svg>
+                                    </span>
+                                    <h5 class="mb-0 font-14 fww-semibold">{{professionalTax.branch}}</h5>
+                              </div>
+                              <div class="d-flex align-itemms-center gap-3" *ngIf="!professionalTax.taxApplicable">
+                                    <p class="mb-0 font-13 fw-semibold text-danger">Tax Not Applicable</p>
+                              </div>
+                              <div class="d-flex align-items-center gap-3" *ngIf="professionalTax.taxApplicable">
+                                 <button class="btn p-0 font-13 fw-semibold text-primary " data-bs-toggle="modal" data-bs-target="#taxSlabs" (click)="viewSelectedSlab(professionalTax)">View Tax Slabs</button>
+                                 <span class="location-detail bg-white d-flex align-items-center justify-content-center"
+                                       [attr.aria-expanded]="isDropdownOpen(i)" (click)="toggleDropdown(i)"
+                                       data-bs-toggle="collapse" [attr.data-bs-target]="'#tax-detail'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'tax-detail' + i">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
+                                          class="transition">
+                                       <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
+                                    </svg>
+                                 </span>
+                           </div>
+                           </div>
+                          
+                           <div class="p-3 border-radius-2 collapse bg-white mt-3" [id]="'tax-detail' + i" [class.show]="isDropdownOpen(i)">
+                                 <div class="row">
+                                    <div class="col-md-12 mb-3 ">
+                                       <form #ptForm="ngForm" ngNativeValidate (ngSubmit)="savePtNumber(professionalTax.state)">
+
+                                       <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                             <div class="w-25 currency-types-border">
+                                                <p class="mb-0 font-14 fw-light">PT Number</p>
+                                             </div>
+                                             <div class="w-75 position-relative" >
+                                                <input type="text" placeholder="Professional Tax no." required name="ptNumber" class="form-control borderLess" 
+                                                pattern="^[A-Z]{2}[PT]{1,2}[0-9]{5,12}$"
+                                                maxlength="20"
+                                                [(ngModel)]="professionalTax.professionalTaxNumber" [ngModelOptions]="{standalone: true}"
+                                                [disabled]="!editingStates[professionalTax.state]">
+                                                <button class="btn p-0 editBtn" (click)="toggleEdit(professionalTax.state)" *ngIf="!editingStates[professionalTax.state]">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                                      <mask id="mask0_9271_10147" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                                      <rect x="0.211914" y="0.03125" width="23.9346" height="23.9346" fill="#D9D9D9"/>
+                                                      </mask>
+                                                      <g mask="url(#mask0_9271_10147)">
+                                                      <path d="M5.19865 18.9798H6.61977L16.3681 9.23148L14.947 7.81036L5.19865 17.5587V18.9798ZM3.2041 20.9744V16.736L16.3681 3.59687C16.5676 3.41404 16.7878 3.27276 17.0288 3.17303C17.2698 3.0733 17.5233 3.02344 17.7893 3.02344C18.0552 3.02344 18.3128 3.0733 18.5621 3.17303C18.8115 3.27276 19.0275 3.42235 19.2104 3.6218L20.5816 5.01799C20.7811 5.20082 20.9265 5.4169 21.0179 5.66622C21.1093 5.91554 21.1551 6.16485 21.1551 6.41417C21.1551 6.68011 21.1093 6.93359 21.0179 7.1746C20.9265 7.4156 20.7811 7.63584 20.5816 7.83529L7.44252 20.9744H3.2041ZM15.6451 8.53338L14.947 7.81036L16.3681 9.23148L15.6451 8.53338Z" fill="#1C1B1F"/>
+                                                      </g>
+                                                   </svg>
+                                                </button>
+                                                <button type="submit" class="btn p-0 font-14 fw-semibold text-primary saveBtn" *ngIf="editingStates[professionalTax.state]"
+                                                   [ngClass]="{'disabled-lnk': saveLoader }">
+                                                <div class="text-center" *ngIf="saveLoader">
+                                                   <div class="spinner-border text-center" role="status" >
+                                                      <span class="visually-hidden">Loading...</span>
+                                                   </div>
+                                                </div>
+                                                <span *ngIf="!saveLoader"> Save</span>      
+                                          </button>
+                                                                        
+                                          </div>
+                                          
+                                       </div>
+                                       </form>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
+                                          <div class="w-50 p-3 currency-types-border">
+                                             <p class="mb-0 font-13 fw-light">State </p>
+                                          </div>
+                                          <div class="w-50">
+                                             <div class="w-100">
+                                                <h5 class="mb-0 font-14 fw-semibold px-3">{{professionalTax.state}}</h5>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
+                                          <div class="w-50 p-3 currency-types-border">
+                                             <p class="mb-0 font-13 fw-light">Deduction </p>
+                                          </div>
+                                          <div class="w-50">
+                                             <div class="w-100">
+                                                <h5 class="mb-0 font-14 fw-semibold px-3">{{professionalTax.deductionFrequency}}</h5>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+
+                           </div>
+                        </div>
+                     </div>
                      </div>
                  </div>
              </div>
@@ -472,9 +478,14 @@
                  </div>
               </div>
               <div class="col-md-8">
-                 <div class="tax-location-list" >
-                      <div *ngFor="let labourWelfareFund of labourWelfareFundDetail; let i= index;">
-                        <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
+                 <div class="tax-location-list border" >
+                  <div class="p-3 d-flex align-items-center justify-content-between border-bottom">
+                     <h5 class="fw-600 font-14 mb-0">Location</h5>
+                     <h5 class="fw-semibold font-14 mb-0">5 <span class="text-muted">location</span></h5>
+                   </div>
+                   <div class="p-2">
+                      <div class="tex-location-list mb-3 p-2 border-rounded-2" *ngFor="let labourWelfareFund of labourWelfareFundDetail; let i= index;">
+                        <div class="d-flex align-items-center justify-content-between">
                           <div class="d-flex align-items-center gap-3">
                               <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -500,7 +511,7 @@
 
                                  <p   class="mb-0 font-13 fw-semibold">Enable</p>
                               </div>
-                              <span class="location-detail d-flex align-items-center justify-content-center"
+                              <span class="location-detail d-flex align-items-center justify-content-center bg-white"
                               [attr.aria-expanded]="isDropdownOpen(i)" 
                               (click)="toggleDropdown(i)"
                               data-bs-toggle="collapse" [attr.data-bs-target]="'#tax-detail'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'tax-detail' + i">
@@ -508,7 +519,7 @@
                                  class="transition">
                                 <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
                             </svg>
-                        </span>
+                            </span>
                           </div>
                           </ng-container>
                           
@@ -517,7 +528,7 @@
                           </div>
                         </div>
                        
-                          <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom" [id]="'tax-detail' + i" [class.show]="isDropdownOpen(i)">
+                          <div class="p-3 bg-white border-radius-2 collapse my-2" [id]="'tax-detail' + i" [class.show]="isDropdownOpen(i)">
                            <div class="row">
                              <div class="d-flex align-items-center justify-content-between">
                                 <p class="font-13 fw-normal text-optional">Employees' Contribution</p>
@@ -534,6 +545,7 @@
                           </div>
                            </div>
                       </div>
+                   </div>
 
                       
                   </div>

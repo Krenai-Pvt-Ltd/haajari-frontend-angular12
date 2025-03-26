@@ -102,11 +102,27 @@ background-color: #f2f3ff;
   background-color: #F5F8FA;
 }
 .list-down-btn{
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
 }
 .address-list svg{
    width: 20px;
+}
+.address-list:first-child{
+  padding-top: 0px !important;
+}
+.address-list:last-child{
+  padding-bottom: 0px !important;
+  border-bottom: none !important;
+}
+
+.calendar-separator{
+  border-left: 1px solid #DCDCE4;
+  height: 20px;
+}
+.location-btn svg{
+  position: relative;
+  top: -2px;
 }
 
 
@@ -259,6 +275,10 @@ width: 100%;
 left: 0px;
 border-radius: 0px;
 }
+.location-user-table table thead{
+  position: sticky;
+  top: 0px;
+}
 
 .search-icon {
 top: 25px;
@@ -288,15 +308,12 @@ display: none;
 background-color: #F9F9F9;
 }
 .address-list .form-check input{
-width: 20px;
-height: 20px;
-border-radius: 50%;
+width: 18px;
+height: 18px;
+border-radius: 2px;
 }
 
-.address-list .form-check-input:checked {
-background-color: #388E3C;
-border-color: #388E3C;
-}
+
 .form-check-input:focus{
 box-shadow: none;
 }
@@ -321,7 +338,7 @@ overflow: scroll;
 }
 .address-box  ::-webkit-scrollbar{
 display: none;
-
+}
 .rotate-180 {
   transform: rotate(180deg);
 }
@@ -443,7 +460,47 @@ display: none;
 background-color: #E4E7FF;
 padding: 5px 15px;
 }
+.location-icon{
+  width: 35px;
+  height: 35px;
+  background-color: #eee;
 }
+
+.side-img {
+  height: 100px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.userName {
+  background-color: #f2f2f2;
+  color: #e27a17;
+}
+.close-icon-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+.manualemployList {
+  max-height: 275px;
+  overflow: scroll;
+}
+.already-assigned-user-label {
+  color: #71737b;
+}
+.form-check-input{
+  border-radius: 2px;
+}
+
+.user-checkbox input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+
 .dot-opacity-loader {
   display: flex;
   align-items: center;
