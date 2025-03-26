@@ -1494,14 +1494,8 @@ a.fetch-location {
   font-weight: 500px;
 }
 
-.iHaveRead {
+.already-assigned-user-label {
   color: #71737b;
-  font-size: 12px !important;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 15px;
-  letter-spacing: 0.152px;
-  padding-left: 10px;
 }
 
 /* new side tab for new modal */

@@ -70,7 +70,7 @@
     background-color: #FBFCFD;
   }
   .location-icon{
-    background-color: #FAFAFA;
+    background-color: #eee;
     width: 40px;
     height: 40px;
   }
@@ -80,9 +80,7 @@
     height: 35px;
     border-radius: 6px;
   }
-  .location-detail-dropdown{
-    background-color: #FAFAFA;
-  }
+ 
   .borderLess{
     border: none;
     font-size: 14px;
@@ -105,6 +103,10 @@
     transition: transform 0.3s ease-in-out;
   }
  
+
+  .tex-location-list{
+     background-color: #F5F8FA;
+  }
   .location-detail[aria-expanded="true"] svg {
     transform: rotate(180deg);
   }

@@ -157,13 +157,49 @@
                         </nz-empty>
                     </div>
                    <div class="row" *ngIf="!isWorkLocationFalse()">
-                      <div class="address-list" *ngFor="let address of organizationAddress; let i = index;">
-                       <div class="mb-3 p-2 payroll-address border-rounded-2 ">
+                    <div class="col-md-12">
+                      <div class="address-lists border border-rounded-2" >
+                        <div class="border-bottom p-3 d-flex align-items-center justify-content-between">
+                          <h5 class="mb-0 font-14 fw-semibold">Address</h5>
+                          <div class="d-flex align-items-center gap-2">
+                              <button class="btn p-0 font-14 fw-semibold text-primary location-btn" type="button" data-bs-toggle="modal" data-bs-target="#fetchLocation">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                  <mask id="mask0_10501_3649" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+                                  <rect width="18" height="18" fill="#D9D9D9"/>
+                                  </mask>
+                                  <g mask="url(#mask0_10501_3649)">
+                                  <path d="M3 15V13.5H5.0625L4.7625 13.2375C4.1125 12.6625 3.65625 12.0063 3.39375 11.2688C3.13125 10.5313 3 9.7875 3 9.0375C3 7.65 3.41563 6.41563 4.24688 5.33437C5.07812 4.25312 6.1625 3.5375 7.5 3.1875V4.7625C6.6 5.0875 5.875 5.64062 5.325 6.42188C4.775 7.20312 4.5 8.075 4.5 9.0375C4.5 9.6 4.60625 10.1469 4.81875 10.6781C5.03125 11.2094 5.3625 11.7 5.8125 12.15L6 12.3375V10.5H7.5V15H3ZM10.5 14.8125V13.2375C11.4 12.9125 12.125 12.3594 12.675 11.5781C13.225 10.7969 13.5 9.925 13.5 8.9625C13.5 8.4 13.3938 7.85313 13.1812 7.32188C12.9688 6.79063 12.6375 6.3 12.1875 5.85L12 5.6625V7.5H10.5V3H15V4.5H12.9375L13.2375 4.7625C13.85 5.375 14.2969 6.04063 14.5781 6.75938C14.8594 7.47813 15 8.2125 15 8.9625C15 10.35 14.5844 11.5844 13.7531 12.6656C12.9219 13.7469 11.8375 14.4625 10.5 14.8125Z" fill="#6666F2"/>
+                                  </g>
+                                  </svg>
+                                Fetch location
+                            </button>
+                            <span class="calendar-separator"></span>
+                            <button class="btn p-0 font-14 fw-semibold text-primary location-btn" type="button" (click)="openLocationModal()">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                  <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                  <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                  </mask>
+                                  <g mask="url(#mask0_9159_3509)">
+                                  <path d="M9.37504 11.1257H4.58337V9.87565H9.37504V5.08398H10.625V9.87565H15.4167V11.1257H10.625V15.9173H9.37504V11.1257Z" fill="#6666F2"/>
+                                  </g>
+                              </svg>
+                              New Address
+                          </button>
+                          </div>
+                        </div>
+                        <div class="m-3">
+                        <div class="p-2 payroll-address border-rounded-2 mb-3" *ngFor="let address of organizationAddress; let i = index;">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
-                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" [attr.aria-expanded]="isDropdownOpen(i)" 
-                                    (click)="toggleDropdown(i)" data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
-                                        <i class="bi bi-chevron-down transition "></i>
+                                    <span class="location-icon radius-50 d-flex align-items-center justify-content-center" >
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                        <mask id="mask0_10501_3758" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                        <rect x="0.0117188" width="24" height="24" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_10501_3758)">
+                                        <path d="M12.0117 21.5C10.3221 21.5 8.9413 21.2575 7.86947 20.7725C6.79764 20.2875 6.26172 19.6614 6.26172 18.8943C6.26172 18.5391 6.39539 18.2051 6.66272 17.8923C6.93005 17.5794 7.29964 17.3108 7.77147 17.0865L8.95222 18.1578C8.73805 18.2436 8.51297 18.3506 8.27697 18.4788C8.04114 18.6071 7.87964 18.7423 7.79247 18.8845C7.9578 19.1833 8.4498 19.4439 9.26847 19.6663C10.087 19.8888 10.9998 20 12.007 20C13.014 20 13.931 19.8888 14.758 19.6663C15.5848 19.4439 16.081 19.1833 16.2465 18.8845C16.1618 18.732 15.991 18.5917 15.734 18.4635C15.4768 18.3353 15.2329 18.2283 15.0022 18.1423L16.1675 17.0557C16.679 17.2904 17.0726 17.5642 17.3482 17.877C17.6239 18.1898 17.7617 18.5275 17.7617 18.89C17.7617 19.6585 17.2258 20.2856 16.154 20.7712C15.0821 21.2571 13.7014 21.5 12.0117 21.5ZM12.0367 16.625C13.6931 15.3698 14.9363 14.1266 15.7665 12.8953C16.5966 11.6638 17.0117 10.441 17.0117 9.227C17.0117 7.5015 16.4716 6.199 15.3915 5.3195C14.3113 4.43983 13.1863 4 12.0165 4C10.8466 4 9.72005 4.44008 8.63672 5.32025C7.55339 6.20025 7.01172 7.50342 7.01172 9.22975C7.01172 10.3638 7.42164 11.5398 8.24147 12.7578C9.0613 13.9758 10.3264 15.2648 12.0367 16.625ZM12.0117 18.5C9.82955 16.8685 8.20072 15.284 7.12522 13.7465C6.04955 12.2092 5.51172 10.7032 5.51172 9.2285C5.51172 8.11467 5.70822 7.13917 6.10122 6.302C6.49422 5.46483 7.00155 4.76383 7.62322 4.199C8.24505 3.63433 8.94272 3.21 9.71622 2.926C10.4896 2.642 11.2552 2.5 12.0132 2.5C12.7712 2.5 13.5364 2.642 14.3087 2.926C15.0812 3.21 15.7784 3.63433 16.4002 4.199C17.0219 4.76383 17.5292 5.46508 17.9222 6.30275C18.3152 7.14042 18.5117 8.11517 18.5117 9.227C18.5117 10.7018 17.9739 12.2081 16.8982 13.7457C15.8227 15.2834 14.1939 16.8682 12.0117 18.5ZM12.0165 10.8943C12.512 10.8943 12.9363 10.7193 13.2895 10.3693C13.6428 10.0193 13.8195 9.59325 13.8195 9.09125C13.8195 8.58942 13.6425 8.16192 13.2885 7.80875C12.9345 7.45542 12.5089 7.27875 12.0117 7.27875C11.5194 7.27875 11.0951 7.45575 10.7387 7.80975C10.3822 8.16392 10.204 8.5895 10.204 9.0865C10.204 9.59167 10.3822 10.0193 10.7387 10.3693C11.0951 10.7193 11.521 10.8943 12.0165 10.8943Z" fill="#1C1B1F"/>
+                                        </g>
+                                      </svg>
                                     </span>
                                     <p class="mb-0 fw-semibold font-13">{{address.organizationAddress.branch}}</p>
                                 </div>
@@ -198,55 +234,60 @@
                                             </g>
                                         </svg>
                                     </span>
+                                    <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" [attr.aria-expanded]="isDropdownOpen(i)" 
+                                    (click)="toggleDropdown(i)" data-bs-toggle="collapse" [attr.data-bs-target]="'#location-data'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'#location-data' + i">
+                                        <i class="bi bi-chevron-down transition "></i>
+                                    </span>
                                 </div>
                             
                             </div>
-                  <div class="collapse mt-3" [id]="'location-data' + i" [class.show]="isDropdownOpen(i)">
-                    <div class="card card-body border-rounded-2 border-0 mb-0">
-                      <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Address Line 1 : 
-                                  <span class="location-data"> {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)?address.organizationAddress.addressLine1: 'N/A'}}</span>
-                                </p>
+                            <div class="collapse mt-3" [id]="'location-data' + i" [class.show]="isDropdownOpen(i)">
+                              <div class="card card-body border-rounded-2 border-0 mb-0">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <p class="mb-0 font-12 fw-normal"> Address Line 1 : 
+                                            <span class="location-data"> {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)?address.organizationAddress.addressLine1: 'N/A'}}</span>
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <p class="mb-0 font-12 fw-normal"> Address Line 2 : 
+                                            <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2: 'N/A'}}</span>
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <p class="mb-0 font-12 fw-normal"> City : 
+                                            <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.city)?address.organizationAddress.city: 'N/A'}}</span>
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <p class="mb-0 font-12 fw-normal"> State : 
+                                            <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.state)?address.organizationAddress.state: 'N/A'}}</span>
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <p class="mb-0 font-12 fw-normal"> Pin Code :  
+                                            <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.pincode)?address.organizationAddress.pincode: 'N/A'}}</span>
+                                          </p>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Address Line 2 : 
-                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2: 'N/A'}}</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> City : 
-                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.city)?address.organizationAddress.city: 'N/A'}}</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> State : 
-                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.state)?address.organizationAddress.state: 'N/A'}}</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <p class="mb-0 font-12 fw-normal"> Pin Code :  
-                                  <span class="location-data">{{!constant.EMPTY_STRINGS.includes(address.organizationAddress.pincode)?address.organizationAddress.pincode: 'N/A'}}</span>
-                                </p>
-                            </div>
-                        </div>
+                        </div> 
                       </div>
-                    </div>
-                  </div>
-                  <!--  location list toggle view end -->
-                    </div> 
 
                       </div>
-                      <div class="d-flex justify-content-end">
+                    </div>
+                      <!-- <div class="d-flex justify-content-end">
                         <button class="btn p-0 font-14 fw-semibold text-primary"  type="button" (click)="openLocationModal()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                 <mask id="mask0_9159_3509" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -258,7 +299,7 @@
                             </svg>
                             New Address
                         </button>
-                      </div>
+                      </div> -->
                    </div>
                 </div>
             </div>
@@ -383,7 +424,7 @@
                   <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                   <button class="nav-link active" id="locationSettingTab" data-bs-toggle="pill" data-bs-target="#staffLocation"
                       type="button" role="tab" #locationSettingTab>
-                      Add Location
+                      Filling Address
                   </button>
                   <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#addemployee"
                       type="button" role="tab" #staffSelectionTab [disabled]="!locationForm.valid">
@@ -484,23 +525,23 @@
                                           <div class="form-group position-relative">
                                               <input type="text" id="searchText" placeholder="Search by name"
                                               name="search"
-                                              class="form-control me-2 attendance-details-search"
+                                              class="form-control me-2 border-0"
                                               [(ngModel)]="searchText"
                                               [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
-                                              <i class="bi bi-x search-icon position-absolute font-20 close-icon text-primary"
+                                              <i class="bi bi-x search-icon position-absolute font-20 close-icon "
                                               *ngIf="searchText != ''" (click)="clearSearchText()"></i>
                                               <i class="bi bi-search search-icon position-absolute" *ngIf="searchText == ''"></i>
                                           </div>
                                       </form>
                                       </div>
-                                      <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list"
+                                      <div class="d-flex align-items-center justify-content-end gap-2 w-100 px-3"
                                       *ngIf="selectedStaffsUuids.length > 0">
-                                      <span class="text-black font-13 pointer">
+                                      <span class="text-black font-13 pointer fw-semibold">
                                         <span class="text-primary">{{ selectedStaffsUuids.length }} </span> Selected of
                                         <span class="text-primary"> {{ totalUserCount }} </span>
                                       </span>
                                       <span class="separator"></span>
-                                      <span class="text-danger fw-semibold pointer" (click)="unselectAllUsers()">
+                                      <span class="text-danger fw-semibold pointer font-13" (click)="unselectAllUsers()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
                                           fill="none">
                                           <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
@@ -526,7 +567,7 @@
                                   </div>
                                 </div>
                                 <ng-container *ngIf="total > 0">
-                                  <div class="location-user-table">
+                                  <div class="location-user-table mt-3">
                                     <table class="table">
                                       <thead class="thead-light">
                                         <tr>
@@ -566,8 +607,8 @@
                                     </table>
                                   </div>
                                 </ng-container>  
-                                <div class=" config-location-footer">
-                                  <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
+                                <div class="config-location-footer">
+                                  <div class="pagination justify-content-between p-3 bg-white" *ngIf="staffs.length > 0">
                                       <p class="mb-0">
                                         Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
                                         staffs.length + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} of {{ total
@@ -630,39 +671,52 @@
                 <img src="assets/images/payrollstep-img/add-location-img.svg">
                 <h5 class="mb-0 font-18 fw-600 lh-base">Would you like to continue using the <br> same location as before?</h5>
 
-                <div class="mt-3 p-3 text-start address-box border-rounded-2" *ngIf="organizationAddress.length==1">
-                    <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users <br> updated automatically.</p>
-                    <h5 class="font-14 mb-0 fw-semibold lh-base mt-3 text-black" *ngFor="let address of organizationAddress">
-                        <span class="text-warning" *ngIf="!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">Address: </span>
+                <div class="mt-4 text-start"  *ngIf="organizationAddress.length==1">
+                  <h5 class="font-14 mb-1 fw-600 lh-base text-warning">Company Address:</h5>
+                  <p class="lh-base font-13 fw-normal text-muted">The address will auto-sync, keeping all linked users updated automatically.</p>
+               
+
+                <div class="mt-3 p-3 text-start address-box border-rounded-2" *ngFor="let address of organizationAddress">
+                  <h5 class="mb-1 font-14 fw-semibold">{{address.organizationAddress.branch}}</h5>
+                    <p class="font-13 mb-0 fw-normal lh-base" >
                         {{address.organizationAddress.addressLine1+", "}}
                         {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
                         {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
                         
-                        <br class="paddress">{{address.organizationAddress.city}} - {{address.organizationAddress.pincode}} |
+                        {{address.organizationAddress.city}} - {{address.organizationAddress.pincode}} |
                         {{address.organizationAddress.state}},
-                        {{address.organizationAddress.country}}</h5>
+                        {{address.organizationAddress.country}}</p>
                       
                 </div>
-                <div class="mt-3 p-3 text-start address-box border-rounded-2" *ngIf="organizationAddress.length>1">
-                    <p class="lh-base font-13 fw-normal">The address will auto-sync, keeping all linked users updated <br> automatically.</p>
-                    <h5 class="font-14 mb-0 fw-semibold lh-base text-warning  mb-2">Address:</h5>
+              </div>
 
-                    <div class="d-flex align-items-center justify-content-between border-bottom pt-2 pb-2 address-list" *ngFor="let address of organizationAddress; let i = index">
+                <div class="mt-4 text-start" *ngIf="organizationAddress.length>1">
+                <h5 class="font-14 mb-1 fw-600 lh-base text-warning">Company Address:</h5>
+                <p class="lh-base font-13 fw-normal text-muted">The address will auto-sync, keeping all linked users updated automatically.</p>
+             
+                <div class="mt-3 p-3 text-start address-box border-rounded-2" >
+                   
+                    <div class="d-flex align-items-start gap-2 border-bottom pt-3 pb-3 address-list" *ngFor="let address of organizationAddress; let i = index">
+                      <div class="form-check">
+                        <input class="form-check-input" 
+                        type="checkbox" value="" 
+                        [id]="'addressCheck' + i"
+                        (change)="onAddressSelect(i, $event)">
+                    </div>
+                    <div>
+                      <h5 class="mb-1 font-14 fw-semibold">{{address.organizationAddress.branch}}</h5>
                         <p class="lh-base font-13 fw-normal mb-1" *ngIf="!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine1)">
                             {{address.organizationAddress.addressLine1+", "}}
                             {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.addressLine2)?address.organizationAddress.addressLine2+", ":""}}
                             {{!constant.EMPTY_STRINGS.includes(address.organizationAddress.landmark)?address.organizationAddress.landmark:""}}
                             {{address.organizationAddress.city}},
                             {{address.organizationAddress.state}} {{address.organizationAddress.pincode}}</p>
+                          </div>
 
-                        <div class="form-check">
-                            <input class="form-check-input" 
-                            type="checkbox" value="" 
-                            [id]="'addressCheck' + i"
-                            (change)="onAddressSelect(i, $event)">
-                        </div>
+                       
                     </div>
                    
+                </div>
                 </div>
             </div>
           
@@ -673,10 +727,10 @@
                     type="checkbox" value="" 
                     [(ngModel)]="selectUsers"
                     (ngModelChange)="mapUsers($event)">
-                    <label class="form-check-lable font-12 fw-normal lh-1 px-1 color-basic ">sdgxfchgvjhbkjnlkmlxgfchgvjhbkj</label>
+                    <label class="form-check-lable font-13 fw-normal lh-1 px-1 color-basic ">I have validated the information and will proceed with it .</label>
                 </div>
 
-         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+         <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
           <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
           <button type="button" class="btn submitActionBtn text-white" [ngClass]="{'disabled-lnk':saveLoader}"
                  (click)="saveFetchedAddressStaff()">
@@ -723,10 +777,10 @@
         <div class="row p-3 pb-4 pt-4 align-items-center">
           <div class="col-md-8">
             <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
-              <h5 class="alert-heading text-warning font-16 mb-2">
+              <h5 class="alert-heading text-warning font-16 mb-2 fw-bold  lh-base">
                 Users Already Assigned to Another Location
               </h5>
-              <p class="mb-0 text-black">
+              <p class="mb-0 text-black font-12 fw-normal lh-base">
                 Do you want to add them to the new location? Doing so will
                 remove them from the current location.
               </p>
@@ -738,23 +792,26 @@
         </div>
 
         <div class="p-3 employee-list bg-white">
-          <h4 class="mb-1">Employee List</h4>
+          <h4 class="mb-1 font-16 fw-bold lh-lg text- black">Employee List</h4>
           <div class="manualemployList">
             <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithBranchName">
-              <div class="d-flex align-items-center gap-3">
-                <span class="userName">{{
-                  list.name
-                  }}</span>
-
-                <div>
-                  <div class="d-flex align-items-center gap-2">
+              <div class="d-flex align-items-center gap-3 w-100">
+                <span class="userName radius-50 d-flex  align-items-center justify-content-center fw-600 font-14 img-32 lh-base">
+                  {{ list.name | slice:0:1 }}
+                </span>
+                  <div class="w-100">
+                    <h5 class="font-13 fw-semibold">{{list.name}}</h5>
+                    <div class="d-flex align-items-center justify-content-between">
                     <p class="mb-0 font-11">{{ list.email || "N/A" }}</p>
+                    <span class="font-12 fw-semibold text-primary pointer"
+                    (click)="removeUser(list.uuid)"><span>{{constant.REMOVE_SHIFT_STRING}} </span> {{
+                      list.shiftName }} </span>
+                    </div>
                   </div>
-                </div>
               </div>
               <div>
-                <button  *ngIf="userNameWithBranchName.length>1" class="btn p-0 addUserRemvo" (click)="removeUser(list.uuid)">
+                <!-- <button  *ngIf="userNameWithBranchName.length>1" class="btn p-0 addUserRemvo" (click)="removeUser(list.uuid)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                     <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                       width="22" height="23">
@@ -767,7 +824,7 @@
                     </g>
                   </svg>
                   Remove
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
@@ -776,9 +833,9 @@
 
       <div class="border-top p-3">
         <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
-          <input type="checkbox" id="validationCheck" style="position: relative; top: 2px"
-            class="ng-dirty ng-touched" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
-            for="validationCheck" class="form-check-label iHaveRead">
+          <input type="checkbox" id="validationCheck" style="top: 2px"
+            class="position-relative user-checkbox" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
+            for="validationCheck" class="form-check-label already-assigned-user-label font-12 fw-normal lh-base px-2 pointer">
             I have validated the information and will proceed to add users to
             the new location.
           </label>
