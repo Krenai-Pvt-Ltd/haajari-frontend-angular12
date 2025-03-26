@@ -1737,19 +1737,3 @@ input[type=radio]{
   }
 }
 
-/**
-*for read and write acess managemnt view START
-*/
-nz-switch.no-click {
-  pointer-events: none !important;
-  opacity: 1 !important;
-  filter: contrast(0.7) !important;
-}
-
-.form-disabled {
-  pointer-events: none;
-  opacity: 0.6;
-}
-/**
-*for read and write acess managemnt view END
-*/

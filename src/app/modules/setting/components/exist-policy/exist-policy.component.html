@@ -315,7 +315,7 @@
                   <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
                   [class.show]="activeTab === 'exitPolicy'" [class.active]="activeTab === 'exitPolicy'"  aria-labelledby="v-pills-home-tab">
                     
-                  <form #exitForm="ngForm" ngNativeValidate [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}">
+                  <form #exitForm="ngForm" ngNativeValidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}">
 
                     <div class="row register-form-box">
                       <div class="col-md-12 mb-3">
@@ -510,7 +510,7 @@
                               <td>
                                 <div class="form-check policy-checkbox">
                                   <input class="form-check-input" type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}" 
-                                  [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
+                                  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
                                   (click)="selectSingle(staff, i)" [checked]="staff.checked" />
                                 </div>
                               </td>

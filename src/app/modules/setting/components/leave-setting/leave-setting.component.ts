@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Employeetype } from 'src/app/models/EmployeeType';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
@@ -21,6 +22,7 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { YearType } from 'src/app/models/year-type';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class LeaveSettingComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) {
     this.form = this.fb.group({
       categories: this.fb.array([]),
@@ -44,6 +47,7 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   readonly constants = constant;
+  readonly Routes=Routes;
 
   ngOnInit(): void {
     window.scroll(0, 0);
@@ -2422,6 +2426,10 @@ closeModal() {
 
   allselected: boolean = false;
   selectAllEmployee(event: any) {
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     if (!this.allselected) {
       this.staffs.forEach((element) => {
         // Only select if joiningDate exists
@@ -2446,7 +2454,11 @@ closeModal() {
   }
 
   selectSingle1(event: any, i: any) {
-    debugger
+   
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     if (event.checked) {
       this.allselected = false;
 
@@ -2469,7 +2481,10 @@ closeModal() {
 
   deSelectedStaffIdsUser: number[] = [];
   selectSingle(event: any, i: any) {
-    debugger
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     if (event.checked) {
       this.allselected = false;
 
@@ -2478,9 +2493,6 @@ closeModal() {
       this.staffs[i].checked = false;
       var index = this.selectedStaffIdsUser.indexOf(event.id);
       this.selectedStaffIdsUser.splice(index, 1);
-
-      console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
-
       if (this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle) {
         this.showAllUser();
       }

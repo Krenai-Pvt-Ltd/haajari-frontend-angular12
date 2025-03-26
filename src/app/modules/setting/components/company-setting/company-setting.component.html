@@ -695,7 +695,7 @@
                           <nz-switch [ngModel]="module.isFlag" [ngModelOptions]="{ standalone: true }"
                           [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                             *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" 
-                         [attr.checked]="module.isFlag" id="enableModule{{ module.id }}" (ngModelChange)="showErrorToast()"></nz-switch>
+                         [attr.checked]="module.isFlag" id="enableModule{{ module.id }}" (ngModelChange)="helperService.showPrivilegeErrorToast()"></nz-switch>
 
                       </div>
                     </div>
@@ -730,7 +730,7 @@
                       *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)" 
                       [nzLoading]="loadingFlags[type]"></nz-switch>
 
-                      <nz-switch [ngModel]="shouldShowSwitch(type, false)"  (ngModelChange)="showErrorToast()" 
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)"  (ngModelChange)="helperService.showPrivilegeErrorToast()" 
                       [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                       *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" ></nz-switch>
 
@@ -892,7 +892,7 @@
                             (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')">
                           </nz-switch>
 
-                          <nz-switch [ngModel]="notification.isEnable"  (ngModelChange)="showErrorToast()" 
+                          <nz-switch [ngModel]="notification.isEnable"  (ngModelChange)="helperService.showPrivilegeErrorToast()" 
                           [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                           *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" ></nz-switch>
                         </div>
@@ -971,7 +971,7 @@
               <div class="tab-content" id="myTabContent">
 
                 <div class="tab-pane fade show active" id="staffLocation" #staffLocation role="tabpanel" #shifttime>
-                  <form #organizationAddressNgForm="ngForm" (ngSubmit)="onOrganizationAddressSubmit()"  [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}">
+                  <form #organizationAddressNgForm="ngForm" (ngSubmit)="onOrganizationAddressSubmit()"  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}">
                     <div class="form-group p-3 staff-location">
                       <div class="row">
 
@@ -1347,7 +1347,7 @@
                             <tr>
                               <th style="width: 0%">
                                 <input type="checkbox" style="cursor: pointer" class="form-check-input"
-                                [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
+                                [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
                                   [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                               </th>
                               <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
@@ -1369,7 +1369,7 @@
                               <td>
                                 <div class="form-check">
                                   <input type="checkbox" style="cursor: pointer" class="form-check-input"
-                                  [ngClass]="{'form-disabled':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
+                                  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.COMPANYSETTING)}"
                                     [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                 </div>
                               </td>

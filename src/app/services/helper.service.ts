@@ -449,4 +449,11 @@ export class HelperService {
     this.isShowSidebar=!this.isShowSidebar;
    }
 
+   showPrivilegeErrorToast(){
+    // module.isFlag = isFlag;  // Revert the change
+    this.showToast(
+      'You can not update the configuration . You have Read Only access !',
+      Key.TOAST_STATUS_ERROR
+    );
+  }
 }
