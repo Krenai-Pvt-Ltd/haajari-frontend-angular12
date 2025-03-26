@@ -2040,3 +2040,11 @@
 .leave-footer svg{
    width: 15px;
 }
+
+/**
+*for rad and write acess managemnt view
+**/
+.form-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
