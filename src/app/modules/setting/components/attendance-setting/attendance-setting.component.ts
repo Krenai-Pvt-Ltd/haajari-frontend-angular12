@@ -1,18 +1,17 @@
 import { DatePipe } from '@angular/common';
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import {
-  FormBuilder,
   NgForm,
   NgModel,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { Routes } from 'src/app/constant/Routes';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -48,6 +47,7 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 // declare var google: any;
 
 @Component({
@@ -61,23 +61,21 @@ export class AttendanceSettingComponent implements OnInit {
 
   readonly OVERTIME_RULE = Key.OVERTIME_RULE;
   readonly  constant = constant;
+  readonly Routes=Routes;
 
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
     public helperService: HelperService,
-    private fb: FormBuilder,
     private router: Router,
-    private el: ElementRef,
     private placesService: PlacesService,
     private activatedRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getTeamNames();
-    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -86,7 +84,6 @@ export class AttendanceSettingComponent implements OnInit {
     this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
     this.updateDuration();
     this.loadAllShiftCounts();
-    // this.getCurrentLocation();
     if (localStorage.getItem('staffSelectionActive') == 'true') {
       this.activeModel = true;
     }
@@ -1318,6 +1315,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   checkIndividualSelection() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+  }
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
@@ -1377,6 +1378,10 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   selectAll(checked: boolean) {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+        this.helperService.showPrivilegeErrorToast();
+        return;
+    }
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
 
@@ -1522,9 +1527,10 @@ export class AttendanceSettingComponent implements OnInit {
   @ViewChild('closeShiftTimingModal') closeShiftTimingModal!: ElementRef;
   isEditStaffLoader = false;
   registerOrganizationShiftTimingMethodCall() {
-    debugger;
-    // this.submitWeeklyHolidays();
-    // this.organizationShiftTimingRequest.shiftTypeId = 1;
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+  }
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
@@ -2057,6 +2063,12 @@ formatMinutesToTime(minutes: number): string {
   @ViewChild('attendancewithlocationssButton')
   attendancewithlocationssButton!: ElementRef;
   updateAttendanceModeMethodCall(attendanceModeId: number) {
+
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast()
+      return;
+    }
+
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         // console.log(response);
@@ -2327,6 +2339,10 @@ getAllAddressDetails(): void {
   // }
 
   toggleSelection(i: number): void {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.weekDay[i].selected = !this.weekDay[i].selected;
 
     // Automatically set isAlternate to false when a day is selected
@@ -2401,10 +2417,12 @@ getAllAddressDetails(): void {
   }
 
   deleteCustomHolidays(id: number) {
-    debugger
+    if(!this.rbacService.hasWriteAccess(this.Routes.ATTENDANCESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.dataService.deleteCustomHolidays(id).subscribe(
       (response) => {
-        // console.log(response);
         this.holidays = [];
         this.loadHolidays();
       },

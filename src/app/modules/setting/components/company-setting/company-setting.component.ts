@@ -38,7 +38,7 @@ export class CompanySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private afStorage: AngularFireStorage,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private sanitizer: DomSanitizer,
     private placesService: PlacesService,
     private route: ActivatedRoute,
@@ -142,13 +142,13 @@ export class CompanySettingComponent implements OnInit {
         console.error('Error saving modules:', error);
       });
   }
-  showErrorToast(){
-    // module.isFlag = isFlag;  // Revert the change
-    this.helperService.showToast(
-      'You can not update the configuration . You have Read Only access !',
-      Key.TOAST_STATUS_ERROR
-    );
-  }
+  // showErrorToast(){
+  //   // module.isFlag = isFlag;  // Revert the change
+  //   this.helperService.showToast(
+  //     'You can not update the configuration . You have Read Only access !',
+  //     Key.TOAST_STATUS_ERROR
+  //   );
+  // }
   
   isFileSelected = false;
   onFileSelected(event: Event): void {
