@@ -930,7 +930,10 @@
                                                 </div>
                                                 <div class="w-50 background-light position-relative">
                                                     <input type="number"  name="value" class="form-control borderLess" placeholder="0" 
-                                                    [(ngModel)]="selectedReimbursementComponent.value" required> 
+                                                    [(ngModel)]="selectedReimbursementComponent.value" 
+                                                    [min]="0" 
+                                                    [max]="100000" 
+                                                    required> 
                                                     <span class="percentage-icon d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-currency-rupee font-18"></i>
                                                 

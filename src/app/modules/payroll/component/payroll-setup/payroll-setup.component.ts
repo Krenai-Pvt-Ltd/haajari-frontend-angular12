@@ -56,22 +56,26 @@ export class PayrollSetupComponent implements OnInit {
       this.router.navigate(['/payroll/configuration'], {
         queryParams: { tab: tabName },
       });
-      this.currentTab=tabName;
+      this.currentTab = tabName;
     }
-     
-
-
+    
     getStepRoute(stepId: number): string {
+      const step = this.toDoStepList.find((s: any) => s.id === stepId);
+      const tabName = this.getTabById(stepId);
+      return tabName ? tabName : 'profile';
+    }
+    
+    getTabById(stepId: number): string {
       switch (stepId) {
-          case 1: return 'profile';
-          case 2: return 'pay-schedule';
-          case 3: return 'statutory';
-          case 4: return 'salary';
-          case 5: return 'taxes';
-          case 6: return 'profile';
-          case 7: return 'prior-payroll';
-          default: return 'profile';
+        case 1: return 'profile';
+        case 2: return 'pay-schedule';
+        case 3: return 'statutory';
+        case 4: return 'salary';
+        case 5: return 'taxes';
+        case 6: return 'salary-template';
+        case 7: return 'prior-payroll';
+        default: return 'profile';
       }
-  }
+    }
 
 }
