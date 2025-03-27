@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { AssetService } from 'src/app/services/asset.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-asset-request',
@@ -35,10 +38,14 @@ export class AssetRequestComponent implements OnInit {
    * Variable declaration end
    */
 
+  readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
+  
   constructor(
     private assetService: AssetService,
     private helperService: HelperService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) { }
 
 
