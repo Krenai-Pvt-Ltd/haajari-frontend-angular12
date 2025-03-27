@@ -26,7 +26,7 @@ export class EmployeeProfileComponent implements OnInit {
       // this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
       this.userId = this.UUID;
       this.router.navigate(['/']);
-    }else if(this.roleService.ROLE!='ADMIN' && this.UUID!==this.userId){
+    }else if(this.roleService.ROLE=='MANAGER' && this.UUID!==this.userId ){
       this.checkUserUnderManager();
     }else{
       this.getEmployeeProfileData();
@@ -142,7 +142,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
 
-  
+
 
 
 
