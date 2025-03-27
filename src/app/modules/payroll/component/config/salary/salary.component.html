@@ -4,22 +4,22 @@
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
                 aria-controls="pills-dashboard" aria-selected="false"
-                class="nav-link"  [class.active]="selectedTab == EARNING_COMPONENT" (click)="selectedTab = EARNING_COMPONENT">Earnings</a>
+                class="nav-link"  [class.active]="selectedTab == EARNING_COMPONENT" (click)="selectedTab = EARNING_COMPONENT;currentPage = 1;getOrganizationEarningComponent();">Earnings</a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#deductions" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" [class.active]="selectedTab == DEDUCTION_COMPONENT"  (click)="selectedTab = DEDUCTION_COMPONENT"> Deductions </a>
+                    class="nav-link" [class.active]="selectedTab == DEDUCTION_COMPONENT"  (click)="selectedTab = DEDUCTION_COMPONENT;currentPage = 1;getOrganizationDeductionComponent();"> Deductions </a>
                 </li>
             <li class="nav-item d-flex align-items-center">
             <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link" [class.active]="selectedTab == BENEFIT_COMPONENT" (click)="selectedTab=BENEFIT_COMPONENT">Benefits </a>
+                class="nav-link" [class.active]="selectedTab == BENEFIT_COMPONENT" (click)="selectedTab=BENEFIT_COMPONENT;currentPage = 1;getOrganizationBenefitComponent();">Benefits </a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" [class.active]="selectedTab == REIMBURSEMENT_COMPONENT"  (click)="selectedTab= REIMBURSEMENT_COMPONENT">Reimbursements</a>
+                    class="nav-link" [class.active]="selectedTab == REIMBURSEMENT_COMPONENT"  (click)="selectedTab= REIMBURSEMENT_COMPONENT;currentPage = 1;getOrganizationReimbursementComponent();">Reimbursements</a>
             </li>
         </ul>
 
@@ -171,14 +171,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                    <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -265,14 +265,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -366,14 +366,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -462,14 +462,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -705,7 +705,7 @@
                                         nzSize="large" 
                                         name="Benefit Plan"
                                         [(ngModel)]="selecteBenefitComponent.benefitTypeId"
-                                        [disabled]="selecteBenefitComponent.benefitTypeId== VPF" 
+                                        [disabled]="selecteBenefitComponent.benefitTypeId== VPF || !isNewComponent"
                                         (ngModelChange)="onBenefitPlanChange($event)" 
                                         required
                                         nzPlaceHolder="Benefit Plan">
@@ -823,15 +823,15 @@
                         <div class="col-md-8">
                             <div class="row">
                               
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-12 mt-2" >
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="radio" id="deduction-frequency1" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_ONE_TIME">
+                                        <input [disabled]="selecteDeductionComponent.custom" type="radio" id="deduction-frequency1" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_ONE_TIME">
                                         <div>
                                             <label for="deduction-frequency1" class="form-check-label font-13 fw-normal">One-time deduction</label>
                                         </div>
                                     </div>
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="radio" id="deduction-frequency2" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_RECURRING" >
+                                        <input [disabled]="selecteDeductionComponent.custom" type="radio" id="deduction-frequency2" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_RECURRING" >
                                         <div>
                                             <label for="radioCheckbox2" class="form-check-label font-13 fw-normal" >Recurring deduction for subsequent Payrolls</label>
                                         </div>
@@ -864,7 +864,7 @@
                     <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromReimursement()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
-                    <h5 class="mb-0 font-15 fw-semibold"><span *ngIf="isNewComponent">New</span><span *ngIf="!isNewComponent">Edit</span> Reimbursement</h5>
+                    <h5 class="mb-0 font-15 fw-semibold"><span x>New</span><span *ngIf="!isNewComponent">Edit</span> Reimbursement</h5>
                 </div>
     
                 <form #reimbursementForm="ngForm" ngNativeValidate (ngSubmit)="saveReimbursementComponent()">     
@@ -882,6 +882,7 @@
                                         <nz-select class="form-control w-100 placeholder-line currency-typep"
                                             [(ngModel)]="selectedReimbursementComponent.type"
                                             (ngModelChange)="onReimbursementTypeChange($event)" 
+                                            [disabled]="!isNewComponent"
                                             name="reimbursementType"
                                             nzPlaceHolder="Select">
                                             <nz-option *ngFor="let reimbursement of defaultReimbursementComponents" 
@@ -928,8 +929,11 @@
                                                         </p>
                                                 </div>
                                                 <div class="w-50 background-light position-relative">
-                                                    <input type="number"  name="value" class="form-control borderLess" placeholder="0"  
-                                                    [(ngModel)]="selectedReimbursementComponent.value" required> 
+                                                    <input type="number"  name="value" class="form-control borderLess" placeholder="0" 
+                                                    [(ngModel)]="selectedReimbursementComponent.value" 
+                                                    [min]="0" 
+                                                    [max]="100000" 
+                                                    required> 
                                                     <span class="percentage-icon d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-currency-rupee font-18"></i>
                                                 
@@ -979,7 +983,7 @@
 
 <!----------------------------------- STATUS CHANGE CONFIRMATION MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#status-change" #statusChange></button>
-<div class="modal fade" id="status-change" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="status-change" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" >
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
@@ -1031,7 +1035,7 @@
 
 <!----------------------------------- DELETE CONFIRMATION MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteComponentButton></button>
-<div class="modal fade" id="delete-component" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="delete-component" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" > 
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">

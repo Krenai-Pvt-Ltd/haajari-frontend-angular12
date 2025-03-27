@@ -58,9 +58,6 @@ export class SalaryComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0,0);
     this.getOrganizationEarningComponent();
-    this.getOrganizationReimbursementComponent();
-    this.getOrganizationBenefitComponent();
-    this.getOrganizationDeductionComponent();
     
   }
 
@@ -83,7 +80,7 @@ export class SalaryComponent implements OnInit {
         }
         //deduction
         case 3: {
-          // this.getDefaultDeductionComponent();
+           this.getDefaultDeductionComponent();
           break;
         }
         //reimbursement
@@ -121,11 +118,10 @@ export class SalaryComponent implements OnInit {
   getOrganizationEarningComponent(){
       this.shimmer = true;
       this.earningComponents = [];
-        this._salaryComponentService.getOrganizationEarningComponent().subscribe((response) => {
+        this._salaryComponentService.getOrganizationEarningComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
             if(response.status){
-              this.earningComponents= response.object;
-              this.totalItems = response.totalItems;
-
+              this.earningComponents= response.object.content;
+              this.totalItems = response.object.totalElements;
               if(this.earningComponents==null){
                 this.earningComponents= new Array();
                 this.totalItems = 0;
@@ -168,6 +164,7 @@ export class SalaryComponent implements OnInit {
       if(this.currentPage!= page){
         this.currentPage = page;
         this.getOrganizationEarningComponent();
+
       }
     }
 
@@ -261,34 +258,38 @@ export class SalaryComponent implements OnInit {
    }
 
    statusToggle:boolean=false;
-   chnageComponentStatus(){
-    this.statusToggle=true;
-    this._salaryComponentService.changeComponentStatus(this.componentId,this.type).subscribe((response) => {
-      if(response.status){
-        this._helperService.showToast('Status updated successfully.',Key.TOAST_STATUS_SUCCESS);  
-
-      }else{
-        this._helperService.showToast('Error updating component.',Key.TOAST_STATUS_ERROR);
-
+   chnageComponentStatus() {
+    this.statusToggle = true;
+    this._salaryComponentService.changeComponentStatus(this.componentId, this.type).subscribe(
+      (response) => {
+        if (response.status) {
+          this._helperService.showToast('Status updated successfully.', Key.TOAST_STATUS_SUCCESS);
+          this.toggleStatus(this.type);
+        } else {
+          this._helperService.showToast('Error updating component.', Key.TOAST_STATUS_ERROR);
+        }
+        this.statusToggle = false;
+        this.statusChangeCloseButton.nativeElement.click();
+        this.loadingMap[this.componentId] = false;
+      },
+      (error) => {
+        this.statusToggle = false;
       }
-      this.statusToggle=false;
-      this.statusChangeCloseButton.nativeElement.click();
-      if(this.type=='earning'){
-        this.getOrganizationEarningComponent();
-      }else if(this.type=='benefit'){
-        this.getOrganizationBenefitComponent();
-      }else if(this.type=='reimbursement'){
-        this.getOrganizationReimbursementComponent();
-      }else if(this.type=='deduction'){
-        this.getOrganizationDeductionComponent();
-      }
-      this.loadingMap[this.componentId] = false;
-    },
-    (error) => {
-      this.statusToggle = false;
-    }
-  );
+    );
+  }
   
+  toggleStatus(type: string) {
+    const componentListMap: { [key: string]: any[] } = {
+      earning: this.earningComponents,
+      deduction: this.deductionComponents,
+      benefit: this.benefitComponents,
+      reimbursement: this.reimbursementComponents,
+    };
+  
+    const component = componentListMap[type]?.find((comp: any) => comp.id === this.componentId);
+    if (component) {
+      component.statusId = component.statusId === 11 ? 12 : 11;
+    }
   }
 
   closeModal(){
@@ -379,9 +380,9 @@ selecteBenefitComponent!:BenefitComponent;
 getOrganizationBenefitComponent(){
   this.shimmer = true;
   this.benefitComponents = [];
-    this._salaryComponentService.getOrganizationBenefitComponent().subscribe((response) => {
+    this._salaryComponentService.getOrganizationBenefitComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
         if(response.status){
-          this.benefitComponents= response.object;
+          this.benefitComponents= response.object.content;
           this.totalItems = response.object.totalElements;
 
           if(this.benefitComponents==null){
@@ -595,19 +596,10 @@ getOrganizationBenefitComponent(){
 //                                                                                                                                                                         // 
 //                                                                       DEDUCTION COMPONENT                                                                           // 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// defaultReimbursementComponents:ReimbursementComponent[] = new Array();
-// getDefaultDeductionComponent(){
-//     this._salaryComponentService.getDefaultReimbursementComponent().subscribe((response) => {
-//         if(response.status){
-//           this.defaultReimbursementComponents= response.object;
-//         }
-//       },
-//       (error) => {
-//       }
-//     );
-//   }
+getDefaultDeductionComponent(){
+  this.selecteDeductionComponent = new DeductionComponent();
+   
+  }
 
 deductionComponents:DeductionComponent[] = new Array();
 selectedNewDeduction:boolean=false;
@@ -615,9 +607,9 @@ selecteDeductionComponent!:DeductionComponent;
 getOrganizationDeductionComponent(){
   this.shimmer = true;
   this.deductionComponents = [];
-    this._salaryComponentService.getOrganizationDeductionComponent().subscribe((response) => {
+    this._salaryComponentService.getOrganizationDeductionComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
         if(response.status){
-          this.deductionComponents= response.object;
+          this.deductionComponents= response.object.content;
           this.totalItems = response.object.totalElements;
 
           if(this.deductionComponents==null){

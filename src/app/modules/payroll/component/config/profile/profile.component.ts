@@ -257,17 +257,22 @@ export class ProfileComponent implements OnInit {
   }
 
   selectedAddressIndexes: number[] = [];
-  onAddressSelect(index: number, event: any) {
-    if (event.target.checked) {
-      if (!this.selectedAddressIndexes.includes(index)) {
-        this.selectedAddressIndexes.push(index);
-      }
-    } else {
-      this.selectedAddressIndexes = this.selectedAddressIndexes.filter(
-        (i) => i !== index
-      );
+selected: boolean = false;
+
+onAddressSelect(index: number, event: any) {
+  if (event.target.checked) {
+    if (!this.selectedAddressIndexes.includes(index)) {
+      this.selectedAddressIndexes.push(index);
+      this.selected = true;  
     }
+  } else {
+    this.selectedAddressIndexes = this.selectedAddressIndexes.filter(
+      (i) => i !== index
+    );
+    this.selected = this.selectedAddressIndexes.length > 0;
   }
+}
+
 
   selectUsers: number = 0;
   mapUsers(event: any) {
