@@ -118,11 +118,10 @@ export class SalaryComponent implements OnInit {
   getOrganizationEarningComponent(){
       this.shimmer = true;
       this.earningComponents = [];
-        this._salaryComponentService.getOrganizationEarningComponent().subscribe((response) => {
+        this._salaryComponentService.getOrganizationEarningComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
             if(response.status){
-              this.earningComponents= response.object;
-              this.totalItems = response.totalItems;
-
+              this.earningComponents= response.object.content;
+              this.totalItems = response.object.totalElements;
               if(this.earningComponents==null){
                 this.earningComponents= new Array();
                 this.totalItems = 0;
@@ -165,6 +164,7 @@ export class SalaryComponent implements OnInit {
       if(this.currentPage!= page){
         this.currentPage = page;
         this.getOrganizationEarningComponent();
+
       }
     }
 
@@ -380,9 +380,9 @@ selecteBenefitComponent!:BenefitComponent;
 getOrganizationBenefitComponent(){
   this.shimmer = true;
   this.benefitComponents = [];
-    this._salaryComponentService.getOrganizationBenefitComponent().subscribe((response) => {
+    this._salaryComponentService.getOrganizationBenefitComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
         if(response.status){
-          this.benefitComponents= response.object;
+          this.benefitComponents= response.object.content;
           this.totalItems = response.object.totalElements;
 
           if(this.benefitComponents==null){
@@ -607,9 +607,9 @@ selecteDeductionComponent!:DeductionComponent;
 getOrganizationDeductionComponent(){
   this.shimmer = true;
   this.deductionComponents = [];
-    this._salaryComponentService.getOrganizationDeductionComponent().subscribe((response) => {
+    this._salaryComponentService.getOrganizationDeductionComponent(this.currentPage, this.itemPerPage).subscribe((response) => {
         if(response.status){
-          this.deductionComponents= response.object;
+          this.deductionComponents= response.object.content;
           this.totalItems = response.object.totalElements;
 
           if(this.deductionComponents==null){

@@ -21,16 +21,22 @@ export class SalaryComponentService {
      return this._http.get<any>(`${this._key.base_url}/salary-component/default-earning`);
   }
 
-  getOrganizationEarningComponent(): Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary-component/earning`);
+  getOrganizationEarningComponent(currentPage:number,itemPerPage:number): Observable<any>{
+    const params = new HttpParams()
+    .set('currentPage', currentPage)
+    .set('itemPerPage', itemPerPage);
+    return this._http.get<any>(`${this._key.base_url}/salary-component/earning`,{ params });
   }
 
   saveEarningComponent(earningComponent: EarningComponent): Observable<any>{
     return this._http.post<any>(`${this._key.base_url}/salary-component/earning`,earningComponent);
   }
 
-  getOrganizationBenefitComponent(): Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary-component/benefit`);
+  getOrganizationBenefitComponent(currentPage:number,itemPerPage:number): Observable<any>{
+    const params = new HttpParams()
+    .set('currentPage', currentPage)
+    .set('itemPerPage', itemPerPage);
+    return this._http.get<any>(`${this._key.base_url}/salary-component/benefit`,{ params });
   }
 
   getBenefitPlanType(): Observable<any>{
@@ -47,8 +53,11 @@ export class SalaryComponentService {
   }
 
 
-  getOrganizationDeductionComponent(): Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary-component/deduction`);
+  getOrganizationDeductionComponent(currentPage:number,itemPerPage:number): Observable<any>{
+    const params = new HttpParams()
+    .set('currentPage', currentPage)
+    .set('itemPerPage', itemPerPage);
+    return this._http.get<any>(`${this._key.base_url}/salary-component/deduction`,{ params });
   }
 
   saveDeductionComponent(deductionComponent: DeductionComponent): Observable<any>{

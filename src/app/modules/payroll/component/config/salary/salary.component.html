@@ -4,22 +4,22 @@
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
                 aria-controls="pills-dashboard" aria-selected="false"
-                class="nav-link"  [class.active]="selectedTab == EARNING_COMPONENT" (click)="selectedTab = EARNING_COMPONENT;getOrganizationEarningComponent();">Earnings</a>
+                class="nav-link"  [class.active]="selectedTab == EARNING_COMPONENT" (click)="selectedTab = EARNING_COMPONENT;currentPage = 1;getOrganizationEarningComponent();">Earnings</a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#deductions" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" [class.active]="selectedTab == DEDUCTION_COMPONENT"  (click)="selectedTab = DEDUCTION_COMPONENT;getOrganizationDeductionComponent();"> Deductions </a>
+                    class="nav-link" [class.active]="selectedTab == DEDUCTION_COMPONENT"  (click)="selectedTab = DEDUCTION_COMPONENT;currentPage = 1;getOrganizationDeductionComponent();"> Deductions </a>
                 </li>
             <li class="nav-item d-flex align-items-center">
             <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link" [class.active]="selectedTab == BENEFIT_COMPONENT" (click)="selectedTab=BENEFIT_COMPONENT;getOrganizationBenefitComponent();">Benefits </a>
+                class="nav-link" [class.active]="selectedTab == BENEFIT_COMPONENT" (click)="selectedTab=BENEFIT_COMPONENT;currentPage = 1;getOrganizationBenefitComponent();">Benefits </a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" [class.active]="selectedTab == REIMBURSEMENT_COMPONENT"  (click)="selectedTab= REIMBURSEMENT_COMPONENT;getOrganizationReimbursementComponent();">Reimbursements</a>
+                    class="nav-link" [class.active]="selectedTab == REIMBURSEMENT_COMPONENT"  (click)="selectedTab= REIMBURSEMENT_COMPONENT;currentPage = 1;getOrganizationReimbursementComponent();">Reimbursements</a>
             </li>
         </ul>
 
@@ -171,14 +171,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                    <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -265,14 +265,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -366,14 +366,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -462,14 +462,14 @@
                                 </tr>
                             </tbody>
                     </table>
-                     <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
                         <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                         <div class="pagition-box">
                             <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
                             [boundaryLinks]="true" [ellipses]="true" (pageChange)="pageChange($event)">
                             </ngb-pagination>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -983,7 +983,7 @@
 
 <!----------------------------------- STATUS CHANGE CONFIRMATION MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#status-change" #statusChange></button>
-<div class="modal fade" id="status-change" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="status-change" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" >
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
@@ -1035,7 +1035,7 @@
 
 <!----------------------------------- DELETE CONFIRMATION MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteComponentButton></button>
-<div class="modal fade" id="delete-component" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="delete-component" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" > 
   <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
     <div class="modal-content">
       <div class="modal-body p-0 delete-text">
