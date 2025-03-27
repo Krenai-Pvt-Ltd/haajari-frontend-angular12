@@ -162,7 +162,7 @@
                                                 <li >
                                                     <a class="dropdown-item" (click)="editEarning(earning)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
-                                                <li *ngIf="earning.canStatusChange">
+                                                <li *ngIf="earning.custom">
                                                     <a class="dropdown-item" (click)="openDeleteModal(earning.id,'earning')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
                                             </div>
@@ -256,7 +256,7 @@
                                                     <li >
                                                         <a class="dropdown-item" (click)="editBenefit(benefit)"><i class="bi bi-pencil"></i> Edit </a>
                                                     </li>
-                                                    <li *ngIf="benefit.benefitTypeId != VPF">
+                                                    <li *ngIf="benefit.custom">
                                                         <a class="dropdown-item" (click)="openDeleteModal(benefit.id,'benefit')"><i class="bi bi-trash"></i> Delete </a>
                                                     </li>
                                             </div>
@@ -356,7 +356,7 @@
                                                 <li >
                                                     <a class="dropdown-item" (click)="editDeduction(deduction)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
-                                                <li *ngIf="!deduction.displayName">
+                                                <li *ngIf="deduction.custom">
                                                     <a class="dropdown-item" (click)="openDeleteModal(deduction.id,'deduction')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
  
@@ -985,7 +985,7 @@
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #statusChangeCloseButton>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #statusChangeCloseButton (click)="closeModal()">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">

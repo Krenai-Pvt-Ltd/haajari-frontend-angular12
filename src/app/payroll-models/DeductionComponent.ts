@@ -5,6 +5,6 @@ export class DeductionComponent{
     displayName:string='';
     statusId:number=0;
     payTypeId:number=0;
-    isCustom:boolean=false;
+    custom:boolean=false;
     frequencyId:number=8;
 }
