@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -280,6 +280,8 @@ onAddressSelect(index: number, event: any) {
   }
 
   @ViewChild('closeFetchModal') closeFetchModal!: ElementRef;
+  @ViewChild('addressCheckbox') addressCheckbox!: QueryList<ElementRef>; 
+
   saveFetchedAddressStaff() {
     this.saveLoader = true;
     let selectedAddresses = [];
@@ -308,6 +310,15 @@ onAddressSelect(index: number, event: any) {
           this._helperService.showToast('Error updating.',Key.TOAST_STATUS_ERROR);
         }
       );
+  }
+
+
+  resetModalState() {                
+    this.selectedAddressIndexes = []; 
+    this.selectUsers=0;
+    this.addressCheckbox.forEach((checkbox) => {
+      checkbox.nativeElement.checked = false;
+    });
   }
 
   fetchUserList() {
