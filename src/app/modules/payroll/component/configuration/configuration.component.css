@@ -134,69 +134,8 @@ width: 100px;
 height: 8px;
 position: relative;
 top: 2px;
-direction: rtl;
-
+/* direction: rtl; */
 }
-/* .employee-calculation{
-  border: 1px solid #F2F2F2;
-  background-color: #FFFCF3;
-} */
-/* .submitActionBtn {
-  background-color: var(--primary-background-color);
-  border-radius: 2px;
-  width: 100px;
-} */
-/* .cancel-btn {
-  background-color: #fbfbfb;
-  border: 1px solid #e6e7e9;
-  border-radius: 2px;
-  color: #4a4a4a;
-  min-width: 100px;
-} */
-/* .background-light{
-  background-color: #FBFCFD;
-} */
-/* .location-icon{
-  background-color: #FAFAFA;
-  width: 40px;
-  height: 40px;
-} */
-/* .location-detail{
-  border: 1px solid #E3E3E3;
-  width: 35px;
-  height: 35px;
-  border-radius: 6px;
-}
-.location-detail-dropdown{
-  background-color: #FAFAFA;
-} */
-/* .borderLess{
-  border: none;
-  font-size: 14px;
-  font-weight: 500;
-} */
-/* .saveBtn{
-  position: absolute;
-  right: 15px;
-  top: 10px;
-} */
-/* .editBtn{
-  position: absolute;
-  right: 15px;
-  top: 10px;
-}
-.editBtn svg{
-  width: 20px;
-} */
-/* .transition {
-  transition: transform 0.3s ease-in-out;
-} */
-/* .rotate-180 {
-  transform: rotate(180deg);
-}
-.location-detail[aria-expanded="true"] svg {
-  transform: rotate(180deg);
-} */
 .sample-calculation-data{
   background-color: #F9FAFC;
 }

@@ -86,6 +86,14 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+.nots-section {
+    width: 100%;
+    height: 100px !important;
+    border: 1px solid #e9e9e9;
+  }
+.earing-list{
+    background-color: #F9F9F9;
+}
 .btnAction {
     background-color: #F9FAFC;
     width: 30px;
@@ -131,7 +139,7 @@
 }
 .action-btn{
     position: absolute;
-    right: 10px;
+    right: 1px;
     top: 0px;
     width: fit-content;
     bottom: 0px;

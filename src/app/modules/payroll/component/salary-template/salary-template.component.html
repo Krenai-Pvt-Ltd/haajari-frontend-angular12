@@ -178,54 +178,330 @@
                <div class="col-md-9 pl-0">
                 <div class="create-template-box p-3 pt-4 h-100 pb-5">
                     <div class="row">
-                       <div class="col-md-4 mb-3">
+                       <div class="col-md-6 mb-3">
                         <label class="pb-2">Template Name </label>
                         <input type="text" placeholder="Enter template name" required="" name="" class="form-control whatsapp-login-input">
                        </div>
-                       <div class="col-md-4 mb-3">
-                        <label class="pb-2">Description </label>
-                        <input type="text" placeholder="Max 50 characters" required="" name="" class="form-control whatsapp-login-input">
-                       </div>
-                       <div class="col-md-4 mb-3 position-relative">
+                       
+                       <div class="col-md-6 mb-3 position-relative">
                         <label class="pb-2">Annual CTA (per year)</label>
                         <input type="text" placeholder="Enter amount" required="" name="" class="form-control whatsapp-login-input" style="padding-left: 65px;">
                         <span class="percentage-icon d-flex align-items-center justify-content-center">
                             <i class="bi bi-currency-rupee font-18"></i>
                         </span>
                        </div>
+                       <div class="col-md-12 mb-3">
+                        <label class="pb-2">Description </label>
+                        <!-- <input type="text" placeholder="Max 50 characters" required="" name="" class="form-control whatsapp-login-input"> -->
+                        <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Max 50 characters" rows="5"></textarea>
+                       </div>
                     </div>
-                    <div class="mt-3 template-calculation border-rounded-2">
-                        <div class="row p-3 border-bottom p-0 m-0">
+                    <div class="mt-3 template-calculation border-rounded-2 bg-white">
+                        <div class="row p-3 border-bottom p-0 m-0 px-4">
                             <div class="col-md-3">
                                 <div class="text-left">
-                                    <h5 class="font-12 fw-normal mb-0 color-basic">Salary Components</h5>
+                                    <h5 class="font-13 fw-normal mb-0 color-basic">Salary Components</h5>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-left">
-                                    <h5 class="font-12 fw-normal mb-0 color-basic">Calculation Type</h5>
+                                    <h5 class="font-13 fw-normal mb-0 color-basic">Calculation Type</h5>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-left">
-                                    <h5 class="font-12 fw-normal mb-0 color-basic">Monthly Amount </h5>
+                                    <h5 class="font-13 fw-normal mb-0 color-basic">Monthly Amount </h5>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-end  px-3">
-                                    <h5 class="font-12 fw-normal mb-0 color-basic">Annual Amount </h5>
+                                    <h5 class="font-13 fw-normal mb-0 color-basic">Annual Amount </h5>
                                 </div>
                             </div>
                         </div>
-                        <div class="row p-3 border-bottom p-0 m-0 align-items-center ">
+
+                        <div class="row mx-4 py-3">
                             <div class="col-md-12">
                                 <h5 class="font-14 fw-semibold text-primary mb-4">Earnings</h5>
                             </div>
-                            <div class="col-md-3">
-                                <div>
-                                    <p class="mb-0 font-12 color-basic">Basic</p>
-                                </div>
 
+                            <div class="earing-list p-3 border-rounded-2">
+                                <div class="row border-bottom align-items-center pb-3"> 
+                                    <div class="col-md-3">
+                                            <p class="mb-0 font-13 color-basic fw-semibold">Basic</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
+                                                <input type="number" placeholder="" required name="pan"
+                                                    class="form-control borderLess" >                 
+                                            </div>
+                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start">
+                                                <p class="mb-0 font-13 fw-semibold">% of CTC</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
+                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-14 fw-normal color-basic mb-0">0</p>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                                <div class="row align-items-center border-bottom py-3">
+                                    <div class="col-md-3">
+                                        <div class="">
+                                            <h5 class="font-14 fw-semibold text-black mb-2">Fixed Allowance</h5>
+                                            <p class="mb-0 font-12 color-basic">Monthly CTC - Sum of all other components</p>
+                                        </div>
+        
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-start py-3">
+                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic ">0</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">0</p>
+                                        </div>
+        
+                                    </div>
+                                </div>
+                                <div class="row py-3 align-items-center border-bottom position-relative">
+                                    <div class="col-md-3">
+                                        <div class="py-3">
+                                            <h5 class="font-14 fw-normal text-black mb-0">Fixed Allowance</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-start py-3">
+                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
+                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">0</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                </div>
+                                <div class="row mt-3 align-items-center position-relative">
+                                    <div class="col-md-3">
+                                        <div class="py-3">
+                                            <h5 class="font-14 fw-normal text-black mb-0">House Rent Allowance</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
+                                                <input type="number" placeholder="" required name="pan"
+                                                    class="form-control borderLess" >                 
+                                            </div>
+                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start">
+                                                <p class="mb-0 font-13 fw-semibold">% of CTC</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
+                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">0</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+                                <h5 class="font-14 fw-semibold text-primary mb-4">Reimbursements</h5>
+                            </div>
+                            <div class="earing-list p-3 border-rounded-2  pt-0">
+                                <div class="row align-items-center border-bottom position-relative mb-3 pb-3 pt-3">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <p class="mb-0 font-12 color-basic fw-semibold">Fuel Reimbursement<br><span class="fw-normal">Amount:</span> ₹2.000.00</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-start py-3">
+                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
+                                                <p class="mb-0 font-13 fw-semibold mb-0">1000</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">1000</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                </div>
+                                <div class="row align-items-center position-relative mt-3">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <p class="mb-0 font-12 color-basic fw-semibold">Fuel Reimbursement<br><span class="fw-normal">Amount:</span> ₹2.000.00</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-start py-3">
+                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
+                                                <p class="mb-0 font-13 fw-semibold mb-0">1000</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">1200</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+                                <h5 class="font-14 fw-semibold text-primary mb-4">Flexible Benefit Plan Components</h5>
+                            </div>
+                            <div class="earing-list p-3 border-rounded-2">
+                            <div class="row align-items-center position-relative">
+                                <div class="col-md-3">
+                                    <div>
+                                        <p class="mb-0 font-12 color-basic fw-semibold">EPF- Employer Contribution</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-start py-3">
+                                        <p class="font-13 fw-normal color-basic mb-0 ">12.00% of PF Wages </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-end px-3">
+                                        <p class="font-13 fw-normal color-basic mb-0 ">7200</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-end px-3">
+                                        <p class="font-13 fw-normal color-basic mb-0">86400</p>
+                                    </div>
+                                </div>
+                                <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                            </div>
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+                                <h5 class="font-14 fw-semibold text-primary mb-4">Benefits</h5>
+                            </div>
+                            <div class="earing-list p-3 border-rounded-2 mb-4">
+                                <div class="row align-items-center border-bottom position-relative">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <p class="mb-0 font-12 color-basic fw-semibold">EPF- Employer Contribution</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-start py-3">
+                                            <p class="font-13 fw-normal color-basic mb-0 ">12.00% of PF Wages </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">7200</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0">86400</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                </div>
+                                <div class="row mt-3 align-items-end position-relative">
+                                    <div class="col-md-3">
+                                        <div class="py-3">
+                                            <h5 class="font-14 fw-normal text-black mb-0">NPS- Employer Contribution</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
+                                                <input type="number" placeholder="" required name="pan"
+                                                    class="form-control borderLess" >                 
+                                            </div>
+                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start">
+                                                <p class="mb-0 font-13 fw-semibold">% of CTC</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
+                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic ">0</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row total-cost-box p-0 m-0 ">
+                            <div class="col-md-3 p-3">
+                                <h5 class="mb-0 font-13 fw-semibold">Cost to Company</h5>
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3 p-3">
+                                <div class="text-end px-3">
+                                    <h5 class="mb-0 font-13 fw-semibold">₹ 0</h5>
+                                </div>
+                           </div>
+                            <div class="col-md-3 p-3">
+                                <div class="text-end px-3">
+                                    <h5 class="mb-0 font-13 fw-semibold">₹ 0</h5>
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- <div class="row p-3 border-bottom p-0 m-0 align-items-center"> 
+                            <div class="col-md-3">
+                                    <p class="mb-0 font-12 color-basic">Basic</p>
                             </div>
                             <div class="col-md-3">
                                 <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
@@ -252,7 +528,7 @@
 
                             </div>
                         </div>
-                        <div class="row p-3 p-0 m-0 align-items-center border-bottom ">
+                        <div class="row p-3 p-0 m-0 align-items-center border-bottom">
                             <div class="col-md-3">
                                 <div class="">
                                     <h5 class="font-14 fw-semibold text-black mb-2">Fixed Allowance</h5>
@@ -386,34 +662,7 @@
                             </div>
                             <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
                         </div>
-                        <!-- <div class="row p-3 m-0 align-items-center border-bottom position-relative pt-4">
-                            <div class="col-md-12">
-                                <h5 class="font-14 fw-semibold text-primary mb-3">Flexible Benefit Plan Components</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <div>
-                                    <p class="mb-0 font-12 color-basic fw-semibold">Fuel Reimbursement<br><span class="fw-normal">Amount:</span> ₹2.000.00</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="text-start py-3">
-                                    <p class="font-13 fw-normal color-basic mb-0 ">Max Amount: ₹2.000.00 </p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="compliance-list bg-white border-rounded-2 attendance-border ">
-                                    <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                        <p class="mb-0 font-13 fw-semibold mb-0">1000</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="text-end px-3">
-                                    <p class="font-13 fw-normal color-basic mb-0">1000</p>
-                                </div>
-                            </div>
-                            <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                        </div> -->
+                        
                         <div class="row p-3 m-0 align-items-center border-bottom position-relative pt-4">
                             <div class="col-md-12">
                                 <h5 class="font-14 fw-semibold text-primary mb-3">Benefits</h5>
@@ -509,7 +758,7 @@
                                     <h5 class="mb-0 font-13 fw-semibold">₹ 0</h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -517,4 +766,3 @@
             </div>
         </div>
     </div>
-</div>
