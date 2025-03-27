@@ -648,13 +648,13 @@ onAddressSelect(index: number, event: any) {
             'Worklocation deleted.',
             Key.TOAST_STATUS_SUCCESS
           );
-          this.deleteLocationCloseButton.nativeElement.click();
         } else {
           this._helperService.showToast(
             'Error deleting your work location.',
             Key.TOAST_STATUS_ERROR
           );
         }
+        this.deleteLocationCloseButton.nativeElement.click();
         this.deleteToggle = false;
       },
       (error) => {
@@ -662,6 +662,7 @@ onAddressSelect(index: number, event: any) {
           'Error deleting your work location.',
           Key.TOAST_STATUS_ERROR
         );
+        this.deleteLocationCloseButton.nativeElement.click();
         this.deleteToggle = false;
       }
     );
@@ -679,5 +680,10 @@ onAddressSelect(index: number, event: any) {
 
   routeToStatutory() {
     this._router.navigate(['/payroll/configuration'], {queryParams: { tab: 'statutory'},});
+  }
+
+  viewMore:boolean=false;
+  toggleViewMore(){
+    this.viewMore = !this.viewMore;
   }
 }
