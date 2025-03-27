@@ -134,10 +134,8 @@
               </div>
           </div>
       </div>
-      <div class="d-flex align-items-center justify-content-end gap-1 p-3 modal-footer bg-white" *ngIf="
-      (leave?.managerUuid === logInUserUuid ||
-      ROLE == 'ADMIN') && leave?.status == PENDING
-    ">
+      <div class="d-flex align-items-center justify-content-end gap-1 p-3 modal-footer bg-white" 
+      *ngIf="this.rbacService.showLeaveActionButton(leave,logInUserUuid,PENDING,Routes.LEAVEMANAGEMENT)">
           <button type="button" class="btn reject-btn" *ngIf="rejectionReasonFlag" (click)="approveOrRejectLeave(leave?.id || 0, REJECTED)">
             <span *ngIf="!rejectLoading"> Save</span>
             <div class="dot-opacity-loader" *ngIf="rejectLoading">

@@ -13,4 +13,6 @@ export class StatusKeys{
 	static PAYSLIP_FINALIZED = 44;
 	static PAYSLIP_DRAFT = 45;
 
+	static ATTENDANCE_UPDATE_REQUEST_PENDING = 52;
+
 }
