@@ -705,7 +705,7 @@
                                         nzSize="large" 
                                         name="Benefit Plan"
                                         [(ngModel)]="selecteBenefitComponent.benefitTypeId"
-                                        [disabled]="selecteBenefitComponent.benefitTypeId== VPF" 
+                                        [disabled]="selecteBenefitComponent.benefitTypeId== VPF || !isNewComponent"
                                         (ngModelChange)="onBenefitPlanChange($event)" 
                                         required
                                         nzPlaceHolder="Benefit Plan">

@@ -599,9 +599,6 @@ getOrganizationBenefitComponent(){
 //                                                                                                                                                                         // 
 //                                                                       DEDUCTION COMPONENT                                                                           // 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-defaultDeductionComponents:DeductionComponent[] = new Array();
 getDefaultDeductionComponent(){
   this.selecteDeductionComponent = new DeductionComponent();
    
