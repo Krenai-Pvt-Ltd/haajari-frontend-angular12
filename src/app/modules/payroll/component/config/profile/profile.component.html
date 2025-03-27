@@ -732,7 +732,7 @@
 
          <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
           <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
-          <button type="button" class="btn submitActionBtn text-white" [ngClass]="{'disabled-lnk':saveLoader}"
+          <button type="button" class="btn submitActionBtn text-white" [ngClass]="{'disabled-lnk':saveLoader}" [disabled]="!selected && organizationAddress.length>1"
                  (click)="saveFetchedAddressStaff()">
                 <div *ngIf="saveLoader" class="dot-opacity-loader">
                     <span></span>
@@ -846,7 +846,7 @@
           <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
             Cancel
           </button>
-          <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated"
+          <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated" 
             (click)="registerAddress()" type="button">
             <span *ngIf="!isRegisterLoad">Add all</span>
             <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
