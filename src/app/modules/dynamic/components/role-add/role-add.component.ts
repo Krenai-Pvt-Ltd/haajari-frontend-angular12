@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { ModuleRequest } from 'src/app/models/module-request';
 import { ModuleResponse } from 'src/app/models/module-response';
 import { RoleRequest } from 'src/app/models/role-request';
 import { RoleAccessibilityType } from 'src/app/role-accessibility-type';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-role-add',
@@ -18,8 +20,10 @@ export class RoleAddComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private router: Router,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    public rbacService: RoleBasedAccessControlService
   ) {}
+
 
   ngOnInit(): void {
     debugger
@@ -28,7 +32,7 @@ export class RoleAddComponent implements OnInit {
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
 
     if (roleIdParam === "1" || roleIdParam === "2" || roleIdParam === "3") {
-      window.location.href = '/role';
+      window.location.href = this.Routes.ROLE;
       return;
     }
     if (roleIdParam !== null) {
@@ -42,6 +46,7 @@ export class RoleAddComponent implements OnInit {
     this.getAllRoleAccessibilityTypeMethodCall();
   }
 
+  readonly Routes=Routes;
   roleRequest: RoleRequest = new RoleRequest();
   moduleResponseList: ModuleResponse[] = [];
   moduleRequestList: ModuleRequest[] = [];
@@ -170,6 +175,10 @@ export class RoleAddComponent implements OnInit {
   }
 
   handleRadioClickForSubModule(privilegeId: number, subModule: any) {
+    if(!this.rbacService.hasWriteAccess(this.Routes.ADDROLE)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     if (subModule.privilegeId === privilegeId) {
       subModule.privilegeId = null;
     } else {

@@ -10,6 +10,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
 import { RoleAccessibilityType } from 'src/app/role-accessibility-type';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-role',
@@ -22,8 +24,11 @@ export class RoleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private helperService: HelperService
+    public helperService: HelperService,
+    public rbacService: RoleBasedAccessControlService
+
   ) { }
+  readonly Routes=Routes;
 
   roles: Role[] = [];
   itemPerPage: number = 9;

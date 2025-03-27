@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-employee-profile',
@@ -22,13 +23,15 @@ export class EmployeeProfileComponent implements OnInit {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
     }
-    if(this.roleService.ROLE=='USER' && this.UUID!==this.userId) {
+    if((this.roleService.ROLE=='USER' && this.UUID!==this.userId)|| (this.UUID!==this.userId && !this.roleService.hasAccess(this.Routes.EMPLOYEEONBOARDING))) {
       // this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
       this.userId = this.UUID;
       this.router.navigate(['/']);
-    }else if(this.roleService.ROLE=='MANAGER' && this.UUID!==this.userId ){
+
+    }else if(this.roleService.ROLE=='MANAGER' && this.UUID!==this.userId){
       this.checkUserUnderManager();
-    }else{
+    }
+    else{
       this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();
     }
@@ -39,6 +42,7 @@ export class EmployeeProfileComponent implements OnInit {
     });
   }
 
+  readonly Routes = Routes;
   isBasicPlan:boolean=false;
   ngOnInit(): void {
     // this.getUuid();

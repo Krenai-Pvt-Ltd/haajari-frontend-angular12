@@ -63,7 +63,7 @@ export class AuthGuard implements CanActivate {
 
       this.ROLE = await this.rbacService.getRole();
 
-
+debugger
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     this.currentRoute = state.url;
@@ -82,7 +82,6 @@ export class AuthGuard implements CanActivate {
 
 
       if ((this.ROLE == 'USER') && this.currentRoute == '/dashboard') {
-        debugger
         this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
