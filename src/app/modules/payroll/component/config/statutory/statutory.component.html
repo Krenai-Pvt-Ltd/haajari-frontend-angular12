@@ -340,9 +340,9 @@
                  <div class="col-md-8">
                     <div class="tax-location-list border">
 
-                     <div class="p-3 d-flex align-items-center justify-content-between border-bottom">
+                     <div class="p-3 d-flex align-items-center justify-content-between border-bottom" *ngIf="professionalTaxDetail.length > 0">
                        <h5 class="fw-600 font-14 mb-0">Location</h5>
-                       <h5 class="fw-semibold font-14 mb-0">5 <span class="text-muted">location</span></h5>
+                       <h5 class="fw-semibold font-14 mb-0">{{professionalTaxDetail.length}} <span class="text-muted">location</span></h5>
                      </div>
                      <div class="p-2">
                         <div class="tex-location-list mb-3 p-2 border-rounded-2" *ngFor="let professionalTax of professionalTaxDetail; let i = index;">
@@ -469,7 +469,7 @@
      </div>
       <div class="tab-pane fade" id="fund" role="tabpanel" aria-labelledby="fund-tab">
       <div class="p-2">
-          <div class="row" *ngIf="professionalTaxDetail.length > 0">
+          <div class="row" *ngIf="labourWelfareFundDetail.length > 0">
               <div class="col-md-4">
                  <div class="payroll-details-box">
                     <h4 class="font-13 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
@@ -478,10 +478,10 @@
                  </div>
               </div>
               <div class="col-md-8">
-                 <div class="tax-location-list border" >
+                 <div class="tax-location-list border" *ngIf="labourWelfareFundDetail.length > 0">
                   <div class="p-3 d-flex align-items-center justify-content-between border-bottom">
                      <h5 class="fw-600 font-14 mb-0">Location</h5>
-                     <h5 class="fw-semibold font-14 mb-0">5 <span class="text-muted">location</span></h5>
+                     <h5 class="fw-semibold font-14 mb-0">{{labourWelfareFundDetail.length}} <span class="text-muted">location</span></h5>
                    </div>
                    <div class="p-2">
                       <div class="tex-location-list mb-3 p-2 border-rounded-2" *ngFor="let labourWelfareFund of labourWelfareFundDetail; let i= index;">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { HelperService } from 'src/app/services/helper.service';
@@ -10,6 +10,7 @@ import { DeductionComponent } from 'src/app/payroll-models/DeductionComponent';
 import { Key } from 'src/app/constant/key';
 import { BenefitPlanType } from 'src/app/payroll-models/BenefitPlanType';
 import { TaxExemptionSection } from 'src/app/payroll-models/TaxExemptionSection';
+import { ReimbursementType } from 'src/app/payroll-models/ReimbursementType';
 
 
 @Component({
@@ -100,11 +101,16 @@ export class SalaryComponent implements OnInit {
   earningComponents:EarningComponent[] = new Array();
   showSubComponent:boolean =false;
   defaultEarningComponents:EarningComponent[] = new Array();
+  isLoading:boolean=false;
   getDefaultEarningComponent(){
+    this.isLoading=true;
       this._salaryComponentService.getDefaultEarningComponent().subscribe((response) => {
           if(response.status){
             this.defaultEarningComponents= response.object;
+            this.isLoading=false;
           }
+          this.isLoading=false;
+
         },
         (error) => {
         }
@@ -138,14 +144,19 @@ export class SalaryComponent implements OnInit {
         );
       }
 
-      
-    getEarningStatus(configurations: ComponentConfiguration[], configId: number): string {
-        return configurations.some(config => config.configurationId === configId) ? 'Yes' : 'No';
+      getEarningStatus(configurations: ComponentConfiguration[], configId: number): string {
+        return configurations.some(config => config.configurationId === configId && config.checked === true) 
+            ? 'Yes' 
+            : 'No';
     }
     
+    
     getEarningClass(configurations: ComponentConfiguration[], configId: number): string {
-        return configurations.some(config => config.configurationId === configId) ? 'text-success' : 'text-danger';
-    }
+      return configurations.some(config => config.configurationId === configId && config.checked === true) 
+          ? 'text-success' 
+          : 'text-danger';
+  }
+  
     
 
     checkStatus(statusId: number): boolean {
@@ -232,6 +243,113 @@ export class SalaryComponent implements OnInit {
 
    }
 
+   @ViewChild("statusChange")statusChange!:ElementRef;
+   @ViewChild("statusChangeCloseButton")statusChangeCloseButton!:ElementRef;
+   componentId: number = 0;
+   type:string='';
+   loading:boolean=false;
+   changeStatus(componentId:number,type:string){
+    this.componentId = componentId;
+    this.type=type;
+    this.loadingMap[componentId] = true;
+    this.statusChange.nativeElement.click();
+   }
+
+   loadingMap: { [key: number]: boolean } = {};
+   load(componentId:number){
+    return !!this.loadingMap[componentId];
+   }
+
+   statusToggle:boolean=false;
+   chnageComponentStatus(){
+    this.statusToggle=true;
+    this._salaryComponentService.changeComponentStatus(this.componentId,this.type).subscribe((response) => {
+      if(response.status){
+        this._helperService.showToast('Status updated successfully.',Key.TOAST_STATUS_SUCCESS);  
+
+      }else{
+        this._helperService.showToast('Error updating component.',Key.TOAST_STATUS_ERROR);
+
+      }
+      this.statusToggle=false;
+      this.statusChangeCloseButton.nativeElement.click();
+      if(this.type=='earning'){
+        this.getOrganizationEarningComponent();
+      }else if(this.type=='benefit'){
+        this.getOrganizationBenefitComponent();
+      }else if(this.type=='reimbursement'){
+        this.getOrganizationReimbursementComponent();
+      }else if(this.type=='deduction'){
+        this.getOrganizationDeductionComponent();
+      }
+      this.loadingMap[this.componentId] = false;
+    },
+    (error) => {
+      this.statusToggle = false;
+    }
+  );
+  
+  }
+
+  closeModal(){
+    this.loadingMap[this.componentId] = false;
+  }
+
+  @ViewChild("deleteComponentButton") deleteComponentButton!:ElementRef;
+  @ViewChild("deleteComponentCloseButton") deleteComponentCloseButton!:ElementRef;
+  openDeleteModal(componentId:number,type:string){
+    this.componentId=componentId;
+    this.type=type;
+    this.deleteComponentButton.nativeElement.click();
+  }
+
+
+  deleteEarningComponent(){
+    this.saveLoader=true;
+    this._salaryComponentService.deleteEarningComponent(this.componentId).subscribe((response) => {
+      if(response.status){
+        this._helperService.showToast('Component deleted successfully.',Key.TOAST_STATUS_SUCCESS);  
+
+      }else{
+        this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+
+      }
+      this.saveLoader=false;
+      this.deleteComponentCloseButton.nativeElement.click();
+      this.getOrganizationEarningComponent();
+      this.saveLoader = false;
+    },
+    (error) => {
+      this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+      this.saveLoader = false;
+      this.deleteComponentCloseButton.nativeElement.click();
+
+    }
+  );
+  }
+
+
+  confirmDeleteComponent(){
+    this.saveLoader = true;
+    switch (this.type) {
+      case 'earning':
+        this.deleteEarningComponent();
+        break;
+      case 'benefit':
+        this.deleteBenefitComponent();
+        break;
+      case 'deduction':
+        this.deleteDeductionComponent();
+        break;
+      case 'reimbursement':
+        this.deleteReimbursementComponent();
+        break;
+      
+    }
+  }
+  
+  
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +369,8 @@ getDefaultBenefitComponent() {
   this.getBenefitPlanType();
   this.getTaxExemptionSection();
   this.selectedNewBenefit = true;
+  this.selecteBenefitComponent.displayName = "National Pension Scheme";
+
 }
 
 benefitComponents:BenefitComponent[] = new Array();
@@ -354,6 +474,11 @@ getOrganizationBenefitComponent(){
         checked: false,
       }));
     }
+    const selectedType = this.benefitPlanType.find(type => type.id == selectedValue);
+    if (selectedType) {
+        this.selecteBenefitComponent.displayName = selectedType.description;
+    }
+
   
   }
   
@@ -392,6 +517,7 @@ getOrganizationBenefitComponent(){
 
   saveBenefitComponent(){
     this.saveLoader = true;
+    this.selecteBenefitComponent.displayName 
     this._salaryComponentService.saveBenefitComponent(this.selecteBenefitComponent).subscribe((response) => {
         if(response.status){
           this.getOrganizationBenefitComponent();
@@ -407,6 +533,32 @@ getOrganizationBenefitComponent(){
       }
     );
 
+ }
+
+
+
+ deleteBenefitComponent(){
+   this.saveLoader=true;
+   this._salaryComponentService.deleteBenefitComponent(this.componentId).subscribe((response) => {
+     if(response.status){
+       this._helperService.showToast('Component deleted successfully.',Key.TOAST_STATUS_SUCCESS);  
+
+     }else{
+       this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+
+     }
+     this.saveLoader=false;
+     this.deleteComponentCloseButton.nativeElement.click();
+     this.getOrganizationBenefitComponent();
+     this.saveLoader = false;
+   },
+   (error) => {
+     this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+     this.saveLoader = false;
+     this.deleteComponentCloseButton.nativeElement.click();
+
+   }
+ );
  }
   
 
@@ -522,6 +674,31 @@ getOrganizationDeductionComponent(){
   }
 
 
+ deleteDeductionComponent(){
+   this.saveLoader=true;
+   this._salaryComponentService.deletedeductionComponent(this.componentId).subscribe((response) => {
+     if(response.status){
+       this._helperService.showToast('Component deleted successfully.',Key.TOAST_STATUS_SUCCESS);  
+
+     }else{
+       this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+
+     }
+     this.saveLoader=false;
+     this.deleteComponentCloseButton.nativeElement.click();
+     this.getOrganizationDeductionComponent();
+     this.saveLoader = false;
+   },
+   (error) => {
+     this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+     this.saveLoader = false;
+     this.deleteComponentCloseButton.nativeElement.click();
+
+   }
+ );
+ }
+
+
 
 
 
@@ -569,11 +746,15 @@ getOrganizationDeductionComponent(){
   reimbursementComponents:ReimbursementComponent[] = new Array();
   defaultReimbursementComponents:ReimbursementComponent[] = new Array();
   selectedReimbursementComponent!:ReimbursementComponent;
+  selectedNewReimursement:boolean=false;
   getDefaultReimbursementComponent(){
+        this.selectedReimbursementComponent = new ReimbursementComponent();
        this._salaryComponentService.getDefaultReimbursementComponent().subscribe((response) => {
            if(response.status){
              this.defaultReimbursementComponents= response.object;
+             
            }
+           this.selectedNewReimursement = true;
          },
          (error) => {
          }
@@ -611,12 +792,16 @@ getOrganizationDeductionComponent(){
 
   saveReimbursementComponent(){
     this.saveLoader = true;
+    this.selectedReimbursementComponent.name = this.selectedReimbursementComponent.type;
     this._salaryComponentService.saveReimbursementComponent(this.selectedReimbursementComponent).subscribe((response) => {
         if(response.status){
-        
+          this.getOrganizationReimbursementComponent();
+          this._helperService.showToast('Reimbursement component saved successfully.',Key.TOAST_STATUS_SUCCESS);
         }else{
-  
+          this._helperService.showToast('Error saving Reimbursement component.',Key.TOAST_STATUS_ERROR);
+
         }
+        this.backFromReimursement();
         this.saveLoader = false;
       },
       (error) => {
@@ -628,7 +813,9 @@ getOrganizationDeductionComponent(){
 
 
   editReimbursementComponent(reimbursementComponent : ReimbursementComponent){
+    this.getDefaultReimbursementComponent();
     this.toggle=true;
+    this.selectedNewReimursement = false;
     this.selectedTab = this.REIMBURSEMENT_COMPONENT;
     this.selectedReimbursementComponent= JSON.parse(JSON.stringify(reimbursementComponent)) ;
   }
@@ -636,8 +823,39 @@ getOrganizationDeductionComponent(){
   backFromReimursement(){
     this.toggle = false;
      this.isNewComponent = false;
+     this.selectedNewReimursement = false;
      this.selectedReimbursementComponent=new ReimbursementComponent;
   }
+ 
+
+  onReimbursementTypeChange(selectedType:string){
+    this.selectedReimbursementComponent.type = selectedType;
+  }
+
+
+
+ deleteReimbursementComponent(){
+   this.saveLoader=true;
+   this._salaryComponentService.deleteReimbursementComponent(this.componentId).subscribe((response) => {
+     if(response.status){
+       this._helperService.showToast('Component deleted successfully.',Key.TOAST_STATUS_SUCCESS);  
+
+     }else{
+       this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+
+     }
+     this.saveLoader=false;
+     this.deleteComponentCloseButton.nativeElement.click();
+     this.getOrganizationReimbursementComponent();
+     this.saveLoader = false;
+   },
+   (error) => {
+     this._helperService.showToast('Error Deleting component.',Key.TOAST_STATUS_ERROR);
+     this.saveLoader = false;
+     this.deleteComponentCloseButton.nativeElement.click();
+   }
+ );
+ }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

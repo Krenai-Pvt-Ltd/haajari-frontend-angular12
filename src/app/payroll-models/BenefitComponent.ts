@@ -6,7 +6,7 @@ export class BenefitComponent{
     displayName:string='';
     statusId:number=11;
     payTypeId:number=0;
-    isCustom:boolean=false;
+    custom:boolean=false;
     frequencyId:number=7;
     benefitTypeId:number=2;
 	taxExemptionId:number=0;
