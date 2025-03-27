@@ -223,6 +223,7 @@ export class SalaryComponent implements OnInit {
       this.saveLoader = true;
       this._salaryComponentService.saveEarningComponent(this.selectedEarningComponent).subscribe((response) => {
           if(response.status){
+            this.currentPage = 1;
             this.getOrganizationEarningComponent();
             this._helperService.showToast('Earning component saved successfully.',Key.TOAST_STATUS_SUCCESS);  
 
@@ -521,6 +522,7 @@ getOrganizationBenefitComponent(){
     this.selecteBenefitComponent.displayName 
     this._salaryComponentService.saveBenefitComponent(this.selecteBenefitComponent).subscribe((response) => {
         if(response.status){
+          this.currentPage = 1;
           this.getOrganizationBenefitComponent();
           this._helperService.showToast('Benefit component saved successfully.',Key.TOAST_STATUS_SUCCESS);  
         }else{
@@ -634,6 +636,7 @@ getOrganizationDeductionComponent(){
     this.saveLoader = true;
     this._salaryComponentService.saveDeductionComponent(this.selecteDeductionComponent).subscribe((response) => {
         if(response.status){
+          this.currentPage = 1;
           this.getOrganizationDeductionComponent();
           this._helperService.showToast('Deduction component saved successfully.',Key.TOAST_STATUS_SUCCESS);  
         }else{
@@ -787,6 +790,7 @@ getOrganizationDeductionComponent(){
     this.selectedReimbursementComponent.name = this.selectedReimbursementComponent.type;
     this._salaryComponentService.saveReimbursementComponent(this.selectedReimbursementComponent).subscribe((response) => {
         if(response.status){
+          this.currentPage = 1;
           this.getOrganizationReimbursementComponent();
           this._helperService.showToast('Reimbursement component saved successfully.',Key.TOAST_STATUS_SUCCESS);
         }else{
