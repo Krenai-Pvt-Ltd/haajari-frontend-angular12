@@ -58,9 +58,6 @@ export class SalaryComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0,0);
     this.getOrganizationEarningComponent();
-    this.getOrganizationReimbursementComponent();
-    this.getOrganizationBenefitComponent();
-    this.getOrganizationDeductionComponent();
     
   }
 

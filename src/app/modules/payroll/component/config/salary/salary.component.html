@@ -4,22 +4,22 @@
             <li class="nav-item">
             <a id="pills-announcement-tab" data-bs-toggle="pill" href="#earning" role="tab" 
                 aria-controls="pills-dashboard" aria-selected="false"
-                class="nav-link"  [class.active]="selectedTab == EARNING_COMPONENT" (click)="selectedTab = EARNING_COMPONENT">Earnings</a>
+                class="nav-link"  [class.active]="selectedTab == EARNING_COMPONENT" (click)="selectedTab = EARNING_COMPONENT;getOrganizationEarningComponent();">Earnings</a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#deductions" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" [class.active]="selectedTab == DEDUCTION_COMPONENT"  (click)="selectedTab = DEDUCTION_COMPONENT"> Deductions </a>
+                    class="nav-link" [class.active]="selectedTab == DEDUCTION_COMPONENT"  (click)="selectedTab = DEDUCTION_COMPONENT;getOrganizationDeductionComponent();"> Deductions </a>
                 </li>
             <li class="nav-item d-flex align-items-center">
             <a id="pills-notification-tab" data-bs-toggle="pill" href="#benefits" role="tab"
                 aria-controls="pills-request" aria-selected="false"
-                class="nav-link" [class.active]="selectedTab == BENEFIT_COMPONENT" (click)="selectedTab=BENEFIT_COMPONENT">Benefits </a>
+                class="nav-link" [class.active]="selectedTab == BENEFIT_COMPONENT" (click)="selectedTab=BENEFIT_COMPONENT;getOrganizationBenefitComponent();">Benefits </a>
             </li>
             <li class="nav-item d-flex align-items-center">
                 <a id="pills-notification-tab" data-bs-toggle="pill" href="#reimbursements" role="tab"
                     aria-controls="pills-request" aria-selected="false"
-                    class="nav-link" [class.active]="selectedTab == REIMBURSEMENT_COMPONENT"  (click)="selectedTab= REIMBURSEMENT_COMPONENT">Reimbursements</a>
+                    class="nav-link" [class.active]="selectedTab == REIMBURSEMENT_COMPONENT"  (click)="selectedTab= REIMBURSEMENT_COMPONENT;getOrganizationReimbursementComponent();">Reimbursements</a>
             </li>
         </ul>
 
