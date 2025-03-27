@@ -823,15 +823,15 @@
                         <div class="col-md-8">
                             <div class="row">
                               
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-12 mt-2" >
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="radio" id="deduction-frequency1" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_ONE_TIME">
+                                        <input [disabled]="selecteDeductionComponent.custom" type="radio" id="deduction-frequency1" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_ONE_TIME">
                                         <div>
                                             <label for="deduction-frequency1" class="form-check-label font-13 fw-normal">One-time deduction</label>
                                         </div>
                                     </div>
                                     <div class="form-check d-flex align-items-start gap-2 mb-3">
-                                        <input type="radio" id="deduction-frequency2" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_RECURRING" >
+                                        <input [disabled]="selecteDeductionComponent.custom" type="radio" id="deduction-frequency2" name="deduction-frequency" class="form-check-input" [(ngModel)]="selecteDeductionComponent.frequencyId" [value]="FREQUENCY_RECURRING" >
                                         <div>
                                             <label for="radioCheckbox2" class="form-check-label font-13 fw-normal" >Recurring deduction for subsequent Payrolls</label>
                                         </div>
@@ -864,7 +864,7 @@
                     <span class="backBtn radius-50 d-flex align-items-center justify-content-center" (click)="backFromReimursement()">
                         <i class="bi bi-chevron-left text-primary font-18"></i>
                     </span>
-                    <h5 class="mb-0 font-15 fw-semibold"><span *ngIf="isNewComponent">New</span><span *ngIf="!isNewComponent">Edit</span> Reimbursement</h5>
+                    <h5 class="mb-0 font-15 fw-semibold"><span x>New</span><span *ngIf="!isNewComponent">Edit</span> Reimbursement</h5>
                 </div>
     
                 <form #reimbursementForm="ngForm" ngNativeValidate (ngSubmit)="saveReimbursementComponent()">     
@@ -882,6 +882,7 @@
                                         <nz-select class="form-control w-100 placeholder-line currency-typep"
                                             [(ngModel)]="selectedReimbursementComponent.type"
                                             (ngModelChange)="onReimbursementTypeChange($event)" 
+                                            [disabled]="!isNewComponent"
                                             name="reimbursementType"
                                             nzPlaceHolder="Select">
                                             <nz-option *ngFor="let reimbursement of defaultReimbursementComponents" 
@@ -928,7 +929,7 @@
                                                         </p>
                                                 </div>
                                                 <div class="w-50 background-light position-relative">
-                                                    <input type="number"  name="value" class="form-control borderLess" placeholder="0"  
+                                                    <input type="number"  name="value" class="form-control borderLess" placeholder="0" 
                                                     [(ngModel)]="selectedReimbursementComponent.value" required> 
                                                     <span class="percentage-icon d-flex align-items-center justify-content-center">
                                                         <i class="bi bi-currency-rupee font-18"></i>

@@ -83,7 +83,7 @@ export class SalaryComponent implements OnInit {
         }
         //deduction
         case 3: {
-          // this.getDefaultDeductionComponent();
+           this.getDefaultDeductionComponent();
           break;
         }
         //reimbursement
@@ -261,34 +261,38 @@ export class SalaryComponent implements OnInit {
    }
 
    statusToggle:boolean=false;
-   chnageComponentStatus(){
-    this.statusToggle=true;
-    this._salaryComponentService.changeComponentStatus(this.componentId,this.type).subscribe((response) => {
-      if(response.status){
-        this._helperService.showToast('Status updated successfully.',Key.TOAST_STATUS_SUCCESS);  
-
-      }else{
-        this._helperService.showToast('Error updating component.',Key.TOAST_STATUS_ERROR);
-
+   chnageComponentStatus() {
+    this.statusToggle = true;
+    this._salaryComponentService.changeComponentStatus(this.componentId, this.type).subscribe(
+      (response) => {
+        if (response.status) {
+          this._helperService.showToast('Status updated successfully.', Key.TOAST_STATUS_SUCCESS);
+          this.toggleStatus(this.type);
+        } else {
+          this._helperService.showToast('Error updating component.', Key.TOAST_STATUS_ERROR);
+        }
+        this.statusToggle = false;
+        this.statusChangeCloseButton.nativeElement.click();
+        this.loadingMap[this.componentId] = false;
+      },
+      (error) => {
+        this.statusToggle = false;
       }
-      this.statusToggle=false;
-      this.statusChangeCloseButton.nativeElement.click();
-      if(this.type=='earning'){
-        this.getOrganizationEarningComponent();
-      }else if(this.type=='benefit'){
-        this.getOrganizationBenefitComponent();
-      }else if(this.type=='reimbursement'){
-        this.getOrganizationReimbursementComponent();
-      }else if(this.type=='deduction'){
-        this.getOrganizationDeductionComponent();
-      }
-      this.loadingMap[this.componentId] = false;
-    },
-    (error) => {
-      this.statusToggle = false;
-    }
-  );
+    );
+  }
   
+  toggleStatus(type: string) {
+    const componentListMap: { [key: string]: any[] } = {
+      earning: this.earningComponents,
+      deduction: this.deductionComponents,
+      benefit: this.benefitComponents,
+      reimbursement: this.reimbursementComponents,
+    };
+  
+    const component = componentListMap[type]?.find((comp: any) => comp.id === this.componentId);
+    if (component) {
+      component.statusId = component.statusId === 11 ? 12 : 11;
+    }
   }
 
   closeModal(){
@@ -597,17 +601,11 @@ getOrganizationBenefitComponent(){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// defaultReimbursementComponents:ReimbursementComponent[] = new Array();
-// getDefaultDeductionComponent(){
-//     this._salaryComponentService.getDefaultReimbursementComponent().subscribe((response) => {
-//         if(response.status){
-//           this.defaultReimbursementComponents= response.object;
-//         }
-//       },
-//       (error) => {
-//       }
-//     );
-//   }
+defaultDeductionComponents:DeductionComponent[] = new Array();
+getDefaultDeductionComponent(){
+  this.selecteDeductionComponent = new DeductionComponent();
+   
+  }
 
 deductionComponents:DeductionComponent[] = new Array();
 selectedNewDeduction:boolean=false;
