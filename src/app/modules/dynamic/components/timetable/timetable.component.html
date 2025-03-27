@@ -1377,7 +1377,8 @@
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu actionMenuList">
-                                <li *ngIf="request?.status?.id==52">
+                                <ng-container *ngIf="rbacService.showAttendanceUpdateActionButton(request,logInUserUuid,StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING,Routes.TIMETABLE)">
+                                <li>
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -1390,7 +1391,7 @@
                                     Approve
                                   </a>
                                 </li>
-                                <li *ngIf="request?.status?.id==52">
+                                <li >
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -1403,6 +1404,7 @@
                                     Reject
                                   </a>
                                 </li>
+                              </ng-container>
                                 <li>
                                   <a class="dropdown-item" data-bs-target="#attendanceRequest" data-bs-toggle="modal" (click)="viewRequest(request)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">

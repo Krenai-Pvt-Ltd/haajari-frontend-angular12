@@ -28,6 +28,7 @@ import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
 
 @Component({
@@ -148,6 +149,7 @@ export class TimetableComponent implements OnInit {
   readonly key = Key;
   readonly Constant = constant;
   readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',

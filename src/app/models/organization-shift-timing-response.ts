@@ -10,6 +10,7 @@ export class OrganizationShiftTimingResponse {
     outTime !: Date;
     autoCheckedOut : boolean = false;
     autoCheckout !: Date;
+    scheduledToDelete : boolean = false ;
     startLunch !: Date;
     endLunch !: Date;
     inTimeDate?: Date;

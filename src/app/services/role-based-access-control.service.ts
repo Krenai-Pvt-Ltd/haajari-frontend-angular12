@@ -189,5 +189,37 @@ export class RoleBasedAccessControlService {
     
     return false;
   }
+
+  hasAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return true;
+    }
   
+    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+      return this.helperService.subModuleResponseList.some((module: any) => 
+        module.description === route 
+      );
+    }
+  
+    return true; // Ensures default behavior if no match is found
+  }
+  
+
+  /**
+   * Common action buttons managemnt methods for all modules START
+   */
+  showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
+    return (leave.status == statusCheck &&
+       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+        ||logInUserUuid==leave.managerUuid ));
+   }
+
+   showAttendanceUpdateActionButton(leave:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
+    return (leave.status.id == statusCheck &&
+       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+        ||logInUserUuid==leave.managerUuid ));
+   }
+    /**
+   * Common action buttons managemnt methods for all modules END
+   */
 }
