@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="col-md-7">
-            <div class="row mb-3">
+            <div class="row mb-3"   [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}" >
               <ng-container *ngIf="
                   isShimmer &&
                     attendanceModeList.length === 0 &&
@@ -193,7 +193,7 @@
                     <div class="">
                       <h6 class="text-truncate mb-0">Shifts</h6>
                     </div>
-                    <div class="">
+                    <div    *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)" >
                       <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime"
                         (click)="openAddShiftTimeModal()">
                         <i class="bi bi-plus"></i> Add Shift Time
@@ -224,16 +224,7 @@
                                 employees</small>
                             </div>
                           </div>
-                          <div class="">
-                            <!-- <span
-                            class="automation-rules-toogel-btn pointer"
-                            data-bs-toggle="collapse"
-                            href="#multiCollapseExample1"
-                            role="button"
-                            aria-expanded="false"
-                            aria-controls="multiCollapseExample1"
-                            ><i class="bi bi-chevron-down"></i
-                          ></span> -->
+                          <div >
                             <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
                               [attr.data-bs-target]="
                                 '#multiCollapseExample' + i
@@ -256,7 +247,7 @@
                                 {{ organizationShiftTimingResponse.name }}
 
                               </p>
-                              <div  *ngIf="organizationShiftTimingResponse.updateFrom" class="badge rounded-pill badge-soft-danger font-12"
+                             <div  *ngIf="organizationShiftTimingResponse.updateFrom && !organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
                               [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">
                               New Shift</div>
                             </div>
@@ -271,9 +262,23 @@
                                 <a data-bs-toggle="modal" data-bs-target="#shiftTime" *ngIf="organizationShiftTimingResponse.updateId > 0" (click)="fetchShiftTiming(organizationShiftTimingResponse)">View</a>
                               </div>
                             </ng-template>
+                            <div  *ngIf="organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
+                            [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate1" nz-popover nzPopoverPlacement="left">
+                            Delete Shift
+                          </div>
+
+                          <ng-template #contentTemplate1>
+                            <div class="request-g p-0">
+                              <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                <h5 class="mb-0 font-14">Shift Scheduled to be deleted</h5>
+                              </div>
+                              <div class="p-3">
+                                <p class="mb-0 font-13 fw-semibold"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( Shift will be deleted today after 1 hour of out time) </span></p>
+                              </div>
+                             </div>
+                          </ng-template>
                             </div>
-                            <div class="d-flex align-items-center gap-4">
-                              <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-people"></i><i class="bi bi-trash pointer text-danger"></i> -->
+                            <div class="d-flex align-items-center gap-4"  *ngIf="!organizationShiftTimingResponse.scheduledToDelete" >
                               <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                                   updateOrganizationShiftTiming(
                                     organizationShiftTimingResponse,
@@ -282,26 +287,27 @@
                                 ">
                                 <i class="bi bi-people"></i>
                               </a>
+
                               <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                                   updateOrganizationShiftTiming(
                                     organizationShiftTimingResponse,
                                     'SHIFT_TIME'
                                   )
                                 ">
-                                <i class="bi bi-pencil pointer"></i>
+                                <i class="bi  pointer"
+                                [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.ATTENDANCESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"
+                                ></i>
                               </a>
-                              <!-- (click)="
-                                  deleteOrganizationShiftTimingMethodCall(
-                                    organizationShiftTimingResponse.id
-                                  )
-                                " -->
-                              <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-shift" (click)="
+                              <a style="cursor: pointer" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-shift"
+                              *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
+                               (click)="
                                   getShiftTemplateId(
                                     organizationShiftTimingResponse.id
                                   )
                                 ">
                                 <i class="bi bi-trash pointer text-danger"></i>
                               </a>
+
                             </div>
                           </div>
                           <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
@@ -379,35 +385,7 @@
               </ng-container>
             </ng-template>
             <ng-template #errorInFetchingOrganizationShiftTimingData>
-              <!-- <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
-                <div class="errorboxmain">
-                  <div class="errorboxinner">
-                    <div class="errorboxplaceholder mb-2">
-                      <img
-                        src="assets/images/empty-box.svg"
-                        style="width: 80px"
-                      />
-                    </div>
-                    <div class="">
-                      <p class="mb-0">Shift Timings Not Found</p>
-                    </div>
-                    <div
-                      class="add-filtter mt-2 mb-3"
-                      style="text-align: center"
-                    >
-                      <a
-                        class=""
-                        style="font-size: 16px; color: #6666f3"
-                        data-bs-toggle="modal"
-                        data-bs-target="#shiftTime"
-                        (click)="openAddShiftTimeModal()"
-                      >
-                        <i class="bi bi-plus"></i> Add Shift Time
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
+
 
               <!-- {{dataNotFoundPlaceholder}} -->
               <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
@@ -431,120 +409,14 @@
                     <p class="mb-1 empty-detail font-14">
                       Something went wrong
                     </p>
-                    <!-- <div class="add-filtter">
-                      <a
-                        class="text-primary font-14 text-center"
-                        data-bs-toggle="modal"
-                        data-bs-target="#shiftTime"
-                        (click)="openAddShiftTimeModal()"
-                      >
-                        Add Shift Time
-                      </a>
-                    </div> -->
+
                   </ng-template>
                 </nz-empty>
               </div>
-              <!-- <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
-                <div class="errorboxmain">
-                  <div class="errorboxinner text-center">
-                    <div class="errorboxplaceholder mb-2">
-                      <img src="assets/images/signal.svg" style="width: 80px" />
-                    </div>
-                    <div class="">
-                      <h4>Something went wrong</h4>
-                      <p>
-                        An error occurred while processing your request. Please
-                        refresh the page and try again.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
+
             </ng-template>
           </div>
-          <!-- <div class="col-md-12">
-            <div class="border-box"></div>
-          </div>
-          <div class="col-md-4 mt-3 mb-3">
-            <div class="form-roe-data">
-              <h5>Overtime Setting</h5>
-              <p>Pre/Post hours to consider overtime.</p>
-            </div>
-          </div>
-          <div class="col-md-7 mt-3 mb-3">
-            <div class="row mb-3">
-              <div class="attendance-settin-list">
-                <div class="categryCustomizecard d-flex pointer">
-                  <div class="categryCustomizeinfo">
-                    <label for="customizecategory" class="mb-0">
-                      <h3>Pre Hrs.</h3>
-                      <p>
-                        Number of hours before shift start to be counted as
-                        overtime.
-                      </p>
-                    </label>
-                  </div>
-                  <div class="pre-hour-value" *ngIf="
-                      preHourOvertimeSettingResponse.hour != null &&
-                      preHourOvertimeSettingResponse.hour != undefined
-                    ">
-                    <p class="mb-0">
-                      {{
-                      this.helperService.formatHHmmssToHHmm(
-                      preHourOvertimeSettingResponse.hour
-                      )
-                      }}
-                      hrs.
-                    </p>
-                  </div>
-                  <div class="active-check">
-                    <nz-switch [ngModel]="preHourOvertimeSettingResponse.accessibility"
-                      [ngModelOptions]="{ standalone: true }" [nzControl]="true"
-                      [nzLoading]="preHourOvertimeSettingResponse.loading" (click)="
-                        preHourModal(
-                          preHourOvertimeSettingResponse.accessibility
-                        )
-                      "></nz-switch>
-                  </div>
-                </div>
-              </div>
-              <div class="attendance-settin-list">
-                <div class="categryCustomizecard d-flex pointer">
-                  <div class="categryCustomizeinfo">
-                    <label for="customizecategory" class="mb-0">
-                      <h3>Post Hrs.</h3>
-                      <p>
-                        Number of hours after shift end to be counted as
-                        overtime.
-                      </p>
-                    </label>
-                  </div>
-                  <div class="post-hour-value" *ngIf="
-                      postHourOvertimeSettingResponse.hour != null &&
-                      postHourOvertimeSettingResponse.hour != undefined
-                    ">
-                    <p class="mb-0">
-                      {{
-                      this.helperService.formatHHmmssToHHmm(
-                      postHourOvertimeSettingResponse.hour
-                      )
-                      }}
-                      hrs.
-                    </p>
-                  </div>
-                  <div class="active-check">
-                    <nz-switch [ngModel]="postHourOvertimeSettingResponse.accessibility"
-                      [ngModelOptions]="{ standalone: true }" [nzControl]="true"
-                      [nzLoading]="postHourOvertimeSettingResponse.loading" (click)="
-                        postHourModal(
-                          postHourOvertimeSettingResponse.accessibility
-                        )
-                      "></nz-switch>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
+
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -584,11 +456,12 @@
           <div class="col-md-7 mt-3 mb-3">
             <div class="add-shift-main-box">
               <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                <div class="">
+                <div >
                   <h6 class="text-truncate mb-0">Holiday's List</h6>
                 </div>
-                <div class="">
-                  <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#addholiday">
+                <div >
+                  <a class="add-shift-time-btn" data-bs-toggle="modal"  *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
+                  data-bs-target="#addholiday">
                     <i class="bi bi-plus"></i> Add more holidays
                   </a>
                 </div>
@@ -597,41 +470,13 @@
                 <div class="row holiday-list-box-height" [ngClass]="{
                     'holiday-list-box': loadMoreHolidaysBoolean == true
                   }">
-                  <!-- <div
-                    class="errorboxmain text-center"
-                    *ngIf="holidays.length == 0"
-                  >
-                    <div class="errorboxinner">
-                      <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/empty-box.svg"
-                          style="width: 80px"
-                        />
-                      </div>
-                      <div class="">
-                        <h4>No Data Found</h4>
-                        <p class="mb-0">
-                          We're unable to locate a record associated with the
-                          information you entered.
-                        </p>
-                      </div>
-                    </div>
-                  </div> -->
+
 
                   <div class="empty-file" *ngIf="holidays.length == 0">
                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
                       <ng-template #contentTpl>
                         <p class="mb-1 empty-detail font-14">No Data Found</p>
-                        <!-- <div class="add-filtter">
-                    <a
-                      class="text-primary font-14 text-center"
-                      data-bs-toggle="modal"
-                      data-bs-target="#shiftTime"
-                      (click)="clearLocationModel()"
-                    >
-                      Add Locations
-                    </a>
-                  </div> -->
+
                       </ng-template>
                     </nz-empty>
                   </div>
@@ -649,7 +494,7 @@
                       </p>
                       <div *ngIf="
                           holiday.holidayType === 'Custom' &&
-                          isDateGreaterThanToday(holiday.date)
+                          isDateGreaterThanToday(holiday.date) && rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)
                         " (click)="deleteCustomHolidays(holiday.id)">
                         <i class="bi bi-trash text-danger pointer"></i>
                       </div>
@@ -673,10 +518,7 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-md-12"><div class="border-box"></div></div> -->
-          <!-- <div class="col-md-4 mt-3 mb-3"><div class="form-roe-data"><h5>Staff Weekly Holidays</h5><p> Assign weekly off days of your business to automatically mark attendance for those days </p></div></div> -->
-          <!-- <div class="col-md-7 mt-3 mb-3"><div class="empty-file" *ngIf="isWeeklyHolidayErrorPlaceholder"><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/signal.svg" style="width: 80px" /></div><div class=""><h4>Something went wrong</h4><p> An error occurred while processing your request. Please refresh the page and try again. </p></div></div></div></div><div class="" *ngIf="!isWeeklyHolidayErrorPlaceholder"><div class="add-shift-main-box"><div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"><div class=""><h6 class="text-truncate mb-0">Weekly Holidays</h6></div><div class=""><a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#addweeklyholiday"><i class="bi bi-plus"></i> Add Weekly Holiday's </a></div></div><div class="empty-file" *ngIf="weeklyHolidays.length === 0"><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/empty-box.svg" style="width: 80px" /></div><div class=""><h4>Not Found</h4><p class="mb-0"> We're unable to locate a record associated with the information you entered. </p></div></div></div></div><div class="m-3 holiday-list" *ngIf="weeklyHolidays.length > 0"><div class="row"><div class="col-md-6" *ngFor="let weeklyHol of weeklyHolidays"><div class="weekly-holidays mb-3 d-flex align-items-center justify-content-between"><p class="mb-0"> Weekends | <span style="color: #3f988f">{{ weeklyHol.name
-                        }}</span></p><div><i class="bi bi-trash text-danger pointer" (click)="deleteWeeklyHolidays(weeklyHol.id)"></i></div></div></div></div></div></div></div></div> -->
+
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -779,14 +621,13 @@
                     <div class="">
                       <h6 class="text-truncate mb-0">Rules</h6>
                     </div>
-                    <div class="">
+                    <div *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                       <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#automation-rules"
                         id="automationRuless" #automationRuless (click)="getAttendanceRuleByOrganizationMethodCall()">
                         <i class="bi bi-plus"></i> Add Automation Rules
                       </a>
 
 
-                      <!-- <button class="d-none" data-bs-toggle="modal" data-bs-target="#automation-rules" #automationRuless></button> -->
                     </div>
                   </div>
                   <div class="shift-time p-3 m-3" *ngFor="
@@ -850,36 +691,16 @@
                                   automationIndex
                                 )
                               ">
-                              <i class="bi bi-pencil pointer"></i>
+                              <i class="bi  pointer" [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.ATTENDANCESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"></i>
                             </a>
 
-                            <!-- deleteAttendanceRuleDefinitionMethodCall(
-                              attendanceRuleDefinitionResponse.id,
-                              attendanceRuleDefinitionResponse.attendanceRuleTypeId
-                            ) -->
-                            <!-- *ngIf="
-                            !deleteAttendanceRuleTemplateLoader(
-                              attendanceRuleDefinitionResponse.id
-                            )
-                          " -->
-                            <a class="delete-rule" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#delete-automation" (click)="
-                                getAutomationTemplateId(
-                                  attendanceRuleDefinitionResponse.id,
-                                  attendanceRuleDefinitionResponse.attendanceRuleTypeId
-                                )
-                              " >
+
+                            <a class="delete-rule" style="cursor: pointer" data-bs-toggle="modal"
+                             data-bs-target="#delete-automation" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
+                              (click)="getAutomationTemplateId(attendanceRuleDefinitionResponse.id, attendanceRuleDefinitionResponse.attendanceRuleTypeId  ) " >
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
-                            <!-- <div class="dot-opacity-loader" *ngIf="
-                                deleteAttendanceRuleTemplateLoader(
-                                  attendanceRuleDefinitionResponse.id
-                                )
-                              ">
-                              <span style="background-color: #6666f3"></span>
-                              <span style="background-color: #6666f3"></span>
-                              <span style="background-color: #6666f3"></span>
-                            </div> -->
-                            <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-trash pointer text-danger"></i> -->
+
                           </div>
                         </div>
                         <div class="row mt-3" *ngIf="
@@ -1634,7 +1455,8 @@
                     <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
                       [class.show]="activeTab === 'shiftime'" [class.active]="activeTab === 'shiftime'">
 
-                      <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitShiftTimingForm()">
+                      <form #shiftForm="ngForm" ngNativeValidate   [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"
+                      (ngSubmit)="submitShiftTimingForm()">
                         <div class="row">
                           <div class="col-md-6 mb-3">
                             <label class="pb-2">Shift Type</label>
@@ -1779,11 +1601,8 @@
                         </form>
 
 
-                      <div class="leave-footer">
-                        <!-- <p class=" p-3 alreadyMemberBox fw-saminbold font-13 text-warning mb-0">
-                          <i class="bi bi-info-circle"></i>&nbsp; If a user doesn't mark their checkout after their shift ends, Hajiri will automatically check
-                          them out one hour later.
-                        </p> -->
+                      <div class="leave-footer" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
+
 
 
                         <div class="modal-footer d-flex align-items-center justify-content-end bg-white ">
@@ -1821,16 +1640,19 @@
                               *ngFor="let day of weekDay; let i = index">
                               <div class="form-check d-flex align-items-center gap-2">
                                 <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected"
-                                  [id]="'weekDay' + i" (click)="toggleSelection(i)" />
-                                <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
+                                  [id]="'weekDay' + i" (click)="toggleSelection(i)"  [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"/>
+                                <label class="form-check-label align-label" [for]="'weekDay' + i"
+                                [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}">{{ day.name }}</label>
                               </div>
                               <div *ngIf="day.selected">
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                                   <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio1-{{ i }}"
+                                  [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                     autocomplete="off" (click)="toggleAlternate(i, false)" [value]="false"
                                     [(ngModel)]="day.isAlternate" />
                                   <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
                                   <input type="radio" class="btn-check" name="btnradio{{ i }}" id="btnradio2-{{ i }}"
+                                  [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                     autocomplete="off" (click)="toggleAlternate(i, true)" [value]="true"
                                     [(ngModel)]="day.isAlternate" />
                                   <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
@@ -1838,10 +1660,12 @@
                                 <div class="btn-group radio-btn" role="group"
                                   aria-label="Basic radio toggle button group" *ngIf="day.isAlternate">
                                   <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio3-{{ i }}"
+                                  [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                     autocomplete="off" (click)="day.weekOffType = 1" [value]="1"
                                     [(ngModel)]="day.weekOffType" />
                                   <label class="btn btn-outline-primary" for="btnradio3-{{ i }}">ODD</label>
                                   <input type="radio" class="btn-check" name="btnradioAlt{{ i }}" id="btnradio4-{{ i }}"
+                                  [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                     autocomplete="off" (click)="day.weekOffType = 2" [value]="2"
                                     [(ngModel)]="day.weekOffType" />
                                   <label class="btn btn-outline-primary" for="btnradio4-{{ i }}">EVEN</label>
@@ -1852,7 +1676,7 @@
                         </div>
                       </div>
 
-                      <div class="modal-footer d-flex align-items-center justify-content-between bg-white leave-footer">
+                      <div class="modal-footer d-flex align-items-center justify-content-between bg-white leave-footer" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                         <button class="btn p-0 text-black fw-semibold font-16" (click)="shiftTimingActiveTabMethod()">
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                             <path
@@ -1927,6 +1751,7 @@
                                       Selected of&nbsp;
                                       <span class="text-primary"> {{ totalUserCount }} </span>
                                     </a>
+                                    <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                                     <span class="separator"></span>
                                     <span class="clear-button text-danger fw-semibold pointer"
                                       (click)="unselectAllUsers()">
@@ -1951,6 +1776,7 @@
                                         (change)="selectAllUsers($event)" /> &nbsp;
                                       Select all
                                     </label>
+                                  </ng-container>
 
                                   </div>
                                 </div>
@@ -1965,6 +1791,7 @@
                                 <tr>
                                   <th style="width: 0%">
                                     <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                    [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"
                                       [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                                   </th>
                                   <th style="width: 25%; padding: 12px 15px">Name</th>
@@ -1985,6 +1812,7 @@
                                   <td>
                                     <div class="form-check">
                                       <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                      [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}"
                                         [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                     </div>
                                   </td>
@@ -2030,7 +1858,7 @@
                           </div>
                         </div>
 
-                        <div class="modal-footer d-flex align-items-center justify-content-between ">
+                        <div class="modal-footer d-flex align-items-center justify-content-between " *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                           <button type="button" class="btn p-0 text-black fw-semibold font-16" (click)="weekOffActiveTabMethod()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                               <path
@@ -2293,18 +2121,7 @@
                 WeekOff Settings
               </button>
             </li>
-            <!-- <li role="presentation" class="nav-item"><button
-                        id="advanced-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#advancedSettings"
-                        type="button"
-                        role="tab"
-                        aria-controls="advancedSettings"
-                        aria-selected="false"
-                        class="nav-link"
-                    >
-                        Advanced Settings
-                    </button></li> -->
+
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
@@ -2314,37 +2131,14 @@
                 <div class="col-md-12">
                   <div class="week-checkbox d-flex align-items-center gap-3" *ngFor="let day of weekDay; let i = index">
                     <div class="form-check d-flex align-items-center gap-2">
-                      <!-- <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  [(ngModel)]="day.selected"
-                                  [id]="'weekDay' + i"
-                                  (click)="toggleSelection(i)"
-                                /> -->
+
                       <label class="form-check-label align-label" [for]="'weekDay' + i">{{ day.name }}</label>
                     </div>
                     <div *ngIf="day.selected">
                       <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <!-- <input
-                                    type="radio"
-                                    class="btn-check"
-                                    name="btnradio{{ i }}"
-                                    id="btnradio1-{{ i }}"
-                                    autocomplete="off"
-                                    (click)="toggleAlternate(i, false)"
-                                    [checked]="!day.isAlternate"
-                                  /> -->
+
                         <label class="btn btn-outline-primary" for="btnradio1-{{ i }}">All</label>
-                        <!--
-                                  <input
-                                    type="radio"
-                                    class="btn-check"
-                                    name="btnradio{{ i }}"
-                                    id="btnradio2-{{ i }}"
-                                    autocomplete="off"
-                                    (click)="toggleAlternate(i, true)"
-                                    [checked]="day.isAlternate"
-                                  /> -->
+
                         <label class="btn btn-outline-primary" for="btnradio2-{{ i }}">Alternate</label>
                       </div>
                       <div class="btn-group radio-btn" role="group" aria-label="Basic radio toggle button group"
@@ -2424,7 +2218,6 @@
                         <input type="checkbox" style="cursor: pointer" class="form-check-input"
                           [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                       </th>
-                      <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                       <th style="width: 25%; padding: 12px 15px">Name</th>
                       <th style="width: 25%; padding: 12px 15px">Email</th>
                       <th style="width: 25%; padding: 12px 15px">Phone</th>
@@ -2446,7 +2239,6 @@
                             [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                         </div>
                       </td>
-                      <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                       <td style="padding: 12px 15px">{{ staff.name }}</td>
                       <td style="padding: 12px 15px">
                         {{ staff.email ? staff.email : "N/A" }}
@@ -2473,64 +2265,6 @@
                 </div>
               </ng-template>
 
-              <!-- <div
-                class="pagination pl-3"
-                *ngIf="
-                  total > itemPerPage - 1 ||
-                  (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                "
-              >
-                <p class="mb-0" style="padding-left: 15px">
-                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                  {{ total }} teams
-                </p>
-                <div class="row">
-                  <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == 1"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Previous"
-                            (click)="changePage('prev')"
-                          >
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li
-                          class="page-item"
-                          *ngFor="let page of getPages()"
-                          [class.active]="pageNumber == page"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            (click)="changePage(page)"
-                            >{{ page }}</a
-                          >
-                        </li>
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == totalPages"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Next"
-                            (click)="changePage('next')"
-                          >
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div> -->
 
 
               <!-- staff pagination start -->
@@ -2723,7 +2457,7 @@
                   <div class="tab-pane fade show active" id="home" role="tabpanel">
                     <!-- <form #testForm="ngForm"><input type="text" required name="test2" ngModel minlength="2"><input type="text" required name="test21" ngModel minlength="2"><button type="button" class="btn btn-primary" [disabled]="!testForm.valid" (click)="testFormcheck()">submit</button></form> -->
                     <!-- <form #attendanceRuleForm="ngForm" (ngSubmit)="submitAttendanceRuleForm()"> -->
-                    <form #attendanceRuleForm="ngForm">
+                    <form #attendanceRuleForm="ngForm" [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)}">
                       <ng-container *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
                         <div class="rules-main">
                           <div class="form-check pb-3">
@@ -2748,24 +2482,14 @@
                                       <nz-time-picker class="automation-rule-duration-picker"
                                         [(ngModel)]="customLateDurationValue" [ngModelOptions]="{ standalone: true }"
                                         nzFormat="HH:mm" nzPlaceHolder="Select Duration" (nzOpenChange)="
-                                          onCustomDurationOpen(
-                                            $event,
-                                            attendanceRuleResponse.attendanceRuleTypeId
-                                          )
-                                        " (ngModelChange)="
-                                          getlateDuration(
-                                            $event,
-                                            attendanceRuleResponse.attendanceRuleTypeId
-                                          )
-                                        " name="lateDuration" required #lateDuration="ngModel"></nz-time-picker>
+                                          onCustomDurationOpen( $event,attendanceRuleResponse.attendanceRuleTypeId )"
+                                          (ngModelChange)=" getlateDuration( $event,  attendanceRuleResponse.attendanceRuleTypeId) "
+                                           name="lateDuration" required #lateDuration="ngModel"></nz-time-picker>
                                       <span>
                                         <b>hrs.</b>
                                       </span>
                                     </div>
-                                    <div *ngIf="
-                                        lateDuration?.touched &&
-                                        lateDuration.errors?.required
-                                      " class="text-danger" style="font-size: 13px">
+                                    <div *ngIf="lateDuration?.touched &&lateDuration.errors?.required" class="text-danger" style="font-size: 13px">
                                       Duration is required.
                                     </div>
                                     <div *ngIf="invalidCustomlateDuration1" class="text-danger" style="font-size: 13px">
@@ -2790,10 +2514,7 @@
                                           border-color: #ced4da;
                                           width: 100%;
                                         ">
-                                        {{
-                                        selectedCustomDeductionType?.type ||
-                                        "Select deduction type"
-                                        }}
+                                        {{selectedCustomDeductionType?.type || "Select deduction type" }}
                                         <i class="bi bi-chevron-down"></i>
                                       </button>
                                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -2822,15 +2543,10 @@
                                     <div class="justify-content-center" style="gap: 20px">
                                       <input type="number" class="form-control" aria-describedby="emailHelp"
                                         placeholder="Enter the amount here" [(ngModel)]="
-                                          attendanceRuleDefinitionRequest!
-                                            .deductionRuleDefinitionRequest!
-                                            .customSalaryDeduction!
-                                            .amountInRupees
-                                        " [ngModelOptions]="{ standalone: true }" name="amount" #amount="ngModel"
+                                          attendanceRuleDefinitionRequest!.deductionRuleDefinitionRequest!.customSalaryDeduction!.amountInRupees"
+                                           [ngModelOptions]="{ standalone: true }" name="amount" #amount="ngModel"
                                         required />
-                                      <div *ngIf="
-                                          amount?.touched &&
-                                          amount.errors?.required
+                                      <div *ngIf=" amount?.touched && amount.errors?.required
                                         " class="text-danger" style="font-size: 13px">
                                         Amount is required.
                                       </div>
@@ -3087,7 +2803,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                           <button type="submit" class="btn btn-primary" [disabled]="
                               isNextButtonDisabledForDeductionRuleDefinitionForm() ||
                               attendanceRuleForm.invalid ||
@@ -3498,7 +3214,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                           <button type="submit" class="btn btn-primary" [disabled]="
                               isNextButtonDisabledForOvertimeRuleDefinitionForm() ||
                               attendanceRuleForm.invalid ||
@@ -3545,6 +3261,7 @@
                                     {{ selectedStaffsUuids.length }} selected of
                                     {{ total }}
                                   </a>
+                                  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                                   <!-- Clear button shows only if there are selected staff -->
                                   <span class="clear-button text-danger" *ngIf="selectedStaffsUuids.length > 0"
                                     (click)="unselectAllUsers()">
@@ -3555,6 +3272,7 @@
                                       (change)="selectAllUsers($event)" />
                                     Select all
                                   </label>
+                                </ng-container>
                                 </div>
                               </div>
                             </div>
@@ -3570,6 +3288,7 @@
                             <tr>
                               <th style="width: 0%">
                                 <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                   [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                               </th>
                               <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
@@ -3597,6 +3316,7 @@
                               <td>
                                 <div class="form-check">
                                   <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                                  [disabled]="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                                     [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                 </div>
                               </td>
@@ -3630,64 +3350,6 @@
                       </ng-template>
                     </div>
 
-                    <!-- <div
-                      class="pagination pl-3"
-                      *ngIf="
-                        total > itemPerPage - 1 ||
-                        (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                      "
-                    >
-                      <p class="mb-0" style="padding-left: 15px">
-                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                        {{ total }} teams
-                      </p>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                              <li
-                                class="page-item"
-                                [class.disabled]="pageNumber == 1"
-                              >
-                                <a
-                                  class="page-link"
-                                  href="javascript:void(0);"
-                                  aria-label="Previous"
-                                  (click)="changePage('prev')"
-                                >
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li
-                                class="page-item"
-                                *ngFor="let page of getPages()"
-                                [class.active]="pageNumber == page"
-                              >
-                                <a
-                                  class="page-link"
-                                  href="javascript:void(0);"
-                                  (click)="changePage(page)"
-                                  >{{ page }}</a
-                                >
-                              </li>
-                              <li
-                                class="page-item"
-                                [class.disabled]="pageNumber == totalPages"
-                              >
-                                <a
-                                  class="page-link"
-                                  href="javascript:void(0);"
-                                  aria-label="Next"
-                                  (click)="changePage('next')"
-                                >
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-                        </div>
-                      </div>
-                    </div> -->
 
                     <!-- staff pagination start -->
                     <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
@@ -3703,7 +3365,7 @@
                       </div>
                     </div>
 
-                    <div id="back-and-submit">
+                    <div id="back-and-submit" *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                       <div class="modal-footer d-flex align-items-center justify-content-end">
                         <button type="button" class="btn btn-outline-primary" (click)="ruleActiveTabMethod()">
                           Back
@@ -3745,7 +3407,6 @@
                         </div>
                       </div>
                     </li>
-                    <!-- <li class="tracking-item" [ngClass]="tracking-itemActive newline: activeModel"> -->
                     <li class="tracking-item" [ngClass]="{ 'tracking-itemActive newline': activeModel }">
                       <div class="d-flex align-items-center new-stap">
                         <div class="tracing-icon" [ngClass]="{ active: activeModel }">
@@ -3754,9 +3415,6 @@
                           </span>
                           <span *ngIf="!activeModel">2</span>
                         </div>
-                        <!-- <div class="tracing-icon">2 -->
-                        <!-- <i class="bi bi-check2"></i> -->
-                        <!-- </div> -->
                         <div class="tracking-data">
                           <p>Set a rule value</p>
                           <div>
@@ -3773,9 +3431,6 @@
                           </span>
                           <span *ngIf="!activeModel2">3</span>
                         </div>
-                        <!-- <div class="tracing-icon">3 -->
-                        <!-- <i class="bi bi-check2"></i> -->
-                        <!-- </div> -->
                         <div class="tracking-data">
                           <p>Assign Staff</p>
                           <div>
@@ -3790,8 +3445,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="modal-footer d-flex align-items-center justify-content-end"><button type="button" class="btn btn-primary"
-                                    (click)="registerAttendanceRuleDefinitionMethodCall()">Submit</button></div> -->
       </div>
     </div>
   </div>
@@ -3893,9 +3546,6 @@
                       </div>
 
                     </div>
-                    <!-- <div>
-                            <button class="btn">Manage Location</button>
-                        </div> -->
                   </div>
 
                   <!-- {{item.organizationAddress.isFlexible}} -->
@@ -3946,34 +3596,7 @@
             <div class="form-group">
               <div class="d-flex align-items-center mb-3">
                 <label class="me-3">Location Type:</label>
-                <!-- <div class="form-check me-3">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="locationType"
-                  id="flexibleLocation"
-                  [(ngModel)]="locationType"
-                  [value]="'flexible'"
-                  (change)="onLocationTypeChange()"
-                />
-                <label class="form-check-label" for="flexibleLocation">
-                  Flexible Location
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="locationType"
-                  id="fixedLocation"
-                  [(ngModel)]="locationType"
-                  [value]="'fixed'"
-                  (change)="onLocationTypeChange()"
-                />
-                <label class="form-check-label" for="fixedLocation">
-                  Fixed Location
-                </label>
-              </div> -->
+
               </div>
 
               <!-- Conditional display based on location type -->
@@ -4002,32 +3625,7 @@
                     </div>
                   </div>
                   <div class="col-md-4">
-                    <!-- <div class="mb-3">
-                    <label for="radius" class="pb-2">
-                      Employee Location Must be in
-                    </label>
-                    <input
-                      type="number"
-                      id="radius"
-                      placeholder="Min. 50m"
-                      required
-                      name="radius"
-                      class="form-control"
-                      [(ngModel)]="organizationAddressDetail.radius"
-                      #radius="ngModel"
-                      min="50"
-                    />
-                  </div>
-                  <div *ngIf="radius.touched && radius.invalid">
-                    <p class="errortxt mt-2 mb-0" style="color: red">
-                      <i class="bi bi-exclamation-circle"></i> Location Radius
-                      is required.
-                    </p>
-                    <p class="errortxt mt-2 mb-0" style="color: red">
-                      <i class="bi bi-exclamation-circle"></i> Minimum radius is
-                      50 meters.
-                    </p>
-                  </div> -->
+
                     <div class="mb-3">
                       <label for="radius" class="pb-2">
                         Employee location Must be in
@@ -4115,192 +3713,7 @@
       </form>
     </div>
   </div>
-  <!-- <button
-    type="button"
-    style="display: none"
-    data-bs-toggle="modal"
-    data-bs-target="#attendancewithlocationss"
-    #attendancewithlocationssButton
-    id="attendancewithlocationssButton"
-  ></button>
-  <div
-    class="modal fade"
-    id="attendancewithlocationss"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="attendancewithlocation"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg" role="document">
-      <form
-        #organizationAddressForm="ngForm"
-        ngNativeValidate
-        (ngSubmit)="setOrganizationAddressDetailMethodCall()"
-      >
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-              Staff Attendance With Location
-            </h6>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              #closeAddressModal
-              aria-label="Close"
-            ></button>
-          </div>
 
-          <div class="modal-body">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="addressLine1" class="pb-2">Address </label>
-                    <input
-                      type="text"
-                      id="addressLine1"
-                      placeholder="Address line 1"
-                      ngx-google-places-autocomplete
-                      #placesRef="ngx-places"
-                      (onAddressChange)="handleAddressChange($event)"
-                      required=""
-                      name="addressLine1"
-                      class="form-control ng-untouched ng-pristine ng-invalid"
-                      [(ngModel)]="organizationAddressDetail.addressLine1"
-                    />
-                    <a class="fetch-location" (click)="currentLocation()">
-                      <span *ngIf="!fetchCurrentLocationLoader"
-                        ><i
-                          class="ti ti-current-location"
-                          style="padding-right: 8px"
-                        ></i
-                        >Fetch Current Location
-                      </span>
-                      <div
-                        class="loader-fetching-location"
-                        *ngIf="fetchCurrentLocationLoader"
-                      >
-                        <i
-                          class="ti ti-current-location"
-                          style="padding-right: 8px"
-                        ></i>
-                        Fetching
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label for="radius" class="pb-2"
-                      >Employee Location Must be in</label
-                    >
-                    <input
-                      type="number"
-                      id="radius"
-                      placeholder="Min. 50m"
-                      required
-                      name="radius"
-                      class="form-control ng-untouched ng-pristine ng-invalid"
-                      [(ngModel)]="organizationAddressDetail.radius"
-                      #radius="ngModel"
-                      min="50"
-                    />
-                  </div>
-                  <div *ngIf="radius.touched && radius.invalid">
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                      *ngIf="radius.errors?.required"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Location Radius
-                      is required.
-                    </p>
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                      *ngIf="radius.errors?.min"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Minimum radius is
-                      50 meters.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-10" *ngIf="isShowMap">
-              <section>
-                <div class="el-card-item">
-                  <div class="el-card-avatar el-overlay-1">
-                    <div class="map">
-                      <agm-map
-                        style="height: 350px"
-                        [latitude]="lat"
-                        [longitude]="lng"
-                        [zoom]="zoom"
-                        [maxZoom]="20"
-                        [zoomControl]="true"
-                        (mapClick)="onMapClick($event)"
-                        [disableDefaultUI]="true"
-                        [keyboardShortcuts]="false"
-                      >
-                        <agm-marker
-                          *ngIf="
-                            (organizationAddressDetail.latitude &&
-                              organizationAddressDetail.longitude) ||
-                            (lat && lng)
-                          "
-                          [latitude]="lat"
-                          [longitude]="lng"
-                          draggable="true"
-                          [agmFitBounds]="true"
-                          (dragEnd)="onMarkerDragEnd($event)"
-                        ></agm-marker>
-                      </agm-map>
-
-                      <div class="map-locate-me">
-                        <button
-                          type="button"
-                          class="locate-btn btn btn-sm text-white"
-                          (click)="getCurrentLocation()"
-                        >
-                          <i class="fa fa-crosshairs"></i> Locate Me
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </section>
-            </div>
-          </div>
-          <div
-            class="modal-footer d-flex align-items-center justify-content-end"
-          >
-            <button
-              class="btn btn-primary"
-              type="submit"
-              [disabled]="toggle"
-              aria-label="Next Step"
-            >
-              <div *ngIf="toggle" class="dot-opacity-loader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <span *ngIf="!toggle">
-                Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
-              </span>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div> -->
 </div>
 
 <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1"
@@ -4402,22 +3815,7 @@
                   </div>
                 </div>
               </div>
-              <!-- <div>
-                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
-                    <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                      width="22" height="23">
-                      <rect x="0.015625" y="0.57843" width="21.8948" height="21.8948" fill="white" />
-                    </mask>
-                    <g mask="url(#mask0_3479_11708)">
-                      <path
-                        d="M6.40482 19.7378C5.90306 19.7378 5.47353 19.5592 5.11622 19.2019C4.75891 18.8446 4.58025 18.415 4.58025 17.9133V6.05359H3.66797V4.22903H8.22939V3.31674H13.7031V4.22903H18.2645V6.05359H17.3522V17.9133C17.3522 18.415 17.1736 18.8446 16.8163 19.2019C16.4589 19.5592 16.0294 19.7378 15.5277 19.7378H6.40482ZM15.5277 6.05359H6.40482V17.9133H15.5277V6.05359ZM8.22939 16.0887H10.054V7.87816H8.22939V16.0887ZM11.8785 16.0887H13.7031V7.87816H11.8785V16.0887Z"
-                        fill="#FF0404" />
-                    </g>
-                  </svg>
-                  Remove
-                </button>
-              </div> -->
+
             </div>
           </div>
         </div>

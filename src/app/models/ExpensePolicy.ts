@@ -22,7 +22,7 @@ export class ExpensePolicy{
     amount: number = 0;
     flexibleAmount: number =0;
     isFlexibleAmount :number=0;
-    isPercentage: number=0;
+    isPercentage: number=2;
 
     /**
      * display variables

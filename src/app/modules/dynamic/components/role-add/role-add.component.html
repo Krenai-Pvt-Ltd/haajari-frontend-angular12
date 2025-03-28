@@ -7,7 +7,8 @@
                    <div class="col-md-3"></div>
                         <div class="col-md-6">
 
-                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="updateRoleWithPermissionsMethodCall()">
+                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="updateRoleWithPermissionsMethodCall()"
+                            [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}">
 
                                 <div class="name-description">
                                     <div class="">
@@ -213,14 +214,8 @@
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div class="iyxoZR">
                                                                         <span class="epkbnY" style="font-size: 12px;">{{submodule.name}}</span>
-                                                                        <!-- <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span> -->
                                                                     </div>
                                                                     <div class="d-flex align-items-center " style="gap:30px;">
-        
-        
-        
-        
-        
                                                                             <div class="form-check">
                                                                                 <input type="checkbox" class="form-check-input"
                                                                                     [checked]="submodule.privilegeId == 1"
@@ -298,7 +293,6 @@
                                             <span class="eTjDuD">4</span>
                                             <div class="description">
                                                 <span class="epkbnY"> Email notifications</span>
-                                                <!-- <span class="fAtrDv">Select the areas of the platform this role can view or edit.</span> -->
                                             </div>
                                         </h3>
 
@@ -320,7 +314,7 @@
                                         </div>
                                 </div>
 
-                                <div id="cancel-and-save">
+                                <div id="cancel-and-save" *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)">
                                     <div class="modal-footer d-flex align-items-center justify-content-end">
                                         <button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button>
                                     </div>

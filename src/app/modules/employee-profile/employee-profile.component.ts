@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-employee-profile',
@@ -27,7 +28,14 @@ export class EmployeeProfileComponent implements OnInit {
       this.userId = this.UUID;
       this.router.navigate(['/']);
     }else if(this.roleService.ROLE!='ADMIN' && this.UUID!==this.userId){
+      console.log("🚀 ~ EmployeeProfileComponent ~ this.roleService.hasWriteAccess(this.Routes.EMPLOYEEONBOARDING):", this.roleService.hasAccess(this.Routes.EMPLOYEEONBOARDING))
+
+      if(this.roleService.hasAccess(this.Routes.EMPLOYEEONBOARDING)){
+        this.getEmployeeProfileData();
+        this.getUserJoiningDataByUserId();
+      }else{
       this.checkUserUnderManager();
+      }
     }else{
       this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();
@@ -39,6 +47,7 @@ export class EmployeeProfileComponent implements OnInit {
     });
   }
 
+  readonly Routes = Routes;
   isBasicPlan:boolean=false;
   ngOnInit(): void {
     // this.getUuid();

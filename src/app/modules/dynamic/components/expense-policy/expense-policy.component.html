@@ -227,7 +227,7 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-md-4" >
+                                        <div class="col-md-4" *ngIf="expensePolicyItem.isThresold">
                                           <div class="form-field">
                                             <label for="expenseAmount" class="pb-2">Threshold Type</label>
                                             <label class="form-check assets-req d-flex align-items-center justify-content-start"
@@ -261,8 +261,8 @@
                     
                                       <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn">
                                         <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy()"
-                                          [disabled]="shiftForm.invalid ||  expensePolicyItem.expenseTypeId == 0 " 
-                                          [ngClass]="{' btn-border-text':!shiftForm.invalid } "><i class="bi bi-plus-lg"></i> Add </button>
+                                        [disabled]="!showAddOnEditBtn || shiftForm.invalid || expensePolicyItem.expenseTypeId == 0"
+                                          [ngClass]="{' btn-border-text':!shiftForm.invalid && showAddOnEditBtn } "><i class="bi bi-plus-lg"></i> Add </button>
                     
                                       </div>
                                       <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">

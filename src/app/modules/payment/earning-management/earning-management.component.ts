@@ -1,6 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, finalize } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-response';
@@ -9,7 +11,7 @@ import { SalaryChangeResponse } from 'src/app/models/salary-change-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-earning-management',
   templateUrl: './earning-management.component.html',
@@ -26,6 +28,8 @@ export class EarningManagementComponent implements OnInit {
   readonly SALARY_CHANGE = Key.SALARY_CHANGE;
   readonly BONUS = Key.BONUS;
   readonly OVERTIME = Key.OVERTIME;
+
+  readonly constant = constant;
 
   @Input() step:any;
   @Input() startDate:any;
@@ -45,7 +49,8 @@ export class EarningManagementComponent implements OnInit {
 
   constructor(private _dataService : DataService, 
     public _helperService : HelperService,
-    private _payrollService : PayrollService) { 
+    private _payrollService : PayrollService,
+    private _afStorage: AngularFireStorage) { 
 
 
     this.searchSubject.pipe(debounceTime(250)) // Wait for 250ms before emitting the value
@@ -275,6 +280,153 @@ export class EarningManagementComponent implements OnInit {
   }
 
 
+
+  uploading:boolean=false;
+    selectFile(event: any) {
+      let file: File;
+      if(event!=undefined){
+        if(event.target.files.length > 0){
+          this.uploading =true;
+          file = event.target.files[0];   
+          console.log("==file========",file.type)
+          if(constant.ALLOWED_BULK_UPLOAD_FORMATS.includes(file.type)){
+            this.uploadToFirebase(file); 
+          }else{
+            this.uploading =false;
+            this._helperService.showToast('You can upload only Excel file',Key.TOAST_STATUS_ERROR);
+            return;   
+          } 
+        }
+        event.target.value = '';
+      }    
+    }
+  
+  
+    currentFileUpload!: File;
+    response!: String;
+    arrayBuffer: any;
+    errormessage: any;
+    errorList: any[] = new Array();
+    uploadJson:any;
+    tempList = [];
+    headerNotAvailList: any[] = [];
+    // excelHeaders:string[]=['Name','Emp Code','Email','Phone','CTC(Yearly)','Effective Date(MM/DD/YYYY)']
+  // validation check from frontend side
+    Upload() {
+  
+        var errorFound = 0;
+      
+      this.errorList = [];
+      this.tempList = [];
+      this.headerNotAvailList = [];
+      let fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        this.arrayBuffer = fileReader.result;
+        var data = new Uint8Array(this.arrayBuffer);
+        var arr = new Array();
+        for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+        var bstr = arr.join("");
+        var workbook = XLSX.read(bstr, { type: "binary" });
+        var first_sheet_name = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[first_sheet_name];
+        var rowCount = 0;
+        var errorCount = 0;
+      
+        // console.log("Json", XLSX.utils.sheet_to_json(worksheet));
+        //@ts-ignore
+        XLSX.utils.sheet_to_json(worksheet,{ raw: true, defval: '', blankrows: false }).forEach((element: ExcelColumns) => {
+          // console.log("element", XLSX.utils.sheet_to_json(worksheet,{ raw: true, defval: '', blankrows: false }));
+          if (rowCount == 0 && this.headerNotAvailList.length==0) {
+            
+          if (element.Name == undefined) { this.headerNotAvailList.push("Name") }
+          if (element.Email == undefined) { this.headerNotAvailList.push("Email") }
+          if (element.Phone == undefined) { this.headerNotAvailList.push("Phone") }
+          if (element.Amount == undefined) { this.headerNotAvailList.push("Amount") }
+          if (element.Comment == undefined) { this.headerNotAvailList.push("Comment") }
+            // console.log(this.headerNotAvailList);
+            if (this.headerNotAvailList.length>0 )  { 
+              ++errorCount;
+              //  this.errorToggle = 1;
+               this.uploading= false;
+               return;
+             }
+          }
+           
+          // }
+          console.log("row Count"+rowCount)
+  
+          ++rowCount;
+          /*** VALIDATING CELL VALUES */
+   
+          this.errormessage = "";
+
+        let x = this.errormessage.split(",");
+        var name: string = "";
+        x.forEach((element: string) => {
+          name = name + element;
+        });
+        this.uploadJson.S_NO= rowCount+1;
+        this.uploadJson.message = name;
+        if (errorCount > 0 && name!= "" ) {
+        ++errorFound;
+        if(this.headerNotAvailList.length==0){
+          this.errorList.push(this.uploadJson); 
+        }
+        this.uploading =false;
+          // this.errorToggle = 1;
+        }
+  
+      
+        });
+        if (errorCount==0  ) {
+          this.uploadToFirebase(this.currentFileUpload);
+        
+        } else if(errorCount > 0 && this.headerNotAvailList.length==0){
+          // this.errorToggle = 1;
+          this.uploading =false;
+          this._helperService.showToast('Resolve csv errors',Key.TOAST_STATUS_ERROR);
+          return;
+        }
+        }      
+  
+        fileReader.readAsArrayBuffer(this.currentFileUpload);
+     
+  
+  
+    }
+  
+  
+    uploadToFirebase(file:any){
+        let fileName = file.name.split(" ").join("");;
+        let extension = fileName.substring(fileName.lastIndexOf("."), fileName.length);
+        fileName = fileName.replace(extension, "").replace(/[^0-9a-zA-Z]/gi, "_")+ new Date().getTime() + extension;
+        var firebasePath = "bonus/upload/"+fileName;
+        const fileRef = this._afStorage.ref(firebasePath);
+        this._afStorage.upload(firebasePath,file).snapshotChanges().pipe(finalize(async () => {
+            fileRef.getDownloadURL().subscribe((url: any) => {
+              this.processToServer(fileName,url);     
+            })
+          })
+        ).subscribe((res: any) => {
+          
+  
+        })
+      }
+  
+  
+      processToServer(fileName:string,url:string) {
+        this._payrollService.updateUserBonusDetail(url,fileName,this.startDate, this.endDate).subscribe((response) => {
+           if(response.status){
+            this.getUserBonus();     
+            this._helperService.showToast('Uploaded Successfully',Key.TOAST_STATUS_SUCCESS);
+           }else{
+            this._helperService.showToast('Failed to upload',Key.TOAST_STATUS_ERROR);
+           }
+           this.uploading =false;
+          },(error) => {
+          }
+        );
+      }
 
 
 }

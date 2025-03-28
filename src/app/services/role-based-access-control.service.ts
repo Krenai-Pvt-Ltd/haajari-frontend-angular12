@@ -189,5 +189,19 @@ export class RoleBasedAccessControlService {
     
     return false;
   }
+
+  hasAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return true;
+    }
+  
+    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+      return this.helperService.subModuleResponseList.some((module: any) => 
+        module.description === route 
+      );
+    }
+  
+    return true; // Ensures default behavior if no match is found
+  }
   
 }

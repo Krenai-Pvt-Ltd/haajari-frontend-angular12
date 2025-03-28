@@ -116,12 +116,14 @@ export class ExpensePolicyComponent implements OnInit {
   
   // when user click add button
   changeViewForm(){
+    this.showAddOnEditBtn = false;
     this.viewForm = true;
     this.viewAddBtn = false;
   }
 
   //when urer will click create-expense-policy
   toggleViewForm() {
+    this.showAddOnEditBtn = false;
     this.viewForm = true;
     this.viewAddBtn = false;
   }
@@ -665,9 +667,10 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
   }
 
+  showAddOnEditBtn : boolean = false;
   type: number = 0;
   onPaymentTypeChange(type: string): void {
-
+    this.showAddOnEditBtn = true;
     this.expensePolicyItem.paymentType=type;
 
     switch(type){
@@ -1201,6 +1204,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   expensePolicyItem: ExpensePolicy = new ExpensePolicy();
   addExpensePolicy(){
     debugger
+    this.showAddOnEditBtn = false;
     console.log(this.expensePolicyItem);
 
     this.tempPolicyName = this.policyName;
@@ -1433,6 +1437,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   editIndex: number = 0
   async editExpensePolicy(index: number){
     debugger
+    this.showAddOnEditBtn = false;
     this.viewForm = true;
     this.viewAddBtn = false;
     this.editIndexPolicyToggle = true;
@@ -1516,7 +1521,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   thresholdType: string | null = null;
   thresholdAmount: number =0;
   onThresholdTypeChange( type: string): void {
-
+    this.showAddOnEditBtn = true;
     switch(type){
       case this.constant.PERCENTAGE :{
         this.expensePolicyItem.isPercentage=1;
@@ -1542,6 +1547,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
   // isThresholdSelected: boolean = false;
   setThresold(isChecked: boolean): void {
+    this.showAddOnEditBtn = false;
     // this.isThresholdSelected = isChecked;
     this.expensePolicyItem.isThresold=isChecked;
     this.expensePolicyReq.isThresold = isChecked

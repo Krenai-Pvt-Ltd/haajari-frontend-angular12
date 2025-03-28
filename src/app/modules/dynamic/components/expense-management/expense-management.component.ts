@@ -767,7 +767,7 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.filters = { fromDate: undefined, toDate: undefined };
     this.getWalletUser();
     this.dashBoardDateView = true;
-    this.loading = false;
+    this.loading = true;
     this.getExpenseTrend();
   }
 
