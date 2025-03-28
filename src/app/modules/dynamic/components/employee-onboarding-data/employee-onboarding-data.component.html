@@ -911,7 +911,7 @@
 
                             ">
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
+                          <a (click)="routeToUserDetails(user.uuid)" class="fw-semibold text-black font-13">{{ user.name }}</a>
                           <button class="text-danger" nz-button nzType="text" nz-popover
                             [nzPopoverContent]="contentTemplate" *ngIf="
                                   onboardingVia === 'SLACK' &&
@@ -941,20 +941,20 @@
                         </td>
 
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
                             {{ user.email ? user.email : "N/A" }}
                           </a>
                         </td>
                         <td class="text-left">
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
                             {{ user.phone ? user.phone : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name text-capitalize font-14 fw-normal">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
+                        <td><span class="mb-0 fw-normal text-black">{{user.createdDate | date:'dd-MM-yyyy'}}</span></td>
 
 
-                        <td>{{counTDataInString(user?.data)}}</td>
+                        <td><span class="mb-0 fw-normal text-black">{{counTDataInString(user?.data)}}</span></td>
                         <td>
                           <!-- class="stickyColTdend" -->
                           <div class="dropdown">
@@ -1007,7 +1007,7 @@
             </div>
             <div class="tab-pane fade pt-3" id="resignationRequest" role="tabpanel" aria-labelledby="resignation-tab">
 
-            <div class="asset-assigned-search mt-3">
+            <div class="asset-assigned-search">
               <div class="d-flex justify-content-start align-items-center">
                  <div class="search-filter dropdown">
                     <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)">
@@ -1073,15 +1073,12 @@
               </div>
            </div>
 
-           <div class="filter-bdg d-flex align-items-center gap-2 mt-3">
-            <ng-container *ngIf="selectedStatuses.length > 0 && !selectedStatuses.includes('')">
+           <div class="filter-bdg d-flex align-items-center gap-2 mt-3" *ngIf="selectedStatuses.length > 0 && !selectedStatuses.includes('')">
               <p *ngFor="let status of actualStatus"
                  class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold">
                 {{ getStatusLabel(status) }}
                 <i class="bi bi-x-lg pointer" (click)="removeStatus(status)"></i>
               </p>
-            </ng-container>
-
           </div>
               <div class="col-md-12 mt-3">
                 <div class="bg-white">
@@ -1148,21 +1145,22 @@
                             ">
                         <!-- class="stickyColTd" -->
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name text-capitalize font-14 fw-normal">{{ user.name }}</a>
+                          <a (click)="routeToUserDetails(user.uuid)" class="fw-semibold text-black font-13">{{ user.name }}</a>
 
                         </td>
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
-                            {{ user.email ? user.email : "N/A" }} <br> {{ user.phone ? user.phone : "N/A" }}
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
+                            {{ user.email ? user.email : "N/A" }} 
                           </a>
+                          <p class="mb-0 font-12 fw-normal color-basic"> {{ user.phone ? user.phone : "N/A" }}</p>
                         </td>
                         <td>
-                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email font-14 fw-normal">
+                          <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
                             {{ user.lastWorkingDay ? (user.lastWorkingDay | date:'dd-MM-yyyy') : "N/A" }}
                           </a>
                         </td>
 
-                        <td><span class="weekly-pro-name text-capitalize font-14 fw-normal">{{user.requestedDate ? (user.requestedDate | date:'dd-MM-yyyy') : "N/A"}}</span></td>
+                        <td><span class="mb-0 fw-normal text-black">{{user.requestedDate ? (user.requestedDate | date:'dd-MM-yyyy') : "N/A"}}</span></td>
 
 
                         <td>
@@ -2257,7 +2255,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 
 
 <div class="modal fade" id="addShift" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
+  <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
           <div class="modal-body p-0">
