@@ -22,6 +22,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { OnboardingService } from 'src/app/services/onboarding.service';
 import { EmployeeProfileComponent } from '../employee-profile.component';
 import { AttendanceUrlComponent } from '../../additional/components/attendance-url/attendance-url.component';
+import { Routes } from 'src/app/constant/Routes';
 
 
 
@@ -76,6 +77,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   //  modalUrl: any;
 
   readonly constant = constant;
+  readonly Routes=Routes;
 
   toggle: boolean = false;
   ROLE: any;

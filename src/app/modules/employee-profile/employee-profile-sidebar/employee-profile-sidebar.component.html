@@ -235,7 +235,7 @@
             </div>
         </ul>
 
-        <div class="d-flex align-content-center gap-3 mt-5" *ngIf="adminRoleFlag">
+        <div class="d-flex align-content-center gap-3 mt-5"   *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEE_PROFILE) || adminRoleFlag">
 
             <button class="btn check-out-btn w-90"
                 *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"
