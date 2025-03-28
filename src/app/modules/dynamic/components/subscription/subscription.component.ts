@@ -163,7 +163,7 @@ export class SubscriptionComponent implements OnInit {
   couponErrorMessage:string='';
   applyCoupon() {
     if(!constant.EMPTY_STRINGS.includes(this.couponCode)){
-      this._subscriptionPlanService.verifyCoupon(this.couponCode, this.payableAmount)
+      this._subscriptionPlanService.verifyCoupon(this.couponCode, this.taxableAmount)
           .subscribe((response) => {
               if (response.status) {
                 this.isCouponVerified = true;
