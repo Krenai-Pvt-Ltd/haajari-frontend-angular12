@@ -1365,7 +1365,7 @@
                           </td>
 
                           <td>
-                            <span class="fw-semibold" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
+                            <span class="fw-semibold font-13" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
                               {{request?.status?.response | uppercase}}
                             </span>
                             <p class="mb-0 font-12 fw-light" *ngIf="request.approvedByName">By: {{request.approvedByName}}</p>
@@ -1606,7 +1606,7 @@
                               [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{request.requestReason}}</span>
                           </td>
                           <td>
-                            <span class="fw-semibold" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
+                            <span class="fw-semibold font-13" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
                               {{request?.status?.response | uppercase}}
                             </span>
                             <p class="mb-0 font-12 fw-light" *ngIf="request.managerName">By: {{request.managerName}}</p>

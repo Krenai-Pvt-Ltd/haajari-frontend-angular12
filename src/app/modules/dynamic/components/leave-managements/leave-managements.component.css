@@ -272,13 +272,13 @@
     overflow: hidden;
 }
 
-.table td {
+/* .table td {
     font-weight: 500;
     vertical-align: middle;
     font-size: 12px !important;
     white-space: nowrap;
     padding: 10px 15px !important;
-}
+} */
 .table-font-weight {
     font-weight: 400;
 }
