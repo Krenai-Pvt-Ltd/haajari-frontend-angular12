@@ -1,0 +1,19 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Key } from '../constant/key';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SalaryTemplateService {
+
+   private _key: Key = new Key();
+
+  constructor(private _http: HttpClient) { }
+
+  getTemplateComponents(): Observable<any>{
+    return this._http.get<any>(`${this._key.base_url}/salary-template/template-components`);
+  }
+}

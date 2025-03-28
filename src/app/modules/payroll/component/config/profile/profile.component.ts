@@ -48,9 +48,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getProfile();
-    this.getOrganizationAdddress();
+    this.getOrganizationWorkAdddress();
+    this.fetchExistingAddress();
     this.getStateList();
-    this.getTodoList();
   }
 
   selectedLocation: string = 'India';
@@ -241,8 +241,16 @@ export class ProfileComponent implements OnInit {
     return this.toDoStepList.every((step) => step.completed);
   }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       WORK-LOCATION                                                                          // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
   organizationAddress: OrganizationAddressWithStaff[] = new Array();
-  getOrganizationAdddress() {
+  getOrganizationWorkAdddress() {
     this._payrollConfigurationService.getOrganizationAddress().subscribe(
       (response) => {
         if (response.status) {
@@ -256,7 +264,23 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  selectedAddressIndexes: number[] = [];
+  fetchAddresses: OrganizationAddressWithStaff[] = new Array();
+  fetchExistingAddress(){
+    this.dataService.getAllAddressDetailsWithStaff() .subscribe(response => {
+        if (response.status){
+          this.fetchAddresses = response.listOfObject;
+          if (this.fetchAddresses == null) {
+            this.fetchAddresses = [];
+          }
+        }else{
+          this.fetchAddresses = [];
+        }
+      }, (error) => {
+        
+     });
+  }
+
+selectedAddressIndexes: number[] = [];
 selected: boolean = false;
 
 onAddressSelect(index: number, event: any) {
@@ -285,11 +309,11 @@ onAddressSelect(index: number, event: any) {
   saveFetchedAddressStaff() {
     this.saveLoader = true;
     let selectedAddresses = [];
-    if (this.organizationAddress.length == 1) {
-      selectedAddresses = [this.organizationAddress[0].organizationAddress.id];
+    if (this.fetchAddresses.length == 1) {
+      selectedAddresses = [this.fetchAddresses[0].organizationAddress.id];
     } else {
       selectedAddresses = this.selectedAddressIndexes.map(
-        (index) => this.organizationAddress[index].organizationAddress.id
+        (index) => this.fetchAddresses[index].organizationAddress.id
       );
     }
     this._payrollConfigurationService
@@ -297,7 +321,7 @@ onAddressSelect(index: number, event: any) {
       .subscribe(
         (response) => {
           if (response.status) {
-            this.getOrganizationAdddress();
+            this.getOrganizationWorkAdddress();
             this.closeFetchModal.nativeElement.click();
             this._helperService.showToast('User Location updated successsfully.',Key.TOAST_STATUS_SUCCESS);
           } else {
@@ -404,7 +428,7 @@ onAddressSelect(index: number, event: any) {
               );
               this.openUserAlreadyAssignedModal();
             } else {
-              this.getOrganizationAdddress();
+              this.getOrganizationWorkAdddress();
               this.closeAddressModal.nativeElement.click();
               this._helperService.showToast('Your user work location updated.',Key.TOAST_STATUS_SUCCESS);
               this.isRegisterLoad = false;
@@ -646,7 +670,7 @@ onAddressSelect(index: number, event: any) {
     this._payrollConfigurationService.deleteAddress(this.addressId).subscribe(
       (response) => {
         if (response.status) {
-          this.getOrganizationAdddress();
+          this.getOrganizationWorkAdddress();
           this._helperService.showToast(
             'Worklocation deleted.',
             Key.TOAST_STATUS_SUCCESS

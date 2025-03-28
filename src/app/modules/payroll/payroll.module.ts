@@ -44,7 +44,8 @@ import { StatutoryDeductionComponent } from './component/statutory-deduction/sta
     FormComponent,
     PreferencesComponent,
     PayrollManagementComponent,
-    StatutoryDeductionComponent
+    StatutoryDeductionComponent,
+    SalaryTemplateComponent
   ],
   imports: [
     CommonModule,

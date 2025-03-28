@@ -83,10 +83,11 @@
             <!-- template list end  -->
             <div class="row m-0">
                <div class="col-md-3 pl-0 pr-0">
-                <div class="payroll-sidebar-menu h-100 bg-white">
+                <div class="payroll-sidebar-menu h-100 bg-white" >
                      <h5 class="font-15 fw-600 p-3 pt-4">Building Your Template</h5>
-                     <div class="mt-3">
-                        <div data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                     <div class="mt-3" *ngIf="!loader">
+                            
+                            <div data-bs-toggle="collapse" href="#earningcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
                             <div class="d-flex align-items-center justify-content-between p-3 active-box">
                                 <h5 class="font-14 fw-semibold mb-0">Earnings</h5>
                                 <span class="collapse-icon">
@@ -101,38 +102,62 @@
                                 </span>
                             </div>
 
-                            <div class="collapse" id="collapseExample">
+                            <div class="collapse" id="earningcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
-                                  <ul class="px-0">
-                                    <li class="d-flex align-items-center justify-content-between font-13 fw-normal">
-                                        Earnings
-                                        <span class="lh-base">
-                                            <i class="bi bi-plus font-20"></i>
-                                        </span>
-                                    </li>
-                                    <li class="d-flex align-items-center justify-content-between font-13 fw-normal">
-                                        House Rent Allowance
-                                        <span class="lh-base">
-                                            <i class="bi bi-plus font-20"></i>
-                                        </span>
-                                    </li>
-                                  </ul>
+                                    <ng-container *ngIf="tempTemplateComponents.earningComponents.length == 0 || checkShowFlag()">
+                                        <span>uyrgfygygygy</span>
+                                    </ng-container>
+                                    <ul class="px-0">
+                                        <ng-container *ngFor="let component of  tempTemplateComponents.earningComponents;let i = index">
+                                        <li *ngIf="!showFlags[i]" 
+                                        class="d-flex align-items-center justify-content-between font-13 fw-normal">
+                                            {{component.displayName}}<span class="lh-base">
+                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag(i); $event.stopPropagation()"></i>
+                                            </span>
+                                        </li>
+                                    </ng-container>
+
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between p-3">
-                            <h5 class="font-14 fw-semibold mb-0">Reimbursements</h5>
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
-                                    <mask id="mask0_9698_5055" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="17">
-                                    <rect y="0.5" width="16" height="16" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9698_5055)">
-                                    <path d="M5.35008 15.1654L4.16675 13.982L9.65008 8.4987L4.16675 3.01536L5.35008 1.83203L12.0167 8.4987L5.35008 15.1654Z" fill="#1C1B1F"/>
-                                    </g>
-                                </svg>
-                            </span>
+                
+                        <div data-bs-toggle="collapse" href="#reibursementcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <div class="d-flex align-items-center justify-content-between p-3">
+                                <h5 class="font-14 fw-semibold mb-0">Reimbursement</h5>
+                                <span class="collapse-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                                        <mask id="mask0_9698_5055" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="17">
+                                        <rect y="0.5" width="16" height="16" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_9698_5055)">
+                                        <path d="M5.35008 15.1654L4.16675 13.982L9.65008 8.4987L4.16675 3.01536L5.35008 1.83203L12.0167 8.4987L5.35008 15.1654Z" fill="#1C1B1F"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <div class="collapse" id="reibursementcollapse">
+                                <div class="card card-body p-3 earning-box border-0">
+                                    <ng-container *ngIf="tempTemplateComponents.reimbursementComponents.length == 0 || checkShowFlag()">
+                                        <span>uyrgfygygygy</span>
+                                    </ng-container>
+                                    <ul class="px-0">
+                                        <ng-container *ngFor="let component of  tempTemplateComponents.reimbursementComponents;let i = index">
+                                        <li 
+                                        class="d-flex align-items-center justify-content-between font-13 fw-normal">
+                                            {{component.displayName}}<span class="lh-base">
+                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag(i); $event.stopPropagation()"></i>
+                                            </span>
+                                        </li>
+                                    </ng-container>
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+                       
+                    
                         <!-- <div class="d-flex align-items-center justify-content-between p-3">
                             <h5 class="font-14 fw-semibold mb-0">FBP Components</h5>
                             <span>
@@ -146,7 +171,7 @@
                                 </svg>
                             </span>
                         </div> -->
-                        <div class="d-flex align-items-center justify-content-between p-3">
+                        <!-- <div class="d-flex align-items-center justify-content-between p-3">
                             <h5 class="font-14 fw-semibold mb-0">Benefits</h5>
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -171,7 +196,7 @@
                                     </g>
                                 </svg>
                             </span>
-                        </div>
+                        </div> -->
                      </div>
                 </div>
                </div>
@@ -180,12 +205,14 @@
                     <div class="row">
                        <div class="col-md-6 mb-3">
                         <label class="pb-2">Template Name </label>
-                        <input type="text" placeholder="Enter template name" required="" name="" class="form-control whatsapp-login-input">
+                        <input type="text" placeholder="Enter template name" required name="templateName" class="form-control whatsapp-login-input"
+                        [(ngModel)]="salaryTemplate.templateName">
                        </div>
                        
                        <div class="col-md-6 mb-3 position-relative">
-                        <label class="pb-2">Annual CTA (per year)</label>
-                        <input type="text" placeholder="Enter amount" required="" name="" class="form-control whatsapp-login-input" style="padding-left: 65px;">
+                        <label class="pb-2">Annual CTC (per year)</label>
+                        <input type="text" placeholder="Enter amount" required="" name="" class="form-control whatsapp-login-input" style="padding-left: 65px;" 
+                        [(ngModel)]="salaryTemplate.annualCtc">
                         <span class="percentage-icon d-flex align-items-center justify-content-center">
                             <i class="bi bi-currency-rupee font-18"></i>
                         </span>
@@ -193,7 +220,8 @@
                        <div class="col-md-12 mb-3">
                         <label class="pb-2">Description </label>
                         <!-- <input type="text" placeholder="Max 50 characters" required="" name="" class="form-control whatsapp-login-input"> -->
-                        <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Max 50 characters" rows="5"></textarea>
+                        <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Max 50 characters" rows="5" name="templateDescription"
+                        [(ngModel)]="salaryTemplate.description"></textarea>
                        </div>
                     </div>
                     <div class="mt-3 template-calculation border-rounded-2 bg-white">
@@ -225,37 +253,79 @@
                                 <h5 class="font-14 fw-semibold text-primary mb-4">Earnings</h5>
                             </div>
 
-                            <div class="earing-list p-3 border-rounded-2">
-                                <div class="row border-bottom align-items-center pb-3"> 
-                                    <div class="col-md-3">
-                                            <p class="mb-0 font-13 color-basic fw-semibold">Basic</p>
+                            <div class="earing-list p-3 border-rounded-2" >
+                                <div *ngIf="shimmer">
+                                    <div *ngFor="let item of [].constructor(3)" class="row border-bottom py-3 align-items-center">
+                                        <div class="col-md-3">
+                                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </div>
                                     </div>
+                                </div>
+                                <ng-container *ngFor="let component of  tempTemplateComponents.earningComponents;let i = index;">
+                                <div class="row border-bottom align-items-center pb-3 md-2" *ngIf="showFlags[i]"> 
                                     <div class="col-md-3">
+                                            <p class="mb-0 font-13 color-basic fw-semibold">{{component.displayName}}</p>
+                                            <p class="mb-0 font-12 color-basic" *ngIf="component.displayName=='Fixed Allowance'" >Monthly CTC - Sum of all other components</p>
+
+                                    </div>
+                                    <div class="col-md-3" [ngSwitch]="component.valueTypeId">
                                         <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
-                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
-                                                <input type="number" placeholder="" required name="pan"
-                                                    class="form-control borderLess" >                 
+                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
+                                                <input type="number" placeholder="" required name="percentage"
+                                                    class="form-control borderLess" [(ngModel)]="component.value">                 
                                             </div>
-                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start">
+                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                 <p class="mb-0 font-13 fw-semibold">% of CTC</p>
-                                            </div>
+                                            </div>    
+                                        </div>
+                                        <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_FLAT">
+                                            <p class="mb-0 font-13 fw-semibold">Fixed Amount</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
+                                        <div class="compliance-list bg-white border-rounded-2 attendance-border">
                                             <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
+                                                <div *ngIf="component.valueTypeId == VALUE_TYPE_PERCENTAGE" class="mt-2">
+                                                <span class="font-13 text-muted">
+                                                {{ calculatePercentage(component.value, salaryTemplate.annualCtc)/12 | number: '1.0-0'}} 
+                                                </span>
+                                                </div>
+                                                <div *ngIf="component.displayName == 'Fixed Allowance'" class="mt-2">
+                                                    <span class="font-13 text-muted">
+                                                        {{ calculateFixed() / 12 | number: '1.0-0' }} 
+                                                    </span>
+                                                </div>
+                                                <div *ngIf="component.valueTypeId == VALUE_TYPE_FLAT && component.displayName !== 'Fixed Allowance'">
+                                                    <input type="number" placeholder="" required name="earning amount"
+                                                    class="form-control borderLess" [(ngModel)]="component.value"> 
+                                                </div>
+  
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="text-end px-3">
-                                            <p class="font-14 fw-normal color-basic mb-0">0</p>
+                                            <p class="font-14 fw-normal color-basic mb-0">   {{ (component.displayName == 'Fixed Allowance') 
+                                                ? (calculateFixed() | number: '1.0-0') 
+                                                : (component.valueTypeId == VALUE_TYPE_PERCENTAGE 
+                                                    ? calculatePercentage(component.value, salaryTemplate.annualCtc) 
+                                                    : (component.value * 12)) | number: '1.0-0' }}</p>
                                         </div>
-        
+                                        <button   *ngIf="!(component.name === 'Basic' || component.name === 'Fixed Allowance')" 
+                                        class="btn p-0 text-danger action-btn font-18" (click)="toggleShowFlag(i)"><i class="bi bi-x"></i></button>
+
                                     </div>
                                 </div>
-                                <div class="row align-items-center border-bottom py-3">
+                                <!-- <div class="row align-items-center border-bottom py-3">
                                     <div class="col-md-3">
                                         <div class="">
                                             <h5 class="font-14 fw-semibold text-black mb-2">Fixed Allowance</h5>
@@ -277,10 +347,11 @@
                                         <div class="text-end px-3">
                                             <p class="font-13 fw-normal color-basic mb-0">0</p>
                                         </div>
-        
+                                        <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+
                                     </div>
-                                </div>
-                                <div class="row py-3 align-items-center border-bottom position-relative">
+                                </div> -->
+                                <!-- <div class="row py-3 align-items-center border-bottom position-relative">
                                     <div class="col-md-3">
                                         <div class="py-3">
                                             <h5 class="font-14 fw-normal text-black mb-0">Fixed Allowance</h5>
@@ -335,17 +406,19 @@
                                         </div>
                                     </div>
                                     <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                                </div>
+                                </div> -->
+                            </ng-container>
                             </div>
 
                             <div class="col-md-12 mt-4">
                                 <h5 class="font-14 fw-semibold text-primary mb-4">Reimbursements</h5>
                             </div>
-                            <div class="earing-list p-3 border-rounded-2  pt-0">
+                            <ng-container *ngFor="let component of  tempTemplateComponents.reimbursementComponents;let i = index;">
+                            <div class="earing-list p-3 border-rounded-2  pt-0" *ngIf="showFlags[i]">
                                 <div class="row align-items-center border-bottom position-relative mb-3 pb-3 pt-3">
                                     <div class="col-md-3">
                                         <div>
-                                            <p class="mb-0 font-12 color-basic fw-semibold">Fuel Reimbursement<br><span class="fw-normal">Amount:</span> ₹2.000.00</p>
+                                            <p class="mb-0 font-12 color-basic fw-semibold">{{component.displayName}}<br><span class="fw-normal">Amount:</span> ₹{{component.value}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -356,45 +429,24 @@
                                     <div class="col-md-3">
                                         <div class="compliance-list bg-white border-rounded-2 attendance-border ">
                                             <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                <p class="mb-0 font-13 fw-semibold mb-0">1000</p>
+                                                <input type="number" placeholder="" required name="reimbursement amount"
+                                                [max]="component.value" 
+                                                class="form-control borderLess" [(ngModel)]="component.value"> 
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">1000</p>
+                                            <p class="font-13 fw-normal color-basic mb-0">{{component.value*12}}</p>
                                         </div>
                                     </div>
                                     <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
                                 </div>
-                                <div class="row align-items-center position-relative mt-3">
-                                    <div class="col-md-3">
-                                        <div>
-                                            <p class="mb-0 font-12 color-basic fw-semibold">Fuel Reimbursement<br><span class="fw-normal">Amount:</span> ₹2.000.00</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-start py-3">
-                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
-                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                <p class="mb-0 font-13 fw-semibold mb-0">1000</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">1200</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                                </div>
-                            </div>
+                                
+                            </div> 
+                            </ng-container>
 
-                            <div class="col-md-12 mt-4">
+                           <!-- <div class="col-md-12 mt-4">
                                 <h5 class="font-14 fw-semibold text-primary mb-4">Flexible Benefit Plan Components</h5>
                             </div>
                             <div class="earing-list p-3 border-rounded-2">
@@ -481,8 +533,9 @@
                                     </div>
                                     <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
+
                         <div class="row total-cost-box p-0 m-0 ">
                             <div class="col-md-3 p-3">
                                 <h5 class="mb-0 font-13 fw-semibold">Cost to Company</h5>
@@ -490,12 +543,12 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-3 p-3">
                                 <div class="text-end px-3">
-                                    <h5 class="mb-0 font-13 fw-semibold">₹ 0</h5>
+                                    <h5 class="mb-0 font-13 fw-semibold">₹ {{salaryTemplate.annualCtc/12 |  number: '1.0-0' }}</h5>
                                 </div>
                            </div>
                             <div class="col-md-3 p-3">
                                 <div class="text-end px-3">
-                                    <h5 class="mb-0 font-13 fw-semibold">₹ 0</h5>
+                                    <h5 class="mb-0 font-13 fw-semibold">₹ {{salaryTemplate.annualCtc}}</h5>
                                 </div>
                             </div>
                         </div> 
