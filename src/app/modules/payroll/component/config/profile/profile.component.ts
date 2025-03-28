@@ -313,14 +313,6 @@ onAddressSelect(index: number, event: any) {
   }
 
 
-  resetModalState() {                
-    this.selectedAddressIndexes = []; 
-    this.selectUsers=0;
-    this.addressCheckbox.forEach((checkbox) => {
-      checkbox.nativeElement.checked = false;
-    });
-  }
-
   fetchUserList() {
     this.getUserByFiltersMethodCall();
   }

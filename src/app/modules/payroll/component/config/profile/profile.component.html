@@ -691,9 +691,7 @@
                     <div class="d-flex align-items-start gap-2 border-bottom pt-3 pb-3 address-list" *ngFor="let address of organizationAddress; let i = index">
                       <div class="form-check">
                         <input class="form-check-input" 
-                        name="selectedaddress"
-                        #addressCheckbox
-                        [(ngModel)]="selectedAddressIndexes[i]" 
+                        name="selectedaddress"    
                         type="checkbox" value="" 
                         [id]="'addressCheck' + i"
                         (change)="onAddressSelect(i, $event)">
@@ -726,7 +724,7 @@
                 </div>
 
          <div class="d-flex align-items-center justify-content-end gap-3 mt-4">
-          <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" #closeFetchModal (click)="resetModalState()">Cancel</button>
+          <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" #closeFetchModal>Cancel</button>
           <button type="button" class="btn submitActionBtn text-white" [ngClass]="{'disabled-lnk':saveLoader}" [disabled]="!selected && organizationAddress.length>1"
                  (click)="saveFetchedAddressStaff()">
                 <div *ngIf="saveLoader" class="dot-opacity-loader">
