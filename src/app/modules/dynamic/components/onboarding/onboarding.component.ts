@@ -21,7 +21,6 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 })
 export class OnboardingComponent implements OnInit {
   getLoggedInUserDetails() {
-    // this.loggedInUser = this.helperService.getDecodedValueFromToken();
     this.assignRole();
   }
 
@@ -43,9 +42,6 @@ export class OnboardingComponent implements OnInit {
   role: any;
   userUuid: any;
   orgRefId: any;
-
-  // loginDetails = this.helperService.getDecodedValueFromToken();
-  // const role = this.loginDetails.role;
 
   constructor(
     private dataService: DataService,
@@ -230,67 +226,8 @@ export class OnboardingComponent implements OnInit {
       this.states = [];
     }
   }
-
-  // resetForm2() {
-  //   this.name = "";
-  //   this.email = "";
-  //   this.password = "";
-  //   this.state = "";
-  //   this.country = "";
-  //   this.organizationPic = null;
-  // }
-
   shiftTimingsValid = false;
-  // eId:string="";
-  // pass:string="";
   isSecondSectionOpen = false;
-
-  // register() {
-  //   if (this.businessInfoForm.invalid) {
-  //     this.BusinessInfoSetInvalidToggle = true;
-  //     return;
-  //   }
-
-  //   this.dataService
-  //     .registerOnboardingDetails(
-  //       this.id,
-  //       this.name,
-  //       this.email,
-  //       this.password,
-  //       this.state,
-  //       this.country,
-  //       this.organizationPic
-  //     )
-  //     .subscribe(
-  //       (resultData: any) => {
-  //         console.log(resultData);
-  //         this.country = resultData.country;
-  //         this.state = resultData.state;
-  //         this.loginArray.organizationId = resultData.id;
-  //         this.leaveData.orgId = resultData.id;
-  //         this.dailyQuestionsCheckInData.organnId=resultData.id;
-  //         this.dailyQuestionsData.organId = resultData.id;
-  //         this.dailyNotesData.organiId = resultData.id;
-  //         this.shiftTimingsValid = true;
-
-  //         this.shiftTimesMessage();
-  //         this.count = 1;
-  //         this.onBusinessInfoCompleted();
-
-  //         this.requestBusinessInfoCloseModel.nativeElement.click();
-
-  //         this.isSecondSectionOpen = true;
-
-  //         this.setAct1();
-  //         this.orgI = resultData.id;
-  //         localStorage.setItem("orgId", this.orgI);
-
-  //       },
-  //       (error) => {
-  //         console.log(error.error.message);
-  //       }
-  //     );
-  // }
   isFileSelected = false;
   onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
@@ -383,9 +320,7 @@ export class OnboardingComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          // console.log('org registered successfully:', response);
           this.organizationStatusResponse = response.statusResponse;
-          // console.log(this.organizationStatusResponse);
           this.setAct1();
           localStorage.setItem(
             'statusResponse',
@@ -419,30 +354,7 @@ export class OnboardingComponent implements OnInit {
       (data) => {
         this.organizationPersonalInformation = data;
         this.updateStates();
-
-        // console.log(this.organizationPersonalInformation);
         if (data.country !== null) {
-          debugger;
-          // this.setActive(1);
-          // this.count=1;
-          // if (this.a == 2) {
-          //   this.setActive(1);
-          //   this.setActive(2);
-          //   this.count=2;
-          // }
-          // if (this.a == 3) {
-          //   this.setActive(1);
-          //   this.setActive(2);
-          //   this.setActive(3);
-          //   this.count=3;
-          // }
-          // if (this.a == 4) {
-          //   this.setActive(1);
-          //   this.setActive(2);
-          //   this.setActive(3);
-          //   this.setActive(4);
-          //   this.count=4;
-          // }
           this.requestBusinessInfoCloseModel.nativeElement.click();
         }
 
@@ -451,15 +363,6 @@ export class OnboardingComponent implements OnInit {
           this.onBusinessInfoCompleted();
           this.shiftTimesMessage();
         }
-        // if (this.a == 4) {
-        //   this.a = 4;
-        // } else if (this.a == 3) {
-        //   this.a = 3;
-        // } else if (this.a == 2) {
-        //   this.a = 2;
-        // } else {
-        //   this.a = 1;
-        // }
       },
       (error) => {
         console.log(error);
@@ -467,84 +370,7 @@ export class OnboardingComponent implements OnInit {
     );
   }
 
-  // settingOrgId() {
-  //   let orgnIds = this.loginDetails.orgRefId;;
-
-  //   if (orgnIds) {
-  //     this.loginArray.organizationId = orgnIds;
-
-  //     this.leaveData.orgId = orgnIds;
-  //     // this.dailyQuestionsCheckInData.organnId= orgnIds;
-  //     // this.dailyQuestionsData.organId = orgnIds;
-  //     this.dailyNotesData.organiId = orgnIds;
-  //   }
-  // }
-
-  // setAct2() {
-  //   this.setActive(1);
-  // }
-
-  // org: Organization[] = [];
-  // org: Organization = new Organization();
   a: number = 0;
-  // getOrganization() {
-  //   this.dataService.getOrg(this.getLoginDetailsOrgRefId()).subscribe(
-  //     (data) => {
-  //       this.name = data.name;
-  //       this.email = data.email;
-  //       this.password = data.password;
-  //       debugger
-  //       this.state = data.state;
-  //       this.country = data.country;
-  //       this.organizationPic = data.organizationPic;
-
-  //       this.updateStates();
-
-  //       if (data.country !== null) {
-  //         debugger
-  //         this.setActive(1);
-  //         this.count=1;
-  //         if (this.a == 2) {
-  //           this.setActive(1);
-  //           this.setActive(2);
-  //           this.count=2;
-  //         }
-  //         if (this.a == 3) {
-  //           this.setActive(1);
-  //           this.setActive(2);
-  //           this.setActive(3);
-  //           this.count=3;
-  //         }
-  //         if (this.a == 4) {
-  //           this.setActive(1);
-  //           this.setActive(2);
-  //           this.setActive(3);
-  //           this.setActive(4);
-  //           this.count=4;
-  //         }
-  //         this.requestBusinessInfoCloseModel.nativeElement.click();
-  //       }
-
-  //       if (data.country!==null) {
-  //         this.shiftTimingsValid = true;
-  //         this.onBusinessInfoCompleted();
-  //         this.shiftTimesMessage();
-  //       }
-  //       if (this.a == 4) {
-  //         this.a = 4;
-  //       } else if (this.a == 3) {
-  //         this.a = 3;
-  //       } else if (this.a == 2) {
-  //         this.a = 2;
-  //       } else {
-  //         this.a = 1;
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
 
   shiftLogin: {
     inTime: string;

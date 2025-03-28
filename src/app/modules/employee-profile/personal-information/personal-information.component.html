@@ -28,12 +28,6 @@
               <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                 <h5 class="mb-0">Update Request</h5>
                 <div class="d-flex align-items-center gap-2">
-                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER && fieldLoading'"
-                    (click)="removeField('name', requestedData.user.name)">Delete</button>
-                  <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading && fieldLoading"
-                    (click)="approveField('name', requestedData.user.name)">Approve</button> -->
-
                   <div class="d-flex align-items-center gap-2">
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
                     <div
@@ -69,7 +63,6 @@
                     </svg>
                     Name
                   </h6>
-                  <!-- <p class="mb-0 fw-semibold">{{item.createdDate | date:'dd-MM-yyyy'}}</p> -->
                 </div>
                 <div class="d-flex align-items-center gap-2">
                   <div class="stap-bar position-relative">
@@ -89,16 +82,14 @@
 
                 </div>
               </div>
-
-
             </div>
           </ng-template>
 
         </span>
       </div>
         <div class="d-flex align-items-center gap-2 mb-0">
-          <p class="mb-0 text-primary font-14">{{ user.position || '--'}}</p>
-          <span *ngIf=" requestedData && requestedData?.user?.position"
+          <p class="mb-0 text-primary font-13">{{ user.position || '--'}}</p>
+          <span *ngIf="requestedData?.user?.position != undefined && requestedData?.user?.position != null"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
             <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
@@ -182,8 +173,9 @@
 
           </span>
           <span class="separator-border"></span>
-          <p class="mb-0 font-13">Department: {{ user.department || '--'}}</p>
-          <span *ngIf=" requestedData && requestedData?.user?.department"
+          <p class="mb-0 font-12">Department: {{ user.department || '--'}}</p>
+
+          <span *ngIf="requestedData?.user?.department !== null && requestedData?.user?.department !== undefined"
             class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
 
             <span style="width: 40px !important;" nz-popover [nzPopoverContent]="contentTemplate"
@@ -275,7 +267,7 @@
       </div>
 
       <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER'">
+        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()">
           <button
             class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
             (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
@@ -308,7 +300,7 @@
         <div class="d-flex align-items-center gap-3">
           <div *ngIf="requestedData && rbacService.userInfo.role == 'USER'"
             class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
-          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || rbacService.userInfo.role == 'USER')" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
+          <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || this.userId == rbacService.getUuid())" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
             (click)="profileEdit=true; editProfile()">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
               <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
@@ -3135,7 +3127,8 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="name" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.name"
+                  (keypress)="restrictToLetters($event)" />
                 <label class="form__label">Name</label>
               </div>
 
@@ -3157,44 +3150,45 @@
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="email" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
+                <input formControlName="email" type="email" class="form__field"
+                       [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
                 <label class="form__label">Email</label>
               </div>
-              <!-- Validation message -->
-              <!-- Validation message for Email -->
-              <div
-                *ngIf="onboardingForm.get('user.email')?.invalid && (onboardingForm.get('user.email')?.dirty || onboardingForm.get('user.email')?.touched)"
-                class="text-danger">
+              <!-- Validation messages for Email -->
+              <div *ngIf="onboardingForm.get('user.email')?.invalid && (onboardingForm.get('user.email')?.dirty || onboardingForm.get('user.email')?.touched)"
+                   class="text-danger">
                 <span *ngIf="onboardingForm.get('user.email')?.errors?.['required']">Email is required.</span>
                 <span *ngIf="onboardingForm.get('user.email')?.errors?.['email']">Please enter a valid email address.</span>
+                <span *ngIf="onboardingForm.get('user.email')?.errors?.['emailExists']">Email already exists.</span>
               </div>
+            </div>
 
-
-
-              </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker class="form__field custom-date-picker" formControlName="joiningDate"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate" [nzFormat]="'dd/MM/yyyy'"
-                  nzBorderless=true nzPlaceHolder="Select Joining Date"></nz-date-picker>
+                                [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate" [nzFormat]="'dd/MM/yyyy'"
+                                nzBorderless=true nzPlaceHolder="Select Joining Date"></nz-date-picker>
                 <label class="form__label">Joining Date</label>
               </div>
-              <div
-                *ngIf="onboardingForm.get('user.joiningDate')?.invalid && (onboardingForm.get('user.joiningDate')?.dirty || onboardingForm.get('user.joiningDate')?.touched)"
-                class="text-danger">
+              <div *ngIf="onboardingForm.get('user.joiningDate')?.invalid && (onboardingForm.get('user.joiningDate')?.dirty || onboardingForm.get('user.joiningDate')?.touched)"
+                   class="text-danger">
                 <span *ngIf="onboardingForm.get('user.joiningDate')?.errors?.['required']">Joining Date is required.</span>
               </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input minlength="10" maxlength="10" formControlName="phoneNumber" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
+                <input formControlName="phoneNumber" type="tel" class="form__field"
+                       [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
-
-
+              <!-- Validation messages for Phone Number -->
+              <div *ngIf="onboardingForm.get('user.phoneNumber')?.invalid && (onboardingForm.get('user.phoneNumber')?.dirty || onboardingForm.get('user.phoneNumber')?.touched)"
+                   class="text-danger">
+                <span *ngIf="onboardingForm.get('user.phoneNumber')?.errors?.['required']">Phone Number is required.</span>
+                <span *ngIf="onboardingForm.get('user.phoneNumber')?.errors?.['pattern']">Phone Number must be exactly 10 digits.</span>
+                <span *ngIf="onboardingForm.get('user.phoneNumber')?.errors?.['phoneNumberExists']">Phone Number already exists.</span>
+              </div>
             </div>
             <!-- <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
@@ -3220,7 +3214,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="department" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.department" (keypress)="restrictToLetters($event)" />
                 <label class="form__label">Department</label>
               </div>
 
@@ -3239,7 +3233,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="position" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.position"  />
                 <label class="form__label">Current Position</label>
               </div>
 
@@ -3248,7 +3242,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="fatherName" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" (keypress)="restrictToLetters($event)" />
                 <label class="form__label">Father’s Name</label>
               </div>
 
@@ -3257,7 +3251,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="nationality" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Nationality</label>
               </div>
 
@@ -3288,8 +3282,8 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="pincode" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
+                <input formControlName="pincode" type="text" maxlength="6" class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" (keypress)="restrictToNumbers($event)"/>
                 <label class="form__label">Pincode</label>
               </div>
 
@@ -3298,7 +3292,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="city" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">City</label>
               </div>
 
@@ -3307,7 +3301,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="state" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">State</label>
               </div>
 
@@ -3316,10 +3310,17 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="country" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Country</label>
               </div>
 
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="sameAsCurrent" formControlName="sameAsCurrent" />
+              <label class="form-check-label" for="sameAsCurrent">Same as current address</label>
             </div>
           </div>
 
@@ -3337,8 +3338,8 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="pincode" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
+                <input formControlName="pincode" type="text" maxlength="6" class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" (keypress)="restrictToNumbers($event)"/>
                 <label class="form__label">Pincode</label>
               </div>
 
@@ -3347,7 +3348,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="city" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">City</label>
               </div>
 
@@ -3356,7 +3357,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="state" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">State</label>
               </div>
 
@@ -3365,7 +3366,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="country" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Country</label>
               </div>
 
@@ -3385,7 +3386,7 @@
           <div class="row mb-3" *ngFor="let reference of references.controls; let i = index" [formGroupName]="i">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" formControlName="name" class="form__field" />
+                <input type="text" formControlName="name" class="form__field" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Name</label>
               </div>
               <div
@@ -3397,7 +3398,7 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" formControlName="relation" class="form__field" />
+                <input type="text" formControlName="relation" class="form__field" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Relation</label>
               </div>
               <div
@@ -3413,15 +3414,10 @@
                 <input type="text" formControlName="phoneNumber" class="form__field" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div
-                *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('required')"
-                class="error-text">
-                Phone number is required.
-              </div>
-              <div
-                *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('pattern')"
-                class="error-text">
-                Please enter a valid phone number.
+              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.errors" class="error-text">
+                <span *ngIf="reference.get('phoneNumber')?.errors?.['required']">Phone number is required.</span>
+                <span *ngIf="reference.get('phoneNumber')?.errors?.['pattern']">Please enter a valid phone number.</span>
+                <span *ngIf="reference.get('phoneNumber')?.errors?.['duplicateUserPhone']">Phone number cannot be the same as the user's phone number.</span>
               </div>
             </div>
 
@@ -3430,15 +3426,10 @@
                 <input type="text" formControlName="emailId" class="form__field" />
                 <label class="form__label">Email</label>
               </div>
-              <div
-                *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')"
-                class="error-text">
-                Email is required.
-              </div>
-              <div
-                *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('email')"
-                class="error-text">
-                Please enter a valid .
+              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.errors" class="error-text">
+                <span *ngIf="reference.get('emailId')?.errors?.['required']">Email is required.</span>
+                <span *ngIf="reference.get('emailId')?.errors?.['email']">Please enter a valid email.</span>
+                <span *ngIf="reference.get('emailId')?.errors?.['duplicateUserEmail']">Email cannot be the same as the user's email.</span>
               </div>
             </div>
             <div class="d-flex"
@@ -3466,7 +3457,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="highestEducationalLevel" type="text" class="form__field"
-                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
+                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Qualification</label>
               </div>
 
@@ -3475,7 +3466,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="degreeObtained" type="text" class="form__field"
-                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.degreeObtained" />
+                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.degreeObtained" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Degree/Diploma</label>
               </div>
 
@@ -3484,7 +3475,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="fieldOfStudy" type="text" class="form__field"
-                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
+                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.fieldOfStudy" (keypress)="restrictToLetters($event)" />
                 <label class="form__label">Field of Study</label>
               </div>
 
@@ -3503,7 +3494,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="institutionName" type="text" class="form__field"
-                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.institutionName" />
+                  [(ngModel)]="onboardingPreviewDataCopy.userAcademics.institutionName" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">College Name</label>
               </div>
 
@@ -3511,7 +3502,7 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="graduationYear" type="text" class="form__field"
+                <input formControlName="graduationYear" type="number" class="form__field"
                   [(ngModel)]="onboardingPreviewDataCopy.userAcademics.graduationYear" />
                 <label class="form__label">Graduating Year</label>
               </div>
@@ -3549,7 +3540,7 @@
             <!-- Company Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" formControlName="companyName" />
+                <input type="text" class="form__field" formControlName="companyName" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Company Name</label>
               </div>
               <div
@@ -3603,7 +3594,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="number" class="form__field" formControlName="lastSalary" />
-                <label class="form__label">Salary</label>
+                <label class="form__label" for="lastSalary">Salary</label>
               </div>
               <div
                 *ngIf="(job.get('lastSalary')?.touched || isFormInvalid) && job.get('lastSalary')?.hasError('required')"
@@ -3615,8 +3606,8 @@
             <!-- Department -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" formControlName="lastJobDepartment" />
-                <label class="form__label">Department</label>
+                <input type="text" class="form__field" formControlName="lastJobDepartment" (keypress)="restrictToLetters($event)" />
+                <label class="form__label" for="lastJobDepartment">Department</label>
               </div>
               <div
                 *ngIf="(job.get('lastJobDepartment')?.touched || isFormInvalid) && job.get('lastJobDepartment')?.hasError('required')"
@@ -3628,7 +3619,7 @@
             <!-- Responsibilities -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" formControlName="jobResponsibilities" />
+                <input type="text" class="form__field" formControlName="jobResponsibilities" (keypress)="restrictToLetters($event)" />
                 <label class="form__label">Responsibilities</label>
               </div>
               <div
@@ -3664,7 +3655,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="accountHolderName" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" (keypress)="restrictToLetters($event)" />
                 <label class="form__label">Account Holder Name</label>
               </div>
 
@@ -3683,7 +3674,7 @@
             <!-- Account Number -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="accountNumber" type="text" class="form__field"
+                <input formControlName="accountNumber" type="number" class="form__field"
                   [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber" />
                 <label class="form__label">Account Number</label>
               </div>
@@ -3726,27 +3717,65 @@
         <div class="col-md-9">
 
           <div class="row">
-            <!-- Account Holder Name -->
+            <!-- UAN Number -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="uan" type="text" class="form__field" maxlength="12"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.uan" />
+                <input formControlName="uan"
+                       type="text"
+                       class="form__field"
+                       maxlength="12"
+                       (keypress)="restrictToNumbers($event)"
+                       [ngModel]="this.onboardingPreviewDataCopy.user.uan"
+                       (ngModelChange)="this.onboardingPreviewDataCopy.user.uan = $event"
+                       (input)="checkUan(this.onboardingPreviewDataCopy.user.uan)" />
                 <label class="form__label">UAN Number</label>
               </div>
 
-
+              <!-- UAN Error Messages -->
+              <div class="error text-danger"
+                   *ngIf="onboardingForm.get('statutoryDetails.uan')?.touched &&
+                          onboardingForm.get('statutoryDetails.uan')?.errors">
+                <div *ngIf="onboardingForm.get('statutoryDetails.uan')?.errors?.invalidLength">
+                  UAN must be exactly 12 digits
+                </div>
+                <div *ngIf="onboardingForm.get('statutoryDetails.uan')?.errors?.invalidFormat">
+                  UAN must contain only numbers
+                </div>
+              </div>
+              <div class="error text-danger" *ngIf="uanExists">
+                This UAN number already exists
+              </div>
             </div>
 
-            <!-- Bank Name -->
+            <!-- ESI Number -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="esi" type="text" class="form__field" maxlength="17"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.esi" />
+                <input formControlName="esi"
+                       type="text"
+                       class="form__field"
+                       maxlength="17"
+                       (keypress)="restrictToNumbers($event)"
+                       [ngModel]="this.onboardingPreviewDataCopy.user.esi"
+                       (ngModelChange)="this.onboardingPreviewDataCopy.user.esi = $event"
+                       (input)="checkEsi(this.onboardingPreviewDataCopy.user.esi)" />
                 <label class="form__label">ESI Number</label>
               </div>
 
+              <!-- ESI Error Messages -->
+              <div class="error text-danger"
+                   *ngIf="onboardingForm.get('statutoryDetails.esi')?.touched &&
+                          onboardingForm.get('statutoryDetails.esi')?.errors">
+                <div *ngIf="onboardingForm.get('statutoryDetails.esi')?.errors?.invalidLength">
+                  ESI must be exactly 17 digits
+                </div>
+                <div *ngIf="onboardingForm.get('statutoryDetails.esi')?.errors?.invalidFormat">
+                  ESI must contain only numbers
+                </div>
+              </div>
+              <div class="error text-danger" *ngIf="esiExists">
+                This ESI number already exists
+              </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -3780,7 +3809,7 @@
             <!-- Relation with Employee -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" formControlName="relationWithEmployee" />
+                <input type="text" class="form__field" formControlName="relationWithEmployee" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Relation with Employee</label>
               </div>
               <div
@@ -3793,7 +3822,7 @@
             <!-- Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" formControlName="contactName" />
+                <input type="text" class="form__field" formControlName="contactName" (keypress)="restrictToLetters($event)"/>
                 <label class="form__label">Name</label>
               </div>
               <div
@@ -3809,15 +3838,10 @@
                 <input minlength="10" maxlength="10" type="text" class="form__field" formControlName="contactNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div
-                *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('required')"
-                class="error-text">
-                Phone Number is required.
-              </div>
-              <div
-                *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('pattern')"
-                class="error-text">
-                Please enter a valid phone number.
+              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.errors" class="error-text">
+                <span *ngIf="emergencyContact.get('contactNumber')?.errors?.['required']">Phone Number is required.</span>
+                <span *ngIf="emergencyContact.get('contactNumber')?.errors?.['pattern']">Please enter a valid phone number.</span>
+                <span *ngIf="emergencyContact.get('contactNumber')?.errors?.['duplicateUserPhone']">Phone number cannot be the same as the user's phone number.</span>
               </div>
             </div>
 

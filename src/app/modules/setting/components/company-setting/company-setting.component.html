@@ -1,6 +1,8 @@
 <div class="page-wrapper">
-  <div class="page-content-tab mt-3">
-    <ul id="myTab" role="tablist" class="nav nav-tabs ml-2" style="margin-right: 10px;">
+  <div class="page-content-tab mt-3 pl-1">
+    <div class="row px-2">
+    <div class="col-md-12">
+    <ul id="myTab" role="tablist" class="nav nav-pills">
       <li role="presentation" class="nav-item">
         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button" role="tab"
           aria-controls="profile" [attr.aria-selected]="activeTab === 'companySetting'"
@@ -42,7 +44,8 @@
         </button>
       </li>
     </ul>
-
+  </div>
+</div>
 
     <div class="container-fluid">
 
@@ -52,7 +55,7 @@
 
           <div class="row">
             <div class="col-md-4">
-              <div class="company-details-box p-3" id="company-details-box">
+              <div class="company-details-box p-1" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
                 <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
@@ -183,7 +186,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="company-details-box p-3">
+              <div class="company-details-box p-1">
                 <h4 class="card-title">Tagline</h4>
                 <span class="text-muted font-12 fw-normal">A quick snapshot of your company.
                 </span>
@@ -227,7 +230,7 @@
       </form>
       <div class="row">
         <div class="col-md-4" *ngIf="activeTab === 'companySetting'">
-          <div class="company-details-box" style="padding: 15px">
+          <div class="company-details-box p-1" >
             <h4 class="card-title">HR Policy</h4>
             <span class="text-muted font-12 fw-normal">A quick snapshot of your company HR policies.</span>
           </div>
@@ -329,11 +332,11 @@
         <div class="mt-4" *ngIf="activeTab === 'locationSetting'">
           <div class="row">
         <div class="col-md-4"  >
-          <div class="form-roe-data p-3">
+          <div class="form-roe-data p-1">
             <h5>Location Setting</h5>
             <p class="font-12">A quick snapshot of your company.</p>
           </div>
-          <div class="total-shifts p-3 mt-4 m-3" *ngIf="allAddresses?.length > 1">
+          <div class="total-shifts p-3 mt-4 m-1" *ngIf="allAddresses?.length > 1">
             <div class="d-flex align-items-center justify-content-between">
               <div>
                 <h6 class="text-truncate">Total Locations</h6>
@@ -505,7 +508,7 @@
                               item.organizationAddress.addressStatus ==
                               'Default address'
                             ">
-                            
+
                             <!-- shifTimeDefaultAddress -->
                             <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
                               (click)="getOrganizationAddressDetailMethodCall(true)">
@@ -681,7 +684,7 @@
           <div class="row">
 
         <div class="col-md-4">
-          <div class="form-roe-data p-3">
+          <div class="form-roe-data p-1">
             <h5>Employee Onboarding Setting</h5>
             <p>A quick snapshot of your company.</p>
           </div>
@@ -722,12 +725,12 @@
         </div>
       </div>
         </div>
-        
+
         <div class="mt-4" *ngIf="activeTab === 'notificationsSetting' && notifications && notificationKeys.length > 0">
           <div *ngFor="let type of notificationKeys; let i = index">
             <div class="row">
               <div class="col-md-4">
-                <div class="form-roe-data p-3" *ngIf="i==0">
+                <div class="form-roe-data p-1" *ngIf="i==0">
                   <h5 class="text-black mb-2">Attendance Notification</h5>
                   <p class="font-13">Manage all your company's attendance-related notifications in one place</p>
                 </div>
@@ -749,11 +752,11 @@
                       <div class="form-check d-flex align-items-center justify-content-between gap-2 mt-3 mb-3">
                         <div class="d-flex align-items-center gap-2">
                         <!-- Using unique ID for each checkbox and its label -->
-                        <input 
-                          type="checkbox" 
-                          [checked]="notification.isEnable" 
-                          [id]="'checkbox-' + i + '-' + j" 
-                          [name]="'checkbox-' + i + '-' + j" 
+                        <input
+                          type="checkbox"
+                          [checked]="notification.isEnable"
+                          [id]="'checkbox-' + i + '-' + j"
+                          [name]="'checkbox-' + i + '-' + j"
                           class="form-check-input" (change)="onToggle(!notification.isEnable, notification, type, j, 'SHIFT_CHECKBOX')">
                         <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
                       </div>
@@ -772,7 +775,7 @@
                           </svg> Edit
                         </button>
                         <!-- {{isSaveDisabled(notification)}} -->
-                        <button class="btn submitActionBtn" *ngIf="notification.isEditMode && notification.isEnable" 
+                        <button class="btn submitActionBtn" *ngIf="notification.isEditMode && notification.isEnable"
                         (click)="toggleNotification(notification, type, j)" [disabled]="isSaveDisabled(notification)">
                         <div class="dot-opacity-loader" *ngIf="loadingFlags2?.[type]?.[j]">
                           <span></span>
@@ -782,10 +785,10 @@
                         <span *ngIf="!loadingFlags2?.[type]?.[j]">
                           Save
                         </span>
-                       
+
                       </button>
                       </div>
-            
+
                       <!-- {{notification.fixed}} -- {{!notification.isEditMode}} -->
                       <!-- Reminder form with unique ID for radio buttons and names -->
                       <div class="reminder-form mt-4 mb-4 p-3" *ngIf="notification.isEnable">
@@ -795,40 +798,40 @@
                             <div class="send-reminder d-flex align-items-center">
                               <div class="w-50 pl-2">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                  <input 
-                                    type="radio" 
-                                    id="before-{{i}}{{j}}" 
+                                  <input
+                                    type="radio"
+                                    id="before-{{i}}{{j}}"
                                     name="Reminder-{{i}}{{j}}"
-                                    value="before" 
+                                    value="before"
                                     class="form-check-input"
                                     [checked]="notification.isBefore === 1 "
-                                    (change)="toggleNotificationValue(notification, 'isBefore', true)" [disabled]="!notification.isEditMode || notification.fixed">
+                                    (change)="toggleNotificationValue(notification, 'isBefore', true)" [disabled]="!notification.isEditMode || notification.fixed || notification.notificationTypeId==constants.NOTIFICATION_TYPE_CHECKOUT_REPORT">
                                   <p class="form-check-label mb-0">Before</p>
                                 </label>
                               </div>
                               <div class="w-50 pl-2 reminder-after">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                  <input 
-                                    type="radio" 
-                                    id="after-{{i}}{{j}}" 
+                                  <input
+                                    type="radio"
+                                    id="after-{{i}}{{j}}"
                                     name="Reminder-{{i}}{{j}}"
-                                    value="after" 
+                                    value="after"
                                     class="form-check-input"
                                     [checked]="notification.isBefore === 0 "
-                                    (change)="toggleNotificationValue(notification, 'isBefore', false)" [disabled]="!notification.isEditMode || notification.fixed">
+                                    (change)="toggleNotificationValue(notification, 'isBefore', false)" [disabled]="!notification.isEditMode || notification.fixed || notification.notificationTypeId==constants.NOTIFICATION_TYPE_CHECKOUT_REPORT">
                                   <p class="form-check-label mb-0">After</p>
                                 </label>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <div *ngIf="notification.notificationTypeId!=constants.NOTIFICATION_TYPE_CHECKOUT_REPORT" class="col-md-4">
                             <label class="form-check-label mb-2 fw-normal">Set Minutes</label>
-                            <nz-time-picker 
+                            <nz-time-picker
                               nzFormat="HH:mm"
                               [(ngModel)]="notification.minutes"
                               [ngModelOptions]="{ standalone: true }"
                               nzPlaceHolder="Select Duration"
-                              id="minutes-{{i}}{{j}}" 
+                              id="minutes-{{i}}{{j}}"
                               name="minutes-{{i}}{{j}}"
                               [disabled]="!notification.isEditMode"
                               (ngModalChange)="isSaveDisabled(notification)"
@@ -840,11 +843,11 @@
                             <div class="send-reminder d-flex align-items-center">
                               <div class="w-50 pl-2">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced', true)" >
-                                  <input 
-                                    type="radio" 
-                                    id="forced-{{i}}{{j}}" 
+                                  <input
+                                    type="radio"
+                                    id="forced-{{i}}{{j}}"
                                     name="forcedFlexible-{{i}}{{j}}"
-                                    value="forced" 
+                                    value="forced"
                                     class="form-check-input"
                                     [checked]="notification.isForced === 1"
                                     [disabled]="!notification.isEditMode || notification.fixed"
@@ -854,11 +857,11 @@
                               </div>
                               <div class="w-50 pl-2 reminder-after">
                                 <label class="form-check assets-req d-flex align-items-center justify-content-start" (change)="toggleNotificationValue(notification, 'isForced', false)" >
-                                  <input 
-                                    type="radio" 
-                                    id="flexible-{{i}}{{j}}" 
+                                  <input
+                                    type="radio"
+                                    id="flexible-{{i}}{{j}}"
                                     name="forcedFlexible-{{i}}{{j}}"
-                                    value="flexible" 
+                                    value="flexible"
                                     class="form-check-input"
                                     [checked]="notification.isForced === 0"
                                     [disabled]="!notification.isEditMode || notification.fixed"
@@ -876,7 +879,7 @@
                 </div>
               </div>
             </div>
-          
+
             <!-- Handle "Other" type notifications -->
             <div class="row mt-5" *ngIf="type == 'Other'">
               <div class="col-md-4">
@@ -893,26 +896,27 @@
                           <p class="mb-0 font-13">{{notification?.description}}</p>
                         </div>
                         <div>
-                          <nz-switch [(ngModel)]="notification.isEnable" [ngModelOptions]="{ standalone: true }" 
-                            [nzLoading]="loadingFlags2?.[type]?.[j] || false" 
+                          <nz-switch [(ngModel)]="notification.isEnable" [ngModelOptions]="{ standalone: true }"
+                            [nzLoading]="loadingFlags2?.[type]?.[j] || false"
                             (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')">
                           </nz-switch>
                         </div>
-                        
-                    
+
+
                   </div>
                 </span>
               </div>
             </div>
           </div>
-            
+
         </div>
         <div class="mt-4" *ngIf="activeTab === 'exitPolicy'">
             <app-exist-policy></app-exist-policy>
         </div>
       </div>
     </div>
-  </div>
+  
+</div>
 
   <!-- Modal to view document -->
   <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
@@ -1388,7 +1392,7 @@
                       </div>
                     </ng-container>
                     <ng-template #noDataFoundPlaceholderInShiftTiming>
-                    
+
 
                       <div class="empty-filenew" style="margin-top: 30%; margin-bottom: 7%">
                         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -1402,7 +1406,7 @@
                   </div>
 
                   <div class="leave-footer bg-white">
-                    
+
                     <div class="pagination justify-content-between p-3" *ngIf="staffs.length > 0">
                       <p class="mb-0">
                         Showing {{ 1 + ( databaseHelper.itemPerPage * (databaseHelper.currentPage - 1)) }} - {{
@@ -1882,7 +1886,7 @@
 
                         <app-map [lat]="this.organizationAddressDetail.latitude"
                           [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
-                        
+
                       </div>
                     </div>
                   </div>

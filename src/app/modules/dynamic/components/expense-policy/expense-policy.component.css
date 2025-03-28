@@ -1,0 +1,132 @@
+.add-location-modal {
+    height: 80vh;
+}
+.add-location-menu {
+  background-color: #fbfbfb;
+  height: 100%;
+}
+
+.add-location-modal .nav-pills .nav-link {
+  background: transparent;
+  padding: 15px 10px;
+  color: #6b7280;
+  border-left: 5px solid transparent;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  padding-left: 35px;
+}
+
+.add-location-modal .nav-link.active {
+  background: #f2f3ff !important;
+  color: #000 !important;
+  border-left: 5px solid var(--primary-background-color) !important;
+  border-bottom: none !important;
+}
+.config-location-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
+}
+.search-input {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 45px !important;
+  border: none;
+  background-color: transparent;
+}
+.search-icon {
+  top: 25px;
+  transform: translateY(-50%);
+  left: 10px;
+  padding-left: 5px;
+}
+.separator {
+  border-right: 1px solid #d1d1d1;
+  height: 15px;
+}
+.expanse-policy svg{
+  position: relative;
+  top: -1px;
+}
+
+.location-user-table{
+  height: 55vh;
+  overflow: scroll;
+}
+.location-user-table::-webkit-scrollbar{
+  display: none;
+}
+.employee-add-btn{
+  background-color: #E4E7FF;
+  padding: 5px 15px;
+}
+
+::ng-deep .placeholder-line .ant-select-selection-placeholder {
+    line-height: 45px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+  }
+  
+  ::ng-deep .placeholder-line .ant-select-selection-item {
+    line-height: 45px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+  }
+  .requesting-half-leave {
+    background-color: rgba(236, 236, 236, 0.21) !important;
+    min-height: 45px;
+    border: 1px solid #e9e9e9;
+    border-radius: 2px;
+}
+.assets-req {
+    border: 1px solid #e9e9e9;
+    border-radius: 2px;
+    height: 45px;
+    margin-bottom: 0px;
+    background-color: #fff;
+}
+.assets-req p {
+    padding-left: 25px;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding-top: 3px;
+}
+
+.assets-req input {
+    left: 15px !important;
+    position: relative;
+    top: -2px;
+}
+.expanse-policy-list {
+    border: 1px solid #e8ebf3;
+}
+.policy-action-btn{
+  width: 30px;
+  height: 30px;
+
+}
+
+.expanse-policy-list{
+  border: 1px solid #F1F1F1;
+  background: #F5F8FA;
+}
+.expanse-policy-heading {
+  background-color: #eeeefd;
+}
+.expanse-policy-detail{
+    background-color: #fff;
+    min-height: 130px;
+}
+.transition {
+  transition: transform 0.3s ease-in-out;
+}
+
+.location-detail[aria-expanded="true"] i {
+  transform: rotate(180deg);
+}

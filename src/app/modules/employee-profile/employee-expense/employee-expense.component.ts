@@ -21,7 +21,9 @@ export class EmployeeExpenseComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   ROLE: any;
+  UUID:any;
   userId: any;
+  // UUID: any;
   ngOnInit(): void {
 
     const userUuidParam = new URLSearchParams(window.location.search).get(
@@ -42,6 +44,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
   async getRole(){
     this.ROLE = await this.rbacService.getRole();
+    this.UUID = await this.rbacService.getUuid();
   }
 
  /** Create and View Expense start */

@@ -53,7 +53,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getTeamNames();
 
     this.getUserByFiltersMethodCall(0);
-    
+
     const leaveId = localStorage.getItem('tempId');
     this.filteredLeaveCategories = []
     this.leaveCategories1 = []
@@ -74,6 +74,13 @@ export class LeaveSettingComponent implements OnInit {
       // employeeTypeId: [null, Validators.required], // The form control for employee type
       // Other form controls...
     });
+    setTimeout(() => {
+      this.loadStaffIdsCache();
+    }, 2000);
+
+    setTimeout(()=> {
+      this.fetchAssignedUsers();
+    }, 1000);
   }
 
 
@@ -92,7 +99,7 @@ export class LeaveSettingComponent implements OnInit {
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
   }
-  
+
 
   addRow() {
     debugger
@@ -108,6 +115,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: [''],
       gender: [''],
       isReset:[true],
+      flexible: [false],
       carryoverAction: [''],
       carryover:['']
     });
@@ -135,6 +143,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: '',
       gender: '',
       isReset:true,
+      flexible:false,
       carryoverAction:'',
       carryover:''
     });
@@ -154,6 +163,7 @@ export class LeaveSettingComponent implements OnInit {
       accrualTypeId: [''],
       gender: [''],
       isReset:[true],
+      flexible: [false],
       carryoverAction: [''],
       carryover:['']
     });
@@ -241,6 +251,7 @@ export class LeaveSettingComponent implements OnInit {
         accrualTypeId: [''],
         gender: [''],
         isReset:[true],
+        flexible: [false],
         carryoverAction:[''],
         carryover:['']
       });
@@ -293,11 +304,12 @@ export class LeaveSettingComponent implements OnInit {
     this.editToggle = true;
     this.editingIndex = index;
 
+    setTimeout(() => {
     const category = this.leaveCategories1[this.leaveCategories1.length - 1];
     this.form.patchValue(category);
 
     // console.log('Edit form: ', this.form)
-
+    },100);
   }
 
   deleteCategory(index: number) {
@@ -385,11 +397,21 @@ export class LeaveSettingComponent implements OnInit {
     }
     debugger
 
+    let isProbation: Boolean | undefined=undefined;
+    if(this.employeeTypeId!=1){
+      if(this.employeeTypeId == 2){
+        isProbation = true;
+      }else if(this.employeeTypeId == 3){
+        isProbation = false;
+      }
+    }
+    console.log(this.leaveTemplateRequest.yearTypeName);
+    console.log(this.employeeTypeList);
     this.debounceTimer = setTimeout(() => {
       this.selectedStaffIds = [];
 
       // this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds)
-      this.dataService.getUsersByFilterForLeaveSetting(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds)
+      this.dataService.getUsersByFilterForLeaveSetting(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds, isProbation)
         .subscribe(
           (response) => {
 
@@ -421,6 +443,107 @@ export class LeaveSettingComponent implements OnInit {
         );
     }, debounceTime);
   }
+
+  // New method to select all staff with joining dates across all pages
+  selectAllPages: boolean = false;
+// Properties
+private cachedStaffIdsWithJoiningDate: number[] = []; // Cache for staff IDs with joining dates
+private isCacheLoaded: boolean = false; // Flag to track if cache is initialized
+ cachedStaffIdsWithoutJoiningDate: number[] = [];
+// Separate method to load and cache staff IDs
+private loadStaffIdsCache() {
+  this.dataService.getUsersByFilterForLeaveSetting(
+    0, // 0 items per page to get all records
+    1, // Start from page 1
+    'asc',
+    'id',
+    this.searchText,
+    '',
+    this.idOfLeaveSetting,
+    this.selectedTeamId,
+    this.selectedUserIds
+  ).subscribe(
+    (response) => {
+      // Filter staff with joining dates and cache their IDs
+      this.cachedStaffIdsWithJoiningDate = response.users
+        .filter((staff: { joiningDate: any }) => staff.joiningDate)
+        .map((staff: { id: any }) => staff.id);
+
+        this.cachedStaffIdsWithoutJoiningDate = response.users
+        .filter((staff: { joiningDate: any }) => !staff.joiningDate)
+        .map((staff: { id: any }) => staff.id);
+
+      // Remove duplicates from both caches
+      this.cachedStaffIdsWithJoiningDate = Array.from(new Set(this.cachedStaffIdsWithJoiningDate));
+      this.cachedStaffIdsWithoutJoiningDate = Array.from(new Set(this.cachedStaffIdsWithoutJoiningDate));
+      this.isCacheLoaded = true;
+
+
+      // Update current page if "Select all" is active
+      if (this.selectAllPages) {
+        this.selectedStaffIdsUser = [...this.cachedStaffIdsWithJoiningDate];
+        this.updateCurrentPageSelection();
+      }
+    },
+    (error) => {
+      console.error('Error loading staff IDs cache:', error);
+      this.isCacheLoaded = false;
+      this.allselected = false;
+      this.selectAllPages = false; // Reset checkbox on error
+    }
+  );
+}
+
+// Modified selectAllStaffAcrossPages method
+selectAllStaffAcrossPages() {
+  if (this.selectAllPages) {
+    this.allselected = true;
+    this.selectedStaffIdsUser = [];
+
+    if (this.isCacheLoaded) {
+      // Use cached data
+      this.selectedStaffIdsUser = [...this.cachedStaffIdsWithJoiningDate];
+      this.updateCurrentPageSelection();
+      console.log('Selected staff from cache: ', this.selectedStaffIdsUser);
+    } else {
+      // Load cache and proceed
+      this.loadStaffIdsCache();
+    }
+  } else {
+    this.allselected = false;
+    this.selectedStaffIdsUser = [];
+
+    // Update current page display
+    this.updateCurrentPageSelection();
+
+    // Optional: Refresh current page
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting, 0);
+  }
+}
+
+assignedUsers: any[]=[];
+fetchAssignedUsers(): void {
+  this.dataService.getActiveLeaveTemplates().subscribe(
+    (data) => {
+      if(data){
+      this.assignedUsers = data;
+      }
+    },
+    (error) => {
+      console.error('Error fetching leave templates', error);
+    }
+  );
+}
+
+// Helper method to update current page display
+private updateCurrentPageSelection() {
+  this.staffs.forEach(staff => {
+    staff.checked = !!staff.joiningDate && this.selectedStaffIdsUser.includes(staff.id);
+  });
+}
+
+
+
 
   getUserByUpdateMethodCall(leaveSettingId: number) {
 
@@ -591,6 +714,7 @@ export class LeaveSettingComponent implements OnInit {
  totalItems: number = 0;
  pageChanged(page: any) {
    if (page != this.databaseHelper.currentPage) {
+      this.allselected=false;
      this.databaseHelper.currentPage = page;
      this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
    }
@@ -848,7 +972,9 @@ export class LeaveSettingComponent implements OnInit {
   clearModalData() {
     this.requestLeaveCloseModel1.nativeElement.click();
     this.updateToggle = false;
-
+    this.selectedStaffIdsUser = [];
+    this.allselected=false;
+    this.selectAllPages=false;
     this.leaveTemplateRequest = new LeaveTemplateRequest();
     this.leaveTemplateRequest.employeeTypeId = 0;
     this.leaveTemplateRequest.startDate = ''
@@ -1248,6 +1374,21 @@ export class LeaveSettingComponent implements OnInit {
     } else {
       this.selectedStaffIdsUser = [];
     }
+  }
+
+  allUserUuids: string[] = [];
+  async getAllUserUuidsMethodCall() {
+    return new Promise<string[]>((resolve, reject) => {
+      this.dataService.getAllUserUuids().subscribe({
+        next: (response) => {
+          this.allUserUuids = response.listOfObject;
+          resolve(this.allUserUuids);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
   }
 
   selectAllUser(checked: boolean) {
@@ -1862,7 +2003,7 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedAccrualTypeId = id;  // Store the selected gender ID
   }
 
-  
+
   leaveCycleStartDate: any;
   leaveCycleEndDate: any;
   onLeaveCycleChange(id: number) {
@@ -2038,7 +2179,8 @@ export class LeaveSettingComponent implements OnInit {
         gender: category.gender,
         reset: category.isReset,
         carryoverAction: category.carryoverAction,
-        carryover: category.carryover
+        carryover: category.carryover,
+        flexible: category.flexible
       })
     );
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
@@ -2053,12 +2195,43 @@ export class LeaveSettingComponent implements OnInit {
   @ViewChild('templateSettingTab1') templateSettingTab1!: ElementRef;
   @ViewChild('requestLeaveCloseModel1') requestLeaveCloseModel1!: ElementRef;
   isSubmitted: boolean = true;
+  existingAssignedUsers: any[] = [];
+showUsersAlreadyAssignedModal = false;
+isValidated = false;
+userNameWithShiftName: any[] = [];
   registerLeaveTemplateMethodCall() {
     debugger
-    this.registerToggle = true;
     this.isSubmitted = false;
     this.allselected = false;
     this.setFieldsToLeaveTemplateRequest();
+
+    // Check for existing assigned users
+    const usersToCheck = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
+    this.existingAssignedUsers = this.assignedUsers.filter(user =>
+        usersToCheck.includes(user.userId) &&
+        user.leaveTemplateId != this.leaveTemplateRequest.id
+    );
+
+    if(false){
+    // if (this.existingAssignedUsers.length > 0 && !this.isValidated) {
+        // // Prepare data for modal
+        // this.userNameWithShiftName = this.existingAssignedUsers.map(user => ({
+        //     userId: user.userId,
+        //     userName: user.userName,
+        //     shiftName: user.leaveTemplateName
+        // }));
+
+        // // Show modal (trigger programmatically)
+        // const modalElement = document.getElementById('usersAlreadyAssigned');
+        // if (modalElement) {
+        //     const modal = new (window as any).bootstrap.Modal(modalElement);
+        //     modal.show();
+        // }
+        // this.registerToggle = false;
+        // return; // Wait for modal confirmation
+    }else{
+
+      this.registerToggle = true;
 
     // console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
@@ -2079,7 +2252,7 @@ export class LeaveSettingComponent implements OnInit {
       this.getAllLeaveTemplate();
       this.registerToggle = false;
       this.requestLeaveCloseModel1.nativeElement.click();
-
+      this.fetchAssignedUsers();
 
       this.form.reset();
       this.leaveTemplateDefinitionForm.reset();
@@ -2119,8 +2292,52 @@ export class LeaveSettingComponent implements OnInit {
     // console.log('clear field')
     this.leaveTemplateRequest.name = ''; // Reset the template name
     this.leaveTemplateDefinitionForm.reset(); // Reset the form state
-
   }
+  }
+
+  removeUserFromList(userId: number) {
+    // Remove from selected users
+    this.selectedStaffIds = this.selectedStaffIds.filter(id => id !== userId);
+    this.selectedStaffIdsUser = this.selectedStaffIdsUser.filter(id => id !== userId);
+
+    const staffIndex = this.staffs.findIndex(staff => staff.id === userId);
+    if (staffIndex !== -1) {
+        this.staffs[staffIndex].checked = false;
+    }
+
+    // Remove from display list
+    this.userNameWithShiftName = this.userNameWithShiftName.filter(user => user.userId !== userId);
+
+    this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
+    // If no users left, close modal
+    if (this.userNameWithShiftName.length === 0) {
+        this.closeModal();
+    }
+}
+
+registerShift() {
+    if (!this.isValidated) return;
+    this.registerLeaveTemplateMethodCall();
+    // Close modal
+    this.closeModal();
+}
+
+checkValidation() {
+    // Toggle isValidated based on checkbox
+   // this.isValidated = !this.isValidated;
+}
+
+closeModal() {
+    const modalElement = document.getElementById('usersAlreadyAssigned');
+    if (modalElement) {
+        const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
+        }
+    }
+    this.isValidated = false;
+    this.userNameWithShiftName = [];
+}
 
 
   isShimmerForLeaveTemplateResponse = false;
@@ -2154,7 +2371,7 @@ export class LeaveSettingComponent implements OnInit {
   weekOffTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplatesIds: number[] = [8,9];
   weekOffTemplatesIds: number[] = [10];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7];
+  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 11, 12];
 
   getAllLeaveTemplate() {
     debugger
@@ -2184,8 +2401,7 @@ export class LeaveSettingComponent implements OnInit {
   this.leaveTemplates = response.object.filter((template: any) =>
     // template.leaveTemplateCategoryRes[0].leaveCategoryId != 8 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 9 && template.leaveTemplateCategoryRes[0].leaveCategoryId != 10
   this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-
-);
+  );
 
 // console.log('leaveTemplates: ',this.leaveTemplates)
 // console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
@@ -2208,8 +2424,11 @@ export class LeaveSettingComponent implements OnInit {
   selectAllEmployee(event: any) {
     if (!this.allselected) {
       this.staffs.forEach((element) => {
-        this.selectedStaffIdsUser.push(element.id);
-        element.checked = true;
+        // Only select if joiningDate exists
+        if (element.joiningDate) {
+          this.selectedStaffIdsUser.push(element.id);
+          element.checked = true;
+        }
       });
       this.allselected = true;
     } else {
@@ -2219,12 +2438,11 @@ export class LeaveSettingComponent implements OnInit {
       this.allselected = false;
       this.selectedStaffIdsUser = [];
     }
-    console.log('all Ids: ',this.selectedStaffIdsUser)
+    console.log('all Ids: ', this.selectedStaffIdsUser);
 
-    // Assuming selectedStaffIdsUser contains duplicates
-this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
-console.log('After SET Ids: ',this.selectedStaffIdsUser)
-
+    // Remove duplicates using Set
+    this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+    console.log('After SET Ids: ', this.selectedStaffIdsUser);
   }
 
   selectSingle1(event: any, i: any) {
@@ -2490,7 +2708,7 @@ setUnusedLeaveAction(index: number, value: any): void {
 showError: boolean = false;
 showErrorCount: boolean = false;
 // leaveCount: number = 1
-tempLeaveCount!: number  
+tempLeaveCount!: number
 
 // validateAndAdjustLeaveCount(value: number, index: number): void {
 validateAndAdjustLeaveCount(value: number, index: number): void {
@@ -2677,7 +2895,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
       this.dataService.updateJoiningDate(staff.id, this.tempJoiningDate).subscribe({
         next: (response) => {
           if(response.status){
-            
+
             this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
             this.helperService.showToast('Joining date added for '+ staff.name, Key.TOAST_STATUS_SUCCESS);
           }else{
@@ -2686,7 +2904,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
         },
         error: (err) => {
           console.error('Error:', err);
-         
+
         }
       });
       staff.joiningDate = this.tempJoiningDate;
@@ -2710,7 +2928,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
   //   console.log(this.form);
 
   //   // Print the invalid values
-    
+
   //   // Loop through invalid controls and print their missing validations
   //   invalidControls.forEach(controlName => {
   //     const control = this.form.get(controlName);
@@ -2741,7 +2959,7 @@ editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
 //   this.categories.controls[i]!.get('carryover')?.setValue(null);
 
 //   if(this.categories.controls[i]!.get('isReset')?.value.getValue == true) {
-    
+
 //   }
 // }
 
@@ -2758,7 +2976,7 @@ resetCarryOverAction(i: number) {
     categoryControl.get('carryover')?.clearValidators();
   } else {
     // Add required validation when `isReset` is false
-   
+
     if(this.categories.controls[i]!.get('carryoverAction')?.value=='Restricted') {
        categoryControl.get('carryover')?.setValidators([Validators.required]);
     }else {
@@ -2778,5 +2996,5 @@ resetCarryOverAction(i: number) {
 
 
 
-  
+
 }

@@ -16,7 +16,36 @@
   --primary-background-color: #6666f3;
 }
 .border-rounded-2{
-  border-radius:2px;
+  border-radius:2px !important;
+}
+.radius-50 {
+  border-radius: 50%;
+}
+.text-muted{
+  color: #878A9A;
+}
+
+.mt-20p{
+  margin-top: 20%;
+}
+.mt-6p{
+  margin-top: 6%;
+}
+.mt-25p{
+  margin-top: 25%
+}
+.img-50{
+  width: 50px;
+}
+.img-100{
+  max-width: 100%;
+   height: 350px
+}
+.search-padding{
+  padding: 10px 40px !important;
+}
+.search-padding-40{
+  padding: 10px 45px;
 }
 .horizontal-menu {
   z-index: 999;
@@ -24,6 +53,58 @@
 }
 .color-basic{
   color: #444;
+}
+.fw-600{
+  font-weight: 600;
+}
+.attendance-border{
+  border: 1px solid #f1f1f1;
+}
+.font-32{
+  font-size: 32px;
+}
+.img-32{
+  width: 32px;
+  height: 32px;
+}
+.img-50{
+  width: 40px;
+  height: 40px;
+}
+.img-50{
+  width: 50px;
+  height: 50px;
+}
+.img-60{
+  width: 60px;
+  height: 60px;
+}
+.img-70{
+  width: 70px;
+  height: 70px;
+}
+.img-80{
+  width: 80px;
+  height: 80px;
+}
+.img-110{
+  width: 110px;
+  height: 110px;
+}
+.img-130{
+  width: 130px;
+  object-fit: cover;
+}
+.w-25{
+  width: 25%;
+}
+
+.w-75{
+  width: 75%;
+}
+
+.mb-10{
+  margin-bottom: 100px;
 }
 .attendance-list{
   border: 1px solid #f1f1f1;
@@ -33,13 +114,13 @@
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
 }
-
+.table tbody {
+  border: 1px solid #f1f1f1;
+}
 .navbar-custom {
-  /* background: #fff; */
   min-height: 60px;
   position: relative;
-  /* border-bottom: 1px solid #eceff5; */
-  margin-left: 255px;
+  margin-left: 258px;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -51,6 +132,58 @@
 .pr-0 {
   padding-right: 0px;
 }
+
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border: 1px solid #EFEFEF;
+}
+
+.material-switch>input[type="checkbox"] {
+  display: none;
+}
+.material-switch>label {
+  cursor: pointer;
+  height: 0px;
+  position: relative;
+  width: 40px;
+  margin-top: 0px;
+  top: -13px;
+}
+
+.material-switch>label::before {
+  background: #cecece;
+  border-radius: 20px;
+  content: "";
+  height: 18px;
+  position: absolute;
+  opacity: 1;
+  transition: all 0.4s ease-in-out;
+  width: 34px;
+  right: 0;
+}
+
+.material-switch>label::after {
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  content: "";
+  height: 14px;
+  left: 8px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  width: 14px;
+  margin-top: 2px;
+}
+
+.material-switch>input[type="checkbox"]:checked+label::after {
+  left: 24px !important;
+}
+
+.material-switch>input[type="checkbox"]:checked+label::before {
+  background: #79af79;
+}
+
 
 .navbar-custom .nav-link {
   padding: 0;
@@ -760,10 +893,6 @@ body.dark-topbar .app-search form .form-control:focus {
   }
 }
 
-.modal-content {
-  background-color: #fff;
-  border-radius: 0px !important;
-}
 
 .page-item.active .page-link {
   z-index: 3;
@@ -3179,6 +3308,7 @@ a.badge:hover {
 
 .modal-content {
   background-color: #fff;
+  border-radius: 2px !important;
 }
 
 .modal-content .modal-header {
@@ -3659,6 +3789,9 @@ a.badge:hover {
   font-style: normal;
   font-weight: 500;
   text-align: left;
+  line-height: 24px;
+  position: relative;
+  top: 1px;
 }
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
@@ -5594,6 +5727,7 @@ hr.hr-dashed {
   width: 48px;
   font-size: 18px;
   font-weight: 700;
+  object-fit: cover;
 }
 
 .thumb-lg {
@@ -9324,12 +9458,15 @@ display:block
   font-weight: 300;
   vertical-align: middle;
   font-size: 14px !important;
-  border-bottom: 1px solid #f1f1f1 !important;
+  border-bottom: 1px solid #f1f1f1;
   color: #000;
   padding: 15px;
   text-wrap: nowrap;
 }
-
+.table tbody tr:hover {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
 .error-spreter {
   height: 15px;
   border-right: 1px solid #d9d9d9;
@@ -9411,6 +9548,9 @@ ul.pagination.justify-content-end {
   border: 0;
   cursor: pointer !important;
 }
+.dropdown-item:hover{
+  background-color: #f1f5fa !important;
+}
 
 input[type="time"]::-webkit-datetime-edit-ampm-field {
   display: none;
@@ -9466,7 +9606,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   bottom: 0px;
   left: 0px;
   width: 100%;
-  z-index: 999;
+  z-index: 30;
   display: flex;
   justify-content: end;
   animation-duration: 1s;
@@ -9605,7 +9745,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .persnol-details {
   padding: 32px 25px;
   border-radius: 10px;
-  z-index: 999;
+  z-index: 10;
   position: relative;
   /* padding-top: 30px; */
 }
@@ -9724,7 +9864,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .shiftManagement {
   position: fixed;
-  bottom: 53px;
+  bottom: 68px;
   left: 0px;
   width: 100%;
   z-index: 999;
@@ -9770,6 +9910,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   color: var(--primary-color) !important;
   font-size: 16px;
   font-weight: 500;
+  height: 39px;
 }
 
 .nextBtn svg {

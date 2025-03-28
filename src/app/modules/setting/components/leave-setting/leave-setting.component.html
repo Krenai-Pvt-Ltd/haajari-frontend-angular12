@@ -36,7 +36,6 @@
           </div>
         </div>
       </div>
-
       <div *ngIf="leaveTemplates.length == 0 && !isLoading"
         class="row leave-management-settings p-3 mt-2 align-items-center">
         <div class="col-md-6">
@@ -768,12 +767,12 @@
                       id="profile-tab" data-bs-target="#v-pills-profile" type="button" role="tab"
                       (click)="goToLeaveCategoryTab();" aria-controls="v-pills-profile" aria-selected="false"
                       [disabled]="!leaveTemplateDefinitionForm.form.valid" #leaveCategoryTab1>
-                      
+
                       <span *ngIf="weekOffTemplateToggle"> Week Off Categories</span>
                       <span *ngIf="!weekOffTemplateToggle">On Duty Categories</span>
                     </button>
-                    
-                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" (click)="this.getUserByFiltersMethodCall(this.idOfLeaveSetting);"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" [disabled]="displayedCategories.length == 0" #staffSelectionTab1>
                       Staff selection
@@ -1069,7 +1068,7 @@
                                     *ngIf="!wfhTemplateToggle">Leave</span> Count
                                 </label>
 
-                                <input class="form-control w-100 input-zorro" type="number" 
+                                <input class="form-control w-100 input-zorro" type="number"
                                   formControlName="leaveCount" placeholder="Day Count" id="inputLeaveCount"
                                   name="inputLeaveCount" [(ngModel)]="tempLeaveCount"
                                   (ngModelChange)="validateAndAdjustLeaveCount($event, i)" min="1" max="400" required />
@@ -1082,7 +1081,7 @@
                                     Please enter a valid number.</span>
                                 </p>
 
-                              
+
                               </div>
 
                               <div class="col-md-3 mb-2" nz-form-item>
@@ -1092,8 +1091,8 @@
                                 </label>
 
                                 <nz-select [nzDisabled]="wfhTemplateToggle" nzSize="large"
-                                  nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" 
-                                  required 
+                                  nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId"
+                                  required
                                   class="form-control placeholder-line w-100">
                                   <nz-option *ngFor="
                                       let unusedLeaveAction of unusedLeaveActionList
@@ -1133,43 +1132,53 @@
                                       'unusedLeaveActionId'
                                     )?.value == LAPSE
                                   " nzPlaceHolder="N/A" (ngModelChange)="
-                                    generateDaysDropdown($event, i); 
+                                    generateDaysDropdown($event, i);
                                   " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzDisabled]="true">
                                 </nz-input-number>
                               </div>
 
-                              <div class="mt-3" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value==CARRY_FORWARD 
+                              <div class="mt-3" >
+                                <div class="col-md-12 mb-3" nz-form-item >
+                                  <div class="form-check d-flex align-items-center gap-2">
+                                    <input type="checkbox" formControlName="flexible" id="exampleCheck2" class="form-check-input"
+                                    [checked]="categories.controls[i]!.get('flexible')?.value">
+                                    <!-- getInvalidFormValues($event,i); -->
+                                    <label class="form-check-label" for="exampleCheck2" >Leave is flexible to apply in outside date range</label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="mt-3" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value==CARRY_FORWARD
                                     && categories.controls[i]!.get('unusedLeaveActionCount')?.value > 0">
                                 <div class="col-md-12 mb-3" nz-form-item >
                                   <div class="form-check d-flex align-items-center gap-2">
-                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input" 
+                                    <input type="checkbox" formControlName="isReset" id="exampleCheck1" class="form-check-input"
                                     [checked]="categories.controls[i]!.get('isReset')?.value" (ngModelChange)="resetCarryOverAction(i)">
                                     <!-- getInvalidFormValues($event,i); -->
                                     <label class="form-check-label" for="exampleCheck1" >Lapse this leave category upon template expiration.</label>
                                   </div>
                                 </div>
-                                
+
                                 <div class="col-md-12 mb-3" *ngIf="!categories.controls[i]!.get('isReset')?.value">
                                   <div class="row">
-                                  <div class="col-md-6 mb-3" nz-form-item >  
+                                  <div class="col-md-6 mb-3" nz-form-item >
                                     <label for="carryoverAction" class="pb-2">
                                       Carry Over Action
                                     </label>
-    
-                                    <nz-select class="form-control placeholder-line w-100" nzSize="large" 
+
+                                    <nz-select class="form-control placeholder-line w-100" nzSize="large"
                                     nzPlaceHolder="Select Carry Over Action" formControlName="carryoverAction" class="form-control" [required]="!categories.controls[i]!.get('isReset')?.value">
                                     <nz-option *ngFor="let carryoverAction of carryoverActions" [nzValue]="carryoverAction.value"
                                       [nzLabel]="carryoverAction.name">
                                     </nz-option>
                                   </nz-select>
                                   </div>
-    
-                                  <div class="col-md-6 mb-3" nz-form-item *ngIf="categories.controls[i]!.get('carryoverAction')?.value=='Restricted'">  
+
+                                  <div class="col-md-6 mb-3" nz-form-item *ngIf="categories.controls[i]!.get('carryoverAction')?.value=='Restricted'">
                                     <label for="carryover" class="pb-2">
                                       Carry Over Quota
                                     </label>
-    
-                                    <nz-select class="form-control placeholder-line w-100" nzSize="large" 
+
+                                    <nz-select class="form-control placeholder-line w-100" nzSize="large"
                                     nzPlaceHolder="SelectCarry Over Quota" formControlName="carryover"
                                       [(ngModel)]="tempForwardDaysCount"  class="form-control" [required]="!categories.controls[i]!.get('isReset')?.value">
                                     <nz-option *ngFor="let day of forwardDaysCountArray[i]" [nzValue]="day"
@@ -1191,7 +1200,7 @@
                                   Update leave Category
                                 </button>
 
-                                
+
                                 <button [disabled]="!form.valid" [ngClass]="{'btn-border-text': form.valid}"
                                   *ngIf="!editToggle" class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)">
@@ -1223,6 +1232,9 @@
                                         Accrual Type
                                       </th>
                                       <th class="text-center" style="width: 10%">
+                                        Flexible
+                                      </th>
+                                      <th class="text-center" style="width: 10%">
                                         <span *ngIf="wfhTemplateToggle">WFH</span> <span
                                           *ngIf="!wfhTemplateToggle">Leave</span> Count
                                       </th>
@@ -1230,7 +1242,6 @@
                                         Unused <span *ngIf="wfhTemplateToggle">WFH</span> <span
                                           *ngIf="!wfhTemplateToggle">Leave</span> Action
                                       </th>
-                                 
                                         <th class="text-center" style="width: 10%" *ngIf="!wfhTemplateToggle">
                                           Carry Forward On Template Expiry
                                         </th>
@@ -1285,6 +1296,10 @@
                                           {{ category.accrualName }}</span>
                                       </td>
                                       <td class="text-center">
+                                        <span class="teme-maneger mb-0">
+                                          {{ category.isFlexible==1 ? 'Yes' : 'No' }}</span>
+                                      </td>
+                                      <td class="text-center">
                                         <span class="teme-maneger mb-0 table-font-weight">
                                           {{ category.leaveCount }}</span>
                                       </td>
@@ -1314,7 +1329,7 @@
                                         <span class="teme-maneger mb-0 table-font-weight">
                                           {{ category.carryover > 0  ? ('Upto '+category.carryover ): 'N/A' }}</span>
                                       </td>
-                            
+
                                       <td *ngIf="!updateToggle" class="text-center">
                                         <div class="d-flex align-items-center gap-2">
                                           <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
@@ -1360,7 +1375,7 @@
                         </div>
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                          
+
                           <button [ngClass]="{'btn-border': displayedCategories.length > 0}"
                             [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
                             (click)="goToStaffSelectionTab()">
@@ -1414,6 +1429,13 @@
                             </p>
 
                             <span class="separator"></span>
+                                    <label class="checkbox-label " style="width:100px;">
+                                      <input type="checkbox" [(ngModel)]="selectAllPages" name="selectAllPages" id="selectAllPages"
+                                        (change)="selectAllStaffAcrossPages()" /> &nbsp;
+                                      Select all
+                                    </label>
+
+                            <span class="separator"></span>
 
                             <button *ngIf="selectedStaffIdsUser.length > 0" (click)="clearIds()"
                               class="p-0 btn clear-section">
@@ -1435,6 +1457,20 @@
                         </div>
                         <div class="mt-3">
                           <div class="employ-list-height table-responsive">
+                            <!-- <nz-alert *ngIf="cachedStaffIdsWithoutJoiningDate.length>0" class="mb-3"
+                            nzType="info"
+                            nzMessage="{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date"
+                            nzDescription="Please add joining date to add them in this Template."
+                            nzShowIcon
+                          ></nz-alert> -->
+                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
+                            <span><i class="bi bi-exclamation-circle font-18 position-relative" style="top: -4px;"></i></span>
+                            <div>
+                              <h5 class="mb-1 font-14 text-black">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
+                              <p class="font-12 mb-0">Please add joining date to add them in this Template.</p>
+                            </div>
+
+                          </div>
                             <table class="table table-striped">
                               <thead class="thead-light">
                                 <tr>
@@ -1506,11 +1542,11 @@
                                         }}"></i>
                                       {{ staff.checked ? "Remove" : "Add" }}
                                     </button>
-                                  
+
                                   <nz-date-picker nzBorderless *ngIf="editingStaff === staff" name="addJoiningDate" id="addJoiningDate"
                                                     nzPlaceHolder="dd/mm/yyyy" [(ngModel)]="tempJoiningDate"
                                                      ></nz-date-picker>
-                                  
+
                                   <div *ngIf="editingStaff === staff" class="d-flex align-items-center mt-2">
                                     <button class="btn btn-primary me-2" (click)="saveJoiningDate(staff)">
                                       Submit
@@ -1519,7 +1555,7 @@
                                       Cancel
                                     </button>
                                   </div>
-                                  
+
                                   <button
                                     class="add-employee mt-2"
                                     *ngIf="!addEmployeeLoader(staff) && !staff.joiningDate && editingStaff !== staff"
@@ -1532,7 +1568,7 @@
                                     ></i>
                                     Add Joining Date
                                   </button>
-                                  
+
 
                                   </td>
                                 </tr>
@@ -1655,5 +1691,101 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
+
+
+<div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+      <div class="modal-content">
+          <div class="modal-body manualUpload p-0" style="background-image: url(../assets/images/user-alredy-img.svg)">
+              <!-- Close button -->
+              <div class="d-flex align-items-center justify-content-end pt-2 close-icon-btn" style="padding-right: 10px">
+                  <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31" fill="none">
+                      <mask id="mask0_3479_11687" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
+                        height="31">
+                        <rect x="0.972656" y="0.505066" width="30.0938" height="30.075" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3479_11687)">
+                        <path
+                          d="M8.99766 24.3144L7.24219 22.5601L14.2641 15.5426L7.24219 8.52507L8.99766 6.77069L16.0195 13.7882L23.0414 6.77069L24.7969 8.52507L17.775 15.5426L24.7969 22.5601L23.0414 24.3144L16.0195 17.2969L8.99766 24.3144Z"
+                          fill="#181818" />
+                      </g>
+                    </svg>
+                  </button>
+              </div>
+
+              <div class="row p-3 pb-4 pt-4 align-items-center">
+                  <div class="col-md-8">
+                      <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
+                          <h5 class="alert-heading text-warning font-16 mb-2">
+                              Users Already Assigned to Another Template
+                          </h5>
+                          <p class="mb-0 text-black">
+                              Do you want to add them to the new shift? Doing so <br />will
+                              remove them from the current Template.
+                          </p>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="side-img" style="background-image: url(../assets/images/user-img.svg)"></div>
+                  </div>
+              </div>
+
+              <div class="p-3 employee-list bg-white">
+                  <h4 class="mb-1">Employee List</h4>
+                  <div class="manualemployList">
+                      <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
+                          *ngFor="let list of userNameWithShiftName">
+                          <div class="d-flex align-items-center gap-3 w-100">
+                              <span class="userName">{{ list.userName }}</span>
+                              <div class="w-100">
+                                  <h5 class="alert-heading font-13 mb-1">{{ list.userName }}</h5>
+                                  <div class="d-flex align-items-center justify-content-between">
+                                      <p class="mb-0 font-12">{{ list.leaveTemplateName || "N/A" }}</p>
+                                      <span class="font-12 fw-semibold text-primary pointer"
+                                          (click)="removeUserFromList(list.userId)">
+                                          Remove
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="border-top p-3">
+              <div class="form-check" style="padding-left: 0px !important">
+                  <input type="checkbox" id="validationCheck"
+                      style="height: auto !important; position: relative; top: 2px"
+                      class="ng-dirty ng-touched"
+                      [(ngModel)]="isValidated"
+                      (change)="checkValidation()" />
+                  <label for="validationCheck" class="form-check-label iHaveRead" style="cursor: pointer;">
+                      I have validated the information and will proceed to add users to the new template.
+                  </label>
+              </div>
+              <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+                  <button class="btn submit-add-more" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
+                      Cancel
+                  </button>
+                  <button class="btn mannualSubmit"
+                      [disabled]="!isValidated"
+                      [ngClass]="{'btn-border': isValidated}"
+                      (click)="registerShift()">
+                      <span *ngIf="!registerToggle">Add all</span>
+                      <div class="dot-opacity-loader" *ngIf="registerToggle">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                      </div>
+                  </button>
+              </div>
+          </div>
+      </div>
   </div>
 </div>

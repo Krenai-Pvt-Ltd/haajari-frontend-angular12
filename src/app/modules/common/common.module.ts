@@ -10,7 +10,17 @@ import { HeaderComponent } from './header/header.component';
 import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
 import { AgmCoreModule } from '@agm/core';
 import { HolidayDatePickerComponent } from './holiday-date-picker/holiday-date-picker.component';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AssetRequestComponent } from './asset-request/asset-request.component';
+import { ProfileUpdateComponent } from './profile-update/profile-update.component';
+import { ExpenseRequestComponent } from './expense-request/expense-request.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { LeaveRequestComponent } from './leave-request/leave-request.component';
+import { AttendanceUpdateComponent } from './attendance-update/attendance-update.component';
 
 
 
@@ -24,11 +34,16 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     CommonComponent,
     HeaderComponent,
     NewEmployeeProfileSidebarComponent,
-    HolidayDatePickerComponent
-    
-    
+    HolidayDatePickerComponent,
+    AssetRequestComponent,
+    ProfileUpdateComponent,
+    ExpenseRequestComponent,
+    LeaveRequestComponent,
+    AttendanceUpdateComponent
+
+
   ],
-  imports: [CommonModule, CommonRoutingModule,
+  imports: [CommonModule, CommonRoutingModule, FormsModule, ReactiveFormsModule, NzFormModule, NzSelectModule, NzAutocompleteModule, NzInputModule, NgbModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],

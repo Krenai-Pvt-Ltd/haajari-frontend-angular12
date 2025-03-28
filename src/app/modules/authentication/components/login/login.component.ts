@@ -1,16 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
-import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
-import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OnboardingService } from 'src/app/services/onboarding.service';
-import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
@@ -39,7 +37,6 @@ export class LoginComponent implements OnInit {
   ) {
     this.returnUrl = localStorage.getItem('returnUrl') || '/';
      localStorage.removeItem('returnUrl');
-     console.log('kkkkkkkkkkkkkkk', this.returnUrl);
     const token = localStorage.getItem('token');
     if (!constant.EMPTY_STRINGS.includes(token)) {
       this.router.navigate(['/dashboard']);
@@ -78,10 +75,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  ROLE: any;
-  UUID: any;
+  ROLE!: any;
+  UUID!: any;
 
   signIn() {
+
     debugger
     this.loginButtonLoader = true;
     this.dataService.loginUser(this.email, this.password).pipe(
@@ -95,15 +93,20 @@ export class LoginComponent implements OnInit {
           this.UUID=this.rbacService.userInfo.uuid;
           this.ROLE = this.rbacService.userInfo.role;
 
-         if (this.ROLE === 'USER') {
+         if (this.rbacService.userInfo.role== 'USER') {
           await this.onboardingService.checkSubscriptionPlan();
           this.helperService.orgStepId = 5;
           this.onboardingService.isLoadingOnboardingStatus = false;
           // console.log('kkkkkkkkkkkkkkk', this.returnUrl);
           this.router.navigateByUrl(this.returnUrl);
           
-        } else if (this.ROLE == 'HR ADMIN') {
-           this.router.navigate(['/employee-onboarding-data']);
+        }
+         else if (this.rbacService.userInfo.role != 'ADMIN') {
+          this.helperService.orgStepId = 5;
+          this.onboardingService.isLoadingOnboardingStatus = false;
+          this.router.navigate([this.helperService.subModuleResponseList[0].description], {
+            queryParams: { userId: this.UUID, dashboardActive: 'true' },
+          });
         }
         else {
           await this._subscriptionService.LoadAsync();
@@ -122,8 +125,7 @@ export class LoginComponent implements OnInit {
               if(this.rbacService.shouldDisplay('dashboard')){
                 this.router.navigate([constant.DASHBOARD_ROUTE]);
             } else {
-              console.log(this.helperService.subModuleResponseList);
-              this.router.navigate([this.helperService.subModuleResponseList[0]], {
+              this.router.navigate([this.helperService.subModuleResponseList[0].description], {
                 queryParams: { userId: this.UUID, dashboardActive: 'true' },
               });
               // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
@@ -136,10 +138,14 @@ export class LoginComponent implements OnInit {
         }),
 
         
-        switchMap(() => this.rbacService?.userInfo?.uuid),
+        // switchMap(() => this.rbacService?.userInfo?.uuid),
         catchError((error) => {
           console.log(error);
           this.loginButtonLoader = false;
+          this.loginErrorMessage = error?.error?.message
+                    setTimeout(() => {
+            this.loginErrorMessage = '';
+          }, 5000);
           return of(null); // handle error appropriately
         })
       )
@@ -266,10 +272,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  loginErrorMessage: string = '';
   showMessageFlag: boolean = false;
   checkUserPresence() {
     this.checkFormValidation();
-
     if (this.isFormInvalid == true) {
       return;
     } else {
@@ -542,18 +548,6 @@ export class LoginComponent implements OnInit {
   authUrl: string = '';
   workspaceUrl: string = '';
   workspaceName: string = '';
-  // getSlackAuthUrl(): void {
-  //   debugger;
-  //   this.dataService.getSlackAuthUrl().subscribe(
-  //     (response: any) => {
-  //       this.authUrl = response.message;
-  //       console.log('authUrl' + this.authUrl);
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching Slack auth URL', error);
-  //     }
-  //   );
-  // }
 
 
   getSlackAuthUrlForSignInWithSlack(event: MouseEvent): void {
@@ -580,19 +574,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  //  previous
-  // getSlackAuthUrlForSignInWithSlack(): void {
-  //   debugger;
-  //   this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
-  //     (response: any) => {
-  //       this.authUrl = response.message;
-  //       console.log('authUrl' + this.authUrl);
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching Slack auth URL', error);
-  //     }
-  //   );
-  // }
 
   extractWorkspaceName(url: string): string {
     const regex = /https:\/\/([^.]+)\.slack\.com/;
@@ -675,4 +656,18 @@ export class LoginComponent implements OnInit {
      this.isPasting = false;
     }, 500);
   }
+
+  restrictNonNumeric(event: KeyboardEvent): void {
+    const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+  
+  blockArrowKeys(event: KeyboardEvent): void {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+    }
+  }
+  
 }

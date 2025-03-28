@@ -12,9 +12,11 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
 import { constant } from 'src/app/constant/constant';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-information',
@@ -45,9 +47,9 @@ export class PersonalInformationComponent implements OnInit {
       user: this.fb.group({
         name: [''],
         maritalStatus: [''],
-        email: ['', [Validators.required,Validators.email]],
+        email: ['', [Validators.required,Validators.email], [this.emailAsyncValidator.bind(this)]],
         joiningDate: [null, Validators.required],
-        phoneNumber: [''],
+        phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)], [this.phoneNumberAsyncValidator.bind(this)]],
         // currentSalary: [''],
         gender: ['',],
         department: ['',],
@@ -72,6 +74,7 @@ export class PersonalInformationComponent implements OnInit {
         country: ['',],
         pincode: ['',],
       }),
+      sameAsCurrent: [false],
       refrences: this.fb.array([]),
 
       academicDetails: this.fb.group({
@@ -94,13 +97,34 @@ export class PersonalInformationComponent implements OnInit {
       }),
       userExperience: this.fb.array([]),
       userEmergencyContacts: this.fb.array([]),
-    });
+    }, { validators: [this.phoneNumberNotEqualToUserPhone(), this.emailNotEqualToUserEmail()] });
     // this.fetchEditedFields();
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
     // this.getPendingRequest();
     this.fetchRequestedData();
     // this.approveRequestedData();
+
+    // Handle checkbox changes
+    this.onboardingForm.get('sameAsCurrent')?.valueChanges.subscribe(value => {
+      const permanentAddress = this.onboardingForm.get('permanentAddress');
+      if (value) {
+        // Copy current address values to permanent address
+        const currentAddress = this.onboardingForm.get('currentAddress')?.value;
+        permanentAddress?.patchValue(currentAddress);
+        permanentAddress?.disable(); // Make permanent address uneditable
+      } else {
+        permanentAddress?.enable(); // Make permanent address editable
+      }
+    });
+
+    // Update permanent address when current address changes and checkbox is checked
+    this.onboardingForm.get('currentAddress')?.valueChanges.subscribe(value => {
+      if (this.onboardingForm.get('sameAsCurrent')?.value) {
+        this.onboardingForm.get('permanentAddress')?.patchValue(value);
+      }
+    });
+
   }
 
 
@@ -139,12 +163,57 @@ export class PersonalInformationComponent implements OnInit {
       next: (response) => {
         this.requestedData = response;
         this.previousEditData = response;
-        console.log('Fetched Data:', response);
+        console.log('Fetched Data:', this.requestedData);
       },
       error: (error) => {
         console.error('Error:', error);
       },
     });
+  }
+
+  restrictToLetters(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only letters (A-Z and a-z)
+    if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || (charCode === 32)) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
+  }
+
+  restrictToNumbers(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only numbers (0-9)
+    if (charCode >= 48 && charCode <= 57) {
+      return true;
+    }
+    // Prevent any other characters
+    return false;
+  }
+
+
+  emailAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+    const email = control.value;
+    if (!email || this.onboardingPreviewData.user.email == email) {
+      return of(null);
+    }
+    return this.dataService.existsUserByEmail(email).pipe(
+      map(exists => (exists.status ? { emailExists: true } : null)),
+      catchError(() => of(null)) // Handle errors gracefully
+    );
+  }
+
+  // Asynchronous validator for phone number uniqueness
+  phoneNumberAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+
+    const phoneNumber = control.value;
+    if (!phoneNumber || this.onboardingPreviewData.user.phoneNumber==phoneNumber) {
+      return of(null);
+    }
+    return this.dataService.existsUserByPhone(phoneNumber).pipe(
+      map((exists: any) => (exists.status ? { phoneNumberExists: true } : null)),
+      catchError(() => of(null)) // Handle errors gracefully
+    );
   }
 
   uanValidator(control: AbstractControl): ValidationErrors | null {
@@ -182,8 +251,8 @@ export class PersonalInformationComponent implements OnInit {
     return null;
   }
   uanExists:boolean = false;
-  checkUan(uan: string) {
-    if(uan.length==12 && this.onboardingPreviewData.user.uan != uan){
+  checkUan(uan: string | null) {
+    if(uan!=null && uan.length==12 && this.onboardingPreviewData.user.uan != uan){
       this.dataService.existsUserByUan(uan).subscribe(response => {
         this.uanExists = response.status;
         console.log(response.message);
@@ -195,8 +264,8 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   esiExists:boolean = false;
-  checkEsi(esi: string) {
-    if(esi.length==17 && this.onboardingPreviewData.user.esi != esi){
+  checkEsi(esi: string | null) {
+    if(esi!=null && esi.length==17 && this.onboardingPreviewData.user.esi != esi){
       this.dataService.existsUserByEsi(esi).subscribe(response => {
         this.esiExists = response.status;
         console.log(response.message);
@@ -625,6 +694,7 @@ export class PersonalInformationComponent implements OnInit {
       emailId: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length - 1].emailId, [Validators.required, Validators.email]],
     });
     this.references.push(referenceGroup);
+    this.onboardingForm.get('references')?.untouched;
   }
 
   removeReference(index: number) {
@@ -656,6 +726,7 @@ export class PersonalInformationComponent implements OnInit {
         jobResponsibilities: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length - 1].jobResponisibilities, Validators.required],
       })
     );
+    this.onboardingForm.get('userExperience')?.untouched;
   }
 
   // Remove a job experience by index
@@ -682,6 +753,8 @@ export class PersonalInformationComponent implements OnInit {
       contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactName, Validators.required],
       contactNumber: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length - 1].contactNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     }));
+    this.onboardingForm.get('userEmergencyContacts')?.untouched;
+
   }
 
   removeEmergencyContact(index: number) {
@@ -729,7 +802,7 @@ export class PersonalInformationComponent implements OnInit {
 
   // Set status to pending
   isLoading = false;
-  changeStatus(status: String) {
+  changeStatus(status: string) {
     this.isLoading = true;
     this.dataService.profileEditStatus(status, this.userId).subscribe(
       (response) => {
@@ -888,5 +961,92 @@ export class PersonalInformationComponent implements OnInit {
   };
 
 
+  phoneNumberNotEqualToUserPhone(): ValidatorFn {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const userPhoneNumber = formGroup.get('user.phoneNumber')?.value;
+      const references = formGroup.get('references') as AbstractControl;
+      const emergencyContacts = formGroup.get('userEmergencyContacts') as AbstractControl;
+
+      // Check if user phone number exists
+      if (!userPhoneNumber) {
+        return null; // No validation if user phone number is not provided yet
+      }
+
+      // Validate references phone numbers
+      if (references) {
+        const referenceControls = (references as any).controls;
+        for (let i = 0; i < referenceControls.length; i++) {
+          const refPhoneNumber = referenceControls[i].get('phoneNumber')?.value;
+          if (refPhoneNumber && refPhoneNumber === userPhoneNumber) {
+            referenceControls[i].get('phoneNumber')?.setErrors({ duplicateUserPhone: true });
+            return { duplicateUserPhone: true };
+          } else {
+            // Clear the error if previously set
+            const currentErrors = referenceControls[i].get('phoneNumber')?.errors;
+            if (currentErrors && currentErrors['duplicateUserPhone']) {
+              delete currentErrors['duplicateUserPhone'];
+              referenceControls[i].get('phoneNumber')?.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+            }
+          }
+        }
+      }
+
+      // Validate emergency contacts phone numbers
+      if (emergencyContacts) {
+        const emergencyContactControls = (emergencyContacts as any).controls;
+        for (let i = 0; i < emergencyContactControls.length; i++) {
+          const contactPhoneNumber = emergencyContactControls[i].get('contactNumber')?.value;
+          if (contactPhoneNumber && contactPhoneNumber === userPhoneNumber) {
+            emergencyContactControls[i].get('contactNumber')?.setErrors({ duplicateUserPhone: true });
+            return { duplicateUserPhone: true };
+          } else {
+            // Clear the error if previously set
+            const currentErrors = emergencyContactControls[i].get('contactNumber')?.errors;
+            if (currentErrors && currentErrors['duplicateUserPhone']) {
+              delete currentErrors['duplicateUserPhone'];
+              emergencyContactControls[i].get('contactNumber')?.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+            }
+          }
+        }
+      }
+
+      return null; // No errors
+    };
+  }
+
+  // Custom validator to ensure emails are not equal to the user's email
+ emailNotEqualToUserEmail(): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const userEmail = formGroup.get('user.email')?.value;
+    const references = formGroup.get('references') as AbstractControl;
+    const emergencyContacts = formGroup.get('userEmergencyContacts') as AbstractControl;
+
+    // Check if user email exists
+    if (!userEmail) {
+      return null; // No validation if user email is not provided yet
+    }
+
+    // Validate references emails
+    if (references) {
+      const referenceControls = (references as any).controls;
+      for (let i = 0; i < referenceControls.length; i++) {
+        const refEmail = referenceControls[i].get('emailId')?.value;
+        if (refEmail && refEmail === userEmail) {
+          referenceControls[i].get('emailId')?.setErrors({ duplicateUserEmail: true });
+          return { duplicateUserEmail: true };
+        } else {
+          // Clear the error if previously set
+          const currentErrors = referenceControls[i].get('emailId')?.errors;
+          if (currentErrors && currentErrors['duplicateUserEmail']) {
+            delete currentErrors['duplicateUserEmail'];
+            referenceControls[i].get('emailId')?.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+          }
+        }
+      }
+    }
+
+    return null; // No errors
+  };
+}
 
 }

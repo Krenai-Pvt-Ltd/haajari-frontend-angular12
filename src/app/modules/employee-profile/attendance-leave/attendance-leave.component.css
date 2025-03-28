@@ -355,6 +355,7 @@
     font-style: normal;
     font-weight: 500;
     text-align: left;
+    line-height: 20px;
 }
 
 .attendance-summery {
@@ -1209,12 +1210,7 @@ div[ngbTooltip] {
     border-collapse: collapse;
   }
   
-  .table th,
-  .table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+ 
   
   .table-light th {
     background-color: #f9f9f9;
@@ -1231,16 +1227,16 @@ div[ngbTooltip] {
 
 .requests-btn li {
     display: inline-block;
-    border-radius: 40px;
-    border: 1px solid #CECDFF;
     background: #F4F5FF;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 5px 25px;
     margin-right: 10px;
-    color: #000;
     text-transform: capitalize;
     cursor: pointer;
+    padding: 7px 25px;
+    color: #6B7280;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #BEBEBE;
+    border-radius: 20px;
 }
 .requests-btn .active{
     background-color: #6666F2;
@@ -1326,4 +1322,63 @@ div[ngbTooltip] {
     }
 
 
-}
+      
+    }   
+    
+    
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Ensure it's above other elements */
+    overflow: hidden;
+  }
+  
+  /* Modal Container */
+  .modal-container {
+    background: #fff;
+    width: 500px;
+    max-width: 90vw; /* Responsive for smaller screens */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+  }
+
+
+  .info-message {
+    background-color: #e6e6ff;
+    border: 1px solid #6666F2;
+    color: #6666F2;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .detail-item {
+    padding: 10px 14px;
+    background-color: #f5f5f5;
+  }
+  
+
+  
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  /* Prevent background scroll when modal is open */
+  body.modal-open {
+    overflow: hidden;
+  }

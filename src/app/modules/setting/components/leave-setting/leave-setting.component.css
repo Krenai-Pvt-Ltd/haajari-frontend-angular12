@@ -1866,6 +1866,11 @@ i.bi.bi-plus {
   font-weight: 400 !important;
 }
 
+.alert-notifaction{
+  background-color: rgb(241 241 253) !important;
+  
+}
+
 
 @media screen and (max-width: 2600px) {
   .employ-list-height {

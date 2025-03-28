@@ -246,6 +246,25 @@ export class CreateExpenseComponent implements OnInit {
 
   userExpense!: any;
   fullPartialAmount: any;
+
+  showExpenseComponent: boolean = false;
+  expenseData: any= {
+    expense: {}
+  };
+  onExpenseComponentClose() {
+    this.getExpenses();
+    this.closeApproveModal.nativeElement.click();
+    this.showExpenseComponent = false;
+  }
+
+  openExpenseComponent(expense:any) {
+
+    this.expenseData.expense =expense ;
+    setTimeout(() => {
+      this.showExpenseComponent = true;
+    }, 1);
+
+  }
   getExpense(expense: any) {
 
     this.userExpense = null;

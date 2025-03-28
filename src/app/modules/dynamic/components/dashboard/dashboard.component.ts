@@ -1494,9 +1494,6 @@ getPagesNew(): (number | string)[] {
           }else {
              this.loadingFlag = false;
           }
-          // console.log('Attendance Details:', response.object);
-          // this.openEventsModal.nativeElement.click();
-
 
         },
         (error) => {

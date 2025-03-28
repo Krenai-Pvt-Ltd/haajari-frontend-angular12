@@ -1,0 +1,666 @@
+
+<div class="statutory-tab mt-3">
+   <ng-template #notVisible>
+      <p>Statutory Component is hidden</p>
+    </ng-template>
+        <ul id="pills-tab" role="tablist" class="nav nav-pills ">
+            <li class="nav-item">
+            <a id="pills-announcement-tab" data-bs-toggle="pill" href="#epf" role="tab" 
+                aria-controls="pills-dashboard" aria-selected="false"
+                class="nav-link active">Employees Provident Fund</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+            <a id="pills-notification-tab" data-bs-toggle="pill" href="#esi" role="tab"
+                aria-controls="pills-request" aria-selected="false"
+                class="nav-link">Employees State Insurance </a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#tax" role="tab"
+                    aria-controls="pills-request" aria-selected="false"
+                    class="nav-link">Professional Tax</a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <a id="pills-notification-tab" data-bs-toggle="pill" href="#fund" role="tab"
+                    aria-controls="pills-request" aria-selected="false"
+                    class="nav-link"> Labour Welfare Fund</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content mt-3" id="tabContent" >
+  
+        <div class="tab-pane fade show active" id="epf" role="tabpanel" aria-labelledby="epf-tab">
+         <form #epfForm="ngForm" ngNativeValidate (ngSubmit)="saveEpfDetail()" (focusin)="onFocus()">
+
+            <div class="p-2 mb-10">
+               <div class="row">
+                  <div class="col-md-4">
+                    
+                     <div class="payroll-details-box">
+                        <h4 class="font-13 text-black fw-semibold lh-1">EPF Details</h4>
+                        <p class="text-muted font-11 lh-base fw-normal mb-0">this section contain EPF no, deduction cycle <br> pattern and employ contribution rate</p>
+                     </div>
+                  </div>
+                  <div class="col-md-8">
+
+                     <div class="organization-detail">
+                        <div class="row">
+                           <div class="col-md-12 mb-3">
+                              <input type="text" placeholder="Enter EPF Number" required name="epfNumber" class="form-control whatsapp-login-input" 
+                              maxlength="18"
+                              minlength="17"
+                              pattern="^[A-Z]{2}/[A-Z]{3}/[0-9]{7}/[A-Z0-9]{3}$"
+                              oninput="this.value = this.value.toUpperCase()" 
+                              [(ngModel)]="epfNumberForView"
+                              (input)="formatEpfNumber($event)" >
+                              
+                              <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: AA/AAA/0000000/XXX</p>
+                           </div>
+                           <div class="col-md-6 mb-3">
+                              <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                 <div class="w-50 currency-types-border">
+                                    <p class="mb-0 font-13 fw-light">Employee Contribution</p><span class="text-danger">*</span>
+                                 </div>
+                                 <div class="w-50">
+                                    <div class="w-100">
+                                       <nz-select 
+                                       name="employeeContriution"
+                                       class="form-control w-100 placeholder-line currency-types" 
+                                       nzSize="large" 
+                                       nzPlaceHolder="Select Employee Contribution"
+                                       [(ngModel)]="epfDetail.employeeContribution" 
+                                       [disabled]="epfDetail.employerContribution == 1" 
+                                       (ngModelChange)="calculatePFContribution()"
+                                        required>
+                                        <nz-option 
+                                        *ngFor="let pf of filteredEmployeeContributions" 
+                                        [nzLabel]="pf.description" 
+                                        [nzValue]="pf.id"
+                                        >
+                                       </nz-option>
+                                       </nz-select>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-6 mb-3">
+                              <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
+                                 <div class="w-50 currency-types-border">
+                                    <p class="mb-0 font-13 fw-light">Deduction Cycle</p>
+                                 </div>
+                                 <div class="w-50">
+                                    <div class="w-100">
+                                       <h5 class="mb-0 font-14 fw-semibold px-3">Monthly</h5>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <hr class="mt-5 mb-5">
+               <div class="row">
+                  <div class="col-md-4">
+                     <div class="payroll-details-box">
+                        <h4 class="font-13 text-black fw-semibold lh-1">Employer Contribution Rate </h4>
+                        <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
+                     </div>
+                  </div>
+                  <div class="col-md-8">
+                     <div class="organization-detail">
+                        <div class="row">
+                           <div class="col-md-12 mb-4">
+                              <nz-select 
+                              class="form-control w-100 placeholder-line" 
+                              nzSize="large" 
+                              name="employerContribution"
+                              nzPlaceHolder="Select Employer Contribution"
+                              [(ngModel)]="epfDetail.employerContribution" 
+                              (ngModelChange)="calculatePFContribution()"
+                              required>
+                              <nz-option 
+                              *ngFor="let pf of filteredEmployerContributions" 
+                              [nzLabel]="pf.description" 
+                              [nzValue]="pf.id">
+                              </nz-option>
+                              </nz-select>
+                           </div>
+                           <div class="col-md-12 mb-4">
+                              <div class="form-check mb-3 d-flex align-items-center gap-2">
+                                 <input type="checkbox" class="form-check-input" id="exampleCheck1" name="isCtcIncluded" [(ngModel)]="epfDetail.isCtcIncluded">
+                                 <label class="form-check-label font-13" for="exampleCheck1">Include employer's contribution in employee’s salary structure.</label>
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <h5 class="mb-4 font-14 fw-semibold">PF Configuration when LOP Applied</h5>
+                              <div class="form-check mb-3 d-flex align-items-start gap-2">
+                                 <input type="checkbox" class="form-check-input" id="exampleCheck3" name ="isProRate" [(ngModel)]="epfDetail.isProRate">
+                                 <div>
+                                    <label class="form-check-label font-13" for="exampleCheck3">Pro-rate Restricted PF Wage</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">PF contribution will be pro-rated based on the number of days worked by the employee.</p>
+                                 </div>
+                              </div>
+                              <div class="form-check d-flex align-items-start gap-2">
+                                 <input type="checkbox" class="form-check-input" id="exampleCheck4" name="condiserLop" [(ngModel)]="epfDetail.condiserLop">
+                                 <div>
+                                    <label class="form-check-label font-13" for="exampleCheck4">Consider all applicable salary components if PF wage is less than ₹15,000 after Loss of Pay</label>
+                                    <p class="mb-0 font-12 fw-light text-optional">PF wage will be computed using the salary earned in that particular month (based on LOP) rather<br> than the actual amount mentioned in the salary structure.</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <hr class="mt-5 mb-5">
+               <div class="row">
+                  <div class="col-md-4">
+                     <div class="payroll-details-box">
+                        <h4 class="font-13 text-black fw-semibold lh-1">Sample EPF Calculation</h4>
+                        <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain EPF no,<br> deduction cycle</p>
+                     </div>
+                  </div>
+                  <div class="col-md-8">
+                     <div class="organization-detail">
+                        <h5 class="mb-4 font-14 fw-semibold">Let's assume the PF wage is ₹ 20,000. The breakup of contribution will be</h5>
+                        <div class="employee-calculation p-3 border-rounded-2 mb-4">
+                           <h5 class="mb-4 font-14 fw-semibold text-black">Employee's Contribution</h5>
+                           <div class="pb-3 border-bottom b d-flex alig-items-center justify-content-between mb-3">
+                              <p class="mb-0 font-13 fw-normal">EPF (12% of {{employeepfWageValue}})</p>
+                              <p class="mb-0 font-13 fw-normal">₹ {{calculatedpfWageValue}}</p>
+                           </div>
+                           <h5 class="mb-4 font-14 fw-semibold text-black">Employer's Contribution</h5>
+                           <div class="pb-4 border-bottom">
+                              <div class="d-flex alig-items-center justify-content-between mb-3">
+                                 <p class="mb-0 font-13 fw-normal">EPS (8.33% of {{employerpfWageValue}} (Max of ₹ 15000))</p>
+                                 <p class="mb-0 font-13 fw-normal">₹ {{calculatedemployrepsWageValue}}</p>
+                              </div>
+                              <div class="d-flex alig-items-center justify-content-between">
+                                 <p class="mb-0 font-13 fw-normal">EPF (12% of {{employerpfWageValue}} - EPS)</p>
+                                 <p class="mb-0 font-13 fw-normal">₹ {{calculatedemployrepfWageValue}}</p>
+                              </div>
+                           </div>
+                           <div class="pt-3 d-flex alig-items-center justify-content-between">
+                              <p class="mb-0 font-14 fw-semibold">Total</p>
+                              <p class="mb-0 font-13 fw-normal">₹ {{totalValue}}</p>
+                           </div>
+                        </div>
+                        <div>
+                           <h5 class="mb-3 font-13 fw-semibold lh-base">Do you want to preview EPF calculation for multiple cases, based on the preferences <br> you have configured ?</h5>
+                           <button class="btn p-0 text-primary text-decoration-underline font-13  fw-semibold" data-bs-toggle="modal" data-bs-target="#EPF-calculation" type="button">
+                              Preview EPF Calculation
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 21" fill="none">
+                                 <mask id="mask0_9246_6926" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                    <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
+                                 </mask>
+                                 <g mask="url(#mask0_9246_6926)">
+                                    <path d="M10 13.834C11.0417 13.834 11.9271 13.4694 12.6563 12.7402C13.3855 12.0111 13.75 11.1257 13.75 10.084C13.75 9.04232 13.3855 8.1569 12.6563 7.42773C11.9271 6.69857 11.0417 6.33398 10 6.33398C8.95837 6.33398 8.07296 6.69857 7.34379 7.42773C6.61462 8.1569 6.25004 9.04232 6.25004 10.084C6.25004 11.1257 6.61462 12.0111 7.34379 12.7402C8.07296 13.4694 8.95837 13.834 10 13.834ZM10 12.334C9.37504 12.334 8.84379 12.1152 8.40629 11.6777C7.96879 11.2402 7.75004 10.709 7.75004 10.084C7.75004 9.45898 7.96879 8.92773 8.40629 8.49023C8.84379 8.05273 9.37504 7.83398 10 7.83398C10.625 7.83398 11.1563 8.05273 11.5938 8.49023C12.0313 8.92773 12.25 9.45898 12.25 10.084C12.25 10.709 12.0313 11.2402 11.5938 11.6777C11.1563 12.1152 10.625 12.334 10 12.334ZM10 16.334C7.97226 16.334 6.12504 15.768 4.45837 14.6361C2.79171 13.5041 1.58337 11.9868 0.833374 10.084C1.58337 8.18121 2.79171 6.66385 4.45837 5.5319C6.12504 4.39996 7.97226 3.83398 10 3.83398C12.0278 3.83398 13.875 4.39996 15.5417 5.5319C17.2084 6.66385 18.4167 8.18121 19.1667 10.084C18.4167 11.9868 17.2084 13.5041 15.5417 14.6361C13.875 15.768 12.0278 16.334 10 16.334ZM10 14.6673C11.5695 14.6673 13.0105 14.2541 14.323 13.4277C15.6355 12.6013 16.6389 11.4868 17.3334 10.084C16.6389 8.68121 15.6355 7.56662 14.323 6.74023C13.0105 5.91385 11.5695 5.50065 10 5.50065C8.4306 5.50065 6.98962 5.91385 5.67712 6.74023C4.36462 7.56662 3.36115 8.68121 2.66671 10.084C3.36115 11.4868 4.36462 12.6013 5.67712 13.4277C6.98962 14.2541 8.4306 14.6673 10 14.6673Z" fill="#6666F2"/>
+                                 </g>
+                              </svg>
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
+                <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
+                        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                [disabled]="saveLoader">
+                <div *ngIf="saveLoader" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span *ngIf="!saveLoader"> Save</span>      
+            </button>
+         
+            </div>
+         </form>
+            </div>
+ 
+        <div class="tab-pane fade" id="esi" role="tabpanel" aria-labelledby="esi-tab">
+         <form #esiForm="ngForm" ngNativeValidate (ngSubmit)="saveEsiDetail()" (focusin)="onFocus()">
+            <div class="px-4 pt-3 mb-10">
+               <!-- <h5 class="mb-5 font-15 fw-semibold">Employees State Insurance </h5> -->
+               <div class="row">
+                <div class="col-md-4">
+                   <div class="payroll-details-box">
+                      <h4 class="font-13 text-black fw-semibold lh-1">ESI Details</h4>
+                      <p class="text-muted font-11 fw-normal lh-base mb-0">this section contain ESI no, deduction cycle <br> pattern and employ contribution rate</p>
+                   </div>
+                </div>
+                <div class="col-md-8">
+                   <div class="organization-detail">
+                      <div class="row">
+                         <div class="col-md-6 mb-3">
+                           <input 
+                           type="text" 
+                           placeholder="Enter ESI Number" 
+                           required 
+                           name="esiNumber" 
+                           maxlength="21"
+                           class="form-control whatsapp-login-input" 
+                           [(ngModel)]="esiNumberForView"
+                           pattern="^\d{2}-\d{2}-\d{6}-\d{3}-\d{4}$"
+                           (input)="formatEsiNumber($event)">
+                       
+                            <p class="mb-0 mt-2 text-optional font-12 fw-light px-1">Format: 00-00-000000-000-0000</p>
+                         </div>
+                         <div class="col-md-6 mb-3">
+                            <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                               <div class="w-50 p-3 currency-types-border">
+                                  <p class="mb-0 font-13 fw-light">Deduction Cycle</p>
+                               </div>
+                               <div class="w-50">
+                                  <div class="w-100">
+                                     <h5 class="mb-0 font-14 fw-semibold px-3">Monthly</h5>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                         <div class="col-md-6 mb-3">
+                            <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                               <div class="w-50 p-3 currency-types-border">
+                                  <p class="mb-0 font-13 fw-light">Employee Contribution</p>
+                               </div>
+                               <div class="w-50">
+                                  <div class="w-100">
+                                     <h5 class="mb-0 font-14 fw-semibold px-3">0.75%  of Gross Pay</h5>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                         <div class="col-md-6 mb-3">
+                            <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center background-light">
+                               <div class="w-50 p-3 currency-types-border">
+                                  <p class="mb-0 font-13 fw-light">Employer Contribution</p>
+                               </div>
+                               <div class="w-50">
+                                  <div class="w-100">
+                                     <h5 class="mb-0 font-14 fw-semibold px-3">3.25%  of Gross Pay</h5>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                         <div class="col-md-12 mb-3 mt-2">
+                            <div class="form-check mb-3 d-flex align-items-center gap-2">
+                                <input type="checkbox" class="form-check-input" id="isCtcIncluded" name="isCtcIncluded" [(ngModel)]="esiDetail.isCtcIncluded">
+                                <label class="form-check-label font-13" for="isCtcIncluded">Include employer's contribution in employee’s salary structure.</label>
+                             </div>
+                         </div>
+                         <div class="col-md-12 mt-3 ">
+                            <div class="employee-calculation p-3 border-rounded-2">
+                            <h5 class="mb-2 font-14 text-warning">Note</h5>
+                            <p class="mb-0 font-13 fw-light lh-lg"> ESI deductions will be made only if the employee’s monthly salary is less than or equal to ₹21,000. If the employee gets a salary revision which increases their monthly salary above ₹21,000, they would have to continue making ESI contributions till the end of the contribution period in which the salary was revised (April-September or October-March).</p>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+            </div>
+            <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="isAnyFieldFocused">
+                <!-- <button class="btn cancel-btn font-13 fw-semibold mt-0">Cancel</button> -->
+                <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"
+                [disabled]="saveLoader">
+                <div *ngIf="saveLoader" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span *ngIf="!saveLoader"> Save</span>      
+            </button>
+            </div>
+         </form>
+        </div>
+      
+        <div class="tab-pane fade" id="tax" role="tabpanel" aria-labelledby="tax-tab">
+         <div class="px-4 pt-3">
+             <div class="row">
+                 <div class="col-md-4">
+                    <div class="payroll-details-box">
+                       <h4 class="font-14 text-black fw-semibold lh-1">Professional Tax</h4>
+                       <p class="text-muted font-11 fw-normal lh-base mb-0">This tax is levied on an employee’s income by the State <br> Government. Tax slabs differ in each state.</p>
+                    </div>
+                 </div>
+                 <div class="col-md-8">
+                    <div class="tax-location-list">
+                         <div class="" *ngFor="let professionalTax of professionalTaxDetail; let i = index;">
+                           <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
+                             <div class="d-flex align-items-center gap-3">
+                                 <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                         <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                         <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
+                                         </mask>
+                                         <g mask="url(#mask0_9267_9258)">
+                                         <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
+                                         </g>
+                                     </svg>
+                                 </span>
+                                 <h5 class="mb-0 font-14 fww-semibold">{{professionalTax.state}}</h5>
+                             </div>
+                             <div class="d-flex align-itemms-center gap-3" *ngIf="!professionalTax.taxApplicable">
+                                 <p class="mb-0 font-13 fw-normal text-danger">Tax Not Applicable</p>
+                             </div>
+                             <div class="d-flex align-items-center gap-3" *ngIf="professionalTax.taxApplicable">
+                              <button class="btn p-0 font-13 fw-normal text-primary " data-bs-toggle="modal" data-bs-target="#taxSlabs" (click)="viewSelectedSlab(professionalTax)">View Tax Slabs</button>
+                              <span class="location-detail d-flex align-items-center justify-content-center"
+                                    [attr.aria-expanded]="isDropdownOpen(i)" (click)="toggleDropdown(i)"
+                                    data-bs-toggle="collapse" [attr.data-bs-target]="'#tax-detail'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'tax-detail' + i">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
+                                       class="transition">
+                                      <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
+                                  </svg>
+                              </span>
+                          </div>
+                        </div>
+
+                          <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom" [id]="'tax-detail' + i" [class.show]="isDropdownOpen(i)">
+                           <div class="row">
+                               <div class="col-md-12 mb-3 ">
+                                 <form #ptForm="ngForm" ngNativeValidate (ngSubmit)="savePtNumber(professionalTax.state)">
+
+                                   <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
+                                       <div class="w-25 currency-types-border">
+                                           <p class="mb-0 font-14 fw-light">PT Number</p>
+                                       </div>
+                                       <div class="w-75 position-relative" >
+                                          <input type="text" placeholder="Professional Tax no." required name="ptNumber" class="form-control borderLess" 
+                                          pattern="^[A-Z]{2}[PT]{1,2}[0-9]{5,12}$"
+                                          [(ngModel)]="professionalTax.professionalTaxNumber" [ngModelOptions]="{standalone: true}"
+                                          [disabled]="!editingStates[professionalTax.state]">
+                                          <button class="btn p-0 editBtn" (click)="toggleEdit(professionalTax.state)" *ngIf="!editingStates[professionalTax.state]">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                                  <mask id="mask0_9271_10147" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                                                  <rect x="0.211914" y="0.03125" width="23.9346" height="23.9346" fill="#D9D9D9"/>
+                                                  </mask>
+                                                  <g mask="url(#mask0_9271_10147)">
+                                                  <path d="M5.19865 18.9798H6.61977L16.3681 9.23148L14.947 7.81036L5.19865 17.5587V18.9798ZM3.2041 20.9744V16.736L16.3681 3.59687C16.5676 3.41404 16.7878 3.27276 17.0288 3.17303C17.2698 3.0733 17.5233 3.02344 17.7893 3.02344C18.0552 3.02344 18.3128 3.0733 18.5621 3.17303C18.8115 3.27276 19.0275 3.42235 19.2104 3.6218L20.5816 5.01799C20.7811 5.20082 20.9265 5.4169 21.0179 5.66622C21.1093 5.91554 21.1551 6.16485 21.1551 6.41417C21.1551 6.68011 21.1093 6.93359 21.0179 7.1746C20.9265 7.4156 20.7811 7.63584 20.5816 7.83529L7.44252 20.9744H3.2041ZM15.6451 8.53338L14.947 7.81036L16.3681 9.23148L15.6451 8.53338Z" fill="#1C1B1F"/>
+                                                  </g>
+                                              </svg>
+                                          </button>
+                                          <button type="submit" class="btn p-0 font-14 fw-semibold text-primary saveBtn" *ngIf="editingStates[professionalTax.state]"
+                                             [ngClass]="{'disabled-lnk': saveLoader }">
+                                          <div class="text-center" *ngIf="saveLoader">
+                                             <div class="spinner-border text-center" role="status" >
+                                                <span class="visually-hidden">Loading...</span>
+                                             </div>
+                                           </div>
+                                          <span *ngIf="!saveLoader"> Save</span>      
+                                      </button>
+                                                                  
+                                      </div>
+                                      
+                                   </div>
+                                                                         </form>
+
+                               </div>
+                               <div class="col-md-6">
+                                   <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
+                                      <div class="w-50 p-3 currency-types-border">
+                                         <p class="mb-0 font-13 fw-light">State </p>
+                                      </div>
+                                      <div class="w-50">
+                                         <div class="w-100">
+                                            <h5 class="mb-0 font-14 fw-semibold px-3">{{professionalTax.state}}</h5>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </div>
+                                <div class="col-md-6">
+                                   <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center bg-white">
+                                      <div class="w-50 p-3 currency-types-border">
+                                         <p class="mb-0 font-13 fw-light">Deduction </p>
+                                      </div>
+                                      <div class="w-50">
+                                         <div class="w-100">
+                                            <h5 class="mb-0 font-14 fw-semibold px-3">{{professionalTax.deductionFrequency}}</h5>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </div>
+                           </div>
+
+                       </div>
+                     </div>
+               
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="tab-pane fade" id="fund" role="tabpanel" aria-labelledby="fund-tab">
+      <div class="px-4 pt-3">
+          <div class="row">
+              <div class="col-md-4">
+                 <div class="payroll-details-box">
+                    <h4 class="font-13 text-black fw-semibold lh-1">Labour Welfare Fund</h4>
+                    <p class="text-muted font-11 mb-0 lh-base fw-normal">Labour Welfare Fund act ensures social security <br> and improves working conditions for employees.
+                    </p>
+                 </div>
+              </div>
+              <div class="col-md-8">
+                 <div class="tax-location-list" >
+                      <div *ngFor="let labourWelfareFund of labourWelfareFundDetail; let i= index;">
+                        <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pt-3">
+                          <div class="d-flex align-items-center gap-3">
+                              <span class="location-icon radius-50 d-flex align-items-center justify-content-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                      <mask id="mask0_9267_9258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                                      <rect x="0.921875" y="0.921875" width="23.1562" height="23.1562" fill="#D9D9D9"/>
+                                      </mask>
+                                      <g mask="url(#mask0_9267_9258)">
+                                      <path d="M12.5011 12.37C12.9811 12.37 13.3915 12.199 13.7323 11.8572C14.0732 11.5153 14.2436 11.1044 14.2436 10.6243C14.2436 10.1443 14.0727 9.73387 13.7308 9.39296C13.3889 9.05221 12.9779 8.88184 12.4977 8.88184C12.0177 8.88184 11.6074 9.05277 11.2666 9.39465C10.9257 9.73653 10.7552 10.1476 10.7552 10.6277C10.7552 11.1077 10.9262 11.5181 11.2681 11.8589C11.6099 12.1996 12.021 12.37 12.5011 12.37ZM12.4994 19.7494C14.387 18.0596 15.8314 16.4388 16.8328 14.887C17.8341 13.3352 18.3348 11.9761 18.3348 10.8096C18.3348 9.05068 17.776 7.6047 16.6584 6.47166C15.5408 5.33861 14.1545 4.77208 12.4994 4.77208C10.8444 4.77208 9.45809 5.33861 8.34048 6.47166C7.22287 7.6047 6.66406 9.05068 6.66406 10.8096C6.66406 11.9761 7.16474 13.3352 8.16608 14.887C9.16743 16.4388 10.6119 18.0596 12.4994 19.7494ZM12.4994 21.6752C10.0712 19.5712 8.25043 17.6131 7.03697 15.801C5.82352 13.9887 5.2168 12.3249 5.2168 10.8096C5.2168 8.58306 5.93697 6.78049 7.37732 5.40189C8.81784 4.02328 10.5252 3.33398 12.4994 3.33398C14.4737 3.33398 16.181 4.02328 17.6216 5.40189C19.0619 6.78049 19.7821 8.58306 19.7821 10.8096C19.7821 12.3249 19.1754 13.9887 17.9619 15.801C16.7485 17.6131 14.9276 19.5712 12.4994 21.6752Z" fill="#444444"/>
+                                      </g>
+                                  </svg>
+                              </span>
+                              <h5 class="mb-0 font-13 fww-semibold">{{labourWelfareFund.state}}</h5>
+                          </div>
+                          <ng-container *ngIf="labourWelfareFund.taxApplicable">
+                           <div class="d-flex align-items-center gap-3" >
+                              <!-- <button class="btn p-0 font-13 fw-normal text-primary" data-bs-toggle="modal" data-bs-target="#taxSlabs">View Tax Slabs</button> -->
+                             
+                              <div class="d-flex align-items-center gap-2">
+                                 <p class="mb-0 font-13 fw-normal text-optional">Disabled</p>
+                                 <nz-switch [ngModel]="checkStatus(labourWelfareFund.state)" (ngModelChange)="changeLwfStatus($event, labourWelfareFund.state)" 
+                                 [nzLoading]="loadingStates[labourWelfareFund.state]" ></nz-switch>
+
+
+                                 <p   class="mb-0 font-13 fw-semibold">Enable</p>
+                              </div>
+                              <span class="location-detail d-flex align-items-center justify-content-center"
+                              [attr.aria-expanded]="isDropdownOpen(i)" 
+                              (click)="toggleDropdown(i)"
+                              data-bs-toggle="collapse" [attr.data-bs-target]="'#tax-detail'+i"  role="button" aria-expanded="false" [attr.aria-controls]="'tax-detail' + i">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none"
+                                 class="transition">
+                                <path d="M6.74661 7.87461L0.651367 1.87461L2.07359 0.474609L6.74661 5.07461L11.4196 0.474609L12.8418 1.87461L6.74661 7.87461Z" fill="#444444"/>
+                            </svg>
+                        </span>
+                          </div>
+                          </ng-container>
+                          
+                          <div class="d-flex align-itemms-center gap-3"  *ngIf="!labourWelfareFund.taxApplicable">
+                              <p class="mb-0 font-13 fw-normal text-danger" noTax>Tax Not Applicable</p>
+                          </div>
+                        </div>
+                       
+                          <div class="p-3 location-detail-dropdown border-radius-2 collapse border-bottom" [id]="'tax-detail' + i" [class.show]="isDropdownOpen(i)">
+                           <div class="row">
+                             <div class="d-flex align-items-center justify-content-between">
+                                <p class="font-13 fw-normal text-optional">Employees' Contribution</p>
+                                <h5 class="font-13 fw-600 text-black">₹ {{labourWelfareFund.employeeContribution}}</h5>
+                             </div>
+                             <div class="d-flex align-items-center justify-content-between">
+                                <p class="font-13 fw-normal text-optional">Employer's Contribution</p>
+                                <h5 class="font-13 fw-600 text-black">₹ {{labourWelfareFund.employerContribution}}</h5>
+                             </div>
+                             <div class="d-flex align-items-center justify-content-between">
+                                <p class="mb-0 font-13 fw-normal text-optional">Deduction Cycle</p>
+                                <h5 class="mb-0 font-13 fw-600 text-black">{{labourWelfareFund.deductionFrequency}}</h5>
+                             </div>
+                          </div>
+                           </div>
+                      </div>
+
+                      
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+    </div>
+
+
+     <!-- Modal EPF Sample Calculation start -->
+     <div class="modal fade" id="EPF-calculation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 900px;">
+      <div class="modal-content ">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">EPF Sample Calculation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p class="font-14 fw-light">Let's assume the salary packages considered for EPF is as shown as below, the calculation is based on the settings we’ve configured</p>
+          <div class="sample-calculation-data">
+              <div class="sample-calculation p-3 border-rounded-2">
+                  <h5 class="mb-2 font-14 text-primary fw-semibold">PF Contribution Settings</h5>
+                  <p class="mb-1 font-13 fw-light">Employer Contribution:	<span class="fw-semibold">  {{employerContributorDetail()}}</span></p>
+                  <p class="font-13 fw-light">Employee Contribution:	<span class="fw-semibold">{{employeeContributorDetail()}}</span></p>
+              </div>
+              <div class="sample-calculation p-3 border-rounded-2 pt-0">
+                  <h5 class="mb-2 font-14 text-primary fw-semibold">Lop Contribution </h5>
+                  <p class="mb-1 font-13 fw-light">Pro-rate Restricted PF Wage:	<span class="fw-semibold" *ngIf="epfDetail.isProRate==0">Disabled</span> <span class="fw-semibold" *ngIf="epfDetail.isProRate==1">Enabled</span></p>
+                  <p class="font-13 fw-light">Consider all components when PF wage < ₹15,000 after LOP: <span class="fw-semibold" *ngIf="epfDetail.condiserLop==0">Disabled</span> <span class="fw-semibold" *ngIf="epfDetail.condiserLop==1">Enabled</span></p>
+              </div>
+            </div>
+            <div class="sample-calculation-list mt-3">
+              <div class="d-flex alig-items-center justify-content-between">
+                  <h5 class="mb-0 font-14 fw-semibold">Salary and EPF Calculation</h5>
+                  <div class="form-check d-flex align-items-center gap-2">
+                      <input type="checkbox" class="form-check-input position-relative" id="exampleCheck6" [(ngModel)]="isLopChecked"  (change)="toggleLOPVisibility()">
+                      <label class="form-check-label font-13" for="exampleCheck6">With 15 days LOP</label>
+                   </div>
+              </div>
+          </div>
+          <div class="table-responisve mt-3">
+              <table class="table">
+                  <tbody>
+                      <tr>
+                          <th class="font-14" style="width:40%;">Salary Components &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
+                          <th class="text-center font-14" style="width:20%;">Package 1</th>
+                          <th class="text-center font-14" style="width:20%;">Package 2</th>
+                          <th class="text-center font-14" style="width:20%;">Package 3</th>
+                      </tr>
+                      <tr>
+                          <td>
+                              <span>
+                                  <h5 class="font-13 fw-600 mb-1 ">Basic</h5>
+                                  <p class="mb-0 font-12 fw-normal text-optional">Always considered for EPF</p>
+                              </span>
+                          </td>
+                          <td class="text-center font-13">₹ {{ calculateValue(25000) }}</td>
+                          <td class="text-center font-13">₹ {{ calculateValue(18000) }}</td>
+                          <td class="text-center font-13">₹ {{ calculateValue(12000) }}</td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <span>
+                                  <h5 class="font-13 fw-600 mb-1 ">Transport Allowance</h5>
+                                  <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
+                              </span>
+                          </td>
+                          <td class="text-center font-13">₹ {{ calculateValue(4000) }}</td>
+                          <td class="text-center font-13">₹ {{ calculateValue( 2000) }}</td>
+                          <td class="text-center font-13">₹ {{ calculateValue(1500) }}</td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <span>
+                                  <h5 class="font-13 fw-600 mb-1 ">Telephone Allowance</h5>
+                                  <p class="mb-0 font-12 fw-normal text-optional">Considered for EPF only when PF wage < ₹ 15,000</p>
+                              </span>
+                          </td>
+                          <td class="text-center font-13">₹ {{ calculateValue( 3500) }}</td>
+                          <td class="text-center font-13">₹ {{ calculateValue( 3000) }}</td>
+                          <td class="text-center font-13">₹ {{ calculateValue( 1000) }}</td>
+                      </tr>
+                      <tr class="bg-color">
+                          <th class="font-14" style="width:40%;">EPF Contribution &nbsp;&nbsp; <span class="badge rounded-pill badge-soft-warning font-12" *ngIf="isLopChecked"> With 15 Days Lop</span></th>
+                          <th class="text-center">
+                              <span>
+                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ (calculateEpfValue(25000,4000,3500) * 0.12) }} </h5>
+                                  <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateEpfValue(25000,4000,3500) }}</p>
+                              </span>
+                          </th>
+                          <th class="text-center">
+                              <span>
+                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ (calculateEpfValue(18000,2000,3000) * 0.12) }}</h5>
+                                  <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateEpfValue(18000,2000,3000) }}</p>
+                              </span>
+                          </th>
+                          <th class="text-center">
+                              <span>
+                                  <h5 class="font-13 fw-600 mb-1 ">₹ {{ (calculateEpfValue(12000,1500,1000) * 0.12) }}</h5>
+                                  <p class="mb-0 font-12 fw-normal text-optional">12% of {{ calculateEpfValue(12000,1500,1000) }}</p>
+                              </span>
+                          </th>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      </div>
+  </div>
+    </div>
+  <!-- Modal EPF Sample Calculation end -->
+
+
+      <!-- ModalTax Slabs for Assam start -->
+      <div class="modal fade" id="taxSlabs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+         <div class="modal-dialog modal-dialog-centered">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Tax Slabs for {{selectedProfessionalTax.state}}</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+               <div class="tax-slabs">
+                 
+                 <div class="modal-body">
+                 <div class="tax-slabs">
+                     <div class="d-flex align-items-center justify-content-between">
+                         <p class="mb-1 font-13 fw-light">Deduction Cycle: <span class="fw-semibold">{{selectedProfessionalTax.deductionFrequency}}</span></p>
+                     </div>
+     
+                 <div class="table-responisve sample-tax-slabs-list mt-3">
+                     <table class="table">
+                         <tbody>
+                             <tr >
+                                 <th class="font-13" style="width:50%;">{{selectedProfessionalTax.deductionFrequency}} Gross Salary ( ₹ )</th>
+                                 <th class="font-13" style="width:50%;">{{selectedProfessionalTax.deductionFrequency}} Tax Amount ( ₹ )</th>
+                             </tr>
+                             <tr *ngFor="let slab of selectedProfessionalTax?.professionalTaxSlab">
+                                 <td class="font-13">₹ {{slab.minAmount ?? 0}}-{{slab.maxAmount ?? 9999999}} </td>
+                                 <td class="font-13">₹ {{slab.taxAmount}}</td>
+                             </tr>
+                             
+                         </tbody>
+                     </table>
+                 </div>
+             </div>
+             </div>
+         </div>
+             </div>
+       
+       </div>
+         </div>
+     </div>
+         <!-- ModalTax Slabs for Assam end -->
+
+   

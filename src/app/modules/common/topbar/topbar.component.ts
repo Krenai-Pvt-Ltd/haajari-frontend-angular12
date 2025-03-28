@@ -42,6 +42,7 @@ export class TopbarComponent implements OnInit {
   topbarValue: string | undefined;
 
   ROLE: any;
+  userInfo: any;
   // UUUI!:String;
   async ngOnInit() {
     // this.UUID = await this.rbacService.getUUID();
@@ -52,6 +53,10 @@ export class TopbarComponent implements OnInit {
       this.updateTopbarValue();
     });
     this.getUuids();
+    setTimeout(() => {
+      this.getMailNotification(this.UUID, 'mail');
+    }, 10);
+    this.userInfo =this.rbacService.userInfo;
   }
   routeDesc:any="Here's what's going on today.";
   private updateTopbarValue() {
@@ -159,6 +164,12 @@ export class TopbarComponent implements OnInit {
       routeDesc="Control User Roles and Permissions"
       break;
     }
+
+    case this.Routes.ADDROLE:{
+      routeValue = 'Add Role';
+      routeDesc="Control User Roles and Permissions"
+      break;
+    }
     case this.Routes.EXITPOLICY:{
       routeValue = 'Exit-policy';
       routeDesc="Manage Employee Exiting Processes"
@@ -199,6 +210,26 @@ export class TopbarComponent implements OnInit {
       routeDesc="Manage Employee Expense Reimbursements"
       break;
     }
+    case this.Routes.PAYROLL:{
+      routeValue = 'Payroll Overview';
+      routeDesc="Manage and Review Payroll Processes"
+      break;
+    }
+    case this.Routes.CONFIGURATION:{
+      routeValue = 'Configuration';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
+    case this.Routes.EARNINGDETAILS:{
+      routeValue = 'Earning';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
+    case this.Routes.SALARYTEMPLATE:{
+      routeValue = 'Salary Templates';
+      routeDesc="Manage Employee Expense Reimbursements"
+      break;
+    }
 
    }
 
@@ -221,7 +252,7 @@ export class TopbarComponent implements OnInit {
   UUID: any;
   orgUuid: any;
   async getUuids() {
-    this.UUID = await this.rbacService.getUUID();
+    this.UUID = await this.rbacService.getUuid();
     this.employeeProfileRoute = `${Key.EMPLOYEE_PROFILE_ROUTE}?userId=${this.UUID}`;
     // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE +'?userId={{UUID}}';
     this.orgUuid = await this.rbacService.getOrgRefUUID();

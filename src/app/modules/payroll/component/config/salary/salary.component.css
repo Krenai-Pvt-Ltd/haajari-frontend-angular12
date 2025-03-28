@@ -1,0 +1,99 @@
+.statutory-tab{
+    border-bottom: 1px solid #E3E3E3;
+  }
+.statutory-tab ul li{
+  list-style: none;
+}
+.statutory-tab li{
+    line-height: 50px;
+  }
+
+
+.nav.nav-pills{
+    border-bottom: none;
+}
+
+.payroll-fix-footer{
+  padding-left: 35%;
+}
+
+.benefits-list-td{
+  padding: 0px !important;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
+
+/*
+Earning
+*/
+.backBtn{
+  width: 35px;
+  height: 35px;
+  border: 1px solid #6666F2;
+}
+.background-light {
+  background-color: #FBFCFD;
+}
+.currency-types-border {
+  border-right: 1px solid #f1f1f1;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 20px;
+}
+.borderLess {
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+.earning-types-notification{
+  height: 45px;
+  background-color: #FFFCF3;
+}
+
+.earning-types-notification p{
+  line-height: 50px;
+}
+
+.earning-types-notification::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #FFFCF5;
+}
+.employee-calculation {
+  border: 1px solid #F2F2F2;
+  background-color: #FFFCF3;
+}
+
+.percentage-icon{
+  width: 50px;
+  height: 45px;
+  position: absolute;
+  top: 0px;
+  background-color: #F1F1F1;
+  right: 0px;
+}
+
+.add-Component{
+  position: relative;
+  bottom: 5px;
+}
+
+/* ::ng-deep .placeholder-line .ant-select-selection-placeholder {
+  color: #6666F2 !important;
+  font-weight: 500 !important;
+} */
+
+/* .border-primary{
+  border: 1px solid #6666f2 !important;
+} */

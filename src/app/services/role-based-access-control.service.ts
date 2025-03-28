@@ -73,6 +73,7 @@ export class RoleBasedAccessControlService {
         // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
+        this.userInfo!.role=res.role;
         this.ROLE = res.role;
         // console.log("updated uuid",  this.userInfo!.uuid)
         this.isUserInfoInitialized = true;
@@ -99,12 +100,12 @@ export class RoleBasedAccessControlService {
     //     this.userInfo = response;
     //     role = this.userInfo.role;
       // });
-    return this.userInfo.role;
+    return this.userInfo?.role;
   }
 
   getRoles() {
     // console.log("role is ",this.userInfo)
-    return this.userInfo!.role;
+    return this.userInfo?.role;
   }
 
   async getUUID(): Promise<string> {
