@@ -1375,10 +1375,10 @@
   }
   
   .staff-leave-setting {
-    border-radius: 2px;
     padding: 6px 12px;
-    line-height: 19px;
-    font-size: 12px;
+  }
+  .svg-width svg{
+    width: 20px;
   }
   
   .automation-rules-icon {

@@ -2176,7 +2176,13 @@ handleSwitchDisable(type: string): Promise<void> {
 
   //  new
 
-
+  staffCount(staff:any){
+    if(staff  == null){
+      return 0;
+    }else{
+      return staff.length;
+    }
+  }
 
 
 }

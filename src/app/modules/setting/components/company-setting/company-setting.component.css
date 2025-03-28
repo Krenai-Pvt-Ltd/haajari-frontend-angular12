@@ -31,6 +31,12 @@
   height: 115px;
 }
 
+.list-down-btn{
+  width: 30px;
+  height: 30px;
+  
+}
+
 .origination-logo-box img {
   width: 150px;
   height: 70px;
@@ -819,9 +825,18 @@ i.bi.bi-plus {
 
 .shift-time {
   background-color: #f5f8fa;
-  border-radius: 2px;
+}
+.shift-time svg{
+  width: 20px;
 }
 
+.clear-section svg{
+  position: relative;
+  top: -1px;
+}
+.staff-leave-setting {
+  padding: 6px 12px;
+}
 .shift-toogel-btn {
   background-color: #fff;
   border-radius: 5px;
@@ -1122,10 +1137,7 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   top: -1px;
 }
 
-.text-danger {
-  color: #dc3545;
-  /* Bootstrap's danger text color for consistency */
-}
+
 
 
 
@@ -1598,8 +1610,12 @@ a.fetch-location {
 
 .search-list .checkbox-label input {
   position: relative;
-  top: 1px;
+  top: 3px;
   border-radius: 2px;
+}
+.location-user-table thead{
+  position: sticky;
+  top: 0px;
 }
 
 .search-icon {
