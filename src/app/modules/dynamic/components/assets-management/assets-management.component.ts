@@ -795,12 +795,15 @@ onSearch(searchText: string): void {
     onAssetRequestOpen(asset: any): void {
       this.assetModalData ={isModal:true, asset:asset};
       this.isAssetRequestModalOpen = true;
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
     }
 
     onAssetComponentClose(): void {
       this.assetModalData={};
       this.assetRequestTab();
       this.isAssetRequestModalOpen = false;
+      this.assetRequestClose.nativeElement.click();
       console.log('Asset request tab closed');
     }
 

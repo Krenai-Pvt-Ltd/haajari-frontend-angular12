@@ -93,7 +93,7 @@
                                         <h5  class="mb-0 font-16 fw-normal">
                                            {{getCurrentMonthStats().currentMonthCount}}
                                            <span class="font-12 fw-semibold">
-                                              {{getCurrentMonthStats().percentageChange}}%
+                                              {{getCurrentMonthStats().percentageChange | number:'1.2-2' }}%
                                               <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"></path>
                                               </svg>
@@ -568,7 +568,7 @@
                                   <div>
                                      <button class="btn p-0 font-14 text-primary fw-semibold filter-btn" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal  *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)">
                                        <i class="bi bi-plus-lg"></i>  Add Assets</button>
-                                
+
                                   </div>
                                </div>
                             </div>
@@ -1259,7 +1259,7 @@
         <app-asset-request
           *ngIf="isAssetRequestModalOpen"
           [data]="assetModalData"
-          (closeEvent)="onAssetComponentClose()">
+          (closeModal)="onAssetComponentClose()">
         </app-asset-request>
     </div>
  </div>
@@ -1363,7 +1363,7 @@
  </div>
 
 
- 
+
  <div class="modal fade delete-modal" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
