@@ -118,19 +118,13 @@
                   <button
                     class="btn w-100 text-white proceed-payment mt-3"
                     style="background-color: #ec4b42"
-                    *ngIf="orgSubscriptionPlanDetail.expired" (click)="selectPlan(orgSubscriptionPlanDetail.plan)">
+                    *ngIf="orgSubscriptionPlanDetail.expired && _roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)" (click)="selectPlan(orgSubscriptionPlanDetail.plan)">
                     Make Payment
                   </button>
                 </div>
 
                 <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
                   <div class="d-flex align-items-start justify-content-between">
-                    <!-- <span
-                      class="rules-regulatio-back d-flex align-items-center justify-content-center pointer"
-                      (click)="switchRulesRegulation()"
-                    >
-                      <i class="bi bi-chevron-left"></i>
-                    </span> -->
                     <div>
                       <h5 class="font-20 mb-1">Rules & Regulation</h5>
                       <p class="mb-0 font-14">
@@ -441,13 +435,15 @@
                                 with annual contract
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
-
+                             
                               <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==0"
+                              [ngClass]="{'disable-action-item':!_roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)}"
                                 (click)="selectPlan(plan)">
                                 Purchase plan
                               </button>
                               <!-- style="background-color: #8b8aff; color: #fff;" -->
                               <button class="btn current-plan w-100 mb-4 " *ngIf="plan.isPurchased==1"
+                              [ngClass]="{'disable-action-item':!_roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)}"      
                                 (click)="selectPlan(plan)">
                                 Current plan
                               </button>
@@ -1445,7 +1441,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn w-100 text-white proceed-payment mt-3"
+            <button class="btn w-100 text-white proceed-payment mt-3" *ngIf="_roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)"
               [disabled]="payableAmount == 0 || isUnderProcess || !isValidEmployeeCount" (click)="activatePlan()">
               Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status"
                 aria-hidden="true"></span>
