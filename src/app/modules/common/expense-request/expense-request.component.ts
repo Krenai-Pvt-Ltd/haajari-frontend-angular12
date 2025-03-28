@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { ApproveReq } from 'src/app/models/ApproveReq';
 import { ExpenseType } from 'src/app/models/ExpenseType';
@@ -14,21 +14,35 @@ import { HelperService } from 'src/app/services/helper.service';
 export class ExpenseRequestComponent implements OnInit {
   constructor(
     private dataService: DataService,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   isModal: boolean = true;
   @Input() data: any;
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() actionCompleted: EventEmitter<string> = new EventEmitter<string>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] && changes['data'].currentValue) {
+      this.initializeComponent();
+    }
+  }
+  
   ngOnInit(): void {
+    this.initializeComponent();
+  }
+  
+  initializeComponent(): void {
+    if (!this.data) return;
+  
     console.log(this.data);
     this.getExpenseType();
     this.getTags('EXPENSE');
     this.getExpense(this.data.expense);
-    if(this.data.isModal == 0){
-      this.isModal = false;
-    }
+    this.isModal = this.data.isModal !== 0;
   }
+  
 
   close(): void {
     this.closeEvent.emit();
@@ -72,6 +86,8 @@ export class ExpenseRequestComponent implements OnInit {
     this.dataService.getAllExpenseType().subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeList = res.object;
+        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }
@@ -88,6 +104,7 @@ export class ExpenseRequestComponent implements OnInit {
       this.approveReq.isPartiallyPayment = 1;
       this.partiallyPayment = true;
     }
+    this.cdr.detectChanges();
     this.fullPartialAmount = this.userExpense.approvedAmount - (this.userExpense.partiallyPaidAmount || 0);
     this.getExpenseType();
   }
@@ -138,19 +155,22 @@ export class ExpenseRequestComponent implements OnInit {
         this.approveReq = new ApproveReq();
         this.clearApproveModal();
         this.close();
-        this.closeApproveModal.nativeElement.click();
+
+       // this.closeApproveModal.nativeElement.click();
         this.approveToggle = false;
         this.rejectToggle = false;
         this.payrollToggle = false;
         this.expenseCancelToggle = false;
         this.paymentCashNoToggle = false;
         this.paymentCashYesToggle = false;
-        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+        // this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+        this.actionCompleted.emit(res.message);
       }
     });
   }
 
   showExpenseRejectDiv(): void {
+    console.log("Reject hthe expense request.....");
     this.rejectDiv = true;
   }
 

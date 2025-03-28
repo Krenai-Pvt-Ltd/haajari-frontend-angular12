@@ -4583,6 +4583,14 @@ export class DataService {
     });
   }
 
+
+  countPendingTransaction(statusId: number) {
+    const params = new HttpParams().set('statusId', statusId.toString());
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count-by-status`, { params });
+  }
+  
+
   saveTags(id: number, tags: string[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.baseUrl}/company-expense/save-tags?id=${id}`;
