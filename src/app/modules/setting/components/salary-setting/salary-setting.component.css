@@ -32,13 +32,19 @@
 .atten-icon i {
   color: #6c7b88;
 }
+.staff-leave-setting {
+  padding: 6px 12px;
+}
 
 .attendance-box {
   border-bottom: 1px solid #efefef;
   padding-top: 5px;
   padding-bottom: 5px;
 }
-
+.list-down-btn{
+  width: 30px;
+  height: 30px;
+}
 .attendance-box:last-child {
   border-bottom: none;
 }
@@ -1148,4 +1154,11 @@ a.text-primary:hover {
   color: #1f1f1f !important;
 }
 
+.proceed-image{
+  background-color: #f1f1fd;
+}
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  width: 100px;
+}
 /* new side tab for new modal */

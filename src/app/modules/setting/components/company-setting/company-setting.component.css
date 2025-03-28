@@ -1628,7 +1628,7 @@ a.fetch-location {
 .close-icon {
   top: 19px
 }
-
+/* 
 .cancel-btn {
   background-color: #fbfbfb;
   border: 1px solid #e6e7e9;
@@ -1637,7 +1637,7 @@ a.fetch-location {
   font-size: 12px;
   font-weight: 500;
   width: 100px;
-}
+} */
 
 .submitActionBtn {
   background-color: var(--primary-background-color);

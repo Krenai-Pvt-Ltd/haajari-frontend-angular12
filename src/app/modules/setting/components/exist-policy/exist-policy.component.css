@@ -1417,11 +1417,10 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
-  
-  .modal-lg,
-  .modal-xl {
-    max-width: 900px;
+  .information-box{
+    background-color: #f1f1fd;
   }
+
   .leave-create-modal {
     height: 80vh;
   }

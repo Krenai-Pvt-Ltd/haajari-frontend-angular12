@@ -784,7 +784,7 @@
         <div class="bg-white p-4 text-center">
 
           <div>
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base">
               Are you sure you want to delete <br />
             </h5>
             <p class="font-11">You will not be able to recover this</p>
@@ -1368,7 +1368,7 @@
         <div class="bg-white p-4 text-center">
 
           <div *ngIf="expenseAppliedCount == 0">
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base">
               Are you sure you want to delete <br />
               {{ expensePolicyId > 0 ? "Expense Policy ?" : "Expense Policy Type ?" }}
             </h5>
@@ -1376,7 +1376,7 @@
           </div>
 
           <div *ngIf="expenseAppliedCount > 0">
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base">
               Are you sure ?
             </h5>
             <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense
