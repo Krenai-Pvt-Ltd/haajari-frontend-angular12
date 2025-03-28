@@ -73,7 +73,7 @@ export class RoleBasedAccessControlService {
         // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
-        this.userInfo!.role=res.role;
+        // this.userInfo!.role=res.role;
         this.ROLE = res.role;
         // console.log("updated uuid",  this.userInfo!.uuid)
         this.isUserInfoInitialized = true;
