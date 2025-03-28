@@ -15,4 +15,25 @@ export class StatusKeys{
 
 	static ATTENDANCE_UPDATE_REQUEST_PENDING = 52;
 
+
+	/**
+	 * ASSET STATUSES START
+	 */
+	static ASSET_ASSIGNED = 62;	
+	static ASSET_UNAVAILABLE = 63;	
+	static ASSET_AVAILABLE = 64;
+	static ASSET_MAINTENANCE = 65;
+	static ASSET_DAMAGED = 66;
+	/**
+	 * ASSET STATUSES END
+	 */
+
+	/**
+	 * RESIGNATION STATUSES START
+	 */
+	static RESIGNATION_PENDING = 13;	
+	/**
+	 * RESIGNATION STATUSES END
+	 */
+
 }

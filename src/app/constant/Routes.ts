@@ -55,6 +55,7 @@ export class Routes {
     public static CONFIGURATION = "/payroll/configuration"
     public static EARNINGDETAILS = "/payroll/earning-details"
     public static SALARYTEMPLATE = "/payroll/salary-template"
+    public static EMPLOYEE_PROFILE = "/employee";
     
  /**
     * DYNAMIC ROUTES END

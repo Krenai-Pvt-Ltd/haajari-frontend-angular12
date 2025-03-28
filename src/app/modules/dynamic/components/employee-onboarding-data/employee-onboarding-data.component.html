@@ -417,7 +417,6 @@
                           <h5 class="mb-1 font-14 fw-semibold"><span class="font-16 text-black fw-bold"> {{resignationCount || 0}} </span> People </h5>
                           <p class="mb-0 font-12 fw-normal"> Till Now</p>
                         </div>
-                        <!-- <span class="resignation-request font-13 fw-normal" *ngIf="resignationUsersImage.length == 0">No Request</span> -->
                         <div class="img-group d-flex" *ngIf="resignationUsersImage.length > 0">
                           <a class="user-avatar" *ngFor="let image of resignationUsersImage">
                              <span class="ng-star-inserted"><img onerror="this.src='./assets/images/broken-image-icon.jpg';" alt="u" class="thumb-xs radius-50 object-fit-cover img-50" src="{{image}}"></span>
@@ -2232,7 +2231,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 
 
 <div class="modal fade" id="viewExitRequest" tabindex="-1" aria-labelledby="emptyModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
+  <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content">
 
           <div class="modal-body p-0">

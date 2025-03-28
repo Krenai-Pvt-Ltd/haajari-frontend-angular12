@@ -751,8 +751,10 @@
                                            </button>
                                            <div class="dropdown-menu actionMenuList">
                                              <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)" >
-                                              <li *ngIf="asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 62, asset.assignedToId, true)">
+                                              <!-- <li *ngIf="asset.statusId != 66"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 62, asset.assignedToId, true)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, StatusKeys.ASSET_ASSIGNED, asset.assignedToId, true)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                                        <mask id="mask0_8123_5744" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                                                           <rect x="0.384766" y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -765,8 +767,10 @@
                                                     <span *ngIf="asset.assignedToId== 0"> Assign</span>
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 64 && asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 64, 0, false)">
+                                              <!-- <li *ngIf="asset.statusId != 64 && asset.statusId != 66"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_AVAILABLE && asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 64, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, StatusKeys.ASSET_AVAILABLE, 0, false)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                        <mask id="mask0_8123_5738" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -778,8 +782,10 @@
                                                     Available
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 63 && asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,63, 0, false)">
+                                              <!--  *ngIf="asset.statusId != 63 && asset.statusId != 66" -->
+                                              <li  *ngIf="asset.statusId != StatusKeys.ASSET_UNAVAILABLE && asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,63, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,StatusKeys.ASSET_UNAVAILABLE, 0, false)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_8861_2575" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -791,9 +797,11 @@
                                                     Mark as Unavailable
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,66, 0, false)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                              <!-- <li *ngIf="asset.statusId != 66"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,66, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,StatusKeys.ASSET_DAMAGED, 0, false)">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                        <mask id="mask0_8123_5732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
                                                        </mask>
@@ -804,8 +812,10 @@
                                                     Mark as Damaged
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 65">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,65, 0, false)">
+                                              <!-- <li *ngIf="asset.statusId != 65"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_MAINTENANCE">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,65, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,StatusKeys.ASSET_MAINTENANCE, 0, false)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                        <mask id="mask0_8123_5726" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>

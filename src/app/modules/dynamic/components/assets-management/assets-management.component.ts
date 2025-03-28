@@ -26,6 +26,7 @@ import {
 import { constant } from 'src/app/constant/constant';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -64,7 +65,10 @@ export class AssetsManagementComponent implements OnInit {
 
   isEditing: boolean[] = [];
   loading: boolean[] = [];
+
+
   readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
