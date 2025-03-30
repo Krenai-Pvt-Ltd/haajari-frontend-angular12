@@ -109,10 +109,10 @@
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container *ngFor="let component of  tempTemplateComponents.earningComponents;let i = index">
-                                        <li *ngIf="!showFlags[i]" 
+                                        <li *ngIf="!showFlags['earning-'+i]" 
                                         class="d-flex align-items-center justify-content-between font-13 fw-normal">
                                             {{component.displayName}}<span class="lh-base">
-                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag(i); $event.stopPropagation()"></i>
+                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag('earning',i); $event.stopPropagation()"></i>
                                             </span>
                                         </li>
                                     </ng-container>
@@ -144,10 +144,10 @@
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container *ngFor="let component of  tempTemplateComponents.reimbursementComponents;let i = index">
-                                        <li 
+                                        <li *ngIf="!showFlags['reimbursement-'+i]" 
                                         class="d-flex align-items-center justify-content-between font-13 fw-normal">
                                             {{component.displayName}}<span class="lh-base">
-                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag(i); $event.stopPropagation()"></i>
+                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag('reimbursement',i); $event.stopPropagation()"></i>
                                             </span>
                                         </li>
                                     </ng-container>
@@ -157,7 +157,7 @@
                             </div>
                         </div>
                        
-                    
+                        
                         <!-- <div class="d-flex align-items-center justify-content-between p-3">
                             <h5 class="font-14 fw-semibold mb-0">FBP Components</h5>
                             <span>
@@ -171,20 +171,48 @@
                                 </svg>
                             </span>
                         </div> -->
-                        <!-- <div class="d-flex align-items-center justify-content-between p-3">
-                            <h5 class="font-14 fw-semibold mb-0">Benefits</h5>
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
-                                    <mask id="mask0_9698_5055" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="17">
-                                    <rect y="0.5" width="16" height="16" fill="#D9D9D9"/>
-                                    </mask>
-                                    <g mask="url(#mask0_9698_5055)">
-                                    <path d="M5.35008 15.1654L4.16675 13.982L9.65008 8.4987L4.16675 3.01536L5.35008 1.83203L12.0167 8.4987L5.35008 15.1654Z" fill="#1C1B1F"/>
-                                    </g>
-                                </svg>
-                            </span>
+                        <div data-bs-toggle="collapse" href="#benefitcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <div class="d-flex align-items-center justify-content-between p-3">
+                                <h5 class="font-14 fw-semibold mb-0">Benefits</h5>
+                                <span class="collapse-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                                        <mask id="mask0_9698_5055" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="17">
+                                        <rect y="0.5" width="16" height="16" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_9698_5055)">
+                                        <path d="M5.35008 15.1654L4.16675 13.982L9.65008 8.4987L4.16675 3.01536L5.35008 1.83203L12.0167 8.4987L5.35008 15.1654Z" fill="#1C1B1F"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <div class="collapse" id="benefitcollapse">
+                                <div class="card card-body p-3 earning-box border-0">
+                                    <ng-container *ngIf="!tempTemplateComponents.deductions  || checkShowFlag()">
+                                        <span>uyrgfygygygy</span>
+                                    </ng-container>
+                                    <ul class="px-0">
+                                        <ng-container>
+                                        <li *ngIf="!showFlags['deductions-'+1] && tempTemplateComponents.deductions.epfConfiguration" 
+                                        class="d-flex align-items-center justify-content-between font-13 fw-normal">
+                                            EPF<span class="lh-base">
+                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag('deductions',1);"></i>
+                                            </span>
+                                        </li>
+                                        <li *ngIf="!showFlags['deductions-'+2] && tempTemplateComponents.deductions.esiConfiguration" 
+                                         class="d-flex align-items-center justify-content-between font-13 fw-normal">
+                                            ESI<span class="lh-base">
+                                                <i class="bi bi-plus font-20" (click)="toggleShowFlag('deductions',2);"></i>
+                                            </span>
+                                        </li>
+                                    </ng-container>
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between p-3">
+                       
+                       <!--  <div class="d-flex align-items-center justify-content-between p-3">
                             <h5 class="font-14 fw-semibold mb-0">One Time Earnings</h5>
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -212,6 +240,7 @@
                        <div class="col-md-6 mb-3 position-relative">
                         <label class="pb-2">Annual CTC (per year)</label>
                         <input type="text" placeholder="Enter amount" required="" name="" class="form-control whatsapp-login-input" style="padding-left: 65px;" 
+                        (change)="calculateEpfContribution()" 
                         [(ngModel)]="salaryTemplate.annualCtc">
                         <span class="percentage-icon d-flex align-items-center justify-content-center">
                             <i class="bi bi-currency-rupee font-18"></i>
@@ -271,7 +300,7 @@
                                     </div>
                                 </div>
                                 <ng-container *ngFor="let component of  tempTemplateComponents.earningComponents;let i = index;">
-                                <div class="row border-bottom align-items-center pb-3 md-2" *ngIf="showFlags[i]"> 
+                                <div class="row border-bottom align-items-center pb-3 md-2" *ngIf="showFlags['earning-'+i]"> 
                                     <div class="col-md-3">
                                             <p class="mb-0 font-13 color-basic fw-semibold">{{component.displayName}}</p>
                                             <p class="mb-0 font-12 color-basic" *ngIf="component.displayName=='Fixed Allowance'" >Monthly CTC - Sum of all other components</p>
@@ -281,7 +310,8 @@
                                         <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
                                             <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                 <input type="number" placeholder="" required name="percentage"
-                                                    class="form-control borderLess" [(ngModel)]="component.value">                 
+                                                    class="form-control borderLess" [(ngModel)]="component.value"
+                                                    (ngModelChange)="calculateEpfContribution()">                 
                                             </div>
                                             <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                 <p class="mb-0 font-13 fw-semibold">% of CTC</p>
@@ -290,7 +320,7 @@
                                         <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_FLAT">
                                             <p class="mb-0 font-13 fw-semibold">Fixed Amount</p>
                                         </div>
-                                    </div>
+                                    </div>  
                                     <div class="col-md-3">
                                         <div class="compliance-list bg-white border-rounded-2 attendance-border">
                                             <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
@@ -321,104 +351,23 @@
                                                     : (component.value * 12)) | number: '1.0-0' }}</p>
                                         </div>
                                         <button   *ngIf="!(component.name === 'Basic' || component.name === 'Fixed Allowance')" 
-                                        class="btn p-0 text-danger action-btn font-18" (click)="toggleShowFlag(i)"><i class="bi bi-x"></i></button>
+                                        class="btn p-0 text-danger action-btn font-18" (click)="toggleShowFlag('earning',i)"><i class="bi bi-x"></i></button>
 
                                     </div>
                                 </div>
-                                <!-- <div class="row align-items-center border-bottom py-3">
-                                    <div class="col-md-3">
-                                        <div class="">
-                                            <h5 class="font-14 fw-semibold text-black mb-2">Fixed Allowance</h5>
-                                            <p class="mb-0 font-12 color-basic">Monthly CTC - Sum of all other components</p>
-                                        </div>
-        
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-start py-3">
-                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic ">0</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">0</p>
-                                        </div>
-                                        <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-
-                                    </div>
-                                </div> -->
-                                <!-- <div class="row py-3 align-items-center border-bottom position-relative">
-                                    <div class="col-md-3">
-                                        <div class="py-3">
-                                            <h5 class="font-14 fw-normal text-black mb-0">Fixed Allowance</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-start py-3">
-                                            <p class="font-13 fw-normal color-basic mb-0 ">Fixed amount</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
-                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">0</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                                </div>
-                                <div class="row mt-3 align-items-center position-relative">
-                                    <div class="col-md-3">
-                                        <div class="py-3">
-                                            <h5 class="font-14 fw-normal text-black mb-0">House Rent Allowance</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
-                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
-                                                <input type="number" placeholder="" required name="pan"
-                                                    class="form-control borderLess" >                 
-                                            </div>
-                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start">
-                                                <p class="mb-0 font-13 fw-semibold">% of CTC</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
-                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">0</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                                </div> -->
                             </ng-container>
                             </div>
 
                             <div class="col-md-12 mt-4">
-                                <h5 class="font-14 fw-semibold text-primary mb-4">Reimbursements</h5>
+                                <h5 class="font-14 fw-semibold text-primary mb-4" *ngIf="shouldShowReimbursements()">
+                                    Reimbursements</h5>
                             </div>
                             <ng-container *ngFor="let component of  tempTemplateComponents.reimbursementComponents;let i = index;">
-                            <div class="earing-list p-3 border-rounded-2  pt-0" *ngIf="showFlags[i]">
+                            <div class="earing-list p-3 border-rounded-2  pt-0" *ngIf="showFlags['reimbursement-'+i]">
                                 <div class="row align-items-center border-bottom position-relative mb-3 pb-3 pt-3">
                                     <div class="col-md-3">
                                         <div>
-                                            <p class="mb-0 font-12 color-basic fw-semibold">{{component.displayName}}<br><span class="fw-normal">Amount:</span> ₹{{component.value}}</p>
+                                            <p class="mb-0 font-12 color-basic fw-semibold">{{component.displayName}}<br><span class="fw-normal">Amount:</span> ₹{{originalValues[i]}}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -430,8 +379,10 @@
                                         <div class="compliance-list bg-white border-rounded-2 attendance-border ">
                                             <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                 <input type="number" placeholder="" required name="reimbursement amount"
-                                                [max]="component.value" 
-                                                class="form-control borderLess" [(ngModel)]="component.value"> 
+                                                [attr.max]="originalValues[i]" 
+                                                [(ngModel)]="component.value" 
+                                                (input)="onReimbursementInput(i, $event)"
+                                                class="form-control borderLess"> 
                                             </div>
                                         </div>
                                     </div>
@@ -440,13 +391,13 @@
                                             <p class="font-13 fw-normal color-basic mb-0">{{component.value*12}}</p>
                                         </div>
                                     </div>
-                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                    <button class="btn p-0 text-danger action-btn font-18"(click)="toggleShowFlag('reimbursement',i)"><i class="bi bi-x"></i></button>
                                 </div>
                                 
                             </div> 
                             </ng-container>
 
-                           <!-- <div class="col-md-12 mt-4">
+                            <!-- <div class="col-md-12 mt-4">
                                 <h5 class="font-14 fw-semibold text-primary mb-4">Flexible Benefit Plan Components</h5>
                             </div>
                             <div class="earing-list p-3 border-rounded-2">
@@ -473,67 +424,63 @@
                                 </div>
                                 <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
                             </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-12 mt-4">
+                            <div class="col-md-12 mt-4" *ngIf="tempTemplateComponents.deductions && (showFlags['deductions-1'] || showFlags['deductions-2'])">
                                 <h5 class="font-14 fw-semibold text-primary mb-4">Benefits</h5>
                             </div>
                             <div class="earing-list p-3 border-rounded-2 mb-4">
-                                <div class="row align-items-center border-bottom position-relative">
+                                <div class="row align-items-center border-bottom position-relative" *ngIf="showFlags['deductions-'+1]">
                                     <div class="col-md-3">
                                         <div>
-                                            <p class="mb-0 font-12 color-basic fw-semibold">EPF- Employer Contribution</p>
+                                            <p class="mb-0 font-12 color-basic fw-semibold">EPF- Employee Provident Fund</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-start py-3" [ngSwitch]="tempTemplateComponents.deductions.epfConfiguration.employerContribution">
+                                            <p class="font-13 fw-normal color-basic mb-0 " *ngSwitchCase="EPF_ACTUAL">12.00% of PF Wages </p>
+                                            <p class="font-13 fw-normal color-basic mb-0 " *ngSwitchCase="EPF_RESTRICTED">12.00% of 15000 </p>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0" *ngIf="epfEmployerContribution == null"> System Calculated</p>
+                                            <p class="font-13 fw-normal color-basic mb-0" *ngIf="epfEmployerContribution !== null">  {{ epfEmployerContribution/12 | number: '1.0-0' }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-end px-3">
+                                            <p class="font-13 fw-normal color-basic mb-0" *ngIf="epfEmployerContribution == null"> System Calculated</p>
+                                            <p class="font-13 fw-normal color-basic mb-0"> {{ epfEmployerContribution | number: '1.0-0' }} </p>
+                                        </div>
+                                    </div>
+                                    <button class="btn p-0 text-danger action-btn font-18" (click)="toggleShowFlag('deductions',1)"><i class="bi bi-x"></i></button>
+                                </div>
+                                <div class="row mt-3 align-items-end position-relative" *ngIf="showFlags['deductions-'+2]">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <h5 class="font-14 fw-normal text-black mb-0">ESI- Employee State Insurance</h5>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="text-start py-3">
-                                            <p class="font-13 fw-normal color-basic mb-0 ">12.00% of PF Wages </p>
+                                            <p class="font-13 fw-normal color-basic mb-0 ">3.25% of ESI Wages </p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">7200</p>
+                                            <p class="font-13 fw-normal color-basic mb-0">System Calculated</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic mb-0">86400</p>
+                                            <p class="font-13 fw-normal color-basic mb-0"> System Calculated</p>
                                         </div>
                                     </div>
-                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                    <button class="btn p-0 text-danger action-btn font-18" (click)="toggleShowFlag('deductions',2)"><i class="bi bi-x"></i></button>
                                 </div>
-                                <div class="row mt-3 align-items-end position-relative">
-                                    <div class="col-md-3">
-                                        <div class="py-3">
-                                            <h5 class="font-14 fw-normal text-black mb-0">NPS- Employer Contribution</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
-                                            <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
-                                                <input type="number" placeholder="" required name="pan"
-                                                    class="form-control borderLess" >                 
-                                            </div>
-                                            <div class="w-50 currency-types-border d-flex align-items-center justify-content-start">
-                                                <p class="mb-0 font-13 fw-semibold">% of CTC</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="compliance-list bg-white border-rounded-2 attendance-border ">
-                                            <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                <p class="mb-0 font-13 fw-semibold mb-0">0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                            <p class="font-13 fw-normal color-basic ">0</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                                </div>
-                            </div> -->
+                            </div>
                         </div>
 
                         <div class="row total-cost-box p-0 m-0 ">
