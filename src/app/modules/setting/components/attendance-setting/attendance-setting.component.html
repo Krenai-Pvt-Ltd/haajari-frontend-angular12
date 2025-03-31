@@ -2354,7 +2354,7 @@
                 </table>
               </ng-container>
               <ng-template #noDataFoundPlaceholderInShiftTiming>
-                <div class="errorboxmain">
+                <!-- <div class="errorboxmain">
                   <div class="errorboxinner text-center">
                     <div class="errorboxplaceholder mb-2">
                       <img src="assets/images/addnewproduct.svg" style="width: 80px" />
@@ -2365,7 +2365,17 @@
                       information you entered.
                     </p>
                   </div>
-                </div>
+                </div> -->
+                <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" >
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                      [nzNotFoundContent]="contentTpl">
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">
+                            No data for now
+                        </p>
+                      </ng-template>
+                  </nz-empty>
+               </div>
               </ng-template>
 
 
@@ -3438,7 +3448,7 @@
                         </table>
                       </ng-container>
                       <ng-template #noDataFoundPlaceholderInAutomationRule>
-                        <div class="errorboxmain">
+                        <!-- <div class="errorboxmain">
                           <div class="errorboxinner text-center">
                             <div class="errorboxplaceholder mb-2">
                               <img src="assets/images/empty-folder.svg" style="width: 80px" />
@@ -3449,7 +3459,18 @@
                               the information you entered.
                             </p>
                           </div>
-                        </div>
+                        </div> -->
+
+                        <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" >
+                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                              [nzNotFoundContent]="contentTpl">
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                    No data for now
+                                </p>
+                              </ng-template>
+                          </nz-empty>
+                       </div>
                       </ng-template>
                     </div>
 

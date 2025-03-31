@@ -441,7 +441,7 @@
                     </div>
                     <div class="employ-list-height table-responsive">
                       <table class="table table-striped">
-                        <thead class="thead-light">
+                        <thead >
                           <tr>
                             <th style="width: 2%" class="text-center">
                               <input type="checkbox" class="form-check-input pointer" [(ngModel)]="isAllSelected"
@@ -466,15 +466,24 @@
                         <tbody *ngIf="staffs.length == 0">
                           <tr>
                             <td colspan="5">
-                              <div class="errorboxmain bg-white d-flex align-items-center justify-content-center">
+                              <!-- <div class="errorboxmain bg-white d-flex align-items-center justify-content-center">
                                 <div class="errorboxinner">
                                   <div class="errorboxplaceholder mb-2">
                                     <img src="assets/images/addnewproduct.svg" style="width: 100px" />
                                   </div>
-
                                   <h4>No Data Found</h4>
                                 </div>
-                              </div>
+                              </div> -->
+                              <div class="empty-file d-flex align-items-centar justify-content-center w-100" style="margin-top: 5%; margin-bottom: 5%;">
+                                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                      [nzNotFoundContent]="contentTpl">
+                                      <ng-template #contentTpl>
+                                        <p class="mb-1 empty-detail font-16">
+                                            No data for now
+                                        </p>
+                                      </ng-template>
+                                  </nz-empty>
+                               </div>
                             </td>
                           </tr>
                         </tbody>
