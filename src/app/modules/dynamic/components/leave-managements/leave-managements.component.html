@@ -701,14 +701,14 @@
                                 let i = index
                               ">
                                 <tr >
-                                    <td class="text-left"><span (click)="routeToUserDetails(leave.uuid)" class="team-maneger mb-0 pointer">{{leave.username}} </span></td>
+                                    <td class="text-left font-13 fw-semibold"><span (click)="routeToUserDetails(leave.uuid)" class="team-maneger mb-0 pointer">{{leave.username}} </span></td>
                                      <td class="text-left">
-                                        <p class="mb-1 font-12 fw-semibold">{{ leave.leaveType }}</p>
-                                        <span class="team-maneger mb-0 table-font-weight text-optional">on {{ leave.leaveDate | date : "dd-MM-yyyy" || "N/A" }}</span>
+                                        <p class="mb-1 font-13 fw-semibold">{{ leave.leaveType }}</p>
+                                        <span class="mb-0 fw-normal font-12">on {{ leave.leaveDate | date : "dd-MM-yyyy" || "N/A" }}</span>
                                     </td>
                                      <td class="text-left">
-                                        <span class="team-maneger mb-0 fw-semibold font-12 "> Start Date - <span class="text-optional fw-normal"> {{ leave.startDate | date : 'dd-MM-yyyy' || "N/A" }}</span> <br>
-                                          Ending Date -  <span class="text-optional fw-normal">{{ leave.endDate | date : 'dd-MM-yyyy' || "N/A" }} </span>
+                                        <span class="team-maneger mb-0 fw-semibold font-13 "> Start Date - <span class="fw-normal"> {{ leave.startDate | date : 'dd-MM-yyyy' || "N/A" }}</span> <br>
+                                          Ending Date -  <span class="fw-normal">{{ leave.endDate | date : 'dd-MM-yyyy' || "N/A" }} </span>
                                         </span>
                                      </td>
                                      <td class="text-left"><span class=" mb-0 font-13 fw-semibold">{{leave.managerName}} </span></td>
@@ -725,10 +725,10 @@
                                       <p class="mb-0 mt-0 fw-normal font-13 color-basic">By: {{leave.actionByName || '-'}} </p>
                                   </td>
                                      <td>
-                                        <span class="team-maneger mb-0 table-font-weight white-space"  nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.notes}}</span>
+                                        <span class="team-maneger mb-0 table-font-weight white-space fw-normal"  nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.notes}}</span>
                                      </td>
                                      <td>
-                                        <span class="team-maneger mb-0 table-font-weight white-space" nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.rejectionReason || "N/A"}}</span>
+                                        <span class="team-maneger mb-0 table-font-weight white-space fw-normal" nzPopoverTitle="Title" nzPopoverContent="Content">{{leave.rejectionReason || "N/A"}}</span>
                                     </td>
 
                                      <td class="text-end stickyColTdend">
