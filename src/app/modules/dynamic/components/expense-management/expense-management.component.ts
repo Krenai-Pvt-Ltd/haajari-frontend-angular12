@@ -769,6 +769,9 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.dashBoardDateView = true;
     this.loading = true;
     this.getExpenseTrend();
+    this.getTeamWalletAmount();
+    this.getCreditWalletAmount();
+    this.getDebitWalletAmount();
   }
 
   expenseSummary: any[] = [];
@@ -943,6 +946,43 @@ onDateRangeChange(dates: [Date, Date] | null) {
   
   isExpanded(index: number): boolean {
     return this.expandedIndex === index;
+  }
+
+
+
+ 
+
+  /* team wallet transacction */
+  teamWallets: any[] = [];
+  getTeamWalletAmount() {
+    this.expenseService.getTeamWallets().subscribe((res: any) => {
+      if (res.status) {
+        this.teamWallets = res.object;
+      }
+      
+      console.log("Team Wallet Data :", res);
+      });
+  }
+
+  creditWalletAmount : number = 0;
+  debitWalletAmount : number = 0;
+
+  getCreditWalletAmount() {
+    this.expenseService.getCreditWalletAmount().subscribe((res: any) => {
+      if (res.status) {
+        this.creditWalletAmount = res.object;
+      }
+      console.log("Credit Wallet Amount : ",this.creditWalletAmount);
+      });
+  }
+
+  getDebitWalletAmount() {
+    this.expenseService.getDebitWalletAmount().subscribe((res: any) => {
+      if (res.status) {
+        this.debitWalletAmount = res.object;
+      }
+      console.log("Debit Wallet Amount : ",this.debitWalletAmount);
+      });
   }
 
 

@@ -46,7 +46,7 @@ export class ExpenseService {
     getUserTransactions(userId: string) {
       let params = new HttpParams().set('userUuid', userId); 
       return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/user-transactions`, { params });
-  }
+    }
   
 
     rechargeWallet(requestBody : any) {
@@ -74,6 +74,21 @@ export class ExpenseService {
     getExpenseTrends(){
       return this.httpClient.get<any>(`${this.baseUrl}/company-expense/compare-weekly`);
     }
+
+
+    getTeamWallets() {
+      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets`);
+    }
+
+    getCreditWalletAmount() {
+      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/company-credit-wallet-amount`);
+    }
+
+    getDebitWalletAmount() {
+      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/company-debit-wallet-amount`);
+    }
+
+    
 
 
 }
