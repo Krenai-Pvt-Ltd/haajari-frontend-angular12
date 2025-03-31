@@ -6,6 +6,7 @@ import { ReimbursementComponent } from "./ReimbursementComponent";
 export class SalaryTemplate{
     id:number=0;
     annualCtc:number=0;
+    monthlyCtc:number=0;
     description:string=''
     templateName:string='';
     earningComponents:EarningComponentTemplate []=new Array();
