@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
@@ -42,9 +42,6 @@ export class HelperService {
    closeModal$ = this.closeModalSubject.asObservable();
 
   closeModal() {
-    debugger
-    console.log('Current Modal Ref service1:', this.closeModal$);
-    console.log('Current Modal Ref service2:', this.closeModalSubject);
     this.closeModalSubject.next();
   }
 

@@ -468,28 +468,21 @@ input:checked + .slider:before {
 .add-filtter {
     background-color: #fff;
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    width: 33px;
+    height: 33px;
     align-items: center;
     justify-content: center;
     display: flex;
     line-height: 16px;
-    border: 1px solid #b9caff;
-}
-[class^="bi-"]::before, [class*=" bi-"]::before {
-    display: inline-block;
-    font-family: bootstrap-icons !important;
-    font-style: normal;
-    font-weight: 600 !important;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    vertical-align: text-bottom;
-    -webkit-font-smoothing: antialiased;
-    color: #6666f3;
-    -moz-osx-font-smoothing: grayscale;
+    border: 1px solid #6666f2;
 }
 
+.actionMenuList .dropdown-item {
+    font-size: 14px !important;
+    color: #333 !important;
+    border-radius: 6px;
+    padding: 3px 15px !important;
+  }
 .add-filtter i{
     font-size: 15px;
     position: relative;

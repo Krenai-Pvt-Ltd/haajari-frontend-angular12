@@ -257,18 +257,24 @@
             <div class="card-body">
               <div class="float-end">
                 <div class="dropdown d-inline-block">
-                  <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                  <!-- <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <i class="las la-ellipsis-v font-24 text-muted"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                  </a> -->
+
+                  <button type="button" data-bs-toggle="dropdown" id="dLabel1" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end actionMenuList" aria-labelledby="dLabel1">
 
                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="
                               openDeleteConfirmationModal(team.uuid, logInUserUuid)
-                              " *ngIf="team.exitFromTeam">Exit From Team!</a>
-                              <!--  *ngIf="localStorageRoleAdminFlag" -->
-                    <a class="dropdown-item" (click)="deleteTeamByTeamId(team.id)" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)"
-                     >Delete Team</a>
+                              " *ngIf="team.exitFromTeam">
+                              <i class="bi bi-x-circle"></i>
+                              Exit From Team!</a>
+                    <a class="dropdown-item" (click)="deleteTeamByTeamId(team.id)" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)">
+                     <i class="bi bi-trash3"></i> Delete Team
+                    </a>
                   </div>
                 </div>
               </div>
@@ -278,7 +284,7 @@
                     <span class="members-icon">{{
                       capitalizeFirstLetter(team.name[0])
                       }}</span>
-                    <span class="avatar-badge online"></span>
+                   
                   </a>
 
                 </div>
@@ -289,11 +295,7 @@
                     </h5>
                   </div>
                   <!-- <p class="text-muted font-12 mb-0">Team Name</p>  -->
-                  <p class="text-muted mb-0 fw-semibold team-description" style="
-                              font-size: 12px;
-                              padding-top: 2px;
-                              font-weight: 400 !important;
-                              ">
+                  <p class="text-muted mb-0 fw-semibold team-description font-12 fw-normal pt-1">
                     {{ team.description }}
                     <!-- {{ team.teamLocation.addressLine1 }} -->
                   </p>
@@ -737,7 +739,7 @@
                           }}
                           <i class="bi bi-chevron-down font-14 text-muted"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+                        <div class="dropdown-menu dropdown-menu-end list-top actionMenuList" aria-labelledby="dLabel1">
                           <div class="manager-list">
                             <a class="dropdown-item" *ngIf="ul.roleId == 2" (click)="
                                           assignManagerRoleToMemberMethodCall(
@@ -803,7 +805,7 @@
 <!--end modal-->
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
   aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
-  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 400px !important">
     <div class="modal-content p-0" style="border-radius: 15px">
       <form #confirmationForm="ngForm">
         <div class="modal-body text-center mt-1 mb-3">

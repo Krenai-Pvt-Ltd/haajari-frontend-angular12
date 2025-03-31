@@ -145,8 +145,8 @@
                     ">
                     <div class="row mt-3">
                       <div class="table-responsive bg-white">
-                        <table class="table empOnnoardtable">
-                          <thead class="thead-light">
+                        <table class="table">
+                          <thead>
                             <tr>
                               <th class="text-left" style="width: 10%">
                                 Employee Name
@@ -197,14 +197,14 @@
                                   }}</span>
                               </td>
                               <td class="text-left">
-                                <div class="badge rounded-pill" [ngClass]="{
-                                    'badge-soft-primary':
+                                <div class="font-13 fw-semibold" [ngClass]="{
+                                    'text-primary':
                                       userAndControl.role.name === 'ADMIN',
-                                    'badge-soft-success':
+                                    'text-success':
                                       userAndControl.role.name === 'USER',
-                                    'badge-soft-warning':
+                                    'text-warning':
                                       userAndControl.role.name === 'MANAGER',
-                                    'badge-soft-danger':
+                                    'text-danger':
                                       userAndControl.role.name !== 'ADMIN' &&
                                       userAndControl.role.name !== 'USER' &&
                                       userAndControl.role.name !== 'MANAGER'
