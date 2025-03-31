@@ -35,18 +35,18 @@
                 <div class="d-flex align-items-center gap-3">
                   <p class="mb-0 font-13 fw-semibold">Staff - {{ expensePolicy.totalEmployees }}</p>
                   <div class="d-flex align-items-center gap-3">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#addPolicy" (click)="getExpenseType()">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#addPolicy" >
                         <i class="bi bi-pencil pointer" style="color: #6666f3"
                           (click)="getExpenseInformationById(expensePolicy)"></i>
                       </a>
-                    <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)">
+                    <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0,false)">
                         <i class="bi bi-trash pointer text-danger"></i>
                     </a>
                   </div>
                   <!-- Ensure each button targets the correct collapse section using `i` -->
                   <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail"
                         data-bs-toggle="collapse" [attr.href]="'#policydetails-' + i"
-                        role="button" aria-expanded="false" [attr.aria-controls]="'policydetails-' + i">
+                        role="button" aria-expanded="false" [attr.aria-controls]="'policydetails-' + i" (click)="getExpenseInformationById(expensePolicy)">
                     <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
                   </span>
                 </div>
@@ -66,9 +66,21 @@
                         <h4 class="mb-0 font-12 fw-normal color-basic">
                           {{ expensePolicyType?.expenseTypeName || "N/A" }}
                         </h4>
-                        <span>
+                        <!-- <span (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.expenseTypeId, true, 0)">
                           <i class="bi bi-trash text-danger font-16"></i>
-                        </span>
+                        </span> -->
+                        <div *ngIf="expensePolicy.companyExpensePolicyTypeRes.length == 1">
+                          <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.expenseTypeId, true, 0,false)">
+                            <i class="bi bi-trash pointer text-danger"></i>
+                          </a>
+                        </div>
+
+                        <div *ngIf="expensePolicy.companyExpensePolicyTypeRes.length > 1">
+                          <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.expenseTypeId, true, 0,true)">
+                            <i class="bi bi-trash pointer text-danger"></i>
+                          </a>
+                        </div>
+                        
                       </div>
                       <div class="expanse-policy-detail p-3">
                         <div class="d-flex align-items-center justify-content-between mb-3">
@@ -267,7 +279,8 @@
                                       </div>
                                       <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
                                         <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy()"
-                                          [disabled]="shiftForm.invalid ||  expensePolicyItem.expenseTypeId == 0 ">Update </button>
+                                          [disabled]="!showAddOnEditBtn || shiftForm.invalid ||  expensePolicyItem.expenseTypeId == 0 "
+                                          [ngClass]="{' btn-border-text':!shiftForm.invalid && showAddOnEditBtn } ">Update </button>
                     
                                       </div>
                     
@@ -325,7 +338,7 @@
                                                   </svg>
                                                 </button>
                     
-                                                <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
+                                                <button *ngIf="viewForm" (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
                                                   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
                                                     fill="none">
                                                     <mask id="mask0_4127_1892" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
@@ -339,6 +352,19 @@
                                                     </g>
                                                   </svg>
                                                 </button>
+                                                
+                                                <button *ngIf="!viewForm" type="button" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" 
+                                                  (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicy.expenseTypeId, true, 0,true)">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                                    <mask id="mask0_4127_1892" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                                      <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_4127_1892)">
+                                                      <path d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z" fill="#FF0000" />
+                                                    </g>
+                                                  </svg>
+                                                </button>
+
                                               </div>
                                             </td>
                     
@@ -394,13 +420,13 @@
                                             </a>
                                             <!-- Clear button shows only if there are selected staff -->
                                             <span class="clear-button text-danger pointer" *ngIf="selectedStaffIdsUser.length > 0"
-                                              (click)="clearIds()">
+                                              (click)="unselectAllUsers()">
                                               Clear all users <i class="bi bi-x"></i>
                                             </span>
                 
                                             <label class="checkbox-label" style="cursor: pointer">
-                                              <input type="checkbox" [checked]="isAllSelected"
-                                                (change)="selectAllUsers(!isAllSelected)" />
+                                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                                (change)="selectAllUsers($event)" />
                                               Select all
                                             </label>
                 
@@ -414,9 +440,14 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th style="width: 5%;">
+                                                <!-- <th style="width: 5%;">
                                                     <input type="checkbox" class="form-check-input pointer" click=selectAllUsers() (click)="selectAllEmployee()">
-                                                </th>
+                                                </th> -->
+
+                                                <th style="width: 5%;">
+                                                  <input type="checkbox" class="form-check-input pointer" 
+                                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)">
+                                              </th>
                                                 <th style="width: 25%;">Name</th>
                                                 <th style="width: 25%;">Email Address</th>
                                                 <th style="width: 20%;" >Phone Number</th>
@@ -436,7 +467,7 @@
                                               <td>
                                                 <div class="form-check">
                                                   <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
-                                                    (click)="selectSingle(staff, i)" [checked]="staff.checked" />
+                                                  [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
                                                 </div>
                                               </td>
                         
@@ -525,19 +556,19 @@
             <div *ngIf="expenseAppliedCount == 0">
               <h5 class="alert-heading font-18 mb-2">
                 Are you sure you want to delete <br />
-                {{ expensePolicyId > 0 ? "Expense Policy ?" : "Expense Policy Type ?" }}
+                {{ !deletePolicyType ? "Expense Policy ?" : "Expense Policy Type ?" }}
               </h5>
               <p class="font-11">You will not be able to recover this</p>
             </div>
   
-            <div *ngIf="expenseAppliedCount > 0">
+            <!-- <div *ngIf="!deletePolicyType">
               <h5 class="alert-heading font-18 mb-2">
                 Are you sure ?
               </h5>
               <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense
                 associated with this policy.
                 Deleting this policy will permanently remove all related data and cannot be recovered</p>
-            </div>
+            </div> -->
   
             <div class="mt-4 d-flex align-items-center flex-column">
               <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId > 0"
@@ -546,11 +577,11 @@
                 <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
               </button>
   
-              <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId == 0"
+              <!-- <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="!viewForm"
                 (click)="deleteExpensePolicyTypeById()">
                 Continue
                 <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
-              </button>
+              </button> -->
               <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
                 Cancel
               </button>

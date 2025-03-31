@@ -201,7 +201,6 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   statusMap: { [label: string]: number[] } = {
-    "All":[13,14,40,53,46,15],
     "Pending": [13],
     "Approved": [14, 40, 53, 46],
     "Rejected": [15]
@@ -682,6 +681,7 @@ searchByEmployeeName(event: Event): void {
         this.isLoadingHnS = false;
         this.helperService.showToast(`wallet recharge successfully.`, Key.TOAST_STATUS_SUCCESS);
       }else{
+        this.isLoadingHnS = false;
         this.rechargeModel = true;
         this.helperService.showToast('failed wallet recharge.', Key.TOAST_STATUS_ERROR);
       }

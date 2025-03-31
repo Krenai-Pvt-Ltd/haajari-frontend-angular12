@@ -1529,17 +1529,17 @@ this.expenseTypeName = selectedExpense.name
     })
   }
 
-  deleteExpensePolicyTypeById(){
-    this.deletePolicyToggle = true;
-    this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
-      if(res.status){
-          this.expensePolicyTypeId = 0;
-          this.deletePolicyToggle = false;
-          this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
-      }
-    })
-  }
+  // deleteExpensePolicyTypeById(){
+  //   this.deletePolicyToggle = true;
+  //   this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
+  //     if(res.status){
+  //         this.expensePolicyTypeId = 0;
+  //         this.deletePolicyToggle = false;
+  //         this.getAllCompanyExpensePolicy();
+  //         this.closeButtonDeleteExpensePolicy.nativeElement.click()
+  //     }
+  //   })
+  // }
 
   // getExpenseInformationById(id: number, flag: boolean){
 

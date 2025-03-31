@@ -17,12 +17,13 @@ export class ExpensePolicy{
     /**
      * Enitiy variables
      */
+    // id:number = 0;
     expenseTypeId: number = 0;
     expenseTypeName: string='';
     amount: number = 0;
     flexibleAmount: number =0;
     isFlexibleAmount :number=0;
-    isPercentage: number=2;
+    isPercentage: number | null = null;
 
     /**
      * display variables
@@ -37,5 +38,7 @@ export class ExpensePolicy{
      */
 	limitAmount: number = 0;
 	// paymentType:number = 0;
+
+
 	
 }
