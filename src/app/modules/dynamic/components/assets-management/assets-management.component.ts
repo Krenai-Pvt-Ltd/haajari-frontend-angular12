@@ -26,6 +26,7 @@ import {
 import { constant } from 'src/app/constant/constant';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -64,7 +65,10 @@ export class AssetsManagementComponent implements OnInit {
 
   isEditing: boolean[] = [];
   loading: boolean[] = [];
+
+
   readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
@@ -791,12 +795,15 @@ onSearch(searchText: string): void {
     onAssetRequestOpen(asset: any): void {
       this.assetModalData ={isModal:true, asset:asset};
       this.isAssetRequestModalOpen = true;
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
     }
 
     onAssetComponentClose(): void {
       this.assetModalData={};
       this.assetRequestTab();
       this.isAssetRequestModalOpen = false;
+      this.assetRequestClose.nativeElement.click();
       console.log('Asset request tab closed');
     }
 

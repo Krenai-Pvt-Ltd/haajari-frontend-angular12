@@ -23,20 +23,15 @@ export class EmployeeProfileComponent implements OnInit {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = String(this.activateRoute.snapshot.queryParamMap.get('userId'));
     }
-    if(this.roleService.ROLE=='USER' && this.UUID!==this.userId) {
+    if((this.roleService.ROLE=='USER' && this.UUID!==this.userId)|| (this.UUID!==this.userId && !this.roleService.hasAccess(this.Routes.EMPLOYEEONBOARDING))) {
       // this.router.navigate(['/employee'], { queryParams: { userId: this.UUID } });
       this.userId = this.UUID;
       this.router.navigate(['/']);
-    }else if(this.roleService.ROLE!='ADMIN' && this.UUID!==this.userId){
-      console.log("🚀 ~ EmployeeProfileComponent ~ this.roleService.hasWriteAccess(this.Routes.EMPLOYEEONBOARDING):", this.roleService.hasAccess(this.Routes.EMPLOYEEONBOARDING))
 
-      if(this.roleService.hasAccess(this.Routes.EMPLOYEEONBOARDING)){
-        this.getEmployeeProfileData();
-        this.getUserJoiningDataByUserId();
-      }else{
+    }else if(this.roleService.ROLE=='MANAGER' && this.UUID!==this.userId){
       this.checkUserUnderManager();
-      }
-    }else{
+    }
+    else{
       this.getEmployeeProfileData();
     this.getUserJoiningDataByUserId();
     }
@@ -151,7 +146,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
 
-  
+
 
 
 

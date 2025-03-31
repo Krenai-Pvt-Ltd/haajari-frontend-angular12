@@ -1375,10 +1375,10 @@
   }
   
   .staff-leave-setting {
-    border-radius: 2px;
     padding: 6px 12px;
-    line-height: 19px;
-    font-size: 12px;
+  }
+  .svg-width svg{
+    width: 20px;
   }
   
   .automation-rules-icon {
@@ -1417,11 +1417,10 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
-  
-  .modal-lg,
-  .modal-xl {
-    max-width: 900px;
+  .information-box{
+    background-color: #f1f1fd;
   }
+
   .leave-create-modal {
     height: 80vh;
   }

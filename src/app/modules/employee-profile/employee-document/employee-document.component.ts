@@ -10,6 +10,7 @@ import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { constant } from 'src/app/constant/constant';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-employee-document',
@@ -23,6 +24,7 @@ export class EmployeeDocumentComponent implements OnInit {
   documentLoading: boolean = false;
   userId: any;
   docType: string= 'employee_doc';
+  readonly Routes=Routes;
 
   setDocType(type: string) {
     debugger;
@@ -34,7 +36,7 @@ export class EmployeeDocumentComponent implements OnInit {
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute,
     public domSanitizer: DomSanitizer, private firebaseStorage: AngularFireStorage,
     private afStorage: AngularFireStorage, private helperService : HelperService,
-    private roleService: RoleBasedAccessControlService,
+    public roleService: RoleBasedAccessControlService,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');

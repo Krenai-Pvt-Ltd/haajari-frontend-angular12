@@ -54,14 +54,32 @@
 .color-basic{
   color: #444;
 }
+.text-base-color{
+  color: #6B7280;
+}
 .fw-600{
   font-weight: 600;
 }
 .attendance-border{
   border: 1px solid #f1f1f1;
 }
+.profile-icon-bg{
+  background-color: #EFEFEF;
+}
 .font-32{
   font-size: 32px;
+}
+.img-25{
+  width: 25px;
+  height: 25px;
+}
+.img-28{
+  width: 28px;
+  height: 28px;
+}
+.img-30{
+  width: 30px;
+  height: 30px;
 }
 .img-32{
   width: 32px;
@@ -86,6 +104,10 @@
 .img-80{
   width: 80px;
   height: 80px;
+}
+.image-100{
+  width: 100px;
+  height: 100px;
 }
 .img-110{
   width: 110px;
@@ -3817,6 +3839,7 @@ a.badge:hover {
   text-align: left;
   border: 1px solid #BEBEBE;
   border-radius: 20px;
+  background-color: #fff;
 }
 .nav-pills-punch{
   border-bottom: none !important;

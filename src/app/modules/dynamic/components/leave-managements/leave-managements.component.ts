@@ -52,7 +52,7 @@ export class LeaveManagementsComponent implements OnInit {
 
   constructor(private leaveService:LeaveService,
     private helperService: HelperService,  private dataService: DataService,
-       private rbacService: RoleBasedAccessControlService,
+       public rbacService: RoleBasedAccessControlService,
        private datePipe: DatePipe, private router: Router
   ,private cdr: ChangeDetectorRef) {
 
@@ -1483,10 +1483,10 @@ routeToUserProfile(uuid: string) {
 
 
 
-showLeaveActionButton(leave:any): boolean {
-  return (leave.status == this.PENDING &&
-     ((this.logInUserUuid!=leave.uuid && this.logInUserUuid==leave.managerUuid)
-      ||this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)));
- }
+// showLeaveActionButton(leave:any): boolean {
+//   return (leave.status == this.PENDING &&
+//      ((this.logInUserUuid!=leave.uuid && this.logInUserUuid==leave.managerUuid)
+//       ||this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)));
+//  }
 
 }

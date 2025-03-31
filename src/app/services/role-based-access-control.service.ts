@@ -204,4 +204,22 @@ export class RoleBasedAccessControlService {
     return true; // Ensures default behavior if no match is found
   }
   
+
+  /**
+   * Common action buttons managemnt methods for all modules START
+   */
+  showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
+    return (leave.status == statusCheck &&
+       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+        ||logInUserUuid==leave.managerUuid ));
+   }
+
+   showAttendanceUpdateActionButton(leave:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
+    return (leave.status.id == statusCheck &&
+       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+        ||logInUserUuid==leave.managerUuid ));
+   }
+    /**
+   * Common action buttons managemnt methods for all modules END
+   */
 }
