@@ -1257,6 +1257,8 @@ appliedFilters: string[] = []
           });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
 
+          console.log(this.areAllFalse());
+          console.log(this.mismatches);
           if(this.areAllFalse() && this.mismatches.length===0){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
@@ -1274,15 +1276,25 @@ appliedFilters: string[] = []
   }
   firstUpload:boolean=true;
   areAllFalse(): boolean {
+    try{
+
+    
     if(this.firstUpload===true){
       this.firstUpload=false;
       return false;
     }
-    return this.invalidCells
-      .reduce((acc, row, rowIndex) => {
-        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
-      }, [])
-      .every(value => value === false);
+    return true;
+    // console.log("🚀 ~ EmployeeOnboardingDataComponent ~ areAllFalse ~ this.invalidCells:", this.invalidCells)
+    // return this.invalidCells
+    // .reduce((acc, row, rowIndex) => {
+    //   return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+    // }, [])
+    // .every((value:any) => value === false || value === null || value === undefined || value === "" || value === 0);
+      // .every(value => value === false);
+    }catch(error){
+      console.log("🚀 ~ EmployeeOnboardingDataComponent ~ areAllFalse ~ error:", error)
+      return false;
+    }
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -2702,28 +2714,36 @@ console.log(this.data);
   // }
 
   sendNotifications(): void {
-    if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
-      this.helperService.showToast(
-        'Please select at least one notification type to proceed.',
-        'error'
-      );
-      return;
-    }
+    // if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
+    //   this.helperService.showToast(
+    //     'Please select at least one notification type to proceed.',
+    //     'error'
+    //   );
+    //   return;
+    // }
 
     this.loadingFlag = true;
 
     // Filter users based on toggled notification preferences
-    const emailUsers = this.enableEmailNotification
-      ? this.onboardUserList
-        .filter((user) => user.emailNotificationEnabled && user.email)
-        .map((user) => user.email)
-      : [];
+    // const emailUsers = this.enableEmailNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.emailNotificationEnabled && user.email)
+    //     .map((user) => user.email)
+    //   : [];
 
-    const whatsappUsers = this.enableWhatsAppNotification
-      ? this.onboardUserList
-        .filter((user) => user.whatsappNotificationEnabled && user.phone)
-        .map((user) => user.phone)
-      : [];
+    // const whatsappUsers = this.enableWhatsAppNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.whatsappNotificationEnabled && user.phone)
+    //     .map((user) => user.phone)
+    //   : [];
+    const emailUsers:string[]=[]
+    const whatsappUsers:string[] =this.onboardUserList.filter((user) =>user.phone).map((user) => user.phone)
+    //     .map((user) => user.phone)
+    //  this.enableWhatsAppNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.whatsappNotificationEnabled && user.phone)
+    //     .map((user) => user.phone)
+    //   : [];
 
     // Prepare request payload
     const notificationRequest = {
