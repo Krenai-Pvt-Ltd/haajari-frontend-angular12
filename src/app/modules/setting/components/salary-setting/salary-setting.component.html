@@ -462,7 +462,6 @@
                     >
                       <nz-empty
                         nzNotFoundImage="assets/images/payment-img.svg"
-                        style=""
                         [nzNotFoundContent]="contentTpl"
                       >
                         <ng-template #contentTpl>
@@ -470,7 +469,7 @@
                             Salary Templates Not Found
                           </p>
                           <div class="add-filtter">
-                            <a
+                            <a *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)"
                               class="text-primary font-14 text-center"
                               data-bs-toggle="modal"
                               data-bs-target="#addsalarytemplate"
