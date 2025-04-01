@@ -566,7 +566,7 @@
                                     </div>
                                   </div>
 
-                                  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ROLE)">
+                                  <!-- <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ROLE)"> -->
                                   <span id="dLabel1" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false" 
                                    class="dropdown-toggle poinnter btnAction border-rounded-2 d-flex p-0 align-items-center justify-content-center bg-white" *ngIf="role.id != 1 && role.id != 2 && role.id != 3 " >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 19 20"
@@ -588,16 +588,21 @@
                                   role.name != 'USER' &&
                                   role.name != 'MANAGER' "
                                  aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end actionMenuList">
-                                    <a class="dropdown-item" (click)="routeToEditRole(role)"><i class="bi bi-pencil"></i> Edit</a>
+                                    <a class="dropdown-item" (click)="routeToEditRole(role)"><i class="bi "
+                                      [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.ROLE),'bi-eye':!rbacService.hasWriteAccess(Routes.ROLE)}">
+
+
+                                    </i>  {{ rbacService.hasWriteAccess(Routes.ROLE) ? 'Edit' : 'View' }}</a>
                                     <span *ngIf="
                                         role.name != 'ADMIN' &&
                                         role.name != 'USER' &&
                                         role.name != 'MANAGER'
                                       ">
-                                      <a class="dropdown-item" (click)="deleteRolesWithUsers(role.id)"><i class="bi bi-trash3"></i> Delete</a>
+                                      <a class="dropdown-item" *ngIf="rbacService.hasWriteAccess(Routes.ROLE)"
+                                       (click)="deleteRolesWithUsers(role.id)"><i class="bi bi-trash3"></i> Delete</a>
                                     </span>
                                   </div>
-                                </ng-container>
+                                <!-- </ng-container> -->
                                 </div>
                                 <p class="mb-0 font-13 mt-3 mb-3">
                                   {{ role.description }}

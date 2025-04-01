@@ -749,7 +749,8 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 text-black fw-normal " *ngIf="user.userShiftName">
                               {{ user.userShiftName ? user.userShiftName : "N/A" }}
                             </a>
-                            <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userShiftName">
+                            <button type="button" (click)="routeToAddUserInShift()" [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
+                             class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userShiftName">
                               + Add Shift
                             </button>
                           </td>
@@ -757,17 +758,19 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal font-14" *ngIf="user.userLeavePolicyName">
                               {{ user.userLeavePolicyName ? user.userLeavePolicyName : "N/A" }}
                             </a>
-                            <button type="button" (click)="routeToAddUserInLeavePolicy()" class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userLeavePolicyName">
+                            <button type="button" (click)="routeToAddUserInLeavePolicy()"  [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
+                            class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userLeavePolicyName">
                               + Add Leave Policy
                             </button>
                           </td>
-                          <td class="text-left">
+                          <td class="text-left" [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}">
                             <div class="material-switch">
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
                               (change)="changeStatusActive(user.presenceStatus, user.uuid)" *ngIf="!user.presenceStatus"/>
 
+                              <!-- data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" -->
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
-                              data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                              
                               (click)="openDeleteConfirmationModal(user.id, user.presenceStatus, user.uuid, 'Disable')" *ngIf="user.presenceStatus"/>
                               <label for="switch{{ user.uuid }}" class="label-success"></label>
                             </div>
@@ -1204,36 +1207,7 @@
                       </tr>
 
                     </tbody>
-                    <!-- <tbody *ngIf="errorToggleTop && users.length == 0">
-                      <tr>
-                        <td colspan="8">
-                          <div class="mt-3 dashnodata">
-                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
-                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-detail font-16">
-                                    Something went wrong
-                                  </p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
-
-                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
-                              *ngIf="placeholder && total == 0 && !isUserShimer">
-                              <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-detail font-16">
-                                    No data for now
-                                  </p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody> -->
+                   
                   </table>
                 </div>
                 <div
@@ -1494,6 +1468,10 @@
 
 
 
+<button type="button" class="btn d-none btn-primary" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
+  delete/disable employee popup
+</button>
 
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
   aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-backdrop="false">
