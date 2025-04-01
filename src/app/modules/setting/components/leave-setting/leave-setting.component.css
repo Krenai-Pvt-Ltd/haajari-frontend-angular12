@@ -1679,6 +1679,11 @@ i.bi.bi-plus {
   transform: translateY(-50%);
   left: 10px;
 }
+.container .content-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
 .select-all input{
   top: 4px;
 }

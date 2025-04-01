@@ -1499,7 +1499,7 @@
                     <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                       aria-labelledby="v-pills-messages-tab">
                       <div>
-                        <div class="col-md-12 mb-3 position-relative">
+                        <!-- <div class="col-md-12 mb-3 position-relative">
                           <input placeholder="Search by Name " id="searchText" name="searchUsers" type="text"
                             class="form-control" (keyup)="searchUsers()" [(ngModel)]="searchText"
                             [ngModelOptions]="{ standalone: true }" style="padding: 0px 0px 0px 35px;" />
@@ -1555,7 +1555,46 @@
                             </button>
                           </ng-container>
                           </div>
-                        </div>
+                        </div> -->
+                        <div  class="col-md-12">
+                          <div  class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
+                             
+                             <div  style="width: 70%;">
+                                <form role="search" class="searching">
+                                  <div  class="form-group position-relative">
+                                    <input id="searchText" name="searchUsers" type="text" placeholder="Search by Name" class="form-control border-0" style="padding: 0px 0px 0px 35px;"
+                                    (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" >
+                                    <i  class="bi bi-search search-icon position-absolute" *ngIf="!crossFlag"></i>
+                                    <i class="bi bi-x search-icon position-absolute font-18" (click)="clearSearchUsers()" *ngIf="crossFlag"></i>
+                                  </div>
+                                </form>
+                             </div>
+                             <div class="container">
+                                <div  class="content-wrapper">
+                                   <div  class="d-flex align-items-center gap-2 search-list">
+                                      <a  class="info-button text-black fw-semibold font-13">
+                                        <span class="text-primary">{{ selectedStaffs.length}} </span> Selected of <span  class="text-primary"> {{ total }} </span></a>
+                                        <span class="separator"></span>
+                                      <span class="clear-button text-danger fw-semibold pointer font-13"  *ngIf="selectedStaffIdsUser.length > 0" (click)="clearIds()">
+                                         <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+                                            <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
+                                               <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect>
+                                            </mask>
+                                            <g  mask="url(#mask0_4127_2858)">
+                                               <path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545"></path>
+                                            </g>
+                                         </svg>
+                                         Clear Selection 
+                                      </span>
+                                      <!-- <span class="separator"></span>
+                                      <label class="checkbox-label search-list">
+                                        <input type="checkbox"> 
+                                        Select all </label> -->
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
                         <div class="mt-3">
                           <div class="employ-list-height table-responsive">
                            
