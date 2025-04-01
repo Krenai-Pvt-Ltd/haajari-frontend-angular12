@@ -183,73 +183,56 @@
 
               <div class="actionMenuList filter-box p-0 p-0 border position-absolute bg-white border-rounded-2" [ngClass]="{'d-none': !showFilter}">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
-                   <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
-                   <span class="pointer lh-1" (click)="changeShowFilter(false)">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none" >
-                       <g opacity="0.8">
-                       <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
-                       <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
-                       </mask>
-                       <g mask="url(#mask0_7729_258)">
-                       <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
-                       </g>
-                       </g>
-                   </svg>
-                   </span>
-               </div>
-               <div class="row p-3">
-                   <div class="mt-2">
-                    <div class="col-md-12 mb-3 d-none">
+                  <h5 class="mb-0 font-14 fw-semibold"> Filter</h5>
+                  <span class="pointer lh-1" (click)="changeShowFilter(false)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                      <g opacity="0.8">
+                        <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                          <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_7729_258)">
+                          <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                </div>
+                <div class="row p-3">
+                  <div class="mt-2">
+                    <div class="col-md-12 mb-3">
                       <label for="type" class="pb-2">Status Filter</label>
-                      <nz-select nzPlaceHolder="Select Status " class="w-100 form-control placeholder-lines">
-                        <nz-option nzValue="All" nzLabel="All"></nz-option>
-                        <nz-option nzValue="Present" nzLabel="Present"></nz-option>
-                        <nz-option nzValue="Absent" nzLabel="Absent"></nz-option>
-                        <nz-option nzValue="Halfday" nzLabel="Halfday"></nz-option>
-                        <nz-option nzValue="Leave" nzLabel="Leave"></nz-option>
+                      <nz-select nzPlaceHolder="Select Status" class="w-100 form-control placeholder-lines" [(ngModel)]="filterCriteria">
+                        <nz-option nzValue="ALL" nzLabel="All"></nz-option>
+                        <nz-option nzValue="PRESENT" nzLabel="Present"></nz-option>
+                        <nz-option nzValue="ABSENT" nzLabel="Absent"></nz-option>
+                        <nz-option nzValue="HALFDAY" nzLabel="Halfday"></nz-option>
+                        <nz-option nzValue="LEAVE" nzLabel="Leave"></nz-option>
                       </nz-select>
                     </div>
-                    <div class="col-md-12 mb-3 d-none">
+                    <div class="col-md-12 mb-3">
                       <label for="type" class="pb-2">Attendance Date</label>
                       <nz-date-picker class="ant-picker ant-picker-borderless"
-                      nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate"
-                      (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates">
-                    </nz-date-picker>
+                        nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate"
+                        (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates">
+                      </nz-date-picker>
                     </div>
-                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('ALL')">
-                           <input type="radio" class="form-check-input" id="all" name="attd-filter" [checked]="'ALL'== filterCriteria">
-                           <label class="form-check-label fw-normal" for="all">All</label>
-                         </div>
-                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('PRESENT')">
-                           <input type="radio" class="form-check-input" id="Present " name="attd-filter" [checked]="'PRESENT'== filterCriteria">
-                           <label class="form-check-label fw-normal" for="Present "> Present  </label>
-                         </div>
-                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('ABSENT')">
-                           <input type="radio" class="form-check-input" id="Absent" name="attd-filter" [checked]="'ABSENT'== filterCriteria">
-                           <label class="form-check-label fw-normal" for="Absent"> Absent </label>
-                         </div>
-                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('HALFDAY')">
-                           <input type="radio" class="form-check-input" id="Halfday" name="attd-filter" [checked]="'HALFDAY'== filterCriteria">
-                           <label class="form-check-label fw-normal" for="Halfday">Halfday  </label>
-                         </div>
-                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2" (click)="selectFilterCriteria('LEAVE')">
-                          <input type="radio" class="form-check-input" id="Leave" name="attd-filter" [checked]="'LEAVE'== filterCriteria">
-                          <label class="form-check-label fw-normal" for="Leave">Leave   </label>
-                        </div>
-                   </div>
-               </div>
-               <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
-                   <button class="btn cancel-btn mt-0" (click)="resetFilterCriteria('ALL');">Reset it</button>
-                   <button class="btn submitActionBtn" (click)="applyFilterCriteria(); changeShowFilter(false);">Apply</button>
-               </div>
-           </div>
+                  </div>
+                </div>
+                <div class="p-3 border-top d-flex gap-2 align-items-center justify-content-end">
+                  <button class="btn cancel-btn mt-0" (click)="resetFilterCriteria('ALL')">Reset it</button>
+                  <button class="btn submitActionBtn" (click)="applyFilterCriteria(); changeShowFilter(false)">Apply</button>
+                </div>
+              </div>
           </div>
 
-          <div class="filter-bdg d-flex align-items-center gap-2 mt-3" *ngIf="filterCriteria!='ALL' && filterCriteria!=''">
-            <p class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">{{filterCriteria}}
+          <div class="filter-bdg d-flex align-items-center gap-2 mt-3" >
+            <p (click)="changeShowFilter(true)" class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold">{{appliedDate | date : "dd/MM/yyyy"}}
+            </p>
+            <p *ngIf="filterCriteria!='ALL' && filterCriteria!=''" class="filter-pills d-flex align-items-centar gap-2 pointer font-12 fw-semibold"> Status: {{filterCriteria}}
               <i class="bi bi-x-lg pointer" (click)="resetFilterCriteria('ALL')"></i>
             </p>
           </div>
+
 
             <div>
               <ng-container *ngIf="
@@ -1196,7 +1179,7 @@
           </div>
         </div>
 
-      
+
 
         <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB_NEW">
           <div class="col-md-12 mt-3 mb-3">
@@ -1377,7 +1360,7 @@
                                 <i class="bi bi-three-dots-vertical"></i>
                               </button>
                               <div class="dropdown-menu actionMenuList">
-                                <ng-container *ngIf="rbacService.showAttendanceUpdateActionButton(request,logInUserUuid,StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING,Routes.TIMETABLE)">
+                                <ng-container *ngIf="rbacService.hasWriteAccess(Routes.TIMETABLE) && request.status.id === StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING  && (role=='ADMIN' || request.managerUuid == userUuid)">
                                 <li>
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
@@ -1609,7 +1592,7 @@
                             <span class="fw-semibold font-13" [ngClass]="{'text-success': request?.status?.id === 50, 'text-danger': request?.status?.id === 51, 'text-primary': request?.status?.id === 52}">
                               {{request?.status?.response | uppercase}}
                             </span>
-                            <p class="mb-0 font-12 fw-light" *ngIf="request.managerName">By: {{request.managerName}}</p>
+                            <p class="mb-0 font-12 fw-light" *ngIf="request.approvedByName">By: {{request.approvedByName}}</p>
                           </td>
                           <td>
                             <div class="dropdown" *ngIf="!request.isProcessing; else processingSpinner">
@@ -1619,7 +1602,8 @@
                               </button>
                               <div class="dropdown-menu actionMenuList">
                                 <!-- <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')"> -->
-                                  <li *ngIf="showAttendnaceUpdateActionButton(request)">
+
+                                  <li *ngIf="rbacService.hasWriteAccess(Routes.TIMETABLE) && request.status.id === StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING  && (role=='ADMIN' || request.managerUuid == userUuid)">
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'APPROVED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22308" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -1633,7 +1617,7 @@
                                   </a>
                                 </li>
                                 <!-- <li *ngIf="request?.status?.id==52 && (request?.managerUuid==userUuid || role=='ADMIN')" > -->
-                                  <li *ngIf="showAttendnaceUpdateActionButton(request)">
+                                  <li *ngIf="rbacService.hasWriteAccess(Routes.TIMETABLE) && request.status.id === StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING  && (role=='ADMIN' || request.managerUuid == userUuid)">
                                   <a class="dropdown-item" (click)="approveOrReject(request.id, 'REJECTED'); request.isProcessing=true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                                       <mask id="mask0_8226_22314" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
