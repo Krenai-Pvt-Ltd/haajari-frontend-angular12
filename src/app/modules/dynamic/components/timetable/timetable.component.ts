@@ -222,7 +222,7 @@ export class TimetableComponent implements OnInit {
 
   assignRole() {
     this.role = this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+    this.userUuid = this.rbacService.getUuid();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
 
