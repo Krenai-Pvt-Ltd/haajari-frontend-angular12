@@ -3,7 +3,7 @@
 
     <div class="d-flex align-items-center justify-content-between border-bottom">
 
-      <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs mt-3 " style="border:none;">
+      <ul id="myTab" role="tablist" class="nav nav-tabs mt-3 " style="border:none;">
         <li role="presentation" class="nav-item d-flex align-items-center">
           <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-expense" type="button" role="tab"
             aria-controls="home" aria-selected="false" class="nav-link"
@@ -475,12 +475,12 @@
                       <div class="d-flex align-items-center gap-3">
                         <div class="d-flex align-items-center gap-3">
 
-                          <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()">
+                          <a *ngIf="rbacService.hasWriteAccess(Routes.EXPENSE)" href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()">
                             <i class="bi bi-pencil pointer" style="color: #6666f3"
                               (click)="getExpenseInformationById(expensePolicy)"></i>
                           </a>
 
-                          <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
+                          <a *ngIf="rbacService.hasWriteAccess(Routes.EXPENSE)" class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
                                     getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)">
                             <i class="bi bi-trash pointer text-danger"></i>
                           </a>
@@ -515,7 +515,7 @@
                               </h4>
                               <div class="d-flex align-items-center gap-3">
 
-                                <i *ngIf="
+                                <i  *ngIf=" rbacService.hasWriteAccess(Routes.EXPENSE) &&
                                           expensePolicy.companyExpensePolicyTypeRes.length > 1" data-bs-toggle="modal"
                                   data-bs-target="#delete-policy" (click)="
                                           getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.id, false, 0)"
@@ -924,7 +924,7 @@
       </div>
  </div>
 
-  
+
    </div>
 </div>
 
@@ -968,7 +968,8 @@
             <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
               [class.show]="activeTab === 'expensePolicy'" [class.active]="activeTab === 'expensePolicy'">
 
-              <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
+              <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()"
+              [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.EXPENSE)}">
                 <div class="row pt-3 pb-3 ">
                   <!-- Policy Name -->
                   <div class="col-md-12">
@@ -1182,7 +1183,7 @@
 
 
 
-              <div class="modal-footer d-flex align-items-center justify-content-end pb-0">
+              <div class="modal-footer d-flex align-items-center justify-content-end pb-0" *ngIf="rbacService.hasWriteAccess(Routes.EXPENSE)">
                 <button type="submit" class="btn btn-primary next-tab-btn" [disabled]="expensePolicyReqList.length == 0"
                   (click)="staffActiveTabInShiftTimingMethod()">
                   Next
@@ -1280,7 +1281,7 @@
                   </tbody>
 
 
-                  <tbody *ngIf="!staffLoading">
+                  <tbody *ngIf="!staffLoading" [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.EXPENSE)}">
                     <tr *ngFor="let staff of staffs; let i = index">
                       <td>
                         <div class="form-check">

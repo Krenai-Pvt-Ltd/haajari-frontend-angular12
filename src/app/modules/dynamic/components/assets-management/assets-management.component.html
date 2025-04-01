@@ -90,15 +90,20 @@
                                   <div *ngIf="getCurrentMonthStats().currentMonthCount > 0" class="d-flex align-items-center justify-content-between gap-3 p-3 earned-funds">
                                      <div>
                                         <p class="mb-2 font-13">Monthly Assigned </p>
-                                        <h5  class="mb-0 font-16 fw-normal">
-                                           {{getCurrentMonthStats().currentMonthCount}}
-                                           <span class="font-12 fw-semibold">
-                                              {{getCurrentMonthStats().percentageChange | number:'1.2-2' }}%
-                                              <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
-                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"></path>
+                                        <h5 class="mb-0 font-16 fw-normal">
+                                          {{getCurrentMonthStats().currentMonthCount}}
+                                          <span class="font-12 fw-semibold" [ngClass]="{'text-success': getCurrentMonthStats().percentageChange >= 0, 'text-danger': getCurrentMonthStats().percentageChange < 0}">
+                                              {{Math.abs(getCurrentMonthStats().percentageChange) | number:'1.2-2' }}%
+                                              <svg *ngIf="getCurrentMonthStats().percentageChange >= 0" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="currentColor"></path>
                                               </svg>
-                                           </span>
-                                        </h5>
+                                              <svg *ngIf="getCurrentMonthStats().percentageChange < 0" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                                                  <g transform="rotate(180, 3.5, 5.5)">
+                                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="currentColor"></path>
+                                                  </g>
+                                              </svg>
+                                          </span>
+                                      </h5>
                                      </div>
                                      <span class="use-funds-separator"></span>
                                      <div class="text-end">
