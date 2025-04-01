@@ -567,19 +567,15 @@
                                   </div>
 
                                   <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ROLE)">
-                                  <span class="pointer" id="dLabel1" data-bs-toggle="dropdown" role="button"
-                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
+                                  <span id="dLabel1" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false" 
+                                   class="dropdown-toggle poinnter btnAction border-rounded-2 d-flex p-0 align-items-center justify-content-center bg-white" *ngIf="role.id != 1 && role.id != 2 && role.id != 3 " >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 19 20"
                                       fill="none">
                                       <mask id="mask0_4355_385" style="mask-type: alpha" maskUnits="userSpaceOnUse"
                                         x="0" y="0" width="19" height="20">
                                         <rect y="0.5" width="19" height="19" fill="#D9D9D9" />
                                       </mask>
-                                      <g *ngIf="
-                                      role.id != 1 &&
-                                      role.id != 2 &&
-                                      role.id != 3
-                                    " mask="url(#mask0_4355_385)">
+                                      <g  mask="url(#mask0_4355_385)">
                                         <path
                                           d="M9.49935 16.3307C9.06393 16.3307 8.69119 16.1757 8.38112 15.8656C8.07105 15.5556 7.91602 15.1828 7.91602 14.7474C7.91602 14.312 8.07105 13.9392 8.38112 13.6292C8.69119 13.3191 9.06393 13.1641 9.49935 13.1641C9.93477 13.1641 10.3075 13.3191 10.6176 13.6292C10.9276 13.9392 11.0827 14.312 11.0827 14.7474C11.0827 15.1828 10.9276 15.5556 10.6176 15.8656C10.3075 16.1757 9.93477 16.3307 9.49935 16.3307ZM9.49935 11.5807C9.06393 11.5807 8.69119 11.4257 8.38112 11.1156C8.07105 10.8056 7.91602 10.4328 7.91602 9.9974C7.91602 9.56198 8.07105 9.18924 8.38112 8.87917C8.69119 8.5691 9.06393 8.41406 9.49935 8.41406C9.93477 8.41406 10.3075 8.5691 10.6176 8.87917C10.9276 9.18924 11.0827 9.56198 11.0827 9.9974C11.0827 10.4328 10.9276 10.8056 10.6176 11.1156C10.3075 11.4257 9.93477 11.5807 9.49935 11.5807ZM9.49935 6.83073C9.06393 6.83073 8.69119 6.67569 8.38112 6.36562C8.07105 6.05556 7.91602 5.68281 7.91602 5.2474C7.91602 4.81198 8.07105 4.43924 8.38112 4.12917C8.69119 3.8191 9.06393 3.66406 9.49935 3.66406C9.93477 3.66406 10.3075 3.8191 10.6176 4.12917C10.9276 4.43924 11.0827 4.81198 11.0827 5.2474C11.0827 5.68281 10.9276 6.05556 10.6176 6.36562C10.3075 6.67569 9.93477 6.83073 9.49935 6.83073Z"
                                           fill="#1C1B1F" />
@@ -591,14 +587,14 @@
                                   role.name != 'ADMIN' &&
                                   role.name != 'USER' &&
                                   role.name != 'MANAGER' "
-                                 aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" (click)="routeToEditRole(role)">Edit</a>
+                                 aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end actionMenuList">
+                                    <a class="dropdown-item" (click)="routeToEditRole(role)"><i class="bi bi-pencil"></i> Edit</a>
                                     <span *ngIf="
                                         role.name != 'ADMIN' &&
                                         role.name != 'USER' &&
                                         role.name != 'MANAGER'
                                       ">
-                                      <a class="dropdown-item" (click)="deleteRolesWithUsers(role.id)">Delete</a>
+                                      <a class="dropdown-item" (click)="deleteRolesWithUsers(role.id)"><i class="bi bi-trash3"></i> Delete</a>
                                     </span>
                                   </div>
                                 </ng-container>
@@ -627,7 +623,7 @@
                         </ng-container>
                       </ng-template>
                       <ng-template #errorInFetchingRolesData>
-                        <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolesAndSecurity">
+                        <!-- <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolesAndSecurity">
                           <div class="errorboxinner text-center">
                             <div class="errorboxplaceholder mb-2">
                               <img src="assets/images/addnewproduct.svg" style="width: 80px" />
@@ -646,7 +642,22 @@
                                 Assign role to user</a>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
+
+                        <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForRolesAndSecurity" >
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail font-16">
+                                      No data for now
+                                  </p>
+                                  <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
+                                (click)="getUsersByFilterMethodCall()">
+                                <i class="bi bi-plus" style="font-size: 16px"></i>
+                                Assign role to user</a>
+                                </ng-template>
+                            </nz-empty>
+                         </div>
 
                         <div class="errorboxmain" *ngIf="
                             networkConnectionErrorPlaceHolderForRolesAndSecurity
