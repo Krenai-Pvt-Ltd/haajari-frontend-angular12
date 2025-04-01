@@ -1195,14 +1195,5 @@ export class SalarySettingComponent implements OnInit {
       return staff.length;
     }
   }
-  // changePage(page: number) {
-  //   if (page === 'prev') {
-  //     this.pageNumber = Math.max(1, this.pageNumber - 1);
-  //   } else if (page === 'next') {
-  //     this.pageNumber = Math.min(this.totalPages, this.pageNumber + 1);
-  //   } else {
-  //     this.pageNumber = page;
-  //   }
-  //   this.loadData(); // Refresh data
-  // }
+ 
 }
