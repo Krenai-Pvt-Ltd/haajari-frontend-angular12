@@ -33,10 +33,11 @@ export class AttendanceUpdateComponent implements OnInit {
   ROLE: any = '';
   attendanceTimeUpdateForm!: FormGroup;
   attendanceData: any = {};
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
-    this.userId = this.roleService.getUuid();
+    this.userId = await this.roleService.getUuid();
     this.ROLE = this.roleService.getRoles();
+
     this.initializeForm();
     this.fetchManagerNames();
     this.isModal=this.data.isModal;
