@@ -22,8 +22,6 @@ export class ExpenseService {
       userIds: number[]
     ) {
       let params = new HttpParams()
-        .set('currentPage', pageNumber)
-        .set('itemPerPage', itemPerPage)
         .set('sortBy', 'createdDate')
         .set('sortOrder', 'desc')
         .set('tag', tag)
@@ -32,11 +30,17 @@ export class ExpenseService {
         userIds.forEach(id => {
           params = params.append('id', id);
         });
+
+
+        if (pageNumber != 0 && itemPerPage != 0) {
+          params = params.set('currentPage', pageNumber); 
+          params = params.set('itemPerPage', itemPerPage);
+        }
       
         if (startDate && endDate) {
-        params = params.set('startDate', startDate);
-        params = params.set('endDate', endDate);
-      }
+          params = params.set('startDate', startDate);
+          params = params.set('endDate', endDate);
+        }
   
       return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/users`, {
         params,
@@ -86,6 +90,12 @@ export class ExpenseService {
 
     getDebitWalletAmount() {
       return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/company-debit-wallet-amount`);
+    }
+
+
+
+    getTop5UsersWithHighestExpense(){
+      return this.httpClient.get<any>(`${this.baseUrl}/company-expense/top-expense-user`);
     }
 
     

@@ -397,7 +397,7 @@ openExpenseComponent(expense: any) {
     this.databaseHelper.sortOrder = ""; 
 }
 
-
+  /** Company Wallet Section **/
   /** View Wallet Balance **/
 
 
@@ -765,6 +765,8 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.getExpenseSummary();
     this.tempDateFilters = [];
     this.filters = { fromDate: undefined, toDate: undefined };
+    this.databaseHelper.currentPage = 0;
+    this.databaseHelper.itemPerPage = 0;
     this.getWalletUser();
     this.dashBoardDateView = true;
     this.loading = true;
@@ -772,6 +774,7 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.getTeamWalletAmount();
     this.getCreditWalletAmount();
     this.getDebitWalletAmount();
+    this.getTop5UsersWithHighestExpense();
   }
 
   expenseSummary: any[] = [];
@@ -982,6 +985,21 @@ onDateRangeChange(dates: [Date, Date] | null) {
         this.debitWalletAmount = res.object;
       }
       console.log("Debit Wallet Amount : ",this.debitWalletAmount);
+      });
+  }
+
+
+  topExpenseUser: any[] = [];
+  userLoader : boolean = false;
+  getTop5UsersWithHighestExpense() {
+    this.userLoader = true;
+    this.expenseService.getTop5UsersWithHighestExpense().subscribe((res: any) => {
+      if (res.status) {
+        this.topExpenseUser = res.object;
+        this.userLoader = false;
+      }
+      this.userLoader = false;
+      console.log("Top Wallet User List : ",this.topExpenseUser);
       });
   }
 
