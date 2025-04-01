@@ -274,17 +274,12 @@
             *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading">
 
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-              <div>
-                <h6 class="text-truncate mb-0">Leave</h6>
-              </div>
-              <div *ngIf="!idFlag">
-
+                <h6 class="mb-0 lh-lgg">Leave</h6>
                 <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" 
-                *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)"
+                *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING) && !idFlag"
                 (click)="emptyAddLeaveSettingRule();preMethodCallToCreateLeaveTemplate();enableWFH(false)">
                   <i class="bi bi-plus"></i> Create another template
                 </a>
-              </div>
             </div>
 
             <div *ngIf="leaveTemplates.length == 0" class="col-md-12">
@@ -466,7 +461,7 @@
 
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
               <div class="">
-                <h6 class="text-truncate mb-0">On Duty</h6>
+                <h6 class="mb-0 lh-lgg">On Duty</h6>
               </div>
               <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
               <div *ngIf="!idFlag">
@@ -656,7 +651,7 @@
 
            <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
              <div class="">
-               <h6 class="text-truncate mb-0">Week Off</h6>
+               <h6 class="mb-0 lh-lgg">Week Off</h6>
              </div>
              <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
              <div class="" *ngIf="!idFlag">
