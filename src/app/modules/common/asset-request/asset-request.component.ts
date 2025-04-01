@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { AssetService } from 'src/app/services/asset.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-asset-request',
@@ -35,10 +38,14 @@ export class AssetRequestComponent implements OnInit {
    * Variable declaration end
    */
 
+  readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
+
   constructor(
     private assetService: AssetService,
     private helperService: HelperService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) { }
 
 
@@ -134,30 +141,25 @@ export class AssetRequestComponent implements OnInit {
     this.assetService.changeAssetRequestStatus(asset.id, this.newStatus)
       .subscribe(
         (response) => {
+          if(response.status){
           asset.status = this.newStatus;
           this.onViewRequest(asset);
           if (this.newStatus != 'APPROVED' && this.isModal) {
-            this.assetRequestClose.nativeElement.click();
+            this.closeModal.emit();
           }
           this.assetRequestStatusLoading = false;
           this.helperService.showToast(
             "Asset status change successfully",
             Key.TOAST_STATUS_SUCCESS
           );
+        }
         },
         (error) => {
-          asset.status = this.newStatus;
           this.assetRequestStatusLoading = false;
-          if (this.newStatus != 'APPROVED') {
-            this.assetRequestClose.nativeElement.click();
-            this.helperService.showToast(
-              "Asset status change successfully",
-              Key.TOAST_STATUS_SUCCESS
-            );
-            return;
-          }
-          this.onViewRequest(asset);
-          // Handle error response, e.g., show an error message
+          this.helperService.showToast(
+            "Failed to change asset status",
+            Key.TOAST_STATUS_ERROR
+          );
         }
       );
   }

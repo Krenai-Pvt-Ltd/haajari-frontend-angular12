@@ -1,9 +1,10 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import moment from 'moment';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -30,11 +31,19 @@ export class AttendanceUpdateComponent implements OnInit {
   ) { }
 
   userId: any = '';
+  ROLE: any = '';
   attendanceTimeUpdateForm!: FormGroup;
   attendanceData: any = {};
-  ngOnInit(): void {
+  logInUserUuid: string = '';
+
+  readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
+  async ngOnInit(): Promise<void> {
 
     this.userId = this.roleService.getUuid();
+    this.ROLE = this.roleService.getRoles();
+    this.logInUserUuid = await this.roleService.getUUID();
+
     this.initializeForm();
     this.fetchManagerNames();
     this.isModal=this.data.isModal;
@@ -53,19 +62,19 @@ export class AttendanceUpdateComponent implements OnInit {
   // Initialize the form with controls
   initializeForm(): void {
     this.attendanceTimeUpdateForm = this.fb.group({
-      requestedDate: [null],
+      requestedDate: [null, Validators.required],
       attendanceRequestType: ['UPDATE'],
       updateGroup: this.fb.group({
-        requestType: [''],
-        attendanceId: [''],
-        updatedTime: [null],
+        requestType: ['', Validators.required],
+        attendanceId: ['', Validators.required],
+        updatedTime: [null, Validators.required],
       }),
       createGroup: this.fb.group({
-        inRequestTime: [null],
-        outRequestTime: [null],
+        inRequestTime: [null , Validators.required],
+        outRequestTime: [null , Validators.required],
       }),
-      managerId: [''],
-      requestReason: ['']
+      managerId: ['', Validators.required],
+      requestReason: ['', Validators.required],
     });
   }
 
@@ -200,18 +209,19 @@ export class AttendanceUpdateComponent implements OnInit {
     if (this.checkHoliday === true || this.checkAttendance === true) {
       return false;
     }
+    const requestedDate = this.attendanceTimeUpdateForm.get('requestedDate');
     if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
       const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-      return (updateGroup ? updateGroup.valid : false) &&
+      return (updateGroup ? updateGroup.valid : false) && (requestedDate ? requestedDate.valid : false) &&
         (managerId ? managerId.valid : false) &&
         (requestReason ? requestReason.valid : false);
     } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
       const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-      return (createGroup ? createGroup.valid : false) &&
+      return (createGroup ? createGroup.valid : false) && (requestedDate ? requestedDate.valid : false) &&
         (managerId ? managerId.valid : false) &&
         (requestReason ? requestReason.valid : false);
     }
@@ -278,14 +288,12 @@ export class AttendanceUpdateComponent implements OnInit {
   // Approve or Reject actions for review mode
   approveRequest(): void {
     // Implement approve logic (e.g., API call)
-    console.log('Approved:', this.attendanceTimeUpdateForm.value);
     this.helperService.showToast('Request Approved Successfully.', Key.TOAST_STATUS_SUCCESS);
     this.closeAttendanceUpdateModal.nativeElement.click();
   }
 
   rejectRequest(): void {
     // Implement reject logic (e.g., API call)
-    console.log('Rejected:', this.attendanceTimeUpdateForm.value);
     this.helperService.showToast('Request Rejected.', Key.TOAST_STATUS_ERROR);
     this.closeAttendanceUpdateModal.nativeElement.click();
   }
@@ -303,7 +311,7 @@ export class AttendanceUpdateComponent implements OnInit {
       this.approveLoader = false;
       this.rejectLoader = false;
       // console.log('requests retrieved successfully', response.listOfObject);
-      if (response.message == 'APPROVE') {
+      if (response.status && reqString == 'APPROVED') {
         this.helperService.showToast(
           'Request Approved Successfully.',
           Key.TOAST_STATUS_SUCCESS
@@ -311,7 +319,7 @@ export class AttendanceUpdateComponent implements OnInit {
 
         this.attendanceData.status = 'APPROVED';
         this.cdr.detectChanges();
-      } else if (response.message == 'REJECT') {
+      } else if (response.status && reqString == 'REJECTED') {
         this.helperService.showToast(
           'Request Rejected Successfully.',
           Key.TOAST_STATUS_SUCCESS

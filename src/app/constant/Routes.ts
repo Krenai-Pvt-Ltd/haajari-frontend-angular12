@@ -57,6 +57,8 @@ export class Routes {
     public static SALARYTEMPLATE = "/payroll/salary-template"
     public static PAYROLLMANAGEMENT = "/payroll/payroll-management"
     public static STATUTORYDEDUCTION = "/payroll/statutory-deduction"
+
+    public static EMPLOYEE_PROFILE = "/employee";
     
  /**
     * DYNAMIC ROUTES END

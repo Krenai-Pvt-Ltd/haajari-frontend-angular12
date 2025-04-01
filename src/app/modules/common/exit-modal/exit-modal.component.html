@@ -1,9 +1,5 @@
 <div *ngIf="!isLoading">
-<!-- <div class="modal fade" role="dialog" aria-hidden="true" -->
-    <!-- aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
-    <!-- <div class="modal-dialog modal-dialog-centered" role="document"> -->
-        <!-- <div class="modal-content"> -->
-            <div class="modal-header">
+            <div class="d-flex align-items-center justify-content-between px-3" [ngClass]="{'modal-header': isModal}">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
                 <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
                      #closeResignationButton>
@@ -19,7 +15,7 @@
                         </g>
                     </svg>
                 </button>
-                <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+                <span  class="badge rounded-pill font-11" [ngClass]="{
                   'badge-soft-success': userResignationInfo.status.response === 'APPROVED',
                   'badge-soft-danger':  userResignationInfo.status.response === 'REJECTED' || userResignationInfo.status.response === 'REVOKED',
                   'badge-soft-secondary':  userResignationInfo.status.response === 'PENDING' || userResignationInfo.status.response === 'NOTICE PERIOD'
@@ -28,15 +24,11 @@
               </span>
             </div>
 
-            <div class="modal-body p-0">
+            <div class=" p-0" [ngClass]="{'modal-body': isModal}">
                 <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
 
                     <div class="row register-form-box">
-                        <!-- <div class="col-md-12">
-                                <div class="hr-notes p-3">
-                                  <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
-                                </div>
-                            </div> -->
+
 
                         <div class="p-4">
 
@@ -239,7 +231,8 @@
                             data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
                             #closeApproveModal>Cancel</button>
 
-                        <button *ngIf="ROLE == 'ADMIN' && this.userResignationInfo.status.id == 13" type="button" class="btn submitActionBtn"
+                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING"
+                        type="button" class="btn submitActionBtn"
                             [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
                             <span *ngIf="!approveToggle">Approve</span>
                             <div class="dot-opacity-loader" *ngIf="approveToggle">
@@ -271,20 +264,6 @@
                                 <span></span>
                             </div>
                         </button>
-
-                        <!-- <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="button" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button> -->
-                        <!-- <button *ngIf="!approveToggle && ROLE != 'ADMIN'" [disabled]="showRevokeDiv && !userResignationInfo.revokeReason" type="button"
-                            class="btn submitActionBtn" (click)="revokeResignation(userResignationInfo.id)">{{!showRevokeDiv ? 'Revoke' : 'Submit'}}</button> -->
-
-                        <!-- <button *ngIf="!approveToggle && !showRevokeDiv && !resignationToggle && ROLE != 'ADMIN'" type="submit"
-                             class="btn submitActionBtn">Update</button>
-
-                            <div class="dot-opacity-loader" *ngIf="approveToggle || resignationToggle">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                              </div> -->
-
                     </div>
 
 

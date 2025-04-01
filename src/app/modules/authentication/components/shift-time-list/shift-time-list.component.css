@@ -218,10 +218,18 @@
   height: 300px;
   overflow: scroll;
 }
+
+.employ-list-height  table thead{
+  position: sticky;
+    top: 0;
+}
 .employ-list-height::-webkit-scrollbar {
   display: none;
 }
 
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
 .employ-lost-footer {
   position: absolute;
   width: 100%;

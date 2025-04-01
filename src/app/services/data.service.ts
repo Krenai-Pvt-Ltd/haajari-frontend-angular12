@@ -5,7 +5,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { Organization } from '../models/users';
 import { Savel } from '../models/savel';
 import { DailyQuestionsCheckout } from '../models/daily-questions-check-out';
@@ -95,7 +95,15 @@ export class DataService {
   ]);
   orgId: any;
   private readonly _key: Key = new Key();
-  constructor(private readonly httpClient: HttpClient) {}
+
+  constructor(private readonly httpClient: HttpClient) {
+    window.addEventListener('storage', (event) => {
+      if (event.key === this.notificationKey) {
+        this.messageSubject.next();
+      }
+    });
+  }
+
   private readonly orgIdEmitter = new EventEmitter<number>();
   activeTab: boolean = false;
   setOrgId(orgId: number) {
@@ -110,6 +118,18 @@ export class DataService {
   openSidebar: boolean = true;
 
   markAttendanceModal: boolean = false;
+
+  private messageSubject = new Subject<void>();
+  private notificationKey = 'notification';
+  // Method to send a notification by updating localStorage
+  sendNotification() {
+    localStorage.setItem(this.notificationKey, Date.now().toString());
+  }
+
+  // Observable for components to subscribe to notifications
+  onNotification(): Observable<void> {
+    return this.messageSubject.asObservable();
+  }
 
   registerOrganizationUsingCodeParam(
     code: string,
@@ -505,7 +525,8 @@ export class DataService {
     searchBy: string,
     leaveSettingId: number,
     teamId: number,
-    selectedStaffIdsUser: any
+    selectedStaffIdsUser: any,
+    isProbation?: Boolean
   ): Observable<any> {
     let params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -521,6 +542,9 @@ export class DataService {
     if (search != null && search != '') {
       params = params.set('page_number', 0);
       params = params.set('item_per_page', 0);
+    }
+    if (isProbation) {
+      params = params.set('probation', isProbation.toString());
     }
 
     return this.httpClient.get<any>(
@@ -1094,11 +1118,13 @@ export class DataService {
     userPersonalInformationRequest: UserPersonalInformationRequest,
     userUuid: string,
     selectedTeamIds: number[],
-    selectedShift: number,
+    selectedShift: number | null,
     selectedLeaveIds: number[],
     invite: boolean
   ): Observable<any> {
-    debugger;
+    if(selectedShift==null){
+      selectedShift=0;
+    }
     let params = new HttpParams()
       .set('userUuid', userUuid)
       .set('selectedShiftId', selectedShift)
@@ -2061,7 +2087,7 @@ export class DataService {
   }
 
   getUserResignations(
-    status: string | null,
+    status: string[] | null,
     name: string | null,
     page: number = 1,
     size: number = 10
@@ -2070,8 +2096,11 @@ export class DataService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (status) {
-      params = params.set('status', status);
+      if (status && Array.isArray(status)) {
+        // Add multiple status IDs as separate parameters
+        status.forEach(statusId => {
+            params = params.append('statusIds', statusId);
+        });
     }
 
     if (name) {

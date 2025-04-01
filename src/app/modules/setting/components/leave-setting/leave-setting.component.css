@@ -1545,10 +1545,10 @@ i.bi.bi-plus {
 }
 
 .staff-leave-setting {
-  border-radius: 2px;
   padding: 6px 12px;
-  line-height: 19px;
-  font-size: 12px;
+}
+.shift-time svg{
+  width: 20px;
 }
 
 .automation-rules-icon {
@@ -1670,9 +1670,22 @@ i.bi.bi-plus {
 .next-btn {
   color: #6666f2;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 22px;
+}
+.search-icon{
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+.container .content-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.select-all input{
+  top: 4px;
 }
 
 .next-btn svg {
@@ -1762,7 +1775,6 @@ i.bi.bi-plus {
   vertical-align: middle;
   font-size: 12px;
   white-space: nowrap;
-  border: 1px solid #f1f1f1;
 }
 
 
@@ -1866,6 +1878,14 @@ i.bi.bi-plus {
   font-weight: 400 !important;
 }
 
+.alert-notifaction{
+  background-color: rgb(241 241 253) !important;
+  
+}
+.list-down-btn {
+  width: 30px;
+  height: 30px;
+} 
 
 @media screen and (max-width: 2600px) {
   .employ-list-height {

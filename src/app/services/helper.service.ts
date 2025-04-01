@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
@@ -42,9 +42,6 @@ export class HelperService {
    closeModal$ = this.closeModalSubject.asObservable();
 
   closeModal() {
-    debugger
-    console.log('Current Modal Ref service1:', this.closeModal$);
-    console.log('Current Modal Ref service2:', this.closeModalSubject);
     this.closeModalSubject.next();
   }
 
@@ -132,16 +129,6 @@ export class HelperService {
     return `${year}-${month}-${day}`;
   }
 
-//   formatDateToYYYYMMDDHHmmss(date: Date): string {
-//     const year = date.getFullYear();
-//     const month = (date.getMonth() + 1).toString().padStart(2, '0');
-//     const day = date.getDate().toString().padStart(2, '0');
-//     const hours = date.getHours().toString().padStart(2, '0');
-//     const minutes = date.getMinutes().toString().padStart(2, '0');
-//     const seconds = date.getSeconds().toString().padStart(2, '0');
-
-//     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-// }
 
 
   formatDateToHHmmss(date: Date): string {
@@ -459,4 +446,11 @@ export class HelperService {
     this.isShowSidebar=!this.isShowSidebar;
    }
 
+   showPrivilegeErrorToast(){
+    // module.isFlag = isFlag;  // Revert the change
+    this.showToast(
+      'You can not update the configuration . You have Read Only access !',
+      Key.TOAST_STATUS_ERROR
+    );
+  }
 }

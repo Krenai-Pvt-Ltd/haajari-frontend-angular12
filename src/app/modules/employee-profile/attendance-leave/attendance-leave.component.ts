@@ -410,6 +410,8 @@ export class AttendanceLeaveComponent implements OnInit {
   // Component properties
   showLeaveQuotaModal: boolean = false;
   userLeaveQuota: any = null;
+  dateRange: any[] = [];
+  currentUserLeaveType: any = null;
 
   saveLeaveRequestUser() {
     debugger;
@@ -459,6 +461,12 @@ export class AttendanceLeaveComponent implements OnInit {
               this.fetchUserLeaveQuota(
                 this.userLeaveRequest.userLeaveTemplateId
               ); // Fetch and open leave quota modal
+            }else if(data.message == 'Leave date range is not valid ' ) {
+              if(data.object){
+                this.dateRange = data.object;
+                this.currentUserLeaveType = this.userLeave?.find((ul: any) => ul.userLeaveTemplateId == this.userLeaveRequest.leaveType).leaveType;
+
+              }
             }
           }
           this.isLoadingLeaveForm = false;
@@ -1171,7 +1179,7 @@ export class AttendanceLeaveComponent implements OnInit {
 
   page = 1;
   requestSize = 10;
-  
+
   @ViewChild('chartCanvas', { static: false })
   chartCanvas!: ElementRef<HTMLCanvasElement>;
   private chart!: Chart;

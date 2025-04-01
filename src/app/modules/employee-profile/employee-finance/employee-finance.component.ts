@@ -20,6 +20,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { PayoutDaysSummary } from 'src/app/models/PayoutDaysSummary';
 import { SalaryDeductionResponse } from 'src/app/models/SalaryDeductionResponse';
 import { UserSalaryTemplateComponent } from 'src/app/models/UserSalaryTemplateComponent';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-employee-finance',
@@ -33,7 +34,7 @@ export class EmployeeFinanceComponent implements OnInit {
   financeBlur: boolean = true;
   isLoading: boolean = false;
   firstTimeLoad: boolean = true;
-
+  ROLE!:any;
   constructor(private _dataService: DataService,
     public _helperService: HelperService,
     private _salaryService: SalaryService,
@@ -42,12 +43,13 @@ export class EmployeeFinanceComponent implements OnInit {
     private _userService: UserService,
     public _roleService: RoleBasedAccessControlService
   ) {
-
+      this.ROLE=this._roleService.getRole();
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
     this.userUuid = userUuidParam?.toString() ?? ''
   }
 
 
+  readonly Routes= Routes;
   ngOnInit(): void {
     this.getCurrentSalaryDetail();
   }

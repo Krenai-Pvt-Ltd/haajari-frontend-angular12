@@ -3233,7 +3233,7 @@
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input formControlName="position" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.user.position" (keypress)="restrictToLetters($event)" />
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.position"  />
                 <label class="form__label">Current Position</label>
               </div>
 
@@ -3282,8 +3282,8 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="pincode" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
+                <input formControlName="pincode" type="text" maxlength="6" class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" (keypress)="restrictToNumbers($event)"/>
                 <label class="form__label">Pincode</label>
               </div>
 
@@ -3338,8 +3338,8 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="pincode" type="text" class="form__field"
-                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
+                <input formControlName="pincode" type="text" maxlength="6" class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" (keypress)="restrictToNumbers($event)"/>
                 <label class="form__label">Pincode</label>
               </div>
 
@@ -3580,7 +3580,7 @@
             <!-- Position -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" formControlName="lastJobPosition" (keypress)="restrictToLetters($event)" />
+                <input type="text" class="form__field" formControlName="lastJobPosition" />
                 <label class="form__label">Position</label>
               </div>
               <div
@@ -3724,6 +3724,7 @@
                        type="text"
                        class="form__field"
                        maxlength="12"
+                       (keypress)="restrictToNumbers($event)"
                        [ngModel]="this.onboardingPreviewDataCopy.user.uan"
                        (ngModelChange)="this.onboardingPreviewDataCopy.user.uan = $event"
                        (input)="checkUan(this.onboardingPreviewDataCopy.user.uan)" />
@@ -3753,6 +3754,7 @@
                        type="text"
                        class="form__field"
                        maxlength="17"
+                       (keypress)="restrictToNumbers($event)"
                        [ngModel]="this.onboardingPreviewDataCopy.user.esi"
                        (ngModelChange)="this.onboardingPreviewDataCopy.user.esi = $event"
                        (input)="checkEsi(this.onboardingPreviewDataCopy.user.esi)" />

@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Routes } from 'src/app/constant/Routes';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExitPolicy } from 'src/app/models/ExitPolicy';
 import { Staff } from 'src/app/models/staff';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-exist-policy',
@@ -15,7 +17,10 @@ export class ExistPolicyComponent implements OnInit {
 
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+        public rbacService: RoleBasedAccessControlService
+    
+  ) { }
 
   ngOnInit(): void {
     this.getExitPolicy();
@@ -23,6 +28,8 @@ export class ExistPolicyComponent implements OnInit {
 
   isLoading: boolean = false;
   exitPolicyList: any[] = []
+  readonly Routes=Routes;
+
   getExitPolicy(){
     this.isLoading = true;
     this.exitPolicyList = [];

@@ -54,14 +54,32 @@
 .color-basic{
   color: #444;
 }
+.text-base-color{
+  color: #6B7280;
+}
 .fw-600{
   font-weight: 600;
 }
 .attendance-border{
   border: 1px solid #f1f1f1;
 }
+.profile-icon-bg{
+  background-color: #EFEFEF;
+}
 .font-32{
   font-size: 32px;
+}
+.img-25{
+  width: 25px;
+  height: 25px;
+}
+.img-28{
+  width: 28px;
+  height: 28px;
+}
+.img-30{
+  width: 30px;
+  height: 30px;
 }
 .img-32{
   width: 32px;
@@ -87,6 +105,10 @@
   width: 80px;
   height: 80px;
 }
+.image-100{
+  width: 100px;
+  height: 100px;
+}
 .img-110{
   width: 110px;
   height: 110px;
@@ -102,8 +124,12 @@
 .w-75{
   width: 75%;
 }
+
 .vh-70{
   height: 70vh;
+}
+.lh-lgg{
+  line-height: 2.5;
 }
 
 .mb-10{
@@ -121,11 +147,12 @@
   border: 1px solid #f1f1f1;
 }
 .navbar-custom {
-  /* background: #fff; */
   min-height: 60px;
   position: relative;
   /* border-bottom: 1px solid #eceff5; */
   margin-left: 265px;
+
+  margin-left: 258px;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -138,6 +165,12 @@
   padding-right: 0px;
 }
 
+.btnAction {
+  background-color: #F9FAFC;
+  width: 30px;
+  height: 33px;
+  border: 1px solid #EFEFEF;
+}
 
 .material-switch>input[type="checkbox"] {
   display: none;
@@ -3789,6 +3822,8 @@ a.badge:hover {
   font-weight: 500;
   text-align: left;
   line-height: 24px;
+  position: relative;
+  top: 1px;
 }
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
@@ -3814,6 +3849,7 @@ a.badge:hover {
   text-align: left;
   border: 1px solid #BEBEBE;
   border-radius: 20px;
+  background-color: #fff;
 }
 .nav-pills-punch{
   border-bottom: none !important;

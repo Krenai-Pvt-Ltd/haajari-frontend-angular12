@@ -24,7 +24,7 @@ export class SalaryTemplateComponent implements OnInit {
   itemPerPage = 10;
   totalItems = 0;
   isNewTemplate:boolean=false;
-
+  saveLoader:boolean=true;
   constructor(private _salaryTemplateService : SalaryTemplateService,
     public _helperService : HelperService
   ) { }
@@ -40,8 +40,8 @@ export class SalaryTemplateComponent implements OnInit {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
 
-  templateComponents: OrganizationTemplateComponent = new OrganizationTemplateComponent();
-  tempTemplateComponents: SalaryTemplate = new SalaryTemplate();
+  // templateComponents: OrganizationTemplateComponent = new OrganizationTemplateComponent();
+  templateComponents: SalaryTemplate = new SalaryTemplate();
   loader:boolean=false;
   shimmer:boolean=false;
   getTemplateComponents() {
@@ -52,15 +52,36 @@ export class SalaryTemplateComponent implements OnInit {
         if (response.status) {
           this.templateComponents = response.object;
           if (this.templateComponents == null) {
-            this.templateComponents = new OrganizationTemplateComponent();
+            this.templateComponents = new SalaryTemplate();
           } else {
-            this.tempTemplateComponents = JSON.parse(
-              JSON.stringify(this.templateComponents)
-            );
-            
+            // this.templateComponents = JSON.parse( JSON.stringify(this.templateComponents));
+            if(!this.isNewTemplate){
+            this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
+              return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name == tempComponent.name);
+             
+            });
+
+            // console.log("----------",this.salaryTemplate);
+            }else {
+              const basicComponent = this.templateComponents.earningComponents.find(component => component.name == 'Basic');
+              const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name == 'Fixed Allowance');
+          
+              if (basicComponent) {
+                  this.salaryTemplate.earningComponents.push(basicComponent);
+              }
+          
+              if (fixedAllowanceComponent) {
+                  this.salaryTemplate.earningComponents.push(fixedAllowanceComponent);
+              }
+          
+              this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(
+                  component => component.name !== 'Basic' && component.name !== 'Fixed Allowance'
+              );
+          }
+          
           }
         } else {
-          this.templateComponents = new OrganizationTemplateComponent();
+          this.templateComponents = new SalaryTemplate();
         }
 
         // this.shimmer = false;
@@ -69,7 +90,7 @@ export class SalaryTemplateComponent implements OnInit {
       (error) => {
         this.loader = false;
         // this.shimmer = false;
-        this.templateComponents = new OrganizationTemplateComponent();
+        this.templateComponents = new SalaryTemplate();
       }
     );
 }
@@ -93,10 +114,9 @@ calculatePercentage(value: number, annualCtc: number): number {
 
 
 calculateFixed(): number {
+  if (!this.salaryTemplate.earningComponents) return 0;
 
-  if (!this.tempTemplateComponents?.earningComponents) return 0;
-
-  let totalOtherComponents = this.tempTemplateComponents.earningComponents
+  let totalOtherComponents = this.salaryTemplate.earningComponents
     .map((comp, i) => ({ comp }))
     .filter(item => item.comp.displayName !== 'Fixed Allowance')
     .reduce((sum, item) => {
@@ -111,13 +131,11 @@ calculateFixed(): number {
       }
       return sum;
     }, 0);
-
-  if (this.tempTemplateComponents?.reimbursementComponents) {
-    totalOtherComponents += this.tempTemplateComponents.reimbursementComponents
+  if (this.salaryTemplate.reimbursementComponents) {
+    totalOtherComponents += this.salaryTemplate.reimbursementComponents
       .map((comp, i) => ({ comp }))
       .reduce((sum, item) => sum + (item.comp.value * 12), 0);
   }
-
   return Math.max((this.salaryTemplate.annualCtc - totalOtherComponents), 0);
 }
 
@@ -141,24 +159,21 @@ onReimbursementInput(index: number, event: any) {
 
   if (inputValue > maxValue) {
     event.target.value = maxValue; 
-    this.tempTemplateComponents.reimbursementComponents[index].value = maxValue;
+    this.salaryTemplate.reimbursementComponents[index].value = maxValue;
   } else if (inputValue < 0 || isNaN(inputValue)) {
     event.target.value = 0;
-    this.tempTemplateComponents.reimbursementComponents[index].value = 0;
+    this.salaryTemplate.reimbursementComponents[index].value = 0;
   } else {
-    this.tempTemplateComponents.reimbursementComponents[index].value = inputValue;
+    this.salaryTemplate.reimbursementComponents[index].value = inputValue;
   }
 }
 
 epfEmployerContribution: number=0; 
 calculateBasic(): number {
-  const basicComponent = this.tempTemplateComponents.earningComponents.find(c => c.name === 'Basic');
-
+  const basicComponent = this.salaryTemplate.earningComponents.find(c => c.name == 'Basic');
   if (!basicComponent) {
     return 0;
   }
-
-
   let basicSalary = 0;
   if (basicComponent.valueTypeId == this.VALUE_TYPE_PERCENTAGE) {
     basicSalary = this.calculatePercentage(basicComponent.value, this.salaryTemplate.annualCtc);
@@ -175,16 +190,16 @@ calculateBasic(): number {
 calculateEpfContribution(): void {
   let basicSalary = this.calculateBasic();
   
-  this.epfEmployerContribution = this.tempTemplateComponents.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
+  this.epfEmployerContribution = this.salaryTemplate.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
     ? (basicSalary * 0.12)
     : (15000 * 0.12);
 
 }
 
 calculatePercentageOfBasic(componentValue:number):number{
-  let basicSalary = Math.floor(this.calculateBasic()/12);
+  let basicSalary = this.calculateBasic();
   let monthlyValue = Math.floor((componentValue / 100) * basicSalary);
-  return Math.floor(monthlyValue);  
+  return (monthlyValue);  
 }
 
 
@@ -194,7 +209,7 @@ calculateEsiContribution(annualCtc: number): number {
   let monthlyCtc = annualCtc / 12;
 
   if (monthlyCtc <= this.ESI_MAX_LIMIT) {
-    let esiWage = this.tempTemplateComponents.earningComponents
+    let esiWage = this.salaryTemplate.earningComponents
       .map((comp, i) => ({ comp }))
       .filter(item =>  item.comp.displayName !== 'HRA') 
       .reduce((sum, item) => {
@@ -220,7 +235,8 @@ calculateEsiContribution(annualCtc: number): number {
 
 
 saveSalaryTemplate(){
-  console.log(this.tempTemplateComponents)
+  this.saveLoader = true;
+  console.log(this.salaryTemplate)
 }
 
 createTemplate(){
@@ -236,9 +252,21 @@ editSalaryTemplate(template:SalaryTemplate){
   this.getTemplateComponents();
 }
 
-// toggleEarningComponent(component:EarningComponentTemplate){
-//  this.salaryTemplate.earningComponents.pop(component);
-// }
+toggleEarningComponent(component: EarningComponentTemplate) {
+  const salaryIndex = this.salaryTemplate.earningComponents.indexOf(component);
+  const tempIndex = this.templateComponents.earningComponents.indexOf(component);
+
+  if (salaryIndex !== -1) {
+      this.salaryTemplate.earningComponents.splice(salaryIndex, 1);
+      this.templateComponents.earningComponents.push(component);
+  } else if (tempIndex !== -1) {
+      this.templateComponents.earningComponents.splice(tempIndex, 1);
+      this.salaryTemplate.earningComponents.push(component);
+  }
+  console.log(this.salaryTemplate);
+}
+
+
 
 CalculateMonthlyAmount(component: EarningComponentTemplate, annualCtc: number): number {
     if (!component.value || !annualCtc) return 0;

@@ -53,6 +53,26 @@
                           </td>
                         </tr>
                       </tbody> -->
+                      <!-- <tbody  style="height: 40px;">
+                        <tr>
+                          <td colspan="6">
+                            <div class="empty-file d-flex align-items-centar justify-content-center w-100">
+                                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                           <p class="mb-1 empty-detail font-16">
+                                              No data for now
+                                           </p>
+                                        </ng-template>
+                                     </nz-empty>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody> -->
+
+ 
+
+
                   <tbody>
                     <tr>
                       <td><b>1</b></td>
@@ -129,7 +149,7 @@
                   <tbody style="height: 40px;" *ngIf="coinsForBadges.length ==0">
                     <tr>
                       <td colspan="7">
-                        <div class="errorboxmain text-center">
+                        <!-- <div class="errorboxmain text-center">
                           <div class="errorboxinner">
                             <div class="errorboxplaceholder mb-2">
                               <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -142,6 +162,17 @@
                               </p>
                             </div>
                           </div>
+                        </div> -->
+
+                        <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5">
+                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                             [nzNotFoundContent]="contentTpl">
+                             <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                   No data for now
+                                </p>
+                             </ng-template>
+                          </nz-empty>
                         </div>
                       </td>
                     </tr>
@@ -233,7 +264,7 @@
                   <tbody style="height: 40px;" *ngIf="roleWiseCoins.length==0">
                     <tr>
                       <td colspan="7">
-                        <div class="errorboxmain text-center">
+                        <!-- <div class="errorboxmain text-center">
                           <div class="errorboxinner">
                             <div class="errorboxplaceholder mb-2">
                               <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -246,6 +277,17 @@
                               </p>
                             </div>
                           </div>
+                        </div> -->
+
+                        <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5  mb-5">
+                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                             [nzNotFoundContent]="contentTpl">
+                             <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                   No data for now
+                                </p>
+                             </ng-template>
+                          </nz-empty>
                         </div>
                       </td>
                     </tr>

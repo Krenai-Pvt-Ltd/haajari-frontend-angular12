@@ -3,12 +3,14 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { NewJoineeResponse } from 'src/app/models/new-joinee-response';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-employee-management',
@@ -29,6 +31,7 @@ export class EmployeeManagementComponent implements OnInit {
   readonly NEW_JOINEE = Key.NEW_JOINEE;
   readonly USER_EXIT = Key.USER_EXIT;
   readonly FINAL_SETTLEMENT = Key.FINAL_SETTLEMENT;
+  readonly Routes =Routes;
 
   @Input() step:any;
   @Input() startDate:any;
@@ -48,7 +51,9 @@ export class EmployeeManagementComponent implements OnInit {
   private searchSubject = new Subject<boolean>();
 
   constructor(public _helperService : HelperService,
-  private _payrollService : PayrollService) {
+  private _payrollService : PayrollService,
+  public rbacService: RoleBasedAccessControlService
+) {
 
 
     this.searchSubject

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -28,8 +27,9 @@ import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
-// import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 @Component({
   selector: 'app-timetable',
@@ -39,45 +39,169 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class TimetableComponent implements OnInit {
   alwaysShowCalendars: boolean | undefined;
   model: any;
+  flag!: boolean;
+  role: any;
+  userUuid: any;
+  orgRefId: any;
+  showFilter: boolean = false;
+  ROLE = this.rbacService.getRole();
+  loginDetails = this.helperService.getDecodedValueFromToken();
+  TODAY = new Date();
+  selectedDate: Date = new Date();
+  size: 'large' | 'small' | 'default' = 'small';
+  organizationRegistrationDate: string = '';
+  selected: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs } | null = null;
+  myAttendanceData: Record<string, AttendenceDto[]> = {};
+  logInUserUuid: string = '';
+  dateRangeInputValue: string = '';
+  totalAttendance: number = 0;
+  attendanceArrayDate: any = [];
+
+  attendanceDataByDate: Record<string, AttendenceDto> = {};
+  attendanceDataByDateKey: any = [];
+  attendanceDataByDateValue: AttendenceDto[] = [];
+  inputDate = '';
+  filterCriteria = 'ALL';
+  halfDayUsers: number = 0;
+
+  itemPerPage: number = 8;
+  pageNumber: number = 1;
+  searchText: string = '';
+  searchBy: string = '';
+  total: number = 0;
+
+  lastPageNumber = 0;
+
+  isShimer: boolean = false;
+  errorToggleTimetable: boolean = false;
+  placeholder: boolean = false;
+
+  isShimmerForAttendanceDetailsResponse: boolean = false;
+  dataNotFoundForAttendanceDetailsResponse: boolean = false;
+  networkConnectionErrorForAttendanceDetailsResponse: boolean = false;
+  attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
+  debounceTimer: any;
+
+  additionalNotes: AdditionalNotes = new AdditionalNotes();
+  additionalNotesUserUuid!: string;
+  activeUsersCount: number = 0;
+
+  attendanceDetailsCountResponse: AttendanceDetailsCountResponse =
+    new AttendanceDetailsCountResponse();
+  attendanceLogShimmerFlag: boolean = false;
+  dataNotFoundFlagForAttendanceLog: boolean = false;
+  networkConnectionErrorFlagForAttendanceLog: boolean = false;
+  attendanceLogResponseList: AttendanceLogResponse[] = [];
+  userUuidToViewLogs: string = '';
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
+  url: string = '';
+  imageDownUrl: string = '';
+  previewString: SafeResourceUrl | null = null;
+  isPDF: boolean = false;
+  isImage: boolean = false;
+  dailyReportLog: string = '';
+  rotateToggle: boolean = false;
+  checkHoliday: boolean = false;
+  showPlaceholder: boolean = false;
+
+  attendanceFullRequestLog: any[] = [];
+  pageNumberFullAttendanceRequest: number = 1;
+  itemPerPageFullAttendanceRequest: number = 5;
+  totalAttendanceRequestCount: number = 0;
+  isRequestLoader: boolean = false;
+  fullAttendanceRequestSearchString: string = '';
+  isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
+  initialLoadDoneforFullLogs: boolean = false;
+  attendanceRequests: AttendanceTimeUpdateResponse[] = [];
+  pageNumberAttendanceRequest: number = 1;
+  itemPerPageAttendanceRequest: number = 4;
+  fullAttendanceRequestCount: number = 0;
+  isFullRequestLoader: boolean = false;
+  attendanceRequestSearchString: string = '';
+  isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean =
+    false;
+  attendanceRequestCount: number = 0;
+  isShimmerForAttendanceUpdateRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
+  initialLoadDone: boolean = false;
+
+  PRESENT = Key.PRESENT;
+  ABSENT = Key.ABSENT;
+  UNMARKED = Key.UNMARKED;
+  WEEKEND = Key.WEEKEND;
+  HOLIDAY = Key.HOLIDAY;
+  ADMIN = Key.ADMIN;
+  MANAGER = Key.MANAGER;
+  USER = Key.USER;
+  // Tab in Attedance section
+  ATTENDANCE_TAB = Key.ATTENDANCE_TAB;
+  OVERTIME_TAB = Key.OVERTIME_TAB;
+  ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_REQUEST_TAB;
+  ATTENDANCE_UPDATE_REQUEST_TAB_NEW = Key.ATTENDANCE_UPDATE_REQUEST_TAB_NEW;
+  ACTIVE_TAB = Key.ATTENDANCE_TAB;
+  readonly key = Key;
+  readonly Constant = constant;
+  readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
+  readonly filterCriteriaList: string[] = [
+    'ALL',
+    'PRESENT',
+    'ABSENT',
+    'HALFDAY',
+    'LEAVE',
+  ];
+
+  @ViewChild('addNotesModalClose') addNotesModalClose!: ElementRef;
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  @ViewChild('viewlog') viewlog!: ElementRef;
+  @ViewChild('attendanceLogModal') attendanceLogModal!: ElementRef;
+  @ViewChild('logContainerforFullLogs')
+  logContainerforFullLogs!: ElementRef<HTMLDivElement>;
+  @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+
   constructor(
     private dataService: DataService,
     public helperService: HelperService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
-    private datePipe: DatePipe,
-    // private headerComponent: HeaderComponent
-  ) {
-    this.searchTextMissedPunchSubject.pipe(
-      debounceTime(this.DEBOUNCE_TIME),
-      distinctUntilChanged()
-    ).subscribe(searchText => {
-      this.searchTextMissedPunch = searchText;
-      this.currentPageMissedPunch = 1; // Reset to first page on search
-      this.fetchMissedPunchRequests();
-    });
+    private datePipe: DatePipe
+  ) // private headerComponent: HeaderComponent
+  {
+    this.searchTextMissedPunchSubject
+      .pipe(debounceTime(this.DEBOUNCE_TIME), distinctUntilChanged())
+      .subscribe((searchText) => {
+        this.searchTextMissedPunch = searchText;
+        this.currentPageMissedPunch = 1; // Reset to first page on search
+        this.fetchMissedPunchRequests();
+      });
 
     // Debounce for System Outage search
-    this.searchTextSystemOutageSubject.pipe(
-      debounceTime(this.DEBOUNCE_TIME),
-      distinctUntilChanged()
-    ).subscribe(searchText => {
-      this.searchTextSystemOutage = searchText;
-      this.currentPageSystemOutage = 1; // Reset to first page on search
-      this.fetchSystemOutageRequests();
-    });
+    this.searchTextSystemOutageSubject
+      .pipe(debounceTime(this.DEBOUNCE_TIME), distinctUntilChanged())
+      .subscribe((searchText) => {
+        this.searchTextSystemOutage = searchText;
+        this.currentPageSystemOutage = 1; // Reset to first page on search
+        this.fetchSystemOutageRequests();
+      });
   }
 
   async ngOnInit(): Promise<void> {
-    this.sampleFileUrl ="assets/samples/Attendance_Upload.xlsx"
+    this.sampleFileUrl = 'assets/samples/Attendance_Upload.xlsx';
     window.scroll(0, 0);
-    this.sampleFileUrl = "assets/samples/Attendance_Upload.xlsx"
-    this.getRequestCountByOrganizationUuid()
+    this.sampleFileUrl = 'assets/samples/Attendance_Upload.xlsx';
+    this.getRequestCountByOrganizationUuid();
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
-    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
     this.selected = {
@@ -87,57 +211,30 @@ export class TimetableComponent implements OnInit {
 
     this.updateDateRangeInputValue();
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-    // this.getDataFromDate();
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
     this.getHolidayForOrganization();
     this.fetchAttendanceRequests();
     this.fetchMissedPunchRequests();
+    this.findPendingRequests();
     this.getAllUsers();
     this.logInUserUuid = await this.rbacService.getUUID();
   }
 
-  loginDetails = this.helperService.getDecodedValueFromToken();
   assignRole() {
-    this.role = this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+    this.role = this.rbacService.getRoles();
+    this.userUuid = this.rbacService.getUuid();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
-  role: any;
-  userUuid: any;
-  orgRefId: any;
-
-  PRESENT = Key.PRESENT;
-  ABSENT = Key.ABSENT;
-  UNMARKED = Key.UNMARKED;
-  WEEKEND = Key.WEEKEND;
-  HOLIDAY = Key.HOLIDAY;
-  readonly Constant = constant;
-  showFilter: boolean = false;
-
-  readonly key = Key;
-  ROLE = this.rbacService.getRole();
-
-  ADMIN = Key.ADMIN;
-  MANAGER = Key.MANAGER;
-  USER = Key.USER;
-
-  TODAY = new Date();
-  selectedDate: Date = new Date();
-  size: 'large' | 'small' | 'default' = 'small';
 
   onDateChange(date: Date): void {
     this.selectedDate = date;
-    this.getAttendanceDetailsCountMethodCall();
-    this.getAttendanceDetailsReportByDateMethodCall();
     this.getHolidayForOrganization();
   }
 
   disableDates = (current: Date): boolean => {
     const today = new Date();
-    // console.log(today);
-    // console.log(current);
     today.setHours(0, 0, 0, 0);
 
     const registrationDate = new Date(this.organizationRegistrationDate);
@@ -150,7 +247,6 @@ export class TimetableComponent implements OnInit {
     );
   };
 
-  organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
     debugger;
     this.dataService.getOrganizationRegistrationDate().subscribe(
@@ -227,76 +323,6 @@ export class TimetableComponent implements OnInit {
     this.onMonthChange(currentDate);
   }
 
-
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  selected: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs } | null = null;
-  myAttendanceData: Record<string, AttendenceDto[]> = {};
-  logInUserUuid: string = '';
-
-  dateRangeInputValue: string = '';
-
-  totalAttendance: number = 0;
-  attendanceArrayDate: any = [];
-
-  dateRangeFilter(event: any): void {
-    if (event.startDate && event.endDate) {
-      this.selected = {
-        startDate: dayjs(event.startDate),
-        endDate: dayjs(event.endDate),
-      };
-      // this.getDataFromDate();
-    } else {
-      this.selected = null;
-    }
-
-    this.updateDateRangeInputValue();
-
-    const res3 = document.getElementById(
-      'date-picker-wrapper'
-    ) as HTMLElement | null;
-    if (res3) {
-      res3.style.display = 'none';
-    }
-  }
-
-  // getDataFromDate(): void {
-  //   if (this.selected) {
-  //     const startDateStr: string = this.selected.startDate.startOf('day').format('YYYY-MM-DD');
-  //     const endDateStr: string = this.selected.endDate.endOf('day').format('YYYY-MM-DD');
-  //     debugger
-
-  //     this.dataService.getAttendanceDetailsByDateDuration(startDateStr, endDateStr).subscribe(
-
-  //       (response: any) => {
-
-  //         this.myAttendanceData = response;
-  //         console.log(this.myAttendanceData);
-  //         if (this.myAttendanceData) {
-
-  //           for (const key in this.myAttendanceData) {
-
-  //             if (this.myAttendanceData.hasOwnProperty(key)) {
-  //               const attendanceArray = this.myAttendanceData[key];
-
-  //               this.attendanceArrayDate=attendanceArray;
-
-  //             }
-  //           }
-  //         }
-  //       },
-  //       (error: any) => {
-  //         console.error('Error fetching data:', error);
-  //       }
-  //     );
-  //   }
-  // }
-
   getCurrentDate() {
     const todayDate = new Date();
     const year = todayDate.getFullYear();
@@ -305,48 +331,13 @@ export class TimetableComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-  dateRangeButton() {
-    const res = document.getElementById(
-      'date-picker-wrapper'
-    ) as HTMLElement | null;
-    if (res) {
-      res.style.display = 'block';
-    }
-  }
-
-  // getLoginDetailsRole(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-  //     if(this.checkingUserRoleMethod() === true){
-  //       return 'MANAGER';
-  //     }
-
-  //     return loginData.role;
-  //   }
-  // }
-
-  // getLoginDetailsId(){
-  //   const loginDetails = localStorage.getItem('loginData');
-  //   if(loginDetails!==null){
-  //     const loginData = JSON.parse(loginDetails);
-  //     return loginData.id;
-  //   }
-  // }
-
-  flag!: boolean;
-
   checkingUserRoleMethod(): boolean {
     this.dataService.checkingUserRole().subscribe(
       (data) => {
         this.flag = data;
-        // console.log(data);
       },
-      (error) => {
-        // console.log(error);
-      }
+      (error) => {}
     );
-    // console.log(this.flag);
 
     return this.flag;
   }
@@ -361,42 +352,13 @@ export class TimetableComponent implements OnInit {
     }
   }
 
-  // formatDate(date: Date): string {
-  //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-  //   return date.toLocaleDateString('en-US', options);
-  // }
-
-  attendanceDataByDate: Record<string, AttendenceDto> = {};
-  attendanceDataByDateKey: any = [];
-  attendanceDataByDateValue: AttendenceDto[] = [];
-  inputDate = '';
-  filterCriteria = 'ALL';
-  halfDayUsers: number = 0;
-
-  itemPerPage: number = 8;
-  pageNumber: number = 1;
-  searchText: string = '';
-  searchBy: string = '';
-  total: number = 0;
-
-  lastPageNumber = 0;
-
-  isShimer: boolean = false;
-  errorToggleTimetable: boolean = false;
-  placeholder: boolean = false;
-
-  isShimmerForAttendanceDetailsResponse: boolean = false;
-  dataNotFoundForAttendanceDetailsResponse: boolean = false;
-  networkConnectionErrorForAttendanceDetailsResponse: boolean = false;
-
   preRuleForShimmersAndOtherConditionsMethodCall() {
     this.isShimmerForAttendanceDetailsResponse = true;
     this.dataNotFoundForAttendanceDetailsResponse = false;
     this.networkConnectionErrorForAttendanceDetailsResponse = false;
   }
 
-  attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
-  debounceTimer: any;
+  appliedDate: any = new Date();
   getAttendanceDetailsReportByDateMethodCall(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -420,6 +382,7 @@ export class TimetableComponent implements OnInit {
             this.attendanceDetailsResponseList = response.listOfObject;
             // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
+            this.appliedDate=this.selectedDate;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             this.isShimmerForAttendanceDetailsResponse = false;
 
@@ -444,11 +407,9 @@ export class TimetableComponent implements OnInit {
     this.showUp = show;
   }
 
-  // breakTimingsList : BreakTimings[] = [];
   getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
     attendanceDetailsResponse: AttendanceDetailsResponse
   ) {
-    // this.toggleChevron(show);
     if (
       attendanceDetailsResponse.breakTimingsList == undefined ||
       attendanceDetailsResponse.breakTimingsList == null ||
@@ -462,9 +423,7 @@ export class TimetableComponent implements OnInit {
         )
         .subscribe(
           (response) => {
-            // this.breakTimingsList = response.listOfObject;
             attendanceDetailsResponse.breakTimingsList = response.listOfObject;
-            // console.log(this.breakTimingsList);
             this.toggleChevron(false);
           },
           (error) => {
@@ -472,12 +431,9 @@ export class TimetableComponent implements OnInit {
           }
         );
     } else {
-      // this.breakTimingsList = attendanceDetailsResponse.breakTimingsList;
     }
   }
 
-  attendanceDetailsCountResponse: AttendanceDetailsCountResponse =
-    new AttendanceDetailsCountResponse();
   getAttendanceDetailsCountMethodCall() {
     this.dataService
       .getAttendanceDetailsCount(
@@ -493,45 +449,31 @@ export class TimetableComponent implements OnInit {
       );
   }
 
-  readonly filterCriteriaList: string[] = [
-    'ALL',
-    'PRESENT',
-    'ABSENT',
-    'HALFDAY',
-    'LEAVE',
-  ];
-
   selectFilterCriteria(filterCriteria: string) {
     this.filterCriteria = filterCriteria;
   }
 
-  resetFilterCriteria(filterCriteria: string){
+  resetFilterCriteria(filterCriteria: string) {
     this.filterCriteria = filterCriteria;
     this.showFilter = false;
     this.applyFilterCriteria();
   }
 
-  applyFilterCriteria(){
+  applyFilterCriteria() {
     this.attendanceDataByDateKey = [];
     this.attendanceDataByDateValue = [];
     this.total = 0;
     this.resetCriteriaFilter();
-    this.selectedDate = new Date();
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
   }
 
-  activeUsersCount: number = 0;
-
   getActiveUsersCountMethodCall() {
     this.dataService.getActiveUsersCount().subscribe(
       (data) => {
-        // console.log(data);
         this.activeUsersCount = data;
       },
-      (error) => {
-        // console.log(error);
-      }
+      (error) => {}
     );
   }
 
@@ -556,11 +498,6 @@ export class TimetableComponent implements OnInit {
     this.additionalNotesUserUuid = uuid;
   }
 
-  additionalNotes: AdditionalNotes = new AdditionalNotes();
-  additionalNotesUserUuid!: string;
-
-  @ViewChild('addNotesModalClose') addNotesModalClose!: ElementRef;
-
   addAdditionalNotesMethodCall() {
     this.additionalNotes.createdDate = this.inputDate;
     this.dataService
@@ -580,22 +517,6 @@ export class TimetableComponent implements OnInit {
         }
       );
   }
-
-  // --------------------------------------------------------
-
-  // optionsDatePicker: any = {
-  //   autoApply: true,
-  //   alwaysShowCalendars: false,
-  //   showCancel: false,
-  //   showClearButton: false,
-  //   linkedCalendars: false,
-  //   singleDatePicker: false,
-  //   showWeekNumbers: false,
-  //   showISOWeekNumbers: false,
-  //   customRangeDirection: false,
-  //   lockStartDate: false,
-  //   closeOnAutoApply: true
-  // };
 
   // #########Searching#################
   resetCriteriaFilter() {
@@ -677,16 +598,12 @@ export class TimetableComponent implements OnInit {
 
   // ############View Logs#################
 
-  isShimmer = false;
-  dataNotFoundPlaceholder = false;
-  networkConnectionErrorPlaceHolder = false;
   preRuleForShimmersAndErrorPlaceholdersMethodCall() {
     this.isShimmer = true;
     this.dataNotFoundPlaceholder = false;
     this.networkConnectionErrorPlaceHolder = false;
   }
 
-  userUuidToViewLogs: string = '';
   viewLogs(uuid: string) {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.attendanceLogResponseList = [];
@@ -694,10 +611,6 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceLogsMethodCall();
   }
 
-  attendanceLogShimmerFlag: boolean = false;
-  dataNotFoundFlagForAttendanceLog: boolean = false;
-  networkConnectionErrorFlagForAttendanceLog: boolean = false;
-  attendanceLogResponseList: AttendanceLogResponse[] = [];
   getAttendanceLogsMethodCall() {
     this.dataService
       .getAttendanceLogs(
@@ -725,26 +638,14 @@ export class TimetableComponent implements OnInit {
       );
   }
 
-  // ####################Scroll Into View#################################
-
-  // scrollIntoView() {
-  // const element = document.getElementById("attendanceDataTopbar");
-
-  //     if(element!== null && element!== undefined){
-  //       element.scrollIntoView();
-  //       element.scrollIntoView(false);
-  //       element.scrollIntoView({ block: "end" });
-  //       element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-  //     }
-  // }
-
   // route to user's profile
   routeToUserProfile(uuid: string) {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
-    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    const url = this.router
+      .createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra)
+      .toString();
     window.open(url, '_blank');
     return;
   }
@@ -761,13 +662,6 @@ export class TimetableComponent implements OnInit {
     this.attendancewithlocationssButton.nativeElement.click();
   }
 
-
-  // openAttendanceLog() {
-  //   this.attendanceLogModal.nativeElement.click();
-  // }
-
-  url: string = '';
-  imageDownUrl: string = '';
   openSelfieModal(url: string) {
     this.url = url;
     this.imageDownUrl = url;
@@ -776,11 +670,6 @@ export class TimetableComponent implements OnInit {
     this.openDocModalButton.nativeElement.click();
   }
 
-  previewString: SafeResourceUrl | null = null;
-  isPDF: boolean = false;
-  isImage: boolean = false;
-
-  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
   getFileName(url: string): string {
     return url.split('/').pop() || 'Attendance Selfie';
   }
@@ -790,7 +679,11 @@ export class TimetableComponent implements OnInit {
     this.isImage = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
     this.isPDF = extension === 'pdf';
     if (this.isPDF) {
-      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `https://docs.google.com/gview?url=${encodeURIComponent(
+          url
+        )}&embedded=true`
+      );
     } else {
       this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
@@ -803,17 +696,8 @@ export class TimetableComponent implements OnInit {
     this.openDocModalButton.nativeElement.click();
   }
 
-  // downloadFile(): void {
-  //   const link = document.createElement('a');
-  //   link.href = this.url;
-  //   link.download = this.getFileName(this.url);
-  //   link.click();
-  // }
-
-
   downloadFile(imageUrl: any) {
     if (!imageUrl) {
-      // console.error('Image URL is undefined or null');
       return;
     }
 
@@ -823,7 +707,6 @@ export class TimetableComponent implements OnInit {
     );
 
     if (splittedUrl.length < 2) {
-      // console.error('Invalid image URL format');
       return;
     }
 
@@ -850,91 +733,52 @@ export class TimetableComponent implements OnInit {
       });
   }
 
-  @ViewChild('viewlog') viewlog!: ElementRef;
-  @ViewChild('attendanceLogModal') attendanceLogModal!: ElementRef;
   reOpenLogsModal() {
     this.viewLogs(this.userUuidToViewLogs);
     this.viewlog.nativeElement.click();
   }
 
-
-  // reOpenLogsModal(): void {
-  //   const closeButtons = document.querySelectorAll('.btn-close');
-  //   closeButtons.forEach(button => {
-  //     button.addEventListener('click', () => {
-  //       setTimeout(() => {
-  //         this.attendanceLogModal.nativeElement.click();
-  //       }, 500); // Delay to allow modal to fully close
-  //     });
-  //   });
-  // }
-
-
-
-
-  dailyReportLog: string = '';
-  rotateToggle: boolean = false;
   downloadAttedanceReport(date: Date) {
-
     let dateString: string | null = this.datePipe.transform(date, 'yyyy-MM-dd');
     this.rotateToggle = true;
     if (dateString !== null) {
-      this.dataService
-        .getAtendanceDailyReport(
-          dateString, null
-        )
-        .subscribe(
-          (response) => {
-            this.dailyReportLog = response.message;
-            const downloadLink = document.createElement('a');
-            downloadLink.href = response.message;
-            downloadLink.download = 'attendance.xlsx';
-            downloadLink.click();
-            this.rotateToggle = false;
-          },
-          (error) => {
-            this.rotateToggle = false;
-          }
-        );
+      this.dataService.getAtendanceDailyReport(dateString, null).subscribe(
+        (response) => {
+          this.dailyReportLog = response.message;
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.message;
+          downloadLink.download = 'attendance.xlsx';
+          downloadLink.click();
+          this.rotateToggle = false;
+        },
+        (error) => {
+          this.rotateToggle = false;
+        }
+      );
     }
   }
 
   // ############################################
 
-  checkHoliday: boolean = false;
-  showPlaceholder: boolean = false;
-
   getHolidayForOrganization() {
-
-    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
+    this.dataService
+      .getHolidayForOrganization(
+        this.helperService.formatDateToYYYYMMDD(this.selectedDate)
+      )
       .subscribe(
         (response) => {
           this.checkHoliday = response.object;
-          // console.log(response);
-          // console.error("Response", response.object);
-
           if (this.checkHoliday == true) {
             this.showPlaceholder = true;
           } else if (this.checkHoliday == false) {
             this.showPlaceholder = false;
           }
-
         },
         (error) => {
           console.error('Error details:', error);
         }
-      )
+      );
   }
-  attendanceFullRequestLog: any[] = [];
-  pageNumberFullAttendanceRequest: number = 1;
-  itemPerPageFullAttendanceRequest: number = 5;
-  totalAttendanceRequestCount: number = 0;
-  isRequestLoader: boolean = false;
-  fullAttendanceRequestSearchString: string = '';
-
-  isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
-  dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
-  networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
 
   preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
     this.isShimmerForAttendanceUpdateRequestLogResponse = true;
@@ -946,36 +790,44 @@ export class TimetableComponent implements OnInit {
     this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall();
     return new Promise((resolve, reject) => {
       this.isRequestLoader = true;
-      // if (this.debounceTimer) {
-      //   clearTimeout(this.debounceTimer);
-      // }
-      // this.debounceTimer = setTimeout(() => {
-      this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
-        if (this.helperService.isObjectNullOrUndefined(response)) {
-          this.dataNotFoundForAttendanceUpdateRequestLogResponse = true;
-        } else {
-          // this.attendanceFullRequestLog = response.listOfObject;
-          this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
-          this.totalAttendanceRequestCount = response.totalItems;
-          this.isRequestLoader = false;
-        }
-        this.isShimmerForAttendanceUpdateRequestLogResponse = false;
-      }, (error) => {
-        this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = true;
-        this.isShimmerForAttendanceUpdateRequestLogResponse = false;
-        this.isRequestLoader = false;
-      });
-      //  }, debounceTime);
+      this.dataService
+        .getFullAttendanceRequestLog(
+          this.pageNumberFullAttendanceRequest,
+          this.itemPerPageFullAttendanceRequest,
+          this.fullAttendanceRequestSearchString
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isObjectNullOrUndefined(response)) {
+              this.dataNotFoundForAttendanceUpdateRequestLogResponse = true;
+            } else {
+              this.attendanceFullRequestLog = [
+                ...this.attendanceFullRequestLog,
+                ...response.object,
+              ];
+              this.totalAttendanceRequestCount = response.totalItems;
+              this.isRequestLoader = false;
+            }
+            this.isShimmerForAttendanceUpdateRequestLogResponse = false;
+          },
+          (error) => {
+            this.networkConnectionErrorForAttendanceUpdateRequestLogResponse =
+              true;
+            this.isShimmerForAttendanceUpdateRequestLogResponse = false;
+            this.isRequestLoader = false;
+          }
+        );
     });
   }
-
-  initialLoadDoneforFullLogs: boolean = false;
-  @ViewChild('logContainerforFullLogs') logContainerforFullLogs!: ElementRef<HTMLDivElement>;
   scrollDownRecentActivityforFullLogs(event: any) {
-    debugger
+    debugger;
     if (!this.initialLoadDoneforFullLogs) return;
 
-    if (this.totalAttendanceRequestCount < ((this.pageNumberFullAttendanceRequest - 1) * this.itemPerPageFullAttendanceRequest)) {
+    if (
+      this.totalAttendanceRequestCount <
+      (this.pageNumberFullAttendanceRequest - 1) *
+        this.itemPerPageFullAttendanceRequest
+    ) {
       return;
     }
     const target = event.target as HTMLElement;
@@ -1018,59 +870,52 @@ export class TimetableComponent implements OnInit {
     this.getFullAttendanceRequestLogData();
   }
 
-  attendanceRequests: AttendanceTimeUpdateResponse[] = [];
-  pageNumberAttendanceRequest: number = 1;
-  itemPerPageAttendanceRequest: number = 4;
-  fullAttendanceRequestCount: number = 0;
-  isFullRequestLoader: boolean = false;
-  attendanceRequestSearchString: string = '';
-
-
-
-
-  isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
-  dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
-  networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
-
   preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
     this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
     this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
-    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse =
+      false;
   }
   getAttendanceRequestsData() {
     this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall();
     return new Promise((resolve, reject) => {
       this.isFullRequestLoader = true;
-      this.dataService.getAttendanceRequests(
-        this.pageNumberAttendanceRequest,
-        this.itemPerPageAttendanceRequest,
-        this.attendanceRequestSearchString,
-        this.startDate,
-        this.endDate
-      ).subscribe(
-        (response) => {
-          if (this.helperService.isObjectNullOrUndefined(response)) {
-            this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
-          } else {
-            if(this.pageNumberAttendanceRequest==1){
-              this.attendanceRequests=[];
+      this.dataService
+        .getAttendanceRequests(
+          this.pageNumberAttendanceRequest,
+          this.itemPerPageAttendanceRequest,
+          this.attendanceRequestSearchString,
+          this.startDate,
+          this.endDate
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isObjectNullOrUndefined(response)) {
+              this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
+            } else {
+              if (this.pageNumberAttendanceRequest == 1) {
+                this.attendanceRequests = [];
+              }
+              // Append new data to the existing list
+              this.attendanceRequests = [
+                ...this.attendanceRequests,
+                ...response.object,
+              ];
+              this.fullAttendanceRequestCount = response.totalItems;
+              this.isFullRequestLoader = false;
             }
-            // Append new data to the existing list
-            this.attendanceRequests = [...this.attendanceRequests, ...response.object];
-            this.fullAttendanceRequestCount = response.totalItems;
+            this.getRequestCountByOrganizationUuid();
+            this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+            this.initialLoadDone = true; // Mark initial load as done after first fetch
+          },
+          (error) => {
             this.isFullRequestLoader = false;
+            this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+            this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse =
+              true;
+            reject(error);
           }
-          this.getRequestCountByOrganizationUuid();
-          this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
-          this.initialLoadDone = true; // Mark initial load as done after first fetch
-        },
-        (error) => {
-          this.isFullRequestLoader = false;
-          this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
-          this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = true;
-          reject(error);
-        }
-      );
+        );
     });
   }
 
@@ -1083,22 +928,19 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceRequestsData();
   }
 
-  attendanceRequestCount: number = 0;
   getAttendanceRequestsDataCount(): void {
-    debugger
-    this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
-      (response: any) => {
-        this.attendanceRequestCount = response.object;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    debugger;
+    this.dataService
+      .getAttendanceRequestCount(this.startDate, this.endDate)
+      .subscribe(
+        (response: any) => {
+          this.attendanceRequestCount = response.object;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
-
-  isShimmerForAttendanceUpdateRequestResponse: boolean = false;
-  dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
-  networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
 
   preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
     this.isShimmerForAttendanceUpdateRequestResponse = true;
@@ -1110,34 +952,39 @@ export class TimetableComponent implements OnInit {
     this.attendanceRequestsHistory = [];
     this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall();
     return new Promise((resolve, reject) => {
-      // this.isFullRequestLoader = true;
-      // if (this.debounceTimer) {
-      //   clearTimeout(this.debounceTimer);
-      // }
-      // this.debounceTimer = setTimeout(() => {
-      this.dataService.getAttendanceRequestsHistory(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
-        if (this.helperService.isObjectNullOrUndefined(response)) {
-          this.dataNotFoundForAttendanceUpdateRequestResponse = true;
-        } else {
-          // this.attendanceRequests = response.listOfObject;
-          this.attendanceRequestsHistory = [...this.attendanceRequestsHistory, ...response.object];
-          // this.fullAttendanceRequestCount = response.totalItems;
-          // this.isFullRequestLoader = false;
-          console.log('requests retrieved successfully', response.listOfObject);
-        }
-        this.isShimmerForAttendanceUpdateRequestResponse = false;
-      }, (error) => {
-        // this.isFullRequestLoader = false;
-        this.networkConnectionErrorForAttendanceUpdateRequestResponse = true;
-        this.isShimmerForAttendanceUpdateRequestResponse = false;
-      });
-      // }, debounceTime);
+      this.dataService
+        .getAttendanceRequestsHistory(
+          this.pageNumberAttendanceRequest,
+          this.itemPerPageAttendanceRequest,
+          this.attendanceRequestSearchString,
+          this.startDate,
+          this.endDate
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isObjectNullOrUndefined(response)) {
+              this.dataNotFoundForAttendanceUpdateRequestResponse = true;
+            } else {
+              this.attendanceRequestsHistory = [
+                ...this.attendanceRequestsHistory,
+                ...response.object,
+              ];
+              console.log(
+                'requests retrieved successfully',
+                response.listOfObject
+              );
+            }
+            this.isShimmerForAttendanceUpdateRequestResponse = false;
+          },
+          (error) => {
+            this.networkConnectionErrorForAttendanceUpdateRequestResponse =
+              true;
+            this.isShimmerForAttendanceUpdateRequestResponse = false;
+          }
+        );
     });
   }
 
-  // approveOrRequest(id:number, reqString: string) {
-  initialLoadDone: boolean = false;
-  @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
   scrollDownRecentActivity(event: any) {
     if (!this.initialLoadDone) return; // Skip initial load
 
@@ -1147,7 +994,8 @@ export class TimetableComponent implements OnInit {
     }
 
     const target = event.target as HTMLElement;
-    const atBottom = target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+    const atBottom =
+      target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
 
     if (atBottom && !this.isFullRequestLoader) {
       this.pageNumberAttendanceRequest++;
@@ -1155,11 +1003,9 @@ export class TimetableComponent implements OnInit {
     }
   }
 
-
   loadMoreAttendanceRequestLogs(): void {
     this.initialLoadDone = true;
     this.pageNumberAttendanceRequest++;
-    // this.attendanceRequestLog = [];
     this.getAttendanceRequestsData();
   }
 
@@ -1171,7 +1017,7 @@ export class TimetableComponent implements OnInit {
   }
 
   clearSearchUsersOfRequestLogs() {
-    debugger
+    debugger;
     this.pageNumberAttendanceRequest = 1;
     this.fullAttendanceRequestCount = 0;
     this.attendanceRequests = [];
@@ -1196,53 +1042,51 @@ export class TimetableComponent implements OnInit {
     } else if (reqString == 'REJECTED') {
       this.attendanceUpdateRequestRejectLoader = true;
     }
-    this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
-      this.attendanceUpdateRequestApproveLoader = false;
-      this.attendanceUpdateRequestRejectLoader = false;
-      // console.log('requests retrieved successfully', response.listOfObject);
-      if (response.status ) {
+    this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(
+      (response) => {
+        this.attendanceUpdateRequestApproveLoader = false;
+        this.attendanceUpdateRequestRejectLoader = false;
+        if (response.status) {
+          this.helperService.showToast(
+            'Request ' + reqString + ' Successfully.',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }
+
+        this.applyFilters();
+
+        this.totalAttendanceRequestCount = 0;
+        this.attendanceRequestSearchString = '';
+        this.pageNumberAttendanceRequest = 1;
+        this.attendanceRequests = [];
+        this.getAttendanceRequestsData();
+        this.getAttendanceRequestsDataCount();
+        this.pageNumberFullAttendanceRequest = 1;
+        this.fullAttendanceRequestCount = 0;
+        this.attendanceFullRequestLog = [];
+        this.fullAttendanceRequestSearchString = '';
+        this.getFullAttendanceRequestLogData();
+        this.closeAttendanceUpdateRequestActionModal.nativeElement.click();
+      },
+      (error) => {
+        this.attendanceUpdateRequestApproveLoader = false;
+        this.attendanceUpdateRequestRejectLoader = false;
+        console.log(error);
         this.helperService.showToast(
-          'Request ' + reqString +' Successfully.',
-          Key.TOAST_STATUS_SUCCESS
+          'Error while processing the request!',
+          Key.TOAST_STATUS_ERROR
         );
       }
-
-      this.applyFilters();
-
-      this.totalAttendanceRequestCount = 0;
-      this.attendanceRequestSearchString = '';
-      this.pageNumberAttendanceRequest = 1;
-      this.attendanceRequests = [];
-      this.getAttendanceRequestsData();
-      this.getAttendanceRequestsDataCount();
-      this.pageNumberFullAttendanceRequest = 1;
-      this.fullAttendanceRequestCount = 0;
-      this.attendanceFullRequestLog = [];
-      this.fullAttendanceRequestSearchString = '';
-      this.getFullAttendanceRequestLogData();
-      this.closeAttendanceUpdateRequestActionModal.nativeElement.click();
-    }, (error) => {
-      this.attendanceUpdateRequestApproveLoader = false;
-      this.attendanceUpdateRequestRejectLoader = false;
-      console.log(error);
-      this.helperService.showToast(
-        'Error while processing the request!',
-        Key.TOAST_STATUS_ERROR
-      );
-    });
+    );
   }
 
-  // Tab in Attedance section
-  ATTENDANCE_TAB = Key.ATTENDANCE_TAB;
-  OVERTIME_TAB = Key.OVERTIME_TAB;
-  ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_REQUEST_TAB;
-  ATTENDANCE_UPDATE_REQUEST_TAB_NEW = Key.ATTENDANCE_UPDATE_REQUEST_TAB_NEW;
-
-  ACTIVE_TAB = Key.ATTENDANCE_TAB;
   changeTab(tabId: number) {
     this.ACTIVE_TAB = tabId;
 
-    if (tabId == this.OVERTIME_TAB || tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB) {
+    if (
+      tabId == this.OVERTIME_TAB ||
+      tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB
+    ) {
       this.onMonthChange(new Date());
     }
     if (tabId === this.ATTENDANCE_UPDATE_REQUEST_TAB) {
@@ -1275,12 +1119,11 @@ export class TimetableComponent implements OnInit {
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
-
     this.startDate = this.helperService.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
     );
     this.endDate = this.helperService.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
     );
   }
 
@@ -1316,8 +1159,6 @@ export class TimetableComponent implements OnInit {
     // Enable the month if it's from January 2023 to the current month
     return false;
   };
-
-
 
   // ####################--Overtime tab response list--######################
 
@@ -1360,39 +1201,58 @@ export class TimetableComponent implements OnInit {
     this.networkConnectionErrorForOvertimePendingRequestResponse = false;
   }
 
-
   overtimeRequestLogResponseList: OvertimeRequestLogResponse[] = [];
   getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall();
-    this.dataService.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.searchText, this.searchBy).subscribe((response) => {
-      if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-        this.dataNotFoundForOvertimeRequestLogResponse = true;
-      } else {
-        this.overtimeRequestLogResponseList = response.listOfObject;
-      }
+    this.dataService
+      .getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.searchText,
+        this.searchBy
+      )
+      .subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundForOvertimeRequestLogResponse = true;
+          } else {
+            this.overtimeRequestLogResponseList = response.listOfObject;
+          }
 
-      this.isShimmerForOvertimeRequestLogResponse = false;
-    }, (error) => {
-      this.isShimmerForOvertimeRequestLogResponse = false;
-      this.networkConnectionErrorForOvertimeRequestLogResponse = true;
-    })
+          this.isShimmerForOvertimeRequestLogResponse = false;
+        },
+        (error) => {
+          this.isShimmerForOvertimeRequestLogResponse = false;
+          this.networkConnectionErrorForOvertimeRequestLogResponse = true;
+        }
+      );
   }
 
   overtimeRequestResponseList: OvertimeResponseDTO[] = [];
   getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestResponseMethodCall();
-    this.dataService.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
-      if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-        this.dataNotFoundForOvertimeRequestResponse = true;
-      } else {
-        this.overtimeRequestResponseList = response.listOfObject;
-      }
+    this.dataService
+      .getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundForOvertimeRequestResponse = true;
+          } else {
+            this.overtimeRequestResponseList = response.listOfObject;
+          }
 
-      this.isShimmerForOvertimeRequestResponse = false;
-    }, (error) => {
-      this.isShimmerForOvertimeRequestResponse = false;
-      this.networkConnectionErrorForOvertimeRequestResponse = true;
-    })
+          this.isShimmerForOvertimeRequestResponse = false;
+        },
+        (error) => {
+          this.isShimmerForOvertimeRequestResponse = false;
+          this.networkConnectionErrorForOvertimeRequestResponse = true;
+        }
+      );
   }
 
   pendingRequestCount: number = 0;
@@ -1400,112 +1260,101 @@ export class TimetableComponent implements OnInit {
   getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall() {
     // this.pendingRequestCount
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall();
-    this.dataService.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
-      if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-        this.dataNotFoundForOvertimePendingRequestResponse = true;
-        this.pendingRequestCount = 0;
-      } else {
-        this.overtimePendingRequestResponseList = response.listOfObject;
-        this.pendingRequestCount = this.overtimePendingRequestResponseList.length;
-      }
-      this.getRequestCountByOrganizationUuid();
+    this.dataService
+      .getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundForOvertimePendingRequestResponse = true;
+            this.pendingRequestCount = 0;
+          } else {
+            this.overtimePendingRequestResponseList = response.listOfObject;
+            this.pendingRequestCount =
+              this.overtimePendingRequestResponseList.length;
+          }
+          this.getRequestCountByOrganizationUuid();
 
-      this.isShimmerForOvertimePendingRequestResponse = false;
-    }, (error) => {
-      this.isShimmerForOvertimePendingRequestResponse = false;
-      this.networkConnectionErrorForOvertimePendingRequestResponse = true;
-    })
+          this.isShimmerForOvertimePendingRequestResponse = false;
+        },
+        (error) => {
+          this.isShimmerForOvertimePendingRequestResponse = false;
+          this.networkConnectionErrorForOvertimePendingRequestResponse = true;
+        }
+      );
   }
 
-
-  overtimeRequestActionResponse: OvertimeResponseDTO = new OvertimeResponseDTO();
-  getOvertimeRequestActionResponseMethodCall(overtimeResponseDTO: OvertimeResponseDTO) {
+  overtimeRequestActionResponse: OvertimeResponseDTO =
+    new OvertimeResponseDTO();
+  getOvertimeRequestActionResponseMethodCall(
+    overtimeResponseDTO: OvertimeResponseDTO
+  ) {
     this.overtimeRequestActionResponse = overtimeResponseDTO;
     console.log(this.overtimeRequestActionResponse);
   }
 
-
-  @ViewChild("closeOvertimeRequestActionModal") closeOvertimeRequestActionModal !: ElementRef;
+  @ViewChild('closeOvertimeRequestActionModal')
+  closeOvertimeRequestActionModal!: ElementRef;
   approveLoader: boolean = false;
   rejectLoader: boolean = false;
-  approveOrRejectOvertimeRequestMethodCall(overtimeRequestId: number, requestTypeId: number) {
+  approveOrRejectOvertimeRequestMethodCall(
+    overtimeRequestId: number,
+    requestTypeId: number
+  ) {
     if (requestTypeId == this.key.APPROVED) {
       this.approveLoader = true;
     } else if (requestTypeId == this.key.REJECTED) {
       this.rejectLoader = true;
     }
 
-    this.dataService.approveOrRejectOvertimeRequest(overtimeRequestId, requestTypeId).subscribe((response) => {
-      this.approveLoader = false;
-      this.rejectLoader = false;
-      this.closeOvertimeRequestActionModal.nativeElement.click();
-      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-      this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
-      this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
-    }, (error) => {
-      this.approveLoader = false;
-      this.rejectLoader = false;
-      this.helperService.showToast("Error while approving the request!", Key.TOAST_STATUS_ERROR);
-    })
+    this.dataService
+      .approveOrRejectOvertimeRequest(overtimeRequestId, requestTypeId)
+      .subscribe(
+        (response) => {
+          this.approveLoader = false;
+          this.rejectLoader = false;
+          this.closeOvertimeRequestActionModal.nativeElement.click();
+          this.helperService.showToast(
+            response.message,
+            Key.TOAST_STATUS_SUCCESS
+          );
+          this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+          this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+        },
+        (error) => {
+          this.approveLoader = false;
+          this.rejectLoader = false;
+          this.helperService.showToast(
+            'Error while approving the request!',
+            Key.TOAST_STATUS_ERROR
+          );
+        }
+      );
   }
-
-
-  //Search in overtime logs
-  // teamNameList: UserTeamDetailsReflection[] = [];
-
-  // teamId: number = 0;
-  // getTeamNames() {
-  //   debugger;
-  //   this.dataService.getAllTeamNames().subscribe({
-  //     next: (response: any) => {
-  //       this.teamNameList = response.object;
-  //     },
-  //     error: (error) => {
-  //       console.error('Failed to fetch team names:', error);
-  //     },
-  //   });
-  // }
-
-  // selectedTeamName : string = '';
-  // selectTeam(teamName: string) {
-  //   this.pageNumber = 1;
-  //   this.itemPerPage = 8;
-  //   this.overtimePendingRequestResponseList = [];
-  //   this.selectedTeamName = teamName;
-  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
-  // }
-
-  // searchOvertimeRequestLogResponse() {
-  //   this.pageNumber = 1;
-  //   this.itemPerPage = 8;
-  //   this.overtimePendingRequestResponseList = [];
-  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
-  // }
-
-  // clearSearchUsers() {
-  //   this.pageNumber = 0;
-  //   this.itemPerPage = 8;
-  //   this.overtimePendingRequestResponseList = [];
-  //   this.searchText = '';
-  //   this.searchBy = '';
-  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
-  // }
-
 
 
   // ####################--Updation Request Tab code--######################
   // Tab in Updation request tab section
-  ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
-  ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = Key.ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB;
+  ATTENDANCE_UPDATE_PENDING_REQUEST_TAB =
+    Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
+  ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB =
+    Key.ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB;
 
-  ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
+  ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB =
+    Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
   changeLogTabInAttendanceUpdateRequestTab(tabId: number) {
     this.ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = tabId;
   }
 
-  @ViewChild("closeAttendanceUpdateRequestActionModal") closeAttendanceUpdateRequestActionModal !: ElementRef;
-  attendanceUpdateRequestActionResponse: AttendanceTimeUpdateResponse = new AttendanceTimeUpdateResponse();
-  getAttendanceUpdateRequestActionResponseMethodCall(attendanceTimeUpdateResponse: AttendanceTimeUpdateResponse) {
+  @ViewChild('closeAttendanceUpdateRequestActionModal')
+  closeAttendanceUpdateRequestActionModal!: ElementRef;
+  attendanceUpdateRequestActionResponse: AttendanceTimeUpdateResponse =
+    new AttendanceTimeUpdateResponse();
+  getAttendanceUpdateRequestActionResponseMethodCall(
+    attendanceTimeUpdateResponse: AttendanceTimeUpdateResponse
+  ) {
     this.attendanceUpdateRequestActionResponse = attendanceTimeUpdateResponse;
   }
 
@@ -1513,44 +1362,36 @@ export class TimetableComponent implements OnInit {
   attendanceUpdateRequestRejectLoader: boolean = false;
   geocoder = new google.maps.Geocoder();
   getAddressFromCoords(lat: any, lng: any): string | undefined {
-    // if(!this.Constant.EMPTY_STRINGS.includes(lat) && !this.Constant.EMPTY_STRINGS.includes(lng)){
-    //   lat=Number(lat);
-    //   lng=Number(lng)
-    //   console.log("🚀 ~ getAddressFromCoords ~ lat:", lat,lng)
-    //   // return "Click 'View Location' , to view attendace location on map";
-
-    // this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-    //   if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
-    //     return results[0].formatted_address;
-    //   } else {
-    //     return "Click 'View Location' , to view attendace location on map";
-    //   }
-    // }).catch(error=>{
-    //   return "Click 'View Location' , to view attendace location on map";
-    // });
-    // }else{
-    //   return "Click 'View Location' , to view attendace location on map";
-
-    // }
     return "Click 'View Location' , to view attendace location on map";
   }
-
 
   // new
 
   @ViewChild('attendanceUploadModal') attendanceUploadModal!: ElementRef;
   openAttendanceUploadModal() {
-    // console.log("================validate======",modal);
     this.attendanceUploadModal.nativeElement.click();
   }
 
-
   fileName: any;
   currentFileUpload: any;
-  // expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*'];
-  // correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Date*', 'In-Time*', 'Out-Time*', 'Note'];
-  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', "Date* ('DD-MM-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')"];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', "Date* ('DD-MM-YYYY')", "In-Time* ('HH:MM:SS')", "Out-Time* ('HH:MM:SS')", 'Note'];
+  expectedColumns: string[] = [
+    'Name*',
+    'Phone*',
+    'Email*',
+    "Date* ('DD-MM-YYYY')",
+    "In-Time* ('HH:MM:SS')",
+    "Out-Time* ('HH:MM:SS')",
+  ];
+  correctColumnName: string[] = [
+    'S. NO.*',
+    'Name*',
+    'Phone*',
+    'Email*',
+    "Date* ('DD-MM-YYYY')",
+    "In-Time* ('HH:MM:SS')",
+    "Out-Time* ('HH:MM:SS')",
+    'Note',
+  ];
   fileColumnName: string[] = [];
   isExcel: string = '';
   data: any[] = [];
@@ -1594,47 +1435,60 @@ export class TimetableComponent implements OnInit {
 
             const columnNames: string[] = this.jsonData[0] as string[];
             if (this.validateColumns(columnNames)) {
-              this.data = this.jsonData.map((row: any[]) =>
-                row.map((cell: any, index: number) => {
-                  if (this.fileColumnName[index] === "date* ('dd-mm-yyyy')" && cell !== "date* ('dd-mm-yyyy')") {
-                    // Remove leading/trailing commas and quotes
-                    cell = this.cleanCell(cell);
+              this.data = this.jsonData
+                .map((row: any[]) =>
+                  row.map((cell: any, index: number) => {
+                    if (
+                      this.fileColumnName[index] === "date* ('dd-mm-yyyy')" &&
+                      cell !== "date* ('dd-mm-yyyy')"
+                    ) {
+                      // Remove leading/trailing commas and quotes
+                      cell = this.cleanCell(cell);
 
-                    // Parse Excel date serial or formatted date string
-                    if (typeof cell === 'number') {
-                      return moment(XLSX.SSF.parse_date_code(cell)).format('DD-MM-YYYY');
+                      // Parse Excel date serial or formatted date string
+                      if (typeof cell === 'number') {
+                        return moment(XLSX.SSF.parse_date_code(cell)).format(
+                          'DD-MM-YYYY'
+                        );
+                      }
+
+                      const formattedCell = this.formatDate1(cell);
+                      return formattedCell ? formattedCell : '';
+                    } else if (
+                      (this.fileColumnName[index] === "in-time* ('hh:mm:ss')" &&
+                        cell !== "in-time* ('hh:mm:ss')") ||
+                      (this.fileColumnName[index] ===
+                        "out-time* ('hh:mm:ss')" &&
+                        cell !== "out-time* ('hh:mm:ss')")
+                    ) {
+                      // Remove leading/trailing commas and quotes
+                      cell = this.cleanCell(cell);
+
+                      // Parse Excel time serial or formatted time string
+                      if (typeof cell === 'number') {
+                        return moment(XLSX.SSF.parse_date_code(cell)).format(
+                          'HH:mm:ss'
+                        );
+                      }
+
+                      const formattedTime = this.formatTime(cell);
+                      return formattedTime ? formattedTime : '';
+                    } else {
+                      return cell ? cell.toString().trim() : '';
                     }
-
-                    const formattedCell = this.formatDate1(cell);
-                    return formattedCell ? formattedCell : '';
-                  } else if (
-                    (this.fileColumnName[index] === "in-time* ('hh:mm:ss')" && cell !== "in-time* ('hh:mm:ss')") ||
-                    (this.fileColumnName[index] === "out-time* ('hh:mm:ss')" && cell !== "out-time* ('hh:mm:ss')")
-                  ) {
-                    // Remove leading/trailing commas and quotes
-                    cell = this.cleanCell(cell);
-
-                    // Parse Excel time serial or formatted time string
-                    if (typeof cell === 'number') {
-                      return moment(XLSX.SSF.parse_date_code(cell)).format('HH:mm:ss');
-                    }
-
-                    const formattedTime = this.formatTime(cell);
-                    return formattedTime ? formattedTime : '';
-                  } else {
-                    return cell ? cell.toString().trim() : '';
-                  }
-                })
-              ).filter((row: any[]) =>
-                row.some((cell: any) => cell !== '')
-              );
+                  })
+                )
+                .filter((row: any[]) => row.some((cell: any) => cell !== ''));
 
               this.validateRows(this.data.slice(1));
               this.removeAllSingleEntries();
               this.validateMap.forEach((values, key) => {
                 // this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
                 if (this.elementToScroll) {
-                  this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  this.elementToScroll!.nativeElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  });
                 }
               });
               this.totalPage = Math.ceil(this.data.length / this.pageSize);
@@ -1662,12 +1516,23 @@ export class TimetableComponent implements OnInit {
   // Helper method to clean cell values
   private cleanCell(cell: any): string {
     // Ensure the cell is a string, and remove leading/trailing commas or quotes
-    return cell?.toString().replace(/^[,']+|[,']+$/g, '').trim() || '';
+    return (
+      cell
+        ?.toString()
+        .replace(/^[,']+|[,']+$/g, '')
+        .trim() || ''
+    );
   }
 
   // Helper methods for formatting date and time
   private formatDate1(cell: any): string | null {
-    const acceptableFormats = ['MM-DD-YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY', 'DD/MM/YYYY'];
+    const acceptableFormats = [
+      'MM-DD-YYYY',
+      'MM/DD/YYYY',
+      'YYYY-MM-DD',
+      'DD-MM-YYYY',
+      'DD/MM/YYYY',
+    ];
     const formattedDate = moment(cell, acceptableFormats, true);
     return formattedDate.isValid() ? formattedDate.format('MM-DD-YYYY') : null;
   }
@@ -1679,204 +1544,20 @@ export class TimetableComponent implements OnInit {
   }
 
 
-  // selectFile(event: any) {
-  //   this.validateMap= new Map();
-  //   debugger
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.currentFileUpload = file;
-  //     this.fileName = file.name;
-
-  //     if (!this.isExcelFile(file)) {
-  //       this.isExcel = 'Invalid file type. Please upload an Excel file.';
-  //       return;
-  //     }
-
-  //     const reader = new FileReader();
-  //     reader.onload = (e: ProgressEvent<FileReader>) => {
-  //       const arrayBuffer = e.target?.result as ArrayBuffer;
-  //       const binaryStr = this.arrayBufferToString(arrayBuffer);
-  //       const workbook = XLSX.read(binaryStr, { type: 'binary' });
-  //       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-  //       this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-  //       // Reset data and error tracking
-  //       this.data = [];
-  //       this.invalidRows = [];
-  //       this.invalidCells = [];
-  //       this.validateMap.clear;
-
-  //       const columnNames: string[] = this.jsonData[0] as string[];
-  //       debugger
-  //       console.log("3567876567" , this.validateColumns(columnNames));
-  //       if (this.validateColumns(columnNames)) {
-  //             this.data = this.jsonData.map((row: any[]) => {
-  //               // Ensure the 5th column is an array of strings, other columns are treated as strings
-  //               return row.map((cell: any, index: number) => {
-  //                 if( this.data.length==0){
-  //                   return cell ? cell.toString().trim() : '';
-  //                 }else{
-  //                   console.log("🚀 ~ returnrow.map ~ this.fileColumnName[index] === 'date*' :", this.fileColumnName[index] === 'date*' )
-
-  //                if (this.fileColumnName[index] === 'date*' && cell !== 'date*') {
-  //                   // // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
-  //                   // const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-  //                   // if (cell.includes('/')) {
-  //                   //   return undefined;
-  //                   // }
-  //                   // cell=cell.replace(/\//g, '-');
-
-  //                   // if (isExactFormat) {
-  //                   //     // Parse with strict format checking
-  //                   //     const formattedDate = moment(cell, 'MM-DD-YYYY', true);
-
-  //                   //     // Check if the date is valid and within the next year
-  //                   //     if (formattedDate.isValid()) {
-  //                   //         const oneYearFromNow = moment().add(1, 'year');
-
-  //                   //         // Ensure date is within the next year
-  //                   //         if (formattedDate.isBefore(oneYearFromNow)) {
-  //                   //             return formattedDate.format('MM-DD-YYYY');
-  //                   //         }
-  //                   //     }
-  //                   // }
-  //                   // // Return empty string if the format, validity, or date range check fails
-  //                   // return "";
-  //                   // List of acceptable input formats
-  //                     const acceptableFormats = ['MM-DD-YYYY', 'MM/DD/YYYY', 'YYYY-MM-DD', 'DD-MM-YYYY', 'DD/MM/YYYY'];
-
-  //                     // Replace any slashes with dashes for consistency
-  //                     cell = cell.replace(/\//g, '-');
-
-  //                     // Check if the cell value matches any of the acceptable formats
-  //                     const isExactFormat = acceptableFormats.some(format => moment(cell, format, true).isValid());
-
-  //                     if (isExactFormat) {
-  //                       // Parse the cell value using moment.js with the detected format
-  //                       const formattedDate = moment(cell, acceptableFormats, true);
-
-  //                       // Check if the date is valid and within the next year
-  //                       if (formattedDate.isValid()) {
-  //                         const oneYearFromNow = moment().add(1, 'year');
-
-  //                         // Ensure the date is within the next year
-  //                         if (formattedDate.isBefore(oneYearFromNow)) {
-  //                           return formattedDate.format('MM-DD-YYYY'); // Convert to the required format
-  //                         }
-  //                       }
-  //                     }
-
-  //                     // Return an empty string if the format, validity, or date range check fails
-  //                     return "";
-  //                 } else if ((this.fileColumnName[index] === 'in-time*' && cell !== 'in-time*') || (this.fileColumnName[index] === 'out-time*' && cell !== 'out-time*')) {
-
-  //                   // List of acceptable input formats for date and time
-  //                     const acceptableFormats = [
-  //                       'MM-DD-YYYY HH:mm:ss',
-  //                       'MM/DD/YYYY HH:mm:ss',
-  //                       'YYYY-MM-DD HH:mm:ss',
-  //                       'DD-MM-YYYY HH:mm:ss',
-  //                       'DD/MM/YYYY HH:mm:ss',
-  //                       'MM-DD-YYYY HH:mm', // Handle cases without seconds
-  //                       'MM/DD/YYYY HH:mm',
-  //                       'YYYY-MM-DD HH:mm',
-  //                       'DD-MM-YYYY HH:mm',
-  //                       'DD/MM/YYYY HH:mm',
-  //                       'HH:mm:ss',
-  //                       'HH:mm',
-  //                     ];
-
-  //                     // Replace any slashes with dashes for consistency
-  //                     cell = cell.replace(/\//g, '-');
-
-  //                     // Check if the cell value matches any of the acceptable formats
-  //                     const isExactFormat = acceptableFormats.some(format => moment(cell, format, true).isValid());
-
-  //                     if (isExactFormat) {
-  //                       // Parse the cell value using moment.js with the detected format
-  //                       const formattedDateTime = moment(cell, acceptableFormats, true);
-
-  //                       // Check if the date-time is valid and within the next year
-  //                       if (formattedDateTime.isValid()) {
-  //                         const oneYearFromNow = moment().add(1, 'year');
-
-  //                         // Ensure the date-time is within the next year
-  //                         if (formattedDateTime.isBefore(oneYearFromNow)) {
-  //                           // return formattedDateTime.format('MM-DD-YYYY HH:mm:ss');
-  //                           return formattedDateTime.format('HH:mm:ss');
-  //                         }
-  //                       }
-  //                     }
-
-  //                     // Return an empty string if the format, validity, or date range check fails
-  //                     return "";
-  //                 }
-  //                  else {
-  //                   // Convert other cells to string and trim whitespace
-  //                   return cell ? cell.toString().trim() : '';
-  //                 }
-  //               }
-
-  //               });
-  //             }).filter((row: any[]) =>
-  //                       // Filter out empty rows
-  //                 row.some((cell: any) => cell !== '')
-  //               );
-
-
-
-
-  //         // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
-  //         this.validateRows(this.data.slice(1));
-  //         this.removeAllSingleEntries();
-  //         this.validateMap.forEach((values, key) => {
-  //           console.log(`Key: ${key}`);
-  //           this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
-  //           if(this.elementToScroll){
-  //           this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  //           console.log('Values:', values);
-  //           }
-  //         });
-  //         this.totalPage = Math.ceil(this.data.length / this.pageSize);
-
-  //         if(this.mismatches.length===0){
-  //           this.isinvalid=false;
-  //           this.uploadUserFile(file, this.fileName);
-  //         }else{
-  //           this.isinvalid=true;
-  //         }
-
-
-  //       } else {
-  //         console.error('Invalid column names');
-  //       }
-  //     };
-  //     reader.readAsArrayBuffer(file);
-  //   }
-  // }
-
-  // firstUpload:boolean=true;
-  // areAllFalse(): boolean {
-  //   if(this.firstUpload===true){
-  //     this.firstUpload=false;
-  //     return false;
-  //   }
-  //   return this.invalidCells
-  //     .reduce((acc, row, rowIndex) => {
-  //       return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
-  //     }, [])
-  //     .every(value => value === false);
-  // }
-
   isExcelFile(file: File): boolean {
     const allowedMimeTypes = [
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-      'application/vnd.ms-excel'
+      'application/vnd.ms-excel',
     ];
 
     const allowedExtensions = ['xlsx', 'xls'];
 
-    return allowedMimeTypes.includes(file.type) && allowedExtensions.includes(file.name.split('.').pop()?.toLowerCase() || '');
+    return (
+      allowedMimeTypes.includes(file.type) &&
+      allowedExtensions.includes(
+        file.name.split('.').pop()?.toLowerCase() || ''
+      )
+    );
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -1892,10 +1573,16 @@ export class TimetableComponent implements OnInit {
     this.mismatches = []; // Reset mismatches
 
     // Step 2: Normalize both expected and actual column names for comparison
-    const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    const normalizedColumnNames = columnNames.map((col) =>
+      col.trim().toLowerCase()
+    );
     this.fileColumnName = normalizedColumnNames;
-    const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
-    const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
+    const normalizedExpectedColumns = this.expectedColumns.map((col) =>
+      col.trim().toLowerCase()
+    );
+    const normalizedCorrectColumns = this.correctColumnName.map((col) =>
+      col.trim().toLowerCase()
+    );
 
     // Step 3: Check that every expected column is present in actual column names
     for (const expectedColumn of normalizedExpectedColumns) {
@@ -1913,14 +1600,16 @@ export class TimetableComponent implements OnInit {
         actualColumn !== 'error' // Allow "error" as a valid column
       ) {
         console.error(`Unexpected or incorrect column: "${actualColumn}"`);
-        this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+        this.mismatches.push(
+          `Unexpected or incorrect column: "${actualColumn}"`
+        );
       }
     }
 
     // Step 5: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
       console.error('Column mismatches found:');
-      this.mismatches.forEach(mismatch => console.error(mismatch));
+      this.mismatches.forEach((mismatch) => console.error(mismatch));
       return false;
     }
 
@@ -1928,40 +1617,6 @@ export class TimetableComponent implements OnInit {
   }
 
 
-  // validateColumns(columnNames: string[]): boolean {
-  //   this.mismatches = []; // Reset mismatches
-
-  //   // Step 2: Normalize both expected and actual column names for comparison
-  //   const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
-  //   this.fileColumnName=normalizedColumnNames;
-  //   const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
-  //   const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
-
-  //   // Step 3: Check that every expected column is present in actual column names
-  //   for (const expectedColumn of normalizedExpectedColumns) {
-  //     if (!normalizedColumnNames.includes(expectedColumn)) {
-  //       console.error(`Missing column: "${expectedColumn}"`);
-  //       this.mismatches.push(`Missing column: "${expectedColumn}"`);
-  //     }
-  //   }
-
-  //   // Step 4: Check if there are extra or incorrect columns in actual column names
-  //   for (const actualColumn of normalizedColumnNames) {
-  //     if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
-  //         console.error(`Unexpected or incorrect column: "${actualColumn}"`);
-  //         this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
-  //     }
-  // }
-
-  //   // Step 4: Log and return false if there are any mismatches
-  //   if (this.mismatches.length > 0) {
-  //     console.error('Column mismatches found:');
-  //     this.mismatches.forEach(mismatch => console.error(mismatch));
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
   readonly constants = constant;
   addToMap(key: string, value: string) {
     if (this.validateMap.has(key)) {
@@ -1982,20 +1637,27 @@ export class TimetableComponent implements OnInit {
   }
 
   validateRows(rows: any[]): void {
-    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
+    console.log(
+      '🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:',
+      rows
+    );
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
-    this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
+    this.invalidCells = Array.from({ length: rows.length }, () =>
+      new Array(this.expectedColumns.length).fill(false)
+    ); // Reset invalid cells
 
     for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
       for (let j = 0; j < this.fileColumnName.length; j++) {
-
         const cellValue = rows[i][j];
-        if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
+        if (
+          !cellValue ||
+          cellValue === null ||
+          cellValue.toString().trim() === ''
+        ) {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
-
         }
         if (this.fileColumnName[j] === 'email*' && cellValue) {
           this.addToMap(cellValue.toString(), `${i + 1}`);
@@ -2011,9 +1673,11 @@ export class TimetableComponent implements OnInit {
         }
 
         if (this.fileColumnName[j] === 'date*' && cellValue) {
-
           // Replace slashes with hyphens
-          const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+          const normalizedCell = cellValue
+            .toString()
+            .trim()
+            .replace(/\//g, '-');
 
           // Check if the normalized cell matches the exact MM-DD-YYYY format
           const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
@@ -2049,15 +1713,18 @@ export class TimetableComponent implements OnInit {
           }
         }
 
-
-
-        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
+        if (
+          !this.expectedColumns.some(
+            (expectedColumn) =>
+              expectedColumn.toLowerCase() ===
+              this.fileColumnName[j].toLowerCase()
+          )
+        ) {
           this.invalidCells[i][j] = false;
         }
       }
     }
-    debugger
-
+    debugger;
   }
 
   importToggle: boolean = false;
@@ -2075,7 +1742,6 @@ export class TimetableComponent implements OnInit {
   formatAsCommaSeparated(items: string[]): string {
     return items.join(', ');
   }
-
 
   isShimmerModal: boolean = false;
   attendanceUploadCountForUser: number = 0;
@@ -2097,16 +1763,12 @@ export class TimetableComponent implements OnInit {
           this.isProgressToggle = false;
           this.isShimmerModal = false;
 
-          this.attendanceUploadCountForUser = response.object.uploadedEntriesSize;
+          this.attendanceUploadCountForUser =
+            response.object.uploadedEntriesSize;
           this.uploadedExcelLink = response.object.excelUrl;
-          this.phoneNumberNotFoundArray = response.object.phoneNumberNotRegistered;
+          this.phoneNumberNotFoundArray =
+            response.object.phoneNumberNotRegistered;
           this.emailNotFoundArray = response.object.emailNotRegistered;
-
-
-          // this.attendanceUploadCountForUser = response.object1;
-          // this.uploadedExcelLink = response.object2;
-          // this.phoneNumberNotFoundArray = response.arrayOfString;
-          // this.emailNotFoundArray = response.arrayOfString2;
           this.networkConnectionErrorPlaceholderModal = false;
         } else {
           this.importToggle = true;
@@ -2142,9 +1804,7 @@ export class TimetableComponent implements OnInit {
     this.networkConnectionErrorPlaceholderModal = false;
     this.phoneNumberNotFoundArray = [];
     this.emailNotFoundArray = [];
-
   }
-
 
   overtimeCount: number = 0;
   attendanceUpdateCount: number = 0;
@@ -2161,7 +1821,8 @@ export class TimetableComponent implements OnInit {
     this.dataService.getRequestCountByOrganizationUuid().subscribe(
       (response: any) => {
         this.overtimeCount = response.object.overtimeRequestCount;
-        this.attendanceUpdateCount = response.object.attendanceUpdationRequestCount;
+        this.attendanceUpdateCount =
+          response.object.attendanceUpdationRequestCount;
       },
       (error) => {
         console.error('Error fetching user count by status:', error);
@@ -2169,28 +1830,21 @@ export class TimetableComponent implements OnInit {
     );
   }
 
-  changeShowFilter(flag : boolean) {
+  changeShowFilter(flag: boolean) {
     this.showFilter = flag;
   }
 
-
-
   fetchAttendanceRequests(): void {
-
-    this.dataService.getAttendanceRequestsNew(
-      'CREATE',
-      '2024-03-01',
-      '2024-03-30',
-      1,
-      10
-    ).subscribe(
-      (response) => {
-        this.attendanceRequests = response.content;
-      },
-      (error) => {
-        console.error('Error fetching attendance requests:', error);
-      }
-    );
+    this.dataService
+      .getAttendanceRequestsNew('CREATE', '2024-03-01', '2024-03-30', 1, 10)
+      .subscribe(
+        (response) => {
+          this.attendanceRequests = response.content;
+        },
+        (error) => {
+          console.error('Error fetching attendance requests:', error);
+        }
+      );
   }
 
   showFilter1: boolean = false;
@@ -2224,20 +1878,28 @@ export class TimetableComponent implements OnInit {
 
   // Status mapping for API
   statusMap: { [key: string]: number } = {
-    'Pending': 52,
-    'Approve': 50,
-    'Reject': 51
+    Pending: 52,
+    Approved: 50,
+    Rejected: 51,
   };
   attendanceStatusMap: { [key: string]: number } = {
-    'in': 1,
-    'out': 2,
-    'break': 3,
-    'back': 4
+    in: 1,
+    out: 2,
+    break: 3,
+    back: 4,
   };
+
+  routeToUserDetails(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+  }
 
   // Fetch list of users for employee filter
   getAllUsers(): void {
-    this.dataService.getOrganizationUserList().subscribe(response => {
+    this.dataService.getOrganizationUserList().subscribe((response) => {
       this.allUsers = response.listOfObject; // Assumes { id: number, name: string }[]
     });
   }
@@ -2253,12 +1915,12 @@ export class TimetableComponent implements OnInit {
     if (this.currentTab === 'missedPunch') {
       this.updateMissedPunchFilters();
       setTimeout(() => {
-      this.fetchMissedPunchRequests();
+        this.fetchMissedPunchRequests();
       }, 10);
     } else {
       this.updateSystemOutageFilters();
       setTimeout(() => {
-      this.fetchSystemOutageRequests();
+        this.fetchSystemOutageRequests();
       }, 10);
     }
     this.showFilter = false;
@@ -2269,20 +1931,22 @@ export class TimetableComponent implements OnInit {
     this.currentPageMissedPunch = 1;
     this.pageSizeMissedPunch = 10;
     this.totalRecordsMissedPunch = 0;
-    this.currentPageSystemOutage= 1;
+    this.currentPageSystemOutage = 1;
     this.pageSizeSystemOutage = 10;
     this.totalRecordsSystemOutage = 0;
     this.selectedUserIds = [];
     this.selectedPunchType = '';
     this.startDate1 = null;
     this.endDate1 = null;
-    this.selectedStatuses = [];
+    this.selectedStatuses = ['Pending'];
     this.selectedAttendanceStatus = [];
     this.searchTextMissedPunch = '';
     this.searchTextSystemOutage = '';
     this.activeMissedPunchFilters = [];
     this.activeSystemOutageFilters = [];
-    this.applyFilters();
+    setTimeout(()=>{
+      this.applyFilters();
+    }, 10);
   }
 
   onSearchTextMissedPunchChange(searchText: string): void {
@@ -2292,7 +1956,7 @@ export class TimetableComponent implements OnInit {
   }
 
   onSearchTextSystemOutageChange(searchText: string): void {
-    this.currentPageSystemOutage= 1;
+    this.currentPageSystemOutage = 1;
     this.pageSizeSystemOutage = 10;
     this.searchTextSystemOutageSubject.next(searchText);
   }
@@ -2301,61 +1965,129 @@ export class TimetableComponent implements OnInit {
   fetchMissedPunchRequests(): void {
     this.isLoading = true;
 
-      const startDate= this.startDate1 ? this.startDate1.toISOString().split('T')[0] : '';
-      const endDate= this.endDate1 ? this.endDate1.toISOString().split('T')[0] : '';
-      const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
-      const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
-      const requestTypes = ['CREATE'];
+    const startDate = this.startDate1
+      ? this.startDate1.toISOString().split('T')[0]
+      : '';
+    const endDate = this.endDate1
+      ? this.endDate1.toISOString().split('T')[0]
+      : '';
+    const statuses = this.selectedStatuses.map(
+      (status) => this.statusMap[status]
+    );
+    const attendanceStatuses = this.selectedAttendanceStatus.map(
+      (status) => this.attendanceStatusMap[status]
+    );
+    const requestTypes = ['CREATE'];
 
-    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageMissedPunch - 1, this.pageSizeMissedPunch, this.searchTextMissedPunch)
-      .subscribe(response => {
-        this.missedPunchRequests = response.content.map((req: any) => ({
-          ...req,
-          isProcessing: false // Initialize processing flag
-        }));
-        this.totalRecordsMissedPunch = response.totalElements;
-        this.isLoading = false;
-      }, () => {
-        this.isLoading = false;
-      });
+    this.dataService
+      .getAttendanceUpdateRequests(
+        this.selectedUserIds,
+        startDate,
+        endDate,
+        statuses,
+        attendanceStatuses,
+        requestTypes,
+        this.currentPageMissedPunch - 1,
+        this.pageSizeMissedPunch,
+        this.searchTextMissedPunch
+      )
+      .subscribe(
+        (response) => {
+          this.missedPunchRequests = response.content.map((req: any) => ({
+            ...req,
+            isProcessing: false, // Initialize processing flag
+          }));
+          this.totalRecordsMissedPunch = response.totalElements;
+          this.isLoading = false;
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
+  }
+
+  totalPendingRequests: number = 0;
+  findPendingRequests(): void {
+    this.selectedStatuses = ['Pending'];
+    const statuses = this.selectedStatuses.map(
+      (status) => this.statusMap[status]
+    );
+    this.dataService
+      .getAttendanceUpdateRequests(
+        undefined,
+        undefined,
+        undefined,
+        statuses,
+        undefined,
+        undefined,
+        this.currentPageSystemOutage - 1,
+        1,
+        undefined
+      )
+      .subscribe(
+        (response) => {
+          this.totalPendingRequests = response.totalElements;
+        },
+        () => {}
+      );
   }
 
   // Fetch System Outage (UPDATE) requests
   fetchSystemOutageRequests(): void {
     this.isLoading = true;
-    const startDate= this.startDate1 ? this.startDate1.toISOString().split('T')[0] : '';
-      const endDate= this.endDate1 ? this.endDate1.toISOString().split('T')[0] : '';
-      const statuses = this.selectedStatuses.map(status => this.statusMap[status]);
-      const attendanceStatuses = this.selectedAttendanceStatus.map(status => this.attendanceStatusMap[status]);
-      const requestTypes = ['UPDATE'];
-    this.dataService.getAttendanceUpdateRequests(this.selectedUserIds, startDate, endDate, statuses, attendanceStatuses, requestTypes, this.currentPageSystemOutage-1, this.pageSizeSystemOutage, this.searchTextSystemOutage)
-      .subscribe(response => {
-        this.systemOutageRequests = response.content.map((req: any) => ({
-          ...req,
-          isProcessing: false // Initialize processing flag
-        }));
-        this.totalRecordsSystemOutage = response.totalElements;
-        this.isLoading = false;
-      }, () => {
-        this.isLoading = false;
-      });
+    const startDate = this.startDate1
+      ? this.startDate1.toISOString().split('T')[0]
+      : '';
+    const endDate = this.endDate1
+      ? this.endDate1.toISOString().split('T')[0]
+      : '';
+    const statuses = this.selectedStatuses.map(
+      (status) => this.statusMap[status]
+    );
+    const attendanceStatuses = this.selectedAttendanceStatus.map(
+      (status) => this.attendanceStatusMap[status]
+    );
+    const requestTypes = ['UPDATE'];
+    this.dataService
+      .getAttendanceUpdateRequests(
+        this.selectedUserIds,
+        startDate,
+        endDate,
+        statuses,
+        attendanceStatuses,
+        requestTypes,
+        this.currentPageSystemOutage - 1,
+        this.pageSizeSystemOutage,
+        this.searchTextSystemOutage
+      )
+      .subscribe(
+        (response) => {
+          this.systemOutageRequests = response.content.map((req: any) => ({
+            ...req,
+            isProcessing: false, // Initialize processing flag
+          }));
+          this.totalRecordsSystemOutage = response.totalElements;
+          this.isLoading = false;
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
   }
-
-
 
   showAttendanceUpdate: boolean = false;
   attendanceUpdateData: any = {};
 
   viewRequest(request: any): void {
-    this.showAttendanceUpdate=false;
-      this.attendanceUpdateData = {};
-      this.attendanceUpdateData.id = request.id;
-      this.attendanceUpdateData.userType = 'ADMIN';
-      this.attendanceUpdateData.isModal = 1;
-      this.getAttendanceUpdateById(request.id);
+    this.showAttendanceUpdate = false;
+    this.attendanceUpdateData = {};
+    this.attendanceUpdateData.id = request.id;
+    this.attendanceUpdateData.userType = 'ADMIN';
+    this.attendanceUpdateData.isModal = 1;
+    this.getAttendanceUpdateById(request.id);
   }
-  onAttendanceUpdateClose(){
-    this.showAttendanceUpdate=false;
+  onAttendanceUpdateClose() {
+    this.showAttendanceUpdate = false;
     this.applyFilters();
   }
 
@@ -2363,12 +2095,11 @@ export class TimetableComponent implements OnInit {
     this.dataService.getAttendanceRequestById(id).subscribe(
       (data) => {
         if (data.status) {
-          this.attendanceUpdateData.attendanceRequest=data.object;
+          this.attendanceUpdateData.attendanceRequest = data.object;
           setTimeout(() => {
-            this.showAttendanceUpdate=true;
+            this.showAttendanceUpdate = true;
           }, 1);
         } else {
-
         }
       },
       (error) => {
@@ -2383,35 +2114,39 @@ export class TimetableComponent implements OnInit {
     this.activeMissedPunchFilters = [];
 
     // Add individual user filters
-    this.selectedUserIds.forEach(userId => {
-      const user = this.allUsers.find(u => u.id === userId);
+    this.selectedUserIds.forEach((userId) => {
+      const user = this.allUsers.find((u) => u.id === userId);
       if (user) {
         this.activeMissedPunchFilters.push({
           type: 'user',
           label: 'Employee',
           value: user.userName,
-          userId: userId // Include userId for specific removal
+          userId: userId, // Include userId for specific removal
         });
       }
     });
 
     // Add date range filter
     if (this.startDate1 || this.endDate1) {
-      const start = this.startDate1 ? this.startDate1.toLocaleDateString() : '<-';
+      const start = this.startDate1
+        ? this.startDate1.toLocaleDateString()
+        : '<-';
       const end = this.endDate1 ? this.endDate1.toLocaleDateString() : '->';
       this.activeMissedPunchFilters.push({
         type: 'dateRange',
         label: 'Date Range',
-        value: `${start} to ${end}`
+        value: `${start} to ${end}`,
       });
     }
 
     // Add status filter
     if (this.selectedStatuses.length) {
-      this.activeMissedPunchFilters.push({
-        type: 'status',
-        label: 'Status',
-        value: this.selectedStatuses.join(', ')
+      this.selectedStatuses.forEach((status) => {
+        this.activeMissedPunchFilters.push({
+          type: 'status',
+          label: 'Status',
+          value: status,
+        });
       });
     }
 
@@ -2420,7 +2155,7 @@ export class TimetableComponent implements OnInit {
       this.activeMissedPunchFilters.push({
         type: 'search',
         label: 'Search',
-        value: this.searchTextMissedPunch
+        value: this.searchTextMissedPunch,
       });
     }
   }
@@ -2429,44 +2164,50 @@ export class TimetableComponent implements OnInit {
     this.activeSystemOutageFilters = [];
 
     // Add individual user filters
-    this.selectedUserIds.forEach(userId => {
-      const user = this.allUsers.find(u => u.id === userId);
+    this.selectedUserIds.forEach((userId) => {
+      const user = this.allUsers.find((u) => u.id === userId);
       if (user) {
         this.activeSystemOutageFilters.push({
           type: 'user',
           label: 'Employee',
           value: user.userName,
-          userId: userId // Include userId for specific removal
+          userId: userId, // Include userId for specific removal
         });
       }
     });
 
     // Add date range filter
     if (this.startDate1 || this.endDate1) {
-      const start = this.startDate1 ? this.startDate1.toLocaleDateString() : 'N/A';
+      const start = this.startDate1
+        ? this.startDate1.toLocaleDateString()
+        : 'N/A';
       const end = this.endDate1 ? this.endDate1.toLocaleDateString() : 'N/A';
       this.activeSystemOutageFilters.push({
         type: 'dateRange',
         label: 'Date Range',
-        value: `${start} to ${end}`
+        value: `${start} to ${end}`,
       });
     }
 
     // Add status filter
     if (this.selectedStatuses.length) {
-      this.activeSystemOutageFilters.push({
-        type: 'status',
-        label: 'Status',
-        value: this.selectedStatuses.join(', ')
+      this.selectedStatuses.forEach((status) => {
+        this.activeSystemOutageFilters.push({
+          type: 'status',
+          label: 'Status',
+          value: status,
+        });
       });
     }
 
     // Add attendance status filter
     if (this.selectedAttendanceStatus.length) {
-      this.activeSystemOutageFilters.push({
-        type: 'attendanceStatus',
-        label: 'Attendance Status',
-        value: this.selectedAttendanceStatus.join(', ')
+      this.selectedAttendanceStatus.forEach((status) => {
+        this.activeSystemOutageFilters.push({
+          type: 'attendanceStatus',
+          label: 'Attendance Status',
+          value: status,
+        });
       });
     }
 
@@ -2475,7 +2216,7 @@ export class TimetableComponent implements OnInit {
       this.activeSystemOutageFilters.push({
         type: 'search',
         label: 'Search',
-        value: this.searchTextSystemOutage
+        value: this.searchTextSystemOutage,
       });
     }
   }
@@ -2483,7 +2224,9 @@ export class TimetableComponent implements OnInit {
   removeFilter(filter: any, tab: string): void {
     if (filter.type === 'user' && filter.userId) {
       // Remove only the specific user
-      this.selectedUserIds = this.selectedUserIds.filter(id => id !== filter.userId);
+      this.selectedUserIds = this.selectedUserIds.filter(
+        (id) => id !== filter.userId
+      );
     } else {
       switch (filter.type) {
         case 'dateRange':
@@ -2491,10 +2234,14 @@ export class TimetableComponent implements OnInit {
           this.endDate1 = null;
           break;
         case 'status':
-          this.selectedStatuses = [];
+          this.selectedStatuses = this.selectedStatuses.filter(
+            (status) => status !== filter.value
+          );
           break;
         case 'attendanceStatus':
-          this.selectedAttendanceStatus = [];
+          this.selectedAttendanceStatus = this.selectedAttendanceStatus.filter(
+            (status) => status !== filter.value
+          );
           break;
         case 'search':
           if (tab === 'missedPunch') this.searchTextMissedPunch = '';
@@ -2513,4 +2260,7 @@ export class TimetableComponent implements OnInit {
     }
   }
 
+  showAttendnaceUpdateActionButton(request:any): boolean {
+   return (request?.status?.id==52 && (request?.managerUuid==this.userUuid || this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)))
+  }
 }

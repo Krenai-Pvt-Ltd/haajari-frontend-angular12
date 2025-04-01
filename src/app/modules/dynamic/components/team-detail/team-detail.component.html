@@ -7,22 +7,11 @@
       <div class="row">
         <div class="col-md-12">
           <div
-            class="team-detail-hadding d-flex align-items-center mb-3 mt-4"
-            style="
-              gap: 10px;
-              border-bottom: 1px solid #f1f1f1;
-              padding-bottom: 24px;
-            "
-          >
-            <div class="add-filtter">
-              <a routerLink="/team"> <i class="bi bi-chevron-left"></i> </a>
+            class="team-detail-hadding d-flex align-items-center mb-3 mt-4 gap-3 border-bottom pb-4">
+            <div class="add-filtter bg-white img-32 align-items-center justify-content-center d-flex radius-50 pointer font-16 poiter fw-500 mb-0 text-primary" routerLink="/team">
+              <i class="bi bi-chevron-left"></i>
             </div>
-
-            <div class="d-flex align-items-center" style="gap: 10px">
               <h5 class="m-0">{{ capitalizeFirstLetter(team.name) }}</h5>
-
-             
-            </div>
           </div>
 
           <div class="card-body p-0">
@@ -72,26 +61,27 @@
 
                       <div class="row mt-3">
                         <div class="col-md-4">
-                         
+                         <!-- 
+                            *ngIf="localStorageRoleAdminFlag" -->
                           <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
                             data-bs-toggle="modal"
                             data-bs-target="#addteam"
-                            *ngIf="localStorageRoleAdminFlag"
+                            *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)"
                           >
                             <span class="members-names">
                               <i class="bi bi-plus"></i>
                             </span>
                             <p class="mb-0">Add member</p>
                           </div>
-                        
+                          <!-- *ngIf="managerIdFlag && !localStorageRoleAdminFlag" -->
                           <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
                             data-bs-toggle="modal"
                             data-bs-target="#viewteam"
-                            *ngIf="managerIdFlag && !localStorageRoleAdminFlag"
+                            *ngIf="rbacService.hasReadOnlyAccess(Routes.TEAMDETAIL)"
                           >
                             <span class="members-names">
                               <i class="bi bi-plus"></i>
@@ -99,18 +89,6 @@
                             <p class="mb-0">View Members</p>
                           </div>
 
-                          <div
-                            class="members-list d-flex align-items-center"
-                            style="gap: 10px"
-                            data-bs-toggle="modal"
-                            data-bs-target="#viewteam"
-                            *ngIf="!managerIdFlag && !localStorageRoleAdminFlag"
-                          >
-                            <span class="members-names">
-                              <i class="bi bi-plus"></i>
-                            </span>
-                            <p class="mb-0">View Members</p>
-                          </div>
                         </div>
                         <div class="col-md-4" *ngFor="let ul of team.userList">
                           <div
@@ -130,28 +108,27 @@
                               *ngIf="ul.image === null"
                               >{{ ul.name[0] }}</span
                             >
-                            <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" *ngIf="localStorageRoleAdminFlag">
+                            <!-- *ngIf="localStorageRoleAdminFlag" -->
+                            <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" >
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
                                 class="bi bi-patch-check-fill"
                                 *ngIf="ul.roleId == 3"
                               ></i>
                             </p>
-                            <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
+                            <!-- <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
                                 class="bi bi-patch-check-fill"
                                 *ngIf="ul.roleId == 3"
                               ></i>
-                            </p>
+                            </p> -->
 
-                            <div
-                              class="dropdown d-inline-block"
-                              *ngIf="
+                            <!--  *ngIf="
                                 localStorageRoleAdminFlag == true ||
                                 managerIdFlag == true
-                              "
-                            >
+                              " -->
+                            <div class="dropdown d-inline-block"  *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)">
                              
                               <a
                                 class="dropdown-toggle"
@@ -162,61 +139,35 @@
                                 aria-haspopup="false"
                                 aria-expanded="false"
                               >
-                                <i
-                                  class="bi bi-chevron-down font-14 text-muted"
-                                ></i>
+                                <i class="bi bi-chevron-down font-14 text-muted" ></i>
                               </a>
-                              <div
-                                class="dropdown-menu dropdown-menu-end list-top"
+                              <div  *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)"
+                                class="dropdown-menu dropdown-menu-end list-top actionMenuList"
                                 aria-labelledby="dLabel1"
                               >
-                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag">
-                                  <a
-                                    class="dropdown-item"
-                                    *ngIf="ul.roleId == 2"
-                                    (click)="
-                                      assignManagerRoleToMemberMethodCall(
-                                        team.uuid,
-                                        ul.uuid
-                                      )
-                                    "
-                                    >Make Manager
+                              <!-- *ngIf="localStorageRoleAdminFlag" -->
+                               <ng-container *ngIf="rbacService.idAdminOnlyAccess()">
+                                <div class="manager-list" >
+                                  <a class="dropdown-item"
+                                    (click)="assignManagerRoleToMemberMethodCall(team.uuid, ul.uuid)"
+                                    ><i class="bi bi-person"></i>  Make Manager
                                   </a>
                                 </div>
-                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag">
-                                  <a
-                                    class="dropdown-item"
-                                    *ngIf="ul.roleId == 3"
-                                    (click)="
-                                      assignMemberRoleToManagerMethodCall(
-                                        team.uuid,
-                                        ul.uuid
-                                      )
-                                    "
-                                    >Remove Manager</a
-                                  >
+                                <div class="manager-list" >
+                                  <a class="dropdown-item" *ngIf="ul.roleId == 3"
+                                    (click)="assignMemberRoleToManagerMethodCall( team.uuid,ul.uuid) "
+                                    ><i class="bi bi-trash3"></i> Remove Manager</a>
                                 </div>
+                              </ng-container>
                                 <div class="manager-list">
-                                  <a
-                                    class="dropdown-item"
-                                    (click)="routeToUserDetails(ul.uuid)"
-                                    >View Profile</a
-                                  >
+                                  <a class="dropdown-item"(click)="routeToUserDetails(ul.uuid)"
+                                    ><i class="bi bi-eye"></i> View Profile</a>
                                 </div>
-                                <div class="manager-list remove-team" *ngIf="localStorageRoleAdminFlag">
-                                  <a
-                                    class="dropdown-item StaticMenuItemBase-button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteConfirmationModal"
-                                    (click)="
-                                      openDeleteConfirmationModal(
-                                        team.uuid,
-                                        ul.uuid
-                                      )
-                                    "
-                                  >
-                                    <span>Remove from team</span></a
-                                  >
+                                <div class="manager-list remove-team">
+                                  <a class="dropdown-item text-danger"
+                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                    (click)=" openDeleteConfirmationModal(team.uuid, ul.uuid)">
+                                    <i class="bi bi-trash3"></i>  Remove from team</a>
                                 </div>
                               </div>
                             </div>
@@ -740,7 +691,7 @@
                               )
                             }}
                             <i
-                              class="bi bi-chevron-down font-14 text-muted"
+                              class="bi bi-chevron-down font-14 text-primary"
                             ></i>
                           </a>
 
@@ -760,56 +711,47 @@
                               )
                             }}
                             <i
-                              class="bi bi-chevron-down font-14 text-muted"
+                              class="bi bi-chevron-down font-14 text-primary"
                             ></i>
                           </a>
-
+                          <ng-container *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)">
                           <div
-                            class="dropdown-menu dropdown-menu-end list-top"
+                            class="dropdown-menu dropdown-menu-end list-top actionMenuList"
                             aria-labelledby="dLabel1"
                           >
+                          <ng-container *ngIf="rbacService.idAdminOnlyAccess()">
                             <div class="manager-list">
                               <a
                                 class="dropdown-item"
                                 *ngIf="ul.roleId == 2"
-                                (click)="
-                                  assignManagerRoleToMemberMethodCall(
-                                    team.uuid,
-                                    ul.uuid
-                                  )
-                                "
-                                >Make Manager
+                                (click)="assignManagerRoleToMemberMethodCall(team.uuid, ul.uuid)"
+                                ><i class="bi bi-person"></i> Make Manager
                               </a>
                             </div>
                             <div class="manager-list">
-                              <a
-                                class="dropdown-item"
-                                *ngIf="ul.roleId == 3"
-                                (click)="
-                                  assignMemberRoleToManagerMethodCall(
-                                    team.uuid,
-                                    ul.uuid
-                                  )
-                                "
-                                >Remove Manager</a
+                              <a class="dropdown-item"  *ngIf="ul.roleId == 3"
+                                (click)="assignMemberRoleToManagerMethodCall(team.uuid,ul.uuid)"
+                                ><i class="bi bi-trash3"></i>Remove Manager</a
                               >
                             </div>
+                            </ng-container>
                             <div class="manager-list">
                               <a
                                 class="dropdown-item"
                                 (click)="routeToUserDetails(ul.uuid)"
-                                >View Profile</a
+                                ><i class="bi bi-eye"></i> View Profile</a
                               >
                             </div>
                             <div class="manager-list remove-team">
                               <a
-                                class="dropdown-item StaticMenuItemBase-button"
+                                class="dropdown-item text-danger"
                                 (click)="removeUserFromTeam(team.uuid, ul.uuid)"
                               >
-                                <span>Remove from team</span></a
+                              <i class="bi bi-trash3"></i> Remove from team</a
                               >
                             </div>
                           </div>
+                        </ng-container>
                         </div>
                       </div>
                     </div>
@@ -1070,42 +1012,20 @@
    
   </div>
 
-
-  <div
-    class="modal fade"
-    id="viewteam"
-    tabindex="-1"
-    aria-labelledby="exampleModalFullscreenLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg" style="max-width: 600px" role="document">
+<!-- team member modal -->
+  <div class="modal fade" id="viewteam" tabindex="-1"  aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered"  role="document">
       <div class="modal-content">
-        <div class="modal-header" style="background-color: #fff">
-          <h5
-            class="modal-title m-0"
-            style="color: #111; font-size: 18px"
-            id="exampleModalDefaultLabel"
-          >
-            {{ team.name }}
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+        <div class="modal-header">
+          <h5 class="modal-title m-0" id="exampleModalDefaultLabel"> {{ team.name }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
         </div>
-        <!--end modal-header-->
         <div class="modal-body p-0">
-          <div class="card-body p-0">
-            <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-              <!-- <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#general" role="tab" aria-selected="true">General</a>
-                            </li> -->
+            
               <li class="nav-item">
                 <a
-                  class="nav-link"
+                  class="nav-link active"
                   data-bs-toggle="tab"
                   href="#members"
                   role="tab"
@@ -1113,87 +1033,59 @@
                   >Members</a
                 >
               </li>
-              <!-- <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#advanced" role="tab" aria-selected="false">Advanced</a>
-                            </li> -->
+       
             </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
+            <div class="tab-content mt-2">
               <div class="tab-pane p-3 active" id="members" role="tabpanel">
-                <div class="">
-                  <div class="">
-                    <h5>Members</h5>
-                  </div>
-
-                  <div
-                    class="Members-list-box d-flex align-items-center justify-content-between"
-                    *ngFor="let ul of team.userList; let i = index"
-                  >
-                    <div class="d-flex align-items-center" style="gap: 10px">
-                      <div>
-                        <span *ngIf="ul.image !== null">
-                          <img
-                            src="{{ ul.image }}"
-                            alt="u"
-                            class="thumb-xs rounded-circle"
-                          />
-                        </span>
-                        <span class="members-name" *ngIf="ul.image == null">{{
-                          ul.name[0]
-                        }}</span>
-                        <!-- <span class="mamber-list-ui" *ngIf="ul.image==null">{{ul.name[0]}}</span> -->
-                      </div>
-                      <div>
-                        <h6 class="mb-0 mt-0">
-                          {{ capitalizeFirstLetter(ul.name) }}
-                        </h6>
-                        <p class="mb-0">{{ ul.email }}</p>
-                      </div>
+                 <div *ngFor="let ul of team.userList; let i = index">
+                    <div
+                       class="members-list d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom"
+                      
+                       >
+                       <div class="d-flex align-items-center gap-2">
+                          <div>
+                             <span *ngIf="ul.image !== null">
+                             <img
+                                src="{{ ul.image }}"
+                                alt="u"
+                                class="thumb-sm rounded-circle"
+                                />
+                             </span>
+                             <span class="members-name" *ngIf="ul.image == null">{{
+                             ul.name[0]
+                             }}</span>
+                          </div>
+                          <div>
+                             <h5 class="mb-0 mt-0 font-14">
+                                {{ capitalizeFirstLetter(ul.name) }}
+                             </h5>
+                             <p class="mb-0 text-muted mb-0 font-13 fw-normal">{{ ul.email }}</p>
+                          </div>
+                       </div>
                     </div>
-                  </div>
-                </div>
+                 </div>
               </div>
               <div class="tab-pane p-3" id="members" role="tabpanel">
-                <p class="mb-0 text-muted">
-                  Food truck fixie locavore, accusamus mcsweeney's single-origin
-                  coffee squid.
-                </p>
+                 <p class="mb-0 text-muted">
+                    Food truck fixie locavore, accusamus mcsweeney's single-origin
+                    coffee squid.
+                 </p>
               </div>
               <div class="tab-pane p-3" id="advanced" role="tabpanel">
-                <p class="text-muted mb-0">
-                  Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
-                </p>
+                 <p class="text-muted mb-0">
+                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
+                 </p>
               </div>
-            </div>
-          </div>
-          <!--end card-body-->
+           </div>
         </div>
-
-        <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm">Submit</button>
-                </div> -->
-        <!--end modal-footer-->
       </div>
-      <!--end modal-content-->
     </div>
-    <!--end modal-dialog-->
   </div>
-  <!--end modal-->
-
-  <div
-    class="modal fade"
-    id="deleteConfirmationModal"
-    #deleteConfirmationModal
-    tabindex="-1"
-    aria-labelledby="confirmationModalLabel"
-    aria-hidden="true"
-    data-bs-backdrop="false"
-  >
-    <div
-      class="modal-dialog modal-dialog-centered mx-auto mx-auto"
-      style="max-width: 400px !important"
-    >
+  <!-- team member modal end -->
+<!-- delete modal -->
+  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false" >
+    <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important" >
       <div class="modal-content p-0" style="border-radius: 15px">
         <form #confirmationForm="ngForm">
           <div class="modal-body text-center mt-1 mb-3">
@@ -1203,26 +1095,9 @@
               Are you sure want to delete this user from team?
             </h4>
 
-            <div
-              class="d-flex align-items-center justify-content-center mt-4"
-              style="gap: 15px"
-            >
-              <button
-                type="button"
-                class="btn btn-primary btnmarkcancel"
-                data-bs-dismiss="modal"
-                #closeUserDeleteModal
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btnmarkdelete"
-                (click)="deleteUserFromTeam()"
-                *ngIf="!deleteUserFromTeamLoader"
-              >
-                Delete
-              </button>
+            <div class="d-flex align-items-center justify-content-center mt-4 gap-3">
+              <button type="button" class="btn btn-primary btnmarkcancel" data-bs-dismiss="modal" #closeUserDeleteModal>  Cancel </button>
+              <button type="button" class="btn btnmarkdelete" (click)="deleteUserFromTeam()" *ngIf="!deleteUserFromTeamLoader">  Delete </button>
               <div class="dot-opacity-loader" *ngIf="deleteUserFromTeamLoader">
                 <span></span>
                 <span></span>
@@ -1235,3 +1110,4 @@
     </div>
   </div>
 </div>
+<!-- delete modal end -->

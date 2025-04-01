@@ -1,4 +1,4 @@
-
+<ng-container   [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.ASSETS)}">
     <div *ngIf="selectedAsset?.status!='APPROVED'" >
        <div>
           <div *ngIf="!isModal">
@@ -50,7 +50,7 @@
                    </div>
                 </div>
              </div>
-             <div [ngClass]="{'modal-footer':isModal}">
+             <div [ngClass]="{'modal-footer':isModal}" *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)">
                 <div *ngIf="selectedAsset?.status=='PENDING'"
                    class="d-flex align-content-center justify-content-end gap-2">
                    <!-- <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" >Cancel</button> -->
@@ -140,3 +140,4 @@
        </div>
     </div>
  </div>
+</ng-container>

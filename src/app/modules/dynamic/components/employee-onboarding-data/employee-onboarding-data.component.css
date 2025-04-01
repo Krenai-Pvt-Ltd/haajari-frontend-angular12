@@ -579,13 +579,13 @@ span.request-count {
   border: none;
   height: 45px !important;
   border-left: 0;
-  border-right: 1px solid #EAEAEA;
+  /* border-right: 1px solid #EAEAEA; */
   font-weight: 400 !important;
   font-size: 14px !important;
   color: #1f1f1f !important;
 }
 .filter-btn {
-  min-width: 460px;
+  max-width: 460px;
 }
 .categories-filter input{
   position: relative;
@@ -668,13 +668,7 @@ span.request-count {
   margin-bottom: 0 !important;
   background-color: #557ef826;
 }
-.btnAction {
-  background-color: #F9FAFC;
-  width: 30px;
-  height: 33px;
-  border-radius: 2px;
-  border: 1px solid #EFEFEF;
-}
+
 .employee-apex-chart{
   top: -8px;
 }

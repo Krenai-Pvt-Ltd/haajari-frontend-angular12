@@ -1,5 +1,4 @@
 
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
@@ -22,7 +21,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
 import * as XLSX from 'xlsx';
-import * as saveAs from 'file-saver';
+import { Routes } from 'src/app/constant/Routes';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 @Component({
   selector: 'app-salary-setting',
   templateUrl: './salary-setting.component.html',
@@ -31,10 +31,11 @@ import * as saveAs from 'file-saver';
 export class SalarySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private _afStorage: AngularFireStorage,
     private _salaryService: SalaryService,
-    private _http: HttpClient
+    public rbacService: RoleBasedAccessControlService,
+
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +71,7 @@ export class SalarySettingComponent implements OnInit {
   salaryTemplateTab!: ElementRef;
   @ViewChild('staffSelectionTab', { static: false })
   staffSelectionTab!: ElementRef;
+  readonly Routes=Routes;
 
   //Tab navigation
   salaryTemplateTabClick() {
@@ -222,6 +224,11 @@ export class SalarySettingComponent implements OnInit {
   selectedSalaryModeId:number=0;
   @ViewChild('salaryModeClose') salaryModeClose!:ElementRef;
   updateSalaryCalculationMode(salaryCalculationModeId: number) {
+      if(!this.rbacService.hasWriteAccess(Routes.SALARYSETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+      }
+
     this._salaryService.updateSalaryCalculationMode(salaryCalculationModeId).subscribe((response) => {
         if(response.status){
           this.salaryModeClose.nativeElement.click();
@@ -322,6 +329,10 @@ export class SalarySettingComponent implements OnInit {
 
   uploading:boolean=false;
   selectFile(event: any) {
+    if(!this.rbacService.hasWriteAccess(Routes.SALARYSETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     let file: File;
     if(event!=undefined){
       if(event.target.files.length > 0){
@@ -935,6 +946,10 @@ export class SalarySettingComponent implements OnInit {
 
   //Method to select all the user
   selectAll(checked: boolean) {
+    if(!this.rbacService.hasWriteAccess(Routes.SALARYSETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
 
@@ -982,7 +997,11 @@ export class SalarySettingComponent implements OnInit {
     this.selectedStaffsUuids = [];
   }
 
-  checkIndividualSelection() {
+  checkIndividualSelection(isCheckBoxClicked: boolean = false) {
+    if(!this.rbacService.hasWriteAccess(Routes.SALARYSETTING) && isCheckBoxClicked){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
@@ -1169,5 +1188,12 @@ export class SalarySettingComponent implements OnInit {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  staffCount(staff:any){
+    if(staff  == null){
+      return 0;
+    }else{
+      return staff.length;
+    }
+  }
  
 }

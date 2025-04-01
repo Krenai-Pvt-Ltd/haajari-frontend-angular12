@@ -182,7 +182,7 @@ private baseUrl = this._key.base_url;
   }
 
   getAssetCategory(): Observable<any> {
-      const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
+      const url = `${this.baseUrl}/assets/category-list`;
       return this.httpClient.get<any>(url, {}).pipe(
         catchError((error) => {
           throw error;

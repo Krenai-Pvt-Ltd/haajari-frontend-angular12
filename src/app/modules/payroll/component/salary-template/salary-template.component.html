@@ -116,13 +116,14 @@
 
                             <div class="collapse" id="earningcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
-                                    <ng-container *ngIf="tempTemplateComponents.earningComponents.length == 0">
+                                    <ng-container *ngIf="templateComponents.earningComponents.length == 0">
                                         <span>uyrgfygygygy</span>
                                     </ng-container>
                                     <ul class="px-0">
-                                        <ng-container *ngFor="let component of  tempTemplateComponents.earningComponents;let i = index">
+                                        <ng-container *ngFor="let component of  templateComponents.earningComponents;let i = index">
                                         <li  
-                                        class="d-flex align-items-center justify-content-between font-13 fw-normal">
+                                        class="d-flex align-items-center justify-content-between font-13 fw-normal"
+                                        (click)="toggleEarningComponent(component)">
                                             {{component.displayName}}<span class="lh-base">
                                                 <i class="bi bi-plus font-20" ></i>
                                             </span>
@@ -151,11 +152,11 @@
 
                             <div class="collapse" id="reibursementcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
-                                    <ng-container *ngIf="tempTemplateComponents.reimbursementComponents.length == 0">
+                                    <ng-container *ngIf="templateComponents.reimbursementComponents.length == 0">
                                         <span>uyrgfygygygy</span>
                                     </ng-container>
                                     <ul class="px-0">
-                                        <ng-container *ngFor="let component of  tempTemplateComponents.reimbursementComponents;let i = index">
+                                        <ng-container *ngFor="let component of  templateComponents.reimbursementComponents;let i = index">
                                         <li 
                                         class="d-flex align-items-center justify-content-between font-13 fw-normal">
                                             {{component.displayName}}<span class="lh-base">
@@ -200,18 +201,18 @@
 
                             <div class="collapse" id="benefitcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
-                                    <ng-container *ngIf="!tempTemplateComponents.deductions">
+                                    <ng-container *ngIf="!templateComponents.deductions">
                                         <span>uyrgfygygygy</span>
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container>
-                                        <li *ngIf="tempTemplateComponents.deductions.epfConfiguration" 
+                                        <li *ngIf="templateComponents.deductions.epfConfiguration" 
                                         class="d-flex align-items-center justify-content-between font-13 fw-normal">
                                             EPF<span class="lh-base">
                                                 <i class="bi bi-plus font-20" ></i>
                                             </span>
                                         </li>
-                                        <li *ngIf=" tempTemplateComponents.deductions.esiConfiguration" 
+                                        <li *ngIf=" templateComponents.deductions.esiConfiguration" 
                                          class="d-flex align-items-center justify-content-between font-13 fw-normal">
                                             ESI<span class="lh-base">
                                                 <i class="bi bi-plus font-20" ></i>
@@ -241,7 +242,7 @@
                 </div>
                </div>
                <div class="col-md-9 pl-0">
-                <form #templateForm="ngForm" ngNativeValidate>
+                <form #templateForm="ngForm" ngNativeValidate (ngSubmit)="saveSalaryTemplate()">
                     <div class="create-template-box p-3 pt-4 h-100 pb-5">
                         <div class="row">
                            <div class="col-md-6 mb-3">
@@ -253,7 +254,6 @@
                            <div class="col-md-6 mb-3 position-relative">
                             <label class="pb-2">Annual CTC (per year)</label>
                             <input type="text" placeholder="Enter annual amount"  name="annualctc" class="form-control whatsapp-login-input" style="padding-left: 65px;" 
-                            (change)="calculateEpfContribution();calculateEsiContribution(salaryTemplate.annualCtc)" 
                             [(ngModel)]="salaryTemplate.annualCtc" required>
                             <span class="percentage-icon d-flex align-items-center justify-content-center">
                                 <i class="bi bi-currency-rupee font-18"></i>
@@ -322,9 +322,8 @@
                                         <div class="col-md-3" [ngSwitch]="component.valueTypeId">
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
                                                 <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
-                                                    <input type="number" placeholder="" required name="percentage"
-                                                        class="form-control borderLess" [(ngModel)]="component.value"
-                                                        (ngModelChange)="calculateEpfContribution();calculateEsiContribution(salaryTemplate.annualCtc)">                 
+                                                    <input type="number" placeholder="" required name="percentage" id="valueType"
+                                                        class="form-control borderLess" [(ngModel)]="component.value">                 
                                                 </div>
                                                 <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                     <p class="mb-0 font-13 fw-semibold" *ngIf="component.name == 'Basic'">% of CTC</p>
@@ -342,7 +341,7 @@
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border">
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                     <div  class="mt-2" *ngIf="component.valueTypeId == VALUE_TYPE_PERCENTAGE">
-                                                    <span class="font-13 text-muted" >
+                                                    <span class="font-13 text-muted">
                                                         {{ CalculateMonthlyAmount(component , salaryTemplate.annualCtc)/12 | number: '1.0-0'}} 
                                                     </span>
                                                     </div>
@@ -370,8 +369,8 @@
                                                 </p>
                                             </div>
                                             <button *ngIf="!(component.name == 'Basic' || component.name == 'Fixed Allowance')" 
-                                            class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-    <!--  (click)="toggleEarningComponent(component)" -->
+                                            class="btn p-0 text-danger action-btn font-18" (click)="toggleEarningComponent(component)"><i class="bi bi-x"></i></button>
+     
                                         </div>
                                          <!-- Annual Amount end -->
 
@@ -379,7 +378,7 @@
                                 </ng-container>
                                 </div>
     
-                                <div class="col-md-12 mt-4" >
+                                <!-- <div class="col-md-12 mt-4" >
                                     <h5 class="font-14 fw-semibold text-primary mb-4" >
                                         Reimbursements</h5>
                                 </div>
@@ -416,7 +415,7 @@
                                     </div>
                                     
                                 </div> 
-                                </ng-container>
+                                </ng-container> -->
     
                                 <!-- <div class="col-md-12 mt-4">
                                     <h5 class="font-14 fw-semibold text-primary mb-4">Flexible Benefit Plan Components</h5>
@@ -785,6 +784,16 @@
                             </div> -->
     
                         </div>
+                    </div>
+                    <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!templateForm.pristine">
+                        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"  [ngClass]="{'disabled-lnk':saveLoader}">
+                            <div *ngIf="saveLoader" class="dot-opacity-loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span *ngIf="!saveLoader"> Save</span>      
+                        </button>
                     </div>
                 </form>
                

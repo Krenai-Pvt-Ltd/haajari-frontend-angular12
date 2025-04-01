@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-exit-modal',
@@ -23,9 +26,14 @@ export class ExitModalComponent {
   discussionType: string = 'Yes'
   recommendDay: string = 'Complete'
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+  readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
+  
 
   constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
-    public helperService: HelperService){
+    public helperService: HelperService,
+    public rbacService: RoleBasedAccessControlService
+  ){
   }
 
   close() {
