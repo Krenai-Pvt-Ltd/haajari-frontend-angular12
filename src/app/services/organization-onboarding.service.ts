@@ -37,11 +37,12 @@ export class OrganizationOnboardingService {
     this.onboardingRefreshSource.next();
   }
 
-  userImport(file: any, fileName: string) {
+  userImport(file: any, fileName: string, uuid: string) {
     debugger;
     const formdata: FormData = new FormData();
     formdata.append('file', file);
     formdata.append('fileName', fileName);
+    formdata.append('uuid', uuid);
     return this._httpClient.post(
       this._key.base_url + this._key.user_import,
       formdata,
@@ -60,7 +61,7 @@ export class OrganizationOnboardingService {
     );
   }
 
-  
+
 
   // userImport(file: any, fileName: string, progressCallback: (progress: number) => void): Observable<any> {
   //   const formData: FormData = new FormData();

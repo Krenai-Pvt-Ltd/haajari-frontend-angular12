@@ -1,5 +1,5 @@
 import { constant } from 'src/app/constant/constant';
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +25,8 @@ import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
 import { debounceTime } from 'rxjs/operators';
 import { ModalService } from 'src/app/services/modal.service';
+import { environment } from 'src/environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
@@ -35,12 +37,13 @@ import {
 } from "ng-apexcharts";
 import { Routes } from 'src/app/constant/Routes';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import * as firebase from 'firebase/app';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 export interface Team {
   label: string;
   value: string;
 }
-
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -142,11 +145,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private _onboardingService: OrganizationOnboardingService,
+    private db: AngularFireDatabase,
     private router: Router,
     private helperService: HelperService,
     private ngbModal: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
      public rbacService: RoleBasedAccessControlService,
+     private cdr: ChangeDetectorRef,
 
   ) {}
   // users: EmployeeOnboardingDataDto[] = [];
@@ -227,6 +232,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.getShiftData();
     });
 
+    firebase.initializeApp(environment.firebase);
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -1175,6 +1181,7 @@ appliedFilters: string[] = []
       }
 
       const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const arrayBuffer = e.target?.result as ArrayBuffer;
         const binaryStr = this.arrayBufferToString(arrayBuffer);
@@ -1202,22 +1209,21 @@ appliedFilters: string[] = []
                   }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
                     // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
                     const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-                    if (cell.includes('/')) {
-                      return undefined;
-                    }
+                    // if (cell.includes('/')) {
+                    //   return undefined;
+                    // }
                     cell=cell.replace(/\//g, '-');
 
                     if (isExactFormat) {
                         // Parse with strict format checking
-                        const formattedDate = moment(cell, 'DD-MM-YYYY', true);
+                        const formattedDate = moment(cell, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
 
                         // Check if the date is valid and within the next year
                         if (formattedDate.isValid()) {
                             const oneYearFromNow = moment().add(1, 'year');
-
                             // Ensure date is within the next year
                             if (formattedDate.isBefore(oneYearFromNow)) {
-                                return formattedDate.format('DD-MM-YYYY');
+                                return formattedDate.format('MM-DD-YYYY');
                             }
                         }
                     }
@@ -1275,7 +1281,6 @@ appliedFilters: string[] = []
           console.error('Invalid column names');
         }
       };
-      reader.readAsArrayBuffer(file);
     }
   }
   firstUpload:boolean=true;
@@ -1596,7 +1601,7 @@ appliedFilters: string[] = []
 
   onDateChange(event: Date, rowIndex: number, columnIndex: number) {
     // Format the selected date to 'MMM dd yyyy'
-    const formattedDate =moment(event).format('MM-DD-YYYY');
+    const formattedDate =moment(event).format('DD-MM-YYYY');
 
     //  this.datePipe.transform(event, 'MMM dd yyyy');
 
@@ -1604,6 +1609,12 @@ appliedFilters: string[] = []
     //rowIndex+1 represents data without header
      this.data[rowIndex+1][columnIndex] = formattedDate;
     this.onValueChange(rowIndex,columnIndex);
+  }
+  parseDate(dateString: string): any {
+    if (!dateString || dateString.trim() === '') return null;
+
+    const parsedDate = moment(dateString, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+    return parsedDate.format('MM-DD-YYYY');
   }
 
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
@@ -1783,13 +1794,19 @@ console.log(this.data);
 
   alreadyUsedPhoneNumberArray: any = [];
   alreadyUsedEmailArray: any = [];
+  uploadedCount:any = 0;
   uploadUserFile(file: any, fileName: string) {
     debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.errorMessage = '';
-    this._onboardingService.userImport(file, fileName).subscribe(
+    var uuid=uuidv4();
+    setTimeout(() => {
+    this.getUploadStatusFromFirebase(uuid);
+    }
+    , 2000);
+    this._onboardingService.userImport(file, fileName, uuid).subscribe(
       (response: any) => {
         if (response.status) {
           this.importToggle = false;
@@ -1812,6 +1829,32 @@ console.log(this.data);
         this.errorMessage = error.error.message;
       }
     );
+  }
+
+  getUploadStatusFromFirebase(uuid: any) {
+    this.db.object('bulk_upload/user_' + uuid).valueChanges()
+      .subscribe(res => {
+         console.log(res);
+        var respObject: { status: any, count: any } = { status: "", count: 0 };
+        if (res != undefined && res != null) {
+          console.log(res);
+          //@ts-ignore
+          this.uploadedCount = res.count;
+           //@ts-ignore
+          this.cdr.detectChanges();
+          this.cdr.markForCheck();
+          //@ts-ignore
+          if (res.status == 'Completed') {
+
+          }
+           //@ts-ignore
+          if (res.status != 'Failed') {
+
+            this.uploadedCount = 0;
+          }
+        }
+
+      });
   }
 
   importLoading: boolean = false;
@@ -2718,6 +2761,11 @@ console.log(this.data);
   loadingFlag: boolean = false;
   enableEmailNotification: boolean = false;
   enableWhatsAppNotification: boolean = false;
+
+  onNotificationChange(type: string) {
+    this.enableWhatsAppNotification = type === 'whatsapp';
+    this.enableEmailNotification = type === 'email';
+  }
 
   // sendNotifications(): void {
   //   this.loadingFlag = true;
