@@ -187,8 +187,7 @@
           </ng-container>
         </button>
       </ng-container>
-      {{attendanceData.managerUuid}}----{{userId}}
-      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING' && (ROLE=='ADMIN' || attendanceData.managerUuid == userId)">
+      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING' && (ROLE=='ADMIN' || attendanceData.managerUuid == logInUserUuid)">
         <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-soft-success" (click)="approveOrReject(
                   attendanceData.id,
                   'APPROVED'
