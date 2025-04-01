@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading">
             <div class="d-flex align-items-center justify-content-between px-3" [ngClass]="{'modal-header': isModal}">
-                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit----{{isModal}}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
                 <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
                      #closeResignationButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -28,7 +28,7 @@
                 <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
 
                     <div class="row register-form-box">
-                       
+
 
                         <div class="p-4">
 
@@ -231,7 +231,7 @@
                             data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
                             #closeApproveModal>Cancel</button>
 
-                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING" 
+                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING"
                         type="button" class="btn submitActionBtn"
                             [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
                             <span *ngIf="!approveToggle">Approve</span>
