@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
 import { OrganizationTemplateComponent } from 'src/app/payroll-models/OrganizationTemplateComponent';
 import { SalaryTemplate } from 'src/app/payroll-models/SalaryTemplate';
+import { HelperService } from 'src/app/services/helper.service';
 import { SalaryTemplateService } from 'src/app/services/salary-template.service';
 
 
@@ -18,65 +19,20 @@ export class SalaryTemplateComponent implements OnInit {
   EPF_ACTUAL = 1;
   EPF_RESTRICTED= 2;
   ESI_MAX_LIMIT=21000;
+  toggle:boolean =false;
+  currentPage = 1;
+  itemPerPage = 10;
+  totalItems = 0;
+  isNewTemplate:boolean=false;
 
-  constructor(private _salaryTemplateService : SalaryTemplateService) { }
+  constructor(private _salaryTemplateService : SalaryTemplateService,
+    public _helperService : HelperService
+  ) { }
 
   ngOnInit(): void {
-    this.getTemplateComponents();
+    this.getSalaryTemplates();
    
   }
-
-
-
-    templates = [
-      {
-        name: 'Internship',
-        date: '12th June, 2024',
-        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.',
-        status: true
-      },
-      {
-        name: 'Fresher',
-        date: '12th June, 2024',
-        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. ',
-        status: false
-      },
-      {
-        name: 'SDE 1',
-        date: '12th June, 2024',
-        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.',
-        status: true
-      },
-      {
-        name: 'SDE 2',
-        date: '12th June, 2024',
-        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.',
-        status: true
-      },
-      {
-        name: 'SDE 3',
-        date: '12th June, 2024',
-        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.',
-        status: false
-      },
-      {
-        name: 'Internship 2',
-        date: '12th June, 2024',
-        description: 'Aliquam in hendrerit urna. Pellentesque sit amet sapien.',
-        status: true
-      },
-      {
-        name: 'Fresher 2',
-        date: '12th June, 2024',
-        description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien.',
-        status: true
-      }
-    ];
-  
-    toggleStatus(index: number) {
-      this.templates[index].status = !this.templates[index].status;
-    }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                                                         // 
@@ -86,12 +42,11 @@ export class SalaryTemplateComponent implements OnInit {
 
   templateComponents: OrganizationTemplateComponent = new OrganizationTemplateComponent();
   tempTemplateComponents: SalaryTemplate = new SalaryTemplate();
-  sideViewComponents: OrganizationTemplateComponent = new OrganizationTemplateComponent();
   loader:boolean=false;
-  shimmer:boolean=true;
+  shimmer:boolean=false;
   getTemplateComponents() {
     this.loader = true;
-    this.shimmer = true;
+    // this.shimmer = true;
     this._salaryTemplateService.getTemplateComponents().subscribe(
       (response) => {
         if (response.status) {
@@ -102,30 +57,18 @@ export class SalaryTemplateComponent implements OnInit {
             this.tempTemplateComponents = JSON.parse(
               JSON.stringify(this.templateComponents)
             );
+            
           }
-          this.tempTemplateComponents.earningComponents.forEach((component, i) => {
-            const key = `earning-${i}`;
-            this.showFlags[key] = component.name === "Basic" || component.name === "Fixed Allowance";
-          });
-
-          this.tempTemplateComponents.reimbursementComponents.forEach((component, i) => {
-            const key = `reimbursement-${i}`;
-            this.showFlags[key] = false;
-          });
-
-          this.tempTemplateComponents.reimbursementComponents.forEach((component, index) => {
-            this.originalValues[index] = component.value; 
-          });
         } else {
           this.templateComponents = new OrganizationTemplateComponent();
         }
 
-        this.shimmer = false;
+        // this.shimmer = false;
         this.loader = false;
       },
       (error) => {
         this.loader = false;
-        this.shimmer = false;
+        // this.shimmer = false;
         this.templateComponents = new OrganizationTemplateComponent();
       }
     );
@@ -140,30 +83,22 @@ export class SalaryTemplateComponent implements OnInit {
  
 salaryTemplate:SalaryTemplate = new SalaryTemplate();
     
-showFlags: { [key: string]: boolean } = {};
 
 calculatePercentage(value: number, annualCtc: number): number {
   if (!value || !annualCtc) return 0;
   return (value / 100) * annualCtc;
 }
-toggleShowFlag(category: string, index: number) {
-  const key = `${category}-${index}`;
-  this.showFlags[key] = !this.showFlags[key];
-}
 
 
-
-checkShowFlag(): boolean {
-  return Object.values(this.showFlags).every(flag => flag);
-}
 
 
 calculateFixed(): number {
+
   if (!this.tempTemplateComponents?.earningComponents) return 0;
 
   let totalOtherComponents = this.tempTemplateComponents.earningComponents
-    .map((comp, i) => ({ comp, isVisible: this.showFlags[`earning-${i}`] }))
-    .filter(item => item.comp.displayName !== 'Fixed Allowance' && item.isVisible)
+    .map((comp, i) => ({ comp }))
+    .filter(item => item.comp.displayName !== 'Fixed Allowance')
     .reduce((sum, item) => {
       if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
         if(item.comp.name=='Basic'){
@@ -179,17 +114,10 @@ calculateFixed(): number {
 
   if (this.tempTemplateComponents?.reimbursementComponents) {
     totalOtherComponents += this.tempTemplateComponents.reimbursementComponents
-      .map((comp, i) => ({ comp, isVisible: this.showFlags[`reimbursement-${i}`] }))
-      .filter(item => item.isVisible)
+      .map((comp, i) => ({ comp }))
       .reduce((sum, item) => sum + (item.comp.value * 12), 0);
   }
 
-  if (this.showFlags['deductions-1'] && this.epfEmployerContribution !== null) {
-    totalOtherComponents += this.epfEmployerContribution;
-  }
-  if (this.showFlags['deductions-2'] && this.esiContriution !== null) {
-    totalOtherComponents += this.esiContriution;
-  }
   return Math.max((this.salaryTemplate.annualCtc - totalOtherComponents), 0);
 }
 
@@ -241,10 +169,6 @@ calculateBasic(): number {
   return basicSalary;
 }
 
-shouldShowReimbursements(): boolean {
-  return this.tempTemplateComponents.reimbursementComponents?.length > 0 &&
-         Object.keys(this.showFlags).some(key => key.startsWith('reimbursement-') && this.showFlags[key]);
-}
 
 
 
@@ -271,8 +195,8 @@ calculateEsiContribution(annualCtc: number): number {
 
   if (monthlyCtc <= this.ESI_MAX_LIMIT) {
     let esiWage = this.tempTemplateComponents.earningComponents
-      .map((comp, i) => ({ comp, isVisible: this.showFlags[`earning-${i}`] }))
-      .filter(item => item.isVisible && item.comp.displayName !== 'HRA') 
+      .map((comp, i) => ({ comp }))
+      .filter(item =>  item.comp.displayName !== 'HRA') 
       .reduce((sum, item) => {
         let value = 0;
         if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
@@ -299,7 +223,69 @@ saveSalaryTemplate(){
   console.log(this.tempTemplateComponents)
 }
 
+createTemplate(){
+  this.toggle=true;
+  this.isNewTemplate = true;
+  this.getTemplateComponents();
+}
 
+editSalaryTemplate(template:SalaryTemplate){
+  this.toggle=true;
+  this.isNewTemplate = false;
+  this.salaryTemplate = JSON.parse(JSON.stringify(template));
+  this.getTemplateComponents();
+}
+
+// toggleEarningComponent(component:EarningComponentTemplate){
+//  this.salaryTemplate.earningComponents.pop(component);
+// }
+
+CalculateMonthlyAmount(component: EarningComponentTemplate, annualCtc: number): number {
+    if (!component.value || !annualCtc) return 0;
+
+    if (component.name == 'Basic') {
+      return (component.value / 100) * annualCtc;
+    }
+    const basicSalary = Math.floor(this.calculateBasic());  
+    const monthlyValue = Math.floor((component.value / 100) * basicSalary);
+    return monthlyValue; 
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       SALARY TEMPLATE LIST                                                                              // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+salaryTemplateList:SalaryTemplate[] = new Array();
+
+getSalaryTemplates() {
+  this._salaryTemplateService.getSalaryTemplates(this.currentPage, this.itemPerPage).subscribe(
+    (response) => {
+      if (response.status) {
+        this.salaryTemplateList = response.object.content;
+        this.totalItems = response.object.totalElements;
+
+      } else {
+        this.salaryTemplateList = new Array();
+        this.totalItems = 0;
+      }
+    },
+    (error) => {
+      this.salaryTemplateList = new Array();
+      this.totalItems = 0;
+
+    }
+  );
+}
+
+pageChange(page: number){
+  if(this.currentPage!= page){
+    this.currentPage = page;
+    this.getSalaryTemplates();
+
+  }
+}
 
 
 

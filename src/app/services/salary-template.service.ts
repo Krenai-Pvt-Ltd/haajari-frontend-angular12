@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Key } from '../constant/key';
@@ -15,5 +15,12 @@ export class SalaryTemplateService {
 
   getTemplateComponents(): Observable<any>{
     return this._http.get<any>(`${this._key.base_url}/salary-template/template-components`);
+  }
+
+  getSalaryTemplates(currentPage:number,itemPerPage:number): Observable<any>{
+    const params = new HttpParams()
+    .set('currentPage', currentPage)
+    .set('itemPerPage', itemPerPage);
+    return this._http.get<any>(`${this._key.base_url}/salary-template/template-list`,{params});
   }
 }

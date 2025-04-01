@@ -16,6 +16,7 @@ export class EarningComponentTemplate{
       name:string='';
       displayName:string='';
       statusId:number=0;
+      percentage:number=0;
       value:number=0;
       calculationBasedId:number=0;
       valueTypeId:number=0;
