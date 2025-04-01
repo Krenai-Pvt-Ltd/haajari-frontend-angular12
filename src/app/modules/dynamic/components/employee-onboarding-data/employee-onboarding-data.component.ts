@@ -1209,7 +1209,7 @@ appliedFilters: string[] = []
 
                     if (isExactFormat) {
                         // Parse with strict format checking
-                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+                        const formattedDate = moment(cell, 'DD-MM-YYYY', true);
 
                         // Check if the date is valid and within the next year
                         if (formattedDate.isValid()) {
@@ -1217,7 +1217,7 @@ appliedFilters: string[] = []
 
                             // Ensure date is within the next year
                             if (formattedDate.isBefore(oneYearFromNow)) {
-                                return formattedDate.format('MM-DD-YYYY');
+                                return formattedDate.format('DD-MM-YYYY');
                             }
                         }
                     }
@@ -1475,7 +1475,7 @@ appliedFilters: string[] = []
               const excelEpoch = new Date(1899, 11, 30); // Dec 31, 1899
               const jsDate = new Date(excelEpoch.getTime() + serialNumber * 24 * 60 * 60 * 1000);
               parsedDate = moment(jsDate);
-              console.log(`Converted serial ${cellValue} to date:`, parsedDate.format('DD/MM/YYYY'));
+              console.log(`Converted serial ${cellValue} to date:`, parsedDate.format('DD-MM-YYYY'));
             } else {
               // Try parsing as a date string
               parsedDate = moment(cellValue, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
@@ -1484,7 +1484,7 @@ appliedFilters: string[] = []
             if (parsedDate && parsedDate.isValid()) {
               const oneYearFromNow = moment().add(1, 'year');
               if (parsedDate.isBefore(oneYearFromNow)) {
-                this.data[i + 1][j] = parsedDate.format('MM-DD-YYYY');
+                this.data[i + 1][j] = parsedDate.format('DD-MM-YYYY');
                 console.log(`Formatted date for storage:`, this.data[i + 1][j]);
               } else {
                 this.addToMap('Invalid Joining Date (date after one year): ', `${i + 1}`);
@@ -1522,7 +1522,7 @@ appliedFilters: string[] = []
 
             if (parsedDate && parsedDate.isValid()) {
               if (parsedDate.isBefore(moment())) {
-                this.data[i + 1][j] = parsedDate.format('MM-DD-YYYY');
+                this.data[i + 1][j] = parsedDate.format('DD-MM-YYYY');
                 console.log(`Formatted date for storage:`, this.data[i + 1][j]);
               } else {
                 this.addToMap('Invalid DOB (future date): ', `${i + 1}`);
