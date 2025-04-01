@@ -474,6 +474,7 @@ openExpenseComponent(expense: any) {
     console.log("Requested Employee Name : ",this.tempRequestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
+      this.ROLE,
       this.databaseHelper.currentPage,
       this.databaseHelper.itemPerPage,
       this.startDate,
