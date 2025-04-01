@@ -3839,6 +3839,7 @@ a.badge:hover {
   text-align: left;
   border: 1px solid #BEBEBE;
   border-radius: 20px;
+  background-color: #fff;
 }
 .nav-pills-punch{
   border-bottom: none !important;

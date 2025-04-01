@@ -195,21 +195,9 @@
                       </div>
                     </div>
                     <div
-                      class="mt-3"
-                      style="
-                        border: 1px solid #f5f5f5;
-                        padding: 5px;
-                        border-radius: 6px;
-                      "
-                    >
+                      class="mt-3 border p-1">
                       <div
-                        class="row"
-                        style="
-                          border-bottom: 1px solid #f5f5f5;
-                          padding-top: 10px;
-                          padding-bottom: 10px;
-                        "
-                      >
+                        class="row border-bottom pt-2 pb-2">
                         <div class="col-md-4">
                           <div class="">
                             <ngx-shimmer-loading
@@ -291,9 +279,8 @@
                                     </h6>
                                   </div>
                                 </div>
-                                <div class="d-flex align-items-center gap-4">
-                                  <div class="d-flex align-items-center gap-4">
-                                    <a
+                                <div class="d-flex align-items-center gap-3">
+                                    <!-- <a
                                       data-bs-toggle="modal"
                                       data-bs-target="#addsalarytemplate"
                                       (click)="
@@ -301,12 +288,20 @@
                                           salaryTemplateComponentResponse,
                                           STAFF_SELECTION_STEP
                                         )
-                                      "
-                                      style="cursor: pointer"
+                                      " class="pointer"
                                     >
                                       <i class="bi bi-people"></i>
-                                    </a>
-                                    <a
+                                    </a> -->
+
+                                    <span class="staff-leave-setting bg-white font-12 fw-semibold border-rounded-2 lh-sm pointer d-flex align-items-center justify-content-center"  data-bs-toggle="modal"
+                                    data-bs-target="#addsalarytemplate"
+                                    (click)="
+                                      updateSalaryTemplateComponentBySalaryTemplateId(
+                                        salaryTemplateComponentResponse,
+                                        STAFF_SELECTION_STEP
+                                      )
+                                    " >Staff - {{staffCount(salaryTemplateComponentResponse.userUuids)}}</span>
+                                    <!-- <a
                                       data-bs-toggle="modal"
                                       data-bs-target="#addsalarytemplate"
                                       (click)="
@@ -314,20 +309,75 @@
                                           salaryTemplateComponentResponse,
                                           SALARY_TEMPLATE_STEP
                                         )
-                                      "
-                                      style="cursor: pointer" >
-                                    <i class="bi  pointer"
+                                      " class="pointer" >
+                                    <i class="bi  "
                                       [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.SALARYSETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}" ></i>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                                        <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                                        <rect width="22.0262" height="22" fill="#444444"/>
+                                        </mask>
+                                        <g mask="url(#mask0_10613_125)">
+                                        <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444"/>
+                                        </g>
+                                      </svg>
+            
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                        <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                        <rect width="17" height="17" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_9177_4533)">
+                                        <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                                        </g>
+                                      </svg>
+                                    </a> -->
+                                    <a href="" data-bs-toggle="modal"
+                                    data-bs-target="#addsalarytemplate" (click)="
+                                    updateSalaryTemplateComponentBySalaryTemplateId(
+                                      salaryTemplateComponentResponse,
+                                      SALARY_TEMPLATE_STEP
+                                    )
+                                  " >
+  
+                                      <!-- Pencil Icon (Visible if user has write access) -->
+                                      <ng-container *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING); else viewIcon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                                          <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                                            <rect width="22.0262" height="22" fill="#444444" />
+                                          </mask>
+                                          <g mask="url(#mask0_10613_125)">
+                                            <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444" />
+                                          </g>
+                                        </svg>
+                                      </ng-container>
+                                    
+                                      <!-- Eye Icon (If user does NOT have write access) -->
+                                      <ng-template #viewIcon>
+                                        <svg *ngIf="!rbacService.hasWriteAccess(Routes.LEAVESETTING)" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                          <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                            <rect width="17" height="17" fill="#D9D9D9"/>
+                                          </mask>
+                                          <g mask="url(#mask0_9177_4533)">
+                                            <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                                          </g>
+                                        </svg>
+                                      </ng-template>
+                                    
                                     </a>
                                     <a *ngIf=":rbacService.hasWriteAccess(Routes.SALARYSETTING)" class="delete-rule" style="cursor: pointer" 
                                     (click)="deleteSalaryTemplateByIdMethodCall(salaryTemplateComponentResponse.id )" >
-                                      <i class="bi bi-trash pointer text-danger"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                      <mask id="mask0_10613_119" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                                      <rect x="0.0527344" y="0.164062" width="22.0262" height="22" fill="#D9D9D9"/>
+                                      </mask>
+                                      <g mask="url(#mask0_10613_119)">
+                                      <path d="M6.75945 18.956C6.3018 18.956 5.91083 18.7941 5.58656 18.4704C5.26244 18.1465 5.10038 17.756 5.10038 17.2989V5.66431H4.18262V4.28931H8.31253V3.47852H13.8191V4.28931H17.949V5.66431H17.0312V17.2989C17.0312 17.7619 16.8706 18.1539 16.5494 18.4747C16.2282 18.7956 15.8358 18.956 15.3722 18.956H6.75945ZM15.6546 5.66431H6.47701V17.2989C6.47701 17.3812 6.50347 17.4488 6.5564 17.5017C6.60932 17.5545 6.67701 17.581 6.75945 17.581H15.3722C15.4428 17.581 15.5075 17.5516 15.5663 17.4927C15.6251 17.4341 15.6546 17.3695 15.6546 17.2989V5.66431ZM8.6833 15.7476H10.0597V7.49764H8.6833V15.7476ZM12.0719 15.7476H13.4483V7.49764H12.0719V15.7476Z" fill="#FF0000"/>
+                                      </g>
+                                    </svg>
                                     </a>
-                                  </div>
                                   <span
                                     data-bs-toggle="collapse"
                                     role="button"
-                                    class="automation-rules-toogel-btn pointer"
+                                    class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center"
                                     [attr.data-bs-target]="
                                       '#multiCollapseExample' + i
                                     "
@@ -1600,14 +1650,8 @@
   </div>
 </div>
 
-
-<div
-  id="addsalarytemplate"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  data-bs-backdrop="static"
-  aria-labelledby="exampleModalDefaultLabel"
+<!-- id="addsalarytemplate" class="modal fade" tabindex="-1" role="dialog" -->
+<div id="addsalarytemplate" class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="exampleModalDefaultLabel"
   style="background: rgba(0, 0, 0, 0.5)"
 >
   <div
@@ -1941,36 +1985,6 @@
                             [height]="'10px'"
                           ></ngx-shimmer-loading>
                         </td>
-                        <td class="text-center">
-                          <ngx-shimmer-loading
-                            [width]="'70%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
-                        </td>
-                        <td class="text-center">
-                          <ngx-shimmer-loading
-                            [width]="'70%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
-                        </td>
-                        <td class="text-center">
-                          <ngx-shimmer-loading
-                            [width]="'70%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
-                        </td>
-                        <td class="text-center">
-                          <ngx-shimmer-loading
-                            [width]="'70%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
-                        </td>
-                        <td class="text-center">
-                          <ngx-shimmer-loading
-                            [width]="'70%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
-                        </td>
                       </tr>
                     </tbody>
                   </ng-container>
@@ -2018,7 +2032,7 @@
                     </ng-container>
                   </ng-template>
                   <ng-template #errorWhileFetchingSalaryTemplateStaffSelection>
-                    <div
+                    <!-- <div
                       class="errorboxmain"
                       *ngIf="
                         dataNotFoundPlaceholderForSalaryTemplateStaffSelection
@@ -2037,7 +2051,23 @@
                           information you entered.
                         </p>
                       </div>
-                    </div>
+                    </div> -->
+                    <tbody>
+                    <tr>
+                      <td colspan="4">
+                    <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForSalaryTemplateStaffSelection">
+                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                          [nzNotFoundContent]="contentTpl">
+                          <ng-template #contentTpl>
+                            <p class="mb-1 empty-detail font-16">
+                                No data for now
+                            </p>
+                          </ng-template>
+                      </nz-empty>
+                   </div>
+                   </td>
+                   </tr>
+                  </tbody>
                   </ng-template>
                 </table>
               </div>
@@ -2146,6 +2176,398 @@
     <!-- <div id="cancel-and-save"><div class="modal-footer d-flex align-items-center justify-content-end"><button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button></div><div class="modal-footer d-flex align-items-center justify-content-end"><button id="save" type="submit" class="btn btn-primary" [disabled]="addRoleForm.invalid"><ng-container *ngIf="buttonLoader; else saveButton"><div *ngIf="buttonLoader" class="dot-opacity-loader"><span></span><span></span><span></span></div></ng-container><ng-template #saveButton><span style="padding: 15px">Save</span></ng-template></button></div></div> -->
   </div>
 </div>
+
+
+<!-- <div class="modal fade" id="addsalarytemplate" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="exampleModalDefaultLabel">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title m-0"> Create your salary template </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="shift-time-modal">
+          <div class="row h-100 p-0 m-0">
+            <div class="col-md-3 p-0 m-0" >
+              <div class="shift-time-menu">
+                <div class="nav flex-column nav-pills pt-3 border-0" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#salarytemplatee" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true"
+                  (click)="salaryTemplateTabClick()"> Template details
+                  </button>
+                  <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#staffselectionn" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"
+                  (click)="staffSelectionTabClick()"> Staff selection
+                  </button> 
+
+                </div>
+                </div>
+                </div>
+                <div class="col-md-9 bg-white">
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="salarytemplatee" role="tabpanel" aria-labelledby="v-pills-home-tab" [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}">
+                      <div class="row p-3">
+                <div class="description-main-box">
+                  <span class="eTjDuD">1</span>
+                  <div class="description">
+                    <h5>Name and description</h5>
+                    <p
+                      >Define the name and description of your salary
+                      template</p
+                    >
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="mb-3">
+                    <label for="name" class="pb-2"
+                      >Name <span style="color: red">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      placeholder="Enter the template name here"
+                      name="nameField"
+                      class="form-control profile-input"
+                      [(ngModel)]="salaryTemplateComponentRequest.name"
+                      #nameField="ngModel"
+                      required
+                      minlength="3"
+                      maxlength="50"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                    <div
+                      *ngIf="
+                        nameField.invalid &&
+                        (nameField.dirty || nameField.touched)
+                      "
+                      class="text-danger"
+                    >
+                      <div *ngIf="nameField.errors?.required">
+                        Name is required.
+                      </div>
+                      <div *ngIf="nameField.errors?.minlength">
+                        Name must be at least 3 characters long.
+                      </div>
+                      <div *ngIf="nameField.errors?.maxlength">
+                        Name cannot exceed 50 characters.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="description" class="pb-2">Description</label>
+                    <textarea
+                      id="description"
+                      placeholder="Enter a short description about the template here"
+                      name="descriptionField"
+                      class="form-control nots-section"
+                      [(ngModel)]="salaryTemplateComponentRequest.description"
+                      #descriptionField="ngModel"
+                      minlength="30"
+                      maxlength="200"
+                      [ngModelOptions]="{ standalone: true }"
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        descriptionField.invalid &&
+                        (descriptionField.dirty || descriptionField.touched)
+                      "
+                      class="text-danger"
+                    >
+                      <div *ngIf="descriptionField.errors?.minlength">
+                        Description must be at least 30 characters long.
+                      </div>
+                      <div *ngIf="descriptionField.errors?.maxlength">
+                        Description cannot exceed 200 characters.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="description-main-box mt-4">
+                  <span class="eTjDuD">2</span>
+                  <div class="description">
+                    <h5>Define your salary component</h5>
+                    <p 
+                      >Salary will get calculated on the basis of these
+                      components</p
+                    >
+                  </div>
+                </div>
+                <div class="salary-define">
+                  <div *ngFor="let salaryComponent of salaryComponentList">
+                    <div class="d-flex align-items-center justify-content-between information-box">
+                      <div class="basic-text">
+                        <h5>{{ salaryComponent.name }}</h5>
+                      </div>
+                      <div class="enter-ammount position-relative">
+                        <div class="">
+                          <nz-input-number
+                            [(ngModel)]="salaryComponent.value"
+                            [ngModelOptions]="{ standalone: true }"
+                            [nzMin]="1"
+                            [nzMax]="100"
+                            [nzStep]="1"
+                            [nzFormatter]="formatterPercent"
+                            [nzParser]="parserPercent"
+                            [nzSize]="'large'"
+                            [nzDisabled]="salaryComponent.toggle == false"
+                            style="width: 100%"
+                          ></nz-input-number>
+                        </div>
+                      </div>
+                      <div
+                        class="delete-btn d-flex align-items-center justify-content-end"
+                        style="gap: 25px"
+                      >
+                        <nz-switch   *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
+                          [(ngModel)]="salaryComponent.toggle"
+                          [ngModelOptions]="{ standalone: true }"
+                          [nzDisabled]="salaryComponent.id == BASIC_PAY_ID"
+                        ></nz-switch>
+                        <nz-switch [ngModel]="salaryComponent.toggle" [ngModelOptions]="{ standalone: true }"
+                            [class.no-click]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                              *ngIf="!rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
+                          [attr.checked]="salaryComponent.toggle"  (ngModelChange)="helperService.showPrivilegeErrorToast()"></nz-switch>
+
+                      </div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+                    <div class="modal-footer d-flex align-items-center justify-content-end bg-white leave-footer">
+                      <button type="submit" class="btn p-0 next-btn nextBtn">
+                        <span class="ng-star-inserted">Next</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path></svg>
+                      </button>
+                    </div>
+                    </div>
+                    <div class="tab-pane fade" id="staffselectionn" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                      <div class="staf-list-box mt-3">
+                        <div
+                          class="row mb-1 mt-3 align-items-center"
+                          style="padding-bottom: 15px"
+                        >
+                          <div class="col-md-12">
+                            <div
+                              class="d-flex align-items-center"
+                              style="border: 1px solid #f1f1f1"
+                            >
+                              <div class="" style="width: 70%">
+                                <form
+                                  novalidate=""
+                                  role="search"
+                                  (submit)="searchUsers()"
+                                  class="searching ng-untouched ng-pristine ng-valid"
+                                >
+                                  <div class="form-group" style="position: relative">
+                                    <input
+                                      type="text"
+                                      id="searchText"
+                                      placeholder="Search by name and role"
+                                      class="form-control me-2 border-0 attendance-details-search"
+                                      (keyup)="searchUsers()"
+                                      [(ngModel)]="searchText"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      style="padding: 10px 50px 10px 40px"
+                                    />
+                                    <button
+                                      *ngIf="searchText.length !== 0"
+                                      type="button"
+                                      class="btn search-btn border-0 position-absolute"
+                                      (click)="clearSearchText()"
+                                    >
+                                      <i class="bi bi-x search-icon font-20"></i>
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="btn search-btn border-0 position-absolute"  *ngIf="searchText.length   == 0"
+                                      (click)="searchUsers()"
+                                    >
+                                      <i class="bi bi-search search-icon"></i>
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="container">
+                                <div class="d-flex justify-content-end content-wrapper">
+                                  <div class="filter-wrapper d-flex align-items-center gap-2">
+                                    <a
+                                      class="info-button text-black font-13 fw-semibold"
+                                      *ngIf="selectedStaffsUuids.length > 0"
+                                    >
+                                      <span class="text-primary">{{ selectedStaffsUuids.length }}</span> Selected of
+                                      <span class="text-primary"> {{ totalUserCount }}</span>
+                                    </a>
+                                    <span class="separator"></span>
+                                    <span  *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                                      class="clear-button font-13 fw-semibold text-danger"
+                                      (click)="unselectAllUsers()"
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+                                      <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
+                                          <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect></mask>
+                                          <g mask="url(#mask0_4127_2858)"><path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545">
+                                          </path>
+                                      </g>
+                                  </svg>
+                                  Clear Selection 
+                                    </span>
+                                  
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <table class="table">
+                          <thead class="thead-light">
+                            <tr>
+                              <th style="width: 0%">
+                                <input
+                                [disabled]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                                  type="checkbox"
+                                  style="cursor: pointer"
+                                  class="form-check-input"
+                                  [(ngModel)]="isAllSelected"
+                                  (change)="selectAll(isAllSelected)"
+                                />
+                              </th>
+                              <th style="width: 25%; padding: 12px 15px">Name</th>
+                              <th style="width: 25%; padding: 12px 15px">Email</th>
+                              <th style="width: 25%; padding: 12px 15px">Phone</th>
+                            </tr>
+                          </thead>
+        
+                          <ng-container
+                            *ngIf="
+                              isShimmerForSalaryTemplateStaffSelection &&
+                                staffs.length == 0;
+                              else salaryTemplateStaffSelectionCondition
+                            "
+                          >
+                            <tbody>
+                              <tr *ngFor="let item of [].constructor(10)">
+                                <td class="text-center">
+                                  <ngx-shimmer-loading
+                                    [width]="'100%'"
+                                    [height]="'10px'"
+                                  ></ngx-shimmer-loading>
+                                </td>
+                                <td class="text-center">
+                                  <ngx-shimmer-loading
+                                    [width]="'%'"
+                                    [height]="'10px'"
+                                  ></ngx-shimmer-loading>
+                                </td>
+                                <td class="text-center">
+                                  <ngx-shimmer-loading
+                                    [width]="'70%'"
+                                    [height]="'10px'"
+                                  ></ngx-shimmer-loading>
+                                </td>
+                                <td class="text-center">
+                                  <ngx-shimmer-loading
+                                    [width]="'70%'"
+                                    [height]="'10px'"
+                                  ></ngx-shimmer-loading>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </ng-container>
+                          <ng-template #salaryTemplateStaffSelectionCondition>
+                            <ng-container
+                              *ngIf="
+                                !isShimmerForSalaryTemplateStaffSelection &&
+                                  staffs.length != 0;
+                                else errorWhileFetchingSalaryTemplateStaffSelection
+                              "
+                            >
+                              <tbody>
+                                <tr
+                                  *ngFor="
+                                    let staff of staffs
+                                      | paginate
+                                        : {
+                                            itemsPerPage: itemPerPage,
+                                            currentPage: pageNumber,
+                                            totalItems: total
+                                          }
+                                  "
+                                  style="border-bottom: 1px solid #dddddd"
+                                >
+                                  <td>
+                                    <div class="form-check">
+                                      <input [disabled]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                                        type="checkbox"
+                                        style="cursor: pointer"
+                                        class="form-check-input"
+                                        [(ngModel)]="staff.selected"
+                                        (change)="checkIndividualSelection(true)"
+                                      />
+                                    </div>
+                                  </td>
+                                  <td style="padding: 12px 15px">{{ staff.name }}</td>
+                                  <td style="padding: 12px 15px">
+                                    {{ staff.email ? staff.email : "N/A" }}
+                                  </td>
+                                  <td style="padding: 12px 15px">
+                                    {{ staff.phoneNumber || "N/A" }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </ng-container>
+                          </ng-template>
+                          <ng-template #errorWhileFetchingSalaryTemplateStaffSelection>
+                            <tbody>
+                            <tr>
+                              <td colspan="4">
+                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForSalaryTemplateStaffSelection">
+                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                  [nzNotFoundContent]="contentTpl">
+                                  <ng-template #contentTpl>
+                                    <p class="mb-1 empty-detail font-16">
+                                        No data for now
+                                    </p>
+                                  </ng-template>
+                              </nz-empty>
+                           </div>
+                           </td>
+                           </tr>
+                          </tbody>
+                          </ng-template>
+                        </table>
+                      </div>
+                      <div class="leave-footer bg-white">
+                        <div
+                class="d-flex align-items-center justify-content-between w-100 p-3 bg-white"
+                *ngIf="total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)" >
+                <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
+                <ngb-pagination class="pagition-box"> </ngb-pagination>
+              </div> 
+                      <div class="modal-footer d-flex align-items-center justify-content-between">
+                        <button type="button" class="btn p-0 text-black next-btn previousBtn">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z" fill="black"></path></svg> 
+                          Previous </button>
+                          <button type="button" class="btn next-btn nextBtn ng-star-inserted btn-border">
+                            <span>Submit 
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path _ngcontent-ceq-c231="" d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path></svg>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div> -->
+                
+
+
+
+
 
 <!-- Salery new modal -->
 <button type="button" class="btn btn-primary d-none" style="position:relative; left:50%;" data-bs-toggle="modal" data-bs-target="#createSalary">
@@ -2428,10 +2850,10 @@
 
 
 <!-- SALARY CALCULATION MODE MODAL START -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton>
+<!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton>
   Launch static backdrop modal
 </button>  
-  <div class="modal fade" id="salaryMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="salaryMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         
@@ -2450,9 +2872,59 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- SALARY CALCULATION MODE MODAL END -->
+
+  <!----------------------------------- SALARY CALCULATION MODE MODAL START-------------------------->
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton></button>
+<div class="modal fade" id="salaryMode" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="proceed-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+              #closeButtonDeleteAddress>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="assets/images/payrollstep-img/automation-1.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2 lh-base ">
+              Are you sure, you want to proceed?
+            </h5>
+            <p class="font-11">Note: By clicking on proceed, your changes will get reflected.</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button  class="btn submitActionBtn font-14 fw-semibold border-rounded-2 text-white" (click)="updateSalaryCalculationMode(selectedSalaryModeId)">
+              Proceed
+              <!-- <i class="fa fa-spinner fa-spin" ></i> -->
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" #salaryModeClose>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------- SALARY CALCULATION MODE MODAL END-------------------------->
 
 
   <!-- MODE MODAL START -->

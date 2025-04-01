@@ -91,7 +91,7 @@
                                             </ng-container>
                                         </ng-template>
                                         <ng-template #errorInFetchingRoleAccessibilityTypeData>
-                                            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
+                                            <!-- <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/addnewproduct.svg"
@@ -104,10 +104,20 @@
                                                         We're unable to locate a record associated with the information you entered.
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                          No data for now
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
         
         
-                                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
+                                            <!-- <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/signal.svg"
@@ -120,7 +130,17 @@
                                                         Please try again after sometimes!
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
+                                                <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                        Something went wrong!
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
                                         </ng-template>
 
                                         
@@ -252,7 +272,7 @@
                                             </ng-container>
                                         </ng-template>
                                         <ng-template #errorInFetchingModuleResponseData>
-                                            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
+                                            <!-- <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/addnewproduct.svg"
@@ -265,10 +285,20 @@
                                                         We're unable to locate a record associated with the information you entered.
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                          No data for now
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
         
         
-                                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
+                                            <!-- <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/signal.svg"
@@ -281,7 +311,18 @@
                                                         Please try again after sometimes!
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
+                                                <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                        Something went wrong!
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
                                         </ng-template>
 
                                         

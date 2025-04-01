@@ -1164,8 +1164,8 @@
 
 
                         <td>
-                          <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-success': user?.status === 'APPROVED', 'badge-soft-danger': user?.status === 'NOTICE PERIOD' || user?.status === 'REVOKED' || user?.status === 'USER EXITED', 'badge-soft-warning': user?.status === 'PENDING' || user?.status === 'REJECTED' }">
+                          <span class="font-13 fw-semibold"
+                            [ngClass]="{'text-success': user?.status === 'APPROVED', 'text-danger': user?.status === 'NOTICE PERIOD' || user?.status === 'REVOKED' || user?.status === 'USER EXITED', 'text-warning': user?.status === 'PENDING' || user?.status === 'REJECTED' }">
                             {{ user.status ? user.status : "N/A"}}</span>
                         </td>
 
@@ -1521,7 +1521,7 @@
         </div>
         <div class="bg-white p-4 text-center">
           <div class="mb-4">
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base ">
               Are you sure want to {{deleteOrDisableUserString}} this account?
             </h5>
             <p class="font-13" *ngIf="deleteOrDisableUserString === 'Delete'">This action will permanently remove this user. </p>

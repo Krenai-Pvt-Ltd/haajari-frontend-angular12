@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading">
-            <div  [ngClass]="{'modal-header': isModal}">
-                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+            <div class="d-flex align-items-center justify-content-between px-3" [ngClass]="{'modal-header': isModal}">
+                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit----{{isModal}}</h5>
                 <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
                      #closeResignationButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -15,7 +15,7 @@
                         </g>
                     </svg>
                 </button>
-                <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+                <span  class="badge rounded-pill font-11" [ngClass]="{
                   'badge-soft-success': userResignationInfo.status.response === 'APPROVED',
                   'badge-soft-danger':  userResignationInfo.status.response === 'REJECTED' || userResignationInfo.status.response === 'REVOKED',
                   'badge-soft-secondary':  userResignationInfo.status.response === 'PENDING' || userResignationInfo.status.response === 'NOTICE PERIOD'

@@ -718,7 +718,7 @@
                                      <td>
                                         <span>
                                            <h5 class="mb-1 font-13">{{ asset.purchasedDate | date:'dd-MMM-yy' }}</h5>
-                                           <p class="mb-0 font-12 text-optional">{{ asset.purchasedDate | date:'EEEE' }}</p>
+                                           <p class="mb-0 font-12">{{ asset.purchasedDate | date:'EEEE' }}</p>
                                         </span>
                                      </td>
                                      <!-- Expiry Date -->
@@ -727,7 +727,7 @@
                                            <h5 class="mb-1 font-13" *ngIf="asset.expiryDate; else naDate">
                                               {{ asset.expiryDate | date:'dd-MMM-yy' }}
                                            </h5>
-                                           <p class="mb-0 font-12 text-optional">{{ asset.expiryDate | date:'EEEE' }}</p>
+                                           <p class="mb-0 font-12">{{ asset.expiryDate | date:'EEEE' }}</p>
                                            <ng-template #naDate>
                                               <h5 class="mb-1 font-13">N/A</h5>
                                            </ng-template>
@@ -1059,14 +1059,26 @@
                                      </ng-template>
                                   </td>
                                   <td>
-                                     <span class="fw-semibold"
+                                     <span class="fw-semibold font-13"
                                         [ngClass]="{'text-primary': asset.status == 'PENDING', 'text-danger': asset.status == 'REJECTED', 'text-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                                      {{ asset.status || '--' }}
                                      </span>
                                   </td>
                                   <td class="stickyColTdend">
-                                     <!-- (click)="openStatusChangeModal(asset, statusChangeModal)" -->
-                                     <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="onAssetRequestOpen(asset)" ><i class="bi bi-eye"></i>  View</button>
+                                    <div class="dropdown">
+                                        <span class="btnAction d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
+                                          <i class="bi bi-three-dots-vertical font-15"></i>
+                                        </span>
+                                        <div class="dropdown-menu actionMenuList">
+                                             <li>
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="onAssetRequestOpen(asset)">
+                                                  <i class="bi bi-eye"></i>
+                                                  View request
+                                                </a>
+                                              </li>
+                                        </div>
+                                    </div>
+                                     
                                   </td>
                                </tr>
                             </tbody>
@@ -1495,7 +1507,7 @@
             <div class="bg-white p-4 text-center">
 
               <div>
-                <h5 class="alert-heading font-18 mb-2">
+                <h5 class="alert-heading font-18 mb-2 lh-base">
                   Are you sure you want to delete <br />
                     {{selectedAsset?.cat }} category?
                 </h5>
