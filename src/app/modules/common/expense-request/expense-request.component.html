@@ -251,7 +251,7 @@
               </div>
            </div>
            <div class="modal-footer expense-admin bg-white">
-              <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
+              <div *ngIf="!rejectDiv && !payCashDiv && rbacService.hasWriteAccess(Routes.EXPENSE)" class="d-flex align-items-center gap-2">
                  <button class="btn btn-soft-danger" [disabled]="approveToggle || payrollToggle"
                  *ngIf="!partiallyPayment && (userExpense?.status.id == 13)" (click)="showExpenseRejectDiv()">Reject</button>
                  <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment"

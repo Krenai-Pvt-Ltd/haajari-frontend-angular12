@@ -1484,14 +1484,14 @@
     left: 0px;
     border-radius: 0px;
   }
-  .next-btn {
+  /* .next-btn {
     color: #6666f2;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 22px;
   }
-  
+   */
   .next-btn svg {
     position: relative;
     top: -1px;
@@ -1926,7 +1926,7 @@
 .next-btn {
   color: #6666f2;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 22px;
 }

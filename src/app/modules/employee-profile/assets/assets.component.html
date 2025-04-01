@@ -134,9 +134,9 @@
                       <span class="table-font-weight">{{ asset.price | currency: 'INR' }}</span>
                     </td>
                     <td class="text-left">
-                      <span class="badge rounded-pill" [ngClass]="{
-                                      'badge-soft-success': asset.statusName == 'ASSIGNED',
-                                      'badge-soft-danger': asset.statusName !== 'ASSIGNED'
+                      <span class="font-13 fw-semibold" [ngClass]="{
+                                      'text-success': asset.statusName == 'ASSIGNED',
+                                      'text-danger': asset.statusName !== 'ASSIGNED'
                                     }">
                         {{ asset.statusName }}
                       </span>
@@ -374,8 +374,8 @@
                     </ng-template>
                   </td>
                   <td class="text-left">
-                    <span class="badge rounded-pill"
-                      [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
+                    <span class="font-13 fw-semibold"
+                      [ngClass]="{'text-warning': asset.status == 'PENDING', 'text-danger': asset.status == 'REJECTED', 'text-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                       {{ asset.status }}
                     </span>
                   </td>

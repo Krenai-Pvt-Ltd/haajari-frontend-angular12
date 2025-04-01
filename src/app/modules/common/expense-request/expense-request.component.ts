@@ -4,6 +4,8 @@ import { ApproveReq } from 'src/app/models/ApproveReq';
 import { ExpenseType } from 'src/app/models/ExpenseType';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-expense-request',
@@ -15,9 +17,11 @@ export class ExpenseRequestComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) {}
 
+  readonly Routes=Routes;
   isModal: boolean = true;
   @Input() data: any;
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();

@@ -453,6 +453,7 @@ openExpenseComponent(expense: any) {
   
   async getWalletUser() {
     debugger
+    this.resetUserTransactionToggle();
     this.loading = true;
     this.walletUserList = []
 
@@ -571,6 +572,17 @@ searchByEmployeeName(event: Event): void {
   }
 
 
+  resetUserTransactionToggle(){
+    this.userTransactions = [];
+    this.totalTransaction = 0;
+    this.totalUsedAmount = 0;
+    this.lastTransactionDate = '';
+    this.userTransactionLoading = false;
+    this.expandedStates = [];
+    this.expandedIndex = null;
+  }
+
+
   userTransactions: any[] = new Array();
   totalTransaction : number = 0;
   totalUsedAmount : number = 0;
@@ -581,6 +593,7 @@ searchByEmployeeName(event: Event): void {
     
     console.log("Transaction Length : ",this.userTransactions.length );
     if (this.userTransactions.length != 0) {
+      this.resetUserTransactionToggle();
       this.userTransactions = [];
       return;
     }
@@ -684,6 +697,7 @@ searchByEmployeeName(event: Event): void {
       }else{
         this.isLoadingHnS = false;
         this.rechargeModel = true;
+        this.rechargeModalClose.nativeElement.click();
         this.helperService.showToast('failed wallet recharge.', Key.TOAST_STATUS_ERROR);
       }
     })

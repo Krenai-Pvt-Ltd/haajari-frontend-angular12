@@ -653,10 +653,30 @@
 }
 
 @media (max-width: 500px) {
+  .whatapp-login-input {
+    height: 45px !important;
+    font-size: 13px !important;
+}
+  .btn-fix-height {
+    font-size: 13px;
+    font-weight: 500;
+}
+  .sidebar-footer-text p {
+    font-size: 12px;
+}
+  .login-sidebar-heading h4 {
+    font-size: 18px !important;
+}
+.login-sidebar-heading p {
+  font-size: 14px;
+  padding-top: 7px;
+}
   .login-video {
     display: none;
   }
-
+  .login-with-slack h4 {
+    font-size: 13px;
+  }
   .back-to-login-btn {
     font-size: 14px !important;
   }

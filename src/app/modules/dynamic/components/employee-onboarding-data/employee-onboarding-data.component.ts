@@ -982,10 +982,16 @@ appliedFilters: string[] = []
   currentUserUuid: string = '';
   deleteOrDisableUserString: string = '';
 
-  @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+  @ViewChild('deleteConfirmationModalButton') deleteConfirmationModal: any;
 
   openDeleteConfirmationModal(userId: number, presenceStatus: boolean, uuid: string, stringStr: string) {
-    debugger
+    debugger;
+    if( !this.rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
+
+    this.deleteConfirmationModal.nativeElement.click();
     this.currentUserId = userId;
     this.currentUserPresenceStatus = presenceStatus;
     this.currentUserUuid = uuid;
@@ -1021,7 +1027,10 @@ appliedFilters: string[] = []
   text = '';
 
   changeStatusActive(status: boolean, userUuid: string) {
-    debugger;
+   if( !this.rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.disableUserLoader = true;
     this.dataService.changeStatusById(status, userUuid).subscribe(
       (data) => {
