@@ -311,6 +311,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <ng-container *ngFor="let component of  salaryTemplate.earningComponents;let i = index;">
                                     <div class="row border-bottom align-items-center pb-3 md-2"> 
                                         <div class="col-md-3">
@@ -322,7 +323,7 @@
                                         <div class="col-md-3" [ngSwitch]="component.valueTypeId">
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
                                                 <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
-                                                    <input type="number" placeholder="" required name="percentage" id="valueType"
+                                                   <input type="number" placeholder="" required name="percentage" id="valueType"
                                                         class="form-control borderLess" [(ngModel)]="component.value">                 
                                                 </div>
                                                 <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">

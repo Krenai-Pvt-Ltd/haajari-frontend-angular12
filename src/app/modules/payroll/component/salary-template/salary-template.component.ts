@@ -42,6 +42,8 @@ export class SalaryTemplateComponent implements OnInit {
 
   // templateComponents: OrganizationTemplateComponent = new OrganizationTemplateComponent();
   templateComponents: SalaryTemplate = new SalaryTemplate();
+  tempTemplateComponents: SalaryTemplate = new SalaryTemplate();
+
   loader:boolean=false;
   shimmer:boolean=false;
   getTemplateComponents() {
@@ -54,29 +56,33 @@ export class SalaryTemplateComponent implements OnInit {
           if (this.templateComponents == null) {
             this.templateComponents = new SalaryTemplate();
           } else {
-            // this.templateComponents = JSON.parse( JSON.stringify(this.templateComponents));
-            if(!this.isNewTemplate){
-            this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
-              return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name == tempComponent.name);
-             
-            });
-
-            // console.log("----------",this.salaryTemplate);
-            }else {
-              const basicComponent = this.templateComponents.earningComponents.find(component => component.name == 'Basic');
-              const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name == 'Fixed Allowance');
+            this.tempTemplateComponents = JSON.parse( JSON.stringify(this.templateComponents));
+            if (!this.isNewTemplate) {
+              // Remove components from templateComponents that are already in salaryTemplate
+              this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
+                  return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name === tempComponent.name);
+              });
+          
+          } else {
+              // Move 'Basic' and 'Fixed Allowance' from templateComponents to salaryTemplate if they exist
+              const basicComponent = this.templateComponents.earningComponents.find(component => component.name === 'Basic');
+              const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name === 'Fixed Allowance');
           
               if (basicComponent) {
-                  this.salaryTemplate.earningComponents.push(basicComponent);
+                  // Add a clone of the Basic component to salaryTemplate to avoid reference issues
+                  this.salaryTemplate.earningComponents.push({ ...basicComponent });
               }
           
               if (fixedAllowanceComponent) {
-                  this.salaryTemplate.earningComponents.push(fixedAllowanceComponent);
+                  // Add a clone of the Fixed Allowance component to salaryTemplate to avoid reference issues
+                  this.salaryTemplate.earningComponents.push({ ...fixedAllowanceComponent });
               }
           
+              // Remove 'Basic' and 'Fixed Allowance' from templateComponents to avoid duplication
               this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(
                   component => component.name !== 'Basic' && component.name !== 'Fixed Allowance'
               );
+              
           }
           
           }
@@ -252,19 +258,46 @@ editSalaryTemplate(template:SalaryTemplate){
   this.getTemplateComponents();
 }
 
-toggleEarningComponent(component: EarningComponentTemplate) {
-  const salaryIndex = this.salaryTemplate.earningComponents.indexOf(component);
-  const tempIndex = this.templateComponents.earningComponents.indexOf(component);
+// toggleEarningComponent(component: EarningComponentTemplate) {
+//   const salaryIndex = this.salaryTemplate.earningComponents.indexOf(component);
+//   const tempIndex = this.templateComponents.earningComponents.indexOf(component);
 
-  if (salaryIndex !== -1) {
-      this.salaryTemplate.earningComponents.splice(salaryIndex, 1);
-      this.templateComponents.earningComponents.push(component);
-  } else if (tempIndex !== -1) {
-      this.templateComponents.earningComponents.splice(tempIndex, 1);
-      this.salaryTemplate.earningComponents.push(component);
+//   if (salaryIndex > -1) {
+//       this.salaryTemplate.earningComponents.splice(salaryIndex, 1);
+//       this.templateComponents.earningComponents.push(component);
+//   } else if (tempIndex > -1) {
+//       this.tempTemplateComponents.earningComponents.splice(tempIndex, 1);
+//       this.salaryTemplate.earningComponents.push(component);
+//   }
+//   console.log(this.salaryTemplate);
+// }
+
+toggleEarningComponent(component: EarningComponentTemplate) {
+  // Find the component in salaryTemplate by name
+  const salaryIndex = this.salaryTemplate.earningComponents.findIndex(c => c.name === component.name);
+  // Find the component in templateComponents by name
+  const tempIndex = this.templateComponents.earningComponents.findIndex(c => c.name === component.name);
+
+  if (salaryIndex > -1) {
+      // Remove the component from salaryTemplate and push it back to templateComponents
+      const removedComponent = this.salaryTemplate.earningComponents.splice(salaryIndex, 1)[0];
+      this.templateComponents.earningComponents.push(removedComponent); // Move back to templateComponents
+  } else if (tempIndex > -1) {
+      // When adding back to salaryTemplate, use the fresh default value from tempTemplateComponents
+      const freshComponent = this.tempTemplateComponents.earningComponents.find(c => c.name === component.name);
+
+      if (freshComponent) {
+          // Clone the fresh component and push to salaryTemplate
+          this.salaryTemplate.earningComponents.push({ ...freshComponent }); // Avoid reference issues
+
+          // Remove the component from templateComponents once added to salaryTemplate
+          this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(c => c.name !== component.name);
+      }
   }
-  console.log(this.salaryTemplate);
+
 }
+
+
 
 
 
