@@ -461,6 +461,7 @@ getOrganizationBenefitComponent(){
   onBenefitPlanChange(selectedValue: number): void {
     if (!this.selecteBenefitComponent) return;
   
+    
     this.selecteBenefitComponent.configurations = [];
   
     if (selectedValue === this.NPS) {  
