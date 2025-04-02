@@ -32,7 +32,7 @@
                  </button>
            </div>
            </ng-container>
-           <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
+           <!-- <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
               <div class="empty-file" style="padding-top: 30%; padding-bottom: 30%">
                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
                     <ng-template #contentTpl>
@@ -40,7 +40,7 @@
                     </ng-template>
                  </nz-empty>
               </div>
-           </ng-container>
+           </ng-container> -->
         </div>
         <div [ngClass]="{'col-md-12 ml-0 pl-0 ': !isModal, 'col-md-7 ml-0 pl-0': isModal}">
            <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
@@ -251,7 +251,7 @@
               </div>
            </div>
            <div class="modal-footer expense-admin bg-white">
-              <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
+              <div *ngIf="!rejectDiv && !payCashDiv && rbacService.hasWriteAccess(Routes.EXPENSE)" class="d-flex align-items-center gap-2">
                  <button class="btn btn-soft-danger" [disabled]="approveToggle || payrollToggle"
                  *ngIf="!partiallyPayment && (userExpense?.status.id == 13)" (click)="showExpenseRejectDiv()">Reject</button>
                  <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment"

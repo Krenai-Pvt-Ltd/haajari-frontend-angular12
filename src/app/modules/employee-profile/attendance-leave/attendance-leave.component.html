@@ -1010,7 +1010,7 @@
                                                     <!-- Pending Status -->
                                                     <ng-container *ngSwitchCase="'pending'">
                                                         <!-- Pending Button -->
-                                                        <span class="badge rounded-pill badge-soft-warning"> Pending
+                                                        <span class="font-13 fw-semibold text-warning"> Pending
                                                         </span>
 
                                                         <!-- Delete Button -->
@@ -1036,14 +1036,14 @@
 
                                                     <!-- Approved Status -->
                                                     <ng-container *ngSwitchCase="'approved'">
-                                                        <span class="badge rounded-pill badge-soft-success">
+                                                        <span class="font-13 fw-semibold text-success">
                                                             Approved
                                                         </span>
                                                     </ng-container>
 
                                                     <!-- Rejected Status -->
                                                     <ng-container *ngSwitchCase="'rejected'">
-                                                        <span class="badge rounded-pill badge-soft-danger">
+                                                        <span class="font-13 fw-semibold text-danger">
                                                             Rejected
                                                         </span>
                                                     </ng-container>
@@ -1071,338 +1071,6 @@
                 <div class="tab-pane fade pt-3" id="viewrequests" role="tabpanel" aria-labelledby="viewrequests-tab">
 
 
-
-                    <!-- <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center attendance-date">
-                            <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                    <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                        height="21">
-                                        <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_4719_1625)">
-                                        <path
-                                            d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
-                                            fill="#060606" />
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="calendar-separator"></span>
-                            <div class="dropdown ">
-                                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-                            </div>
-                            <span class="calendar-separator"></span>
-                            <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                    <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                        height="21">
-                                        <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_4719_1639)">
-                                        <path
-                                            d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                            fill="#060606" />
-                                    </g>
-                                </svg>
-                            </span>
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-end gap-3 w-50">
-
-
-                            <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check">
-                                <label class="btn btn-outline-secondary font-12">30 DAYS</label>
-                                <input type="radio" class="btn-check">
-                                <label class="btn btn-outline-primary btn-primary font-12">Week 1</label>
-                                <input type="radio" class="btn-check">
-                                <label class="btn btn-outline-secondary font-12">Week 2</label>
-                                <input type="radio" class="btn-check">
-                                <label class="btn btn-outline-secondary font-12">Week 3</label>
-                                <input type="radio" class="btn-check">
-                                <label class="btn btn-outline-secondary font-12">Week 4</label>
-                            </div>
-
-                            <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required>
-                                <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                            </nz-select>
-
-                        </div>
-                    </div> -->
-
-
-                    <!-- <div class="table-responsive bg-white mt-3">
-
-
-
-
-                        <table class="table empOnnoardtable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class=" text-left font-13 stickyColTh" style="width: 10%">
-                                        Date
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                       10 AM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        11 AM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        12 PM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        1 PM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        2 PM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        3 PM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        5 PM
-                                    </th>
-                                    <th class="text-center font-13 attendance-request" style="width: 15%">
-                                        6 PM
-                                    </th>
-                                    <th class="text-center font-13" style="width: 15%">
-                                        7 PM
-                                    </th>
-                                    <th class="text-left font-13 stickyColThend" style="width: 10%">
-                                        Request
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="">
-                                <tr class="">
-                                    <td class="text-left stickyColTh">
-                                        <span class="team-maneger mb-0 ">
-                                            Mon, 1st Jun</span>
-                                    </td>
-                                    <td colspan="9" >
-                                        <div class="d-flex align-items-center justify-content-between request-detail">
-                                            <div class="in-time p-2">
-                                                <h6 class="mb-0">10:08 AM</h6>
-                                                <p class="mb-0">Work: 9hr</p>
-                                            </div>
-                                            <div class="break-time p-2">
-                                                <h6 class="mb-0">Break</h6>
-                                                <p class="mb-0">Hour: 01 hr</p>
-                                            </div>
-                                            <div class="text-end out-time p-2">
-                                                <h6 class="mb-0">07:00 PM</h6>
-                                                <p class="mb-0">Out</p>
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                <td class="text-left stickyColThend">
-                                    <div class="position-relative request-btn">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <button class="btn p-0 Pending-btn text-primary font-13 "> 1 Request </button>
-
-                                            <span class="edit-action-btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
-                                                    <path
-                                                        d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
-                                                        fill="#1C1B1F" />
-                                                </svg>
-                                            </span>
-                                        </div>
-
-
-                                        <span class="request-loge p-3">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h5>Request</h5>
-
-                                                <div>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                        <mask id="mask0_5429_4311" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                            width="24" height="24">
-                                                            <rect width="24" height="24" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_5429_4311)">
-                                                            <path
-                                                                d="M8.4 17.0004L7 15.6004L10.6 12.0004L7 8.42539L8.4 7.02539L12 10.6254L15.575 7.02539L16.975 8.42539L13.375 12.0004L16.975 15.6004L15.575 17.0004L12 13.4004L8.4 17.0004Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div class="request-detail-log">
-                                                <div class=" mt-2 d-flex align-items-center justify-content-between">
-                                                    <div>
-                                                        <div class="d-flex align-items-center gap-2">
-
-                                                            <div>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
-                                                                    fill="none">
-                                                                    <mask id="mask0_5429_4330" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
-                                                                        y="0" width="14" height="14">
-                                                                        <rect width="14" height="14" fill="#D9D9D9" />
-                                                                    </mask>
-                                                                    <g mask="url(#mask0_5429_4330)">
-                                                                        <path
-                                                                            d="M3.49984 8.16602H8.1665V6.99935H3.49984V8.16602ZM3.49984 6.41602H10.4998V5.24935H3.49984V6.41602ZM3.49984 4.66602H10.4998V3.49935H3.49984V4.66602ZM1.1665 12.8327V2.33268C1.1665 2.01185 1.28074 1.7372 1.50921 1.50872C1.73768 1.28025 2.01234 1.16602 2.33317 1.16602H11.6665C11.9873 1.16602 12.262 1.28025 12.4905 1.50872C12.7189 1.7372 12.8332 2.01185 12.8332 2.33268V9.33268C12.8332 9.65352 12.7189 9.92817 12.4905 10.1566C12.262 10.3851 11.9873 10.4993 11.6665 10.4993H3.49984L1.1665 12.8327ZM3.004 9.33268H11.6665V2.33268H2.33317V9.98893L3.004 9.33268Z"
-                                                                            fill="#F3A73D" />
-                                                                    </g>
-                                                                </svg>
-                                                            </div>
-                                                            <h6 class="font-13">Request</h6>
-
-                                                        </div>
-                                                        <h5 class="mb-2 mt-1 font-16">Attendance Update</h5>
-                                                        <p class="mb-0 font-13">12/10/24</p>
-                                                    </div>
-
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
-                                                        <path
-                                                            d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
-                                                            fill="#1C1B1F" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </span>
-
-                                    </div>
-                                </td>
-
-                                </tr>
-                                <tr class="">
-                                    <td class="text-left stickyColTh">
-                                        <span class="team-maneger mb-0 ">
-                                            Mon, 1st Jun</span>
-                                    </td>
-                                    <td colspan="9">
-                                    <div class="d-flex align-items-center justify-content-between request-detail">
-                                        <div class="in-time let-intime p-2">
-                                            <h6 class="mb-0">10:15 AM</h6>
-                                            <p class="mb-0">Work: 9hr</p>
-                                        </div>
-                                        <div class="break-time p-2">
-                                            <h6 class="mb-0">Break</h6>
-                                            <p class="mb-0">Hour: 30 min</p>
-                                        </div>
-                                        <div class="break-time p-2">
-                                            <h6 class="mb-0">Break</h6>
-                                            <p class="mb-0">Hour: 15 min</p>
-                                        </div>
-                                        <div class="over-time p-2">
-                                            <h6 class="mb-0">Overtime</h6>
-                                            <p class="mb-0">Hour: 2hr</p>
-                                        </div>
-
-                                    </div>
-                                    </td>
-                                    <td class="text-left stickyColThend">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <button class="btn p-0 Pending-btn text-primary font-13"> 1 Request </button>
-                                            <span class="edit-action-btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
-                                                    <path
-                                                        d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
-                                                        fill="#1C1B1F" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                <tr class="">
-                                    <td class="text-left stickyColTh">
-                                        <span class="team-maneger mb-0 ">
-                                            Mon, 1st Jun</span>
-                                    </td>
-                                    <td colspan="9">
-                                        <div class="d-flex align-items-center justify-content-between request-detail">
-                                            <div class="in-time let-intime p-2">
-                                                <h6 class="mb-0">10:20 AM</h6>
-                                                <p class="mb-0">Work: 9hr</p>
-                                            </div>
-                                            <div class="break-time p-2">
-                                                <h6 class="mb-0">Break</h6>
-                                                <p class="mb-0">Hour: 30 min</p>
-                                            </div>
-                                            <div class="system-out p-2">
-                                                <h6 class="mb-0">System Out</h6>
-                                                <p class="mb-0">08:00 PM</p>
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                    <td class="text-left stickyColThend">
-                                        <div class="d-flex align-items-center gap-2 position-relative">
-                                            <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
-
-                                            <span class="edit-action-btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
-                                                    <path
-                                                        d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
-                                                        fill="#1C1B1F" />
-                                                </svg>
-                                            </span>
-
-
-
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                <tr class="">
-                                    <td class="text-left stickyColTh">
-                                        <span class="team-maneger mb-0 ">
-                                            Mon, 1st Jun</span>
-                                    </td>
-                                    <td colspan="9">
-                                        <div class="d-flex align-items-center justify-content-between request-detail">
-                                            <div class="in-time let-intime p-2">
-                                                <h6 class="mb-0">10:20 AM</h6>
-                                                <p class="mb-0">Work: 9hr</p>
-                                            </div>
-                                            <div class="break-time p-2">
-                                                <h6 class="mb-0">Break</h6>
-                                                <p class="mb-0">Hour: 30 min</p>
-                                            </div>
-                                            <div class="system-out p-2">
-                                                <h6 class="mb-0">System Out</h6>
-                                                <p class="mb-0">08:00 PM</p>
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                    <td class="text-left stickyColThend">
-                                        <div class="d-flex align-items-center gap-2 position-relative">
-                                            <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
-
-                                            <span class="edit-action-btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
-                                                    <path
-                                                        d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
-                                                        fill="#1C1B1F" />
-                                                </svg>
-                                            </span>
-
-
-
-                                        </div>
-                                    </td>
-
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-
-
-                    </div>
-
-
-                    <h1>vis-timeline</h1>
-                    <div #timeline></div> -->
 
                     <ul class="requests-btn">
                         <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Missed Punch</li>
@@ -2237,7 +1905,7 @@
         <div class="bg-white p-4 text-center">
 
           <div>
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base">
               Are you sure you want to delete <br />
               this Attendance update request?
             </h5>

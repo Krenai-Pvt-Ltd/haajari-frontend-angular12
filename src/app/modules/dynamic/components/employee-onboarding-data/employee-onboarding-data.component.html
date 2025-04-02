@@ -436,7 +436,8 @@
 
                 <div class="mt-3">
                   <div class="asset-assigned-search">
-                      <div class="d-flex justify-content-start align-items-center">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
                           <div class="search-filter ">
                               <button type="button" id="statusDropdown" class="btn btn-secondary new-dropdown d-flex align-items-center justify-content-between" (click)="changeShowFilter(true)">
                                   Filters
@@ -449,12 +450,11 @@
                                       </g>
                                   </svg>
                               </button>
-
                           </div>
-                          <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                          <div class="search-date d-flex align-items-center justify-content-between position-relative w-100" >
                                   <div class="form-group w-100 position-relative">
                                     <input type="text" id="searchText"
-                                    placeholder="Search by name, email and phone number ..." class="form-control me-2  search-padding"
+                                    placeholder="Search by name, email and phone number ..." class="form-control me-2  search-padding" style="width:600px;"
                                     (keyup)="searchUsers('any')" [(ngModel)]="search"
                                     [ngModelOptions]="{ standalone: true }" />
                                   <i class="bi bi-search search-icon ms-3"
@@ -463,7 +463,8 @@
                                     *ngIf="search!=''" (click)="reloadPage()"></i>
                                   </div>
                           </div>
-                          <div class="filter-btn d-flex align-items-center justify-content-center gap-3" data-bs-toggle="modal">
+                        </div>
+                          <div class="filter-btn d-flex align-items-center justify-content-center gap-3 px-3" data-bs-toggle="modal">
                               <button type="button"  class="btn p-0 text-primary font-14 fw-semibold" (click)="downloadUserDataInExcelFormatMethodCall()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                   <mask id="mask0_8190_18511" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -749,6 +750,7 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 text-black fw-normal " *ngIf="user.userShiftName">
                               {{ user.userShiftName ? user.userShiftName : "N/A" }}
                             </a>
+
                             <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" 
                             [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}" *ngIf="!user.userShiftName">
                               + Add Shift
@@ -758,6 +760,7 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal font-14" *ngIf="user.userLeavePolicyName">
                               {{ user.userLeavePolicyName ? user.userLeavePolicyName : "N/A" }}
                             </a>
+
                             <button type="button" (click)="routeToAddUserInLeavePolicy()" class="btn p-0 text-primary font-13 fw-semibold" 
                             [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
                             *ngIf="!user.userLeavePolicyName">
@@ -769,8 +772,9 @@
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
                               (change)="changeStatusActive(user.presenceStatus, user.uuid)" *ngIf="!user.presenceStatus"/>
 
+                              <!-- data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" -->
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
-                              data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                              
                               (click)="openDeleteConfirmationModal(user.id, user.presenceStatus, user.uuid, 'Disable')" *ngIf="user.presenceStatus"/>
                               <label for="switch{{ user.uuid }}" class="label-success"></label>
                             </div>
@@ -1025,7 +1029,7 @@
                        </svg>
                     </button>
                  </div>
-                 <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
+                 <div class="search-date d-flex align-items-center justify-content-between position-relative w-100" >
                     <div class="form-group w-100 position-relative">
                       <input type="text" id="searchText"
                       placeholder="Search by name..." class="form-control me-2 search-padding"
@@ -1167,8 +1171,8 @@
 
 
                         <td>
-                          <span class="badge rounded-pill"
-                            [ngClass]="{'badge-soft-success': user?.status === 'APPROVED', 'badge-soft-danger': user?.status === 'NOTICE PERIOD' || user?.status === 'REVOKED' || user?.status === 'USER EXITED', 'badge-soft-warning': user?.status === 'PENDING' || user?.status === 'REJECTED' }">
+                          <span class="font-13 fw-semibold"
+                            [ngClass]="{'text-success': user?.status === 'APPROVED', 'text-danger': user?.status === 'NOTICE PERIOD' || user?.status === 'REVOKED' || user?.status === 'USER EXITED', 'text-warning': user?.status === 'PENDING' || user?.status === 'REJECTED' }">
                             {{ user.status ? user.status : "N/A"}}</span>
                         </td>
 
@@ -1207,36 +1211,7 @@
                       </tr>
 
                     </tbody>
-                    <!-- <tbody *ngIf="errorToggleTop && users.length == 0">
-                      <tr>
-                        <td colspan="8">
-                          <div class="mt-3 dashnodata">
-                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
-                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-detail font-16">
-                                    Something went wrong
-                                  </p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
-
-                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
-                              *ngIf="placeholder && total == 0 && !isUserShimer">
-                              <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
-                                [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                  <p class="mb-1 empty-detail font-16">
-                                    No data for now
-                                  </p>
-                                </ng-template>
-                              </nz-empty>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody> -->
+                   
                   </table>
                 </div>
                 <div
@@ -1497,6 +1472,10 @@
 
 
 
+<button type="button" class="btn d-none btn-primary" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
+  delete/disable employee popup
+</button>
 
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
   aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-backdrop="false">
@@ -1524,7 +1503,7 @@
         </div>
         <div class="bg-white p-4 text-center">
           <div class="mb-4">
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base ">
               Are you sure want to {{deleteOrDisableUserString}} this account?
             </h5>
             <p class="font-13" *ngIf="deleteOrDisableUserString === 'Delete'">This action will permanently remove this user. </p>

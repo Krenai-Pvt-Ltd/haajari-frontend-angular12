@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { debounceTime } from 'rxjs/operators';
 import { CompanyExpense } from 'src/app/models/CompanyExpense';
@@ -55,13 +55,13 @@ export class ExpensePolicyComponent implements OnInit {
   // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
-    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) {
+    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService,private cdr: ChangeDetectorRef) {
 
     }
 
   ngOnInit(): void {
     this.sampleFileUrl ="assets/samples/ExpenseSettlementSample.xlsx"
-
+    this.deletePolicyType = false;
     this.getExpenses();
     this.getExpenseType();
     this.getAllCompanyExpensePolicy();
@@ -779,9 +779,14 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
             this.staffs = response.users;
 
             if (this.staffs != undefined) {
-              this.staffs.forEach((staff, index) => {
-                staff.checked = this.selectedStaffIdsUser.includes(staff.id);
-              });
+              // this.staffs.forEach((staff, index) => {
+              //   staff.checked = this.selectedStaffIdsUser.includes(staff.id);
+              // });
+
+              this.staffs = response.users.map((staff: Staff) => ({
+                          ...staff,
+                          selected: this.selectedStaffIdsUser.includes(staff.id),
+                        }));
             } else {
               this.staffs = []
             }
@@ -808,6 +813,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
   }
 
+
   searchUsers() {
     this.getUserByFiltersMethodCall();
   }
@@ -821,52 +827,67 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   allselected: boolean = false;
   selectedStaffIds: number[] = [];
 
-  // Method to toggle all users' selection
-  selectAllUsers(isChecked: boolean) {
-    debugger
+
+  selectAllUsers(event: any) {
+    const isChecked = event.target.checked;
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
-    this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
+    this.staffs.forEach((staff) => (staff.selected = isChecked));
 
     if (isChecked) {
-      // If selecting all, add all user UUIDs to the selectedStaffIds list
-      this.selectedStaffIdsUser=[];
-      this.getAllUsersUuids().then((allUuids) => {
-        console.log(allUuids);
-        this.selectedStaffIdsUser = allUuids;
-        this.staffs.forEach((element) => {
-          element.checked = true;
-        });
+      // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+      this.activeModel2 = true;
+      this.getAllUsersUuids().then((allid) => {
+              console.log(allid);
+              this.selectedStaffIdsUser = allid;
       });
     } else {
       this.selectedStaffIdsUser = [];
-      this.staffs.forEach((element) => {
-        element.checked = false;
-      });
+      this.activeModel2 = false;
     }
-  }
-
-  selectAllEmployee() {
-    if (!this.allselected) {
-      this.staffs.forEach((element) => {
-        this.selectedStaffIdsUser.push(element.id);
-        element.checked = true;
-      });
-      this.allselected = true;
-    } else {
-      this.staffs.forEach((element: any) => {
-        element.checked = false;
-      });
-      this.allselected = false;
-      this.selectedStaffIdsUser = [];
-    }
-    // console.log('all Ids: ', this.selectedStaffIdsUser)
-
-    this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
-    // console.log('After SET Ids: ',this.selectedStaffIdsUser)
 
   }
 
+
+
+  checkIndividualSelection() {
+    
+    this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
+    this.isAllSelected = this.isAllUsersSelected;
+    this.updateSelectedStaffs();
+  }
+
+  checkAndUpdateAllSelected() {
+    this.isAllSelected =
+      this.staffs.length > 0 && this.staffs.every((staff) => staff.selected);
+    this.isAllUsersSelected = this.selectedStaffIdsUser.length === this.total;
+  }
+
+  updateSelectedStaffs() {
+    this.staffs.forEach((staff) => {
+      if (staff.selected && !this.selectedStaffIdsUser.includes(staff.id)) {
+        this.selectedStaffIdsUser.push(staff.id);
+      } else if (
+        !staff.selected &&
+        this.selectedStaffIdsUser.includes(staff.id)
+      ) {
+        this.selectedStaffIdsUser = this.selectedStaffIdsUser.filter(
+          (id) => id !== staff.id
+        );
+      }
+    });
+
+    this.checkAndUpdateAllSelected();
+
+    this.activeModel2 = true;
+
+    if (this.selectedStaffIdsUser.length === 0) {
+      this.activeModel2 = false;
+    }
+  }
+
+
+  activeModel2: boolean = false;
   selectAll(checked: boolean) {
     debugger
 
@@ -875,23 +896,24 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
     // Update the selectedStaffIds based on the current page selection
     if (checked) {
-
+      this.activeModel2 = true;
       this.staffs.forEach((staff) => {
-        if (!this.selectedStaffIds.includes(staff.id)) {
-          this.selectedStaffIds.push(staff.id);
+        if (!this.selectedStaffIdsUser.includes(staff.id)) {
+          this.selectedStaffIdsUser.push(staff.id);
+          
         }
       });
     } else {
       this.staffs.forEach((staff) => {
-        if (this.selectedStaffIds.includes(staff.id)) {
-          this.selectedStaffIds = this.selectedStaffIds.filter(
-            (uuid) => uuid !== staff.id
+        if (this.selectedStaffIdsUser.includes(staff.id)) {
+          this.selectedStaffIdsUser = this.selectedStaffIdsUser.filter(
+            (id) => id !== staff.id
           );
         }
       });
     }
 
-    // console.log('sel all Ids: ', this.selectedStaffIds)
+    console.log('sel all Ids: ', this.selectedStaffIdsUser)
 
   }
 
@@ -922,12 +944,13 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     this.selectAllUsers(event.target.checked);
   }
 
+
   unselectAllUsers() {
     this.isAllUsersSelected = false;
     this.isAllSelected = false;
     this.staffs.forEach((staff) => (staff.selected = false));
-    this.selectedStaffIds = [];
-    this.selectedStaffIdsUser = []
+    this.selectedStaffIdsUser = [];
+    this.activeModel2 = false;
   }
 
   clearIds() {
@@ -971,97 +994,43 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
   }
 
-  deSelectedStaffIdsUser: number[] = [];
-  selectSingle(event: any, i: any) {
+   deSelectedStaffIdsUser: number[] = [];
+  
+     selectSingle1(event: any, i: any) {
     debugger
     if (event.checked) {
-      this.allselected = false;
-
-      // if(this.updateToggle){
-      //   this.deSelectedStaffIdsUser.push(event.id)
-      // }
-
-      if(this.updateToggle && this.oldSelectedStaffIdsUser.includes(event.id)){
-        this.deSelectedStaffIdsUser.push(event.id)
+      this.isAllUsersSelected = false;
+      if (this.updateToggle) {
+        this.deSelectedStaffIdsUser.push(event.id);
       }
-
       this.staffs[i].checked = false;
-      var index = this.selectedStaffIdsUser.indexOf(event.id);
-      this.selectedStaffIdsUser.splice(index, 1);
-
-      // console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
-
+      const index = this.selectedStaffIdsUser.indexOf(event.id);
+      if (index > -1) {
+        this.selectedStaffIdsUser.splice(index, 1);
+      }
+  
       if (this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle) {
         this.showAllUser();
       }
-
     } else {
       this.staffs[i].checked = true;
       this.selectedStaffIdsUser.push(event.id);
-
-      if (this.deSelectedStaffIdsUser.includes(event.id)) {
-        const index = this.deSelectedStaffIdsUser.indexOf(event.id);
-        if (index > -1) {
-          this.deSelectedStaffIdsUser.splice(index, 1);
-        }
+  
+      // Remove from deselected list if added previously
+      const index = this.deSelectedStaffIdsUser.indexOf(event.id);
+      if (index > -1) {
+        this.deSelectedStaffIdsUser.splice(index, 1);
       }
-
-      if (this.selectedStaffIdsUser.length == this.staffs.length) {
-        this.allselected = true;
-      }
-
-      if(this.updateToggle){
-        this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser
-      }
-
-      // console.log('selectedIds: ', this.selectedStaffIdsUser)
-      // console.log('del: ', this.deSelectedStaffIdsUser)
+      // this.isAllUsersSelected = this.selectedStaffIdsUser.length == this.staffs.length;
     }
 
-    console.log('selectedIds: ', this.selectedStaffIdsUser)
-    console.log('del: ', this.deSelectedStaffIdsUser)
-
+    this.isAllUsersSelected = this.selectedStaffIdsUser.length == this.staffs.length;
+    this.cdr.detectChanges();
+    
+    console.log('selectedIds: ', this.selectedStaffIdsUser);
+    console.log('del: ', this.deSelectedStaffIdsUser);
   }
-
-  selectSingle1(event: any, i: any) {
-    debugger
-    if (event.checked) {
-      this.allselected = false;
-
-      if(this.updateToggle){
-        this.deSelectedStaffIdsUser.push(event.id)
-      }
-
-      this.staffs[i].checked = false;
-      var index = this.selectedStaffIdsUser.indexOf(event.id);
-      this.selectedStaffIdsUser.splice(index, 1);
-
-      // console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
-
-      if (this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle) {
-        this.showAllUser();
-      }
-
-    } else {
-      this.staffs[i].checked = true;
-      this.selectedStaffIdsUser.push(event.id);
-
-      if (this.deSelectedStaffIdsUser.includes(event.id)) {
-        const index = this.deSelectedStaffIdsUser.indexOf(event.id);
-        if (index > -1) {
-          this.deSelectedStaffIdsUser.splice(index, 1);
-        }
-      }
-
-      if (this.selectedStaffIdsUser.length == this.staffs.length) {
-        this.allselected = true;
-      }
-    }
-
-    console.log('selectedIds: ', this.selectedStaffIdsUser)
-    console.log('del: ', this.deSelectedStaffIdsUser)
-
-  }
+  
 
   showAllUser() {
     this.showMappedUserToggle = false;
@@ -1086,12 +1055,15 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   totalItems: number = 0;
   pageChanged(page: any) {
-    this.allselected = false;
+    // this.allselected = false;
     if (page != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = page;
       this.getUserByFiltersMethodCall();
     }
   }
+
+
+  
 
 
   /**
@@ -1235,6 +1207,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     // this.companyExpenseReq.id = 0
     // this.companyExpenseReq = new CompanyExpense();
     // this.tempCompanyExpenseReq = new CompanyExpense();
+    this.expensePolicyReqList = [];
     this.clearPolicyForm();
     form.resetForm();
     this.viewForm = false;
@@ -1477,7 +1450,10 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   expensePolicyId: number = 0;
   expensePolicyTypeId: number = 0;
   expenseAppliedCount: number = 0;
-  getExpensePolicyOrExpensePolicyTypeId(id: number, isExpensePolicy: boolean, expenseAppliedCount: number) {
+  deleteExpenseType: boolean = false;
+  getExpensePolicyOrExpensePolicyTypeId(id: number, isExpensePolicy: boolean, expenseAppliedCount: number, isExpensePolicyType: boolean) {
+    console.log("getExpensePolicyOrExpensePolicyTypeId++++++++++++++++++++++");
+    this.deletePolicyType = isExpensePolicyType;
     if (isExpensePolicy) {
       this.expensePolicyTypeId = 0;
       this.expensePolicyId = id;
@@ -1485,30 +1461,56 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
       this.expensePolicyId = 0;
       this.expensePolicyTypeId = id;
     }
+    console.log("Expense Policy Type id :",this.expensePolicyTypeId);
+    console.log("Expense Policy id :",this.expensePolicyId);
   }
 
   deletePolicyToggle: boolean = false
   @ViewChild('closeButtonDeleteExpensePolicy') closeButtonDeleteExpensePolicy!: ElementRef
   deleteExpensePolicyById(){
     this.deletePolicyToggle = true;
-    this.dataService.deleteCompanyExpensePolicy(this.expensePolicyId).subscribe((res: any) => {
-      if(res.status){
-          this.expensePolicyId = 0;
-          this.deletePolicyToggle = false;
-          this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
-      }
-    })
+    if(!this.deletePolicyType){
+      this.dataService.deleteCompanyExpensePolicy(this.expensePolicyId).subscribe((res: any) => {
+        if(res.status){
+            this.expensePolicyId = 0;
+            this.deletePolicyToggle = false;
+            this.getAllCompanyExpensePolicy();
+            this.closeButtonDeleteExpensePolicy.nativeElement.click();
+            this.helperService.showToast(`policy deleted successfully.`, Key.TOAST_STATUS_SUCCESS);
+        }
+      })
+    }else{
+      this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyId,this.companyExpensePolicyId).subscribe((res: any) => {
+        if(res.status){
+            this.expensePolicyTypeId = 0;
+            this.deletePolicyToggle = false;
+            this.getAllCompanyExpensePolicy();
+          
+            this.closeButtonDeleteExpensePolicy.nativeElement.click();
+            this.helperService.showToast(`policytype deleted successfully.`, Key.TOAST_STATUS_SUCCESS);
+        }else{
+          
+          this.closeButtonDeleteExpensePolicy.nativeElement.click();
+          this.helperService.showToast(`policytype not deleted`, Key.TOAST_STATUS_ERROR);
+        }
+      })
+    }
   }
 
   deleteExpensePolicyTypeById(){
+    console.log("gdeleteExpensePolicyTypeById++++++++++++++++++++++");
+    console.log("Expense Policy Type id :",this.expensePolicyTypeId);
+    console.log("Expense Policy id :",this.companyExpensePolicyId);
     this.deletePolicyToggle = true;
-    this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
+    this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyId,this.companyExpensePolicyId).subscribe((res: any) => {
       if(res.status){
           this.expensePolicyTypeId = 0;
           this.deletePolicyToggle = false;
           this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
+          this.closeButtonDeleteExpensePolicy.nativeElement.click();
+          this.helperService.showToast(`policytype deleted successfully.`, Key.TOAST_STATUS_SUCCESS);
+      }else{
+        this.helperService.showToast(`policytype not deleted`, Key.TOAST_STATUS_ERROR);
       }
     })
   }
@@ -1548,6 +1550,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
   // isThresholdSelected: boolean = false;
   setThresold(isChecked: boolean): void {
     this.showAddOnEditBtn = false;
+    this.expensePolicyItem.isPercentage = null;
     // this.isThresholdSelected = isChecked;
     this.expensePolicyItem.isThresold=isChecked;
     this.expensePolicyReq.isThresold = isChecked
@@ -1729,9 +1732,11 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
   companyExpensePolicyId: number = 0;
   tempExpPolicyId: number =0;
+  deletePolicyType: boolean = false;
   getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
 
     debugger
+    console.log("Get Expense Information Method Called......");
     this.viewForm = false;
     this.viewAddBtn = true;
     this.updateToggle = true;
@@ -1780,6 +1785,8 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
 
     this.policyName = companyExpense.policyName
     this.updateToggle = true;
+
+    // this.getExpenseType();
 
     // console.log('update expensePolicyReq: ',this.expensePolicyReq)
 }

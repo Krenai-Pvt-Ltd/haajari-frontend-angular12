@@ -466,6 +466,7 @@ input:checked + .slider:before {
 }
 
 .add-filtter {
+
     background-color: #fff;
     border-radius: 50%;
     width: 33px;
@@ -483,11 +484,11 @@ input:checked + .slider:before {
     border-radius: 6px;
     padding: 3px 15px !important;
   }
-.add-filtter i{
-    font-size: 15px;
-    position: relative;
-    top: -1px;
+
+.members-list:last-child{
+   border-bottom: none;
 }
+
 
 .dot-opacity-loader {
     display: flex;

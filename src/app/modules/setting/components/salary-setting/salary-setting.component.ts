@@ -1188,5 +1188,12 @@ export class SalarySettingComponent implements OnInit {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  staffCount(staff:any){
+    if(staff  == null){
+      return 0;
+    }else{
+      return staff.length;
+    }
+  }
  
 }

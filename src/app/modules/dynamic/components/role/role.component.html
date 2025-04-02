@@ -85,17 +85,7 @@
                         getUsersByFilterMethodCall();
                         emptyAssignRoleToUserInUserAndControlMethodCall()
                       ">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_4339_1450" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                          width="24" height="24">
-                          <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_4339_1450)">
-                          <path
-                            d="M11 17H13V13H17V11H13V7H11V11H7V13H11V17ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
-                            fill="#6666F2" />
-                        </g>
-                      </svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none"><mask id="mask0_8190_18517" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21" style="mask-type: alpha;"><rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect></mask><g mask="url(#mask0_8190_18517)"><path d="M9.37467 11.1247H4.58301V9.87467H9.37467V5.08301H10.6247V9.87467H15.4163V11.1247H10.6247V15.9163H9.37467V11.1247Z" fill="#6666F2"></path></g></svg>
                       Assign Role To User
                     </button>
                   </div>
@@ -257,7 +247,7 @@
                                 </div>
                               </ng-container>
                               <ng-container *ngIf="!rbacService.hasWriteAccess(Routes.ROLE)">
-                                <div class="badge badge-soft-warning rounded-pill"> Unauthorized</div>
+                                <div class="font-13 text-warning fw-semibold"> Unauthorized</div>
                               </ng-container>
                               </td>
                             </tr>
@@ -326,7 +316,7 @@
 
             <!-- role-security modal -->
             <div class="tab-pane fade mt-3" id="role-security" role="tabpanel">
-              <div class="">
+              <div>
                 <div class="mt-3">
                   <div class="table-responsive bg-white">
                     <div class="row">
@@ -504,8 +494,8 @@
                             else errorInFetchingRolesData
                           ">
                           <div class="row">
-                            <div class="col-xxl-3 col-xl-4 col-md-4 cols-sm-12 mb-3">
-                              <div class="add-role-security p-3" *ngIf="rbacService.hasWriteAccess(Routes.ROLE)">
+                            <div class="col-xxl-3 col-xl-4 col-md-4 cols-sm-12 mb-3" *ngIf="rbacService.hasWriteAccess(Routes.ROLE)">
+                              <div class="add-role-security p-3">
                                 <div class="d-flex align-items-center gap-3">
                                   <span class="user-icon d-flex align-items-center justify-content-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -566,20 +556,16 @@
                                     </div>
                                   </div>
 
-                                  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ROLE)">
-                                  <span class="pointer" id="dLabel1" data-bs-toggle="dropdown" role="button"
-                                    aria-haspopup="false" aria-expanded="false" class="dropdown-toggle">
+                                  <!-- <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ROLE)"> -->
+                                  <span id="dLabel1" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false" 
+                                   class="dropdown-toggle poinnter btnAction border-rounded-2 d-flex p-0 align-items-center justify-content-center bg-white" *ngIf="role.id != 1 && role.id != 2 && role.id != 3 " >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 19 20"
                                       fill="none">
                                       <mask id="mask0_4355_385" style="mask-type: alpha" maskUnits="userSpaceOnUse"
                                         x="0" y="0" width="19" height="20">
                                         <rect y="0.5" width="19" height="19" fill="#D9D9D9" />
                                       </mask>
-                                      <g *ngIf="
-                                      role.id != 1 &&
-                                      role.id != 2 &&
-                                      role.id != 3
-                                    " mask="url(#mask0_4355_385)">
+                                      <g  mask="url(#mask0_4355_385)">
                                         <path
                                           d="M9.49935 16.3307C9.06393 16.3307 8.69119 16.1757 8.38112 15.8656C8.07105 15.5556 7.91602 15.1828 7.91602 14.7474C7.91602 14.312 8.07105 13.9392 8.38112 13.6292C8.69119 13.3191 9.06393 13.1641 9.49935 13.1641C9.93477 13.1641 10.3075 13.3191 10.6176 13.6292C10.9276 13.9392 11.0827 14.312 11.0827 14.7474C11.0827 15.1828 10.9276 15.5556 10.6176 15.8656C10.3075 16.1757 9.93477 16.3307 9.49935 16.3307ZM9.49935 11.5807C9.06393 11.5807 8.69119 11.4257 8.38112 11.1156C8.07105 10.8056 7.91602 10.4328 7.91602 9.9974C7.91602 9.56198 8.07105 9.18924 8.38112 8.87917C8.69119 8.5691 9.06393 8.41406 9.49935 8.41406C9.93477 8.41406 10.3075 8.5691 10.6176 8.87917C10.9276 9.18924 11.0827 9.56198 11.0827 9.9974C11.0827 10.4328 10.9276 10.8056 10.6176 11.1156C10.3075 11.4257 9.93477 11.5807 9.49935 11.5807ZM9.49935 6.83073C9.06393 6.83073 8.69119 6.67569 8.38112 6.36562C8.07105 6.05556 7.91602 5.68281 7.91602 5.2474C7.91602 4.81198 8.07105 4.43924 8.38112 4.12917C8.69119 3.8191 9.06393 3.66406 9.49935 3.66406C9.93477 3.66406 10.3075 3.8191 10.6176 4.12917C10.9276 4.43924 11.0827 4.81198 11.0827 5.2474C11.0827 5.68281 10.9276 6.05556 10.6176 6.36562C10.3075 6.67569 9.93477 6.83073 9.49935 6.83073Z"
                                           fill="#1C1B1F" />
@@ -591,17 +577,22 @@
                                   role.name != 'ADMIN' &&
                                   role.name != 'USER' &&
                                   role.name != 'MANAGER' "
-                                 aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" (click)="routeToEditRole(role)">Edit</a>
+                                 aria-labelledby="dLabel1" class="dropdown-menu dropdown-menu-end actionMenuList">
+                                    <a class="dropdown-item" (click)="routeToEditRole(role)"><i class="bi "
+                                      [ngClass]="{'bi-pencil':rbacService.hasWriteAccess(Routes.ROLE),'bi-eye':!rbacService.hasWriteAccess(Routes.ROLE)}">
+
+
+                                    </i>  {{ rbacService.hasWriteAccess(Routes.ROLE) ? 'Edit' : 'View' }}</a>
                                     <span *ngIf="
                                         role.name != 'ADMIN' &&
                                         role.name != 'USER' &&
                                         role.name != 'MANAGER'
                                       ">
-                                      <a class="dropdown-item" (click)="deleteRolesWithUsers(role.id)">Delete</a>
+                                      <a class="dropdown-item" *ngIf="rbacService.hasWriteAccess(Routes.ROLE)"
+                                       (click)="deleteRolesWithUsers(role.id)"><i class="bi bi-trash3"></i> Delete</a>
                                     </span>
                                   </div>
-                                </ng-container>
+                                <!-- </ng-container> -->
                                 </div>
                                 <p class="mb-0 font-13 mt-3 mb-3">
                                   {{ role.description }}
@@ -627,7 +618,7 @@
                         </ng-container>
                       </ng-template>
                       <ng-template #errorInFetchingRolesData>
-                        <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolesAndSecurity">
+                        <!-- <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolesAndSecurity">
                           <div class="errorboxinner text-center">
                             <div class="errorboxplaceholder mb-2">
                               <img src="assets/images/addnewproduct.svg" style="width: 80px" />
@@ -646,7 +637,22 @@
                                 Assign role to user</a>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
+
+                        <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForRolesAndSecurity" >
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail font-16">
+                                      No data for now
+                                  </p>
+                                  <a data-bs-toggle="modal" data-bs-target="#assignrole" type="btn"
+                                (click)="getUsersByFilterMethodCall()">
+                                <i class="bi bi-plus" style="font-size: 16px"></i>
+                                Assign role to user</a>
+                                </ng-template>
+                            </nz-empty>
+                         </div>
 
                         <div class="errorboxmain" *ngIf="
                             networkConnectionErrorPlaceHolderForRolesAndSecurity

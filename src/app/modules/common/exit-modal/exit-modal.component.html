@@ -1,5 +1,5 @@
 <div *ngIf="!isLoading">
-            <div  [ngClass]="{'modal-header': isModal}">
+            <div class="d-flex align-items-center justify-content-between px-3" [ngClass]="{'modal-header': isModal}">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
                 <button *ngIf="isModal" type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
                      #closeResignationButton>
@@ -15,7 +15,7 @@
                         </g>
                     </svg>
                 </button>
-                <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
+                <span  class="badge rounded-pill font-11" [ngClass]="{
                   'badge-soft-success': userResignationInfo.status.response === 'APPROVED',
                   'badge-soft-danger':  userResignationInfo.status.response === 'REJECTED' || userResignationInfo.status.response === 'REVOKED',
                   'badge-soft-secondary':  userResignationInfo.status.response === 'PENDING' || userResignationInfo.status.response === 'NOTICE PERIOD'
@@ -28,7 +28,7 @@
                 <form #resignationForm="ngForm" (ngSubmit)="submitResignation()">
 
                     <div class="row register-form-box">
-                       
+
 
                         <div class="p-4">
 
@@ -230,6 +230,7 @@
                         <button type="button" class="btn cancel-btn" *ngIf="(showRevokeDiv || ROLE == 'ADMIN') && isModal"
                             data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
                             #closeApproveModal>Cancel</button>
+
 
                         <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING" 
                         type="button" class="btn submitActionBtn"

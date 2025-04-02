@@ -111,16 +111,8 @@
                 <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
               </div>
             </div>
-            <div class="mt-3" style="
-                border: 1px solid #f5f5f5;
-                padding: 5px;
-                border-radius: 6px;
-              ">
-              <div class="row" style="
-                  border-bottom: 1px solid #f5f5f5;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                ">
+            <div class="mt-3 border p-1" >
+              <div class="row border-bottom pt-2 pb-2" >
                 <div class="col-md-6">
                   <div class="">
                     <ngx-shimmer-loading [width]="'60%'" [height]="'20px'"
@@ -142,11 +134,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row mt-2" style="
-                  border-bottom: 1px solid #f5f5f5;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                ">
+              <div class="row mt-2 border-bottom pt-2 pb-2" >
                 <div class="col-md-4">
                   <div class="">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -174,11 +162,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row mt-2" style="
-                  border-bottom: 1px solid #f5f5f5;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                ">
+              <div class="row mt-2 border-bottom pt-2 pb-2">
                 <div class="col-md-4">
                   <div class="">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -206,11 +190,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row mt-2" style="
-                  border-bottom: 1px solid #f5f5f5;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                ">
+              <div class="row mt-2 border-bottom pt-2 pb-2">
                 <div class="col-md-4">
                   <div class="">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -238,11 +218,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row mt-2" style="
-                  border-bottom: 1px solid #f5f5f5;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                ">
+              <div class="row mt-2 border-bottom pt-2 pb-2">
                 <div class="col-md-4">
                   <div class="">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
@@ -298,17 +274,12 @@
             *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading">
 
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-              <div>
-                <h6 class="text-truncate mb-0">Leave</h6>
-              </div>
-              <div *ngIf="!idFlag">
-
+                <h6 class="mb-0 lh-lgg">Leave</h6>
                 <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#leavemodal" 
-                *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)"
+                *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING) && !idFlag"
                 (click)="emptyAddLeaveSettingRule();preMethodCallToCreateLeaveTemplate();enableWFH(false)">
                   <i class="bi bi-plus"></i> Create another template
                 </a>
-              </div>
             </div>
 
             <div *ngIf="leaveTemplates.length == 0" class="col-md-12">
@@ -337,17 +308,69 @@
                         <small class="text-muted">Define the leave rules for the employees</small>
                       </div>
                     </div>
-                    <div class="d-flex align-items-center gap-3">
-                      <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3 shift-time">
+                        <span class="staff-leave-setting bg-white pointer font-12 fw-semibold border-rounded-2 lh-sm">Staff - {{ newLeaveSetting.totalEmployees }}</span>
 
-                        <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
+                        <!-- <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="getLeaveSettingInformationById(newLeaveSetting.id, false)">
                           <i class="bi bi-pencil pointer" [ngClass]="{'bi-pencil': rbacService.hasWriteAccess(Routes.LEAVESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}"
-                          style="color: #6666f3" (click)="getLeaveSettingInformationById(newLeaveSetting.id, false)"></i>
+                          style="color: #6666f3" ></i>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                            <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                            <rect width="22.0262" height="22" fill="#444444"/>
+                            </mask>
+                            <g mask="url(#mask0_10613_125)">
+                            <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444"/>
+                            </g>
+                          </svg>
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                            <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                            <rect width="17" height="17" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_9177_4533)">
+                            <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                            </g>
+                          </svg>
+                        </a> -->
+
+                        <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="getLeaveSettingInformationById(newLeaveSetting.id, false)">
+  
+                      
+                        
+                          <!-- SVG Icon for Edit (Shown if user has write access) -->
+                          <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING); else viewIcon">
+                          <svg *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)" xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                            <g mask="url(#mask0_10613_125)">
+                              <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444"/>
+                            </g>
+                          </svg>
+                          </ng-container>
+                        
+                          <!-- SVG Icon for View (Shown if user does NOT have write access) -->
+                          <ng-template #viewIcon>
+                            <svg *ngIf="!rbacService.hasWriteAccess(Routes.LEAVESETTING)" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                              <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                                <rect width="17" height="17" fill="#D9D9D9"/>
+                              </mask>
+                              <g mask="url(#mask0_9177_4533)">
+                                <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                              </g>
+                            </svg>
+                        </ng-template>
+                        
                         </a>
+                        
                         <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave"  
                         (click)=" getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)"
                          *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id) && rbacService.hasWriteAccess(Routes.LEAVESETTING)">
-                          <i class="bi bi-trash pointer text-danger"></i>
+                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                          <mask id="mask0_10613_119" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                          <rect x="0.0527344" y="0.164062" width="22.0262" height="22" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_10613_119)">
+                          <path d="M6.75945 18.956C6.3018 18.956 5.91083 18.7941 5.58656 18.4704C5.26244 18.1465 5.10038 17.756 5.10038 17.2989V5.66431H4.18262V4.28931H8.31253V3.47852H13.8191V4.28931H17.949V5.66431H17.0312V17.2989C17.0312 17.7619 16.8706 18.1539 16.5494 18.4747C16.2282 18.7956 15.8358 18.956 15.3722 18.956H6.75945ZM15.6546 5.66431H6.47701V17.2989C6.47701 17.3812 6.50347 17.4488 6.5564 17.5017C6.60932 17.5545 6.67701 17.581 6.75945 17.581H15.3722C15.4428 17.581 15.5075 17.5516 15.5663 17.4927C15.6251 17.4341 15.6546 17.3695 15.6546 17.2989V5.66431ZM8.6833 15.7476H10.0597V7.49764H8.6833V15.7476ZM12.0719 15.7476H13.4483V7.49764H12.0719V15.7476Z" fill="#FF0000"/>
+                          </g>
+                        </svg>
                         </a>
 
                         <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
@@ -355,10 +378,9 @@
                           <span></span>
                           <span></span>
                         </div>
-                      </div>
 
-                      <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
-                      <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                     
+                      <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
                         [attr.aria-controls]="'multiCollapseExample' + i"
                         [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
@@ -439,7 +461,7 @@
 
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
               <div class="">
-                <h6 class="text-truncate mb-0">On Duty</h6>
+                <h6 class="mb-0 lh-lgg">On Duty</h6>
               </div>
               <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
               <div *ngIf="!idFlag">
@@ -482,17 +504,71 @@
                       </div>
                     </div>
                     <div class="d-flex align-items-center gap-3">
-                      <div class="d-flex align-items-center gap-3">
+                        <span class="staff-leave-setting bg-white pointer font-12 fw-semibold border-rounded-2 lh-sm">Staff - {{ newLeaveSetting.totalEmployees }}</span>
 
-                        <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
+                        <!-- <a href="" class="pointer" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)=" getLeaveSettingInformationById(newLeaveSetting.id,true)">
                           <i class="bi pointer"   style="color: #6666f3"
                           [ngClass]="{'bi-pencil': rbacService.hasWriteAccess(Routes.LEAVESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}"
                           (click)=" getLeaveSettingInformationById(newLeaveSetting.id,true)"></i>
-                        </a>
-                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave"
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                            <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                            <rect width="22.0262" height="22" fill="#444444"/>
+                            </mask>
+                            <g mask="url(#mask0_10613_125)">
+                            <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444"/>
+                            </g>
+                          </svg>
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                            <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                            <rect width="17" height="17" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_9177_4533)">
+                            <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                            </g>
+                          </svg>
+                        </a> -->
+                        
+                        <a href="" class="pointer" data-bs-toggle="modal" data-bs-target="#leavemodal"
+                        (click)="getLeaveSettingInformationById(newLeaveSetting.id, true)">
+                     
+                       <!-- Edit Icon (If user has write access) -->
+                       <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING); else viewIcon">
+                       <svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                         <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                           <rect width="22.0262" height="22" fill="#444444"/>
+                         </mask>
+                         <g mask="url(#mask0_10613_125)">
+                           <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444"/>
+                         </g>
+                       </svg>
+                     </ng-container>
+                       <!-- View Icon (If user does NOT have write access) -->
+                       <ng-template #viewIcon>
+                       <svg *ngIf="!rbacService.hasWriteAccess(Routes.LEAVESETTING)" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                         <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                           <rect width="17" height="17" fill="#D9D9D9"/>
+                         </mask>
+                         <g mask="url(#mask0_9177_4533)">
+                           <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                         </g>
+                       </svg>
+                     </ng-template>
+                     </a>
+                     
+
+                        <a class="delete-rule pointer" data-bs-toggle="modal" data-bs-target="#delete-leave"
                          (click)="getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount) " 
                          *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id) && rbacService.hasWriteAccess(Routes.LEAVESETTING)">
-                          <i class="bi bi-trash pointer text-danger"></i>
+                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                          <mask id="mask0_10613_119" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                          <rect x="0.0527344" y="0.164062" width="22.0262" height="22" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_10613_119)">
+                          <path d="M6.75945 18.956C6.3018 18.956 5.91083 18.7941 5.58656 18.4704C5.26244 18.1465 5.10038 17.756 5.10038 17.2989V5.66431H4.18262V4.28931H8.31253V3.47852H13.8191V4.28931H17.949V5.66431H17.0312V17.2989C17.0312 17.7619 16.8706 18.1539 16.5494 18.4747C16.2282 18.7956 15.8358 18.956 15.3722 18.956H6.75945ZM15.6546 5.66431H6.47701V17.2989C6.47701 17.3812 6.50347 17.4488 6.5564 17.5017C6.60932 17.5545 6.67701 17.581 6.75945 17.581H15.3722C15.4428 17.581 15.5075 17.5516 15.5663 17.4927C15.6251 17.4341 15.6546 17.3695 15.6546 17.2989V5.66431ZM8.6833 15.7476H10.0597V7.49764H8.6833V15.7476ZM12.0719 15.7476H13.4483V7.49764H12.0719V15.7476Z" fill="#FF0000"/>
+                          </g>
+                        </svg>
                         </a>
 
                         <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
@@ -500,10 +576,9 @@
                           <span></span>
                           <span></span>
                         </div>
-                      </div>
 
-                      <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
-                      <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                     
+                      <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#multiCollapseExample1' + i" role="button"
                         [attr.aria-controls]="'multiCollapseExample1' + i"
                         [attr.aria-expanded]="i == wfhActiveIndex ? 'true' : 'false'" (click)="toggleCollapseWFH(i)">
@@ -576,7 +651,7 @@
 
            <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
              <div class="">
-               <h6 class="text-truncate mb-0">Week Off</h6>
+               <h6 class="mb-0 lh-lgg">Week Off</h6>
              </div>
              <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
              <div class="" *ngIf="!idFlag">
@@ -619,17 +694,73 @@
                      </div>
                    </div>
                    <div class="d-flex align-items-center gap-3">
-                     <div class="d-flex align-items-center gap-3">
+                      <span class="staff-leave-setting bg-white bg-white pointer font-12 fw-semibold border-rounded-2 lh-sm">Staff - {{ newLeaveSetting.totalEmployees }}</span>
 
-                       <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
+                       <!-- <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="getLeaveSettingInformationById(newLeaveSetting.id,true) ">
                          <i class="bi pointer" style="color: #6666f3"
                          [ngClass]="{'bi-pencil': rbacService.hasWriteAccess(Routes.LEAVESETTING),'bi-eye':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}"
-                         (click)="getLeaveSettingInformationById(newLeaveSetting.id,true) "></i>
-                       </a>
+                         ></i>
+
+                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                          <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                          <rect width="22.0262" height="22" fill="#444444"/>
+                          </mask>
+                          <g mask="url(#mask0_10613_125)">
+                          <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444"/>
+                          </g>
+                        </svg>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                          <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                          <rect width="17" height="17" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_9177_4533)">
+                          <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                          </g>
+                        </svg>
+                       </a> -->
+
+                       <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal" (click)="getLeaveSettingInformationById(newLeaveSetting.id,true) ">
+  
+                      
+                        
+                        <!-- SVG Icon for Edit (Shown if user has write access) -->
+                        <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING); else viewIcon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                            <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                              <rect width="22.0262" height="22" fill="#444444" />
+                            </mask>
+                            <g mask="url(#mask0_10613_125)">
+                              <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444" />
+                            </g>
+                          </svg>
+                        </ng-container>
+                      
+                        <!-- SVG Icon for View (Shown if user does NOT have write access) -->
+                        <ng-template #viewIcon>
+                          <svg *ngIf="!rbacService.hasWriteAccess(Routes.LEAVESETTING)" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                            <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                              <rect width="17" height="17" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_9177_4533)">
+                              <path d="M8.50016 11.334C9.38558 11.334 10.1382 11.0241 10.758 10.4043C11.3778 9.7845 11.6877 9.0319 11.6877 8.14648C11.6877 7.26107 11.3778 6.50846 10.758 5.88867C10.1382 5.26888 9.38558 4.95898 8.50016 4.95898C7.61475 4.95898 6.86214 5.26888 6.24235 5.88867C5.62256 6.50846 5.31266 7.26107 5.31266 8.14648C5.31266 9.0319 5.62256 9.7845 6.24235 10.4043C6.86214 11.0241 7.61475 11.334 8.50016 11.334ZM8.50016 10.059C7.96891 10.059 7.51735 9.87305 7.14548 9.50117C6.7736 9.1293 6.58766 8.67773 6.58766 8.14648C6.58766 7.61523 6.7736 7.16367 7.14548 6.7918C7.51735 6.41992 7.96891 6.23398 8.50016 6.23398C9.03141 6.23398 9.48298 6.41992 9.85485 6.7918C10.2267 7.16367 10.4127 7.61523 10.4127 8.14648C10.4127 8.67773 10.2267 9.1293 9.85485 9.50117C9.48298 9.87305 9.03141 10.059 8.50016 10.059ZM8.50016 13.459C6.77655 13.459 5.20641 12.9779 3.78975 12.0158C2.37308 11.0536 1.346 9.76385 0.708496 8.14648C1.346 6.52912 2.37308 5.23937 3.78975 4.27721C5.20641 3.31506 6.77655 2.83398 8.50016 2.83398C10.2238 2.83398 11.7939 3.31506 13.2106 4.27721C14.6272 5.23937 15.6543 6.52912 16.2918 8.14648C15.6543 9.76385 14.6272 11.0536 13.2106 12.0158C11.7939 12.9779 10.2238 13.459 8.50016 13.459ZM8.50016 12.0423C9.83419 12.0423 11.059 11.6911 12.1746 10.9887C13.2903 10.2862 14.1432 9.33885 14.7335 8.14648C14.1432 6.95412 13.2903 6.00673 12.1746 5.3043C11.059 4.60187 9.83419 4.25065 8.50016 4.25065C7.16613 4.25065 5.94131 4.60187 4.82568 5.3043C3.71006 6.00673 2.85711 6.95412 2.26683 8.14648C2.85711 9.33885 3.71006 10.2862 4.82568 10.9887C5.94131 11.6911 7.16613 12.0423 8.50016 12.0423Z" fill="#444444"/>
+                            </g>
+                          </svg>
+                      </ng-template>
+                      
+                      </a>
+                      
                        <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
                        getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
                      " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id) && rbacService.hasWriteAccess(Routes.LEAVESETTING)">
-                         <i class="bi bi-trash pointer text-danger"></i>
+                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                          <mask id="mask0_10613_119" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                          <rect x="0.0527344" y="0.164062" width="22.0262" height="22" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_10613_119)">
+                          <path d="M6.75945 18.956C6.3018 18.956 5.91083 18.7941 5.58656 18.4704C5.26244 18.1465 5.10038 17.756 5.10038 17.2989V5.66431H4.18262V4.28931H8.31253V3.47852H13.8191V4.28931H17.949V5.66431H17.0312V17.2989C17.0312 17.7619 16.8706 18.1539 16.5494 18.4747C16.2282 18.7956 15.8358 18.956 15.3722 18.956H6.75945ZM15.6546 5.66431H6.47701V17.2989C6.47701 17.3812 6.50347 17.4488 6.5564 17.5017C6.60932 17.5545 6.67701 17.581 6.75945 17.581H15.3722C15.4428 17.581 15.5075 17.5516 15.5663 17.4927C15.6251 17.4341 15.6546 17.3695 15.6546 17.2989V5.66431ZM8.6833 15.7476H10.0597V7.49764H8.6833V15.7476ZM12.0719 15.7476H13.4483V7.49764H12.0719V15.7476Z" fill="#FF0000"/>
+                          </g>
+                        </svg>
                        </a>
 
                        <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
@@ -637,10 +768,9 @@
                          <span></span>
                          <span></span>
                        </div>
-                     </div>
 
-                     <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
-                     <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                     
+                     <span class="list-down-btn border-rounded-2 bg-white d-flex align-items-center justify-content-center" data-bs-toggle="collapse"
                        [attr.data-bs-target]="'#multiCollapseWeekOff' + i" role="button"
                        [attr.aria-controls]="'multiCollapseWeekOff' + i"
                        [attr.aria-expanded]="i == onDutyActiveIndex ? 'true' : 'false'" (click)="toggleCollapseOnDuty(i)">
@@ -1243,17 +1373,17 @@
                                       </td>
                                       <td class="text-center">
 
-                                        <div class="badge rounded-pill" [ngClass]="{
-                                            'badge-soft-primary':
+                                        <div class="font-13 fw-semibold" [ngClass]="{
+                                            'text-primary':
                                               category.leaveCycleName ===
                                               'Monthly',
-                                            'badge-soft-warning':
+                                            'text-warning':
                                               category.leaveCycleName ===
                                               'Quarterly',
-                                            'badge-soft-success':
+                                            'text-success':
                                               category.leaveCycleName ===
                                               'Half Yearly',
-                                            'badge-soft-info':
+                                            'text-info':
                                               category.leaveCycleName ===
                                               'Yearly'
                                           }">
@@ -1363,53 +1493,47 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                       aria-labelledby="v-pills-messages-tab">
-                      <div class="">
-                        <div class="col-md-12 mb-3 position-relative">
+                      <div>
+                        <!-- <div class="col-md-12 mb-3 position-relative">
                           <input placeholder="Search by Name " id="searchText" name="searchUsers" type="text"
                             class="form-control" (keyup)="searchUsers()" [(ngModel)]="searchText"
                             [ngModelOptions]="{ standalone: true }" style="padding: 0px 0px 0px 35px;" />
-                          <button type="button" class="btn close-btn" (click)="clearSearchUsers()" *ngIf="crossFlag">
-                            <i class="bi bi-x"></i>
-                          </button>
-                          <i class="bi bi-search search-icon" style="
-                              position: absolute;
-                              top: 50%;
-                              transform: translateY(-50%);
-                              left: 10px;
-                            "></i>
+                        
+                            <i class="bi bi-x search-icon position-absolute font-18" (click)="clearSearchUsers()" *ngIf="crossFlag"></i>
+                          <i class="bi bi-search search-icon position-absolute" *ngIf="!crossFlag"  ></i>
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between">
                           <h5 class="mb-0 font-16">Employee List</h5>
 
-                          <div class="d-flex align-items-center gap-3">
-                            <p class="mb-0 font-13">
+                          <div class="d-flex align-items-center gap-2">
+                            <p class="mb-0 font-13 fw-semibold">
                               <span class="text-primary">{{ total }} </span>
                               Total Employees
                             </p>
 
                             <p *ngIf="!showMappedUserToggle && selectedStaffIdsUser.length > 0"
-                              class="mapped-user mb-0 font-13 pointer" (click)="showMappedUser()">
+                              class="mapped-user mb-0 font-13 pointer fw-semibold" (click)="showMappedUser()">
                               Mapped
                               <span class="text-primary">{{ selectedStaffIdsUser.length }} </span>User
                             </p>
 
                             <p *ngIf="showMappedUserToggle && selectedStaffIdsUser.length > 0"
-                              class="mapped-user mb-0 font-13 pointer" (click)="showAllUser()">
+                              class="mapped-user mb-0 font-13 pointer fw-semibold" (click)="showAllUser()">
                               View All Users
                             </p>
                             <ng-container *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)">
                             <span class="separator"></span>
-                                    <label class="checkbox-label " style="width:100px;">
-                                      <input type="checkbox" [(ngModel)]="selectAllPages" name="selectAllPages" id="selectAllPages"
-                                        (change)="selectAllStaffAcrossPages()" /> &nbsp;
-                                      Select all
-                                    </label>
+                              <label class="checkbox-label select-all" style="width:100px;">
+                              <input type="checkbox" [(ngModel)]="selectAllPages" class="position-relative" name="selectAllPages" id="selectAllPages"
+                                  (change)="selectAllStaffAcrossPages()" /> &nbsp;
+                                Select all
+                              </label>
 
                             <span class="separator"></span>
 
                             <button *ngIf="selectedStaffIdsUser.length > 0" (click)="clearIds()"
-                              class="p-0 btn clear-section">
+                              class="p-0 btn font-13 fw-semibold text-danger">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19"
                                 fill="none">
                                 <mask id="mask0_4127_2858" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
@@ -1419,27 +1543,66 @@
                                 <g mask="url(#mask0_4127_2858)">
                                   <path
                                     d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z"
-                                    fill="#FD0808" />
+                                    fill="#ef4d56" />
                                 </g>
                               </svg>
                               Clear Selection
                             </button>
                           </ng-container>
                           </div>
-                        </div>
+                        </div> -->
+                        <div  class="col-md-12">
+                          <div  class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
+                             
+                             <div  style="width: 70%;">
+                                <form role="search" class="searching">
+                                  <div  class="form-group position-relative">
+                                    <input id="searchText" name="searchUsers" type="text" placeholder="Search by Name" class="form-control border-0" style="padding: 0px 0px 0px 35px;"
+                                    (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" >
+                                    <i  class="bi bi-search search-icon position-absolute" *ngIf="!crossFlag"></i>
+                                    <i class="bi bi-x search-icon position-absolute font-18" (click)="clearSearchUsers()" *ngIf="crossFlag"></i>
+                                  </div>
+                                </form>
+                             </div>
+                             <div class="container">
+                                <div  class="content-wrapper">
+                                   <div  class="d-flex align-items-center gap-2 search-list">
+                                      <a  class="info-button text-black fw-semibold font-13">
+                                        <span class="text-primary">{{ selectedStaffs.length}} </span> Selected of <span  class="text-primary"> {{ total }} </span></a>
+                                        <span class="separator"></span>
+                                      <span class="clear-button text-danger fw-semibold pointer font-13"  *ngIf="selectedStaffIdsUser.length > 0" (click)="clearIds()">
+                                         <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+                                            <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
+                                               <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect>
+                                            </mask>
+                                            <g  mask="url(#mask0_4127_2858)">
+                                               <path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545"></path>
+                                            </g>
+                                         </svg>
+                                         Clear Selection 
+                                      </span>
+                                      <!-- <span class="separator"></span>
+                                      <label class="checkbox-label search-list">
+                                        <input type="checkbox"> 
+                                        Select all </label> -->
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
                         <div class="mt-3">
                           <div class="employ-list-height table-responsive">
                            
-                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
-                            <span><i class="bi bi-exclamation-circle font-18 position-relative" style="top: -4px;"></i></span>
+                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction boredr-rounded-2" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
+                            <span><i class="bi bi-exclamation-circle font-18 position-relative text-primary" style="top: -4px;"></i></span>
                             <div>
-                              <h5 class="mb-1 font-14 text-black">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
+                              <h5 class="mb-1 font-14 text-primary">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
                               <p class="font-12 mb-0">Please add joining date to add them in this Template.</p>
                             </div>
 
                           </div>
-                            <table class="table table-striped">
-                              <thead class="thead-light">
+                            <table class="table">
+                              <thead>
                                 <tr>
                                   <th style="width: 2%" class="text-left">
                                     <input type="checkBox" (click)="selectAllEmployee($event)"  [disabled]="!rbacService.hasWriteAccess(Routes.LEAVESETTING)"
@@ -1463,15 +1626,16 @@
                               <tbody *ngIf="staffs.length == 0">
                                 <tr>
                                   <td colspan="9">
-                                    <div class="col-md-12">
-                                      <div class="d-flex justify-content-center">
-                                        <img src="assets/images/no-data-found-img.svg" alt="" height="50%" width="20%">
-                                      </div>
-                                      <div class="d-flex justify-content-center"
-                                        style="margin-top: -1%; margin-left: 4%;">
-                                        <h4>No Data Available!!</h4>
-                                      </div>
-                                    </div>
+                                    <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5">
+                                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                           <p class="mb-1 empty-detail font-16">
+                                              No data for now
+                                           </p>
+                                        </ng-template>
+                                     </nz-empty>
+                                  </div>
                                   </td>
                                 </tr>
                               </tbody>
@@ -1607,7 +1771,7 @@
         <div class="bg-white p-4 text-center">
 
           <div *ngIf="leaveAppliedUserCount == 0">
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base ">
               Are you sure you want to delete <br />
               {{ leaveTemplateId > 0 ? "Leave Template ?" : "Leave Category ?" }}
             </h5>
@@ -1615,7 +1779,7 @@
           </div>
 
           <div *ngIf="leaveAppliedUserCount > 0">
-            <h5 class="alert-heading font-18 mb-2">
+            <h5 class="alert-heading font-18 mb-2 lh-base ">
               Are you sure ?
             </h5>
             <p class="font-11">There are <b class="font-13">{{leaveAppliedUserCount}}</b> users who have submitted leave

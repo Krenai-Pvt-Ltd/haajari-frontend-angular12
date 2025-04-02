@@ -124,6 +124,9 @@
 .w-75{
   width: 75%;
 }
+.lh-lgg{
+  line-height: 2.5;
+}
 
 .mb-10{
   margin-bottom: 100px;
@@ -3839,6 +3842,7 @@ a.badge:hover {
   text-align: left;
   border: 1px solid #BEBEBE;
   border-radius: 20px;
+  background-color: #fff;
 }
 .nav-pills-punch{
   border-bottom: none !important;

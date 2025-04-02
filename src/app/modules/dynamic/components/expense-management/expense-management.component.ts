@@ -201,7 +201,6 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   statusMap: { [label: string]: number[] } = {
-    "All":[13,14,40,53,46,15],
     "Pending": [13],
     "Approved": [14, 40, 53, 46],
     "Rejected": [15]
@@ -398,7 +397,7 @@ openExpenseComponent(expense: any) {
     this.databaseHelper.sortOrder = ""; 
 }
 
-
+  /** Company Wallet Section **/
   /** View Wallet Balance **/
 
 
@@ -454,6 +453,7 @@ openExpenseComponent(expense: any) {
   
   async getWalletUser() {
     debugger
+    this.resetUserTransactionToggle();
     this.loading = true;
     this.walletUserList = []
 
@@ -475,6 +475,7 @@ openExpenseComponent(expense: any) {
     console.log("Requested Employee Name : ",this.tempRequestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
+      this.ROLE,
       this.databaseHelper.currentPage,
       this.databaseHelper.itemPerPage,
       this.startDate,
@@ -571,6 +572,17 @@ searchByEmployeeName(event: Event): void {
   }
 
 
+  resetUserTransactionToggle(){
+    this.userTransactions = [];
+    this.totalTransaction = 0;
+    this.totalUsedAmount = 0;
+    this.lastTransactionDate = '';
+    this.userTransactionLoading = false;
+    this.expandedStates = [];
+    this.expandedIndex = null;
+  }
+
+
   userTransactions: any[] = new Array();
   totalTransaction : number = 0;
   totalUsedAmount : number = 0;
@@ -581,6 +593,7 @@ searchByEmployeeName(event: Event): void {
     
     console.log("Transaction Length : ",this.userTransactions.length );
     if (this.userTransactions.length != 0) {
+      this.resetUserTransactionToggle();
       this.userTransactions = [];
       return;
     }
@@ -682,7 +695,9 @@ searchByEmployeeName(event: Event): void {
         this.isLoadingHnS = false;
         this.helperService.showToast(`wallet recharge successfully.`, Key.TOAST_STATUS_SUCCESS);
       }else{
+        this.isLoadingHnS = false;
         this.rechargeModel = true;
+        this.rechargeModalClose.nativeElement.click();
         this.helperService.showToast('failed wallet recharge.', Key.TOAST_STATUS_ERROR);
       }
     })
@@ -765,10 +780,16 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.getExpenseSummary();
     this.tempDateFilters = [];
     this.filters = { fromDate: undefined, toDate: undefined };
+    this.databaseHelper.currentPage = 0;
+    this.databaseHelper.itemPerPage = 0;
     this.getWalletUser();
     this.dashBoardDateView = true;
     this.loading = true;
     this.getExpenseTrend();
+    this.getTeamWalletAmount();
+    this.getCreditWalletAmount();
+    this.getDebitWalletAmount();
+    this.getTop5UsersWithHighestExpense();
   }
 
   expenseSummary: any[] = [];
@@ -943,6 +964,58 @@ onDateRangeChange(dates: [Date, Date] | null) {
   
   isExpanded(index: number): boolean {
     return this.expandedIndex === index;
+  }
+
+
+
+ 
+
+  /* team wallet transacction */
+  teamWallets: any[] = [];
+  getTeamWalletAmount() {
+    this.expenseService.getTeamWallets().subscribe((res: any) => {
+      if (res.status) {
+        this.teamWallets = res.object;
+      }
+      
+      console.log("Team Wallet Data :", res);
+      });
+  }
+
+  creditWalletAmount : number = 0;
+  debitWalletAmount : number = 0;
+
+  getCreditWalletAmount() {
+    this.expenseService.getCreditWalletAmount().subscribe((res: any) => {
+      if (res.status) {
+        this.creditWalletAmount = res.object;
+      }
+      console.log("Credit Wallet Amount : ",this.creditWalletAmount);
+      });
+  }
+
+  getDebitWalletAmount() {
+    this.expenseService.getDebitWalletAmount().subscribe((res: any) => {
+      if (res.status) {
+        this.debitWalletAmount = res.object;
+      }
+      console.log("Debit Wallet Amount : ",this.debitWalletAmount);
+      });
+  }
+
+
+  topExpenseUser: any[] = [];
+  userLoader : boolean = false;
+  getTop5UsersWithHighestExpense() {
+    this.userLoader = true;
+    this.expenseService.getTop5UsersWithHighestExpense().subscribe((res: any) => {
+      if (res.status) {
+        this.topExpenseUser = res.object;
+        this.userLoader = false;
+      }
+      this.userLoader = false;
+      console.log("Top Wallet User List : ",this.topExpenseUser);
+      });
   }
 
 

@@ -18,6 +18,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Subject } from 'rxjs';
+import { Routes } from 'src/app/constant/Routes';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -27,12 +28,14 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class CreateExpenseComponent implements OnInit {
 
-  ROLE: any
-  sampleFileUrl: string =''
+  ROLE: any;
+  sampleFileUrl: string ='';
+  readonly Routes=Routes;
+
   // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
-    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) {
+    private dataService: DataService, private helperService: HelperService, public rbacService: RoleBasedAccessControlService) {
 
     }
 
@@ -910,6 +913,10 @@ this.expenseTypeName = selectedExpense.name
 
   deSelectedStaffIdsUser: number[] = [];
   selectSingle(event: any, i: any) {
+    if(!this.rbacService.hasWriteAccess(Routes.EXPENSE)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     debugger
     if (event.checked) {
       this.allselected = false;
@@ -1529,17 +1536,17 @@ this.expenseTypeName = selectedExpense.name
     })
   }
 
-  deleteExpensePolicyTypeById(){
-    this.deletePolicyToggle = true;
-    this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
-      if(res.status){
-          this.expensePolicyTypeId = 0;
-          this.deletePolicyToggle = false;
-          this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
-      }
-    })
-  }
+  // deleteExpensePolicyTypeById(){
+  //   this.deletePolicyToggle = true;
+  //   this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
+  //     if(res.status){
+  //         this.expensePolicyTypeId = 0;
+  //         this.deletePolicyToggle = false;
+  //         this.getAllCompanyExpensePolicy();
+  //         this.closeButtonDeleteExpensePolicy.nativeElement.click()
+  //     }
+  //   })
+  // }
 
   // getExpenseInformationById(id: number, flag: boolean){
 

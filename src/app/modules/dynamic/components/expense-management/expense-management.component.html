@@ -65,12 +65,12 @@
                                             <div class="mt-3 mb-3 expense-wallet" style="background-image: url(../assets/images/sidebar-icon/wallet-img.png);">
                                                 <div class="p-3">
                                                     <h5 class="font-14 fw-normal ">Company  Wallet</h5>
-                                                    <h5 class="mb-1 font-14 fw-semibold mt-4">Your Balance</h5>
-                                                    <h3 class="mb-3 font-16 fw-bold text-black">₹16,05,894</h3>
+                                                    <h5 class="mb-1 font-14 fw-semibold mt-4">Total Recharge Amount</h5>
+                                                    <h3 class="mb-3 font-16 fw-bold text-black">₹{{creditWalletAmount}}</h3>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between expense-spending p-3">
-                                                    <p class="mb-0 font-14 fw-normal">Spending Limit</p>
-                                                    <h5 class="mb-0 font-14 fw-semibold ">₹10,05,894</h5>
+                                                    <p class="mb-0 font-14 fw-normal">Total Used Amount</p>
+                                                    <h5 class="mb-0 font-14 fw-semibold ">₹{{debitWalletAmount}}</h5>
                                                 </div>
                                             </div>
                                             <!-- <div class="mt-3 mb-3">
@@ -324,7 +324,7 @@
                                             <div class="col-md-6">
                                                 <div class="categories-report border-rounded-2">
                                                     <div class="report-header p-3 d-flex align-items-center justify-content-between border-bottom">
-                                                        <h5 class="mb-0 font-15 fw-semibold">Client Report</h5>
+                                                        <h5 class="mb-0 font-15 fw-semibold">Top 5 Spending User</h5>
                                                         <!-- <div>
                                                             <nz-select class="week-filter" ngModel="Week 1" style="width: 100px;">
                                                                 <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
@@ -336,12 +336,34 @@
                                                     </div>
 
                                                     <div class="p-3">
-                                                        <div class="client-report p-3 mb-3" *ngFor="let item of [].constructor(5)">
+                                                        
+                                                        <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="topExpenseUser.length == 0 && !userLoader">
+                                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                              [nzNotFoundContent]="contentTpl">
+                                                              <ng-template #contentTpl>
+                                                                <p class="mb-1 empty-detail font-16">
+                                                                  No data for now
+                                                                </p>
+                                                              </ng-template>
+                                                            </nz-empty>
+                                                        </div>
+        
+
+                                                        <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%" *ngIf="userLoader">
+                                                            <div class="text-center load-more-btn">
+                                                                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                                                                    <div>
+                                                                        <small>Loading...</small>
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="client-report p-3 mb-3" *ngFor="let user of topExpenseUser">
                                                             <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                                                                 <div class="d-flex align-items-center gap-2">
-                                                                    <img src="assets/images/wekreta-white-logo-icon.svg">
+                                                                    <img [src]="user.userImageUrl">
                                                                     <div>
-                                                                        <h5 class="mb-0 font-16 fw-semibold">Wekrata </h5>
+                                                                        <h5 class="mb-0 font-16 fw-semibold">{{ user.name }} </h5>
                                                                         <div class="mt-1" style="width:200px;">
                                                                             <nz-progress [nzPercent]="30"
                                                                             [nzSuccessPercent]="0"
@@ -350,26 +372,22 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    <h5 class="mb-1 font-16 fw-bold">₹54,240</h5>
+                                                                    <h5 class="mb-1 font-16 fw-bold">₹{{ user.totalExpense | number:'1.2-2' }}</h5>
                                                                     <p class="mb-0 font-13 fw-normal color-basic">This week</p>
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex align-items-center justify-content-between pt-3">
-                                                                <p class="mb-0 font-12 fw-normal color-basic">Total money spend till now <span class="text-black fw-semibold">₹54,240</span></p>
-                                                                <button class="btn p-0 fw-semibold font-13 collapsed view-details" type="button" data-bs-toggle="collapse" href="#collapseExample">View details
-                                                                    <i class="bi bi-caret-down-fill font-10"></i>
-                                                                </button>
+                                                                <p class="mb-0 font-12 fw-normal color-basic">Total money spend till now <span class="text-black fw-semibold">₹{{ user.totalExpense | number:'1.2-2' }}</span></p>
+                                                                <button class="btn p-0 fw-semibold font-13 collapsed view-details" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + user.userId">
+                                                                    View details <i class="bi bi-caret-down-fill font-10"></i>
+                                                                  </button>
                                                             </div>
-                                                            <div class="mt-2 collapse" id="collapseExample">
-                                                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                                                    <p class="mb-0 fw-semibold text-black font-13">Chat GPT</p>
-                                                                    <p class="mb-0 fw-normal text-black font-13">₹16,000</p>
+                                                            <div class="mt-2 collapse" [id]="'collapse' + user.userId">
+                                                                <div *ngFor="let expense of user.expenses" class="d-flex align-items-center justify-content-between mb-2">
+                                                                  <p class="mb-0 fw-semibold text-black font-13">{{ expense.expenseType }}</p>
+                                                                  <p class="mb-0 fw-normal text-black font-13">₹{{ expense.amount | number:'1.2-2' }}</p>
                                                                 </div>
-                                                                <div class="d-flex align-items-center justify-content-between">
-                                                                    <p class="mb-0 fw-semibold text-black font-13">AWS Server</p>
-                                                                    <p class="mb-0 fw-normal text-black font-13">₹38,240</p>
-                                                                </div>
-                                                            </div>
+                                                              </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -378,53 +396,31 @@
 
                                         <div class="assets-categories mt-3 border">                                              
                                             <div class="row">
-                                           <div class="col-md-12 ">
-                                                 <div class="categories-header p-3 d-flex align-items-center justify-content-between">
-                                                    <h5 class="mb-0 font-15 fw-semibold">Departmental Budget Allocation</h5>
-                                                 </div>
-                                                 <div class="d-flex align-items-center justify-content-between p-3 gap-3">
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹40,240</h5>
-                                                        <p class="mb-0 font-12">Sales & Marketing</p>
-                                                   </div>
-                                                   <span class="departmental-separator"></span>
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹80,240</h5>
-                                                        <p class="mb-0 font-12">Operations & Support</p>
-                                                   </div>
-                                                   <span class="departmental-separator"></span>
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹20,240</h5>
-                                                        <p class="mb-0 font-12">HR & Administration</p>
-                                                   </div>
-                                                   <span class="departmental-separator"></span>
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹1,23,240</h5>
-                                                        <p class="mb-0 font-12">Finance & Legal</p>
-                                                   </div>
-                                                   <span class="departmental-separator"></span>
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹20,240</h5>
-                                                        <p class="mb-0 font-12">IT & Engineering</p>
-                                                   </div>
-                                                   <span class="departmental-separator"></span>
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹40,240</h5>
-                                                        <p class="mb-0 font-12">Product Development</p>
-                                                   </div>
-                                                   <span class="departmental-separator"></span>
-                                                   <div>
-                                                        <h5 class="mb-1 font-14 fw-bold">₹40,240</h5>
-                                                        <p class="mb-0 font-12">Creative & Strategy</p>
-                                                   </div>
-                                                 </div>
-                                           </div>
+                                                <div class="col-md-12">
+                                                    <div class="categories-header p-3 d-flex align-items-center justify-content-between">
+                                                      <h5 class="mb-0 font-15 fw-semibold">Departmental Budget Allocation</h5>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between p-3 gap-3">
+                                                      <ng-container *ngFor="let team of teamWallets; let last = last">
+                                                        <div>
+                                                          <h5 class="mb-1 font-14 fw-bold">₹{{ team.amount | number }}</h5>
+                                                          <p class="mb-0 font-12">{{ team.teamName }}</p>
+                                                        </div>
+                                                        <span *ngIf="!last" class="departmental-separator"></span>
+                                                      </ng-container>
+                                                    </div>
+                                                  </div>                                                  
                                         </div>
                                    </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+                        
+                        
+                        
+                        
                         <div class="tab-pane fade" id="expense-request" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="mt-3">
                                 <div class="asset-assigned-search">
@@ -1005,7 +1001,7 @@
 </div>
 
 
-<!-- Bootstrap Modal -->
+<!-- Bootstrap Modal RECHARGE WALLET-->
 <div class="modal fade" id="rechargeWalletModal" tabindex="-1" aria-labelledby="rechargeWalletModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
