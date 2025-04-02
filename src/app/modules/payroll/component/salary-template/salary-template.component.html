@@ -344,7 +344,7 @@
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                     <div  class="mt-2" *ngIf="component.valueTypeId == VALUE_TYPE_PERCENTAGE">
                                                     <span class="font-13 text-muted">
-                                                        {{ CalculateMonthlyAmount(component , salaryTemplate.annualCtc)/12 | number: '1.0-0'}} 
+                                                        {{ CalculateMonthlyAmount(component , salaryTemplate.annualCtc) | number: '1.0-0'}} 
                                                     </span>
                                                     </div>
                                                     <div *ngIf="component.name == 'Fixed Allowance'" class="mt-2">
@@ -366,7 +366,7 @@
                                         <div class="col-md-3">
                                             <div class="text-end px-3">
                                                 <p class="font-14 fw-normal color-basic mb-0"> {{ component.name == 'Fixed Allowance' ? (calculateFixed() | number: '1.0-0') 
-                                                        : (component.valueTypeId == VALUE_TYPE_PERCENTAGE ? (CalculateMonthlyAmount(component, salaryTemplate.annualCtc) | number: '1.0-0') 
+                                                        : (component.valueTypeId == VALUE_TYPE_PERCENTAGE ? (CalculateMonthlyAmount(component, salaryTemplate.annualCtc)*12 | number: '1.0-0') 
                                                             : (component.value * 12) | number: '1.0-0' )}}
                                                 </p>
                                             </div>
@@ -381,7 +381,7 @@
                                 </div>
     
                                  <div class="col-md-12 mt-4" >
-                                    <h5 class="font-14 fw-semibold text-primary mb-4" >
+                                    <h5 class="font-14 fw-semibold text-primary mb-4" *ngIf="salaryTemplate.reimbursementComponents.length >0">
                                         Reimbursements</h5>
                                 </div>
                                 <ng-container *ngFor="let component of  salaryTemplate.reimbursementComponents;let i = index;">
