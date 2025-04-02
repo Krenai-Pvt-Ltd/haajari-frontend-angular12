@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-response';
 import { SalaryChangeOvertimeResponse } from 'src/app/models/salary-change-overtime-response';
@@ -11,6 +12,7 @@ import { SalaryChangeResponse } from 'src/app/models/salary-change-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-earning-management',
@@ -30,6 +32,7 @@ export class EarningManagementComponent implements OnInit {
   readonly OVERTIME = Key.OVERTIME;
 
   readonly constant = constant;
+  readonly Routes =Routes;
 
   @Input() step:any;
   @Input() startDate:any;
@@ -50,6 +53,7 @@ export class EarningManagementComponent implements OnInit {
   constructor(private _dataService : DataService, 
     public _helperService : HelperService,
     private _payrollService : PayrollService,
+    public rbacService: RoleBasedAccessControlService,
     private _afStorage: AngularFireStorage) { 
 
 
