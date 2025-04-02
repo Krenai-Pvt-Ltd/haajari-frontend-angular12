@@ -1848,19 +1848,10 @@ console.log(this.data);
         if (res != undefined && res != null) {
           console.log(res);
           //@ts-ignore
-          this.uploadedCount = res.count;
-           //@ts-ignore
-          this.cdr.detectChanges();
-          this.cdr.markForCheck();
+          console.log(res.count);
           //@ts-ignore
-          if (res.status == 'Completed') {
+          this.uploadedCount = res.count;
 
-          }
-           //@ts-ignore
-          if (res.status != 'Failed') {
-
-            this.uploadedCount = 0;
-          }
         }
 
       });

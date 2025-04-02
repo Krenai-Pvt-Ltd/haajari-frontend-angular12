@@ -132,11 +132,11 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/add-role' },
       },
-      { path: 'unauthorized', 
-        component: UnauthorizedComponent 
+      { path: 'unauthorized',
+        component: UnauthorizedComponent
       },
-      { path: 'leave-management', 
-        component: LeaveManagementsComponent, 
+      { path: 'leave-management',
+        component: LeaveManagementsComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
@@ -157,7 +157,7 @@ const routes: Routes = [
       {
         path: 'inbox',
         component: InboxComponent ,
-        canActivate: [AuthGuard, SubscriptionGuard]
+
       },
       { path: 'faq', component: FaqComponent },
 
