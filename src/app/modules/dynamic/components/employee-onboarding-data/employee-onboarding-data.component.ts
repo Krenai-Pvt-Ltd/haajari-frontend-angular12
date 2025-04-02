@@ -1205,7 +1205,6 @@ appliedFilters: string[] = []
         this.validateMap.clear;
 
         const columnNames: string[] = this.jsonData[0] as string[];
-        debugger
         if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) => {
                 // Ensure the 5th column is an array of strings, other columns are treated as strings
@@ -1380,7 +1379,6 @@ appliedFilters: string[] = []
   }
 
   validateRows(rows: any[]): void {
-    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
 

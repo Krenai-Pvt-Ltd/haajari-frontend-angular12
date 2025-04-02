@@ -108,7 +108,7 @@ import { ExpensePolicyComponent } from './components/expense-policy/expense-poli
     InboxComponent,
     AssetsManagementComponent,
     ExpenseManagementComponent,
-    ExpensePolicyComponent
+    ExpensePolicyComponent,
   ],
   imports: [
     CommonModule,
