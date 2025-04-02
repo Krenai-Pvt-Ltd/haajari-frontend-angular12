@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Key } from '../constant/key';
+import { SalaryTemplate } from '../payroll-models/SalaryTemplate';
 
 
 @Injectable({
@@ -22,5 +23,10 @@ export class SalaryTemplateService {
     .set('currentPage', currentPage)
     .set('itemPerPage', itemPerPage);
     return this._http.get<any>(`${this._key.base_url}/salary-template/template-list`,{params});
+  }
+
+
+  saveSalaryTemplate(salaryTemplate:SalaryTemplate): Observable<any>{
+    return this._http.post<any>(`${this._key.base_url}/salary-template/template`,salaryTemplate);
   }
 }

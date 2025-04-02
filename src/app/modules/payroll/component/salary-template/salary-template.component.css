@@ -118,7 +118,11 @@
 .add-btn {
     min-width: 150px;
 }
-
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    border-radius: 2px;
+    width: 100px;
+  }
 .active-filed{
     background-color: #F7F9FF;
 }

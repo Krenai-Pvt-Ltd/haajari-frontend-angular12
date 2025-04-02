@@ -157,7 +157,7 @@
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container *ngFor="let component of  templateComponents.reimbursementComponents;let i = index">
-                                        <li 
+                                        <li (click)="toggleReimbursementComponent(component)"
                                         class="d-flex align-items-center justify-content-between font-13 fw-normal">
                                             {{component.displayName}}<span class="lh-base">
                                                 <i class="bi bi-plus font-20" ></i>
@@ -242,7 +242,8 @@
                 </div>
                </div>
                <div class="col-md-9 pl-0">
-                <form #templateForm="ngForm" ngNativeValidate (ngSubmit)="saveSalaryTemplate()">
+                    <form #templateForm="ngForm" ngNativeValidate (ngSubmit)="saveSalaryTemplate()">
+
                     <div class="create-template-box p-3 pt-4 h-100 pb-5">
                         <div class="row">
                            <div class="col-md-6 mb-3">
@@ -324,7 +325,7 @@
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
                                                 <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                    <input type="number" placeholder="" required name="percentage" id="valueType"
-                                                        class="form-control borderLess" [(ngModel)]="component.value">                 
+                                                        class="form-control borderLess" [value]="component.value" (input)="updateComponentValue(component, $event)">             
                                                 </div>
                                                 <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                     <p class="mb-0 font-13 fw-semibold" *ngIf="component.name == 'Basic'">% of CTC</p>
@@ -353,7 +354,7 @@
                                                     </div>
                                                     <div *ngIf="component.valueTypeId == VALUE_TYPE_FLAT && component.name !== 'Fixed Allowance'">
                                                         <input type="number" placeholder="" required name="earning amount"
-                                                        class="form-control borderLess" [(ngModel)]="component.value"> 
+                                                        class="form-control borderLess" [value]="component.value" (input)="updateComponentValue(component, $event)"> 
                                                     </div>
                                                     
                                                 </div>
@@ -379,7 +380,7 @@
                                 </ng-container>
                                 </div>
     
-                                <!-- <div class="col-md-12 mt-4" >
+                                 <div class="col-md-12 mt-4" >
                                     <h5 class="font-14 fw-semibold text-primary mb-4" >
                                         Reimbursements</h5>
                                 </div>
@@ -401,7 +402,7 @@
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                     <input type="number" placeholder="" required name="reimbursement amount"
                                                     [attr.max]="originalValues[i]" 
-                                                    [(ngModel)]="component.value" 
+                                                    [value]="component.value" 
                                                     (input)="onReimbursementInput(i, $event)"
                                                     class="form-control borderLess"> 
                                                 </div>
@@ -412,11 +413,11 @@
                                                 <p class="font-13 fw-normal color-basic mb-0">{{component.value*12}}</p>
                                             </div>
                                         </div>
-                                        <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
+                                        <button class="btn p-0 text-danger action-btn font-18" (click)="toggleReimbursementComponent(component)"><i class="bi bi-x"></i></button>
                                     </div>
                                     
                                 </div> 
-                                </ng-container> -->
+                                </ng-container>
     
                                 <!-- <div class="col-md-12 mt-4">
                                     <h5 class="font-14 fw-semibold text-primary mb-4">Flexible Benefit Plan Components</h5>
@@ -523,6 +524,8 @@
                                     </div>
                                 </div>
                             </div> 
+
+                            
                             <!-- <div class="row p-3 border-bottom p-0 m-0 align-items-center"> 
                                 <div class="col-md-3">
                                         <p class="mb-0 font-12 color-basic">Basic</p>
@@ -785,6 +788,7 @@
                             </div> -->
     
                         </div>
+                        
                     </div>
                     <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!templateForm.pristine">
                         <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"  [ngClass]="{'disabled-lnk':saveLoader}">

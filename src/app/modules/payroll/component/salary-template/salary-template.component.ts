@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Key } from 'src/app/constant/key';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
+import { ReimbursementComponent } from 'src/app/payroll-models copy/ReimbursementComponent';
 import { OrganizationTemplateComponent } from 'src/app/payroll-models/OrganizationTemplateComponent';
 import { SalaryTemplate } from 'src/app/payroll-models/SalaryTemplate';
 import { HelperService } from 'src/app/services/helper.service';
@@ -24,7 +26,7 @@ export class SalaryTemplateComponent implements OnInit {
   itemPerPage = 10;
   totalItems = 0;
   isNewTemplate:boolean=false;
-  saveLoader:boolean=true;
+  saveLoader:boolean=false;
   constructor(private _salaryTemplateService : SalaryTemplateService,
     public _helperService : HelperService
   ) { }
@@ -57,28 +59,28 @@ export class SalaryTemplateComponent implements OnInit {
             this.templateComponents = new SalaryTemplate();
           } else {
             this.tempTemplateComponents = JSON.parse( JSON.stringify(this.templateComponents));
+
+            this.originalValues = this.templateComponents.reimbursementComponents.map(comp => comp.value);
+
             if (!this.isNewTemplate) {
-              // Remove components from templateComponents that are already in salaryTemplate
               this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
-                  return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name === tempComponent.name);
+                  return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name == tempComponent.name);
               });
-          
+              this.templateComponents.reimbursementComponents = this.templateComponents.reimbursementComponents.filter(tempComponent => {
+                return !this.salaryTemplate.reimbursementComponents.some(salaryComponent => salaryComponent.type ==  tempComponent.type);
+            });          
           } else {
-              // Move 'Basic' and 'Fixed Allowance' from templateComponents to salaryTemplate if they exist
               const basicComponent = this.templateComponents.earningComponents.find(component => component.name === 'Basic');
               const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name === 'Fixed Allowance');
           
               if (basicComponent) {
-                  // Add a clone of the Basic component to salaryTemplate to avoid reference issues
                   this.salaryTemplate.earningComponents.push({ ...basicComponent });
               }
           
               if (fixedAllowanceComponent) {
-                  // Add a clone of the Fixed Allowance component to salaryTemplate to avoid reference issues
                   this.salaryTemplate.earningComponents.push({ ...fixedAllowanceComponent });
               }
           
-              // Remove 'Basic' and 'Fixed Allowance' from templateComponents to avoid duplication
               this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(
                   component => component.name !== 'Basic' && component.name !== 'Fixed Allowance'
               );
@@ -98,6 +100,8 @@ export class SalaryTemplateComponent implements OnInit {
         // this.shimmer = false;
         this.templateComponents = new SalaryTemplate();
       }
+
+      
     );
 }
 
@@ -242,6 +246,20 @@ calculateEsiContribution(annualCtc: number): number {
 
 saveSalaryTemplate(){
   this.saveLoader = true;
+  this._salaryTemplateService.saveSalaryTemplate(this.salaryTemplate).subscribe((response) => {
+          if(response.status){
+            this._helperService.showToast("Your Salary Template has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
+          }
+          this.saveLoader = false;
+        },
+        (error) => {
+          this.saveLoader = false;
+          this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
+  
+        }
+      );
   console.log(this.salaryTemplate)
 }
 
@@ -258,44 +276,47 @@ editSalaryTemplate(template:SalaryTemplate){
   this.getTemplateComponents();
 }
 
-// toggleEarningComponent(component: EarningComponentTemplate) {
-//   const salaryIndex = this.salaryTemplate.earningComponents.indexOf(component);
-//   const tempIndex = this.templateComponents.earningComponents.indexOf(component);
-
-//   if (salaryIndex > -1) {
-//       this.salaryTemplate.earningComponents.splice(salaryIndex, 1);
-//       this.templateComponents.earningComponents.push(component);
-//   } else if (tempIndex > -1) {
-//       this.tempTemplateComponents.earningComponents.splice(tempIndex, 1);
-//       this.salaryTemplate.earningComponents.push(component);
-//   }
-//   console.log(this.salaryTemplate);
-// }
-
 toggleEarningComponent(component: EarningComponentTemplate) {
-  // Find the component in salaryTemplate by name
   const salaryIndex = this.salaryTemplate.earningComponents.findIndex(c => c.name === component.name);
-  // Find the component in templateComponents by name
   const tempIndex = this.templateComponents.earningComponents.findIndex(c => c.name === component.name);
 
   if (salaryIndex > -1) {
-      // Remove the component from salaryTemplate and push it back to templateComponents
       const removedComponent = this.salaryTemplate.earningComponents.splice(salaryIndex, 1)[0];
-      this.templateComponents.earningComponents.push(removedComponent); // Move back to templateComponents
+      this.templateComponents.earningComponents.push(removedComponent);
   } else if (tempIndex > -1) {
-      // When adding back to salaryTemplate, use the fresh default value from tempTemplateComponents
       const freshComponent = this.tempTemplateComponents.earningComponents.find(c => c.name === component.name);
-
       if (freshComponent) {
-          // Clone the fresh component and push to salaryTemplate
-          this.salaryTemplate.earningComponents.push({ ...freshComponent }); // Avoid reference issues
-
-          // Remove the component from templateComponents once added to salaryTemplate
+          this.salaryTemplate.earningComponents.push({ ...freshComponent });
           this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(c => c.name !== component.name);
       }
   }
-
 }
+
+toggleReimbursementComponent(component: ReimbursementComponent) {
+  const salaryIndex = this.salaryTemplate.reimbursementComponents.findIndex(c => c.type == component.type);
+  const tempIndex = this.templateComponents.reimbursementComponents.findIndex(c => c.type == component.type);
+
+  if (salaryIndex > -1) {
+      const removedComponent = this.salaryTemplate.reimbursementComponents.splice(salaryIndex, 1)[0];
+      this.templateComponents.reimbursementComponents.push(removedComponent);
+  } else if (tempIndex > -1) {
+      const freshComponent = this.tempTemplateComponents.reimbursementComponents.find(c => c.type == component.type);
+      if (freshComponent) {
+          this.salaryTemplate.reimbursementComponents.push({ ...freshComponent });
+          this.templateComponents.reimbursementComponents = this.templateComponents.reimbursementComponents.filter(c => c.type !== component.type);
+      }
+  }
+}
+
+updateComponentValue(component: any, event: Event) {
+  const inputElement = event.target as HTMLInputElement;
+  if (inputElement) {
+    component.value = Number(inputElement.value);
+  }
+}
+
+
+
 
 
 
