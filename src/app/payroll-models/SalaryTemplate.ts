@@ -1,6 +1,7 @@
 import { EarningComponentTemplate } from "../payroll-models copy/OrganizationTemplateComponent";
 import { EmployeeProvidentFund } from "./EmployeeProvidentFund";
 import { EmployeeStateInsurance } from "./EmployeeStateInsurance";
+import { EpfTemplate } from "./EpfTemplate";
 import { ReimbursementComponent } from "./ReimbursementComponent";
 
 export class SalaryTemplate{
@@ -14,12 +15,13 @@ export class SalaryTemplate{
     statusId:number=0;
     earningComponents:EarningComponentTemplate []=new Array();
     reimbursementComponents:ReimbursementComponent[]= new Array();
-    deductions:TemplateDeductionResponse= new TemplateDeductionResponse();
+    deductions:TemplateDeductionResponse[]= new Array();
     
     
 }
 
 export class TemplateDeductionResponse{
     esiConfiguration!:EmployeeProvidentFund;
-    epfConfiguration!:EmployeeStateInsurance;
+    epfConfiguration!:EpfTemplate;
+    isAdd:boolean=false;
 }

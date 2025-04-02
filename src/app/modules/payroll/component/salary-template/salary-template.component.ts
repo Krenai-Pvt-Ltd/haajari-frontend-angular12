@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
 import { ReimbursementComponent } from 'src/app/payroll-models copy/ReimbursementComponent';
-import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
-import { OrganizationTemplateComponent } from 'src/app/payroll-models/OrganizationTemplateComponent';
-import { SalaryTemplate } from 'src/app/payroll-models/SalaryTemplate';
+import { SalaryTemplate, TemplateDeductionResponse } from 'src/app/payroll-models/SalaryTemplate';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryTemplateService } from 'src/app/services/salary-template.service';
 
@@ -169,6 +167,32 @@ toggleReimbursementComponent(component: ReimbursementComponent) {
   this.CalculateMonthlyAmountNew();
 }
 
+toggleDeductionComponent(deduction: TemplateDeductionResponse) {
+  // Find the index of the deduction in salaryTemplate
+  const salaryIndex = this.salaryTemplate.deductions.findIndex(d => d.epfConfiguration.epfNumber == deduction.epfConfiguration?.epfNumber);
+  const tempIndex = this.templateComponents.deductions.findIndex(d => d.epfConfiguration?.epfNumber == deduction.epfConfiguration?.epfNumber);
+
+  // If deduction exists in salaryTemplate.deductions, move it to templateComponents.deductions
+  if (salaryIndex > -1) {
+      const removedDeduction = this.salaryTemplate.deductions.splice(salaryIndex, 1)[0];
+      this.templateComponents.deductions.push(removedDeduction);
+  } 
+  // If deduction exists in templateComponents.deductions, find it in tempTemplateComponents and move it to salaryTemplate.deductions
+  else if (tempIndex > -1) {
+      const freshDeduction = this.tempTemplateComponents.deductions.find(d => d.epfConfiguration?.epfNumber === deduction.epfConfiguration?.epfNumber);
+      if (freshDeduction) {
+          // Clone and add it to salaryTemplate.deductions
+          this.salaryTemplate.deductions.push({ ...freshDeduction });
+          // Remove it from templateComponents.deductions
+          this.templateComponents.deductions = this.templateComponents.deductions.filter(d => d.epfConfiguration?.epfNumber !== deduction.epfConfiguration?.epfNumber);
+      }
+  }
+
+  // Recalculate monthly amounts after toggling the deductions
+  this.CalculateMonthlyAmountNew();
+}
+
+
 
 CalculateMonthlyAmountNew() {
   var currentMonthlyCTC = Math.round(this.salaryTemplate.annualCtc/12);
@@ -208,6 +232,15 @@ CalculateMonthlyAmountNew() {
     calculateAmount += component.amount;
   });
 
+  // this.salaryTemplate.deductions.forEach(component=>{
+  //   ++count;
+  //   if(component.esiConfiguration.isAdd){
+  //     component.esiConfiguration.isAdd = true;
+  //   }
+
+  //   calculateAmount += component.esiConfiguration.value;
+  // });
+
 
   if(count== (this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length)){
     const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
@@ -237,20 +270,25 @@ CalculateMonthlyAmountNew() {
 salaryTemplateList:SalaryTemplate[] = new Array();
 
 getSalaryTemplates() {
+  this.shimmer=true;
   this._salaryTemplateService.getSalaryTemplates(this.currentPage, this.itemPerPage).subscribe(
     (response) => {
       if (response.status) {
         this.salaryTemplateList = response.object.content;
         this.totalItems = response.object.totalElements;
-
+        this.shimmer=false;
       } else {
         this.salaryTemplateList = new Array();
         this.totalItems = 0;
+        this.shimmer=false;
+
       }
     },
     (error) => {
       this.salaryTemplateList = new Array();
       this.totalItems = 0;
+      this.shimmer=false;
+
 
     }
   );
