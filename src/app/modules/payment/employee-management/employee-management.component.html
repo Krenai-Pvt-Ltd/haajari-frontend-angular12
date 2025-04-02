@@ -19,6 +19,7 @@
       role="tab" aria-controls="pills-contact" aria-selected="false" (click)="selectTab(FINAL_SETTLEMENT)" #step3Tab>Full And
       Final Settlement</button>
   </li>
+  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.PAYROLLDASHBOARD)">
   <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
       *ngIf="step <= FINAL_SETTLEMENT" (click)="updatePayrollStep()">
     <span *ngIf="!processing">
@@ -32,6 +33,7 @@
         <span></span>
       </div>
   </button>
+</ng-container>
 </ul>
 
 <div class="tab-content" id="pills-tabContent">

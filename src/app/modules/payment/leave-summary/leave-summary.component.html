@@ -18,6 +18,7 @@
     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#lopReversal" type="button" [class.disabled]="step < LOP_REVERSAL"
       role="tab" aria-controls="lopReversal" aria-selected="false" (click)="selectTab(LOP_REVERSAL)" #step6Tab>Lop Reversal</button>
   </li>
+  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.PAYROLLDASHBOARD)">
   <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
       *ngIf="step<= LOP_REVERSAL" (click)="updatePayrollStep()">
     <span *ngIf="!processing">
@@ -31,6 +32,7 @@
         <span></span>
       </div>
   </button>
+  </ng-container>
 </ul>
 
 

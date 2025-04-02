@@ -12,32 +12,9 @@
   <div class="menu-content h-100">
     <div class="menu-body navbar-vertical">
       <div id="sidebarCollapse">
-        <ng-container *ngIf="
-            !this.rbacService.shouldDisplay('dashboard');
-            else dashboardCondition
-          ">
-          <div class="position-relative">
-            <ul class="sidebar-menu">
-              <div class="sliderNav" [ngStyle]="sliderStyle5"></div>
-              <li  (mouseover)="updateSliderStyle5(0)" (mouseout)="resetHoverIndex5()"
-                (click)="setActive5(0);" class="pointer"
-                [ngClass]="{ 'sidebar-menu-active': activeTab === 'dashboard' }" routerLinkActive="sidebar-menu-active"
-                (click)="routeToEmployeeProfilePage()">
-                <a class="sidebar-menu-link sidebar-menu-link">
-                  <span class="  ">
-                    <!-- <i class="bi bi-house-door menu-icon pr-2"></i> -->
-                    <img  src="assets/images/sidebar-icon/dashboard.svg">
-                    <!-- <img *ngIf="0 == activeIndex" src="assets/images/sidebar-icon/dashboard-active.svg"> -->
-                    Dashboard
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </ng-container>
-        <ng-template #dashboardCondition>
+
           <!-- {{ROLE}} -->
-          <div>
+          <div *ngIf="this.rbacService.shouldDisplay('dashboard');">
             <ul class="sidebar-menu">
               <div class="sliderNav" [ngStyle]="sliderStyle5"></div>
               <li [class.active]="0 === activeIndex" (mouseover)="activateTab('dashboard');updateSliderStyle5(0)" (mouseout)="activateTab('dashboard');;activateTab('dashboard');resetHoverIndex5()"
@@ -55,7 +32,7 @@
               </li>
             </ul>
           </div>
-        </ng-template>
+
         <div class="" >
           <div *ngIf="checkModule(people)" class="sidebar-menu-heding">PEOPLE</div>
           <ul class="sidebar-menu">
@@ -431,7 +408,7 @@
         </div>
 
         <div class="log-out-btn-box">
-          <div class="plan-box" *ngIf="rbacService.getRoles()=='ADMIN'">
+          <div class="plan-box" *ngIf="rbacService.hasWriteAccess('/setting/subscription')">
             <div class="">
               <p class="mb-0"></p>
             </div>

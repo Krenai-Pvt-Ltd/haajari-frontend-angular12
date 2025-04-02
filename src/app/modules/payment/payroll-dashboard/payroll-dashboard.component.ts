@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { MonthResponse } from 'src/app/models/month-response';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-payroll-dashboard',
@@ -50,7 +52,7 @@ export class PayrollDashboardComponent implements OnInit {
   readonly PAYROLL_HISTORY = Key.PAYROLL_HISTORY;
 
 
-
+   readonly Routes =Routes;
   // ------------------------------
 
   goToSection(STEP:number){
@@ -91,7 +93,8 @@ export class PayrollDashboardComponent implements OnInit {
     private dataService: DataService,
     private _helperService: HelperService,
     private _payrollService : PayrollService,
-  
+    public rbacService: RoleBasedAccessControlService
+
   ) {}
 
   ngOnInit(): void {

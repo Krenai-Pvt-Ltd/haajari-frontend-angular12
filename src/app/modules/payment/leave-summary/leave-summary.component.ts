@@ -2,11 +2,13 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
 import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-leave-summary',
@@ -42,9 +44,11 @@ export class LeaveSummaryComponent implements OnInit {
   readonly LOP_REVERSAL = Key.LOP_REVERSAL;
 
    private searchSubject = new Subject<boolean>();
+   readonly Routes =Routes;
 
   constructor(private _dataService : DataService,
      private _payrollService : PayrollService,
+           public rbacService: RoleBasedAccessControlService,
      public _helperService:HelperService) {
 
         this.searchSubject
