@@ -119,70 +119,6 @@ export class SalaryTemplateComponent implements OnInit {
  
 salaryTemplate:SalaryTemplate = new SalaryTemplate();
 
-
-epfEmployerContribution: number=0; 
-
-// calculateEpfContribution(): void {
-//   let basicSalary = this.calculateBasic();
-  
-//   this.epfEmployerContribution = this.salaryTemplate.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
-//     ? (basicSalary * 0.12)
-//     : (15000 * 0.12);
-
-// }
-
-
-
-
-// esiContriution:number=0;
-// calculateEsiContribution(annualCtc: number): number {
-//   let monthlyCtc = annualCtc / 12;
-
-//   if (monthlyCtc <= this.ESI_MAX_LIMIT) {
-//     let esiWage = this.salaryTemplate.earningComponents
-//       .map((comp, i) => ({ comp }))
-//       .filter(item =>  item.comp.displayName !== 'HRA') 
-//       .reduce((sum, item) => {
-//         let value = 0;
-//         if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
-//           if (item.comp.name == 'Basic') {
-//             value = this.calculateBasic(); 
-//             value = this.calculatePercentageBasedOnType(item.comp.value,item.comp);
-//           }
-//         } else if (item.comp.valueTypeId == this.VALUE_TYPE_FLAT) {
-//           value = item.comp.value;
-//         }
-//         return sum + value;
-//       }, 0);
-//     let fixedAllowance = this.calculateFixed() / 12;
-//     esiWage += fixedAllowance;
-//     this.esiContriution = Math.floor((esiWage * 3.25) / 100);
-//     return this.esiContriution;
-//   }
-
-//   return 0;
-// }
-
-
-saveSalaryTemplate(){
-  this.saveLoader = true;
-  this._salaryTemplateService.saveSalaryTemplate(this.salaryTemplate).subscribe((response) => {
-          if(response.status){
-            this._helperService.showToast("Your Salary Template has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
-          }else{
-            this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
-          }
-          this.saveLoader = false;
-        },
-        (error) => {
-          this.saveLoader = false;
-          this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
-  
-        }
-      );
-  console.log(this.salaryTemplate)
-}
-
 createTemplate(){
   this.toggle=true;
   this.isNewTemplate = true;
@@ -328,7 +264,74 @@ pageChange(page: number){
   }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       SALARY TEMPLATE SAVE                                                                            // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+saveSalaryTemplate(){
+  this.saveLoader = true;
+  this._salaryTemplateService.saveSalaryTemplate(this.salaryTemplate).subscribe((response) => {
+          if(response.status){
+            this._helperService.showToast("Your Salary Template has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
+          }
+          this.saveLoader = false;
+        },
+        (error) => {
+          this.saveLoader = false;
+          this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
+  
+        }
+      );
+  console.log(this.salaryTemplate)
+}
+
+
+epfEmployerContribution: number=0; 
+
+// calculateEpfContribution(): void {
+//   let basicSalary = this.calculateBasic();
+  
+//   this.epfEmployerContribution = this.salaryTemplate.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
+//     ? (basicSalary * 0.12)
+//     : (15000 * 0.12);
+
+// }
+
+
+
+
+// esiContriution:number=0;
+// calculateEsiContribution(annualCtc: number): number {
+//   let monthlyCtc = annualCtc / 12;
+
+//   if (monthlyCtc <= this.ESI_MAX_LIMIT) {
+//     let esiWage = this.salaryTemplate.earningComponents
+//       .map((comp, i) => ({ comp }))
+//       .filter(item =>  item.comp.displayName !== 'HRA') 
+//       .reduce((sum, item) => {
+//         let value = 0;
+//         if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
+//           if (item.comp.name == 'Basic') {
+//             value = this.calculateBasic(); 
+//             value = this.calculatePercentageBasedOnType(item.comp.value,item.comp);
+//           }
+//         } else if (item.comp.valueTypeId == this.VALUE_TYPE_FLAT) {
+//           value = item.comp.value;
+//         }
+//         return sum + value;
+//       }, 0);
+//     let fixedAllowance = this.calculateFixed() / 12;
+//     esiWage += fixedAllowance;
+//     this.esiContriution = Math.floor((esiWage * 3.25) / 100);
+//     return this.esiContriution;
+//   }
+
+//   return 0;
+// }
 
 
 
