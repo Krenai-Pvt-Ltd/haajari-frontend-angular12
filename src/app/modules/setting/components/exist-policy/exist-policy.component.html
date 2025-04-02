@@ -173,9 +173,7 @@
              
               <div class="add-shift-main-box" *ngIf="!isLoading">
                 <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                  <div class="">
-                    <h6 class="text-truncate mb-0">Exit Policy</h6>
-                  </div>
+                    <h6 class="mb-0 lh-lgg">Exit Policy</h6>
                   <div  *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                     <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
                       <i class="bi bi-plus"></i> Create exit policy

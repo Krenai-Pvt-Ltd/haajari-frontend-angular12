@@ -207,7 +207,8 @@
                     </li>
                    
                   </ul>
-                  <span class="pointer" [ngClass]="{'disabled-lnk': isSyncLoading}" (click)="syncPayrollData()">
+                  <span class="pointer" *ngIf="rbacService.hasWriteAccess(Routes.PAYROLLDASHBOARD)"
+                   [ngClass]="{'disabled-lnk': isSyncLoading}" (click)="syncPayrollData()">
                     <div *ngIf="isSyncLoading">
                       <div class="spinner-border text-dark" role="status">
                         <span class="sr-only">Loading...</span>
@@ -251,12 +252,14 @@
                  
                   <div class="tab-content my-3">
                     <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
+                      <ng-container *ngIf="rbacService.hasWriteAccess(Routes.PAYROLLDASHBOARD)">
                       <div class="row" *ngIf="userSalaryTemplateNotConfigCount>0">
                         <div class="col-md-12">
                           <p class="mb-0" style="color : red"> salary template is not mapped with
                             {{userSalaryTemplateNotConfigCount}} user <a routerLink="/setting/salary-setting">click to add</a></p>
                         </div>
                       </div>
+                    </ng-container>
                       <div class="row" [ngClass]="{'disabled-lnk': userSalaryTemplateNotConfigCount>0}">
                         <div class="col-md-6" (click)="goToSection(CURRENT_TAB_IN_EMPLOYEE_CHANGE)">
                           <div class="card-body mt-3 payroll-step"

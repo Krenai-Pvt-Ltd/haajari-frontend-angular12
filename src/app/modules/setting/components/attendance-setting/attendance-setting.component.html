@@ -183,7 +183,7 @@
                 <div class="add-shift-main-box">
                   <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                     <div class="">
-                      <h6 class="text-truncate mb-0">Shifts</h6>
+                      <h6 class="mb-0 lh-lgg">Shifts</h6>
                     </div>
                     <div    *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)" >
                       <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime"
@@ -496,9 +496,7 @@
           <div class="col-md-7 mt-3 mb-3">
             <div class="add-shift-main-box">
               <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                <div >
-                  <h6 class="text-truncate mb-0">Holiday's List</h6>
-                </div>
+                  <h6 class="mb-0 lh-lgg">Holiday's List</h6>
                 <div >
                   <a class="add-shift-time-btn" data-bs-toggle="modal"  *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)"
                   data-bs-target="#addholiday">
@@ -658,9 +656,7 @@
                 ">
                 <div class="add-shift-main-box">
                   <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                    <div class="">
-                      <h6 class="text-truncate mb-0">Rules</h6>
-                    </div>
+                      <h6 class="mb-0 lh-lgg">Rules</h6>
                     <div *ngIf="rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)">
                       <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#automation-rules"
                         id="automationRuless" #automationRuless (click)="getAttendanceRuleByOrganizationMethodCall()">

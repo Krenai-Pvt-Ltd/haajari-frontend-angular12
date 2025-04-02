@@ -28,13 +28,13 @@
             <div class="d-flex justify-content-end align-items-center" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)"
               style="gap: 10px; width: 30%; padding-right: 20px">
               <div class="add-filtter d-flex align-items-center justify-content-end gap-1">
-                <button data-bs-toggle="modal" data-bs-target="#createteam2" type="button" *ngIf="ROLE == 'ADMIN'"
+                <button data-bs-toggle="modal" data-bs-target="#createteam2" type="button" 
                   class="btn primaryBtnLink">
                   <i class="bi bi-plus-lg"></i> Create Team
                 </button>
-                <span class="btnSeprator" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"></span>
+                <span class="btnSeprator" *ngIf="onboardingVia == 'SLACK'"></span>
                 <button class="btn primaryBtnLink" (click)="getFlagOfSlackPlaceholder2()"
-                  [ngClass]="{ 'disabled-lnk': rotateToggle }" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'">
+                  [ngClass]="{ 'disabled-lnk': rotateToggle }" *ngIf="onboardingVia == 'SLACK'">
                   <i [ngClass]="{
                            'spinner-border': rotateToggle,
                            'bi bi-arrow-clockwise': !rotateToggle
@@ -257,11 +257,7 @@
             <div class="card-body">
               <div class="float-end">
                 <div class="dropdown d-inline-block">
-                  <!-- <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false">
-                    <i class="las la-ellipsis-v font-24 text-muted"></i>
-                  </a> -->
-
+                  <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.TEAM)">
                   <button type="button" data-bs-toggle="dropdown" id="dLabel1" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
                     <i class="bi bi-three-dots-vertical"></i>
                   </button>
@@ -272,10 +268,11 @@
                               " *ngIf="team.exitFromTeam">
                               <i class="bi bi-x-circle"></i>
                               Exit From Team!</a>
-                    <a class="dropdown-item" (click)="deleteTeamByTeamId(team.id)" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)">
+                    <a class="dropdown-item" (click)="deleteTeamByTeamId(team.id)">
                      <i class="bi bi-trash3"></i> Delete Team
                     </a>
                   </div>
+                </ng-container>
                 </div>
               </div>
               <div class="media align-items-center">
