@@ -771,7 +771,7 @@
 
                               <!-- data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" -->
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
-                              
+
                               (click)="openDeleteConfirmationModal(user.id, user.presenceStatus, user.uuid, 'Disable')" *ngIf="user.presenceStatus"/>
                               <label for="switch{{ user.uuid }}" class="label-success"></label>
                             </div>
@@ -1154,7 +1154,7 @@
                         </td>
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
-                            {{ user.email ? user.email : "N/A" }} 
+                            {{ user.email ? user.email : "N/A" }}
                             {{ user.email ? user.email : "N/A" }}
                           </a>
                           <p class="mb-0 font-12 fw-normal color-basic"> {{ user.phone ? user.phone : "N/A" }}</p>
@@ -1209,7 +1209,7 @@
                       </tr>
 
                     </tbody>
-                   
+
                   </table>
                 </div>
                 <div
@@ -1616,7 +1616,7 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
         <ng-container *ngIf="
             !isShimmer &&
             onboardUserList.length == 0 &&
-            !networkConnectionErrorPlaceholder
+            !networkConnectionErrorPlaceholder && !isUploading
           ">
           <div class="row" *ngIf="!(data.length > 0) ">
             <div class="col-md-6">
@@ -1870,13 +1870,13 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
           </div>
         </ng-container>
         <ng-container *ngIf="
-            isProgressToggle &&
-              onboardUserList.length == 0;
+            (isProgressToggle &&
+              onboardUserList.length == 0 || isUploading);
             else onboardUserListCondition
           ">
           <div class="">
             <div class="text-end">
-              <div *ngIf="isProgressToggle">Processing... {{ uploadedCount }} </div>
+              <div *ngIf="isUploading">Processing... {{ uploadedCount }} </div>
               <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
             </div>
           </div>

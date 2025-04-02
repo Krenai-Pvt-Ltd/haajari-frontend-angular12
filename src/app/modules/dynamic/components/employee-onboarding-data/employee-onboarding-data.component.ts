@@ -228,6 +228,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
+    this.getUploadStatusFromFirebase(this.rbacService.getOrgRefUUID());
     this.dataService.onNotification().subscribe(() => {
       this.getShiftData();
     });
@@ -1402,6 +1403,7 @@ appliedFilters: string[] = []
           const email = cellValue.toString().trim();
           this.addToMap('Repeated Email: ' + email, `${i + 1}`);
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            this.addToMap('Invalid Email: ',`${i+1}`);
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -1416,6 +1418,7 @@ appliedFilters: string[] = []
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid Phone: ',`${i+1}`);
           }
         }else if(this.fileColumnName[j] === 'phone*'){
           this.addToMap('Empty Phone: ',`${i+1}`);
@@ -1450,6 +1453,21 @@ appliedFilters: string[] = []
           }
           if (!shiftExists || !cellValue) {
               this.addToMap('Invalid Shift: ',`${i+1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i+1][j] = '';
+          }
+        }
+
+        if (this.fileColumnName[j] === 'gender*' ) {
+          var genderExists=false;
+          if(cellValue){
+            const gender = cellValue.toString().trim();
+            genderExists = this.genders.some(g =>g === gender);
+          }
+          if (!genderExists || !cellValue) {
+              this.addToMap('Invalid gender: ',`${i+1}`);
               rowIsValid = false;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
@@ -1808,7 +1826,7 @@ console.log(this.data);
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.errorMessage = '';
-    var uuid=uuidv4();
+    var uuid=this.rbacService.getOrgRefUUID();
     setTimeout(() => {
     this.getUploadStatusFromFirebase(uuid);
     }
@@ -1838,6 +1856,7 @@ console.log(this.data);
     );
   }
 
+  isUploading: boolean = false;
   getUploadStatusFromFirebase(uuid: any) {
     this.db.object('bulk_upload/user_' + uuid).valueChanges()
       .subscribe(res => {
@@ -1846,7 +1865,15 @@ console.log(this.data);
         if (res != undefined && res != null) {
           console.log(res);
           //@ts-ignore
-          console.log(res.count);
+          if(res.status=='InProcess'){
+            this.isUploading = true;
+          }
+          //@ts-ignore
+          if(res.status=='Completed' && this.isUploading){
+            this.getReport();
+            this.getUser();
+            this.isUploading = false;
+          }
           //@ts-ignore
           this.uploadedCount = res.count;
 
