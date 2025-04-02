@@ -25,6 +25,7 @@ export class EarningComponentTemplate{
       isCustom:boolean=false;
       isEsiIncludded:boolean=false;
       isEpfIncluded:boolean=false;
+      amount:number=0;
 }
 
 

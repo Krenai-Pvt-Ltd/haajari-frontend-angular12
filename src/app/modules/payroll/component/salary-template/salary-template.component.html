@@ -328,8 +328,8 @@
                                                         class="form-control borderLess" [value]="component.value" (input)="updateComponentValue(component, $event)">             
                                                 </div>
                                                 <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
-                                                    <p class="mb-0 font-13 fw-semibold" *ngIf="component.name == 'Basic'">% of CTC</p>
-                                                    <p class="mb-0 font-13 fw-semibold" *ngIf="component.name != 'Basic'">% of Basic</p>
+                                                    <p class="mb-0 font-13 fw-semibold" *ngIf="component.calculationBasedId == CALCULATION_BASED_CTC">% of CTC</p>
+                                                    <p class="mb-0 font-13 fw-semibold" *ngIf="component.calculationBasedId == CALCULATION_BASED_BASIC">% of Basic</p>
                                                 </div>    
                                             </div>
                                             <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_FLAT">
@@ -342,20 +342,18 @@
                                         <div class="col-md-3">
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border">
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                    <div  class="mt-2" *ngIf="component.valueTypeId == VALUE_TYPE_PERCENTAGE">
-                                                    <span class="font-13 text-muted">
+                                                    <div  class="mt-2" >
+                                                    <span class="font-13 text-muted" *ngIf="component.valueTypeId == VALUE_TYPE_PERCENTAGE">
                                                         {{ CalculateMonthlyAmount(component , salaryTemplate.annualCtc) | number: '1.0-0'}} 
                                                     </span>
-                                                    </div>
-                                                    <div *ngIf="component.name == 'Fixed Allowance'" class="mt-2">
-                                                        <span class="font-13 text-muted">
+                                                        <span class="font-13 text-muted" *ngIf="component.name == 'Fixed Allowance'">
                                                             {{ calculateFixed() / 12 | number: '1.0-0' }} 
                                                         </span>
                                                     </div>
-                                                    <div *ngIf="component.valueTypeId == VALUE_TYPE_FLAT && component.name !== 'Fixed Allowance'">
+                                                    <span *ngIf="component.valueTypeId == VALUE_TYPE_FLAT && component.name !== 'Fixed Allowance'">
                                                         <input type="number" placeholder="" required name="earning amount"
                                                         class="form-control borderLess" [value]="component.value" (input)="updateComponentValue(component, $event)"> 
-                                                    </div>
+                                                    </span>
                                                     
                                                 </div>
                                             </div>
@@ -365,10 +363,7 @@
 
                                         <div class="col-md-3">
                                             <div class="text-end px-3">
-                                                <p class="font-14 fw-normal color-basic mb-0"> {{ component.name == 'Fixed Allowance' ? (calculateFixed() | number: '1.0-0') 
-                                                        : (component.valueTypeId == VALUE_TYPE_PERCENTAGE ? (CalculateMonthlyAmount(component, salaryTemplate.annualCtc)*12 | number: '1.0-0') 
-                                                            : (component.value * 12) | number: '1.0-0' )}}
-                                                </p>
+                                                <p class="font-14 fw-normal color-basic mb-0"> {{component.amount * 12}}
                                             </div>
                                             <button *ngIf="!(component.name == 'Basic' || component.name == 'Fixed Allowance')" 
                                             class="btn p-0 text-danger action-btn font-18" (click)="toggleEarningComponent(component)"><i class="bi bi-x"></i></button>

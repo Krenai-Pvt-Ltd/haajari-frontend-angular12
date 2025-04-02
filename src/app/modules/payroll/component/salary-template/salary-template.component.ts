@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
 import { ReimbursementComponent } from 'src/app/payroll-models copy/ReimbursementComponent';
+import { EarningComponent } from 'src/app/payroll-models/EarrningComponent';
 import { OrganizationTemplateComponent } from 'src/app/payroll-models/OrganizationTemplateComponent';
 import { SalaryTemplate } from 'src/app/payroll-models/SalaryTemplate';
 import { HelperService } from 'src/app/services/helper.service';
@@ -18,6 +19,8 @@ export class SalaryTemplateComponent implements OnInit {
 
   VALUE_TYPE_PERCENTAGE = 1;
   VALUE_TYPE_FLAT=2;
+  CALCULATION_BASED_CTC=3;
+  CALCULATION_BASED_BASIC=4;
   EPF_ACTUAL = 1;
   EPF_RESTRICTED= 2;
   ESI_MAX_LIMIT=21000;
@@ -114,12 +117,25 @@ export class SalaryTemplateComponent implements OnInit {
  
 salaryTemplate:SalaryTemplate = new SalaryTemplate();
     
+calculatePercentageBasedOnType(value: number, component: EarningComponentTemplate): number {
+  if (!value) return 0;
+
+  let baseAmount = 0;
+
+  if (component.calculationBasedId == this.CALCULATION_BASED_CTC) {
+    baseAmount = this.salaryTemplate.annualCtc;
+  } else if (component.calculationBasedId == this.CALCULATION_BASED_BASIC) {
+    baseAmount = this.calculateBasic();
+  }
+  if (!baseAmount) return 0;
+
+  return Math.floor((value / 100) * baseAmount);
+}
 
 calculatePercentage(value: number, annualCtc: number): number {
   if (!value || !annualCtc) return 0;
   return (value / 100) * annualCtc;
 }
-
 
 
 
@@ -134,7 +150,7 @@ calculateFixed(): number {
         if(item.comp.name=='Basic'){
         return sum + this.calculateBasic();
         }else if(item.comp.name!='Basic'){
-          return sum + this.calculatePercentageOfBasic(item.comp.value);
+          return sum + this.calculatePercentageBasedOnType(item.comp.value,item.comp);
         }
       } else if (item.comp.valueTypeId === this.VALUE_TYPE_FLAT) {
         return sum + (item.comp.value * 12);
@@ -206,11 +222,6 @@ calculateEpfContribution(): void {
 
 }
 
-calculatePercentageOfBasic(componentValue:number):number{
-  let basicSalary = this.calculateBasic();
-  let monthlyValue = Math.floor((componentValue / 100) * basicSalary);
-  return (monthlyValue);  
-}
 
 
 
@@ -227,7 +238,7 @@ calculateEsiContribution(annualCtc: number): number {
         if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
           if (item.comp.name == 'Basic') {
             value = this.calculateBasic(); 
-            value = this.calculatePercentageOfBasic(item.comp.value);
+            value = this.calculatePercentageBasedOnType(item.comp.value,item.comp);
           }
         } else if (item.comp.valueTypeId == this.VALUE_TYPE_FLAT) {
           value = item.comp.value;
