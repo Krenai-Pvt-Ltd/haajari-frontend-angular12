@@ -1,5 +1,5 @@
 import { constant } from 'src/app/constant/constant';
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +25,8 @@ import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
 import { debounceTime } from 'rxjs/operators';
 import { ModalService } from 'src/app/services/modal.service';
+import { environment } from 'src/environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
@@ -35,12 +37,13 @@ import {
 } from "ng-apexcharts";
 import { Routes } from 'src/app/constant/Routes';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import * as firebase from 'firebase/app';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 export interface Team {
   label: string;
   value: string;
 }
-
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -138,16 +141,18 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   @ViewChild('importModalOpen') importModalOpen!: ElementRef;
 
     readonly Routes = Routes;
-    readonly Constants = constant;  
+    readonly Constants = constant;
   constructor(
     private dataService: DataService,
     private _onboardingService: OrganizationOnboardingService,
+    private db: AngularFireDatabase,
     private router: Router,
     private helperService: HelperService,
     private ngbModal: NgbModal,
-    private _subscriptionService:SubscriptionPlanService,   
+    private _subscriptionService:SubscriptionPlanService,
      public rbacService: RoleBasedAccessControlService,
-    
+     private cdr: ChangeDetectorRef,
+
   ) {}
   // users: EmployeeOnboardingDataDto[] = [];
   users: EmployeeOnboardingDataDto[] = new Array();
@@ -227,6 +232,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.getShiftData();
     });
 
+    firebase.initializeApp(environment.firebase);
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -1184,6 +1190,7 @@ appliedFilters: string[] = []
       }
 
       const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const arrayBuffer = e.target?.result as ArrayBuffer;
         const binaryStr = this.arrayBufferToString(arrayBuffer);
@@ -1211,19 +1218,18 @@ appliedFilters: string[] = []
                   }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
                     // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
                     const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-                    if (cell.includes('/')) {
-                      return undefined;
-                    }
+                    // if (cell.includes('/')) {
+                    //   return undefined;
+                    // }
                     cell=cell.replace(/\//g, '-');
 
                     if (isExactFormat) {
                         // Parse with strict format checking
-                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+                        const formattedDate = moment(cell, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
 
                         // Check if the date is valid and within the next year
                         if (formattedDate.isValid()) {
                             const oneYearFromNow = moment().add(1, 'year');
-
                             // Ensure date is within the next year
                             if (formattedDate.isBefore(oneYearFromNow)) {
                                 return formattedDate.format('MM-DD-YYYY');
@@ -1284,7 +1290,6 @@ appliedFilters: string[] = []
           console.error('Invalid column names');
         }
       };
-      reader.readAsArrayBuffer(file);
     }
   }
   firstUpload:boolean=true;
@@ -1454,62 +1459,99 @@ appliedFilters: string[] = []
           }
         }
 
-    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
-      if(this.constants.EMPTY_STRINGS.includes(cellValue)){
-        this.data[i+1][j]=[];
-      }
-      else{
-        console.log(cellValue)
-        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
-        this.data[i+1][j]=selectedData;
-      }
-    }else if(this.fileColumnName[j] === 'leavenames'){
-      this.addToMap('Empty Leave Names: ',`${i+1}`);
-    }
-    if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
-
-        // Replace slashes with hyphens
-        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
-
-        // Check if the normalized cell matches the exact MM-DD-YYYY format
-        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
-
-        if (isExactFormat) {
-            // Parse with strict format checking
-            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
-
-            // Check if the date is valid
-            if (formattedDate.isValid()) {
-                const oneYearFromNow = moment().add(1, 'year');
-
-                // Ensure the date is in the past or less than one year from today
-                if (formattedDate.isAfter(oneYearFromNow)) {
-                    this.data[i+1][j] = undefined;
-                    this.addToMap('Invalid Joining Date: ',`${i+1}`);
-                    rowIsValid = false;
-                    this.invalidRows[i] = true; // Mark the row as invalid
-                    this.invalidCells[i][j] = true; // Mark the cell as invalid
-                }
-            } else {
-                // If the date is not valid
-                this.addToMap('Invalid Joining Date: ',`${i+1}`);
-                this.data[i+1][j] = undefined;
-                rowIsValid = false;
-                this.invalidRows[i] = true; // Mark the row as invalid
-                this.invalidCells[i][j] = true; // Mark the cell as invalid
-            }
-        } else {
-            // If the format is not exactly MM-DD-YYYY
-            this.addToMap('Invalid Joining Date: ',`${i+1}`);
-            this.data[i+1][j] = undefined;
-            rowIsValid = false;
-            this.invalidRows[i] = true; // Mark the row as invalid
-            this.invalidCells[i][j] = true; // Mark the cell as invalid
+        if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
+          if (this.constants.EMPTY_STRINGS.includes(cellValue)) {
+            this.data[i + 1][j] = [];
           }
-        }else if(this.fileColumnName[j] === 'joiningdate*'){
-          this.addToMap('Empty Joining Date: ',`${i+1}`);
+          else {
+            console.log(cellValue)
+            const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
+            this.data[i + 1][j] = selectedData;
+          }
+        } else if (this.fileColumnName[j] === 'leavenames') {
+          this.addToMap('Empty Leave Names: ', `${i + 1}`);
+        }
+        if (this.fileColumnName[j] === 'joiningdate*') {
+          if (!cellValue || cellValue.trim() === '') {
+            this.addToMap('Empty Joining Date: ', `${i + 1}`);
+            rowIsValid = false;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          } else {
+            let parsedDate;
+
+            // Debug: Log the raw cellValue and its type
+            console.log(`Raw cellValue for joiningdate* at row ${i + 1}, col ${j}:`, cellValue, `Type: ${typeof cellValue}`);
+
+            // Check if cellValue is a string that looks like an Excel serial number
+            if (typeof cellValue === 'string' && /^\d+$/.test(cellValue) && parseInt(cellValue) > 1) {
+              const serialNumber = parseInt(cellValue);
+              const excelEpoch = new Date(1899, 11, 30); // Dec 31, 1899
+              const jsDate = new Date(excelEpoch.getTime() + serialNumber * 24 * 60 * 60 * 1000);
+              parsedDate = moment(jsDate);
+              console.log(`Converted serial ${cellValue} to date:`, parsedDate.format('DD-MM-YYYY'));
+            } else {
+              // Try parsing as a date string
+              parsedDate = moment(cellValue, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+            }
+
+            if (parsedDate && parsedDate.isValid()) {
+              const oneYearFromNow = moment().add(1, 'year');
+              if (parsedDate.isBefore(oneYearFromNow)) {
+                this.data[i + 1][j] = parsedDate.format('DD-MM-YYYY');
+                console.log(`Formatted date for storage:`, this.data[i + 1][j]);
+              } else {
+                this.addToMap('Invalid Joining Date (date after one year): ', `${i + 1}`);
+                rowIsValid = false;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true;
+              }
+            } else {
+              this.addToMap('Invalid Joining Date format: ', `${i + 1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+            }
+          }
         }
 
+        // Similar logic for 'dob'
+        if (this.fileColumnName[j] === 'dob') {
+          if (cellValue && cellValue.trim() !== '') {
+            let parsedDate;
+
+            // Debug: Log the raw cellValue and its type
+            console.log(`Raw cellValue for dob at row ${i + 1}, col ${j}:`, cellValue, `Type: ${typeof cellValue}`);
+
+            // Check if cellValue is a string that looks like an Excel serial number
+            if (typeof cellValue === 'string' && /^\d+$/.test(cellValue) && parseInt(cellValue) > 1) {
+              const serialNumber = parseInt(cellValue);
+              const excelEpoch = new Date(1899, 11, 30);
+              const jsDate = new Date(excelEpoch.getTime() + serialNumber * 24 * 60 * 60 * 1000);
+              parsedDate = moment(jsDate);
+              console.log(`Converted serial ${cellValue} to date:`, parsedDate.format('DD/MM/YYYY'));
+            } else {
+              parsedDate = moment(cellValue, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+            }
+
+            if (parsedDate && parsedDate.isValid()) {
+              if (parsedDate.isBefore(moment())) {
+                this.data[i + 1][j] = parsedDate.format('DD-MM-YYYY');
+                console.log(`Formatted date for storage:`, this.data[i + 1][j]);
+              } else {
+                this.addToMap('Invalid DOB (future date): ', `${i + 1}`);
+                rowIsValid = false;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true;
+              }
+            } else {
+              this.addToMap('Invalid DOB format: ', `${i + 1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+            }
+          }
+        }
 
         if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
           if(!(this.fileColumnName[j].toLowerCase()=='esi number' || this.fileColumnName[j].toLowerCase()== 'uan') || !cellValue){
@@ -1568,7 +1610,7 @@ appliedFilters: string[] = []
 
   onDateChange(event: Date, rowIndex: number, columnIndex: number) {
     // Format the selected date to 'MMM dd yyyy'
-    const formattedDate =moment(event).format('MM-DD-YYYY');
+    const formattedDate =moment(event).format('DD-MM-YYYY');
 
     //  this.datePipe.transform(event, 'MMM dd yyyy');
 
@@ -1576,6 +1618,12 @@ appliedFilters: string[] = []
     //rowIndex+1 represents data without header
      this.data[rowIndex+1][columnIndex] = formattedDate;
     this.onValueChange(rowIndex,columnIndex);
+  }
+  parseDate(dateString: string): any {
+    if (!dateString || dateString.trim() === '') return null;
+
+    const parsedDate = moment(dateString, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+    return parsedDate.format('MM-DD-YYYY');
   }
 
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
@@ -1755,13 +1803,19 @@ console.log(this.data);
 
   alreadyUsedPhoneNumberArray: any = [];
   alreadyUsedEmailArray: any = [];
+  uploadedCount:any = 0;
   uploadUserFile(file: any, fileName: string) {
     debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.errorMessage = '';
-    this._onboardingService.userImport(file, fileName).subscribe(
+    var uuid=uuidv4();
+    setTimeout(() => {
+    this.getUploadStatusFromFirebase(uuid);
+    }
+    , 2000);
+    this._onboardingService.userImport(file, fileName, uuid).subscribe(
       (response: any) => {
         if (response.status) {
           this.importToggle = false;
@@ -1784,6 +1838,23 @@ console.log(this.data);
         this.errorMessage = error.error.message;
       }
     );
+  }
+
+  getUploadStatusFromFirebase(uuid: any) {
+    this.db.object('bulk_upload/user_' + uuid).valueChanges()
+      .subscribe(res => {
+         console.log(res);
+        var respObject: { status: any, count: any } = { status: "", count: 0 };
+        if (res != undefined && res != null) {
+          console.log(res);
+          //@ts-ignore
+          console.log(res.count);
+          //@ts-ignore
+          this.uploadedCount = res.count;
+
+        }
+
+      });
   }
 
   importLoading: boolean = false;
@@ -2691,6 +2762,11 @@ console.log(this.data);
   enableEmailNotification: boolean = false;
   enableWhatsAppNotification: boolean = false;
 
+  onNotificationChange(type: string) {
+    this.enableWhatsAppNotification = type === 'whatsapp';
+    this.enableEmailNotification = type === 'email';
+  }
+
   // sendNotifications(): void {
   //   this.loadingFlag = true;
   //   const notifications = this.onboardUserList.map((user) => ({
@@ -2787,5 +2863,5 @@ console.log(this.data);
     this.showFilter = flag;
   }
 
-  
+
 }
