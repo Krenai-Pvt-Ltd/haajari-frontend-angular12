@@ -7,4 +7,6 @@ export class ReimbursementComponent{
     value:number=0;
     custom:boolean=false;
     type:string='';
+    amount:number=0;
+    isAdd:boolean=false;
 }

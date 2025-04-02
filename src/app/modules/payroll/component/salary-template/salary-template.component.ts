@@ -63,8 +63,6 @@ export class SalaryTemplateComponent implements OnInit {
           } else {
             this.tempTemplateComponents = JSON.parse( JSON.stringify(this.templateComponents));
 
-            this.originalValues = this.templateComponents.reimbursementComponents.map(comp => comp.value);
-
             if (!this.isNewTemplate) {
               this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
                   return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name == tempComponent.name);
@@ -91,6 +89,7 @@ export class SalaryTemplateComponent implements OnInit {
           }
           
           }
+          this.CalculateMonthlyAmountNew();
         } else {
           this.templateComponents = new SalaryTemplate();
         }
@@ -117,142 +116,141 @@ export class SalaryTemplateComponent implements OnInit {
  
 salaryTemplate:SalaryTemplate = new SalaryTemplate();
     
-calculatePercentageBasedOnType(value: number, component: EarningComponentTemplate): number {
-  if (!value) return 0;
+// calculatePercentageBasedOnType(value: number, component: EarningComponentTemplate): number {
+//   if (!value) return 0;
 
-  let baseAmount = 0;
+//   let baseAmount = 0;
 
-  if (component.calculationBasedId == this.CALCULATION_BASED_CTC) {
-    baseAmount = this.salaryTemplate.annualCtc;
-  } else if (component.calculationBasedId == this.CALCULATION_BASED_BASIC) {
-    baseAmount = this.calculateBasic();
-  }
-  if (!baseAmount) return 0;
+//   if (component.calculationBasedId == this.CALCULATION_BASED_CTC) {
+//     baseAmount = this.salaryTemplate.annualCtc;
+//   } else if (component.calculationBasedId == this.CALCULATION_BASED_BASIC) {
+//     baseAmount = this.calculateBasic();
+//   }
+//   if (!baseAmount) return 0;
 
-  return Math.floor((value / 100) * baseAmount);
-}
+//   return Math.floor((value / 100) * baseAmount);
+// }
 
-calculatePercentage(value: number, annualCtc: number): number {
-  if (!value || !annualCtc) return 0;
-  return (value / 100) * annualCtc;
-}
-
-
-
-calculateFixed(): number {
-  if (!this.salaryTemplate.earningComponents) return 0;
-
-  let totalOtherComponents = this.salaryTemplate.earningComponents
-    .map((comp, i) => ({ comp }))
-    .filter(item => item.comp.displayName !== 'Fixed Allowance')
-    .reduce((sum, item) => {
-      if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
-        if(item.comp.name=='Basic'){
-        return sum + this.calculateBasic();
-        }else if(item.comp.name!='Basic'){
-          return sum + this.calculatePercentageBasedOnType(item.comp.value,item.comp);
-        }
-      } else if (item.comp.valueTypeId === this.VALUE_TYPE_FLAT) {
-        return sum + (item.comp.value * 12);
-      }
-      return sum;
-    }, 0);
-  if (this.salaryTemplate.reimbursementComponents) {
-    totalOtherComponents += this.salaryTemplate.reimbursementComponents
-      .map((comp, i) => ({ comp }))
-      .reduce((sum, item) => sum + (item.comp.value * 12), 0);
-  }
-  return Math.max((this.salaryTemplate.annualCtc - totalOtherComponents), 0);
-}
+// calculatePercentage(value: number, annualCtc: number): number {
+//   if (!value || !annualCtc) return 0;
+//   return (value / 100) * annualCtc;
+// }
 
 
 
-onInputChange(component: EarningComponentTemplate) {
-  if (component.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
-      component.value = this.calculatePercentage(component.value, this.salaryTemplate.annualCtc) / 12;
-  } else if (component.displayName === 'Fixed Allowance') {
-      component.value = this.calculateFixed() / 12;
-  }
+// calculateFixed(component:EarningComponentTemplate): number {
+//   if (!this.salaryTemplate.earningComponents) return 0;
+
+//   let totalOtherComponents = this.salaryTemplate.earningComponents
+//     .map((comp, i) => ({ comp }))
+//     .filter(item => item.comp.displayName !== 'Fixed Allowance')
+//     .reduce((sum, item) => {
+//       if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
+//         if(item.comp.name=='Basic'){
+//         return sum + this.calculateBasic();
+//         }else if(item.comp.name!='Basic'){
+//           return sum + this.calculatePercentageBasedOnType(item.comp.value,item.comp);
+//         }
+//       } else if (item.comp.valueTypeId === this.VALUE_TYPE_FLAT) {
+//         return sum + (item.comp.value * 12);
+//       }
+//       return sum;
+//     }, 0);
+//   if (this.salaryTemplate.reimbursementComponents) {
+//     totalOtherComponents += this.salaryTemplate.reimbursementComponents
+//       .map((comp, i) => ({ comp }))
+//       .reduce((sum, item) => sum + (item.comp.value * 12), 0);
+//   }
+//   return Math.max((this.salaryTemplate.annualCtc - totalOtherComponents), 0);
+// }
+
+
+
+// onInputChange(component: EarningComponentTemplate) {
+//   if (component.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
+//       component.value = this.calculatePercentage(component.value, this.salaryTemplate.annualCtc) / 12;
+//   } else if (component.displayName === 'Fixed Allowance') {
+//       component.value = this.calculateFixed(component) / 12;
+//   }
 
   
-}
+// }
 
-originalValues: { [key: number]: number } = {};
 
-onReimbursementInput(index: number, event: any) {
-  let inputValue = Number(event.target.value); 
-  const maxValue = this.originalValues[index];
+// onReimbursementInput(index: number, event: any) {
+//   let inputValue = Number(event.target.value); 
+//   const maxValue = this.originalValues[index];
 
-  if (inputValue > maxValue) {
-    event.target.value = maxValue; 
-    this.salaryTemplate.reimbursementComponents[index].value = maxValue;
-  } else if (inputValue < 0 || isNaN(inputValue)) {
-    event.target.value = 0;
-    this.salaryTemplate.reimbursementComponents[index].value = 0;
-  } else {
-    this.salaryTemplate.reimbursementComponents[index].value = inputValue;
-  }
-}
+//   if (inputValue > maxValue) {
+//     event.target.value = maxValue; 
+//     this.salaryTemplate.reimbursementComponents[index].value = maxValue;
+//   } else if (inputValue < 0 || isNaN(inputValue)) {
+//     event.target.value = 0;
+//     this.salaryTemplate.reimbursementComponents[index].value = 0;
+//   } else {
+//     this.salaryTemplate.reimbursementComponents[index].value = inputValue;
+//   }
+// }
 
 epfEmployerContribution: number=0; 
-calculateBasic(): number {
-  const basicComponent = this.salaryTemplate.earningComponents.find(c => c.name == 'Basic');
-  if (!basicComponent) {
-    return 0;
-  }
-  let basicSalary = 0;
-  if (basicComponent.valueTypeId == this.VALUE_TYPE_PERCENTAGE) {
-    basicSalary = this.calculatePercentage(basicComponent.value, this.salaryTemplate.annualCtc);
-  } else {
-    basicSalary = basicComponent.value || 0;
-  }
+// calculateBasic(): number {
+//   const basicComponent = this.salaryTemplate.earningComponents.find(c => c.name == 'Basic');
+//   if (!basicComponent) {
+//     return 0;
+//   }
+//   let basicSalary = 0;
+//   if (basicComponent.valueTypeId == this.VALUE_TYPE_PERCENTAGE) {
+//     basicSalary = this.calculatePercentage(basicComponent.value, this.salaryTemplate.annualCtc);
+//   } else {
+//     basicSalary = basicComponent.value || 0;
+//   }
 
-  return basicSalary;
-}
-
-
+//   return basicSalary;
+// }
 
 
-calculateEpfContribution(): void {
-  let basicSalary = this.calculateBasic();
+
+
+// calculateEpfContribution(): void {
+//   let basicSalary = this.calculateBasic();
   
-  this.epfEmployerContribution = this.salaryTemplate.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
-    ? (basicSalary * 0.12)
-    : (15000 * 0.12);
+//   this.epfEmployerContribution = this.salaryTemplate.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
+//     ? (basicSalary * 0.12)
+//     : (15000 * 0.12);
 
-}
-
-
+// }
 
 
-esiContriution:number=0;
-calculateEsiContribution(annualCtc: number): number {
-  let monthlyCtc = annualCtc / 12;
 
-  if (monthlyCtc <= this.ESI_MAX_LIMIT) {
-    let esiWage = this.salaryTemplate.earningComponents
-      .map((comp, i) => ({ comp }))
-      .filter(item =>  item.comp.displayName !== 'HRA') 
-      .reduce((sum, item) => {
-        let value = 0;
-        if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
-          if (item.comp.name == 'Basic') {
-            value = this.calculateBasic(); 
-            value = this.calculatePercentageBasedOnType(item.comp.value,item.comp);
-          }
-        } else if (item.comp.valueTypeId == this.VALUE_TYPE_FLAT) {
-          value = item.comp.value;
-        }
-        return sum + value;
-      }, 0);
-    let fixedAllowance = this.calculateFixed() / 12;
-    esiWage += fixedAllowance;
-    this.esiContriution = Math.floor((esiWage * 3.25) / 100);
-    return this.esiContriution;
-  }
 
-  return 0;
-}
+// esiContriution:number=0;
+// calculateEsiContribution(annualCtc: number): number {
+//   let monthlyCtc = annualCtc / 12;
+
+//   if (monthlyCtc <= this.ESI_MAX_LIMIT) {
+//     let esiWage = this.salaryTemplate.earningComponents
+//       .map((comp, i) => ({ comp }))
+//       .filter(item =>  item.comp.displayName !== 'HRA') 
+//       .reduce((sum, item) => {
+//         let value = 0;
+//         if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
+//           if (item.comp.name == 'Basic') {
+//             value = this.calculateBasic(); 
+//             value = this.calculatePercentageBasedOnType(item.comp.value,item.comp);
+//           }
+//         } else if (item.comp.valueTypeId == this.VALUE_TYPE_FLAT) {
+//           value = item.comp.value;
+//         }
+//         return sum + value;
+//       }, 0);
+//     let fixedAllowance = this.calculateFixed() / 12;
+//     esiWage += fixedAllowance;
+//     this.esiContriution = Math.floor((esiWage * 3.25) / 100);
+//     return this.esiContriution;
+//   }
+
+//   return 0;
+// }
 
 
 saveSalaryTemplate(){
@@ -278,6 +276,7 @@ createTemplate(){
   this.toggle=true;
   this.isNewTemplate = true;
   this.getTemplateComponents();
+
 }
 
 editSalaryTemplate(template:SalaryTemplate){
@@ -301,7 +300,9 @@ toggleEarningComponent(component: EarningComponentTemplate) {
           this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(c => c.name !== component.name);
       }
   }
-}
+
+  this.CalculateMonthlyAmountNew();
+;}
 
 toggleReimbursementComponent(component: ReimbursementComponent) {
   const salaryIndex = this.salaryTemplate.reimbursementComponents.findIndex(c => c.type == component.type);
@@ -317,32 +318,63 @@ toggleReimbursementComponent(component: ReimbursementComponent) {
           this.templateComponents.reimbursementComponents = this.templateComponents.reimbursementComponents.filter(c => c.type !== component.type);
       }
   }
-}
 
-updateComponentValue(component: any, event: Event) {
-  const inputElement = event.target as HTMLInputElement;
-  if (inputElement) {
-    component.value = Number(inputElement.value);
-  }
+  this.CalculateMonthlyAmountNew();
 }
 
 
+CalculateMonthlyAmountNew() {
+  var currentMonthlyCTC = Math.round(this.salaryTemplate.annualCtc/12);
+  var calculateAmount = 0;
+  var count =0;
+  this.salaryTemplate.earningComponents.forEach(component=>{
 
+      if(component.valueTypeId == this.VALUE_TYPE_PERCENTAGE){ //percentage
+        if(component.calculationBasedId == this.CALCULATION_BASED_CTC){ // ctc
+          component.amount = (component.value/100) * currentMonthlyCTC; 
 
+        }else if(component.calculationBasedId == this.CALCULATION_BASED_BASIC){ //basic
+          const basicAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Basic')
+          if(basicAllowance){
+            component.amount = (component.value/100) * basicAllowance.amount; 
+        }
+       }
+      }else if(component.valueTypeId == this.VALUE_TYPE_FLAT && !component.isAdd){
+        component.isAdd = true;
+        component.amount = component.value;
+      }
+      component.amount = Math.round( component.amount);
+ 
+      if(component.name != 'Fixed Allowance'){
+        calculateAmount += component.amount;
+      }
+      ++count;
+  });
 
-
-
-
-CalculateMonthlyAmount(component: EarningComponentTemplate, annualCtc: number): number {
-    if (!component.value || !annualCtc) return 0;
-
-    if (component.name == 'Basic') {
-      return (component.value / 100) * annualCtc;
+  this.salaryTemplate.reimbursementComponents.forEach(component=>{
+    ++count;
+    if(!component.isAdd){
+      component.isAdd = true;
+      component.amount = component.value;
     }
-    const basicSalary = Math.floor(this.calculateBasic());  
-    const monthlyValue = Math.floor((component.value / 100) * basicSalary);
-    return monthlyValue; 
+
+    calculateAmount += component.amount;
+  });
+
+
+  if(count== (this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length)){
+    const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
+    if(fixedAllowance){
+      fixedAllowance.amount =  Math.round(this.salaryTemplate.annualCtc/12) - calculateAmount;
+    }
+
+  }
+
+
+ 
+
 }
+
 
 
 

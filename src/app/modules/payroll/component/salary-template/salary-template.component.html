@@ -117,7 +117,7 @@
                             <div class="collapse" id="earningcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
                                     <ng-container *ngIf="templateComponents.earningComponents.length == 0">
-                                        <span>uyrgfygygygy</span>
+                                        <span> All the active earnings have been added to the template.</span>
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container *ngFor="let component of  templateComponents.earningComponents;let i = index">
@@ -153,7 +153,7 @@
                             <div class="collapse" id="reibursementcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
                                     <ng-container *ngIf="templateComponents.reimbursementComponents.length == 0">
-                                        <span>uyrgfygygygy</span>
+                                        <span>All the active reimbursement have been added to the template.</span>
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container *ngFor="let component of  templateComponents.reimbursementComponents;let i = index">
@@ -202,7 +202,7 @@
                             <div class="collapse" id="benefitcollapse">
                                 <div class="card card-body p-3 earning-box border-0">
                                     <ng-container *ngIf="!templateComponents.deductions">
-                                        <span>uyrgfygygygy</span>
+                                        <span>All the active benefits have been added to the template.</span>
                                     </ng-container>
                                     <ul class="px-0">
                                         <ng-container>
@@ -255,15 +255,15 @@
                            <div class="col-md-6 mb-3 position-relative">
                             <label class="pb-2">Annual CTC (per year)</label>
                             <input type="text" placeholder="Enter annual amount"  name="annualctc" class="form-control whatsapp-login-input" style="padding-left: 65px;" 
-                            [(ngModel)]="salaryTemplate.annualCtc" required>
+                            [(ngModel)]="salaryTemplate.annualCtc" required (ngModelChange)="CalculateMonthlyAmountNew()">
                             <span class="percentage-icon d-flex align-items-center justify-content-center">
                                 <i class="bi bi-currency-rupee font-18"></i>
                             </span>
                            </div>
                            <div class="col-md-12 mb-3">
                             <label class="pb-2">Description </label>
-                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Max 50 characters" rows="5" name="templateDescription"
-                            [(ngModel)]="salaryTemplate.description" required></textarea>
+                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Max 250 characters" rows="5" name="templateDescription"
+                            [(ngModel)]="salaryTemplate.description"></textarea>
                            </div>
                         </div>
                         <div class="mt-3 template-calculation border-rounded-2 bg-white">
@@ -324,8 +324,8 @@
                                         <div class="col-md-3" [ngSwitch]="component.valueTypeId">
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center">
                                                 <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
-                                                   <input type="number" placeholder="" required name="percentage" id="valueType"
-                                                        class="form-control borderLess" [value]="component.value" (input)="updateComponentValue(component, $event)">             
+                                                   <input type="number" placeholder="" required name="percentage{{i}}" id="valueType{{i}}"
+                                                        class="form-control borderLess" [(ngModel)]="component.value" (ngModelChange)="CalculateMonthlyAmountNew()">             
                                                 </div>
                                                 <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                     <p class="mb-0 font-13 fw-semibold" *ngIf="component.calculationBasedId == CALCULATION_BASED_CTC">% of CTC</p>
@@ -339,31 +339,26 @@
                                           <!-- Calculation Type end -->
 
                                         <!-- Monthly Amount start -->
+                
                                         <div class="col-md-3">
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border">
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                     <div  class="mt-2" >
-                                                    <span class="font-13 text-muted" *ngIf="component.valueTypeId == VALUE_TYPE_PERCENTAGE">
-                                                        {{ CalculateMonthlyAmount(component , salaryTemplate.annualCtc) | number: '1.0-0'}} 
-                                                    </span>
-                                                        <span class="font-13 text-muted" *ngIf="component.name == 'Fixed Allowance'">
-                                                            {{ calculateFixed() / 12 | number: '1.0-0' }} 
-                                                        </span>
+                                                        <input type="number"  class="form-control borderLess" name="earningamount{{i}}" id="earningamount{{i}}"  step="0"
+                                                        [disabled]="component.valueTypeId == VALUE_TYPE_PERCENTAGE || component.name == 'Fixed Allowance'"
+                                                        [(ngModel)]="component.amount" (ngModelChange)="CalculateMonthlyAmountNew()"> 
                                                     </div>
-                                                    <span *ngIf="component.valueTypeId == VALUE_TYPE_FLAT && component.name !== 'Fixed Allowance'">
-                                                        <input type="number" placeholder="" required name="earning amount"
-                                                        class="form-control borderLess" [value]="component.value" (input)="updateComponentValue(component, $event)"> 
-                                                    </span>
-                                                    
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Monthly Amount end -->
+
+
                                          <!-- Annual Amount start -->
 
                                         <div class="col-md-3">
                                             <div class="text-end px-3">
-                                                <p class="font-14 fw-normal color-basic mb-0"> {{component.amount * 12}}
+                                                <p class="font-14 fw-normal color-basic mb-0">{{component.amount * 12}}
                                             </div>
                                             <button *ngIf="!(component.name == 'Basic' || component.name == 'Fixed Allowance')" 
                                             class="btn p-0 text-danger action-btn font-18" (click)="toggleEarningComponent(component)"><i class="bi bi-x"></i></button>
@@ -384,7 +379,7 @@
                                     <div class="row align-items-center border-bottom position-relative mb-3 pb-3 pt-3">
                                         <div class="col-md-3">
                                             <div>
-                                                <p class="mb-0 font-12 color-basic fw-semibold">{{component.displayName}}<br><span class="fw-normal">Amount:</span> ₹{{originalValues[i]}}</p>
+                                                <p class="mb-0 font-12 color-basic fw-semibold">{{component.displayName}}<br><span class="fw-normal">Max Amount:</span> ₹{{component.value}}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -395,17 +390,17 @@
                                         <div class="col-md-3">
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border ">
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
-                                                    <input type="number" placeholder="" required name="reimbursement amount"
-                                                    [attr.max]="originalValues[i]" 
-                                                    [value]="component.value" 
-                                                    (input)="onReimbursementInput(i, $event)"
+                                                    <input type="number" placeholder="" required name="reimbursement-amount{{i}}"
+                                                    [attr.max]="component.value"  [(ngModel)]="component.amount"
+                                                
+                                             
                                                     class="form-control borderLess"> 
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="text-end px-3">
-                                                <p class="font-13 fw-normal color-basic mb-0">{{component.value*12}}</p>
+                                                <p class="font-13 fw-normal color-basic mb-0">{{component.amount*12}}</p>
                                             </div>
                                         </div>
                                         <button class="btn p-0 text-danger action-btn font-18" (click)="toggleReimbursementComponent(component)"><i class="bi bi-x"></i></button>
