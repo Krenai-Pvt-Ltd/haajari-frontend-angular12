@@ -1000,6 +1000,10 @@ appliedFilters: string[] = []
 
 
   deleteOrDisable() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.SUBSCRIPTION)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+  }
     if(this.deleteOrDisableUserString === constant.DELETE) {
       if (this.currentUserId !== null) {
        this.deleteUser();
