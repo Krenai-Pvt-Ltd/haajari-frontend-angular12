@@ -64,34 +64,26 @@
                             </span>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-3">
-                            <div class="btn-group week-data radio-btn" role="group"
-                                aria-label="Basic radio toggle button group">
-
-                                <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
-                                    (ngModelChange)="onTabChange($event)">
-
-                                    <label nz-radio-button [nzValue]="week"
-                                        *ngFor="let week of weekLabels; let i = index">{{week}}</label>
-                                    <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
-                                </nz-radio-group>
-
-                            </div>
-
-                            <!-- <nz-select class="request-dropdown placeholder-lines" nzSize="large"
-                                nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
-                                (ngModelChange)="onRequestChange(selectedRequest)" *ngIf="userId==currentUserUuid">
-                                <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-
-                            </nz-select> -->
+                        <div class="btn-group week-data radio-btn all-day-filter" role="group"
+                            aria-label="Basic radio toggle button group">
+                            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
+                                (ngModelChange)="onTabChange($event)">
+                                <label nz-radio-button [nzValue]="week"
+                                    *ngFor="let week of weekLabels; let i = index">{{week}}</label>
+                                <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
+                            </nz-radio-group>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-9">
                             <div class="row" style="border-right: 1px solid #EDEFF5;">
+
+                                <div class="col-md-3 mobile-overall-performance">
+                                    <app-overall-attendance-chart></app-overall-attendance-chart>
+                                </div>
+
                                 <div class="col-md-8 ">
-                                    <div
-                                        class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
+                                    <div class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
                                         <div class="d-flex align-items-center gap-2">
                                             <div>
                                                 <div *ngIf="isShimmer">
@@ -121,7 +113,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <!-- <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
                                     <p class="mb-0 font-12">Difference</p> -->
@@ -138,7 +130,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -151,7 +143,7 @@
                                         <p class="mb-0 font-12">Total late delay</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -166,7 +158,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -179,7 +171,7 @@
                                         <p class="mb-0 font-12">System checkout</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'40%'"
@@ -196,35 +188,13 @@
                             </div>
 
                         </div>
-                        <div class="col-md-3">
-                            <div class="total-detail ">
-                                <h5 class="mb-3 font-14">Overall Performance</h5>
-
-                                <!-- <img src="assets/images/overall-performance.png" style="width: 100%;"> -->
-                                <div class="chart-container w-100" *ngIf="!isPlaceholder">
-                                    <canvas #chartCanvas id="workingHoursChart"></canvas>
-                                </div>
-                                <!-- <apx-chart [series]="chartOptions.series [chart]="chartOptions.chart"
-                                [xaxis]="chartOptions.xaxis"
-                                [title]="chartOptions.title">
-                                    </apx-chart> -->
-
-                                <!-- <div class="col-md-12" *ngIf="isShimmer">
-                                    <ngx-shimmer-loading [width]="'100%'" [height]="'100px'"></ngx-shimmer-loading>
-                                </div> -->
-
-                                <div class="empty-file d-flex align-items-center justify-content-center"
-                                    style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
-                                    <p class="mb-1 empty-detail">No data for now</p>
-                                </div>
-
-
-                            </div>
+                        <div class="col-md-3 desktop-overall-performance" >
+                            <app-overall-attendance-chart></app-overall-attendance-chart>
                         </div>
 
                     </div>
 
-                    <div class="table-responsive bg-white mt-3">
+                    <div class="table-responsive bg-white mt-3 deshtop-attendance-date" >
                         <table class="table empOnnoardtable">
                             <thead class="thead-light">
                                 <tr>
@@ -321,7 +291,6 @@
                                         </td>
                                         <td class="text-center">
                                             <span class="team-maneger mb-0 text-success">
-                                                <!-- {{item.status}} -->
                                                 Present
                                             </span>
                                         </td>
@@ -427,8 +396,6 @@
                                                 *ngIf="item.attendanceSource == 'DASHBOARD'">
 
 
-                                            <!-- <span *ngIf="!item.attendanceSource">No Source</span> -->
-
                                         </td>
                                         <td class="text-left">
                                             <div class="team-maneger mb-0 table-font-weight schedule"
@@ -466,12 +433,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <!-- To DO: Make it dynamic break time -->
-                                            <!-- <span *ngIf="item.breakCount > 0" class="team-maneger mb-0 table-font-weight" nz-popover
-                                            nzPopoverTitle="Break Logs" [nzPopoverContent]=""
-                                            [nzPopoverOverlayStyle]="{'width':'250px'}">
-                                                {{item.breakCount}}
-                                            </span> -->
+                                           
                                             <span
 
                                                 class="team-manager mb-0 table-font-weight"
@@ -513,10 +475,6 @@
                                                   </ng-template>
                                                 </div>
                                               </ng-template>
-
-                                            <!-- <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
-                                                {{item.breakCount}}
-                                            </span> -->
                                         </td>
 
 
@@ -718,9 +676,341 @@
 
                     </div>
 
+                    <div class="mobile-card-view mt-3" >
+                            <table class="table">
+                                <ng-container *ngIf="!isShimmer && attendanceDetails.length > 0">
+                                    <tbody class="mb-3 mobile-attendance-date" *ngFor="let item of attendanceDetails">
+
+                                        <ng-container *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">
+                                        <tr>
+                                            <th>Date:</th>
+                                            <td> {{item.createdDate | date:'fullDate'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status:</th>
+                                            <td>
+                                                <span class="team-maneger mb-0 text-success">
+                                                    Present
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mode:</th>
+                                            <td>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 20 20" fill="none"
+                                                    *ngIf="item.attendanceSource == 'SLACK'">
+                                                    <g clip-path="url(#clip0_4742_116)">
+                                                        <path
+                                                            d="M7.31906 10.5859C6.16523 10.5859 5.22656 11.5246 5.22656 12.6784V17.9075C5.22656 19.0613 6.16523 20 7.31906 20C8.47289 20 9.41156 19.0613 9.41156 17.9075V12.6784C9.41156 11.5246 8.47289 10.5859 7.31906 10.5859Z"
+                                                            fill="#E01E5A" />
+                                                        <path
+                                                            d="M4.05938 10.5859H2.03359C0.916562 10.5859 0.0078125 11.4947 0.0078125 12.6117C0.0078125 13.7287 0.916602 14.6375 2.03359 14.6375C3.15059 14.6375 4.05938 13.7287 4.05938 12.6117V10.5859Z"
+                                                            fill="#E01E5A" />
+                                                        <path
+                                                            d="M0 7.32297C0 8.4768 0.938672 9.41547 2.0925 9.41547H7.32152C8.47539 9.41547 9.41406 8.4768 9.41406 7.32297C9.41406 6.16914 8.47539 5.23047 7.32156 5.23047H2.0925C0.938672 5.23043 0 6.16914 0 7.32297Z"
+                                                            fill="#36C5F0" />
+                                                        <path
+                                                            d="M7.38906 4.05547H9.41484V2.02969C9.41484 0.912656 8.50605 0.00390625 7.38906 0.00390625C6.27203 0.00390625 5.36328 0.912695 5.36328 2.02969C5.36328 3.14668 6.27203 4.05547 7.38906 4.05547Z"
+                                                            fill="#36C5F0" />
+                                                        <path
+                                                            d="M12.6784 9.41406C13.8323 9.41406 14.7709 8.47539 14.7709 7.32156V2.0925C14.771 0.938672 13.8323 0 12.6784 0C11.5246 0 10.5859 0.938672 10.5859 2.0925V7.32152C10.5859 8.47539 11.5246 9.41406 12.6784 9.41406Z"
+                                                            fill="#2EB67D" />
+                                                        <path
+                                                            d="M15.9453 9.41484H17.9711C19.0881 9.41484 19.9969 8.50605 19.9969 7.38906C19.9969 6.27203 19.0881 5.36328 17.9711 5.36328C16.8541 5.36328 15.9453 6.27207 15.9453 7.38906V9.41484Z"
+                                                            fill="#2EB67D" />
+                                                        <path
+                                                            d="M20 12.6784C20 11.5246 19.0613 10.5859 17.9075 10.5859H12.6784C11.5246 10.5859 10.5859 11.5246 10.5859 12.6784C10.5859 13.8323 11.5246 14.7709 12.6784 14.7709H17.9075C19.0613 14.771 20 13.8323 20 12.6784Z"
+                                                            fill="#ECB22E" />
+                                                        <path
+                                                            d="M12.6117 15.9414H10.5859V17.9672C10.5859 19.0842 11.4947 19.993 12.6117 19.993C13.7287 19.993 14.6375 19.0842 14.6375 17.9672C14.6375 16.8502 13.7287 15.9414 12.6117 15.9414Z"
+                                                            fill="#ECB22E" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_4742_116">
+                                                            <rect width="20" height="20" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                                    viewBox="0 0 23 23" fill="none"
+                                                    *ngIf="item.attendanceSource == 'WHATSAPP'">
+                                                    <g clip-path="url(#clip0_4894_1292)">
+                                                        <path
+                                                            d="M0.536266 23C0.407116 23 0.281475 22.9489 0.188297 22.8547C0.065464 22.7305 0.0180854 22.5501 0.0642357 22.3814L1.55947 16.9213C0.628567 15.238 0.13776 13.3337 0.138462 11.4007C0.141094 5.11425 5.25692 0 11.5428 0C14.5917 0.00122833 17.4566 1.18885 19.6098 3.3437C21.7627 5.49872 22.9479 8.36337 22.947 11.4098C22.9442 17.6964 17.8284 22.811 11.5428 22.811C11.5428 22.811 11.5381 22.811 11.5379 22.811C9.70191 22.8103 7.8817 22.3628 6.261 21.5153L0.660328 22.984C0.619267 22.9947 0.577503 23 0.536266 23Z"
+                                                            fill="#E5E5E5" />
+                                                        <path
+                                                            d="M0.535156 22.5095L2.08356 16.8551C1.12844 15.2002 0.626053 13.323 0.626755 11.3997C0.629211 5.38319 5.52534 0.488281 11.5417 0.488281C14.4613 0.48951 17.2017 1.62589 19.2625 3.68844C21.3231 5.75098 22.4576 8.49262 22.4565 11.4085C22.4539 17.4249 17.557 22.3205 11.5417 22.3205C11.5414 22.3205 11.5419 22.3205 11.5417 22.3205H11.537C9.71027 22.3198 7.9155 21.8616 6.3213 20.9921L0.535156 22.5095ZM6.58926 19.0168L6.92073 19.2132C8.31331 20.0396 9.90997 20.4768 11.5382 20.4776H11.5417C16.5417 20.4776 20.6114 16.4087 20.6135 11.4078C20.6144 8.98431 19.6717 6.7054 17.9589 4.99117C16.2459 3.27695 13.9684 2.33236 11.5451 2.33131C6.541 2.33131 2.47153 6.39972 2.4696 11.4004C2.4689 13.1141 2.9483 14.7829 3.85657 16.2271L4.0724 16.5703L3.15572 19.917L6.58926 19.0168Z"
+                                                            fill="white" />
+                                                        <path
+                                                            d="M0.914062 22.13L2.40894 16.6711C1.48664 15.0736 1.0018 13.2611 1.00233 11.4047C1.00461 5.59649 5.73141 0.871094 11.5391 0.871094C14.358 0.872322 17.0036 1.9694 18.9927 3.96053C20.9822 5.95165 22.0772 8.59836 22.0761 11.413C22.0737 17.2214 17.3467 21.9473 11.5397 21.9473C11.5391 21.9473 11.5398 21.9473 11.5397 21.9473H11.5349C9.77157 21.9466 8.03874 21.5041 6.49982 20.6653L0.914062 22.13Z"
+                                                            fill="#4DCB5B" />
+                                                        <path
+                                                            d="M0.535156 22.5095L2.08356 16.8551C1.12844 15.2002 0.626053 13.323 0.626755 11.3997C0.629211 5.38319 5.52534 0.488281 11.5417 0.488281C14.4613 0.48951 17.2017 1.62589 19.2625 3.68844C21.3231 5.75098 22.4576 8.49262 22.4565 11.4085C22.4539 17.4249 17.557 22.3205 11.5417 22.3205C11.5414 22.3205 11.5419 22.3205 11.5417 22.3205H11.537C9.71027 22.3198 7.9155 21.8616 6.3213 20.9921L0.535156 22.5095ZM6.58926 19.0168L6.92073 19.2132C8.31331 20.0396 9.90997 20.4768 11.5382 20.4776H11.5417C16.5417 20.4776 20.6114 16.4087 20.6135 11.4078C20.6144 8.98431 19.6717 6.7054 17.9589 4.99117C16.2459 3.27695 13.9684 2.33236 11.5451 2.33131C6.541 2.33131 2.47153 6.39972 2.4696 11.4004C2.4689 13.1141 2.9483 14.7829 3.85657 16.2271L4.0724 16.5703L3.15572 19.917L6.58926 19.0168Z"
+                                                            fill="white" />
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M8.81441 6.83702C8.61016 6.38289 8.39503 6.37377 8.2006 6.36587C8.04162 6.35903 7.85965 6.35938 7.67803 6.35938C7.49624 6.35938 7.20074 6.42781 6.95086 6.70068C6.70081 6.97354 5.99609 7.63333 5.99609 8.9752C5.99609 10.3172 6.9735 11.6138 7.10984 11.796C7.24619 11.9779 8.99656 14.8196 11.7686 15.9128C14.0724 16.8214 14.5411 16.6407 15.0412 16.5953C15.5413 16.5498 16.6547 15.9355 16.8819 15.2987C17.1093 14.6619 17.1093 14.1161 17.0411 14.0019C16.9728 13.8884 16.791 13.8201 16.5183 13.6838C16.2457 13.5474 14.9048 12.8874 14.6548 12.7965C14.4047 12.7055 14.2229 12.6602 14.0411 12.9332C13.8592 13.2059 13.337 13.8201 13.1778 14.0019C13.0186 14.1842 12.8595 14.207 12.5868 14.0705C12.3141 13.9338 11.4357 13.646 10.3937 12.7169C9.583 11.9941 9.03551 11.1013 8.87636 10.8282C8.71738 10.5555 8.87373 10.4208 8.99621 10.2718C9.21678 10.0035 9.58686 9.52111 9.67776 9.33931C9.76865 9.15717 9.72321 8.99801 9.65512 8.86149C9.58686 8.72515 9.05675 7.37644 8.81441 6.83702Z"
+                                                            fill="white" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_4894_1292">
+                                                            <rect width="23" height="23" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                    viewBox="0 0 50 50" fill="none" *ngIf="item.attendanceSource == 'LENS'">
+                                                    <g clip-path="url(#clip0_561_5201)">
+                                                        <path
+                                                            d="M13.96 0C14.4075 0.157524 14.77 0.410062 14.93 0.880132C15.2125 1.71526 14.5925 2.55538 13.675 2.57039C12.9675 2.58289 12.26 2.57039 11.5525 2.57289C10.3575 2.57289 9.1625 2.55538 7.9675 2.58039C4.9775 2.6404 2.635 4.97825 2.585 7.9662C2.555 9.84398 2.575 11.7218 2.5775 13.602C2.5775 14.0996 2.405 14.5097 1.98 14.7872C1.29 15.2373 0.3925 14.9347 0.085 14.1596C0.0575 14.0921 0.0275 14.0271 0 13.9621C0 11.8143 0 9.66645 0 7.51863C0.015 7.45612 0.035 7.39361 0.0425 7.3311C0.3725 3.78557 2.8875 0.945142 6.37 0.192529C6.7475 0.110017 7.135 0.0625094 7.5175 0H13.96Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M42.4658 0C42.8658 0.0650098 43.2683 0.115017 43.6633 0.20003C47.1008 0.937641 49.6633 3.86808 49.9408 7.37361C49.9658 7.69866 49.9783 8.0237 49.9808 8.34875C49.9833 10.1315 49.9858 11.9118 49.9808 13.6946C49.9808 14.3272 49.5483 14.8497 48.9483 14.9747C48.3708 15.0948 47.7708 14.7947 47.5333 14.2296C47.4483 14.0271 47.4133 13.7896 47.4133 13.567C47.4033 11.7768 47.4083 9.9865 47.4083 8.19873C47.4083 6.50598 46.8108 5.06826 45.5383 3.94059C44.6008 3.10797 43.4908 2.62789 42.2383 2.60039C40.2883 2.55538 38.3333 2.58039 36.3833 2.58039C35.8833 2.58039 35.4733 2.40786 35.1983 1.9828C34.7483 1.29269 35.0508 0.395059 35.8258 0.0875131C35.8933 0.060009 35.9583 0.0325049 36.0233 0.00250038C38.1708 0.00250038 40.3183 0.00250038 42.4658 0.00250038V0Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M0 36.0273C0.1575 35.5797 0.41 35.2171 0.8825 35.0571C1.7175 34.7746 2.56 35.3947 2.5725 36.3148C2.585 37.1924 2.5725 38.0726 2.575 38.9502C2.575 39.9754 2.56 41.0005 2.5825 42.0257C2.645 45.0161 4.9825 47.3565 7.975 47.4065C9.8525 47.4365 11.7325 47.414 13.6125 47.4165C14.255 47.4165 14.75 47.7565 14.9325 48.3041C15.2025 49.1242 14.595 49.9794 13.72 49.9869C12.435 49.9969 11.15 49.9944 9.865 49.9869C9.035 49.9819 8.2025 50.0044 7.3775 49.9419C3.87 49.6768 0.9425 47.1064 0.2025 43.6684C0.1175 43.2734 0.0675 42.8683 0.0025 42.4707V36.0273H0Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M39.3212 47.4121C40.2237 47.4121 41.1287 47.4296 42.0312 47.4096C45.0062 47.3446 47.3487 45.0093 47.4012 42.0313C47.4337 40.1535 47.4087 38.2733 47.4112 36.393C47.4112 35.7529 47.7262 35.2728 48.2637 35.0728C49.0487 34.7827 49.9662 35.3503 49.9737 36.1879C49.9887 38.3283 50.0512 40.4711 49.9262 42.6039C49.7262 45.9944 47.3337 48.8223 44.0537 49.685C43.3612 49.8675 42.6287 49.9625 41.9137 49.9775C40.0362 50.0175 38.1562 49.995 36.2762 49.99C35.6612 49.99 35.1437 49.555 35.0187 48.9624C34.8962 48.3798 35.2062 47.7647 35.7787 47.5322C35.9687 47.4546 36.1887 47.4246 36.3962 47.4221C37.3712 47.4121 38.3487 47.4171 39.3237 47.4171V47.4121H39.3212Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M25.4116 40.3382C21.6716 40.3407 18.7616 39.253 16.2916 37.0027C15.6941 36.4576 15.6141 35.6625 16.1116 35.0924C16.6016 34.5273 17.4316 34.4873 18.0266 35.0274C19.1991 36.0951 20.5141 36.9302 22.0591 37.3127C25.6791 38.2154 28.9941 37.6528 31.8491 35.1149C32.2541 34.7549 32.6841 34.5473 33.2241 34.6923C34.2166 34.9574 34.5441 36.1951 33.7941 36.9027C32.4216 38.2004 30.8416 39.158 29.0366 39.7331C27.7241 40.1507 26.3791 40.3432 25.4116 40.3382Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M27.6262 23.5554C27.6262 25.0356 27.6312 26.5158 27.6262 27.996C27.6212 29.2037 27.2087 30.2214 26.1987 30.944C25.6112 31.364 24.9437 31.5491 24.2287 31.5666C23.8237 31.5766 23.4112 31.5916 23.0112 31.5391C22.3462 31.4491 21.8712 30.8165 21.9262 30.1614C21.9812 29.4938 22.5312 28.9637 23.1987 28.9462C23.4837 28.9387 23.7687 28.9462 24.0537 28.9437C24.7312 28.9362 24.9937 28.6736 24.9937 27.9885C24.9937 24.9706 24.9937 21.9526 24.9937 18.9347C24.9937 18.4221 25.1887 18.0145 25.6212 17.742C26.0462 17.4745 26.4962 17.4595 26.9412 17.7095C27.3987 17.967 27.6262 18.3696 27.6262 18.8922C27.6312 20.4449 27.6262 22.0001 27.6262 23.5529V23.5554Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M13.5898 20.6583C13.5898 20.0882 13.5898 19.5206 13.5898 18.9505C13.5898 18.4654 13.7548 18.0554 14.1548 17.7678C14.8798 17.2503 15.8798 17.6803 16.0573 18.5805C16.0648 18.6205 16.0748 18.6605 16.0748 18.7005C16.0748 20.0157 16.1048 21.3334 16.0598 22.6486C16.0373 23.3237 15.4523 23.7937 14.8223 23.7862C14.1973 23.7787 13.6523 23.2812 13.6148 22.6086C13.5773 21.961 13.6073 21.3084 13.6073 20.6583H13.5923H13.5898Z"
+                                                            fill="#386EF9" />
+                                                        <path
+                                                            d="M34.2094 20.6507C34.2094 20.0256 34.1944 19.398 34.2144 18.7729C34.2319 18.1953 34.6619 17.6878 35.1894 17.5727C35.9444 17.4102 36.6744 17.9778 36.6944 18.8029C36.7219 20.0456 36.7194 21.2908 36.6944 22.536C36.6794 23.2611 36.0969 23.7962 35.4244 23.7862C34.7569 23.7737 34.2269 23.2136 34.2094 22.481C34.1969 21.8709 34.2069 21.2608 34.2069 20.6507H34.2119H34.2094Z"
+                                                            fill="#386EF9" />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_561_5201">
+                                                            <rect width="50" height="50" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+
+                                                <img src="assets/images/hajiri-icon.svg" style="width: 22px; height: 22px;"
+                                                    *ngIf="item.attendanceSource == 'DASHBOARD'">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Schedule:</th>
+                                            <td>
+                                                <div class="team-maneger mb-0 table-font-weight schedule"
+                                                    *ngIf="item.shiftInTime">
+                                                    <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -
+                                                        {{item.shiftOutTime | date:'shortTime'}} <span
+                                                            class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span>
+                                                    </h5>
+                                                    <p class="mb-0 font-10">Shift: {{item.shiftType}}</p>
+                                                </div>
+                                                <div class="" *ngIf="!item.shiftInTime">
+                                                    <!-- <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -  {{item.shiftOutTime | date:'shortTime'}} <span class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span></h5> -->
+                                                    <h5 class="mb-0 font-10">--</h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Check In:</th>
+                                            <td>
+                                                <span class="team-maneger mb-0 table-font-weight">
+                                                    {{item.checkInTime | date:'shortTime'}} <br>
+                                                    <span class="text-danger font-11" *ngIf=" item.status == 'Late'" > Late - {{convertSecondsToHMS(+item.lateMinutes)}}</span>
+                                                    <span class="text-danger font-11" *ngIf=" item.status == 'Half Day'" > Half Day - {{convertSecondsToHMS(+item.halfDayMinutes)}}</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Check Out:</th>
+                                            <td>
+                                                <span class="team-maneger mb-0 table-font-weight"
+                                                *ngIf="item.checkOutTime && (item.currentStatus == 'out')">
+                                                {{item.checkOutTime | date:'shortTime'}} &nbsp; <span
+                                                    class="text-primary font-12"
+                                                    *ngIf="item.checkoutType == 'SYSTEM_GENERATED'">System</span>
+                                            </span>
+                                            <span class="team-maneger mb-0 table-font-weight"
+                                                *ngIf="(item.currentStatus != 'out')">
+                                                <span class="text-primary font-12">Working</span>
+                                            </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Break:</th>
+                                            <td>
+                                                <span
+
+                                                class="team-manager mb-0 table-font-weight"
+                                                nz-popover
+                                                nzPopoverTitle="Break Logs"
+                                                [nzPopoverContent]="breakLogsContent"
+                                                [nzPopoverOverlayStyle]="{'width':'250px'}"
+                                                (mouseover)="getUserBreakTimingsReportByDate(item.createdDate.toString())">
+                                                {{item.breakCount}}
+                                            </span>
+                                            <ng-template #breakLogsContent>
+                                                <div class="total-break-time">
+                                                <div *ngIf="breakTimingsList?.length; else noDataTemplate">
+                                                    <table class="table">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                        <th class="text-left">Break</th>
+                                                        <th class="text-left">Back</th>
+                                                        </tr>
+                                                    </thead>
+                                                    </table>
+                                                    <div class="break-times-scrollable">
+                                                    <table class="table">
+                                                        <tbody>
+                                                        <tr *ngFor="let breakTiming of breakTimingsList">
+                                                            <td class="text-left">
+                                                            {{ breakTiming.breakTime | date: 'shortTime' }}
+                                                            </td>
+                                                            <td class="text-left">
+                                                            {{ breakTiming.backTime | date: 'shortTime' }}
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    </div>
+                                                </div>
+                                                <ng-template #noDataTemplate>
+                                                    <p>No break logs available.</p>
+                                                </ng-template>
+                                                </div>
+                                            </ng-template>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Break Duration:</th>
+                                            <td>
+                                                <span class="team-maneger text-center mb-0 table-font-weight">
+                                                    {{convertToHourMinuteFormat(item.totalBreakHours)}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Worked:</th>
+                                            <td>
+                                                <span class="team-maneger text-center mb-0 table-font-weight">
+                                                    {{convertToHourMinuteFormat(item.totalWorkedHour)}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Difference:</th>
+                                            <td>
+                                                <div class="">
+                                                    <div>
+                                                        <span class="team-manager mb-0 table-font-weight" [ngClass]="{
+                                                'text-danger': checkTimeNegative(item.workingHourDifference),
+                                                'text-success': !checkTimeNegative(item.workingHourDifference)
+                                                }" *ngIf="item.workingHourDifference && (item.currentStatus == 'out')">
+                                                            {{
+                                                            convertToHourMinuteFormatNegativeCase(item.workingHourDifference)
+                                                            }}
+                                                        </span>
+                                                        <span class="team-manager mb-0 table-font-weight"
+                                                            *ngIf="(item.currentStatus != 'out')">
+                                                            --
+                                                        </span>
+                                                    </div>
+
+                                                    <button class="text-primary btn p-0 font-13 fw-semibold"
+                                                        data-bs-toggle="modal" data-bs-target="#viewlog"
+                                                        (click)="viewLogs(item.createdDate.toString())">
+                                                        View Logs</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </ng-container>
+
+                                        <ng-container class="week-holiday" *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
+                                            <tr>
+                                                <th>Date:</th>
+                                                <td> 
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status:</th>
+                                                <td>
+                                                    <span class="team-maneger mb-0 text-warning">
+                                                        Holiday
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                           
+                                        </ng-container>
+
+                                        <ng-container class="week-off" *ngIf="item.status == 'Weekly Holiday'">
+                                            <tr>
+                                                <th>Date:</th>
+                                                <td> 
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status:</th>
+                                                <td>
+                                                    <span class="team-maneger mb-0 text-primary">
+                                                        W-off
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                           
+                                        </ng-container>
+
+                                        <ng-container class="week-leave" *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
+                                            <tr>
+                                                <th>Date:</th>
+                                                <td> 
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status:</th>
+                                                <td>
+                                                    <span class="team-maneger mb-0 text-black">
+                                                        {{item.status}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            
+                                        </ng-container>
+
+                                        <ng-container *ngIf="item.status == 'Absent'">
+                                            <tr>
+                                                <th>Date:</th>
+                                                <td class="week-absent"> 
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status:</th>
+                                                <td class="week-absent">
+                                                    <span class="team-maneger mb-0 text-danger">
+                                                        Absent
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            
+                                        </ng-container>
+
+                                    </tbody>
+                                </ng-container>
+                            </table>
+                    </div>
+
 
                 </div>
-
                 <div class="tab-pane fade pt-3" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
                     <div class="leave-summary">
                         <div class="row">
@@ -774,7 +1064,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                             <div class="d-flex justify-content-start align-items-center">
                                                 <!-- Leave Type Filter -->
-                                                <div class="dropdown empFilerDropfilter">
+                                                <div class="dropdown empFilerDropfilter mobile-status-filter">
                                                     <button type="button" id="leaveTypeDropdown"
                                                         data-bs-toggle="dropdown" aria-expanded="false"
                                                         class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -791,7 +1081,7 @@
                                                 </div>
 
                                                 <!-- Status Filter -->
-                                                <div class="dropdown empFilerDropfilter">
+                                                <div class="dropdown empFilerDropfilter mobile-status-filter">
                                                     <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
                                                         aria-expanded="false"
                                                         class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -882,7 +1172,7 @@
                         </div>
 
 
-                        <div class="table-responsive bg-white mt-3">
+                        <div class="table-responsive bg-white mt-3 mobile-bottom-space">
 
                             <table class="table empOnnoardtable">
                                 <thead class="thead-light">
@@ -1053,7 +1343,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        
                         <div *ngIf="totalPages>1"
                             class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
                             <p>
@@ -1064,29 +1354,79 @@
                                 [maxSize]="8" [boundaryLinks]="true">
                             </ngb-pagination>
                         </div>
+                    </div>
 
 
                     </div>
+                    <div class="mobile-filter-bx">
+                        <div class="mobile-filter-selection">
+                            <div class="position-relative">
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleDropdown()">Leave Type</p>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                              </span>
+                            </div>
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base">|</p>
+                            <div class="position-relative">
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleStatusDropdown()">Status Filter</p>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                              </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isDropdownOpen">
+                        <div class="sorting-select bg-white ">
+                            <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
+                                <p class="mb-0">Leave Type</p>
+                                <i class="bi bi-x-circle pointer" (click)="closeDropdown($event)"></i>
+
+                                
+                            </div>
+                            <div class="msort-dropdown">
+                                <ul class="pl-0">
+                                    <li *ngFor="let leaveType of leaveTypes">
+                                        <a class="dropdown-item p-3 border-bottom active" 
+                                           (click)="updateLeaveType(leaveType);this.isDropdownOpen = false;" 
+                                           [class.active]="selectedLeaveType === leaveType">
+                                            {{ leaveType }}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isStatusDropdownOpen">
+                        <div class="sorting-select bg-white ">
+                            <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
+                                <p class="mb-0">Status Filter</p>
+                                <i class="bi bi-x-circle pointer" (click)="closeStatusDropdown($event)"></i>
+                            </div>
+                            <div class="msort-dropdown">
+                                <ul class="pl-0">
+                                    <li *ngFor="let status of statuses">
+                                        <a class="dropdown-item" (click)="updateStatuss(status)"
+                                            [class.active]="selectedStatus === status">
+                                            {{ status }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade pt-3" id="viewrequests" role="tabpanel" aria-labelledby="viewrequests-tab">
-
-
-
                     <ul class="requests-btn">
                         <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Missed Punch</li>
                         <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">System Outage</li>
                     </ul>
-
-
                     <div class="obboard-employee-list">
-                        <div class="onboard-add row align-items-center mx-0">
+                        <div class="onboard-add row align-items-center mx-0  mobile-status-filter">
                             <div class="col-md-12 p-0">
                                 <div class="row justify-content-between align-items-center mx-0">
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
-                                        <div class="d-flex justify-content-start align-items-center">
-
-
-                                            <!-- Status Filter -->
+                                        <div class="d-flex justify-content-between align-items-center">
                                             <div class="dropdown empFilerDropfilter">
                                                 <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
                                                     aria-expanded="false"
@@ -1103,31 +1443,11 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <!-- Search -->
-                                            <div
-                                                class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
-                                                <!-- <form novalidate
-                                                    class="searching d-flex align-items-center justify-content-between w-100">
-                                                    <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchText" #searchInput
-                                                            [value]="searchQuery"
-                                                            (input)="updateSearch(searchInput.value)"
-                                                            placeholder="Search by name.."
-                                                            class="form-control me-2 w-100"
-                                                            style="padding: 10px 45px;" />
-
-                                                        <i class="bi bi-search search-icon"></i>
-
-                                                    </div>
-                                                </form> -->
-
-                                            </div>
+                                           
                                             <div>
-
                                                 <button type="button" class="btn primaryBtnLink leave-request"  *ngIf="userId==currentUserUuid"
                                                     data-bs-toggle="modal" data-bs-target="#updateRequest">
                                                     Attendance Request </button>
-
                                             </div>
                                         </div>
                                     </div>
@@ -1277,19 +1597,50 @@
                                     <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
                                         [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
                                         [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
-
                                     </ngb-pagination>
-
                                 </tbody>
                             </table>
                         </div>
+                    </div>
 
-
-
+                    <div class="mobile-filter-bx">
+                        <div class="mobile-filter-selection">
+                            <div class="position-relative">
+                                <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleRequestDropdown()">
+                                    Request Type
+                                </p>
+                            </div>
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base">|</p>
+                            <div class="position-relative">
+                                <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer text-primary" *ngIf="userId==currentUserUuid"
+                                data-bs-toggle="modal" data-bs-target="#updateRequest">
+                                    Attendance Request
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sorting Box (Hidden by Default) -->
+                    <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isRequestDropdownOpen">
+                        <div class="sorting-select bg-white">
+                            <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
+                                <p class="mb-0">Request Type</p>
+                                <i class="bi bi-x-circle pointer" (click)="closeRequestDropdown($event)"></i>
+                            </div>
+                            <div class="msort-dropdown">
+                                <ul class="pl-0">
+                                    <li *ngFor="let status of statuses">
+                                        <a class="dropdown-item p-3 border-bottom" 
+                                            (click)="updateAttendanceStatusFilter(status); this.isRequestDropdownOpen = false;"
+                                            [class.active]="attendanceStatus === status">
+                                            {{ status }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
 
 
@@ -1297,7 +1648,7 @@
 
         </div>
     </div>
-
+</div>
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#applyLeave"
@@ -1875,7 +2226,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 

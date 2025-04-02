@@ -525,7 +525,9 @@ span.lat {
     background-color: #fff2f2;
     height: 55px;
 }
-
+.mobile-attendance-date{
+    border-bottom: 20px solid #fff !important;
+}
 .week-leave {
     background-color: #F0FFF0;
     height: 55px;
@@ -1253,8 +1255,77 @@ div[ngbTooltip] {
 .mobile-filter{
     display: none;
 }
-
+.mobile-overall-performance{
+    display: none;
+}
+.mobile-filter-bx{
+    display: none;
+}
+.mobile-bottom-space{
+    margin-bottom: 70px;
+}
+.mobile-card-view{
+    display: none;
+}
 @media screen and (max-width: 500px) {
+    .mobile-attendance-date th{
+        font-weight:500 !important;
+    }
+    .deshtop-attendance-date{
+        display: none;
+    }
+    .mobile-card-view{
+        display: block;
+    }
+    .mobile-bottom-space{
+        margin-bottom: 60px;
+    }
+    .mobile-filter-bx{
+        display: block;
+    }
+    .mobile-status-filter{
+        display: none;
+    }
+    .dropdown-item.active {
+        background-color: #6666f2 !important;
+        color: #fff !important;
+    }
+    .sorting-bx {
+        z-index: 999999;
+        inset: 0;
+        background-color: #000000ad;
+        padding: 0;
+    }
+    .mobile-filter-bx {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        background-color: #fff;
+        width: 100%;
+    }
+    .mobile-filter-selection {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+        box-shadow: 0 0 6px #9999;
+        align-items: center;
+    }
+    .mobile-filter-selection p {
+        padding: 5px 0;
+        line-height: 24px;
+    }
+    .mobile-overall-performance{
+        display: block;
+    }
+    .desktop-overall-performance{
+        display: none;
+    }
+    .all-day-filter{
+        display: none;
+    }
     .mobile-filter-section{
         flex-direction: column;
         align-items: start !important;

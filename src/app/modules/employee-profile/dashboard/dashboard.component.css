@@ -958,6 +958,9 @@ span.holiday-initial {
 }
 
 @media screen and (max-width: 500px) {
+  .col-sm-6{
+    width: 50%;
+}
   .attendance-report-height{
     height: auto;
     margin-bottom: 15px;
@@ -998,9 +1001,9 @@ span.holiday-initial {
   display: block;
   margin-top: -10px;
 }
-.desktop-holiday{
+/* .desktop-holiday{
   display: none;
-}
+} */
 
 .team-overview{
   display: none;

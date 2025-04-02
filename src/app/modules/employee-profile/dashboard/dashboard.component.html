@@ -3,7 +3,7 @@
 
         <!-- mobile section -->
         <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7 mobile-holiday-section">
-            <div class="holidays-list ">
+            <!-- <div class="holidays-list ">
                 <div class="d-flex align-items-center holidays-flex-column">
                     <div class="holidays-cal-box">
                         <div id="carouselExampleControlsmb" class="carousel slide" data-bs-ride="carousel"
@@ -72,7 +72,7 @@
                     </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- mobile section end -->
         <div class="col-md-4">
@@ -94,28 +94,28 @@
                 <h6 class="pb-2 mt-3">{{currentDate | date: 'EEEE, MMMM d, y'}}</h6>
 
                 <div class="row">
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-6 col-sm-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-In time</p>
                             <h5 class="mb-2">{{(attendanceSummary?.inTime | date: 'hh:mm a')|| '--'}}</h5>
                             <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.inLateTime}} </span></p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-Out time</p>
                             <h5 class="mb-2">{{(attendanceSummary?.outTime | date: 'hh:mm a') || '--'}}</h5>
                             <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.outLateTime}}</span></p>
                         </div>
                     </div>
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-6 col-sm-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Duration</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakDuration}}</h5>
                             <p class="mb-0 font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}}</span></p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Count</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakCount}}</h5>

@@ -522,6 +522,9 @@
   }
 
   @media screen and (max-width: 500px) {
+    .col-sm-6{
+        width: 50%;
+    }
     .nav-link {
         margin-right: 0px;
         font-size: 12px;
