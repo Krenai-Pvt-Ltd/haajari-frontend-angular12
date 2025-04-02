@@ -102,9 +102,12 @@ export class ExpenseManagementComponent implements OnInit {
   };
 
   expenseRequest(){
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
     this.resetFilters();
     this.getPendingTransactionCount();
     this.statusIds = [13];
+    this.selectedStatus = ['Pending'];
     this.tempSelectedFilter = ['Pending'];
   }
 
@@ -202,7 +205,7 @@ export class ExpenseManagementComponent implements OnInit {
 
   statusMap: { [label: string]: number[] } = {
     "Pending": [13],
-    "Approved": [14, 40, 53, 46],
+    "Approved": [14, 40, 53, 46, 41],
     "Rejected": [15]
   };
 
@@ -264,7 +267,7 @@ removeFilter(filter: string) {
   if (statusIdsToRemove.length > 0) {
       this.statusIds = this.statusIds.filter(id => !statusIdsToRemove.includes(id));
       this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== statusName);
-      this.selectedStatus = this.selectedStatus.filter(f => f !== filter);
+      this.selectedStatus = this.selectedStatus.filter(f => f !== statusName);
   }
   this.getExpenses();
   console.log("Removed Status:", statusName);
