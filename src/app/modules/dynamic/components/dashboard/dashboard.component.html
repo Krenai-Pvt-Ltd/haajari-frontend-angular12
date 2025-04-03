@@ -1018,100 +1018,108 @@
                                           let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
                                         ">
                                         <td class="text-center position-relative attendance-detail" [ngClass]="{
-                                            orange:
-                                              dayWiseStatus.status == LEAVE ||
-                                              dayWiseStatus.status == HALFDAY,
-                                            red:
-                                              dayWiseStatus.status == UNMARKED,
-                                            green:
-                                              dayWiseStatus.status == PRESENT,
-                                            blue:
-                                              dayWiseStatus.status == WEEKEND ||
-                                              dayWiseStatus.status == HOLIDAY
-                                          }" (mouseenter)="
-                                            fetchAttendanceDetails(
-                                              attendanceReportResponse.email,
-                                              dayWiseStatus.date
-                                            )
-                                          ">
-                                          {{
+                                          orange:
+                                            dayWiseStatus.status == LEAVE ||
+                                            dayWiseStatus.status == HALFDAY,
+                                          red:
+                                            dayWiseStatus.status == UNMARKED,
+                                          green:
+                                          dayWiseStatus.status == PRESENT ||
+                                          dayWiseStatus.status == 'WFH' ||
+                                          dayWiseStatus.status == 'OnDuty',
+                                          blue:
+                                            dayWiseStatus.status == WEEKEND ||
+                                            dayWiseStatus.status == HOLIDAY ||
+                                            dayWiseStatus.status == 'WeekOff'
+                                        }" (mouseenter)="
+                                          fetchAttendanceDetails(
+                                            attendanceReportResponse.email,
+                                            dayWiseStatus.date
+                                          )
+                                        ">
+                                        {{
                                           dayWiseStatus.status[0] == "U"
                                           ? "A"
-                                          : dayWiseStatus.status[0]
+                                          :  dayWiseStatus.status == "WeekOff"
+                                          ? "WO"
+                                          :  dayWiseStatus.status == "WFH"
+                                          ? "WFH"
+                                           :  dayWiseStatus.status == "OnDuty"
+                                          ? "OD" : dayWiseStatus.status[0]
                                           }}
 
-                                          <span class="user-details p-3" *ngIf="
-                                              dayWiseStatus.status == HALFDAY ||
-                                              dayWiseStatus.status == PRESENT
-                                            ">
-                                            <h5 class="p-0">
-                                              Attendance Details
-                                            </h5>
-                                            <!-- <div class=" p-0" *ngIf="loadingFlag">
-                                              <div class="spinner-grow text-primary" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                              </div>  
-                                            </div> -->
-                                            <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
-                                              <div class="spinner-grow text-secondary" style="
-                                                  width: 10px;
-                                                  height: 10px;
-                                                " role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                              </div>
-                                              <div class="spinner-grow text-secondary" style="
-                                                  width: 10px;
-                                                  height: 10px;
-                                                " role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                              </div>
-                                              <div class="spinner-grow text-secondary" style="
-                                                  width: 10px;
-                                                  height: 10px;
-                                                " role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                              </div>
+                                        <span class="user-details p-3" *ngIf="
+                                            dayWiseStatus.status == HALFDAY ||
+                                            dayWiseStatus.status == PRESENT
+                                          ">
+                                          <h5 class="p-0">
+                                            Attendance Details
+                                          </h5>
+                                          <!-- <div class=" p-0" *ngIf="loadingFlag">
+                                            <div class="spinner-grow text-primary" role="status">
+                                              <span class="sr-only">Loading...</span>
                                             </div>
+                                          </div> -->
+                                          <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
+                                            <div class="spinner-grow text-secondary" style="
+                                                width: 10px;
+                                                height: 10px;
+                                              " role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <div class="spinner-grow text-secondary" style="
+                                                width: 10px;
+                                                height: 10px;
+                                              " role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <div class="spinner-grow text-secondary" style="
+                                                width: 10px;
+                                                height: 10px;
+                                              " role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                          </div>
 
-                                            <div class="p-0" *ngIf="
-                                                userAttendanceDetailDateWise?.checkInTime !=
-                                                  null && !loadingFlag
-                                              ">
-                                              <p class="mb-0">
-                                                Check In Time:
-                                                {{
-                                                userAttendanceDetailDateWise.checkInTime
-                                                | date : "shortTime"
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Check Out Time:
-                                                {{
-                                                userAttendanceDetailDateWise.checkOutTime
-                                                | date : "shortTime" || "-"
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Total Hours:
-                                                {{
-                                                userAttendanceDetailDateWise.totalWorkingHours
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Total Break:
-                                                {{
-                                                userAttendanceDetailDateWise.breakCount
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Break Duration:
-                                                {{
-                                                userAttendanceDetailDateWise.totalBreakHours
-                                                }}
-                                              </p>
-                                            </div>
-                                          </span>
-                                        </td>
+                                          <div class="p-0" *ngIf="
+                                              userAttendanceDetailDateWise?.checkInTime !=
+                                                null && !loadingFlag
+                                            ">
+                                            <p class="mb-0">
+                                              Check In Time:
+                                              {{
+                                              userAttendanceDetailDateWise.checkInTime
+                                              | date : "shortTime"
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Check Out Time:
+                                              {{
+                                              userAttendanceDetailDateWise.checkOutTime
+                                              | date : "shortTime" || "-"
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Total Hours:
+                                              {{
+                                              userAttendanceDetailDateWise.totalWorkingHours
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Total Break:
+                                              {{
+                                              userAttendanceDetailDateWise.breakCount
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Break Duration:
+                                              {{
+                                              userAttendanceDetailDateWise.totalBreakHours
+                                              }}
+                                            </p>
+                                          </div>
+                                        </span>
+                                      </td>
                                       </ng-container>
                                     </tr>
                                   </table>
