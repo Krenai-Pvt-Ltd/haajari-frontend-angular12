@@ -529,7 +529,7 @@ span.lat {
     border-bottom: 20px solid #fff !important;
 }
 .week-leave {
-    background-color: #F0FFF0;
+    background-color: #dbdbff;
     height: 55px;
 }
 
@@ -1268,6 +1268,12 @@ div[ngbTooltip] {
     display: none;
 }
 @media screen and (max-width: 500px) {
+    .font-15 {
+        font-size: 15px !important;
+    }
+    .font-12 {
+        font-size: 14px !important;
+    }
     .mobile-attendance-date th{
         font-weight:500 !important;
     }
@@ -1378,7 +1384,10 @@ div[ngbTooltip] {
     }
     .nav-link {
         margin-right: 10px;
-        font-size: 12px;
+        font-size: 14px;
+    }
+    .font-14 {
+        font-size: 15px !important;
     }
     .attendance-history{
         margin-top: -15px !important;
@@ -1453,3 +1462,5 @@ div[ngbTooltip] {
   body.modal-open {
     overflow: hidden;
   }
+
+  
