@@ -244,17 +244,14 @@
                                         <span>All the active benefits have been added to the template.</span>
                                     </ng-container>
                                     <ul class="px-0">
-                                        <ng-container *ngFor="let deduction of templateComponents.deductions">
-                                            <li 
-                                            (click)="toggleDeductionComponent(deduction)"
-                                            class="d-flex align-items-center justify-content-between font-13 fw-normal">
-                                            <span *ngIf="deduction.epfConfiguration">EPF</span>
-                                            <span *ngIf="deduction.esiConfiguration">ESI</span>
-                                            <span class="lh-base">
-                                                <i class="bi bi-plus font-20"></i>
+                                        <ng-container *ngFor="let component of templateComponents.deductions">
+                                        <li (click)="toggleDeductionComponent(component)"
+                                        class="d-flex align-items-center justify-content-between font-13 fw-normal">
+                                            {{component.name}}<span class="lh-base">
+                                                <i class="bi bi-plus font-20" ></i>
                                             </span>
                                         </li>
-                                        </ng-container>
+                                    </ng-container>
 
                                     </ul>
                                 </div>
@@ -451,69 +448,49 @@
                                 </div> 
                                 </ng-container>
 
-
-                                <div class="col-md-12 mt-4" *ngIf="salaryTemplate.deductions">
+                                <ng-container *ngIf="salaryTemplate.deductions.length >0">
+                                <div class="col-md-12 mt-4" >
                                     <h5 class="font-14 fw-semibold text-primary mb-4">Benefits</h5>
                                 </div>
                                 <div class="earing-list p-3 border-rounded-2 mb-4">
-                                    <!-- EPF Section -->
-                                    <div *ngFor="let deduction of salaryTemplate.deductions"
-                                    class="row align-items-center border-bottom position-relative">
+                                    <div class="row align-items-center border-bottom position-relative" 
+                                    *ngFor="let component of  salaryTemplate.deductions;let i = index;">
                                       <div class="col-md-3">
-                                        <p class="mb-0 font-12 color-basic fw-semibold" *ngIf="deduction.epfConfiguration">EPF - Employee Provident Fund</p>
-                                        <p class="mb-0 font-12 color-basic fw-semibold" *ngIf="deduction.esiConfiguration">ESI - Employee State Insurance</p>
+                                        <p class="mb-0 font-12 color-basic fw-semibold">{{component.name}}</p>
                                       </div>
-                                      <div class="col-md-3">
-                                        <div class="text-start py-3" [ngSwitch]="deduction.epfConfiguration.employerContribution">
+                                      <div class="col-md-3" *ngIf="component.name == 'EPF'">
+                                        <div class="text-start py-3" [ngSwitch]="component.employerContribution">
                                           <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_ACTUAL">12.00% of PF Wages</p>
                                           <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_RESTRICTED">12.00% of 15000</p>
                                         </div>
-                                        <div class="text-start py-3" *ngIf="deduction.esiConfiguration">
-                                            <p class="font-13 fw-normal color-basic mb-0">3.25% of ESI Wages</p>
-                                        </div>
                                       </div>
-                                      <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                          <!-- <p class="font-13 fw-normal color-basic mb-0" *ngIf="epfEmployerContribution == 0">System Calculated</p> -->
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="deduction.epfConfiguration">{{ deduction.epfConfiguration.value }}</p>
-                                          <!-- <p class="font-13 fw-normal color-basic mb-0" *ngIf="deduction.esiConfiguration">{{ deduction.esiConfiguration.value }}</p> -->
-                                        </div>
-                                      </div>
-                                      <div class="col-md-3">
-                                        <div class="text-end px-3">
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="epfEmployerContribution === 0">System Calculated</p>
-                                          <p class="font-13 fw-normal color-basic mb-0">{{ epfEmployerContribution | number: '1.0-0' }}</p>
-                                        </div>
-                                      </div>
-                                      <button class="btn p-0 text-danger action-btn font-18" (click)="toggleDeductionComponent(deduction)"><i class="bi bi-x"></i></button>
-                                    </div>
-                                  
-                                    <!-- ESI Section -->
-                                    <!-- <div class="row mt-3 align-items-end position-relative">
-                                      <div class="col-md-3">
-                                        <p class="font-14 fw-normal text-black mb-0">ESI - Employee State Insurance</p>
-                                      </div>
-                                      <div class="col-md-3">
+                                      <div class="col-md-3" *ngIf="component.name == 'ESI'">
                                         <div class="text-start py-3">
-                                          <p class="font-13 fw-normal color-basic mb-0">3.25% of ESI Wages</p>
+                                          <p class="font-13 fw-normal color-basic mb-0">{{component.employerContribution}} of ESI Wages</p>
                                         </div>
                                       </div>
                                       <div class="col-md-3">
                                         <div class="text-end px-3">
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="esiContriution !== 0">{{ esiContriution / 12 | number: '1.0-0' }}</p>
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="esiContriution === 0">System Calculated</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount <= 0">System Calculated</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount>0">{{ component.amount }}</p>
                                         </div>
                                       </div>
                                       <div class="col-md-3">
                                         <div class="text-end px-3">
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="esiContriution !== 0">{{ esiContriution | number: '1.0-0' }}</p>
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="esiContriution === 0">System Calculated</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount <= 0">System Calculated</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount > 0">{{ component.amount*12 }}</p>
                                         </div>
                                       </div>
-                                      <button class="btn p-0 text-danger action-btn font-18"><i class="bi bi-x"></i></button>
-                                    </div> -->
+                                    
+                                      <button class="btn p-0 text-danger action-btn font-18" (click)="toggleDeductionComponent(component)"><i class="bi bi-x"></i></button>
+                                    </div>
                                   </div>
-                                  
+                                  <div>
+                                    <button type="button"  (click)="findBenefits(true)">
+                                        Preview   
+                                    </button>
+                                </div>
+                                </ng-container>
     
                                 <!-- <div class="col-md-12 mt-4">
                                     <h5 class="font-14 fw-semibold text-primary mb-4">Flexible Benefit Plan Components</h5>

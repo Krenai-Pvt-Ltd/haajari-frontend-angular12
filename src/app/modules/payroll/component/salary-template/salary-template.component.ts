@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { s } from '@fullcalendar/core/internal-common';
 import { Key } from 'src/app/constant/key';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
 import { ReimbursementComponent } from 'src/app/payroll-models copy/ReimbursementComponent';
@@ -30,6 +31,7 @@ export class SalaryTemplateComponent implements OnInit {
   saveLoader:boolean=false;
   negativeValue:boolean=false;
   negativeMonthlyCTC:number=0;
+  esiAmount:number=0;
 
   constructor(private _salaryTemplateService : SalaryTemplateService,
     public _helperService : HelperService
@@ -167,100 +169,175 @@ toggleReimbursementComponent(component: ReimbursementComponent) {
   this.CalculateMonthlyAmountNew();
 }
 
-toggleDeductionComponent(deduction: TemplateDeductionResponse) {
-  // Find the index of the deduction in salaryTemplate
-  const salaryIndex = this.salaryTemplate.deductions.findIndex(d => d.epfConfiguration.epfNumber == deduction.epfConfiguration?.epfNumber);
-  const tempIndex = this.templateComponents.deductions.findIndex(d => d.epfConfiguration?.epfNumber == deduction.epfConfiguration?.epfNumber);
+toggleDeductionComponent(component: TemplateDeductionResponse) {
 
-  // If deduction exists in salaryTemplate.deductions, move it to templateComponents.deductions
+  const salaryIndex = this.salaryTemplate.deductions.findIndex(comp => comp.id == component.id);
+  const tempIndex = this.templateComponents.deductions.findIndex(comp => comp.id == component.id);
+
   if (salaryIndex > -1) {
       const removedDeduction = this.salaryTemplate.deductions.splice(salaryIndex, 1)[0];
       this.templateComponents.deductions.push(removedDeduction);
   } 
-  // If deduction exists in templateComponents.deductions, find it in tempTemplateComponents and move it to salaryTemplate.deductions
   else if (tempIndex > -1) {
-      const freshDeduction = this.tempTemplateComponents.deductions.find(d => d.epfConfiguration?.epfNumber === deduction.epfConfiguration?.epfNumber);
+      const freshDeduction = this.tempTemplateComponents.deductions.find(comp => comp.id == component.id);
       if (freshDeduction) {
-          // Clone and add it to salaryTemplate.deductions
           this.salaryTemplate.deductions.push({ ...freshDeduction });
-          // Remove it from templateComponents.deductions
-          this.templateComponents.deductions = this.templateComponents.deductions.filter(d => d.epfConfiguration?.epfNumber !== deduction.epfConfiguration?.epfNumber);
+          this.templateComponents.deductions = this.templateComponents.deductions.filter(comp => comp.id !== component.id);
       }
   }
-
-  // Recalculate monthly amounts after toggling the deductions
   this.CalculateMonthlyAmountNew();
 }
 
 
+count:number=0;
+totalEpfAmount:number=0;
+totalEsiAmount:number=0;
+CalculateMonthlyAmountNew1() {
+  this.count =0;
+  this.calculatedAmount = this.benefitsCalculatedAmount
+  this.totalEpfAmount =0;
+  this.totalEsiAmount =0;
+  this.findEarning();
+}
 
 CalculateMonthlyAmountNew() {
+  this.count =0;
+  this.calculatedAmount = 0;
+  this.totalEpfAmount =0;
+  this.totalEsiAmount =0;
+  this.findEarning();
+}
+
+
+findEarning(){
+  console.log("========A=====================")
   var currentMonthlyCTC = Math.round(this.salaryTemplate.annualCtc/12);
-  var calculateAmount = 0;
-  var count =0;
   this.salaryTemplate.earningComponents.forEach(component=>{
 
-      if(component.valueTypeId == this.VALUE_TYPE_PERCENTAGE){ //percentage
-        if(component.calculationBasedId == this.CALCULATION_BASED_CTC){ // ctc
-          component.amount = (component.value/100) * currentMonthlyCTC; 
+    if(component.valueTypeId == this.VALUE_TYPE_PERCENTAGE){ //percentage
+      if(component.calculationBasedId == this.CALCULATION_BASED_CTC){ // ctc
+        component.amount = (component.value/100) * currentMonthlyCTC; 
 
-        }else if(component.calculationBasedId == this.CALCULATION_BASED_BASIC){ //basic
-          const basicAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Basic')
-          if(basicAllowance){
-            component.amount = (component.value/100) * basicAllowance.amount; 
-        }
-       }
-      }else if(component.valueTypeId == this.VALUE_TYPE_FLAT && !component.isAdd){
-        component.isAdd = true;
-        component.amount = component.value;
+      }else if(component.calculationBasedId == this.CALCULATION_BASED_BASIC){ //basic
+        const basicAllowance = this.salaryTemplate.earningComponents[0];
+        if(basicAllowance){
+          component.amount = (component.value/100) * basicAllowance.amount; 
       }
-      component.amount = Math.round( component.amount);
- 
-      if(component.name != 'Fixed Allowance'){
-        calculateAmount += component.amount;
-      }
-      ++count;
-  });
-
-  this.salaryTemplate.reimbursementComponents.forEach(component=>{
-    ++count;
-    if(!component.isAdd){
+     }
+    }else if(component.valueTypeId == this.VALUE_TYPE_FLAT && !component.isAdd){
       component.isAdd = true;
       component.amount = component.value;
     }
+    component.amount = Math.round( component.amount);
 
-    calculateAmount += component.amount;
-  });
-
-  // this.salaryTemplate.deductions.forEach(component=>{
-  //   ++count;
-  //   if(component.esiConfiguration.isAdd){
-  //     component.esiConfiguration.isAdd = true;
-  //   }
-
-  //   calculateAmount += component.esiConfiguration.value;
-  // });
-
-
-  if(count== (this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length)){
-    const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
-    if(fixedAllowance){
-      fixedAllowance.amount =  Math.round(this.salaryTemplate.annualCtc/12) - calculateAmount;
-      if(fixedAllowance.amount<0){
-        this.negativeMonthlyCTC =fixedAllowance.amount;
-      }else{
-        this.negativeMonthlyCTC=0;
-      }
+    if(component.name != 'Fixed Allowance'){
+      this.calculatedAmount += component.amount;
+      
     }
 
-  }
+    if(component.epfIncluded){
+      this.totalEpfAmount += component.amount;
+    }
+    if(component.esiIncludded){
+      this.totalEsiAmount += component.amount;
+    }
+    ++this.count;    
+});
 
 
- 
+if(this.count== this.salaryTemplate.earningComponents.length){
+  this.findReimbursement();
+}
 
 }
 
 
+findReimbursement(){
+  console.log("==============B===============")
+  this.salaryTemplate.reimbursementComponents.forEach(component=>{
+    if(!component.isAdd){
+      component.isAdd = true;
+      component.amount = component.value;
+    }
+    this.calculatedAmount += component.amount;
+    ++this.count; 
+  });
+  if(this.count== this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length){
+    this.findBenefits(false);
+  }
+}
+
+calculatedAmount:number=0;
+findFixedAllowance(){
+  const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
+  if(fixedAllowance){
+    console.log("========this.calculatedAmount=====================",this.calculatedAmount)
+    fixedAllowance.amount =  Math.round(this.salaryTemplate.annualCtc/12) - this.calculatedAmount;
+    if(fixedAllowance.amount<0){
+      this.negativeMonthlyCTC =fixedAllowance.amount;
+    }else{
+      this.negativeMonthlyCTC=0;
+    }
+  }
+}
+
+
+
+fixedAllowanceAmount :number=0;
+benefitsCalculatedAmount :number=0;
+findBenefits(flag?:boolean){
+  console.log("========1=====================",flag)
+   this.fixedAllowanceAmount = 0;
+   this.benefitsCalculatedAmount = 0;
+
+  const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
+  if(fixedAllowance){
+    this.fixedAllowanceAmount = fixedAllowance.amount;
+  }
+
+  const ESI = this.salaryTemplate.deductions.find(x=> x.name == 'ESI')
+  if(ESI){
+    if(this.totalEsiAmount<=ESI.maxLimit){
+      ESI.amount = Math.round((this.totalEsiAmount * ESI.employerContribution)/100);
+    }else{
+      ESI.amount=0;
+    }
+    this.benefitsCalculatedAmount += ESI.amount;
+  }
+
+  const EPF = this.salaryTemplate.deductions.find(x=> x.name == 'EPF')
+  if(EPF){
+    if(EPF.employerContribution == this.EPF_ACTUAL){
+      EPF.amount = Math.round((this.totalEpfAmount*12)/100);
+    }else if(EPF.employerContribution == this.EPF_RESTRICTED){
+      if(this.totalEpfAmount> 15000){
+        EPF.amount = Math.round((15000*12)/100);
+      }else{
+        EPF.amount = Math.round((this.totalEpfAmount*12)/100);
+      }
+    }else{
+      EPF.amount=0;
+    } 
+    this.benefitsCalculatedAmount += EPF.amount;
+  }
+
+  if(flag){
+    console.log("========2=====================")
+    var tempFixedAmount = this.fixedAllowanceAmount -this.benefitsCalculatedAmount;
+    if(fixedAllowance){
+      console.log("========2.1=====================",tempFixedAmount)
+      fixedAllowance.amount = tempFixedAmount;
+      console.log("==========fixedAllowance.amount=============",fixedAllowance)
+      // this.calculatedAmount = this.calculatedAmount +this.benefitsCalculatedAmount
+      this.CalculateMonthlyAmountNew1();
+    }
+  }else{
+    // this.calculatedAmount = this.calculatedAmount +this.benefitsCalculatedAmount
+    console.log("========3=====================")
+    this.findFixedAllowance();
+  }
+  
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -21,7 +21,20 @@ export class SalaryTemplate{
 }
 
 export class TemplateDeductionResponse{
-    esiConfiguration!:EmployeeProvidentFund;
-    epfConfiguration!:EpfTemplate;
+
+    id:number=0;
+    name:string='';
+    isCtcIncluded:number=0;
+    employeeContribution:number=0;
+    employerContribution:number=0;
+    statusId:number=0;
+    deductionFrequecncyId:number=0
+    isProRate:number=0;
+    condiserLop:number=0;
+    description:string='';
+    value:number=0;
+    amount:number=0;
     isAdd:boolean=false;
+    maxLimit:number=0;
+
 }

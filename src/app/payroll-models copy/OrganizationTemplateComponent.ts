@@ -23,8 +23,8 @@ export class EarningComponentTemplate{
       payTypeId:number=0;
       canStatusChange:boolean=false;
       isCustom:boolean=false;
-      isEsiIncludded:boolean=false;
-      isEpfIncluded:boolean=false;
+      esiIncludded:boolean=false;
+      epfIncluded:boolean=false;
       amount:number=0;
       isAdd:boolean=false;
 }
