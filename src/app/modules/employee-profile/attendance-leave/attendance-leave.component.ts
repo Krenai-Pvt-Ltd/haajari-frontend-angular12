@@ -53,7 +53,7 @@ Chart.register(
 })
 export class AttendanceLeaveComponent implements OnInit {
   userLeaveForm!: FormGroup;
-  userId: any;
+  userId: any= '';
   count: number = 0;
   currentUserUuid: any;
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
@@ -136,7 +136,7 @@ export class AttendanceLeaveComponent implements OnInit {
     this.updateThirtyDaysLabel();
     // // Set the default selected tab to the current week
     this.setDefaultWeekTab();
-    this.calculateDateRange();
+    //this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
     this.currentUserUuid = this.roleService.getUuid();
     this.checkUserLeaveTaken();
@@ -816,6 +816,7 @@ export class AttendanceLeaveComponent implements OnInit {
     this.getWorkedHourForEachDayOfAWeek();
   }
 
+  isDateLoaded: boolean = false;
   setWeekRange(date: Date, weekNumber: number): void {
     debugger;
     const currentDate = new Date();
@@ -849,6 +850,7 @@ export class AttendanceLeaveComponent implements OnInit {
     } else {
       this.endDate = this.formatDateToYYYYMMDD(weekEnd);
     }
+    this.isDateLoaded = true;
   }
 
 
@@ -947,6 +949,15 @@ export class AttendanceLeaveComponent implements OnInit {
     this.attendanceDetails = [];
     this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
   }
+  chartData(): any {
+    return {
+      userId: this.userId,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      searchString: this.searchString,
+    };
+  }
+
 
   convertToHourMinuteFormat(time: string | null | undefined): string {
     if (!time) {

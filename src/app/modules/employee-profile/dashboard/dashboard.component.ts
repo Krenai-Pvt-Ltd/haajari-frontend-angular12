@@ -6,6 +6,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { constant } from 'src/app/constant/constant';
 import {
   Chart,
   LineController,
@@ -26,6 +27,7 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { NzCalendarComponent } from 'ng-zorro-antd/calendar';
 import { ModalService } from 'src/app/services/modal.service';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexMarkers, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 
 
 Chart.register(
@@ -84,7 +86,7 @@ export class DashboardComponent implements OnInit {
     // this.stopCarousel();
   }
 
-
+readonly Constants =constant;
   today = new Date();
 
   getOrdinalSuffix(day: number): string {
@@ -507,126 +509,9 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // new
-
-  // @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
-  //   private chart!: Chart;
-
-  //   getWorkedHourForEachDayOfAWeek() {
-  //     this.dataService.getWorkedHourForEachDayOfAWeek(this.userId).subscribe(
-  //       (response: any) => {
-  //         const labels = response.listOfObject.map((item: any) =>
-  //           this.formatDate(item.workDate)
-  //         );
-  //         const data = response.listOfObject.map((item: any) =>
-  //           this.formatToDecimalHours(item.totalWorkedHour)
-  //         );
-
-  //         this.initializeChart(labels, data);
-  //       },
-  //       (error) => {
-  //         console.error('Error fetching worked hours:', error);
-  //       }
-  //     );
-  //   }
-
-  //   formatToDecimalHours(time: string): number {
-  //     const [hours, minutes, seconds] = time.split(':').map(Number);
-  //     return hours + minutes / 60 + seconds / 3600;
-  //   }
-
-  //   formatDate(date: string): string {
-  //     const options: Intl.DateTimeFormatOptions = { weekday: 'short' };
-  //     return new Date(date).toLocaleDateString('en-US', options);
-  //   }
-
-  //   initializeChart(labels: string[], data: number[]) {
-  //     const ctx = this.chartCanvas.nativeElement.getContext('2d');
-
-  //     if (ctx) {
-  //       this.chart = new Chart(ctx, {
-  //         type: 'line',
-  //         data: {
-  //           labels: labels,
-  //           datasets: [
-  //             {
-  //               label: 'Total Worked Hours',
-  //               data: data,
-  //               borderColor: 'rgba(75, 192, 192, 1)',
-  //               backgroundColor: 'rgba(153, 102, 255, 0.2)',
-  //             tension: 0.4,
-  //             fill: true,
-  //             },
-  //           ],
-  //         },
-  //         options: {
-  //           responsive: true,
-  //           plugins: {
-  //             legend: {
-  //               display: true,
-  //               position: 'top',
-  //             },
-  //             title: {
-  //               display: true,
-  //               text: 'Worked Hours for the Week',
-  //             },
-  //           },
-  //           scales: {
-  //             x: {
-  //               title: {
-  //                 display: true,
-  //                 text: 'Days of the Week',
-  //               },
-  //             },
-  //             y: {
-  //               title: {
-  //                 display: true,
-  //                 text: 'Hours Worked',
-  //               },
-  //               beginAtZero: true,
-  //             },
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }
-
   startDate: string = '';
   endDate: string = '';
 
-  calculateDateRange(): void {
-    const currentDate = new Date();
-    const dayOfWeek = currentDate.getDay(); // 0: Sunday, 1: Monday, etc.
-
-    // Calculate the start of the week (Sunday)
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - dayOfWeek);
-
-    // Calculate the end of the week (Saturday)
-    const endOfWeek = new Date(currentDate);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to the start of the week
-
-    // Format both dates to 'YYYY-MM-DD' format
-    this.startDate = this.formatDateToYYYYMMDD(startOfWeek);
-    this.endDate = this.formatDateToYYYYMMDD(endOfWeek);
-  }
-
-
-  // calculateDateRange(): void {
-  //   const currentDate = new Date();
-  //   const dayOfWeek = currentDate.getDay(); // 0: Sunday, 1: Monday, etc.
-
-  //   // Adjust for the start of the week (assuming Sunday as the start of the week)
-  //   const startOfWeek = new Date(currentDate);
-  //   startOfWeek.setDate(currentDate.getDate() - dayOfWeek); // Move to previous Sunday
-
-  //   // Calculate the end of the week (today's date)
-  //   const endOfWeek = new Date(currentDate); // Use current date as end date
-
-  //   // Format both dates to 'YYYY-MM-DD' format
-  //   this.startDate = this.formatDateToYYYYMMDD(startOfWeek);
-  //   this.endDate = this.formatDateToYYYYMMDD(endOfWeek);
-  // }
 
   formatDateToYYYYMMDD(date: Date): string {
     const year = date.getFullYear();
@@ -635,34 +520,6 @@ export class DashboardComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-
-
-  @ViewChild('chartCanvas', { static: false }) chartCanvas!: ElementRef<HTMLCanvasElement>;
-  private chart!: Chart;
-  isPlaceholder: boolean = false;
-  getWorkedHourForEachDayOfAWeek() {
-    this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDate, 'WEEK').subscribe(
-      (response: any) => {
-        const labels = response.listOfObject.map((item: any) =>
-          this.formatDate(item.workDate)
-        );
-        const data = response.listOfObject.map((item: any) =>
-          this.formatToDecimalHours(item.totalWorkedHour)
-        );
-
-        if (response.listOfObject.length === 0) {
-          this.isPlaceholder = true;
-        } else {
-          this.isPlaceholder = false;
-        }
-
-        this.initializeChart(labels, data);
-      },
-      (error) => {
-        console.error('Error fetching worked hours:', error);
-      }
-    );
-  }
 
   formatToDecimalHours(time: string): number {
     const [hours, minutes, seconds] = time.split(':').map(Number);
@@ -680,77 +537,95 @@ export class DashboardComponent implements OnInit {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}hrs`;
   }
 
-  initializeChart(labels: string[], data: number[]) {
-    if (this.chartCanvas) {
-      const ctx = this.chartCanvas!.nativeElement.getContext('2d');
+  // Fetch and initialize chart data
+  public isPlaceholder: boolean = false;
+  getWorkedHourForEachDayOfAWeek(): void {
+    this.dataService.getWorkedHourForEachDayOfAWeek(this.userId, this.startDate, this.endDate, 'WEEK').subscribe(
+      (response: any) => {
+        const labels = response.listOfObject.map((item: any) => this.formatDate(item.workDate));
+        const data = response.listOfObject.map((item: any) => this.formatToDecimalHours(item.totalWorkedHour));
 
-      if (ctx) {
-        this.chart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: 'Total Worked Hours',
-                data: data,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                tension: 0.4,
-                fill: true,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                display: false,
-                position: 'top',
-              },
-              title: {
-                display: true,
-                text: 'Worked Hours for the Week',
-              },
-              tooltip: {
-                callbacks: {
-                  // Custom tooltip label callback
-                  label: (tooltipItem: any) => {
-                    // Convert the decimal hours to HH:MM format
-                    const formattedTime = this.formatDecimalToTime(tooltipItem.raw);
-                    return `${tooltipItem.label}: ${formattedTime}`;
-                  }
-                },
-              },
-            },
-            scales: {
-              x: {
-                title: {
-                  display: true,
-                  text: 'Days of the Week',
-                },
-              },
-              y: {
-                title: {
-                  display: true,
-                  text: 'Worked Hours',
-                },
-                beginAtZero: true,
-                ticks: {
-                  // Adjust ticks for Y-axis to handle time correctly
-                  callback: (tickValue: string | number) => {
-                    const value = typeof tickValue === 'string' ? parseFloat(tickValue) : tickValue;
-                    return this.formatDecimalToTime(value);
-                  },
-                  stepSize: 0.5,
-                },
-                type: 'linear',
-              },
-            },
-          },
-        });
+        // Update chart series and x-axis categories
+        this.series = [{
+          name: 'Total Worked Hours',
+          data: data
+        }];
+        this.xaxis = {
+          ...this.xaxis,
+          categories: labels
+        };
+
+        // Handle placeholder and initialization
+        if (response.listOfObject.length === 0) {
+          this.isPlaceholder = true;
+          this.isChartInitialized = false;
+        } else {
+          this.isPlaceholder = false;
+          this.isChartInitialized = true;
+        }
+      },
+      (error) => {
+        console.error('Error fetching worked hours:', error);
+        this.isPlaceholder = true;
+        this.isChartInitialized = false;
       }
-    }
+    );
   }
+
+  // Date range calculation
+  calculateDateRange(): void {
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.getDay(); // 0: Sunday, 1: Monday, etc.
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setDate(currentDate.getDate() - dayOfWeek);
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    this.startDate = this.formatDateToYYYYMMDD(startOfWeek);
+    this.endDate = this.formatDateToYYYYMMDD(endOfWeek);
+  }
+
+
+  public series: ApexAxisChartSeries = [];
+  public chart: ApexChart  = {
+    type: "area",
+    stacked: false,
+    height: 200,
+    background: "transparent",
+    zoom: {
+      enabled: false // 🔹 Disables zooming
+    },
+    toolbar: {
+      show: false,
+      tools: {
+        zoomin: false,  // Keep zoom in enabled
+        zoomout: false, // 🔹 Disable zoom out button
+        pan: false,
+        reset: false // Optionally disable reset zoom
+      }
+    },
+  };
+  public grid = {
+    show: false // 🔹 Hide grid lines
+  };
+  public xaxis: ApexXAxis = {
+    type: 'category',
+    title: { text: 'Days of the Week' },
+    categories: []
+  };
+  public yaxis: ApexYAxis = {  labels: { show: false } };
+
+  public stroke: ApexStroke = {
+     width: 2
+  };
+  public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
+  public dataLabels: ApexDataLabels = { enabled: false }; // No data labels in original
+  public markers: ApexMarkers = { size: 0 }; // Hide markers for a clean line
+  public tooltip: ApexTooltip = {
+    y: {
+      formatter: (val: number) => this.formatDecimalToTime(val) // HH:MM format in tooltips
+    }
+  };
+  public isChartInitialized: boolean = false;
 
   // holidays
 

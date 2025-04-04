@@ -1,11 +1,23 @@
 <div class="total-detail ">
     <h5 class="mb-2 font-14">Overall Performance</h5>
-    <div class="chart-container w-100">
-        <canvas #chartCanvas id="workingHoursChart"></canvas>
+    <div *ngIf="!isPlaceholder && isChartInitialized" class="chart-container w-100">
+      <apx-chart
+      [series]="series"
+      [chart]="chart"
+      [xaxis]="xaxis"
+      [yaxis]="yaxis"
+      [title]="title"
+      [stroke]="stroke"
+      [fill]="fill"
+      [dataLabels]="dataLabels"
+      [markers]="markers"
+      [tooltip]="tooltip"
+      [grid]="grid"
+    ></apx-chart>
     </div>
     <!-- *ngIf="!isPlaceholder" -->
-    <!-- <div class="empty-file d-flex align-items-center justify-content-center"
+    <div class="empty-file d-flex align-items-center justify-content-center"
         style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
         <p class="mb-1 empty-detail">No data for now</p>
-    </div> -->
+    </div>
 </div>
