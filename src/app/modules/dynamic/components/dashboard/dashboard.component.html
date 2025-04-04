@@ -1024,10 +1024,13 @@
                                             red:
                                               dayWiseStatus.status == UNMARKED,
                                             green:
-                                              dayWiseStatus.status == PRESENT,
+                                              dayWiseStatus.status == PRESENT ||
+                                              dayWiseStatus.status == 'WFH' ||
+                                              dayWiseStatus.status == 'OnDuty',
                                             blue:
                                               dayWiseStatus.status == WEEKEND ||
-                                              dayWiseStatus.status == HOLIDAY
+                                              dayWiseStatus.status == HOLIDAY ||
+                                              dayWiseStatus.status == 'WeekOff'
                                           }" (mouseenter)="
                                             fetchAttendanceDetails(
                                               attendanceReportResponse.email,
@@ -1037,7 +1040,12 @@
                                           {{
                                           dayWiseStatus.status[0] == "U"
                                           ? "A"
-                                          : dayWiseStatus.status[0]
+                                          :  dayWiseStatus.status == "WeekOff"
+                                          ? "WO"
+                                          :  dayWiseStatus.status == "WFH"
+                                          ? "WFH"
+                                           :  dayWiseStatus.status == "OnDuty"
+                                          ? "OD" : dayWiseStatus.status[0]
                                           }}
 
                                           <span class="user-details p-3" *ngIf="
