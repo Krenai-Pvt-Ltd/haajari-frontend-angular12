@@ -78,9 +78,6 @@ export class SalaryTemplateComponent implements OnInit {
               this.templateComponents.deductions = this.templateComponents.deductions.filter(tempComponent => {
                 return !this.salaryTemplate.deductions.some(salaryComponent => salaryComponent.name ==  tempComponent.name);
               });  
-              this.salaryTemplate.deductions.forEach(component => {
-                component.amount = component.value;
-              });
                      
           } else {
               const basicComponent = this.templateComponents.earningComponents.find(component => component.name === 'Basic');
@@ -101,7 +98,10 @@ export class SalaryTemplateComponent implements OnInit {
           }
           
           }
-          this.CalculateMonthlyAmountNew();
+          if(this.isNewTemplate){
+            this.CalculateMonthlyAmountNew();
+          }
+    
         } else {
           this.templateComponents = new SalaryTemplate();
         }
@@ -138,6 +138,7 @@ createTemplate(){
 editSalaryTemplate(template:SalaryTemplate){
   this.toggle=true;
   this.isNewTemplate = false;
+  this.previewCalculations = true;
   this.salaryTemplate = JSON.parse(JSON.stringify(template));
   this.getTemplateComponents();
 }
@@ -243,25 +244,21 @@ findEarning(){
       
     }
 
+
     if(component.epfIncluded){
       this.totalEpfAmount += component.amount;
     }
+
+
     if(component.esiIncludded){
       this.totalEsiAmount += component.amount;
     }
+    
     ++this.count;    
 });
 
 
 if(this.count== this.salaryTemplate.earningComponents.length){
-  this.findReimbursement();
-}
-
-}
-
-
-findReimbursement(){
-  // console.log("==============B===============")
   this.salaryTemplate.reimbursementComponents.forEach(component=>{
     if(!component.isAdd){
       component.isAdd = true;
@@ -274,6 +271,9 @@ findReimbursement(){
     this.findBenefits(false);
   }
 }
+
+}
+
 
 calculatedAmount:number=0;
 findFixedAllowance(){
@@ -296,12 +296,7 @@ benefitsCalculatedAmount :number=0;
 findBenefits(flag?:boolean){
    this.fixedAllowanceAmount = 0;
    this.benefitsCalculatedAmount = 0;
-
-  const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
-  if(fixedAllowance){
-    this.fixedAllowanceAmount = fixedAllowance.amount;
-  }
-  
+   
 
   const ESI = this.salaryTemplate.deductions.find(x=> x.name == 'ESI')
   if(ESI){
@@ -329,9 +324,14 @@ findBenefits(flag?:boolean){
     this.benefitsCalculatedAmount += EPF.amount;
   }
 
+  const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
+  if(fixedAllowance){
+    this.fixedAllowanceAmount = fixedAllowance.amount;
+  }
+
   if(flag){
     this.previewCalculations = true;
-    var tempFixedAmount = this.fixedAllowanceAmount -this.benefitsCalculatedAmount;
+    var tempFixedAmount = this.fixedAllowanceAmount - this.benefitsCalculatedAmount;
     if(fixedAllowance){
       fixedAllowance.amount = tempFixedAmount;
       this.CalculateMonthlyAmountNew1();
