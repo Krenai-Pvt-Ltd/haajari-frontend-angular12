@@ -269,7 +269,7 @@
                                                             <h5 class="mb-1 font-13 fw-semibold regular-data pointer" (click)="routeToUserProfile(log?.userUuid)">
                                                               {{ log?.name }} - <span class="mb-1 font-12"> {{ log?.date | date: 'd MMMM, y' || "N/A" }}</span>
                                                             </h5>
-                                                            <p class="mb-0 fw-light font-12">{{ log?.email || 'N/A' }} | <span class="text-primary fw-normal">{{ log?.position }}</span></p>
+                                                            <p class="mb-0 fw-light font-12">{{ log?.email || 'N/A' }} <span class="text-primary fw-normal">{{ '| ' + log?.position }}</span></p>
                                                           </div>
                                                         </div>
                                                         <span class="badge rounded-pill badge-soft-danger font-13">Absent</span>

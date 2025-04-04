@@ -30,8 +30,11 @@
 
             <ng-container *ngIf="!toggle">
                 <span class="full-time font-13 fw-semibold text-success"
-                    *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full
+                    *ngIf="(employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)) && !employeeProfileResponseData?.isProbation">Full
                     Time</span>
+                <span class="full-time font-13 fw-semibold text-danger"
+                *ngIf="employeeProfileResponseData?.isProbation && !(employeeProfileResponseData?.resignationStatus == 43) && !(employeeProfileResponseData?.resignationStatus == 42)">
+                Under Probation</span>
                 <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On
                     notice period</h6>
             </ng-container>
