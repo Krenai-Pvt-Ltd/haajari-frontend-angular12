@@ -224,7 +224,15 @@ nz-calendar .holiday-cell {
   max-height: 330px;
   overflow: scroll;
 }
-
+.mobile-attendance-date{
+  border-bottom: 20px solid #fff !important;
+}
+.schedule {
+  border-left: var(--Border-Radius-4-px, 4px) solid #CECDFF;
+  background-color: #F6F6F6;
+  padding: 7px 10px;
+  border-radius: 2px;
+}
 .birthday-section::-webkit-scrollbar {
   display: none;
 }
@@ -956,8 +964,26 @@ span.holiday-initial {
   border: 1px solid #D9D9D9;
   border-radius: 10px;
 }
-
+.mobile-card-view{
+  display: none;
+}
 @media screen and (max-width: 500px) {
+  .nav-link {
+    margin-right: 10px;
+    font-size: 14px;
+}
+  .mobile-card-view{
+    display: block;
+}
+  .desktop-attendance-date{
+    display: none;
+}
+  .birthday-anniversaries{
+    display: none;
+  }
+  .col-sm-6{
+    width: 50%;
+}
   .attendance-report-height{
     height: auto;
     margin-bottom: 15px;
@@ -998,9 +1024,9 @@ span.holiday-initial {
   display: block;
   margin-top: -10px;
 }
-.desktop-holiday{
+/* .desktop-holiday{
   display: none;
-}
+} */
 
 .team-overview{
   display: none;

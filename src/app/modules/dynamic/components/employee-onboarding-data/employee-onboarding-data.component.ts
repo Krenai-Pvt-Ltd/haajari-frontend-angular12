@@ -228,6 +228,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
+    this.getUploadStatusFromFirebase(this.rbacService.getOrgRefUUID());
     this.dataService.onNotification().subscribe(() => {
       this.getShiftData();
     });
@@ -1209,7 +1210,6 @@ appliedFilters: string[] = []
         this.validateMap.clear;
 
         const columnNames: string[] = this.jsonData[0] as string[];
-        debugger
         if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) => {
                 // Ensure the 5th column is an array of strings, other columns are treated as strings
@@ -1282,6 +1282,8 @@ appliedFilters: string[] = []
           });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
 
+          console.log(this.areAllFalse());
+          console.log(this.mismatches);
           if(this.areAllFalse() && this.mismatches.length===0){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
@@ -1298,15 +1300,25 @@ appliedFilters: string[] = []
   }
   firstUpload:boolean=true;
   areAllFalse(): boolean {
+    try{
+
+    
     if(this.firstUpload===true){
       this.firstUpload=false;
       return false;
     }
-    return this.invalidCells
-      .reduce((acc, row, rowIndex) => {
-        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
-      }, [])
-      .every(value => value === false);
+    return true;
+    // console.log("🚀 ~ EmployeeOnboardingDataComponent ~ areAllFalse ~ this.invalidCells:", this.invalidCells)
+    // return this.invalidCells
+    // .reduce((acc, row, rowIndex) => {
+    //   return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+    // }, [])
+    // .every((value:any) => value === false || value === null || value === undefined || value === "" || value === 0);
+      // .every(value => value === false);
+    }catch(error){
+      console.log("🚀 ~ EmployeeOnboardingDataComponent ~ areAllFalse ~ error:", error)
+      return false;
+    }
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -1384,7 +1396,6 @@ appliedFilters: string[] = []
   }
 
   validateRows(rows: any[]): void {
-    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
 
@@ -1408,6 +1419,7 @@ appliedFilters: string[] = []
           const email = cellValue.toString().trim();
           this.addToMap('Repeated Email: ' + email, `${i + 1}`);
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            this.addToMap('Invalid Email: ',`${i+1}`);
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -1422,6 +1434,7 @@ appliedFilters: string[] = []
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid Phone: ',`${i+1}`);
           }
         }else if(this.fileColumnName[j] === 'phone*'){
           this.addToMap('Empty Phone: ',`${i+1}`);
@@ -1456,6 +1469,21 @@ appliedFilters: string[] = []
           }
           if (!shiftExists || !cellValue) {
               this.addToMap('Invalid Shift: ',`${i+1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i+1][j] = '';
+          }
+        }
+
+        if (this.fileColumnName[j] === 'gender*' ) {
+          var genderExists=false;
+          if(cellValue){
+            const gender = cellValue.toString().trim();
+            genderExists = this.genders.some(g =>g === gender);
+          }
+          if (!genderExists || !cellValue) {
+              this.addToMap('Invalid gender: ',`${i+1}`);
               rowIsValid = false;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
@@ -1814,7 +1842,7 @@ console.log(this.data);
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.errorMessage = '';
-    var uuid=uuidv4();
+    var uuid=this.rbacService.getOrgRefUUID();
     setTimeout(() => {
     this.getUploadStatusFromFirebase(uuid);
     }
@@ -1844,6 +1872,7 @@ console.log(this.data);
     );
   }
 
+  isUploading: boolean = false;
   getUploadStatusFromFirebase(uuid: any) {
     this.db.object('bulk_upload/user_' + uuid).valueChanges()
       .subscribe(res => {
@@ -1852,7 +1881,15 @@ console.log(this.data);
         if (res != undefined && res != null) {
           console.log(res);
           //@ts-ignore
-          console.log(res.count);
+          if(res.status=='InProcess'){
+            this.isUploading = true;
+          }
+          //@ts-ignore
+          if(res.status=='Completed' && this.isUploading){
+            this.getReport();
+            this.getUser();
+            this.isUploading = false;
+          }
           //@ts-ignore
           this.uploadedCount = res.count;
 
@@ -2797,28 +2834,36 @@ console.log(this.data);
   // }
 
   sendNotifications(): void {
-    if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
-      this.helperService.showToast(
-        'Please select at least one notification type to proceed.',
-        'error'
-      );
-      return;
-    }
+    // if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
+    //   this.helperService.showToast(
+    //     'Please select at least one notification type to proceed.',
+    //     'error'
+    //   );
+    //   return;
+    // }
 
     this.loadingFlag = true;
 
     // Filter users based on toggled notification preferences
-    const emailUsers = this.enableEmailNotification
-      ? this.onboardUserList
-        .filter((user) => user.emailNotificationEnabled && user.email)
-        .map((user) => user.email)
-      : [];
+    // const emailUsers = this.enableEmailNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.emailNotificationEnabled && user.email)
+    //     .map((user) => user.email)
+    //   : [];
 
-    const whatsappUsers = this.enableWhatsAppNotification
-      ? this.onboardUserList
-        .filter((user) => user.whatsappNotificationEnabled && user.phone)
-        .map((user) => user.phone)
-      : [];
+    // const whatsappUsers = this.enableWhatsAppNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.whatsappNotificationEnabled && user.phone)
+    //     .map((user) => user.phone)
+    //   : [];
+    const emailUsers:string[]=[]
+    const whatsappUsers:string[] =this.onboardUserList.filter((user) =>user.phone).map((user) => user.phone)
+    //     .map((user) => user.phone)
+    //  this.enableWhatsAppNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.whatsappNotificationEnabled && user.phone)
+    //     .map((user) => user.phone)
+    //   : [];
 
     // Prepare request payload
     const notificationRequest = {

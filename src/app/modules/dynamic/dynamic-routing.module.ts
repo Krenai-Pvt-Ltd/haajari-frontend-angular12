@@ -151,18 +151,19 @@ const routes: Routes = [
       },
       {
         path: 'expense',
-        component: CreateExpenseComponent,
+        component: ExpenseManagementComponent,
+        // CreateExpenseComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
         path: 'inbox',
-        component: InboxComponent ,
+        component: InboxComponent , canActivate: [SubscriptionGuard]
 
       },
       { path: 'faq', component: FaqComponent },
 
-      { path: 'faq-detail', component: FaqDetailComponent },
-      { path: 'expense-management', component: ExpenseManagementComponent },
+      { path: 'faq-detail', component: FaqDetailComponent }
+      // { path: 'expense-management', component: ExpenseManagementComponent },
     ],
   },
 ];

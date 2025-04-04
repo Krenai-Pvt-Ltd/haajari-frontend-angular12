@@ -64,34 +64,26 @@
                             </span>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-3">
-                            <div class="btn-group week-data radio-btn" role="group"
-                                aria-label="Basic radio toggle button group">
-
-                                <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
-                                    (ngModelChange)="onTabChange($event)">
-
-                                    <label nz-radio-button [nzValue]="week"
-                                        *ngFor="let week of weekLabels; let i = index">{{week}}</label>
-                                    <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
-                                </nz-radio-group>
-
-                            </div>
-
-                            <!-- <nz-select class="request-dropdown placeholder-lines" nzSize="large"
-                                nzPlaceHolder="New Request" required [(ngModel)]="selectedRequest"
-                                (ngModelChange)="onRequestChange(selectedRequest)" *ngIf="userId==currentUserUuid">
-                                <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-
-                            </nz-select> -->
+                        <div class="btn-group week-data radio-btn all-day-filter" role="group"
+                            aria-label="Basic radio toggle button group">
+                            <nz-radio-group [(ngModel)]="selectedTab" nzButtonStyle="solid" nzSize="large"
+                                (ngModelChange)="onTabChange($event)">
+                                <label nz-radio-button [nzValue]="week"
+                                    *ngFor="let week of weekLabels; let i = index">{{week}}</label>
+                                <label nz-radio-button [nzValue]="'30 DAYS'">{{thirtyDaysLabel}}</label>
+                            </nz-radio-group>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-md-9">
                             <div class="row" style="border-right: 1px solid #EDEFF5;">
+
+                                <div class="col-md-3 mobile-overall-performance">
+                                    <app-overall-attendance-chart></app-overall-attendance-chart>
+                                </div>
+
                                 <div class="col-md-8 ">
-                                    <div
-                                        class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
+                                    <div class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
                                         <div class="d-flex align-items-center gap-2">
                                             <div>
                                                 <div *ngIf="isShimmer">
@@ -121,7 +113,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <!-- <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
                                     <p class="mb-0 font-12">Difference</p> -->
@@ -138,7 +130,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -151,7 +143,7 @@
                                         <p class="mb-0 font-12">Total late delay</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -166,7 +158,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'50%'"
@@ -179,7 +171,7 @@
                                         <p class="mb-0 font-12">System checkout</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-sm-6">
                                     <div class="attendance-summery p-3 pt-2 pb-2">
                                         <div *ngIf="isShimmer">
                                             <ngx-shimmer-loading [width]="'40%'"
@@ -196,35 +188,13 @@
                             </div>
 
                         </div>
-                        <div class="col-md-3">
-                            <div class="total-detail ">
-                                <h5 class="mb-3 font-14">Overall Performance</h5>
-
-                                <!-- <img src="assets/images/overall-performance.png" style="width: 100%;"> -->
-                                <div class="chart-container w-100" *ngIf="!isPlaceholder">
-                                    <canvas #chartCanvas id="workingHoursChart"></canvas>
-                                </div>
-                                <!-- <apx-chart [series]="chartOptions.series [chart]="chartOptions.chart"
-                                [xaxis]="chartOptions.xaxis"
-                                [title]="chartOptions.title">
-                                    </apx-chart> -->
-
-                                <!-- <div class="col-md-12" *ngIf="isShimmer">
-                                    <ngx-shimmer-loading [width]="'100%'" [height]="'100px'"></ngx-shimmer-loading>
-                                </div> -->
-
-                                <div class="empty-file d-flex align-items-center justify-content-center"
-                                    style="margin-top: 8%; margin-bottom: 8%" *ngIf="isPlaceholder">
-                                    <p class="mb-1 empty-detail">No data for now</p>
-                                </div>
-
-
-                            </div>
+                        <div class="col-md-3 desktop-overall-performance" >
+                            <app-overall-attendance-chart></app-overall-attendance-chart>
                         </div>
 
                     </div>
 
-                    <div class="table-responsive bg-white mt-3">
+                    <div class="table-responsive bg-white mt-3 desktop-attendance-date" >
                         <table class="table empOnnoardtable">
                             <thead class="thead-light">
                                 <tr>
@@ -312,8 +282,8 @@
                             <tbody *ngIf="!isShimmer && attendanceDetails.length > 0">
                                 <ng-container *ngFor="let item of attendanceDetails">
                                     <!-- {{item.status}} -->
-                                    <tr class=""
-                                        *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">
+                                    <tr 
+                                        *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day';else otherStatus">
 
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 ">
@@ -321,7 +291,6 @@
                                         </td>
                                         <td class="text-center">
                                             <span class="team-maneger mb-0 text-success">
-                                                <!-- {{item.status}} -->
                                                 Present
                                             </span>
                                         </td>
@@ -427,8 +396,6 @@
                                                 *ngIf="item.attendanceSource == 'DASHBOARD'">
 
 
-                                            <!-- <span *ngIf="!item.attendanceSource">No Source</span> -->
-
                                         </td>
                                         <td class="text-left">
                                             <div class="team-maneger mb-0 table-font-weight schedule"
@@ -466,12 +433,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <!-- To DO: Make it dynamic break time -->
-                                            <!-- <span *ngIf="item.breakCount > 0" class="team-maneger mb-0 table-font-weight" nz-popover
-                                            nzPopoverTitle="Break Logs" [nzPopoverContent]=""
-                                            [nzPopoverOverlayStyle]="{'width':'250px'}">
-                                                {{item.breakCount}}
-                                            </span> -->
+                                           
                                             <span
 
                                                 class="team-manager mb-0 table-font-weight"
@@ -513,10 +475,6 @@
                                                   </ng-template>
                                                 </div>
                                               </ng-template>
-
-                                            <!-- <span *ngIf="item.breakCount == 0" class="team-maneger mb-0 table-font-weight">
-                                                {{item.breakCount}}
-                                            </span> -->
                                         </td>
 
 
@@ -557,92 +515,29 @@
 
                                     </tr>
 
-
-                                    <tr class="week-holiday"
-                                        *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
+                                  <ng-template #otherStatus>
+                                    <tr 
+                                    [ngClass]="{
+                                        'week-holiday': item.status === 'Custom Holiday' || item.status === 'Universal Holiday',
+                                        'week-off': item.status === 'Weekly Holiday',
+                                        'week-absent': item.status === 'Absent',
+                                        'week-leave': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' || 
+                                                        item.status === 'Weekly Holiday' || item.status === 'Absent')
+                                      }"
+                                        >
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 ">
                                                 {{item.createdDate | date:'fullDate'}}</span>
                                         </td>
                                         <td class="text-center">
-                                            <span class="team-maneger mb-0 text-warning">
-                                                Holiday
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class=" text-left">
-
-                                        </td>
-                                    </tr>
-                                    <!-- week off  -->
-                                    <tr class="week-off" *ngIf="item.status == 'Weekly Holiday'">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                {{item.createdDate | date:'fullDate'}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="team-maneger mb-0 text-primary">
-                                                W-off
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class=" text-left">
-
-                                        </td>
-                                    </tr>
-                                    <!-- leave  -->
-                                    <tr class="week-leave"
-                                        *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                {{item.createdDate | date:'fullDate'}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="team-maneger mb-0 text-black">
+                                            <span class="team-maneger mb-0 text-warning"
+                                            [ngClass]="{
+                                                'text-warning': item.status === 'Custom Holiday' || item.status === 'Universal Holiday',
+                                                'text-primary': item.status === 'Weekly Holiday',
+                                                'text-danger': item.status === 'Absent',
+                                                'text-success': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' || 
+                                                                item.status === 'Weekly Holiday' || item.status === 'Absent')
+                                              }">
                                                 {{item.status}}
                                             </span>
                                         </td>
@@ -673,54 +568,255 @@
 
                                         </td>
                                     </tr>
-                                    <!-- absent -->
-                                    <tr class="week-absent" *ngIf="item.status == 'Absent'">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                {{item.createdDate | date:'fullDate'}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="team-maneger mb-0 text-danger">
-                                                Absent
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class=" text-left">
-
-                                        </td>
-                                    </tr>
+                                </ng-template>
+                                  
+                                  
                                 </ng-container>
                             </tbody>
                         </table>
-
-
                     </div>
+                    <!-- mobile attendance list -->
+                    <div class="mobile-card-view mt-3" >
+                            <table class="table">
+
+                                <h5 class="font-15 fw-semibold mb-3">Attendance list</h5>
+
+                                <tbody *ngIf="isShimmer">
+                                    <tr *ngFor="let item of [].constructor(7)">
+                                        <td>
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </td>
+                                        <td>
+                                            <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <ng-container *ngIf="!isShimmer && attendanceDetails.length > 0">
+                                     
+                                    
+
+                                    <tbody class="mb-3 mobile-attendance-date" *ngFor="let item of attendanceDetails">
+
+                                        <ng-container *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">
+                                        <tr>
+                                            <th class="font-13">Date/Status</th>
+                                            <td> 
+                                                <div class="d-flex align-items-cennter justify-content-between">
+                                                    {{item.createdDate | date:'fullDate'}}
+                                                <span class="team-maneger mb-0 text-success">
+                                                    Present
+                                                </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <tr>
+                                            <th class="font-13">Schedule</th>
+                                            <td>
+                                                <div class="team-maneger mb-0 table-font-weight schedule"
+                                                    *ngIf="item.shiftInTime">
+                                                    <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -
+                                                        {{item.shiftOutTime | date:'shortTime'}} <span
+                                                            class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span>
+                                                    </h5>
+                                                    <p class="mb-0 font-10">Shift: {{item.shiftType}}</p>
+                                                </div>
+                                                <div class="" *ngIf="!item.shiftInTime">
+                                                    <!-- <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -  {{item.shiftOutTime | date:'shortTime'}} <span class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span></h5> -->
+                                                    <h5 class="mb-0 font-10">--</h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13">Check In - Out</th>
+                                            <td>
+                                                <div class="d-flex align-items-cennter justify-content-between">
+                                                <span class="team-maneger mb-0 table-font-weight">
+                                                    {{item.checkInTime | date:'shortTime'}} <br>
+                                                    <span class="text-danger font-11" *ngIf=" item.status == 'Late'" > Late - {{convertSecondsToHMS(+item.lateMinutes)}}</span>
+                                                    <span class="text-danger font-11" *ngIf=" item.status == 'Half Day'" > Half Day - {{convertSecondsToHMS(+item.halfDayMinutes)}}</span>
+                                                </span>
+                                                <div>
+                                                    <span class="team-maneger mb-0 fw-semibold"
+                                                *ngIf="item.checkOutTime && (item.currentStatus == 'out')">
+                                                {{item.checkOutTime | date:'shortTime'}} &nbsp; <span
+                                                    class="text-primary font-12 fw-semibold"
+                                                    *ngIf="item.checkoutType == 'SYSTEM_GENERATED'">System</span>
+                                                    </span>
+                                                    <span class="team-maneger mb-0 table-font-weight"
+                                                        *ngIf="(item.currentStatus != 'out')">
+                                                        <span class="text-primary font-12 fw-semibold">Working</span>
+                                                    </span>
+                                             </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                       
+                                        <tr >
+                                            <th class="font-13">Break & Duration</th>
+                                            <td>
+                                                <div class="d-flex align-items-cennter justify-content-between">
+                                                <span class="team-manager mb-0 table-font-weight"
+                                                nz-popover
+                                                nzPopoverTitle="Break Logs"
+                                                [nzPopoverContent]="breakLogsContent"
+                                                [nzPopoverOverlayStyle]="{'width':'250px'}"
+                                                (mouseover)="getUserBreakTimingsReportByDate(item.createdDate.toString())">
+                                                {{item.breakCount}}
+                                            </span>
+                                            <ng-template #breakLogsContent>
+                                                <div class="total-break-time">
+                                                <div *ngIf="breakTimingsList?.length; else noDataTemplate">
+                                                    <table class="table">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                        <th class="text-left">Break</th>
+                                                        <th class="text-left">Back</th>
+                                                        </tr>
+                                                    </thead>
+                                                    </table>
+                                                    <div class="break-times-scrollable">
+                                                    <table class="table">
+                                                        <tbody>
+                                                        <tr *ngFor="let breakTiming of breakTimingsList">
+                                                            <td class="text-left">
+                                                            {{ breakTiming.breakTime | date: 'shortTime' }}
+                                                            </td>
+                                                            <td class="text-left">
+                                                            {{ breakTiming.backTime | date: 'shortTime' }}
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    </div>
+                                                </div>
+                                                <ng-template #noDataTemplate>
+                                                    <p>No break logs available.</p>
+                                                </ng-template>
+                                                </div>
+                                            </ng-template>
+
+                                            <span class="team-maneger text-center mb-0 table-font-weight">
+                                                {{convertToHourMinuteFormat(item.totalBreakHours)}}</span>
+                                        </div>
+                                            </td>
+                                        </tr>
+                                       
+                                        <tr>
+                                            <th class="font-13">Worked</th>
+                                            <td>
+                                                <span class="team-maneger text-center mb-0 table-font-weight">
+                                                    {{convertToHourMinuteFormat(item.totalWorkedHour)}}</span>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <th>Difference:</th>
+                                            <td>
+                                                <div class="">
+                                                    <div>
+                                                        <span class="team-manager mb-0 table-font-weight" [ngClass]="{
+                                                'text-danger': checkTimeNegative(item.workingHourDifference),
+                                                'text-success': !checkTimeNegative(item.workingHourDifference)
+                                                }" *ngIf="item.workingHourDifference && (item.currentStatus == 'out')">
+                                                            {{
+                                                            convertToHourMinuteFormatNegativeCase(item.workingHourDifference)
+                                                            }}
+                                                        </span>
+                                                        <span class="team-manager mb-0 table-font-weight"
+                                                            *ngIf="(item.currentStatus != 'out')">
+                                                            --
+                                                        </span>
+                                                    </div>
+
+                                                    <button class="text-primary btn p-0 font-13 fw-semibold"
+                                                        data-bs-toggle="modal" data-bs-target="#viewlog"
+                                                        (click)="viewLogs(item.createdDate.toString())">
+                                                        View Logs</button>
+                                                </div>
+                                            </td>
+                                        </tr> -->
+                                        </ng-container>
+
+                                        <ng-container *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
+                                            <tr>
+                                                <th class="font-13">Date</th>
+                                                <td class="week-holiday"> 
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="font-13">Status</th>
+                                                <td  class="week-holiday">
+                                                    <span class="team-maneger mb-0 text-warning">
+                                                        Holiday
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                           
+                                        </ng-container>
+
+                                        <ng-container *ngIf="item.status == 'Weekly Holiday'">
+                                            <tr>
+                                                <th class="font-13">Date</th>
+                                                <td class="week-off"> 
+                                                    <div class="d-flex align-items-cennter justify-content-between">
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                        <span class="team-maneger mb-0 text-primary">
+                                                            W-off
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                    
+                                        </ng-container>
+
+                                        <ng-container *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
+                                            <tr>
+                                                <th  class="font-13">Date</th>
+                                                <td class="week-leave"> 
+                                                    <div class="d-flex align-items-cennter justify-content-between">
+                                                    <span class="team-maneger mb-0 ">
+                                                        {{item.createdDate | date:'fullDate'}}</span>
+                                                        <span class="team-maneger mb-0 text-primary">
+                                                            {{item.status}}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                        </ng-container>
+
+                                        <ng-container *ngIf="item.status == 'Absent'">
+                                            <tr class="font-13">
+                                                <th class="font-13">Date/Status</th>
+                                                <td class="week-absent"> 
+                                                    <div class="d-flex align-items-cennter justify-content-between">
+                                                        {{item.createdDate | date:'fullDate'}}
+                                                        <span class="team-maneger mb-0 text-danger">
+                                                            Absent
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- <tr>
+                                                <th class="font-13">Status:</th>
+                                                <td class="week-absent">
+                                                   
+                                                </td>
+                                            </tr> -->
+                                            
+                                        </ng-container>
+
+                                    </tbody>
+                                </ng-container>
+                            </table>
+                    </div>
+                     <!-- mobile attendance list -->
 
 
                 </div>
-
                 <div class="tab-pane fade pt-3" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
                     <div class="leave-summary">
                         <div class="row">
@@ -774,7 +870,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                             <div class="d-flex justify-content-start align-items-center">
                                                 <!-- Leave Type Filter -->
-                                                <div class="dropdown empFilerDropfilter">
+                                                <div class="dropdown empFilerDropfilter mobile-status-filter">
                                                     <button type="button" id="leaveTypeDropdown"
                                                         data-bs-toggle="dropdown" aria-expanded="false"
                                                         class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -791,7 +887,7 @@
                                                 </div>
 
                                                 <!-- Status Filter -->
-                                                <div class="dropdown empFilerDropfilter">
+                                                <div class="dropdown empFilerDropfilter mobile-status-filter">
                                                     <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
                                                         aria-expanded="false"
                                                         class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -881,8 +977,9 @@
                             </div>
                         </div>
 
+                        <!-- desktop leave section -->
 
-                        <div class="table-responsive bg-white mt-3">
+                        <div class="table-responsive bg-white mt-3 mobile-bottom-space deshtop-attendance-date">
 
                             <table class="table empOnnoardtable">
                                 <thead class="thead-light">
@@ -1053,9 +1150,147 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        
+                            <div *ngIf="totalPages>1"
+                                class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+                                <p>
+                                    Showing 0 - 0 of {{ totalItems }} users
+                                </p>
+                                <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
+                                    (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="currentPage"
+                                    [maxSize]="8" [boundaryLinks]="true">
+                                </ngb-pagination>
+                               </div>
+                            </div>
+
+                      <!-- desktop leave section end -->
+
+
+
+
+                    <!-- mobile leave section -->
+                    <div class="mobile-card-view mt-3" >
+                        <table class="table mb-0">
+
+                            <tbody *ngIf="isLoading">
+                                <tr *ngFor="let item of [].constructor(7)">
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'"
+                                            [height]="'10px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'"
+                                            [height]="'10px'"></ngx-shimmer-loading>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody *ngIf="userLeaveLog?.length === 0">
+                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                        [nzNotFoundContent]="contentTpl">
+                                        <ng-template #contentTpl>
+                                            <p class="mb-1 empty-detail">No data for now</p>
+                                        </ng-template>
+                                    </nz-empty>
+                                </div>
+                            </tbody>
+
+                            <tbody class="mobile-attendance-date" *ngFor="let item of userLeaveLog">
+                                <tr>
+                                    <th class="font-13">Apply On</th>
+                                    <td>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                        <span class="team-maneger mb-0">{{ item.createdDate | date: 'EEE, d MMM yy' }}</span>
+
+                                        <div>
+                                            <ng-container [ngSwitch]="item.status">
+                                                <ng-container *ngSwitchCase="'pending'">
+                                                    <span class="font-13 fw-semibold text-warning"> Pending
+                                                    </span>
+
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'approved'">
+                                                    <span class="font-13 fw-semibold text-success">
+                                                        Approved
+                                                    </span>
+                                                </ng-container>
+
+                                                <ng-container *ngSwitchCase="'rejected'">
+                                                    <span class="font-13 fw-semibold text-danger">
+                                                        Rejected
+                                                    </span>
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="font-13">Date</th>
+                                    <td>
+                                        <div class="schedule">
+                                        <h5 class="mb-0 font-12 fw-semibold">{{ item.startDate | date: 'd MMM yy' }} - {{
+                                            item.endDate | date: 'd MMM yy' }}</h5>
+                                        <p class="mb-0 font-10">
+                                            {{ item.totalDays }} Day
+                                            <span class="text-primary" *ngIf="item.firstHalf">(1st half)</span>
+                                            <span class="text-primary" *ngIf="item.secondHalf">(2nd half)</span>
+                                        </p>
+                                    </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="font-13">Type & Requested</th>
+                                    <td>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                        <span class="team-maneger mb-0">{{ item.leaveType }}</span>
+                                        <span class="team-maneger mb-0">{{ item.requestedTo || 'N/A' }}</span>
+                                      </div>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <th>Requested To</th>
+                                    <td>
+                                        <span class="team-maneger mb-0 table-font-weight">{{ item.requestedTo || 'N/A' }}</span>
+                                    </td>
+                                </tr> -->
+                                <tr>
+                                    <th class="font-13">Approved by</th>
+                                    <td>
+
+                                        <span class="team-maneger mb-0"
+                                                [class.text-warning]="item.status === 'Pending'">{{ item.approvedBy ||
+                                                'N/A' }}</span>
+                                    </td>
+                                </tr>
+                              
+                                <tr>
+                                    <th>Leave Note</th>
+                                    <td class="font-13">
+                                        <span class="team-maneger mb-0 white-space fw-normal" nz-popover
+                                                nzPopoverTitle="Note" [nzPopoverContent]="leaveNotes"
+                                                [nzPopoverOverlayStyle]="{'width':'300px'}">{{
+                                                item.optNotes || 'N/A'}}</span>
+                                            <ng-template #leaveNotes>
+                                                {{ item.optNotes || 'N/A'}}
+                                            </ng-template>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="font-13 fw-normal">Reject reason</th>
+                                    <td>
+                                        <span class="team-maneger mb-0 white-space">{{
+                                                item.rejectionReason || 'N/A' }}</span>
+                                    </td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+
                         <div *ngIf="totalPages>1"
-                            class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+                            class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top" style="margin-bottom: 60px;">
                             <p>
                                 Showing 0 - 0 of {{ totalItems }} users
                             </p>
@@ -1064,30 +1299,83 @@
                                 [maxSize]="8" [boundaryLinks]="true">
                             </ngb-pagination>
                         </div>
+                    </div>
+                     <!-- mobile leave section ead -->
 
 
                     </div>
+                    <!-- mobile filter -->
+                    <div class="mobile-filter-bx">
+                        <div class="mobile-filter-selection">
+                            <div class="position-relative">
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleDropdown()">Leave Type</p>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                              </span>
+                            </div>
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base">|</p>
+                            <div class="position-relative">
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleStatusDropdown()">Status Filter</p>
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                              </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isDropdownOpen">
+                        <div class="sorting-select bg-white ">
+                            <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
+                                <p class="mb-0">Leave Type</p>
+                                <i class="bi bi-x-circle pointer" (click)="closeDropdown($event)"></i>
+
+                                
+                            </div>
+                            <div class="msort-dropdown">
+                                <ul class="pl-0">
+                                    <li *ngFor="let leaveType of leaveTypes">
+                                        <a class="dropdown-item p-3 border-bottom active" 
+                                           (click)="updateLeaveType(leaveType);this.isDropdownOpen = false;" 
+                                           [class.active]="selectedLeaveType === leaveType">
+                                            {{ leaveType }}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isStatusDropdownOpen">
+                        <div class="sorting-select bg-white ">
+                            <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
+                                <p class="mb-0">Status Filter</p>
+                                <i class="bi bi-x-circle pointer" (click)="closeStatusDropdown($event)"></i>
+                            </div>
+                            <div class="msort-dropdown">
+                                <ul class="pl-0">
+                                    <li *ngFor="let status of statuses">
+                                        <a class="dropdown-item" (click)="updateStatuss(status)"
+                                            [class.active]="selectedStatus === status">
+                                            {{ status }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                      <!-- mobile filter end -->
                 </div>
                 <div class="tab-pane fade pt-3" id="viewrequests" role="tabpanel" aria-labelledby="viewrequests-tab">
-
-
-
                     <ul class="requests-btn">
                         <li [class.active]="attendanceType === 'CREATE'" (click)="updateAttendanceTypeFilter('CREATE')">Missed Punch</li>
                         <li [class.active]="attendanceType === 'UPDATE'" (click)="updateAttendanceTypeFilter('UPDATE')">System Outage</li>
                     </ul>
-
-
                     <div class="obboard-employee-list">
-                        <div class="onboard-add row align-items-center mx-0">
+                        <div class="onboard-add row align-items-center mx-0  ">
                             <div class="col-md-12 p-0">
                                 <div class="row justify-content-between align-items-center mx-0">
                                     <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
-                                        <div class="d-flex justify-content-start align-items-center">
-
-
-                                            <!-- Status Filter -->
-                                            <div class="dropdown empFilerDropfilter">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="dropdown empFilerDropfilter mobile-status-filter">
                                                 <button type="button" id="statusDropdown" data-bs-toggle="dropdown"
                                                     aria-expanded="false"
                                                     class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -1103,100 +1391,38 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <!-- Search -->
-                                            <div
-                                                class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
-                                                <!-- <form novalidate
-                                                    class="searching d-flex align-items-center justify-content-between w-100">
-                                                    <div class="form-group w-100 position-relative">
-                                                        <input type="text" id="searchText" #searchInput
-                                                            [value]="searchQuery"
-                                                            (input)="updateSearch(searchInput.value)"
-                                                            placeholder="Search by name.."
-                                                            class="form-control me-2 w-100"
-                                                            style="padding: 10px 45px;" />
-
-                                                        <i class="bi bi-search search-icon"></i>
-
-                                                    </div>
-                                                </form> -->
-
-                                            </div>
-                                            <div>
-
-                                                <button type="button" class="btn primaryBtnLink leave-request"  *ngIf="userId==currentUserUuid"
-                                                    data-bs-toggle="modal" data-bs-target="#updateRequest">
-                                                    Attendance Request </button>
-
-                                            </div>
+                                            <button type="button" class="btn primaryBtnLink leave-request"  *ngIf="userId==currentUserUuid"
+                                             data-bs-toggle="modal" data-bs-target="#updateRequest">Attendance Request </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="table-responsive bg-white mt-3">
+                        <!-- Attendance request desktop view -->
 
+                        <div class="table-responsive bg-white mt-3 desktop-attendance-date">
                             <table class="table empOnnoardtable">
-                                <thead class="thead-light">
-                                    <tr>
-
-                                        <th class="text-left font-13" style="width: 10%">Date</th>
-                                        <th class="text-left font-13" style="width: 10%">Type</th>
-                                        <th class="text-left font-13" style="width: 10%">Requested To</th>
-                                        <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
-                                        <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
-                                            style="width: 10%">In Time</th>
-                                        <th *ngIf="attendanceType === 'CREATE'" class="text-left font-13"
-                                            style="width: 10%">Out Time</th>
-                                        <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                            style="width: 10%">Old Time</th>
-                                        <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                            style="width: 10%">Updated Time</th>
-                                        <th *ngIf="attendanceType === 'UPDATE'" class="text-left font-13"
-                                            style="width: 10%">Requested For</th>
-                                        <th class="text-left font-13" style="width: 10%">Reason</th>
-                                        <th class="text-left font-13" style="width: 10%">Status</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody *ngIf="isAttendanceLoading">
+                            <ng-container *ngIf="attendanceType === 'CREATE'">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-left font-13" style="width: 10%">Date</th>
+                                            <th class="text-left font-13" style="width: 10%">Type</th>
+                                            <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                            <th class="text-left font-13" style="width: 10%">In Time</th>
+                                            <th  class="text-left font-13" style="width: 10%">Out Time</th>
+                                            <th class="text-left font-13" style="width: 10%">Reason</th>
+                                            <th class="text-left font-13" style="width: 10%">Status</th>
+                                        </tr>            
+                                    </thead>
+                                    <tbody *ngIf="isAttendanceLoading">
                                     <tr *ngFor="let item of [].constructor(7)">
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td>
-                                            <ngx-shimmer-loading [width]="'100%'"
-                                                [height]="'15px'"></ngx-shimmer-loading>
-                                        </td>
-                                        <td *ngIf="attendanceType === 'CREATE'">
+                                        <td *ngFor="let item of [].constructor(7)">
                                             <ngx-shimmer-loading [width]="'100%'"
                                                 [height]="'15px'"></ngx-shimmer-loading>
                                         </td>
                                     </tr>
                                 </tbody>
-
                                 <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
                                     <tr>
                                         <td colspan="9">
@@ -1211,42 +1437,310 @@
                                         </td>
                                     </tr>
                                 </tbody>
-
                                 <tbody *ngIf="!isAttendanceLoading">
-                                    <tr *ngFor="let item of attendanceRequests">
+                                        <tr *ngFor="let item of attendanceRequests">
+                                            <td>
+                                                <span>
+                                                    {{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
+                                                
+                                            </td>
+                                            <td>
+                                                <span>Attendance {{item?.requestType}}</span>
+                                                <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                            </td>
+                                            <td>
+                                                <span class="table-font-weight">{{ item.managerName }} </span>
+                                            </td>
+                                            <td>
+                                                <span 
+                                                    class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                                
+                                            </td>
+                                            <td>
+                                                <span 
+                                                    class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
+                                                
+                                            </td>
+                                        
+                                            <td>
+                                                <span class="table-font-weight">{{item?.requestReason}}</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span
+                                                        class="badge rounded-pill"
+                                                        [ngClass]="{'badge-soft-warning': item?.status == 'PENDING', 'badge-soft-danger': item?.status == 'REJECTED', 'badge-soft-success': item?.status == 'APPROVED'}"
+                                                        >{{item?.status}}</span>
+                                                    <!-- Delete Button -->
+                                                    <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" data-bs-toggle="modal" data-bs-target="#delete-request"
+                                                        (click)="currentId=item.id">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                            viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5461" style="mask-type:alpha"
+                                                                maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                                height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20"
+                                                                    fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5461)">
+                                                                <path
+                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                                    fill="#FF0404" />
+                                                            </g>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        
+                                        </tr>
+                                    <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
+                                        [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
+                                        [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
+                                    </ngb-pagination>
+                                </tbody>
+                            </ng-container>
+                            
+                            
+                            <ng-container *ngIf="attendanceType === 'UPDATE'">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-left font-13" style="width: 10%">Date</th>
+                                            <th class="text-left font-13" style="width: 10%">Type</th>
+                                            <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                            <th class="text-left font-13" style="width: 10%">Old Time</th>
+                                            <th class="text-left font-13" style="width: 10%">Updated Time</th>
+                                            <th class="text-left font-13" style="width: 10%">Requested For</th>
+                                            <th class="text-left font-13" style="width: 10%">Reason</th>
+                                            <th class="text-left font-13" style="width: 10%">Status</th>
+                                        </tr>            
+                                    </thead>
+                                    <tbody *ngIf="isAttendanceLoading">
+                                        <tr *ngFor="let item of [].constructor(7)">
+                                            <td *ngFor="let item of [].constructor(8)">
+                                                <ngx-shimmer-loading [width]="'100%'"
+                                                    [height]="'15px'"></ngx-shimmer-loading>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
+                                        <tr>
+                                            <td colspan="9">
+                                                <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                        [nzNotFoundContent]="contentTpl">
+                                                        <ng-template #contentTpl>
+                                                            <p class="mb-1 empty-filenew">No data for now</p>
+                                                        </ng-template>
+                                                    </nz-empty>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="!isAttendanceLoading">
+                                            <tr *ngFor="let item of attendanceRequests">
+                                                <td>
+                                                    <span>
+                                                        {{item?.updatedTime | date:'dd MMM yyyy'}}</span>
+                                                </td>
+                                                <td>
+                                                    <span>Attendance {{item?.requestType}}</span>
+                                                    <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                                </td>
+                                                <td>
+                                                    <span class="table-font-weight">{{ item.managerName }} </span>
+                                                </td>
+                                                <td>
+                                                
+                                                    <span 
+                                                        class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
+                                                </td>
+                                                <td>
+                                            
+                                                    <span 
+                                                        class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
+                                                </td>
+                                                <td >
+                                                    <span class="table-font-weight">{{item?.requestedFor}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="table-font-weight">{{item?.requestReason}}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="badge rounded-pill"
+                                                            [ngClass]="{'badge-soft-warning': item?.status == 'PENDING', 'badge-soft-danger': item?.status == 'REJECTED', 'badge-soft-success': item?.status == 'APPROVED'}"
+                                                            >{{item?.status}}</span>
+                                                        <!-- Delete Button -->
+                                                        <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" data-bs-toggle="modal" data-bs-target="#delete-request"
+                                                            (click)="currentId=item.id">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                                viewBox="0 0 21 21" fill="none">
+                                                                <mask id="mask0_6083_5461" style="mask-type:alpha"
+                                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                                    height="21">
+                                                                    <rect x="0.910156" y="0.910156" width="20" height="20"
+                                                                        fill="#D9D9D9" />
+                                                                </mask>
+                                                                <g mask="url(#mask0_6083_5461)">
+                                                                    <path
+                                                                        d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                                        fill="#FF0404" />
+                                                                </g>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            
+                                            </tr>
+                                            <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
+                                            [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
+                                            [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
+                                        </ngb-pagination>
+                                    </tbody>
+                            </ng-container>
+                            </table>
+                          
+                        </div>
+                         <!-- Attendance request desktop view end -->
+                    </div>
+   
+                     <!-- Attendance request mobile view -->
+                    <div class="mobile-card-view mt-3" >
+                        <table class="table">
+ 
+                            <ng-container *ngIf="attendanceType === 'UPDATE'">
+  
+                                <tbody *ngIf="isAttendanceLoading">
+                                    <tr *ngFor="let item of [].constructor(7)">
+                                        <td *ngFor="let item of [].constructor(2)">
+                                            <ngx-shimmer-loading [width]="'100%'"
+                                                [height]="'15px'"></ngx-shimmer-loading>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                                <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
+                                    <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                            [nzNotFoundContent]="contentTpl">
+                                            <ng-template #contentTpl>
+                                                <p class="mb-1 empty-filenew">No data for now</p>
+                                            </ng-template>
+                                        </nz-empty>
+                                    </div>
+                                </tbody>
+
+                                <ng-container *ngIf="!isAttendanceLoading">
+                                <tbody class="mobile-attendance-date" *ngFor="let item of attendanceRequests">
+                                    <tr>
+                                        <th>Date</th>
                                         <td>
-                                            <span *ngIf="item?.requestType === 'CREATE'">
-                                                {{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
-                                            <span *ngIf="item?.requestType === 'UPDATE'">
-                                                {{item?.updatedTime | date:'dd MMM yyyy'}}</span>
-                                            <!-- <p class="mb-0 font-12"> 1 Day </p> -->
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span> {{item?.updatedTime | date:'dd MMM yyyy'}}</span>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span
+                                                        class="badge rounded-pill"
+                                                        [ngClass]="{'badge-soft-warning': item?.status == 'PENDING', 'badge-soft-danger': item?.status == 'REJECTED', 'badge-soft-success': item?.status == 'APPROVED'}"
+                                                        >{{item?.status}}</span>
+                                                    <!-- Delete Button -->
+                                                    <button *ngIf="item?.status === 'PENDING'" class="icon-button btn p-0" data-bs-toggle="modal" data-bs-target="#delete-request"
+                                                        (click)="currentId=item.id">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21"
+                                                            viewBox="0 0 21 21" fill="none">
+                                                            <mask id="mask0_6083_5461" style="mask-type:alpha"
+                                                                maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                                height="21">
+                                                                <rect x="0.910156" y="0.910156" width="20" height="20"
+                                                                    fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_6083_5461)">
+                                                                <path
+                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
+                                                                    fill="#FF0404" />
+                                                            </g>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Type</th>
                                         <td>
-                                            <span>Attendance {{item?.requestType}}</span>
-                                            <p class="mb-0 font-12"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                            <div class="schedule">
+                                                <h5 class="mb-0 font-13">Attendance {{item?.requestType}}</h5>
+                                                <p class="mb-0 font-11"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                            </div>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Requested To</th>
                                         <td>
-                                            <span class="table-font-weight">{{ item.managerName }} </span>
+                                            <span class="fw-semibold">{{ item.managerName }} </span>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Old - Updated time</th>
                                         <td>
-                                            <span *ngIf="attendanceType === 'CREATE'"
-                                                class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
-                                            <span *ngIf="attendanceType === 'UPDATE'"
-                                                class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="fw-semibold">{{item?.oldTime | date:'HH:mm'}}</span>
+                                                <span class="fw-semibold">{{item?.updatedTime | date:'HH:mm'}}</span>
+                                            </div>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Requested For</th>
                                         <td>
-                                            <span *ngIf="attendanceType === 'CREATE'"
-                                                class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
-                                            <span *ngIf="attendanceType === 'UPDATE'"
-                                                class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
+                                            <span class="fw-semibold">{{item?.requestedFor}}</span>
                                         </td>
-                                        <td *ngIf="attendanceType === 'UPDATE'">
-                                            <span class="table-font-weight">{{item?.requestedFor}}</span>
-                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Reason</th>
                                         <td>
                                             <span class="table-font-weight">{{item?.requestReason}}</span>
                                         </td>
-                                        <td>
+                                    </tr>
+                                </tbody>
+
+                                <div class="d-flex alignns-items-ceter justify-content-end" style="margin-bottom: 60px;">
+                                    <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
+                                            [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
+                                            [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
+                                        </ngb-pagination>
+                                </div>
+                                </ng-container>
+                            </ng-container>
+
+   
+                            <ng-container  *ngIf="attendanceType === 'CREATE'">
+                                <ng-container *ngIf="!isAttendanceLoading">
+
+                                    <tbody *ngIf="isAttendanceLoading">
+                                        <tr *ngFor="let item of [].constructor(7)">
+                                            <td *ngFor="let item of [].constructor(2)">
+                                                <ngx-shimmer-loading [width]="'100%'"
+                                                    [height]="'15px'"></ngx-shimmer-loading>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="attendanceRequests.length === 0 && !isAttendanceLoading">
+                                        <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                    <p class="mb-1 empty-filenew">No data for now</p>
+                                                </ng-template>
+                                            </nz-empty>
+                                        </div>
+                                    </tbody>
+                                <tbody class="mobile-attendance-date"  *ngFor="let item of attendanceRequests">
+                                    <tr>
+                                        <th>Date/Status</th>
+                                        <td> 
+                                            <div class="d-flex align-items-center justify-content-between">
+                                            <span>{{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
+
                                             <div class="d-flex align-items-center gap-2">
                                                 <span
                                                     class="badge rounded-pill"
@@ -1271,25 +1765,100 @@
                                                     </svg>
                                                 </button>
                                             </div>
+                                            </div>
                                         </td>
-
                                     </tr>
+                                    <tr>
+                                        <th>Type</th>
+                                        <td>
+                                            <div class="schedule">
+                                                <h5 class="mb-0 font-13 fw-semibold">Attendance {{item?.requestType}}</h5>
+                                                <p class="mb-0 font-11"> {{item?.createdDate | date:'dd MMM yyyy'}} </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Requested To</th>
+                                        <td>
+                                            <span class="fw-semibold ">{{ item.managerName }} </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>In-Out Time</th>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="fw-semibold">{{item?.inRequestTime | date:'HH:mm'}}</span>
+                                                <span class="fw-semibold">{{item?.outRequestTime | date:'HH:mm'}}</span>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Reason</th>
+                                        <td>
+                                            <span class="table-font-weight">{{item?.requestReason}}</span>
+                                        </td>
+                                    </tr>
+
+
+
+                                </tbody>
+                                
+                                <div class="d-flex alignns-items-ceter justify-content-end" style="margin-bottom: 60px;">
                                     <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
                                         [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
                                         [pageSize]="pageAttendanceSize" (pageChange)="onAttendancePageChange($event)">
-
                                     </ngb-pagination>
+                                </div>
 
-                                </tbody>
-                            </table>
+                                
+                                
+                                </ng-container>
+                            </ng-container>
+                        </table>
+                    </div>
+                    <!-- Attendance request mobile view end -->
+
+                    <!-- mobile filter -->
+                    <div class="mobile-filter-bx">
+                        <div class="mobile-filter-selection">
+                            <div class="position-relative">
+                                <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleRequestDropdown()">
+                                    Request Type
+                                </p>
+                            </div>
+                            <p class="mb-0 font-14 fw-semibold color-basic lh-base">|</p>
+                            <div class="position-relative">
+                                <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer text-primary" *ngIf="userId==currentUserUuid"
+                                data-bs-toggle="modal" data-bs-target="#updateRequest">
+                                    Attendance Request
+                                </p>
+                            </div>
                         </div>
-
-
-
+                    </div>
+                     <!-- mobile filter end -->
+                    
+                    <!-- Sorting Box (Hidden by Default) -->
+                    <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isRequestDropdownOpen">
+                        <div class="sorting-select bg-white">
+                            <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
+                                <p class="mb-0">Request Type</p>
+                                <i class="bi bi-x-circle pointer" (click)="closeRequestDropdown($event)"></i>
+                            </div>
+                            <div class="msort-dropdown">
+                                <ul class="pl-0">
+                                    <li *ngFor="let status of statuses">
+                                        <a class="dropdown-item p-3 border-bottom" 
+                                            (click)="updateAttendanceStatusFilter(status); this.isRequestDropdownOpen = false;"
+                                            [class.active]="attendanceStatus === status">
+                                            {{ status }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
 
 
@@ -1297,7 +1866,7 @@
 
         </div>
     </div>
-
+</div>
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#applyLeave"
@@ -1875,7 +2444,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 
