@@ -78,7 +78,7 @@
                                             </div> -->
                                             <hr>
 
-                                            <h5 class="mb-0 font-14 fw-normal color-basic">Employee Wallet Transactions</h5>
+                                            <h5 class="mb-0 font-14 fw-normal color-basic">Employee Wallet Balance</h5>
                                             <!-- <h5 class="mb-0 font-14 fw-normal color-basic">Employee Transactions</h5> -->
                                             <div class="wallet-transactions-list mt-4">
                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="walletUserList.length == 0 && !loading">
@@ -364,11 +364,14 @@
                                                                     <img [src]="user.userImageUrl">
                                                                     <div>
                                                                         <h5 class="mb-0 font-16 fw-semibold">{{ user.name }} </h5>
-                                                                        <div class="mt-1" style="width:200px;">
-                                                                            <nz-progress [nzPercent]="30"
+                                                                        <div class="mt-1" style="width:200px;" *ngIf="user.usagePercentage != 0">
+                                                                            <nz-progress [nzPercent]="user.usagePercentage"
                                                                             [nzSuccessPercent]="0"
                                                                            ></nz-progress>
-                                                                          </div>
+                                                                        </div>
+                                                                        <div class="mt-1" style="width:200px;" *ngIf="user.usagePercentage == 0">
+                                                                            <span>Do not have Wallet</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-end">
@@ -980,7 +983,7 @@
 
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-   <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1060px;" role="document">
+   <div class="modal-dialog modal-dialog-centered" [ngClass]="{'modal-xl':expenseData?.slipUrls?.length > 0,' modal-lg':expenseData?.slipUrls?.length == 0}" role="document">
     <div class="modal-content">
       <div class="modal-header">
          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
