@@ -296,6 +296,9 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   clearApproveModal() {
+
+   
+   this.showExpenseComponent=false;
     this.isCheckboxChecked = false;
     this.partialAmount = '';
     this.tags = [];
