@@ -15,7 +15,7 @@
                         </g>
                     </svg>
                 </button>
-                <span  class="badge rounded-pill font-11" [ngClass]="{
+                <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
                   'badge-soft-success': userResignationInfo.status.response === 'APPROVED',
                   'badge-soft-danger':  userResignationInfo.status.response === 'REJECTED' || userResignationInfo.status.response === 'REVOKED',
                   'badge-soft-secondary':  userResignationInfo.status.response === 'PENDING' || userResignationInfo.status.response === 'NOTICE PERIOD'

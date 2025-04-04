@@ -1298,7 +1298,7 @@ appliedFilters: string[] = []
   areAllFalse(): boolean {
     try{
 
-    
+
     if(this.firstUpload===true){
       this.firstUpload=false;
       return false;
@@ -2531,7 +2531,7 @@ console.log(this.data);
     this.exitData = {};
       this.exitData.uuid = uuid;
       this.exitData.userType = 'ADMIN';
-      this.exitData.isModal = 0;
+      this.exitData.isModal = 1;
       this.showExitModal=true;
     // this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
     //   (result) => {
