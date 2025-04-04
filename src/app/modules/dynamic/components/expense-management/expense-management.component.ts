@@ -37,7 +37,7 @@ export class ExpenseManagementComponent implements OnInit {
     this.getPendingTransactionCount();
     // this.getExpenses();
     this.getExpensesCount();
-    this.getWalletUser();
+    // this.getWalletUser();
     this.getRole();
     this.fetchDashboardData();
   }
