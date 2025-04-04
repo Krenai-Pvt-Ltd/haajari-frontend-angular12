@@ -231,7 +231,8 @@
                             data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
                             #closeApproveModal>Cancel</button>
 
-                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING"
+
+                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING" 
                         type="button" class="btn submitActionBtn"
                             [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
                             <span *ngIf="!approveToggle">Approve</span>

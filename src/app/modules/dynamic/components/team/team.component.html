@@ -268,7 +268,7 @@
                               " *ngIf="team.exitFromTeam">
                               <i class="bi bi-x-circle"></i>
                               Exit From Team!</a>
-                    <a class="dropdown-item" (click)="selectedTeamId=team.id" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                    <a class="dropdown-item" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)" (click)="selectedTeamId=team.id" data-bs-toggle="modal" data-bs-target="#delete-modal">
                      <i class="bi bi-trash3"></i> Delete Team
                     </a>
                   </div>

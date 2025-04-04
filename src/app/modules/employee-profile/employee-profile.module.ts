@@ -38,6 +38,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { AdditionalModule } from '../additional/additional.module';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { EmployeeFinanceComponent } from './employee-finance/employee-finance.component';
+import { OverallAttendanceChartComponent } from './comman/overall-attendance-chart/overall-attendance-chart.component';
 // import { NgApexchartsModule } from 'ng-apexcharts';
 
 
@@ -59,7 +60,9 @@ import { EmployeeFinanceComponent } from './employee-finance/employee-finance.co
     HolidayDatePickerComponent,
     SettingsComponent,
     AccountSettingsComponent,
-    EmployeeFinanceComponent
+    EmployeeFinanceComponent,
+    OverallAttendanceChartComponent
+
   ],
   imports: [
     CommonModule,

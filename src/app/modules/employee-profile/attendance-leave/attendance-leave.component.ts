@@ -152,6 +152,7 @@ export class AttendanceLeaveComponent implements OnInit {
     this.fetchAttendanceRequests();
   }
   updateAttendanceStatusFilter(status: string) {
+    console.log(status)
     this.attendanceStatus = status;
     this.fetchAttendanceRequests();
   }
@@ -1876,4 +1877,54 @@ export class AttendanceLeaveComponent implements OnInit {
     } else {
     }
   }
+  isDropdownOpen: boolean = false;
+
+  isDropdownStatus: boolean = false;
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  toggleDropdownS(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isDropdownOpen = false;
+  }
+
+  statusDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isDropdownStatus = false;
+  }
+
+  isStatusDropdownOpen: boolean = false;
+  statusess: string[] = ['All', 'Pending', 'Approved', 'Rejected'];
+  selectedStatuss: string = 'All';
+
+  toggleStatusDropdown(): void {
+    this.isStatusDropdownOpen = !this.isStatusDropdownOpen;
+  }
+
+  closeStatusDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isStatusDropdownOpen = false;
+  }
+
+  updateStatuss(status: string): void {
+    this.selectedStatus = status;
+    this.isStatusDropdownOpen = false; // Select karne ke baad dropdown close
+  }
+  isRequestDropdownOpen: boolean = false;
+  attendanceStatuses: string[] = ['All', 'Pending', 'Approved', 'Rejected'];
+
+
+  toggleRequestDropdown(): void {
+    this.isRequestDropdownOpen = !this.isRequestDropdownOpen;
+  }
+
+  closeRequestDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isRequestDropdownOpen = false;
+  }
+
 }

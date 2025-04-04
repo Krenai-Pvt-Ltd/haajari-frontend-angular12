@@ -750,8 +750,9 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 text-black fw-normal " *ngIf="user.userShiftName">
                               {{ user.userShiftName ? user.userShiftName : "N/A" }}
                             </a>
-                            <button type="button" (click)="routeToAddUserInShift()" [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
-                             class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userShiftName">
+
+                            <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" 
+                            [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}" *ngIf="!user.userShiftName">
                               + Add Shift
                             </button>
                           </td>
@@ -759,12 +760,14 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal font-14" *ngIf="user.userLeavePolicyName">
                               {{ user.userLeavePolicyName ? user.userLeavePolicyName : "N/A" }}
                             </a>
-                            <button type="button" (click)="routeToAddUserInLeavePolicy()"  [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
-                            class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userLeavePolicyName">
+
+                            <button type="button" (click)="routeToAddUserInLeavePolicy()" class="btn p-0 text-primary font-13 fw-semibold" 
+                            [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
+                            *ngIf="!user.userLeavePolicyName">
                               + Add Leave Policy
                             </button>
                           </td>
-                          <td class="text-left" [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}">
+                          <td class="text-left" [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}">
                             <div class="material-switch">
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
                               (change)="changeStatusActive(user.presenceStatus, user.uuid)" *ngIf="!user.presenceStatus"/>
