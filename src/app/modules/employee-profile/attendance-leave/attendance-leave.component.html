@@ -967,35 +967,30 @@
                                             <tr>
                                                 <th class="font-13">Date</th>
                                                 <td class="week-off"> 
+                                                    <div class="d-flex align-items-cennter justify-content-between">
                                                     <span class="team-maneger mb-0 ">
                                                         {{item.createdDate | date:'fullDate'}}</span>
+                                                        <span class="team-maneger mb-0 text-primary">
+                                                            W-off
+                                                        </span>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <th class="font-13">Status</th>
-                                                <td class="week-off">
-                                                    <span class="team-maneger mb-0 text-primary">
-                                                        W-off
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                           
+                                            
+                                    
                                         </ng-container>
 
                                         <ng-container *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
                                             <tr>
                                                 <th  class="font-13">Date</th>
                                                 <td class="week-leave"> 
+                                                    <div class="d-flex align-items-cennter justify-content-between">
                                                     <span class="team-maneger mb-0 ">
                                                         {{item.createdDate | date:'fullDate'}}</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="font-13">Status</th>
-                                                <td class="week-leave">
-                                                    <span class="team-maneger mb-0 text-primary">
-                                                        {{item.status}}
-                                                    </span>
+                                                        <span class="team-maneger mb-0 text-primary">
+                                                            {{item.status}}
+                                                        </span>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             
