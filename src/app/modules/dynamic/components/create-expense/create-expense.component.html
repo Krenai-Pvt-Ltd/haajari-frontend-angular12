@@ -1042,7 +1042,7 @@
                           <label class="form-check assets-req d-flex align-items-center justify-content-start">
                             <input class="form-check-input" type="radio" name="paymentType" id="flexible"
                               value="flexible" required [(ngModel)]="paymentType"
-                              (change)="onPaymentTypeChange(0, 'flexible')">
+                              (change)="onPaymentTypeChange(0, false)">
                             <p class="form-check-label mb-0" for="exampleRadios1">
                               Flexible
                             </p>
@@ -1051,7 +1051,7 @@
                         <div class="col-md-6">
                           <label class="form-check assets-req d-flex align-items-center justify-content-start">
                             <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed"
-                              required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, 'fixed')">
+                              required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, true)">
                             <p class="form-check-label mb-0" for="exampleRadios1">
                               Fixed
                             </p>
@@ -1144,13 +1144,13 @@
                         <td class="text-center">{{ expensePolicy.expenseTypeName }}</td>
                         <td class="text-center">
                           <div class="badge rounded-pill"
-                            [ngClass]="{ 'badge-soft-primary': expensePolicy.paymentType === 0, 'badge-soft-warning': expensePolicy.paymentType === 1 }">
-                            {{ expensePolicy.paymentType === 1 ? 'Fixed' : 'Flexible' }}
+                            [ngClass]="{ 'badge-soft-primary': expensePolicy.isFlexibleAmount === 1, 'badge-soft-warning': expensePolicy.isFlexibleAmount === 0 }">
+                            {{ expensePolicy.isFlexibleAmount === 1 ? 'Flexible':'Fixed' }}
                           </div>
                         </td>
                         <td class="text-center">{{ expensePolicy.amount }}</td>
-                        <td class="text-center">{{ expensePolicy.limitAmount }} <span
-                            *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.limitAmount > 0 && expensePolicy.isFixed === 'fixed'">%</span>
+                        <td class="text-center">{{ expensePolicy.flexibleAmount }} <span
+                            *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.flexibleAmount > 0 ">%</span>
                         </td>
 
                         <td *ngIf="!updateToggle" class="text-center">
@@ -1404,11 +1404,11 @@
               <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
             </button>
 
-            <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId == 0"
+            <!-- <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId == 0"
               (click)="deleteExpensePolicyTypeById()">
               Continue
               <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
-            </button>
+            </button> -->
             <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
               Cancel
             </button>
