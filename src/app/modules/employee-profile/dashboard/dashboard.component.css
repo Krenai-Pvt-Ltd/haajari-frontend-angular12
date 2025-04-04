@@ -968,6 +968,10 @@ span.holiday-initial {
   display: none;
 }
 @media screen and (max-width: 500px) {
+  .nav-link {
+    margin-right: 10px;
+    font-size: 14px;
+}
   .mobile-card-view{
     display: block;
 }
