@@ -1267,7 +1267,9 @@ div[ngbTooltip] {
 .mobile-card-view{
     display: none;
 }
+
 @media screen and (max-width: 500px) {
+    
     .font-15 {
         font-size: 15px !important;
     }
