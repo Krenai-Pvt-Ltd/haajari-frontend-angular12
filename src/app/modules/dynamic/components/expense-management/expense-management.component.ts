@@ -25,7 +25,7 @@ import { constant } from 'src/app/constant/constant';
 })
 export class ExpenseManagementComponent implements OnInit {
 
-  constructor(private dataService: DataService, private expenseService: ExpenseService, private helperService: HelperService,private cdr: ChangeDetectorRef,
+  constructor(private dataService: DataService, private expenseService: ExpenseService, public helperService: HelperService,private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   showFilter: boolean = false;
