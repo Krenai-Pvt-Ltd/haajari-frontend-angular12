@@ -272,6 +272,7 @@ removeFilter(filter: string) {
       this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== statusName);
       this.selectedStatus = this.selectedStatus.filter(f => f !== statusName);
   }
+  this.selectedFilters = this.tempSelectedFilter.map(status => `Status: ${status}`);
   this.getExpenses();
   console.log("Removed Status:", statusName);
   console.log("Updated Filters:", this.tempSelectedFilter);
