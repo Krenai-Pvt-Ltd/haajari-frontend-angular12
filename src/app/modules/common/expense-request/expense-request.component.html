@@ -7,9 +7,9 @@
         <!-- <button *ngIf="isModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearApproveModal(); close();"
         #closeApproveModal></button> -->
      </div>
-     <div class="p-0" [ngClass]="{'modal-body':isModal}">
-        <div class="row">
-           <div class="col-md-5 pr-0 mr-0" *ngIf="isModal">
+     <div  [ngClass]="{'modal-body':isModal ,'p-0':userExpense && userExpense.slipUrls.length > 0}">
+        <div class="row " >
+           <div class=" pr-0 mr-0" *ngIf="isModal" [ngClass]="{'col-md-5':userExpense && userExpense.slipUrls.length > 0}">
               <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
                  <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -32,7 +32,7 @@
                  </button>
            </div>
            </ng-container>
-           <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
+           <!-- <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
               <div class="empty-file" style="padding-top: 30%; padding-bottom: 30%">
                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
                     <ng-template #contentTpl>
@@ -40,9 +40,9 @@
                     </ng-template>
                  </nz-empty>
               </div>
-           </ng-container>
+           </ng-container> -->
         </div>
-        <div [ngClass]="{'col-md-12 ml-0 pl-0 ': !isModal, 'col-md-7 ml-0 pl-0': isModal}">
+        <div [ngClass]="{'col-md-12  ': (!isModal|| userExpense.slipUrls.length >0), 'col-md-7 ': isModal,'ml-0 pl-0': userExpense.slipUrls.length==0}">
            <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
               <div class="d-flex align-items-center justify-content-between p-3 user-detail">
                  <div class="d-flex align-items-center gap-3">
@@ -74,13 +74,22 @@
                        Expense Type
                        </label>
                        <nz-form-control>
-                          <nz-select disabled style="padding:0px;" nzSize="large" nzPlaceHolder="Select Expense type"
-                          [(ngModel)]="userExpense.expenseTypeId" required id="seleType" name="seleExpType"
-                          #seleExpType="ngModel" class="form-control w-100 placeholder-lineee">
-                          <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
-                          [nzLabel]="expenseType.name">
-                          </nz-option>
-                          </nz-select>
+                        <nz-select 
+                           [disabled]="userExpense.expenseTypeId ? true : false" 
+                           style="padding:0px;" 
+                           nzSize="large" 
+                           nzPlaceHolder="Select Expense type"
+                           [(ngModel)]="userExpense.expenseTypeId" 
+                           required 
+                           id="seleType" 
+                           name="seleExpType"
+                           #seleExpType="ngModel" 
+                           class="form-control w-100 placeholder-lineee">
+                           <nz-option *ngFor="let expenseType of expenseTypeList" 
+                              [nzValue]="expenseType.id"
+                              [nzLabel]="expenseType.name">
+                           </nz-option>
+                        </nz-select>                    
                        </nz-form-control>
                     </div>
                     <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount == null">
@@ -257,7 +266,7 @@
                  <button type="button" *ngIf="userExpense?.status.id == 13" class="btn btn-soft-success text-success" (click)="approveOrDeny(userExpense.id, 14, 0)"
                  [ngClass]="{'btn-border':!(approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount)}"
                  [disabled]="approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" >
-                 <span *ngIf="!approveToggle">Approved</span>
+                 <span *ngIf="!approveToggle">Approve</span>
                  <div class="dot-opacity-loader" *ngIf="approveToggle">
                     <span></span>
                     <span></span>
@@ -268,7 +277,7 @@
                  *ngIf="!expenseCancelToggle && userExpense?.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
                  <button class="btn btn-soft-success text-success" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
-                 *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approved</button>
+                 *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approve</button>
               </div>
               <div *ngIf="rejectDiv" class="d-flex align-items-center gap-2">
                  <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 15, 0)"
@@ -331,24 +340,24 @@
          <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
             <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
                <div class="carousel-inner">
-                  <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
-                  [class.active]="i === 0">
-                  <div class="d-flex justify-content-center position-relative">
-                     <img [src]="url" alt="Image {{i}}" class="d-block w-100">
+                     <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
+                     [class.active]="i === 0">
+                     <div class="d-flex justify-content-center position-relative">
+                        <img [src]="url" alt="Image {{i}}" class="d-block w-100">
+                     </div>
                   </div>
                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
-               data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
-               data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-            </button>
-      </div>
+               <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
+                  data-bs-slide="prev" *ngIf="userExpense.slipUrls.length > 1">
+               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Previous</span>
+               </button>
+               <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
+                  data-bs-slide="next" *ngIf="userExpense.slipUrls.length > 1">
+               <span class="carousel-control-next-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Next</span>
+               </button>
+         </div>
       </ng-container>
        </div>
 
