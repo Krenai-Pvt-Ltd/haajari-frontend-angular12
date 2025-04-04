@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: 'leave-request', component: LeaveRequestFormComponent },
       { path: 'slack-installation-successfull', component: SlackInstallationSuccessfullComponent },
       { path: 'internal-server-error', component: InternalServerErrorPageComponent },
-      { path: 'location-validator', component: EmployeeLocationValidatorComponent },
+      { path: 'location-validator', component: AttendanceUrlComponent },
       // EmployeeLocationValidatorComponent - deprecated
       { path: 'attendance-photo', component: EmployeeAttendancePhotoComponent },
       //EmployeeAttendancePhotoComponent - deprecated
