@@ -150,7 +150,7 @@
                                                             </svg>
                                                         </ng-template>
                                                         <span [ngClass]="{'text-success': amountChanges['settled'] >= 0, 'text-danger': amountChanges['settled'] < 0}">
-                                                            {{ amountChanges['settled'] | number:'1.0-0' }}% {{ amountChanges['settled'] >= 0 ? 'Up' : 'Down' }} past week
+                                                            {{ getAbsolute(amountChanges['settled'] )| number:'1.0-0' }}% {{ amountChanges['settled'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
                                                     
@@ -449,11 +449,28 @@
                                                     <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getExpenses();"></i>
                                                 </div>
                                         </div>
-                                        <div>
-                                            <button type="button" class="btn primaryBtnLink filter-btn d-block text-cennter">
-                                                <i class="bi bi-download"></i>&nbsp;
-                                                Download
+
+                                        
+                                        <div class="d-flex align-items-center gap-3" style="margin-right: 15px;">
+
+                                            <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal"
+                                                data-bs-target="#sampleFileModal">
+                                                <i class="bi bi-upload"></i>
+                                                <span>Import</span>
                                             </button>
+                                            
+                                            <span class="calendar-separator"></span>
+                                            
+                                            <button *ngIf="!exportLoading" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="export()">
+                                                <i class="bi bi-download"></i>&nbsp;
+                                                <span *ngIf="!exportLoading">Download</span>
+                                                <div class="dot-opacity-loader" *ngIf="exportLoading">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                  </div>
+                                            </button>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -637,10 +654,10 @@
                                                     <span class="table-font-weight"> ₹ {{expense.amount}} </span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span class="table-font-weight"> ₹ {{expense.approvedAmount == null ? 0 : expense.approvedAmount }} </span>
+                                                    <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount }} </span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span class="table-font-weight"> ₹ {{ (expense.amount - expense.approvedAmount) === expense.amount ? 0 : expense.amount - expense.approvedAmount}} </span>
+                                                    <span class="table-font-weight"> ₹ {{ (expense.amount - expense.paidAmount) === expense.amount ? 0 : expense.amount - expense.paidAmount}} </span>
                                                 </td>
                                                 <td class="text-left">
                                                     <span class="table-font-weight white-space"> {{expense.notes}}  </span>
@@ -1077,6 +1094,195 @@
       </div>
     </div>
   </div>
+
+
+
+
+<!-- Expense Import Modal -->
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+  #sampleFileModal>
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonExcelModal></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="
+            !isShimmer &&
+            onboardUserList.length == 0
+          ">
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and click
+                  on the download button to save it to your computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel file.
+                  This will help you understand the structure and content of the
+                  data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary">
+                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
+                  </span>
+                  , update its data, and upload it back with the updated content
+                  on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0" *ngIf="data.length == 0">
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx, .xls" class="input"
+                  (change)="selectFile($event)" />
+                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
+                <p>
+                  Drag file here to upload or,
+                  <u><a class="text-primary" href="#!">Choose file</a></u>
+                </p>
+                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
+              </div>
+            </div>
+          </div>
+
+          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start"
+            *ngIf="mismatches.length > 0">
+            <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
+            <ul style="padding-left: 15px;">
+              <li class="mb-1" *ngIf="this.mismatches.length > 0">
+
+                {{ mismatches }}
+              </li>
+              <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+            </ul>
+          </div>
+
+          <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0">
+
+            <div *ngIf="data.length > 0">
+              <h3 class="font-18 mb-2">Uploaded Data</h3>
+
+              <div class="table-responsive">
+
+                <table class="table excelUploadTable">
+                  <thead>
+                    <tr>
+                      <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let row of paginatedData; let i = index">
+
+
+                      <!-- Fields with condition -->
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+
+                        <ng-container *ngIf="cell != 'Payment Method' && cell != 'Lapse Remaining Amount'">
+                          <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
+                          <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
+                            [ngClass]="{'error-border': invalidCells[i][j]}" />
+
+                        </ng-container>
+
+                        <ng-container *ngIf="cell === 'Payment Method'">
+                          <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"
+                            id="paymentMethod" name="payment-method" class="w-100" [(ngModel)]="row[j]"
+                            nzPlaceHolder="Select Method">
+                            <nz-option [nzValue]="'ONLINE'" [nzLabel]="'ONLINE'"></nz-option>
+                            <nz-option [nzValue]="'CASH'" [nzLabel]="'CASH'"></nz-option>
+                          </nz-select>
+                        </ng-container>
+
+                        <ng-container *ngIf="cell === 'Lapse Remaining Amount'">
+                          <nz-select [ngClass]="{'error-border': validateRowToggle && invalidCells[i][j]}"
+                            id="lapseAmount" name="lapse-amount" class="w-100" [(ngModel)]="row[j]"
+                            nzPlaceHolder="Select Type">
+                            <nz-option [nzValue]="'YES'" [nzLabel]="'YES'"></nz-option>
+                            <nz-option [nzValue]="'NO'" [nzLabel]="'NO'"></nz-option>
+                          </nz-select>
+                        </ng-container>
+
+                      </td>
+
+                    </tr>
+                  </tbody>
+
+                </table>
+
+              </div>
+              <div class="text-end border-top pt-3">
+                <button *ngIf="!importToggle" type="button" class="btn p-0 next-btn btn-border"
+                  (click)="saveFile()">Save Changes</button>
+                <div class="dot-opacity-loader d-flex justify-content-end" *ngIf="importToggle">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p> -->
+            <p *ngIf="!isErrorToggle" class="m-0"></p>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="isShimmer">
+          <div class="">
+            <div class="text-end">
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
+            </div>
+          </div>
+          <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
+            *ngFor="let number of [1, 2, 3, 4, 5]">
+            <div class="row mt-3">
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <a *ngIf="exportUrl !=''" href="{{exportUrl}}" id="exportUrlId" #expenseDownload></a>
   
 
                 
