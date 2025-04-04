@@ -520,14 +520,26 @@
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
+  .mobile-attendance-date{
+    border-bottom: 20px solid #fff !important;
+}
+.mobile-card-view{
+    display: none;
+}
 
   @media screen and (max-width: 500px) {
+    .desktop-attendance-date{
+        display: none;
+    }
+    .mobile-card-view{
+        display: block;
+    }
     .col-sm-6{
         width: 50%;
     }
     .nav-link {
         margin-right: 0px;
-        font-size: 12px;
+        font-size: 14px;
     }
     .attendance-history{
         margin-top: -15px !important;

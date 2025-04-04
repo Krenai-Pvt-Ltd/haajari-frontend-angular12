@@ -194,7 +194,7 @@
 
                     </div>
 
-                    <div class="table-responsive bg-white mt-3 deshtop-attendance-date" >
+                    <div class="table-responsive bg-white mt-3 desktop-attendance-date" >
                         <table class="table empOnnoardtable">
                             <thead class="thead-light">
                                 <tr>
@@ -283,7 +283,7 @@
                                 <ng-container *ngFor="let item of attendanceDetails">
                                     <!-- {{item.status}} -->
                                     <tr class=""
-                                        *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">
+                                        *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day';else otherStatus">
 
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 ">
@@ -515,92 +515,29 @@
 
                                     </tr>
 
-
-                                    <tr class="week-holiday"
-                                        *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
+                                  <ng-template #otherStatus>
+                                    <tr 
+                                    [ngClass]="{
+                                        'week-holiday': item.status === 'Custom Holiday' || item.status === 'Universal Holiday',
+                                        'week-off': item.status === 'Weekly Holiday',
+                                        'week-absent': item.status === 'Absent',
+                                        'week-leave': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' || 
+                                                        item.status === 'Weekly Holiday' || item.status === 'Absent')
+                                      }"
+                                        >
                                         <td class="text-left">
                                             <span class="team-maneger mb-0 ">
                                                 {{item.createdDate | date:'fullDate'}}</span>
                                         </td>
                                         <td class="text-center">
-                                            <span class="team-maneger mb-0 text-warning">
-                                                Holiday
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class=" text-left">
-
-                                        </td>
-                                    </tr>
-                                    <!-- week off  -->
-                                    <tr class="week-off" *ngIf="item.status == 'Weekly Holiday'">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                {{item.createdDate | date:'fullDate'}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="team-maneger mb-0 text-primary">
-                                                W-off
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class=" text-left">
-
-                                        </td>
-                                    </tr>
-                                    <!-- leave  -->
-                                    <tr class="week-leave"
-                                        *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                {{item.createdDate | date:'fullDate'}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="team-maneger mb-0 text-black">
+                                            <span class="team-maneger mb-0 text-warning"
+                                            [ngClass]="{
+                                                'text-warning': item.status === 'Custom Holiday' || item.status === 'Universal Holiday',
+                                                'text-primary': item.status === 'Weekly Holiday',
+                                                'text-danger': item.status === 'Absent',
+                                                'text-success': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' || 
+                                                                item.status === 'Weekly Holiday' || item.status === 'Absent')
+                                              }">
                                                 {{item.status}}
                                             </span>
                                         </td>
@@ -631,44 +568,9 @@
 
                                         </td>
                                     </tr>
-                                    <!-- absent -->
-                                    <tr class="week-absent" *ngIf="item.status == 'Absent'">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                {{item.createdDate | date:'fullDate'}}</span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="team-maneger mb-0 text-danger">
-                                                Absent
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class="text-left">
-
-                                        </td>
-
-                                        <td class="text-center">
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-
-                                        <td class="text-left">
-
-                                        </td>
-                                        <td class=" text-left">
-
-                                        </td>
-                                    </tr>
+                                </ng-template>
+                                  
+                                  
                                 </ng-container>
                             </tbody>
                         </table>
@@ -1609,7 +1511,7 @@
 
                         <!-- Attendance request desktop view -->
 
-                        <div class="table-responsive bg-white mt-3 deshtop-attendance-date">
+                        <div class="table-responsive bg-white mt-3 desktop-attendance-date">
                             <table class="table empOnnoardtable">
                             <ng-container *ngIf="attendanceType === 'CREATE'">
                                     <thead class="thead-light">

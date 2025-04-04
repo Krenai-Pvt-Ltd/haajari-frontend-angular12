@@ -112,22 +112,11 @@
                             <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" >
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
-                                class="bi bi-patch-check-fill"
+                                class="bi bi-patch-check-fill text-primary"
                                 *ngIf="ul.roleId == 3"
                               ></i>
                             </p>
-                            <!-- <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
-                              {{ capitalizeFirstLetter(ul.name) }}
-                              <i
-                                class="bi bi-patch-check-fill"
-                                *ngIf="ul.roleId == 3"
-                              ></i>
-                            </p> -->
-
-                            <!--  *ngIf="
-                                localStorageRoleAdminFlag == true ||
-                                managerIdFlag == true
-                              " -->
+                            
                             <div class="dropdown d-inline-block"  *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)">
                              
                               <a
@@ -1084,7 +1073,7 @@
   </div>
   <!-- team member modal end -->
 <!-- delete modal -->
-  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false" >
+  <!-- <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false" >
     <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important" >
       <div class="modal-content p-0" style="border-radius: 15px">
         <form #confirmationForm="ngForm">
@@ -1106,6 +1095,56 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0 delete-text">
+          <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+            <div class="delete-close-btn">
+              <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteShift>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                    height="30">
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_2031_1331)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="black" />
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <img src="/assets/images/delete-img.svg" style="width: 70px" />
+          </div>
+          <div class="bg-white p-4 text-center">
+  
+            <div>
+              <h5 class="alert-heading font-18 mb-2 lh-base">
+                Are you sure want to delete this <br> user from team?
+              </h5>
+              <p class="font-11">You will not be able to recover this</p>
+            </div>
+  
+            <div class="mt-4 d-flex align-items-center flex-column">
+              <button class="btn continue-btn" (click)="deleteUserFromTeam()" *ngIf="!deleteUserFromTeamLoader">
+                Continue
+                <div class="dot-opacity-loader" *ngIf="deleteUserFromTeamLoader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+              <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" #closeUserDeleteModal>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
