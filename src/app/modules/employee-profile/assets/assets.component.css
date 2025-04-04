@@ -300,11 +300,9 @@
     .mobile-attendance-date{
         border-bottom: 20px solid #fff !important;
     }
-    .desktop-filter{
-        display: none;
-    }
+   
     .nav-link{
-        font-size: 15px;
+        font-size: 14px;
     }
     .mobile-card-view{
         display: block;
