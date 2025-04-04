@@ -1277,7 +1277,7 @@ div[ngbTooltip] {
     .mobile-attendance-date th{
         font-weight:500 !important;
     }
-    .deshtop-attendance-date{
+    .desktop-attendance-date{
         display: none;
     }
     .mobile-card-view{
