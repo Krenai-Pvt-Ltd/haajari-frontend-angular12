@@ -2020,7 +2020,8 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
         </div>
       </div>
         <div class="d-flex align-items-center gap-3">
-          <button *ngIf="enableEmailNotification || enableWhatsAppNotification" type="button" class="btn btn-border font-14 fw-semibold"
+          <!--  *ngIf="enableEmailNotification || enableWhatsAppNotification" -->
+          <button type="button" class="btn btn-border font-14 fw-semibold"
             (click)="sendNotifications()" [disabled]="loadingFlag">
             <span *ngIf="!loadingFlag">Send Notification</span>
             <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="loadingFlag">
