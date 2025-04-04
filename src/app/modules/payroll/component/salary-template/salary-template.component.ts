@@ -33,6 +33,8 @@ export class SalaryTemplateComponent implements OnInit {
   negativeMonthlyCTC:number=0;
   esiAmount:number=0;
 
+  previewCalculations:boolean=false;
+
   constructor(private _salaryTemplateService : SalaryTemplateService,
     public _helperService : HelperService
   ) { }
@@ -72,7 +74,14 @@ export class SalaryTemplateComponent implements OnInit {
               });
               this.templateComponents.reimbursementComponents = this.templateComponents.reimbursementComponents.filter(tempComponent => {
                 return !this.salaryTemplate.reimbursementComponents.some(salaryComponent => salaryComponent.type ==  tempComponent.type);
-            });          
+              });  
+              this.templateComponents.deductions = this.templateComponents.deductions.filter(tempComponent => {
+                return !this.salaryTemplate.deductions.some(salaryComponent => salaryComponent.name ==  tempComponent.name);
+              });  
+              this.salaryTemplate.deductions.forEach(component => {
+                component.amount = component.value;
+              });
+                     
           } else {
               const basicComponent = this.templateComponents.earningComponents.find(component => component.name === 'Basic');
               const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name === 'Fixed Allowance');
@@ -170,7 +179,6 @@ toggleReimbursementComponent(component: ReimbursementComponent) {
 }
 
 toggleDeductionComponent(component: TemplateDeductionResponse) {
-
   const salaryIndex = this.salaryTemplate.deductions.findIndex(comp => comp.id == component.id);
   const tempIndex = this.templateComponents.deductions.findIndex(comp => comp.id == component.id);
 
@@ -201,6 +209,7 @@ CalculateMonthlyAmountNew1() {
 }
 
 CalculateMonthlyAmountNew() {
+  this.previewCalculations = false;
   this.count =0;
   this.calculatedAmount = 0;
   this.totalEpfAmount =0;
@@ -210,7 +219,6 @@ CalculateMonthlyAmountNew() {
 
 
 findEarning(){
-  console.log("========A=====================")
   var currentMonthlyCTC = Math.round(this.salaryTemplate.annualCtc/12);
   this.salaryTemplate.earningComponents.forEach(component=>{
 
@@ -253,7 +261,7 @@ if(this.count== this.salaryTemplate.earningComponents.length){
 
 
 findReimbursement(){
-  console.log("==============B===============")
+  // console.log("==============B===============")
   this.salaryTemplate.reimbursementComponents.forEach(component=>{
     if(!component.isAdd){
       component.isAdd = true;
@@ -271,7 +279,7 @@ calculatedAmount:number=0;
 findFixedAllowance(){
   const fixedAllowance = this.salaryTemplate.earningComponents.find(x=> x.name == 'Fixed Allowance')
   if(fixedAllowance){
-    console.log("========this.calculatedAmount=====================",this.calculatedAmount)
+    // console.log("========this.calculatedAmount=====================",this.calculatedAmount)
     fixedAllowance.amount =  Math.round(this.salaryTemplate.annualCtc/12) - this.calculatedAmount;
     if(fixedAllowance.amount<0){
       this.negativeMonthlyCTC =fixedAllowance.amount;
@@ -286,7 +294,6 @@ findFixedAllowance(){
 fixedAllowanceAmount :number=0;
 benefitsCalculatedAmount :number=0;
 findBenefits(flag?:boolean){
-  console.log("========1=====================",flag)
    this.fixedAllowanceAmount = 0;
    this.benefitsCalculatedAmount = 0;
 
@@ -294,6 +301,7 @@ findBenefits(flag?:boolean){
   if(fixedAllowance){
     this.fixedAllowanceAmount = fixedAllowance.amount;
   }
+  
 
   const ESI = this.salaryTemplate.deductions.find(x=> x.name == 'ESI')
   if(ESI){
@@ -322,22 +330,25 @@ findBenefits(flag?:boolean){
   }
 
   if(flag){
-    console.log("========2=====================")
+    this.previewCalculations = true;
     var tempFixedAmount = this.fixedAllowanceAmount -this.benefitsCalculatedAmount;
     if(fixedAllowance){
-      console.log("========2.1=====================",tempFixedAmount)
       fixedAllowance.amount = tempFixedAmount;
-      console.log("==========fixedAllowance.amount=============",fixedAllowance)
-      // this.calculatedAmount = this.calculatedAmount +this.benefitsCalculatedAmount
       this.CalculateMonthlyAmountNew1();
     }
   }else{
-    // this.calculatedAmount = this.calculatedAmount +this.benefitsCalculatedAmount
-    console.log("========3=====================")
     this.findFixedAllowance();
   }
   
 }
+
+isSystemCalculated(component: any): boolean {
+  return component.name == 'Fixed Allowance'
+    && !this.previewCalculations
+    && this.salaryTemplate.deductions.length > 0;
+}
+
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -401,66 +412,12 @@ saveSalaryTemplate(){
   
         }
       );
-  console.log(this.salaryTemplate)
+      this.getSalaryTemplates();
+
 }
 
 
 epfEmployerContribution: number=0; 
-
-// calculateEpfContribution(): void {
-//   let basicSalary = this.calculateBasic();
-  
-//   this.epfEmployerContribution = this.salaryTemplate.deductions.epfConfiguration.employerContribution == this.EPF_ACTUAL
-//     ? (basicSalary * 0.12)
-//     : (15000 * 0.12);
-
-// }
-
-
-
-
-// esiContriution:number=0;
-// calculateEsiContribution(annualCtc: number): number {
-//   let monthlyCtc = annualCtc / 12;
-
-//   if (monthlyCtc <= this.ESI_MAX_LIMIT) {
-//     let esiWage = this.salaryTemplate.earningComponents
-//       .map((comp, i) => ({ comp }))
-//       .filter(item =>  item.comp.displayName !== 'HRA') 
-//       .reduce((sum, item) => {
-//         let value = 0;
-//         if (item.comp.valueTypeId === this.VALUE_TYPE_PERCENTAGE) {
-//           if (item.comp.name == 'Basic') {
-//             value = this.calculateBasic(); 
-//             value = this.calculatePercentageBasedOnType(item.comp.value,item.comp);
-//           }
-//         } else if (item.comp.valueTypeId == this.VALUE_TYPE_FLAT) {
-//           value = item.comp.value;
-//         }
-//         return sum + value;
-//       }, 0);
-//     let fixedAllowance = this.calculateFixed() / 12;
-//     esiWage += fixedAllowance;
-//     this.esiContriution = Math.floor((esiWage * 3.25) / 100);
-//     return this.esiContriution;
-//   }
-
-//   return 0;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 }
 

@@ -379,7 +379,7 @@
                                         <!-- Monthly Amount start -->
                 
                                         <div class="col-md-3">
-                                            <div class="compliance-list bg-white border-rounded-2 attendance-border"  *ngIf="component.amount>=0">
+                                            <div class="compliance-list bg-white border-rounded-2 attendance-border"  *ngIf="component.amount>=0 && !isSystemCalculated(component)">
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                     <div  class="mt-2" >
                                                         <input type="number"  class="form-control borderLess" name="earningamount{{i}}" id="earningamount{{i}}"  step="0"
@@ -389,7 +389,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount<0"> System Calculated</p>
+                                            <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount<0 || isSystemCalculated(component)"> System Calculated</p>
                                         </div>
                                         <!-- Monthly Amount end -->
 
@@ -442,7 +442,7 @@
                                                 <p class="font-13 fw-normal color-basic mb-0">{{component.amount*12}}</p>
                                             </div>
                                         </div>
-                                        <button class="btn p-0 c action-btn font-18" (click)="toggleReimbursementComponent(component)"><i class="bi bi-x"></i></button>
+                                        <button class="btn p-0 text-danger action-btn font-18" (click)="toggleReimbursementComponent(component)"><i class="bi bi-x"></i></button>
                                     </div>
                                     
                                 </div> 
@@ -471,14 +471,14 @@
                                       </div>
                                       <div class="col-md-3">
                                         <div class="text-end px-3">
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount <= 0">System Calculated</p>
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount>0">{{ component.amount }}</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="!previewCalculations">System Calculated</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="previewCalculations">{{ component.amount }}</p>
                                         </div>
                                       </div>
                                       <div class="col-md-3">
                                         <div class="text-end px-3">
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount <= 0">System Calculated</p>
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount > 0">{{ component.amount*12 }}</p>
+                                            <p class="font-13 fw-normal color-basic mb-0" *ngIf="!previewCalculations">System Calculated</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngIf=" previewCalculations">{{ component.amount*12 }}</p>
                                         </div>
                                       </div>
                                     
@@ -486,7 +486,7 @@
                                     </div>
                                   </div>
                                   <div>
-                                    <button type="button"  (click)="findBenefits(true)">
+                                    <button *ngIf="!previewCalculations" type="button" (click)="findBenefits(true)">
                                         Preview   
                                     </button>
                                 </div>
