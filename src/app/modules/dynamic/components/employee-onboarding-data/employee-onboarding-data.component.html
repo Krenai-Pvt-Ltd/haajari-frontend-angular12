@@ -1158,6 +1158,7 @@
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
                             {{ user.email ? user.email : "N/A" }} 
+                            {{ user.email ? user.email : "N/A" }}
                           </a>
                           <p class="mb-0 font-12 fw-normal color-basic"> {{ user.phone ? user.phone : "N/A" }}</p>
                         </td>
@@ -1799,10 +1800,10 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
                           <ng-container
                             *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
                             <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
-                              [(ngModel)]="row[j]" required
+                              [ngModel]="parseDate(row[j])" required
                               (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
                               [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
+                              [nzAllowClear]="false" nzPlaceHolder="Select  Date" [nzFormat]="'dd-MM-yyyy'">
                             </nz-date-picker>
                           </ng-container>
                         </ng-template>
@@ -1878,6 +1879,7 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
           ">
           <div class="">
             <div class="text-end">
+              <div *ngIf="isProgressToggle">Processing... {{ uploadedCount }} </div>
               <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
             </div>
           </div>
@@ -2006,14 +2008,14 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
             <p class="mb-0 font-12 fw-normal">Select updates for employee alerts.</p>
           </div>
         <div class="form-check through-email d-flex align-items-center gap-2 ">
-          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="whatsappradio" [checked]="enableWhatsAppNotification">
+          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="whatsappradio" [checked]="enableWhatsAppNotification" (change)="onNotificationChange('whatsapp')">
           <label class="form-check-label d-flex align-items-center gap-2 justify-content-center fw-semibold font-13 " for="whatsappradio">
             <span class="font-13 fw-normal"> Through </span> whatsapp
             <img src="assets/images/whatsapp-logo.svg" style="width:18px;">
           </label>
         </div>
         <div class="form-check through-email d-flex align-items-center gap-2">
-          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="emailradio" [checked]="enableEmailNotification">
+          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="emailradio" [checked]="enableEmailNotification" (change)="onNotificationChange('email')">
           <label class="form-check-label d-flex align-items-center gap-2 justify-content-center fw-semibold font-13 " for="emailradio">
             <span class="font-13 fw-normal"> Through </span> Email
             <img src="assets/images/gmail.svg" style="width:18px;">
@@ -2032,7 +2034,7 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
           </button>
 
 
-          <button *ngIf="!enableEmailNotification && !enableWhatsAppNotification" type="button" class="btn p-0 font-14 fw-semibold text-primary"
+          <button  type="button" class="btn p-0 font-14 fw-semibold text-primary"
             (click)="closeNotificationModal(); sendEmailToUsers(false);">
             <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
             <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="closeNotificationModalFlag">

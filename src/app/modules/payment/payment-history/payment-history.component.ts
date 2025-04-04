@@ -5,10 +5,12 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
@@ -30,6 +32,7 @@ export class PaymentHistoryComponent implements OnInit {
 
   readonly constant = constant;
   readonly StatusKeys = StatusKeys;
+  readonly Routes=Routes;
 
   private searchSubject = new Subject<boolean>();
 
@@ -37,6 +40,7 @@ export class PaymentHistoryComponent implements OnInit {
     private _salaryService: SalaryService,
     private _payrollService : PayrollService,
      public _helperService: HelperService,
+      public rbacService: RoleBasedAccessControlService,
       private http: HttpClient) {
 
          this.searchSubject
@@ -195,6 +199,10 @@ export class PaymentHistoryComponent implements OnInit {
 
 
   selectSingle(event: any, i: any) {
+    if(!this.rbacService.hasWriteAccess(this.Routes.PAYMENTHISTORY)){
+      this._helperService.showPrivilegeErrorToast();
+      return;
+    }
     if (event.checked) {
       this.employeeMonthWiseSalaryDataList[i].checked = false;
       this.count--;
@@ -218,7 +226,10 @@ export class PaymentHistoryComponent implements OnInit {
 
 
   togglePayslipStatus( data: EmployeeMonthWiseSalaryData){
-
+    if(!this.rbacService.hasWriteAccess(this.Routes.PAYMENTHISTORY)){
+      this._helperService.showPrivilegeErrorToast();
+      return;
+    }
     var ids : number[]= [];
     ids.push(data.id);
     this._salaryService.updateSalarySlipStatus(ids).subscribe(
