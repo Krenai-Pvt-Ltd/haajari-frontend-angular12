@@ -3,32 +3,33 @@
     <div class="page-content-tab pb-0">
         <div class="container-fluid">
             <!-- salary template empty notification start -->
-            <ng-container *ngIf="!toggle && !shimmer && this.salaryTemplateList.length ==0">
-                <div class="row salary-template-empty-box p-3 mt-3 align-items-center m-0">
-                    <div class="col-md-6">
-                        <div class="pt-5 pb-5">
-                        <h3 class="mb-3 font-32 fw-normal lh-base">
-                            Create Your Own Salary <br> Template
-                        </h3>
-                        <p class="mb-0 font-14 fw-light color-basic">
-                            Design a customized salary structure to fit your needs. Get started <br> by creating your template now!"
-                        </p>
-                        <button type="button" class="btn add-template-btn mt-4 text-white font-14 fw-normal border-rounded-2" (click)="createTemplate(true)">
-                            Create Salary Template
-                        </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="text-end">
-                        <img src="assets/images/payrollstep-img/salary-empty-img.svg" style="width: 380px" />
-                        </div>
-                    </div>
-                </div>
-            </ng-container>   
+         
              <!-- salary template empty notification end -->
 
             <!-- template list start  -->
             <ng-container *ngIf="!toggle">
+                <ng-container *ngIf="!shimmer && this.salaryTemplateList.length ==0">
+                    <div class="row salary-template-empty-box p-3 mt-3 align-items-center m-0">
+                        <div class="col-md-6">
+                            <div class="pt-5 pb-5">
+                            <h3 class="mb-3 font-32 fw-normal lh-base">
+                                Create Your Own Salary <br> Template
+                            </h3>
+                            <p class="mb-0 font-14 fw-light color-basic">
+                                Design a customized salary structure to fit your needs. Get started <br> by creating your template now!"
+                            </p>
+                            <button type="button" class="btn add-template-btn mt-4 text-white font-14 fw-normal border-rounded-2" (click)="createTemplate(true)">
+                                Create Salary Template
+                            </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-end">
+                            <img src="assets/images/payrollstep-img/salary-empty-img.svg" style="width: 380px" />
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>   
                 <div class="mt-4">
                     <div class="salary-template-search border-rounded-2">
                         <div class="d-flex justify-content-start align-items-center">
