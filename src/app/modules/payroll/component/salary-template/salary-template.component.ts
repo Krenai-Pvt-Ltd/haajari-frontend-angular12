@@ -306,13 +306,14 @@ findFixedAllowance(): void {
       epfBaseWithoutFA = this.salaryTemplate.earningComponents
       .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
       .reduce((sum, c) => sum + c.amount, 0);
-      combineRate = combineRate + epfBaseWithoutFA;
+      combineRate = combineRate + epfRate;
     }
+
     if(ESI){
       esiBaseWithoutFA = this.salaryTemplate.earningComponents
       .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
       .reduce((sum, c) => sum + c.amount, 0);
-      combineRate = combineRate + esiBaseWithoutFA;
+      combineRate = combineRate + esiRate;
     }   
     const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
     const denominator = 1 + combineRate;
