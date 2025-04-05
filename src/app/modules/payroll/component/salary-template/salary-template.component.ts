@@ -205,7 +205,6 @@ toggleReimbursementComponent(component: ReimbursementComponent) {
       }
   }
 
-
   this.CalculateMonthlyAmountNew();
 }
 
@@ -307,6 +306,11 @@ findFixedAllowance(): void {
       epfBaseWithoutFA = this.salaryTemplate.earningComponents
       .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
       .reduce((sum, c) => sum + c.amount, 0);
+
+      if (EPF.employerContribution === this.EPF_RESTRICTED) {
+        epfBaseWithoutFA = Math.min(epfBaseWithoutFA, 15000);
+      }
+
       combineRate = combineRate + epfRate;
     }
 
@@ -314,6 +318,9 @@ findFixedAllowance(): void {
       esiBaseWithoutFA = this.salaryTemplate.earningComponents
       .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
       .reduce((sum, c) => sum + c.amount, 0);
+
+      esiBaseWithoutFA = esiBaseWithoutFA > 21000 ? 0 : esiBaseWithoutFA;
+
       combineRate = combineRate + esiRate;
     }   
     const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
