@@ -162,7 +162,7 @@
                                                 <li >
                                                     <a class="dropdown-item" (click)="editEarning(earning)"><i class="bi bi-pencil"></i> Edit </a>
                                                 </li>
-                                                <li *ngIf="earning.custom">
+                                                <li *ngIf="earning.deletion">
                                                     <a class="dropdown-item" (click)="openDeleteModal(earning.id,'earning')"><i class="bi bi-trash"></i> Delete </a>
                                                 </li>
                                             </div>

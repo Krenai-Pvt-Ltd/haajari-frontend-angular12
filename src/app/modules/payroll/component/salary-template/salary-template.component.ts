@@ -244,16 +244,12 @@ findEarning(){
       
     }
 
-
     if(component.epfIncluded){
       this.totalEpfAmount += component.amount;
     }
-
-
     if(component.esiIncludded){
       this.totalEsiAmount += component.amount;
     }
-    
     ++this.count;    
 });
 
@@ -273,7 +269,6 @@ if(this.count== this.salaryTemplate.earningComponents.length){
 }
 
 }
-
 
 calculatedAmount:number=0;
 findFixedAllowance(){
@@ -296,7 +291,6 @@ benefitsCalculatedAmount :number=0;
 findBenefits(flag?:boolean){
    this.fixedAllowanceAmount = 0;
    this.benefitsCalculatedAmount = 0;
-   
 
   const ESI = this.salaryTemplate.deductions.find(x=> x.name == 'ESI')
   if(ESI){
