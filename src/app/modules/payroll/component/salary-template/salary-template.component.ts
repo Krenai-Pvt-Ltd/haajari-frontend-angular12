@@ -296,16 +296,26 @@ findFixedAllowance(): void {
   if (this.previewCalculations) {
     const epfRate = 0.12;
     const esiRate = 0.0325;
-    const epfBaseWithoutFA = this.salaryTemplate.earningComponents
+    var combineRate=0;
+    var epfBaseWithoutFA=0;
+    var esiBaseWithoutFA=0;
+    const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
+    const ESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
+
+    if(EPF){
+      epfBaseWithoutFA = this.salaryTemplate.earningComponents
       .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
       .reduce((sum, c) => sum + c.amount, 0);
-
-    const esiBaseWithoutFA = this.salaryTemplate.earningComponents
+      combineRate = combineRate + epfBaseWithoutFA;
+    }
+    if(ESI){
+      esiBaseWithoutFA = this.salaryTemplate.earningComponents
       .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
       .reduce((sum, c) => sum + c.amount, 0);
-
+      combineRate = combineRate + esiBaseWithoutFA;
+    }   
     const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
-    const denominator = 1 + epfRate + esiRate;
+    const denominator = 1 + combineRate;
 
     fixedAllowance.amount = Math.round(numerator / denominator);
 
