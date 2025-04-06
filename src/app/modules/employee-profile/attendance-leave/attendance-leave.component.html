@@ -78,7 +78,7 @@
                         <div class="col-md-9">
                             <div class="row" style="border-right: 1px solid #EDEFF5;">
 
-                                <div class="col-md-3 mobile-overall-performance">
+                                <div *ngIf="isDateLoaded" class="col-md-3 mobile-overall-performance">
                                     <app-overall-attendance-chart></app-overall-attendance-chart>
                                 </div>
 
@@ -1154,8 +1154,9 @@
                             <div *ngIf="totalPages>1"
                                 class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
                                 <p>
-                                    Showing 0 - 0 of {{ totalItems }} users
-                                </p>
+                                  Showing {{ ((currentPage - 1) * pageSize) + 1 }} -
+                                  {{ currentPage * pageSize > totalItems ? totalItems : currentPage * pageSize }} of {{ totalItems }} leave
+                              </p>
                                 <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
                                     (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="currentPage"
                                     [maxSize]="8" [boundaryLinks]="true">

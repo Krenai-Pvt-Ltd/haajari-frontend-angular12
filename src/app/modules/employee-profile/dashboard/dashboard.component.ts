@@ -614,9 +614,6 @@ readonly Constants =constant;
   };
   public yaxis: ApexYAxis = {  labels: { show: false } };
 
-  public stroke: ApexStroke = {
-     width: 2
-  };
   public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
   public dataLabels: ApexDataLabels = { enabled: false }; // No data labels in original
   public markers: ApexMarkers = { size: 0 }; // Hide markers for a clean line

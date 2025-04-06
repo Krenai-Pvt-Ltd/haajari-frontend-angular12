@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexMarkers, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
+import { constant } from 'src/app/constant/constant';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -12,34 +13,39 @@ export class OverallAttendanceChartComponent implements OnInit {
   @Input() data: any;
   constructor(private dataService: DataService) { }
 
-
+readonly Constants =constant;
 // Chart properties
 public series: ApexAxisChartSeries = [];
-public chart: ApexChart = {
-  type: 'area', // Use 'area' for filled line chart
-  height: 150, // Reduced height as requested
-  zoom: { enabled: false },
-  toolbar: { show: false }
+public chart: ApexChart  = {
+  type: "area",
+  stacked: false,
+  height: 150,
+  background: "transparent",
+  zoom: {
+    enabled: false // 🔹 Disables zooming
+  },
+  toolbar: {
+    show: false,
+    tools: {
+      zoomin: false,  // Keep zoom in enabled
+      zoomout: false, // 🔹 Disable zoom out button
+      pan: false,
+      reset: false // Optionally disable reset zoom
+    }
+  },
 };
 public xaxis: ApexXAxis = {
   type: 'category',
   title: { text: '' }, // Dynamically set based on searchString
   categories: []
 };
-public yaxis: ApexYAxis = {
-  min: 0 // Matches beginAtZero: true
-};
+public yaxis: ApexYAxis = {  labels: { show: false } };
 public title: ApexTitleSubtitle = {
   text: 'Worked Hours',
   align: 'center'
 };
-public stroke: ApexStroke = {
-  curve: 'smooth'
-};
-public fill: ApexFill = {
-  type: 'solid',
-  colors: ['rgba(153, 102, 255, 0.2)'] // Fill color
-};
+
+public fill: ApexFill = { type: "gradient", gradient: { shadeIntensity: 10, inverseColors: false, opacityFrom: 0.5, opacityTo: 0, stops: [0, 90, 100] } };
 public dataLabels: ApexDataLabels = { enabled: false };
 public markers: ApexMarkers = { size: 0 }; // Hide markers
 public tooltip: ApexTooltip = {
@@ -47,7 +53,7 @@ public tooltip: ApexTooltip = {
     formatter: (val: number) => this.formatDecimalToTime(val) // HH:MM format
   }
 };
-public grid: ApexGrid = { show: true };
+public grid: ApexGrid = { show: false };
 public isChartInitialized: boolean = false;
 public isPlaceholder: boolean = false;
 

@@ -7,12 +7,13 @@
       [xaxis]="xaxis"
       [yaxis]="yaxis"
       [title]="title"
-      [stroke]="stroke"
+      [stroke]="{width:1.5}"
       [fill]="fill"
       [dataLabels]="dataLabels"
       [markers]="markers"
       [tooltip]="tooltip"
       [grid]="grid"
+      [colors]="this.Constants.COLORS"
     ></apx-chart>
     </div>
     <!-- *ngIf="!isPlaceholder" -->
