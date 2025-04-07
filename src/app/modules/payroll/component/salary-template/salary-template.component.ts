@@ -309,6 +309,7 @@ mapFinalValue(result : CalculationResult){
     const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
     var difference = monthlyCTC - (this.calculatedAmountWithoutFixed + result.fixed + result.epf + result.esi );
     if(difference < 0){
+      this.previewCalculations = true;
         this.negativeMonthlyCTC = difference;
     }else{
       this.previewCalculations = false;
