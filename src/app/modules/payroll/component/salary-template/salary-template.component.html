@@ -465,7 +465,7 @@
                                       <div class="col-md-3" *ngIf="component.name == 'EPF'">
                                         <div class="text-start py-3" [ngSwitch]="component.employerContribution">
                                           <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_ACTUAL">12.00% of PF Wages</p>
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_RESTRICTED">12.00% of Restricted Wages</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_RESTRICTED">12.00% of Restricted PF Wages</p>
                                         </div>
                                       </div>
                                       <div class="col-md-3" *ngIf="component.name == 'ESI'">
@@ -835,7 +835,7 @@
                         
                     </div>
                     <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!templateForm.pristine">
-                        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"  [ngClass]="{'disabled-lnk':saveLoader}">
+                        <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"  [ngClass]="{'disabled-lnk':saveLoader || negativeMonthlyCTC < 0}">
                             <div *ngIf="saveLoader" class="dot-opacity-loader">
                                 <span></span>
                                 <span></span>

@@ -291,11 +291,9 @@ findEarning(){
 
 
 mapFinalValue(result : CalculationResult){
-  var fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
-  if(fixedAllowance){
-    fixedAllowance.amount = Math.round(result.fixed);
-  }
-
+  result.epf =  Math.round(result.epf);
+  result.esi =  Math.round(result.esi);
+  result.fixed =  Math.round(result.fixed);
   var hasEPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
   if(hasEPF){
     hasEPF.amount = Math.round(result.epf);
@@ -305,7 +303,18 @@ mapFinalValue(result : CalculationResult){
     hasESI.amount = Math.round(result.esi);
   }
 
-  this.previewCalculations = false;
+  var fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
+  if(fixedAllowance){
+    fixedAllowance.amount = Math.round(result.fixed);
+    const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
+    var difference = monthlyCTC - (this.calculatedAmountWithoutFixed + result.fixed + result.epf + result.esi );
+    if(difference < 0){
+        this.negativeMonthlyCTC = difference;
+    }else{
+      this.previewCalculations = false;
+      this.negativeMonthlyCTC = 0;
+    }
+  }
 
 }
 
