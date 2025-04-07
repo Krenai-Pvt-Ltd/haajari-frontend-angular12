@@ -452,6 +452,13 @@ span.lat {
 .mobile-top-menu {
     display: none;
 }
+.profile{
+    background-color: #EAEAFF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #6666f2;
+}
 
 
 @media screen and (max-width: 500px) {

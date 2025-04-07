@@ -424,7 +424,8 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive bg-white mt-3">
+                         <!-- desktop past expanse list -->
+                        <div class="table-responsive bg-white mt-3 desktop-attendance-date">
                             <table class="table empOnnoardtable">
                                 <thead class="thead-light">
                                     <tr>
@@ -444,34 +445,7 @@
 
                                 <tbody *ngIf="loading">
                                     <tr *ngFor="let item of [].constructor(8)">
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                    </td>
-                                    <td>
+                                    <td *ngFor="let item of [].constructor(10)">
                                         <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </td>
                                     </tr>
@@ -555,6 +529,113 @@
                               </div>
 
                         </div>
+                        <!-- desktop past expanse list -->
+
+                       <!-- mobile past expanse list -->
+                        <div class="mobile-card-view mt-3">
+                            <table class="table">
+                                <tbody *ngIf="loading">
+                                    <tr *ngFor="let item of [].constructor(8)">
+                                    <td *ngFor="let item of [].constructor(2)">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    </tr>
+                                </tbody>
+                                <ng-container *ngIf="!loading">
+                                    <ng-container *ngIf="expenseList.length == 0">
+                                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                            </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="expenseList.length > 0">
+                                        <tbody class="mobile-attendance-date" *ngFor="let expense of expenseList; let i= index">
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Date/Status</th>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="fw-semibold">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                                    <span class="font-13 fw-semibold"
+                                                    [ngClass]="{'text-warning': expense.status.id == 13, 'text-success': expense.status.id == 41,
+                                                    'text-danger': expense.status.id == 15, 'text-primary': expense.status.id == 40}" >
+                                                    {{expense.status.response}}
+                                                </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Settlement Date</th>
+                                            <td>
+                                                <span class="fw-semibold">{{expense.settledDate | date: 'dd MMM yyyy'}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Name/Type</th>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="fw-semibold">{{expense.employeeName}}</span>
+                                                    <span class="fw-semibold">{{expense.expenseType}} </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Amount-Settled Amount</th>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="fw-semibold"> ₹ {{expense.amount}} </span>
+                                                    <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Transaction ID</th>
+                                            <td>
+                                                <span class="fw-semibold"> {{expense.transactionId == null || expense.transactionId == '' ? 'N/A' : expense.transactionId}} </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Note</th>
+                                            <td>
+                                                <span class="table-font-weight"> {{expense.notes}} </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Bill Snapshot</th>
+                                            <td>
+                                                <button class="btn p-0 text-primary font-14 view-btn" (click)="updateExpense(expense)" data-bs-toggle="modal" data-bs-target="#apply-expense">View
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                        <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                            <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                        </mask>
+                                                        <g mask="url(#mask0_5908_672)">
+                                                            <path
+                                                                d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                                fill="#6666f2" />
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </ng-container>
+                            </ng-container>
+                            </table>
+
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                [boundaryLinks]="true"></ngb-pagination>2
+                              </div>
+                        </div>
+                        <!-- mobile past expanse list -->
+
                     </div>
                 </div>
 
@@ -610,7 +691,8 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive bg-white mt-3">
+                        <!-- Desktop Settlement Expense Log -->
+                        <div class="table-responsive bg-white mt-3 desktop-attendance-date">
                             <table class="table empOnnoardtable">
                                 <thead class="thead-light">
                                     <tr>
@@ -694,6 +776,76 @@
                               </div>
 
                         </div>
+                        <!-- Desktop Settlement Expense Log end -->
+
+
+
+                        <!-- mobile Settlement Expense Log -->
+                        <div class="mobile-card-view mt-3">
+                            <table class="table">
+                                <tbody *ngIf="settlementLoading">
+                                    <tr *ngFor="let item of [].constructor(8)">
+                                    <td *ngFor="let item of [].constructor(2)">
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                </tbody>
+
+                                <ng-container *ngIf="!settlementLoading">
+
+                                <tbody *ngIf="settlementExpenseList.length == 0">
+                                    <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                            [nzNotFoundContent]="contentTpl">
+                                            <ng-template #contentTpl>
+                                                <p class="mb-1 empty-filenew">No data for now</p>
+                                            </ng-template>
+                                        </nz-empty>
+                                    </div>
+                                </tbody>
+                                <ng-container *ngIf="settlementExpenseList.length > 0">
+                                <tbody class="mobile-attendance-date" *ngFor="let expense of settlementExpenseList; let i= index">
+                                    <tr>
+                                        <th class="fww-semibold font-13">Settlement Date/Name</th>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="fw-semibold">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                                <span class="fw-semibold">{{expense.employeeName}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="fww-semibold font-13">Settled Amount</th>
+                                        <td>
+                                            <span class="fw-semibold"> ₹ {{expense.amount}} </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="fww-semibold font-13">Payment Method</th>
+                                        <td>
+                                            <span class="fw-semibold"> {{ expense?.paymentMethod?.toUpperCase() }} </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="fww-semibold font-13">Transaction ID</th>
+                                        <td>
+                                            <span class="fw-semibold"> {{expense?.transactionId == null || expense?.transactionId == '' ? 'N/A' : expense?.transactionId}} </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                </ng-container>
+                            </ng-container>
+                            </table>
+
+                            <div class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top"  *ngIf="expenseList.length > 0 && totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                [boundaryLinks]="true"></ngb-pagination>2
+                              </div>
+                        </div>
+                        <!-- mobile Settlement Expense Log end -->
+
+
                     </div>
                 </div>
 
