@@ -288,6 +288,11 @@ findEarning(){
 
 }
 
+
+
+
+
+
 findFixedAllowance(): void {
   const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
   const fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
@@ -301,6 +306,7 @@ findFixedAllowance(): void {
     var esiBaseWithoutFA=0;
     const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
     const ESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
+
 
     if(EPF){
       epfBaseWithoutFA = this.salaryTemplate.earningComponents
@@ -356,6 +362,7 @@ findFixedAllowance(): void {
       }
   }
 }
+
 
 
 
