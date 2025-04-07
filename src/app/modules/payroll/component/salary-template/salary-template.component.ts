@@ -234,11 +234,15 @@ calculatedAmountWithoutFixed:number=0;
 calculatedAmount:number=0;
 benefitsCalculatedAmount :number=0;
 isFindBenefits:boolean=false;
-holdFixedAllowanceAmount:number=0;
+holdFixedAllowanceAmount:number=0; 
 totalEpfAmount : number =0;
 totalEsiAmount : number =0;
+totalEarningAmount: number=0;
+totalReimbursementAmount : number=0;
 CalculateMonthlyAmountNew() {
   this.previewCalculations = false;
+  this.totalEarningAmount = 0;
+  this.totalReimbursementAmount = 0;
   this.calculatedAmountWithoutFixed = 0;
   this.findEarning();
 }
@@ -265,7 +269,7 @@ findEarning(){
     component.amount = Math.round(component.amount);
 
     if(component.name != 'Fixed Allowance'){
-      this.calculatedAmountWithoutFixed += component.amount;
+      this.totalEarningAmount += component.amount;
       
     }    
     ++count;    
@@ -278,11 +282,12 @@ findEarning(){
         component.isAdd = true;
         component.amount = component.value;
       }
-      this.calculatedAmountWithoutFixed += component.amount;
+      this.totalReimbursementAmount += component.amount;
       ++count; 
   });
 
   if(count== this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length){
+    this.calculatedAmountWithoutFixed = this.totalEarningAmount + this.totalReimbursementAmount;
     this.findFixedAllowance();
   }
 }
@@ -330,9 +335,14 @@ findFixedAllowance(): void {
 
       combineRate = combineRate + esiRate;
     }   
-    const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
-    const denominator = 1 + combineRate;
+  
+    console.log("=============totalEarningAmount=========",this.totalEarningAmount, "==========totalReimbursementAmount=========",this.totalReimbursementAmount)
+    console.log("=============epfBaseWithoutFA=========",epfBaseWithoutFA, "==========esiBaseWithoutFA=========",esiBaseWithoutFA)
 
+    const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
+    // const denominator = 1 + combineRate;
+    const denominator = 1 ;
+    console.log("=============numerator=========",numerator, "==========denominator=========",denominator)
     fixedAllowance.amount = Math.round(numerator / denominator);
 
     this.totalEpfAmount =0;
@@ -371,22 +381,19 @@ findFixedAllowance(): void {
 findBenefits(): void {
   this.benefitsCalculatedAmount = 0;
   console.log("=============EPF=========",this.totalEpfAmount)
-  const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
+  const EPF = this.salaryTemplate.deductions.find(x => x.name == 'EPF');
   if (EPF) {
-    if (EPF.employerContribution === this.EPF_ACTUAL) {
+    if (EPF.employerContribution == this.EPF_ACTUAL) {
       EPF.amount = Math.round((this.totalEpfAmount * 12) / 100);
-    } else if (EPF.employerContribution === this.EPF_RESTRICTED) {
-      if (this.totalEpfAmount > this.PF_RESTRICTED_LIMIT) {
-        EPF.amount = Math.round((this.PF_RESTRICTED_LIMIT * 12) / 100);
-      } else {
-        EPF.amount = Math.round((this.totalEpfAmount * 12) / 100);
-      }
+    } else if (EPF.employerContribution == this.EPF_RESTRICTED) {
+      var amount = Math.min(this.totalEpfAmount, 15000)
+      EPF.amount = Math.round((amount * 12) / 100);
     } else {
       EPF.amount = 0;
     }
   }
   console.log("=============without=========",this.totalEsiAmount)
-  const ESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
+  const ESI = this.salaryTemplate.deductions.find(x => x.name == 'ESI');
   if (ESI) {
     if (this.totalEsiAmount <= ESI.maxLimit) {
       ESI.amount = Math.round((this.totalEsiAmount * ESI.employerContribution) / 100);
