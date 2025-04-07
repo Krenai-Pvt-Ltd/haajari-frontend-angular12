@@ -3,7 +3,7 @@
     <div class="page-content-tab pb-0">
         <div class="container-fluid">
             <!-- salary template empty notification start -->
-            <ng-container *ngIf="!shimmer && salaryTemplateList.length ==0">
+            <ng-container *ngIf="!shimmer && salaryTemplateList.length == 0 && search.trim() === ''">
                 <div class="row salary-template-empty-box p-3 mt-3 align-items-center m-0">
                     <div class="col-md-6">
                         <div class="pt-5 pb-5">
@@ -31,7 +31,7 @@
             <ng-container *ngIf="!toggle ">
                  
                 <div class="mt-4">
-                    <div class="salary-template-search border-rounded-2" >
+                    <div class="salary-template-search border-rounded-2" *ngIf="!shimmer && (salaryTemplateList.length > 0 || search.trim() !== '')">
                         <div class="d-flex justify-content-start align-items-center">
                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                             <div class="form-group w-100 position-relative">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="table-responsive vh-80 mt-3">
                         <table class="table">
-                            <thead>
+                            <thead *ngIf="!shimmer && (salaryTemplateList.length > 0 || search.trim() !== '')">
                             <tr>
                                 <th style="width:40%">Template Name</th>
                                 <th style="width:40%">Description</th>
@@ -72,7 +72,7 @@
                                 </td>
                                 </tr>
                             </tbody>
-                            <tbody *ngIf="salaryTemplateList.length==0 && !shimmer">
+                            <tbody *ngIf="salaryTemplateList.length ==0 && !shimmer  && search.trim() !== ''">
                                 <tr>
                                 <td colspan="8">
                                     <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -86,7 +86,7 @@
                                 </td>
                                 </tr>
                             </tbody>
-                            <tbody>
+                            <tbody *ngIf="salaryTemplateList.length > 0">
                                 <tr *ngFor="let template of salaryTemplateList; let i = index;">
                                     <td>
                                         <span>

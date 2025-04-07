@@ -132,13 +132,21 @@ pageChange(page: number){
     this.tempTemplateComponents = JSON.parse(JSON.stringify(this.templateComponents));
     if (!this.isNewTemplate) {
       this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
-          return !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name == tempComponent.name);
+        const shouldKeep = !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name === tempComponent.name);
+        if (shouldKeep) tempComponent.isAdd = true;  
+        return shouldKeep;
       });
+  
       this.templateComponents.reimbursementComponents = this.templateComponents.reimbursementComponents.filter(tempComponent => {
-        return !this.salaryTemplate.reimbursementComponents.some(salaryComponent => salaryComponent.type ==  tempComponent.type);
-      });  
+        const shouldKeep = !this.salaryTemplate.reimbursementComponents.some(salaryComponent => salaryComponent.type === tempComponent.type);
+        if (shouldKeep) tempComponent.isAdd = true;  
+        return shouldKeep;
+      });
+  
       this.templateComponents.deductions = this.templateComponents.deductions.filter(tempComponent => {
-        return !this.salaryTemplate.deductions.some(salaryComponent => salaryComponent.name ==  tempComponent.name);
+        const shouldKeep = !this.salaryTemplate.deductions.some(salaryComponent => salaryComponent.name === tempComponent.name);
+        if (shouldKeep) tempComponent.isAdd = true;  
+        return shouldKeep;
       });  
              
     } else {
@@ -169,6 +177,7 @@ pageChange(page: number){
 salaryTemplate:SalaryTemplate = new SalaryTemplate();
 createTemplate(isNew:boolean, template?:SalaryTemplate){
   this.toggle=true;
+  this.shimmer=true;
   if(isNew){
     this.isNewTemplate = true;
   }else{
