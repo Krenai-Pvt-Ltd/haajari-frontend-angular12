@@ -280,9 +280,7 @@ findEarning(){
 
   if(count== this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length){
     this.calculatedAmountWithoutFixed = this.totalEarningAmount + this.totalReimbursementAmount;
-     var result : CalculationResult = this.calculateSalaryComponents();
-    console.log("======final result================",result);
-      this.mapFinalValue(result);
+    this.calculateSalaryComponents();
   }
 }
 
@@ -290,11 +288,6 @@ findEarning(){
 
 
 mapFinalValue(result : CalculationResult){
-  var fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
-  if(fixedAllowance){
-    fixedAllowance.amount = Math.round(result.fixed);
-  }
-
   var hasEPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
   if(hasEPF){
     hasEPF.amount = Math.round(result.epf);
@@ -306,12 +299,10 @@ mapFinalValue(result : CalculationResult){
 
   var fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
   if(fixedAllowance){
-    fixedAllowance.amount = Math.round(result.fixed);
-    const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
-    var difference = monthlyCTC - (this.calculatedAmountWithoutFixed + result.fixed + result.epf + result.esi );
-    if(difference < 0){
+    fixedAllowance.amount =  Math.round(result.fixed);;
+    if(fixedAllowance.amount < 0){
       this.previewCalculations = true;
-        this.negativeMonthlyCTC = difference;
+        this.negativeMonthlyCTC = fixedAllowance.amount;
     }else{
       this.previewCalculations = false;
       this.negativeMonthlyCTC = 0;
@@ -329,7 +320,7 @@ ESI_THRESHOLD = 21000; // Threshold above which ESI becomes 0
 
 
 // Main calculation function
-calculateSalaryComponents(): CalculationResult {
+calculateSalaryComponents(){
   // Step 1: Calculate monthly CTC from annual CTC
   const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
 
@@ -349,11 +340,12 @@ calculateSalaryComponents(): CalculationResult {
   const esi = getESI(fixed);
   console.log("=============fixed=========",fixed, "==========epf=========",epf,"===============esi=============",esi)
   // Step 6: Return the result with rounded values
-  return {
+  var result : CalculationResult = {
     fixed,
     epf: Number(epf.toFixed(2)),
     esi: Number(esi.toFixed(2))
-  };
+  }
+  this.mapFinalValue(result);
 }
 
 // Helper function to calculate EPF
