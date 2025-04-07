@@ -40,6 +40,7 @@ export class SalaryTemplateComponent implements OnInit {
   negativeMonthlyCTC:number=0;
   esiAmount:number=0;
   shimmer:boolean=false;
+  isSearching:boolean=false;
   readonly constant = constant;
 
   previewCalculations:boolean=false;

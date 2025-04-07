@@ -3,35 +3,35 @@
     <div class="page-content-tab pb-0">
         <div class="container-fluid">
             <!-- salary template empty notification start -->
-         
+            <ng-container *ngIf="!shimmer && salaryTemplateList.length ==0">
+                <div class="row salary-template-empty-box p-3 mt-3 align-items-center m-0">
+                    <div class="col-md-6">
+                        <div class="pt-5 pb-5">
+                        <h3 class="mb-3 font-32 fw-normal lh-base">
+                            Create Your Own Salary <br> Template
+                        </h3>
+                        <p class="mb-0 font-14 fw-light color-basic">
+                            Design a customized salary structure to fit your needs. Get started <br> by creating your template now!"
+                        </p>
+                        <button type="button" class="btn add-template-btn mt-4 text-white font-14 fw-normal border-rounded-2" (click)="createTemplate(true)">
+                            Create Salary Template
+                        </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-end">
+                        <img src="assets/images/payrollstep-img/salary-empty-img.svg" style="width: 380px" />
+                        </div>
+                    </div>
+                </div>
+            </ng-container>  
              <!-- salary template empty notification end -->
 
             <!-- template list start  -->
-            <ng-container *ngIf="!toggle">
-                <ng-container *ngIf="!shimmer && this.salaryTemplateList.length ==0">
-                    <div class="row salary-template-empty-box p-3 mt-3 align-items-center m-0">
-                        <div class="col-md-6">
-                            <div class="pt-5 pb-5">
-                            <h3 class="mb-3 font-32 fw-normal lh-base">
-                                Create Your Own Salary <br> Template
-                            </h3>
-                            <p class="mb-0 font-14 fw-light color-basic">
-                                Design a customized salary structure to fit your needs. Get started <br> by creating your template now!"
-                            </p>
-                            <button type="button" class="btn add-template-btn mt-4 text-white font-14 fw-normal border-rounded-2" (click)="createTemplate(true)">
-                                Create Salary Template
-                            </button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="text-end">
-                            <img src="assets/images/payrollstep-img/salary-empty-img.svg" style="width: 380px" />
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>   
+            <ng-container *ngIf="!toggle ">
+                 
                 <div class="mt-4">
-                    <div class="salary-template-search border-rounded-2">
+                    <div class="salary-template-search border-rounded-2" >
                         <div class="d-flex justify-content-start align-items-center">
                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                             <div class="form-group w-100 position-relative">
@@ -92,34 +92,34 @@
                                 </tr>
                             </tbody>
                             <tbody>
-                            <tr *ngFor="let template of salaryTemplateList; let i = index;">
-                                <td>
-                                    <span>
-                                        <h5 class="mb-2 font-14 fw-semibold text-primary pointer" (click)="createTemplate(false,template)">{{ template.name }}</h5>
-                                        <p class="font-12 fw-normal color-basic mb-0">{{ template.updatedAt | date: 'MMM d, y'  }}</p>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="white-space font-13 fw-normal">{{!constant.EMPTY_STRINGS.includes(template.description)?template.description: 'N/A' }}</span>
-                                </td>
-                                <td>
-                                    <nz-switch [ngModel]="template.statusId"></nz-switch>
-                                </td>
-                                <td>
-                                <div class="dropdown">
-                                    <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                    </button>
-                                        <div class="dropdown-menu actionMenuList">
-                                            <ul class="pl-0 mb-0">
-                                                <li><a class="dropdown-item" (click)="createTemplate(false,template)">Edit</a></li>
-                                                <li><a class="dropdown-item">Delete</a></li>
-                                                <li><a class="dropdown-item">Dissociate Employees</a></li>
-                                            </ul>
-                                        </div>
-                                </div>
-                                </td>
-                            </tr>
+                                <tr *ngFor="let template of salaryTemplateList; let i = index;">
+                                    <td>
+                                        <span>
+                                            <h5 class="mb-2 font-14 fw-semibold text-primary pointer" (click)="createTemplate(false,template)">{{ template.name }}</h5>
+                                            <p class="font-12 fw-normal color-basic mb-0">{{ template.updatedAt | date: 'MMM d, y'  }}</p>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="white-space font-13 fw-normal">{{!constant.EMPTY_STRINGS.includes(template.description)?template.description: 'N/A' }}</span>
+                                    </td>
+                                    <td>
+                                        <nz-switch [ngModel]="template.statusId"></nz-switch>
+                                    </td>
+                                    <td>
+                                    <div class="dropdown">
+                                        <button type="button" data-bs-toggle="dropdown" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                            <div class="dropdown-menu actionMenuList">
+                                                <ul class="pl-0 mb-0">
+                                                    <li><a class="dropdown-item" (click)="createTemplate(false,template)">Edit</a></li>
+                                                    <li><a class="dropdown-item">Delete</a></li>
+                                                    <li><a class="dropdown-item">Dissociate Employees</a></li>
+                                                </ul>
+                                            </div>
+                                    </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
 
