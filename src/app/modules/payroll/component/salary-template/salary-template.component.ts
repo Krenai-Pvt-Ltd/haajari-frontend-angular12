@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
 import { ReimbursementComponent } from 'src/app/payroll-models copy/ReimbursementComponent';
 import { SalaryTemplate, TemplateDeductionResponse } from 'src/app/payroll-models/SalaryTemplate';
@@ -42,17 +44,22 @@ export class SalaryTemplateComponent implements OnInit {
   shimmer:boolean=false;
   isSearching:boolean=false;
   readonly constant = constant;
+  search:string='';
 
   previewCalculations:boolean=false;
 
-  constructor(private _salaryTemplateService : SalaryTemplateService,
-    public _helperService : HelperService) { }
+constructor(private _salaryTemplateService : SalaryTemplateService,
+public _helperService : HelperService) {
+  this.searchSubject.pipe(debounceTime(250))
+    .subscribe(searchText => {
+        this.searchByInput(searchText);
+    });
+}
 
   ngOnInit(): void {
     this.getOrganizationSalaryTemplates();
    
   }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                                                         // 
@@ -62,7 +69,7 @@ salaryTemplateList:SalaryTemplate[] = new Array();
 getOrganizationSalaryTemplates() {
   this.shimmer=true;
   this.salaryTemplateList = [];
-  this._salaryTemplateService.getSalaryTemplates(this.currentPage, this.itemPerPage).subscribe((response) => {
+  this._salaryTemplateService.getSalaryTemplates(this.currentPage, this.itemPerPage,this.search).subscribe((response) => {
       if (response.status) {
         this.salaryTemplateList = response.object.content;
         this.totalItems = response.object.totalElements;
@@ -464,8 +471,105 @@ saveSalaryTemplate(){
 
 epfEmployerContribution: number=0; 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                      STATUS UPDATE                                                                           // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+loadingMap: { [key: number]: boolean } = {};
+load(templateId:number){
+ return !!this.loadingMap[templateId];
+}
+
+@ViewChild("statusChange")statusChange!:ElementRef;
+@ViewChild("statusChangeCloseButton")statusChangeCloseButton!:ElementRef;
+templateId: number = 0;
+type:string='';
+loading:boolean=false;
+changeStatus(templateId:number){
+  this.templateId = templateId;
+  this.loadingMap[templateId] = true;
+  this.statusChange.nativeElement.click();
+}
+
+checkStatus(statusId: number): boolean {
+  return statusId == StatusKeys.ACTIVE ? true : false;
+}
+
+closeModal(){
+  this.loadingMap[this.templateId] = false;
+}
+
+statusToggle:boolean=false;
+chnageTemplateStatus() {
+ this.statusToggle = true;
+ this._salaryTemplateService.chnageTemplateStatus(this.templateId).subscribe(
+   (response) => {
+     if (response.status) {
+       this._helperService.showToast('Status updated successfully.', Key.TOAST_STATUS_SUCCESS);
+       this.toggleStatus(this.templateId);
+     } else {
+       this._helperService.showToast('Error updating component.', Key.TOAST_STATUS_ERROR);
+     }
+     this.statusToggle = false;
+     this.statusChangeCloseButton.nativeElement.click();
+     this.loadingMap[this.templateId] = false;
+   },
+   (error) => {
+     this.statusToggle = false;
+   }
+ );
+}
+
+toggleStatus(templateId: number) {
+  const template = this.salaryTemplateList.find(t => t.id === templateId); 
+
+  if (template) {
+    template.statusId = template.statusId === StatusKeys.ACTIVE ? StatusKeys.INACTIVE : StatusKeys.ACTIVE;
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                      SEARCH TEMPLATE                                                                          // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+private searchSubject = new Subject<boolean>();
+searchDebounce(event:any){
+  this.searchSubject.next(event)
+}
+
+searchByInput(event: any) {
+  const inp = String.fromCharCode(event.keyCode || event.which);
+  if (event.type === 'paste') {
+    const pastedText = event.clipboardData.getData('text');
+    if (/^[a-zA-Z\s]{3,}$/.test(pastedText)) {
+      this.currentPage = 1;
+      this.getOrganizationSalaryTemplates();
+    }
+    return;
+  }
+  if (/^[a-zA-Z]$/.test(inp)) {
+    if (this.search.length >= 2) {
+      this.currentPage = 1;
+      this.getOrganizationSalaryTemplates();
+    }
+  } 
+  else if (event.code === 'Backspace' && event.target.value.length >= 3) {
+    this.currentPage = 1;
+    this.getOrganizationSalaryTemplates();
+  } 
+  else if (this.search.length === 0) {
+    this.currentPage = 1;
+    this.search = '';
+    this.getOrganizationSalaryTemplates();
+  }
+}
+
+       
  
 
 
@@ -481,3 +585,5 @@ interface CalculationResult {
   epf: number;   // EPF contribution
   esi: number;   // ESI contribution
 }
+
+
