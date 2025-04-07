@@ -642,9 +642,10 @@ calculateSalaryComponents(): CalculationResult {
 }
 
 // Helper function to calculate EPF
-private calculateEPF(fixed: number, hasEPF: boolean): number {
+private calculateEPF(fixed: number, hasEPF: boolean, ): number {
   if (!hasEPF) return 0; // No EPF if not available
 
+  const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
   // Calculate base amount for EPF (excluding Fixed Allowance)
   const epfBaseWithoutFA = this.salaryTemplate.earningComponents
     .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
@@ -653,8 +654,18 @@ private calculateEPF(fixed: number, hasEPF: boolean): number {
   // Add Fixed to the base
   const epfBase = epfBaseWithoutFA + fixed;
 
+  // Determine the value to use for EPF calculation
+  let applicableValue: number;
+  if (EPF?.employerContribution == this.EPF_RESTRICTED) {
+    // Restricted case: cap at 15,000 if base exceeds it
+    applicableValue = epfBase >= this.EPF_RESTRICTED_VALUE ? this.EPF_RESTRICTED_VALUE : epfBase;
+  } else {
+    // Unrestricted case: use the actual sum regardless of value
+    applicableValue = epfBase;
+  }
+
   // Apply restriction: use 15,000 if base exceeds it, otherwise use actual value
-  const applicableValue = epfBase >= this.EPF_RESTRICTED_VALUE ? this.EPF_RESTRICTED_VALUE : epfBase;
+  // const applicableValue = epfBase >= this.EPF_RESTRICTED_VALUE ? this.EPF_RESTRICTED_VALUE : epfBase;
 
   // Calculate EPF contribution
   return this.EPF_RATE * applicableValue;
