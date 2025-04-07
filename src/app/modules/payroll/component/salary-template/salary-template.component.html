@@ -465,7 +465,7 @@
                                       <div class="col-md-3" *ngIf="component.name == 'EPF'">
                                         <div class="text-start py-3" [ngSwitch]="component.employerContribution">
                                           <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_ACTUAL">12.00% of PF Wages</p>
-                                          <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_RESTRICTED">12.00% of 15000</p>
+                                          <p class="font-13 fw-normal color-basic mb-0" *ngSwitchCase="EPF_RESTRICTED">12.00% of Restricted Wages</p>
                                         </div>
                                       </div>
                                       <div class="col-md-3" *ngIf="component.name == 'ESI'">
@@ -485,14 +485,10 @@
                                           <p class="font-13 fw-normal color-basic mb-0" *ngIf="!previewCalculations">{{ component.amount*12 }}</p>
                                         </div>
                                       </div>
-                                    
                                       <button class="btn p-0 text-danger action-btn font-18" (click)="toggleDeductionComponent(component)"><i class="bi bi-x"></i></button>
                                     </div>
                                   </div>
                                   <div>
-                                    <button *ngIf="previewCalculations" type="button" (click)="calculateSalaryComponents()">
-                                        Preview   
-                                    </button>
                                 </div>
                                 </ng-container>
     

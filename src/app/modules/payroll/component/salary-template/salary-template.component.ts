@@ -29,8 +29,7 @@ export class SalaryTemplateComponent implements OnInit {
 
   EPF_ACTUAL = 1;
   EPF_RESTRICTED= 2;
-  ESI_MAX_LIMIT=21000;
-  PF_RESTRICTED_LIMIT = 15000;
+
   toggle:boolean =false;
   currentPage = 1;
   itemPerPage = 10;
@@ -211,6 +210,7 @@ toggleReimbursementComponent(component: ReimbursementComponent) {
 }
 
 toggleDeductionComponent(component: TemplateDeductionResponse) {
+  this.previewCalculations = true;
   const salaryIndex = this.salaryTemplate.deductions.findIndex(comp => comp.id == component.id);
   const tempIndex = this.templateComponents.deductions.findIndex(comp => comp.id == component.id);
 
@@ -225,9 +225,8 @@ toggleDeductionComponent(component: TemplateDeductionResponse) {
           this.salaryTemplate.deductions.push({ ...freshDeduction });
           this.templateComponents.deductions = this.templateComponents.deductions.filter(comp => comp.id !== component.id);
       }
-      this.previewCalculations = true;
-      console.log("=========this.previewCalculations===========",this.previewCalculations)
   }
+  this.CalculateMonthlyAmountNew();
 }
 
 
@@ -235,7 +234,6 @@ calculatedAmountWithoutFixed:number=0;
 totalEarningAmount: number=0;
 totalReimbursementAmount : number=0;
 CalculateMonthlyAmountNew() {
-  this.previewCalculations = false;
   this.totalEarningAmount = 0;
   this.totalReimbursementAmount = 0;
   this.calculatedAmountWithoutFixed = 0;
@@ -283,66 +281,34 @@ findEarning(){
 
   if(count== this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length){
     this.calculatedAmountWithoutFixed = this.totalEarningAmount + this.totalReimbursementAmount;
-    this.calculateSalaryComponents();
+     var result : CalculationResult = this.calculateSalaryComponents();
+    console.log("======final result================",result);
+      this.mapFinalValue(result);
   }
 }
 
 }
 
 
+mapFinalValue(result : CalculationResult){
+  var fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
+  if(fixedAllowance){
+    fixedAllowance.amount = Math.round(result.fixed);
+  }
 
+  var hasEPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
+  if(hasEPF){
+    hasEPF.amount = Math.round(result.epf);
+  }
+  var hasESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
+  if(hasESI){
+    hasESI.amount = Math.round(result.esi);
+  }
 
-
-
-
-
-
-
-
-isSystemCalculated(component: any): boolean {
-  return component.name == 'Fixed Allowance'&& this.previewCalculations && this.salaryTemplate.deductions.length > 0;
-}
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                         // 
-//                                                                       SALARY TEMPLATE SAVE                                                                            // 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-saveSalaryTemplate(){
-  this.saveLoader = true;
-  this._salaryTemplateService.saveSalaryTemplate(this.salaryTemplate).subscribe((response) => {
-          if(response.status){
-            this._helperService.showToast("Your Salary Template has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
-          }else{
-            this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
-          }
-          this.saveLoader = false;
-        },
-        (error) => {
-          this.saveLoader = false;
-          this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
-  
-        }
-      );
-      this.getOrganizationSalaryTemplates();
+  this.previewCalculations = false;
 
 }
 
-
-epfEmployerContribution: number=0; 
-
-
-
- 
 
 // Constants for rates and thresholds
 EPF_RATE = 0.12; // 12% Employer contribution for EPF
@@ -371,12 +337,11 @@ calculateSalaryComponents(): CalculationResult {
   const epf = getEPF(fixed);
   const esi = getESI(fixed);
   console.log("=============fixed=========",fixed, "==========epf=========",epf,"===============esi=============",esi)
-  this.previewCalculations = false;
   // Step 6: Return the result with rounded values
   return {
     fixed,
     epf: Number(epf.toFixed(2)),
-    esi: Number(esi.toFixed(2)),
+    esi: Number(esi.toFixed(2))
   };
 }
 
@@ -443,8 +408,64 @@ private calculateFixed(monthlyCTC: number,
   }
 
   // Return Fixed rounded
-  return Math.round(Number(fixed));
+  return Number(fixed.toFixed(2));
 }
+
+
+
+
+
+
+
+
+
+
+isSystemCalculated(component: any): boolean {
+  return component.name == 'Fixed Allowance'&& this.previewCalculations && this.salaryTemplate.deductions.length > 0;
+}
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                       SALARY TEMPLATE SAVE                                                                            // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+saveSalaryTemplate(){
+  this.saveLoader = true;
+  this._salaryTemplateService.saveSalaryTemplate(this.salaryTemplate).subscribe((response) => {
+          if(response.status){
+            this._helperService.showToast("Your Salary Template has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
+          }
+          this.saveLoader = false;
+        },
+        (error) => {
+          this.saveLoader = false;
+          this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
+  
+        }
+      );
+      this.getOrganizationSalaryTemplates();
+
+}
+
+
+epfEmployerContribution: number=0; 
+
+
+
+ 
+
+
 
 
 
