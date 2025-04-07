@@ -271,7 +271,7 @@ export class TeamComponent implements OnInit {
       );
   }
 
-  
+
 
   // ######################################## Home #################################
 
@@ -417,9 +417,16 @@ export class TeamComponent implements OnInit {
     });
   }
 
-  deleteTeamByTeamId(teamId: number) {
-    this.dataService.deleteTeam(teamId).subscribe(
+  selectedTeamId: any = 0;
+  isDeleting: boolean = false;
+  @ViewChild('closeButtonDeleteUser') closeButtonDeleteUser!: ElementRef;
+  deleteTeamByTeamId() {
+    this.isDeleting = true;
+    this.dataService.deleteTeam(this.selectedTeamId).subscribe(
       (response) => {
+        this.isDeleting = false;
+        this.selectedTeamId = 0;
+        this.closeButtonDeleteUser.nativeElement.click();
         this.getTeamsByFiltersFunction();
         // location.reload();
         this.helperService.showToast(
@@ -428,6 +435,7 @@ export class TeamComponent implements OnInit {
         );
       },
       (error) => {
+        this.isDeleting = false;
         // console.error(error);
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         // location.reload();

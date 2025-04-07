@@ -78,7 +78,7 @@
                         <div class="col-md-9">
                             <div class="row" style="border-right: 1px solid #EDEFF5;">
 
-                                <div class="col-md-3 mobile-overall-performance">
+                                <div *ngIf="isDateLoaded" class="col-md-3 mobile-overall-performance">
                                     <app-overall-attendance-chart></app-overall-attendance-chart>
                                 </div>
 
@@ -188,8 +188,8 @@
                             </div>
 
                         </div>
-                        <div class="col-md-3 desktop-overall-performance" >
-                            <app-overall-attendance-chart></app-overall-attendance-chart>
+                        <div *ngIf="isDateLoaded" class="col-md-3 desktop-overall-performance" >
+                            <app-overall-attendance-chart [data]="chartData()"></app-overall-attendance-chart>
                         </div>
 
                     </div>
@@ -282,7 +282,7 @@
                             <tbody *ngIf="!isShimmer && attendanceDetails.length > 0">
                                 <ng-container *ngFor="let item of attendanceDetails">
                                     <!-- {{item.status}} -->
-                                    <tr 
+                                    <tr
                                         *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day';else otherStatus">
 
                                         <td class="text-left">
@@ -433,7 +433,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                           
+
                                             <span
 
                                                 class="team-manager mb-0 table-font-weight"
@@ -516,12 +516,12 @@
                                     </tr>
 
                                   <ng-template #otherStatus>
-                                    <tr 
+                                    <tr
                                     [ngClass]="{
                                         'week-holiday': item.status === 'Custom Holiday' || item.status === 'Universal Holiday',
                                         'week-off': item.status === 'Weekly Holiday',
                                         'week-absent': item.status === 'Absent',
-                                        'week-leave': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' || 
+                                        'week-leave': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' ||
                                                         item.status === 'Weekly Holiday' || item.status === 'Absent')
                                       }"
                                         >
@@ -535,7 +535,7 @@
                                                 'text-warning': item.status === 'Custom Holiday' || item.status === 'Universal Holiday',
                                                 'text-primary': item.status === 'Weekly Holiday',
                                                 'text-danger': item.status === 'Absent',
-                                                'text-success': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' || 
+                                                'text-success': !(item.status === 'Custom Holiday' || item.status === 'Universal Holiday' ||
                                                                 item.status === 'Weekly Holiday' || item.status === 'Absent')
                                               }">
                                                 {{item.status}}
@@ -569,8 +569,8 @@
                                         </td>
                                     </tr>
                                 </ng-template>
-                                  
-                                  
+
+
                                 </ng-container>
                             </tbody>
                         </table>
@@ -592,15 +592,15 @@
                                     </tr>
                                 </tbody>
                                 <ng-container *ngIf="!isShimmer && attendanceDetails.length > 0">
-                                     
-                                    
+
+
 
                                     <tbody class="mb-3 mobile-attendance-date" *ngFor="let item of attendanceDetails">
 
                                         <ng-container *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">
                                         <tr>
                                             <th class="font-13">Date/Status</th>
-                                            <td> 
+                                            <td>
                                                 <div class="d-flex align-items-cennter justify-content-between">
                                                     {{item.createdDate | date:'fullDate'}}
                                                 <span class="team-maneger mb-0 text-success">
@@ -650,7 +650,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                       
+
                                         <tr >
                                             <th class="font-13">Break & Duration</th>
                                             <td>
@@ -700,7 +700,7 @@
                                         </div>
                                             </td>
                                         </tr>
-                                       
+
                                         <tr>
                                             <th class="font-13">Worked</th>
                                             <td>
@@ -739,7 +739,7 @@
                                         <ng-container *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')">
                                             <tr>
                                                 <th class="font-13">Date</th>
-                                                <td class="week-holiday"> 
+                                                <td class="week-holiday">
                                                     <span class="team-maneger mb-0 ">
                                                         {{item.createdDate | date:'fullDate'}}</span>
                                                 </td>
@@ -752,13 +752,13 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                           
+
                                         </ng-container>
 
                                         <ng-container *ngIf="item.status == 'Weekly Holiday'">
                                             <tr>
                                                 <th class="font-13">Date</th>
-                                                <td class="week-off"> 
+                                                <td class="week-off">
                                                     <div class="d-flex align-items-cennter justify-content-between">
                                                     <span class="team-maneger mb-0 ">
                                                         {{item.createdDate | date:'fullDate'}}</span>
@@ -768,14 +768,14 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            
-                                    
+
+
                                         </ng-container>
 
                                         <ng-container *ngIf="item.status.toLowerCase().includes('paid leave') || item.status.toLowerCase().includes('unpaid leave')">
                                             <tr>
                                                 <th  class="font-13">Date</th>
-                                                <td class="week-leave"> 
+                                                <td class="week-leave">
                                                     <div class="d-flex align-items-cennter justify-content-between">
                                                     <span class="team-maneger mb-0 ">
                                                         {{item.createdDate | date:'fullDate'}}</span>
@@ -785,13 +785,13 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            
+
                                         </ng-container>
 
                                         <ng-container *ngIf="item.status == 'Absent'">
                                             <tr class="font-13">
                                                 <th class="font-13">Date/Status</th>
-                                                <td class="week-absent"> 
+                                                <td class="week-absent">
                                                     <div class="d-flex align-items-cennter justify-content-between">
                                                         {{item.createdDate | date:'fullDate'}}
                                                         <span class="team-maneger mb-0 text-danger">
@@ -803,10 +803,10 @@
                                             <!-- <tr>
                                                 <th class="font-13">Status:</th>
                                                 <td class="week-absent">
-                                                   
+
                                                 </td>
                                             </tr> -->
-                                            
+
                                         </ng-container>
 
                                     </tbody>
@@ -1150,12 +1150,13 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        
+
                             <div *ngIf="totalPages>1"
                                 class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
                                 <p>
-                                    Showing 0 - 0 of {{ totalItems }} users
-                                </p>
+                                  Showing {{ ((currentPage - 1) * pageSize) + 1 }} -
+                                  {{ currentPage * pageSize > totalItems ? totalItems : currentPage * pageSize }} of {{ totalItems }} leave
+                              </p>
                                 <ngb-pagination class="pagition-box" [collectionSize]="totalItems" [rotate]="true"
                                     (pageChange)="pageChanged($event)" [pageSize]="pageSize" [(page)]="currentPage"
                                     [maxSize]="8" [boundaryLinks]="true">
@@ -1265,7 +1266,7 @@
                                                 'N/A' }}</span>
                                     </td>
                                 </tr>
-                              
+
                                 <tr>
                                     <th>Leave Note</th>
                                     <td class="font-13">
@@ -1285,7 +1286,7 @@
                                                 item.rejectionReason || 'N/A' }}</span>
                                     </td>
                                 </tr>
-                               
+
                             </tbody>
                         </table>
 
@@ -1328,13 +1329,13 @@
                                 <p class="mb-0">Leave Type</p>
                                 <i class="bi bi-x-circle pointer" (click)="closeDropdown($event)"></i>
 
-                                
+
                             </div>
                             <div class="msort-dropdown">
                                 <ul class="pl-0">
                                     <li *ngFor="let leaveType of leaveTypes">
-                                        <a class="dropdown-item p-3 border-bottom active" 
-                                           (click)="updateLeaveType(leaveType);this.isDropdownOpen = false;" 
+                                        <a class="dropdown-item p-3 border-bottom active"
+                                           (click)="updateLeaveType(leaveType);this.isDropdownOpen = false;"
                                            [class.active]="selectedLeaveType === leaveType">
                                             {{ leaveType }}
                                         </a>
@@ -1413,7 +1414,7 @@
                                             <th  class="text-left font-13" style="width: 10%">Out Time</th>
                                             <th class="text-left font-13" style="width: 10%">Reason</th>
                                             <th class="text-left font-13" style="width: 10%">Status</th>
-                                        </tr>            
+                                        </tr>
                                     </thead>
                                     <tbody *ngIf="isAttendanceLoading">
                                     <tr *ngFor="let item of [].constructor(7)">
@@ -1442,7 +1443,7 @@
                                             <td>
                                                 <span>
                                                     {{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
-                                                
+
                                             </td>
                                             <td>
                                                 <span>Attendance {{item?.requestType}}</span>
@@ -1452,16 +1453,16 @@
                                                 <span class="table-font-weight">{{ item.managerName }} </span>
                                             </td>
                                             <td>
-                                                <span 
+                                                <span
                                                     class="table-font-weight">{{item?.inRequestTime | date:'HH:mm'}}</span>
-                                                
+
                                             </td>
                                             <td>
-                                                <span 
+                                                <span
                                                     class="table-font-weight">{{item?.outRequestTime | date:'HH:mm'}}</span>
-                                                
+
                                             </td>
-                                        
+
                                             <td>
                                                 <span class="table-font-weight">{{item?.requestReason}}</span>
                                             </td>
@@ -1491,7 +1492,7 @@
                                                     </button>
                                                 </div>
                                             </td>
-                                        
+
                                         </tr>
                                     <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
                                         [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
@@ -1499,8 +1500,8 @@
                                     </ngb-pagination>
                                 </tbody>
                             </ng-container>
-                            
-                            
+
+
                             <ng-container *ngIf="attendanceType === 'UPDATE'">
                                     <thead class="thead-light">
                                         <tr>
@@ -1512,7 +1513,7 @@
                                             <th class="text-left font-13" style="width: 10%">Requested For</th>
                                             <th class="text-left font-13" style="width: 10%">Reason</th>
                                             <th class="text-left font-13" style="width: 10%">Status</th>
-                                        </tr>            
+                                        </tr>
                                     </thead>
                                     <tbody *ngIf="isAttendanceLoading">
                                         <tr *ngFor="let item of [].constructor(7)">
@@ -1550,13 +1551,13 @@
                                                     <span class="table-font-weight">{{ item.managerName }} </span>
                                                 </td>
                                                 <td>
-                                                
-                                                    <span 
+
+                                                    <span
                                                         class="table-font-weight">{{item?.oldTime | date:'HH:mm'}}</span>
                                                 </td>
                                                 <td>
-                                            
-                                                    <span 
+
+                                                    <span
                                                         class="table-font-weight">{{item?.updatedTime | date:'HH:mm'}}</span>
                                                 </td>
                                                 <td >
@@ -1591,7 +1592,7 @@
                                                         </button>
                                                     </div>
                                                 </td>
-                                            
+
                                             </tr>
                                             <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
                                             [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
@@ -1600,17 +1601,17 @@
                                     </tbody>
                             </ng-container>
                             </table>
-                          
+
                         </div>
                          <!-- Attendance request desktop view end -->
                     </div>
-   
+
                      <!-- Attendance request mobile view -->
                     <div class="mobile-card-view mt-3" >
                         <table class="table">
- 
+
                             <ng-container *ngIf="attendanceType === 'UPDATE'">
-  
+
                                 <tbody *ngIf="isAttendanceLoading">
                                     <tr *ngFor="let item of [].constructor(7)">
                                         <td *ngFor="let item of [].constructor(2)">
@@ -1712,7 +1713,7 @@
                                 </ng-container>
                             </ng-container>
 
-   
+
                             <ng-container  *ngIf="attendanceType === 'CREATE'">
                                 <ng-container *ngIf="!isAttendanceLoading">
 
@@ -1737,7 +1738,7 @@
                                 <tbody class="mobile-attendance-date"  *ngFor="let item of attendanceRequests">
                                     <tr>
                                         <th>Date/Status</th>
-                                        <td> 
+                                        <td>
                                             <div class="d-flex align-items-center justify-content-between">
                                             <span>{{item?.inRequestTime | date:'dd MMM yyyy'}}</span>
 
@@ -1803,7 +1804,7 @@
 
 
                                 </tbody>
-                                
+
                                 <div class="d-flex alignns-items-ceter justify-content-end" style="margin-bottom: 60px;">
                                     <ngb-pagination *ngIf="pageAttendanceSize<totalAttendanceElements"
                                         [collectionSize]="totalAttendanceElements" [(page)]="currentAttendancePage"
@@ -1811,8 +1812,8 @@
                                     </ngb-pagination>
                                 </div>
 
-                                
-                                
+
+
                                 </ng-container>
                             </ng-container>
                         </table>
@@ -1837,7 +1838,7 @@
                         </div>
                     </div>
                      <!-- mobile filter end -->
-                    
+
                     <!-- Sorting Box (Hidden by Default) -->
                     <div class="sorting-bx d-flex flex-column justify-content-end position-fixed" *ngIf="isRequestDropdownOpen">
                         <div class="sorting-select bg-white">
@@ -1848,7 +1849,7 @@
                             <div class="msort-dropdown">
                                 <ul class="pl-0">
                                     <li *ngFor="let status of statuses">
-                                        <a class="dropdown-item p-3 border-bottom" 
+                                        <a class="dropdown-item p-3 border-bottom"
                                             (click)="updateAttendanceStatusFilter(status); this.isRequestDropdownOpen = false;"
                                             [class.active]="attendanceStatus === status">
                                             {{ status }}

@@ -128,7 +128,7 @@
                       <span>{{ asset.assetCategoryName }}</span>
                     </td>
                     <td class="text-left">
-                      <span class="table-font-weight">{{ asset.purchasedDate | date: 'dd-MM-yyyy' }}</span>
+                      <span class="table-font-weight">{{ asset.assignedOn | date: 'dd-MM-yyyy' }}</span>
                     </td>
                     <td class="text-left">
                       <span class="table-font-weight">{{ asset.price | currency: 'INR' }}</span>
@@ -276,7 +276,7 @@
           </div>
 
           <div class="table-responsive bg-white mt-3">
-           
+
             <table class="table empOnnoardtable">
               <thead class="thead-light">
                 <tr>
@@ -401,7 +401,7 @@
 
         </div>
 
-        
+
         <ng-template #noAssets>
           <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
             <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">

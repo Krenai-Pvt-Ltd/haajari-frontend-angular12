@@ -80,13 +80,24 @@
             <div class="attendance-report p-3 attendance-report-height">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-4">
-                   
-                    <div class="chart-container w-100" *ngIf="!isPlaceholder">
-                        <canvas #chartCanvas id="workingHoursChart"></canvas>
 
-                        
+                    <div class="chart-container w-100" *ngIf="!isPlaceholder && isChartInitialized">
+                      <apx-chart
+                      [series]="series"
+                      [chart]="chart"
+                      [xaxis]="xaxis"
+                      [yaxis]="yaxis"
+                      [fill]="fill"
+                      [dataLabels]="dataLabels"
+                      [markers]="markers"
+                      [tooltip]="tooltip"
+                      [grid]="grid"
+                      [colors]="this.Constants.COLORS"
+                      [stroke]="{width:1.5}"
+                    ></apx-chart>
                     </div>
-                   
+
+
                     <div class="empty-file d-flex align-items-center justify-content-center" *ngIf="isPlaceholder">
                         <p class="mb-1 empty-detail">No data for now</p>
                     </div>
@@ -534,7 +545,7 @@
                                                     <ngx-shimmer-loading [width]="'100%'"
                                                         [height]="'15px'"></ngx-shimmer-loading>
                                                 </td>
-                                            
+
                                             </tr>
                                         </tbody>
 
@@ -666,7 +677,7 @@
                                         </tr>
                                     </tbody>
                                 </ng-container>
-                                    
+
                                 </table>
                             </div>
                             <!-- mobile attendance update request end -->
@@ -1454,7 +1465,7 @@
  </div>
 
 
-  
+
   <!--To  Do List Modal -->
   <div class="modal fade" id="todo-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

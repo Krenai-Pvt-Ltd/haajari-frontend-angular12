@@ -40,4 +40,3 @@ export const BASE_URL = 'https://staging.hajiri.work/api/v2';
 
 
 
-	
