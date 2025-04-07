@@ -35,7 +35,7 @@
     border-radius: 2px;
 }
 
-.collem-5 .col-md-3 {
+.col-m-5 {
     width: 20%;
 }
 
@@ -487,4 +487,46 @@ i::before {
 .tex-regime{
     background-color: #f2f2f2;
     padding: 10px 15px;
+}
+.d-n-desktop{
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .col-sm-6{
+        width: 50%;
+    }
+    .col-sm-12{
+        width: 100%;
+    }
+    .mobile-hide-section{
+        display: none !important;
+    }
+    .nav-link {
+        font-size: 14px;
+    }
+    .security-reasons{
+        width: 75%;
+        left: 50%;
+    }
+    .security-reasons p{
+        font-size: 11px !important;
+    }
+    .d-n-mobile{
+        display: none !important;
+    }
+    .d-n-desktop{
+        display: block;
+    }
+    .payroll-icon{
+        width: 30px;
+        height: 30px;
+        background-color: #EAEAFF;
+    }
+    .border-right{
+        border-right: none;
+    }
+    .payment-information{
+       height: 100%;
+    }
 }

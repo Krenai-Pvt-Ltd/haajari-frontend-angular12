@@ -43,7 +43,7 @@
             >
           </li>
         </ul>
-        <div class="d-flex align-items-center gap-3" *ngIf="!financeBlur">
+        <div class="d-flex align-items-center gap-3 mobile-hide-section" *ngIf="!financeBlur">
           <p class="mb-0 font-13 fw-semibold">Close at your convenience</p>
           <nz-switch
             [(ngModel)]="financeBlur"
@@ -98,8 +98,8 @@
                 </nz-date-picker>
               </div>
             </div>
-            <div class="row collem-5 mt-3">
-              <div class="col-md-3">
+            <div class="row mt-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -158,7 +158,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -224,7 +224,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6  mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -270,7 +270,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -310,7 +310,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -378,14 +378,10 @@
               </div>
             </div>
 
-            <div class="payroll-summary p-3 mt-3 pb-0">
-              <div
-                class="d-flex align-items-center justify-content-between payroll-summary-hedding"
-              >
+            <div class="payroll-summary p-3 pb-0">
+              <div class="d-flex align-items-center justify-content-between payroll-summary-hedding  d-n-mobile">
                 <div class="d-flex align-items-center gap-2">
-                  <span
-                    class="d-flex align-items-center justify-content-center"
-                  >
+                  <span class="d-flex align-items-center justify-content-center ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -412,34 +408,56 @@
                       </g>
                     </svg>
                   </span>
-
-                  <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
+                   <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
                 </div>
-                <p class="mb-0 fw-semibold font-15">
-                  Last Processes Cycle:
-                  <!-- <span class="text-primary"> Sep 2024 (01 sep - 30 sep)</span> -->
-                  <span class="text-primary">
-                    {{ startDate | date : "MMM yyyy" }} ({{
-                      startDate | date : "dd MMM"
-                    }}
-                    - {{ endDate | date : "dd MMM" }})</span
-                  >
+                <p class="mb-0 fw-semibold font-14"> Last Processes Cycle:
+                  <span class="text-primary"> {{ startDate | date : "MMM yyyy" }} ({{ startDate | date : "dd MMM" }} - {{ endDate | date : "dd MMM" }})</span>
+                </p>
+              </div>
+
+
+              <div class="d-n-desktop">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="d-flex align-items-center justify-content-center payroll-icon radius-50">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_6642_10899"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="18"
+                        height="18"
+                      >
+                        <rect width="18" height="18" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_6642_10899)">
+                        <path
+                          d="M10.2937 15.75L5.25 10.5V9H7.875C8.5375 9 9.10938 8.78437 9.59062 8.35312C10.0719 7.92187 10.3625 7.3875 10.4625 6.75H4.5V5.25H10.2375C10.025 4.8125 9.70937 4.45312 9.29063 4.17188C8.87188 3.89062 8.4 3.75 7.875 3.75H4.5V2.25H13.5V3.75H11.0625C11.2375 3.9625 11.3938 4.19375 11.5312 4.44375C11.6687 4.69375 11.775 4.9625 11.85 5.25H13.5V6.75H11.9813C11.8813 7.8125 11.4438 8.70312 10.6688 9.42188C9.89375 10.1406 8.9625 10.5 7.875 10.5H7.33125L12.375 15.75H10.2937Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                  </span>
+                   <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
+                </div>
+                <p class="mb-0 fw-semibold font-12"> Last Processes Cycle:
+                  <span class="text-primary"> {{ startDate | date : "MMM yyyy" }} ({{ startDate | date : "dd MMM" }} - {{ endDate | date : "dd MMM" }})</span>
                 </p>
               </div>
 
               <div class="row border-top mt-3">
-                <div
-                  class="col-md-3 m-0 p-0"
-                  style="border-right: 1px solid #f1f1f1"
-                >
+                <div class="col-md-3 m-0 p-0 border-right">
                   <div class="scene scene--card">
                     <div class="card">
                       <div class="month-day pt-4 p-3">
-                        <button
-                          class="p-0 btn text-primary summary-btn fw-semibold"
-                          (click)="flipView()"
-                        >
-                          Summary
+                        <button class="p-0 btn text-primary summary-btn fw-semibold" (click)="flipView()"> Summary
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="13"
@@ -485,55 +503,28 @@
                         <div class="row mt-5">
                           <div class="col-md-6">
                             <div class="standard-days mb-5">
-                              <p class="mb-2 fw-semibold font-13">
-                                Standard Days
-                              </p>
-                              <h5 class="mb-1 font-14">
-                                {{ totalStandardDays }} days
-                              </h5>
+                              <p class="mb-2 fw-semibold font-13"> Standard Days </p>
+                              <h5 class="mb-1 font-14"> {{ totalStandardDays }} days </h5>
                               <p class="mb-0 font-12">Defined Payout Days</p>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="standard-days mb-5">
-                              <p class="mb-2 fw-semibold font-13">
-                                Payout Days
-                              </p>
-                              <h5 class="mb-1 font-14">
-                                {{ totalPayoutDays }} days
-                              </h5>
+                              <p class="mb-2 fw-semibold font-13"> Payout Days</p>
+                              <h5 class="mb-1 font-14"> {{ totalPayoutDays }} days</h5>
                               <p class="mb-0 font-12">Payable Days Count</p>
                             </div>
                           </div>
-                          <!-- <div class="col-md-6">
-                                                        <div class="standard-days 4">
-                                                            <p class="mb-2 fw-semibold font-13">LOP Days</p>
-                                                            <h5 class="mb-1 font-14">{{totalLopDays}} days</h5>
-                                                            <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="standard-days 4">
-                                                            <p class="mb-2 fw-semibold font-13">Arrear Days</p>
-                                                            <h5 class="mb-1 font-14">{{totalArrearDays}} days</h5>
-                                                            <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
-
-                                                        </div>
-                                                    </div> -->
                         </div>
                       </div>
 
-                      <div class="card__face overview-summary">
+                      <div class="card__face overview-summary h-100">
                         <!-- Back Content -->
                         <div
                           class="d-flex align-items-center justify-content-between border-bottom"
                           style="padding: 13px 15px"
                         >
-                          <button
-                            class="p-0 btn text-black fw-semibold"
-                            (click)="flipView()"
-                          >
+                          <button class="p-0 btn text-black fw-semibold" (click)="flipView()">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="15"
@@ -671,7 +662,9 @@
                 </div>
                 <div class="col-md-9 p-0 m-0">
                   <div class="d-flex align-items-start table-responsive h-100">
-                    <div class="earning">
+
+                     <!-- desktop calculation box -->
+                    <div class="earning d-n-mobile">
                       <table class="table">
                         <thead class="thead-light">
                           <tr>
@@ -758,7 +751,87 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="deduction">
+                      <!-- desktop calculation box -->
+
+                    <!-- mobile calculation box -->
+                    <div class="d-n-desktop w-100">
+                      <table class="table mb-3">
+                        <thead>
+                          <tr>
+                            <th class="font-13 fw-semibold" style="width:33.33%">Earning</th>
+                            <th class="font-13 fw-semibold" style="width:33.33%">Standard</th>
+                            <th class="font-13 fw-semibold" style="width:33.33%">Actual</th>
+                          </tr>
+                        </thead>
+                        <tbody >
+                            <tr *ngFor="let payslipBreakup of employeePayslipBreakupResponseList">
+                              <td>
+                                {{ payslipBreakup.name }}
+                              </td>
+                              <td> ₹{{convertNumberToStringFormat( payslipBreakup.standardAmount) }}</td>
+                              <td>
+                                ₹{{ convertNumberToStringFormat( payslipBreakup.actualAmount) }}
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <span class="fw-bold text-black"
+                                  >Gross Earning</span
+                                >
+                              </td>
+                              <td>
+                                <span class="fw-bold text-primary"
+                                  >₹{{
+                                    convertNumberToStringFormat(monthlySalary)
+                                  }}</span
+                                >
+                              </td>
+                              <td>
+                                <span class="fw-bold text-primary"
+                                  >₹{{
+                                    convertNumberToStringFormat(earningSalary)
+                                  }}</span
+                                >
+                              </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                      <h5 class="font-14 fw-semibold mb-3"> Deduction</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="text-center font-13 fw-semibold">TDS</th>
+                            <th class="text-center font-13 fw-semibold">EPF</th>
+                            <th class="text-center font-13 fw-semibold">ESI</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.tds ) }}</td>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employeeEpf ) }} </td>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employeeEsi ) }} </td>
+                        </tbody>
+                      </table>
+                      <h5 class="font-14 fw-semibold mb-3"> Employer Contribution</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="text-center font-13 fw-semibold">EPF</th>
+                            <th class="text-center font-13 fw-semibold">ESI</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employerEpf )}}</td>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employerEsi ) }} </td>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- mobile calculation box end  -->
+
+                      <!-- desktop calculation box -->
+                    <div class="deduction d-n-mobile">
                       <table class="table">
                         <thead class="thead-light">
                           <tr>
@@ -866,12 +939,13 @@
                         </tbody>
                       </table>
                     </div>
+                      <!-- desktop calculation box -->
                   </div>
                 </div>
               </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
                 <div class="payment-information p-3">
                   <div
                     class="d-flex align-items-center justify-content-between border-bottom pb-3"
@@ -887,7 +961,7 @@
                     </button>
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                       <div class="payment-information-box border-right">
                         <div class="mt-4">
                           <p class="mb-1 font-13">Salary Payment Mode</p>
@@ -909,9 +983,7 @@
                     </div>
                     <div class="col-md-6">
                       <div
-                        class="payment-information-box"
-                        style="padding-left: 30px"
-                      >
+                        class="payment-information-box" >
                         <div class="mt-4">
                           <p class="mb-1 font-13">Account Number</p>
                           <h5 class="mb-0 font-15">
@@ -931,17 +1003,13 @@
               </div>
               <div class="col-md-6">
                 <div class="payment-information p-3">
-                  <div
-                    class="d-flex align-items-center justify-content-between border-bottom pb-3"
-                  >
+                  <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                     <h5 class="mb-0 font-14 fw-semibold">
                       Statutory Information
                     </h5>
                   </div>
                   <div
-                    class="payment-information-box"
-                    style="padding-left: 30px"
-                  >
+                    class="payment-information-box" >
                     <div class="mt-4">
                       <h5 class="mb-1 font-15">EPF Account Information</h5>
                       <p class="mb-1 font-13">EPF Status</p>

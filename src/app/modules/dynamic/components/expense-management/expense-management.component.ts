@@ -883,7 +883,7 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.chartOptions = {
       series: this.expenseTypeSummery.map(item => parseFloat(item.percentage) || 0), // Convert to number and prevent NaN
       chart: {
-        width: 180,
+        width: '100%',
         type: "donut"
       },
       colors: this.getDynamicColors(this.expenseTypeSummery),
