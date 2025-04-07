@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { EarningComponentTemplate } from 'src/app/payroll-models copy/OrganizationTemplateComponent';
@@ -288,116 +289,200 @@ findEarning(){
 
   if(count== this.salaryTemplate.earningComponents.length + this.salaryTemplate.reimbursementComponents.length){
     this.calculatedAmountWithoutFixed = this.totalEarningAmount + this.totalReimbursementAmount;
-    this.findFixedAllowance();
+    // this.findFixedAllowance();
+    this.calculateSalaryComponents();
   }
 }
 
 }
 
-findFixedAllowance(): void {
-  const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
-  const fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
-  if (!fixedAllowance) return;
-  console.log("=============previewCalculations=========",this.previewCalculations)
-  if (this.previewCalculations) {
-    const epfRate = 0.12;
-    const esiRate = 0.0325;
-    var combineRate=0;
-    var epfBaseWithoutFA=0;
-    var esiBaseWithoutFA=0;
-    const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
-    const ESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
 
-    if(EPF){
-      epfBaseWithoutFA = this.salaryTemplate.earningComponents
-      .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
-      .reduce((sum, c) => sum + c.amount, 0);
+tempfixedAllowanceAmount : number =0;
+tempEPFAmount :number=0;
+tempESIAmount : number=0;
+// findFixedAllowance(): void {
+//   const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
+//   const fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
+//   if (!fixedAllowance) return;
+//   console.log("=============previewCalculations=========",this.previewCalculations)
+//   if (this.previewCalculations) {
+//     const epfRate = 0.12;
+//     const esiRate = 0.0325;
+//     var combineRate=0;
+//     var epfBaseWithoutFA=0;
+//     var esiBaseWithoutFA=0;
+//     const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
+//     const ESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
 
-      if (EPF.employerContribution === this.EPF_RESTRICTED) {
-        epfBaseWithoutFA = Math.min(epfBaseWithoutFA, 15000);
-      }
+//     if(EPF){
+//       epfBaseWithoutFA = this.salaryTemplate.earningComponents
+//       .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
+//       .reduce((sum, c) => sum + c.amount, 0);
 
-      combineRate = combineRate + epfRate;
-    }
+//       if (EPF.employerContribution === this.EPF_RESTRICTED) {
+//         epfBaseWithoutFA = Math.min(epfBaseWithoutFA, 15000);
+//       }
 
-    if(ESI){
-      esiBaseWithoutFA = this.salaryTemplate.earningComponents
-      .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
-      .reduce((sum, c) => sum + c.amount, 0);
+//       combineRate = combineRate + epfRate;
+//     }
 
-      esiBaseWithoutFA = esiBaseWithoutFA > 21000 ? 0 : esiBaseWithoutFA;
+//     // if(ESI){
+//     //   esiBaseWithoutFA = this.salaryTemplate.earningComponents
+//     //   .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
+//     //   .reduce((sum, c) => sum + c.amount, 0);
 
-      combineRate = combineRate + esiRate;
-    }   
+//     //   esiBaseWithoutFA = esiBaseWithoutFA > 21000 ? 0 : esiBaseWithoutFA;
+
+//     //   combineRate = combineRate + esiRate;
+//     // }   
   
-    console.log("=============totalEarningAmount=========",this.totalEarningAmount, "==========totalReimbursementAmount=========",this.totalReimbursementAmount)
-    console.log("=============epfBaseWithoutFA=========",epfBaseWithoutFA, "==========esiBaseWithoutFA=========",esiBaseWithoutFA)
+//     console.log("=============totalEarningAmount=========",this.totalEarningAmount, "==========totalReimbursementAmount=========",this.totalReimbursementAmount)
+//     console.log("=============epfBaseWithoutFA=========",epfBaseWithoutFA, "==========esiBaseWithoutFA=========",esiBaseWithoutFA)
 
-    const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
-    // const denominator = 1 + combineRate;
-    const denominator = 1 ;
-    console.log("=============numerator=========",numerator, "==========denominator=========",denominator)
-    fixedAllowance.amount = Math.round(numerator / denominator);
+//     this.tempEPFAmount = (epfRate * epfBaseWithoutFA); 
 
-    this.totalEpfAmount =0;
-    this.totalEsiAmount =0;
-    // Update total EPF & ESI base if FA is included
-    if (fixedAllowance.epfIncluded) {
-      this.totalEpfAmount = epfBaseWithoutFA + fixedAllowance.amount;
-    }else{
-      this.totalEpfAmount = epfBaseWithoutFA;
-    } 
+//     const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed +  this.tempEPFAmount);
+//     const denominator = combineRate;
+
+//     // const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
+//     // const denominator = 1 + combineRate;
+//     // const denominator = 1 ;
+//     console.log("=============numerator=========",numerator, "==========denominator=========",denominator)
+//     this.tempfixedAllowanceAmount = Math.round(numerator / denominator);
+
+//     this.totalEpfAmount =0;
+//     this.totalEsiAmount =0;
+//     // Update total EPF & ESI base if FA is included
+//     // if (fixedAllowance.epfIncluded) {
+//     //   this.totalEpfAmount = epfBaseWithoutFA + fixedAllowance.amount;
+//     // }else{
+//     //   this.totalEpfAmount = epfBaseWithoutFA;
+//     // } 
       
 
-    if (fixedAllowance.esiIncluded) {
-      this.totalEsiAmount = esiBaseWithoutFA + fixedAllowance.amount;
-    }else{
-      this.totalEsiAmount = esiBaseWithoutFA;
-    } 
+//     // if (fixedAllowance.esiIncluded) {
+//     //   this.totalEsiAmount = esiBaseWithoutFA + fixedAllowance.amount;
+//     // }else{
+//     //   this.totalEsiAmount = esiBaseWithoutFA;
+//     // } 
       
 
-    this.findBenefits();
-  } else {
-    // EPF/ESI not applied
-    fixedAllowance.amount = monthlyCTC - this.calculatedAmountWithoutFixed;
-      if(fixedAllowance.amount<0){
-          this.negativeMonthlyCTC =fixedAllowance.amount;
-      }else{
-          this.negativeMonthlyCTC=0;
-      }
-  }
-}
+//     this.findBenefits();
+//   } else {
+//     // EPF/ESI not applied
+//     fixedAllowance.amount = monthlyCTC - this.calculatedAmountWithoutFixed;
+//       if(fixedAllowance.amount<0){
+//           this.negativeMonthlyCTC =fixedAllowance.amount;
+//       }else{
+//           this.negativeMonthlyCTC=0;
+//       }
+//   }
+// }
+
+// findFixedAllowance(): void {
+//   const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
+//   const fixedAllowance = this.salaryTemplate.earningComponents.find(x => x.name === 'Fixed Allowance');
+//   if (!fixedAllowance) return;
+//   console.log("=============previewCalculations=========",this.previewCalculations)
+//   if (this.previewCalculations) {
+//     const epfRate = 0.12;
+//     const esiRate = 0.0325;
+//     var combineRate=0;
+//     var epfBaseWithoutFA=0;
+//     var esiBaseWithoutFA=0;
+//     const EPF = this.salaryTemplate.deductions.find(x => x.name === 'EPF');
+//     const ESI = this.salaryTemplate.deductions.find(x => x.name === 'ESI');
+
+//     if(EPF){
+//       epfBaseWithoutFA = this.salaryTemplate.earningComponents
+//       .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
+//       .reduce((sum, c) => sum + c.amount, 0);
+
+//       if (EPF.employerContribution === this.EPF_RESTRICTED) {
+//         epfBaseWithoutFA = Math.min(epfBaseWithoutFA, 15000);
+//       }
+
+//       combineRate = combineRate + epfRate;
+//     }
+
+//     // if(ESI){
+//     //   esiBaseWithoutFA = this.salaryTemplate.earningComponents
+//     //   .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
+//     //   .reduce((sum, c) => sum + c.amount, 0);
+
+//     //   esiBaseWithoutFA = esiBaseWithoutFA > 21000 ? 0 : esiBaseWithoutFA;
+
+//     //   combineRate = combineRate + esiRate;
+//     // }   
+  
+//     console.log("=============totalEarningAmount=========",this.totalEarningAmount, "==========totalReimbursementAmount=========",this.totalReimbursementAmount)
+//     console.log("=============epfBaseWithoutFA=========",epfBaseWithoutFA, "==========esiBaseWithoutFA=========",esiBaseWithoutFA)
+
+//     const numerator = monthlyCTC - (this.calculatedAmountWithoutFixed + (epfRate * epfBaseWithoutFA) + (esiRate * esiBaseWithoutFA));
+//     const denominator = 1 + combineRate;
+//     // const denominator = 1 ;
+//     console.log("=============numerator=========",numerator, "==========denominator=========",denominator)
+//     fixedAllowance.amount = Math.round(numerator / denominator);
+
+//     this.totalEpfAmount =0;
+//     this.totalEsiAmount =0;
+//     // Update total EPF & ESI base if FA is included
+//     if (fixedAllowance.epfIncluded) {
+//       this.totalEpfAmount = epfBaseWithoutFA + fixedAllowance.amount;
+//     }else{
+//       this.totalEpfAmount = epfBaseWithoutFA;
+//     } 
+      
+
+//     // if (fixedAllowance.esiIncluded) {
+//     //   this.totalEsiAmount = esiBaseWithoutFA + fixedAllowance.amount;
+//     // }else{
+//     //   this.totalEsiAmount = esiBaseWithoutFA;
+//     // } 
+      
+
+//     this.findBenefits();
+//   } else {
+//     // EPF/ESI not applied
+//     fixedAllowance.amount = monthlyCTC - this.calculatedAmountWithoutFixed;
+//       if(fixedAllowance.amount<0){
+//           this.negativeMonthlyCTC =fixedAllowance.amount;
+//       }else{
+//           this.negativeMonthlyCTC=0;
+//       }
+//   }
+// }
 
 
 
 
-findBenefits(): void {
-  this.benefitsCalculatedAmount = 0;
-  console.log("=============EPF=========",this.totalEpfAmount)
-  const EPF = this.salaryTemplate.deductions.find(x => x.name == 'EPF');
-  if (EPF) {
-    if (EPF.employerContribution == this.EPF_ACTUAL) {
-      EPF.amount = Math.round((this.totalEpfAmount * 12) / 100);
-    } else if (EPF.employerContribution == this.EPF_RESTRICTED) {
-      var amount = Math.min(this.totalEpfAmount, 15000)
-      EPF.amount = Math.round((amount * 12) / 100);
-    } else {
-      EPF.amount = 0;
-    }
-  }
-  console.log("=============without=========",this.totalEsiAmount)
-  const ESI = this.salaryTemplate.deductions.find(x => x.name == 'ESI');
-  if (ESI) {
-    if (this.totalEsiAmount <= ESI.maxLimit) {
-      ESI.amount = Math.round((this.totalEsiAmount * ESI.employerContribution) / 100);
-    } else {
-      ESI.amount = 0;
-    }
+// findBenefits(): void {
+//   this.benefitsCalculatedAmount = 0;
+//   console.log("=============EPF=========",this.totalEpfAmount)
+//   const EPF = this.salaryTemplate.deductions.find(x => x.name == 'EPF');
+//   if (EPF) {
+//     if (EPF.employerContribution == this.EPF_ACTUAL) {
+//       EPF.amount = Math.round((this.totalEpfAmount * 12) / 100);
+//     } else if (EPF.employerContribution == this.EPF_RESTRICTED) {
+//       var amount = Math.min(this.totalEpfAmount, 15000)
+//       EPF.amount = Math.round((amount * 12) / 100);
+//     } else {
+//       EPF.amount = 0;
+//     }
+//   }
+//   console.log("=============without=========",this.totalEsiAmount)
+//   // const ESI = this.salaryTemplate.deductions.find(x => x.name == 'ESI');
+//   // if (ESI) {
+//   //   if (this.totalEsiAmount <= ESI.maxLimit) {
+//   //     ESI.amount = Math.round((this.totalEsiAmount * ESI.employerContribution) / 100);
+//   //   } else {
+//   //     ESI.amount = 0;
+//   //   }
 
-  }
+//   // }
 
-  this.previewCalculations = false;
-}
+//   this.previewCalculations = false;
+// }
 
 
 
@@ -442,5 +527,187 @@ saveSalaryTemplate(){
 
 
 epfEmployerContribution: number=0; 
+
+
+
+
+
+// ///////////////////////////////////////////////////////////////////////////////
+
     
+
+
+//  calculateSalaryComponents(): any{
+
+//   const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
+
+//   const hasEPF = this.salaryTemplate.deductions.some(x => x.name === 'EPF');
+//   const hasESI = this.salaryTemplate.deductions.some(x => x.name === 'ESI');
+
+
+//   // Helper function to calculate EPF (if available)
+//   const calculateEPF = (fixed: number): number => {
+//     if (!hasEPF) return 0; // Return 0 if EPF is not available
+
+//     var epfBaseWithoutFA = this.salaryTemplate.earningComponents
+//     .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
+//     .reduce((sum, c) => sum + c.amount, 0);
+
+//     const epfBase = epfBaseWithoutFA + fixed;
+//     // Apply restriction: if sum >= 15,000, calculate on 15,000; otherwise, on actual value
+//     const applicableValue = epfBase >= EPF_RESTRICTED_VALUE ? EPF_RESTRICTED_VALUE : epfBase;
+//     return EPF_RATE * applicableValue;
+//   };
+
+//   // Helper function to calculate ESI (if available)
+//   const calculateESI = (fixed: number): number => {
+//     if (!hasESI) return 0; // Return 0 if ESI is not available
+
+//     var esiBaseWithoutFA = this.salaryTemplate.earningComponents
+//     .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
+//     .reduce((sum, c) => sum + c.amount, 0);
+//     const esiBase = esiBaseWithoutFA + fixed;
+//     // If Basic + HRA + Fixed > 21,000, ESI = 0; otherwise, calculate normally
+//     return esiBase > ESI_THRESHOLD ? 0 : ESI_RATE * esiBase;
+//   };
+
+//   // Calculate Fixed amount iteratively
+//   const calculateFixed = (): number => {
+//     // Initial guess for fixed
+//     let fixed = 0;
+//     let epf = 0;
+//     let esi = 0;
+
+//     // Equation: monthlyCtc = basic + hra + conveyance + fixed + uniform + epf + esi
+//     // Rearrange: fixed = monthlyCtc - (basic + hra + conveyance + uniform + epf + esi)
+//     const constants = this.calculatedAmountWithoutFixed;
+
+//     // Iterative solution (since epf and esi depend on fixed)
+//     for (let i = 0; i < 10; i++) { // Limit iterations for convergence
+//       epf = calculateEPF(fixed);
+//       esi = calculateESI(fixed);
+//       fixed = monthlyCtc - (constants + epf + esi);
+//     }
+
+//     return Number(fixed.toFixed(2)); // Round to 2 decimal places
+//   };
+
+//   const fixed = calculateFixed();
+//   const epf = calculateEPF(fixed);
+//   const esi = calculateESI(fixed);
+
+//   return {
+//     fixed,
+//     epf: Number(epf.toFixed(2)),
+//     esi: Number(esi.toFixed(2)),
+//   };
+// }
+
+ 
+
+// Constants for rates and thresholds
+EPF_RATE = 0.12; // 12% Employer contribution for EPF
+ESI_RATE = 0.0325; // 3.25% Employer contribution for ESI
+EPF_RESTRICTED_VALUE = 15000; // Max value for EPF calculation
+ESI_THRESHOLD = 21000; // Threshold above which ESI becomes 0
+
+
+// Main calculation function
+calculateSalaryComponents(): CalculationResult {
+  // Step 1: Calculate monthly CTC from annual CTC
+  const monthlyCTC = Math.round(this.salaryTemplate.annualCtc / 12);
+
+  // Step 2: Check if EPF and ESI are available in deductions
+  const hasEPF = this.salaryTemplate.deductions.some(x => x.name === 'EPF');
+  const hasESI = this.salaryTemplate.deductions.some(x => x.name === 'ESI');
+
+  // Step 3: Define helper functions for EPF and ESI calculations
+  const getEPF = (fixed: number): number => this.calculateEPF(fixed, hasEPF);
+  const getESI = (fixed: number): number => this.calculateESI(fixed, hasESI);
+
+  // Step 4: Calculate Fixed Allowance iteratively
+  const fixed = this.calculateFixed(monthlyCTC, getEPF, getESI);
+
+  // Step 5: Calculate final EPF and ESI with the computed Fixed value
+  const epf = getEPF(fixed);
+  const esi = getESI(fixed);
+  console.log("=============fixed=========",fixed, "==========epf=========",epf,"===============esi=============",esi)
+  this.previewCalculations = false;
+  // Step 6: Return the result with rounded values
+  return {
+    fixed,
+    epf: Number(epf.toFixed(2)),
+    esi: Number(esi.toFixed(2)),
+  };
+}
+
+// Helper function to calculate EPF
+private calculateEPF(fixed: number, hasEPF: boolean): number {
+  if (!hasEPF) return 0; // No EPF if not available
+
+  // Calculate base amount for EPF (excluding Fixed Allowance)
+  const epfBaseWithoutFA = this.salaryTemplate.earningComponents
+    .filter(c => c.epfIncluded && c.name !== 'Fixed Allowance')
+    .reduce((sum, c) => sum + c.amount, 0);
+
+  // Add Fixed to the base
+  const epfBase = epfBaseWithoutFA + fixed;
+
+  // Apply restriction: use 15,000 if base exceeds it, otherwise use actual value
+  const applicableValue = epfBase >= this.EPF_RESTRICTED_VALUE ? this.EPF_RESTRICTED_VALUE : epfBase;
+
+  // Calculate EPF contribution
+  return this.EPF_RATE * applicableValue;
+}
+
+// Helper function to calculate ESI
+private calculateESI(fixed: number, hasESI: boolean): number {
+  if (!hasESI) return 0; // No ESI if not available
+
+  // Calculate base amount for ESI (excluding Fixed Allowance)
+  const esiBaseWithoutFA = this.salaryTemplate.earningComponents
+    .filter(c => c.esiIncluded && c.name !== 'Fixed Allowance')
+    .reduce((sum, c) => sum + c.amount, 0);
+
+  // Add Fixed to the base
+  const esiBase = esiBaseWithoutFA + fixed;
+
+  // Apply threshold: if base > 21,000, ESI is 0; otherwise calculate normally
+  return esiBase > this.ESI_THRESHOLD ? 0 : this.ESI_RATE * esiBase;
+}
+
+// Helper function to calculate Fixed Allowance iteratively
+private calculateFixed(
+  monthlyCTC: number,
+  getEPF: (fixed: number) => number,
+  getESI: (fixed: number) => number
+): number {
+  let fixed = 0; // Initial guess for Fixed Allowance
+  let epf = 0;   // EPF contribution
+  let esi = 0;   // ESI contribution
+
+  // Precomputed sum of all components except Fixed (e.g., Basic, HRA, etc.)
+  const constants = this.calculatedAmountWithoutFixed;
+
+  // Iteratively refine Fixed value (since EPF and ESI depend on it)
+  for (let i = 0; i < 10; i++) {
+    epf = getEPF(fixed); // Calculate EPF with current Fixed
+    esi = getESI(fixed); // Calculate ESI with current Fixed
+    fixed = monthlyCTC - (constants + epf + esi); // Update Fixed based on equation
+  }
+
+  // Return Fixed rounded to 2 decimal places
+  return Number(fixed.toFixed(2));
+}
+
+
+
+
+}
+
+// Interface for the result
+interface CalculationResult {
+  fixed: number; // Fixed Allowance amount
+  epf: number;   // EPF contribution
+  esi: number;   // ESI contribution
 }
