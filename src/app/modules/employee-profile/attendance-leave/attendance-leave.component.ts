@@ -922,6 +922,10 @@ export class AttendanceLeaveComponent implements OnInit {
     debugger;
     this.isShimmer = true;
     this.attendanceDetails = [];
+    if (this.startDate === '' || this.endDate === '') {
+      this.isShimmer = false;
+      return;
+    }
     this.dataService
       .getEmployeeProfileAttendanceDetails(
         this.userId,
