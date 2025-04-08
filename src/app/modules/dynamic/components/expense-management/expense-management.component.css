@@ -37,10 +37,10 @@
     border-radius: 0px 0px 5px 5px;
 
 }
-.wallet-transactions-list img{
+/* .wallet-transactions-list img{
     width: 45px;
     border-radius: 50px;
-}
+} */
 .wallet-transactions-list{
    max-height: 370px;
    overflow: scroll;

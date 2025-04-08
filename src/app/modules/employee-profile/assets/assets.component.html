@@ -280,7 +280,7 @@
       </div>
       <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
 
-        <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty() || isLoading; else noAssets">
+        <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty() || isLoading; else assets">
 
          
 
@@ -543,7 +543,6 @@
 
         </div>
 
-
         <ng-template #noAssets>
           <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
             <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
@@ -573,6 +572,7 @@
             </nz-empty>
           </div>
         </ng-template>
+       
 
       </div>
 

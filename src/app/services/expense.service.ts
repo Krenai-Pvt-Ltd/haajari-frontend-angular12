@@ -82,9 +82,14 @@ export class ExpenseService {
     }
 
 
-    getTeamWallets() {
-      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets`);
+    // getTeamWallets() {
+    //   return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets`);
+    // }
+
+    getTeamWallets(page: number = 0, itemsPerPage: number = 10) {
+      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets?page=${page}&itemsPerPage=${itemsPerPage}`);
     }
+    
 
     getCreditWalletAmount() {
       return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/company-credit-wallet-amount`);
