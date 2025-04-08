@@ -1510,6 +1510,10 @@ a.fetch-location {
   padding-left: 10px;
 }
 
+::ng-deep .ant-popover-inner-content {
+  padding: 0px !important;
+}
+
 /* new side tab for new modal */
 
 .shift-time-modal {
