@@ -66,6 +66,7 @@ public _helperService : HelperService) {
 //                                                                       SALARY TEMPLATE LIST                                                                              // 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 salaryTemplateList:SalaryTemplate[] = new Array();
+holdTotalItems:number=0;
 getOrganizationSalaryTemplates() {
   this.shimmer=true;
   this.salaryTemplateList = [];
@@ -73,6 +74,9 @@ getOrganizationSalaryTemplates() {
       if (response.status) {
         this.salaryTemplateList = response.object.content;
         this.totalItems = response.object.totalElements;
+        if(!this.isSearching){
+          this.holdTotalItems = this.totalItems ;
+        }
         if(this.salaryTemplateList == null){
           this.salaryTemplateList = new Array();
           this.totalItems = 0;
@@ -81,12 +85,14 @@ getOrganizationSalaryTemplates() {
         this.salaryTemplateList = new Array();
         this.totalItems = 0;
       }
+      this.isSearching=false;
       this.shimmer=false;
     },
     (error) => {
       this.salaryTemplateList = new Array();
       this.totalItems = 0;
       this.shimmer=false;
+      this.isSearching=false;
     }
   );
 }
@@ -113,15 +119,20 @@ pageChange(page: number){
           if (this.templateComponents == null) {
             this.templateComponents = new SalaryTemplate();
           } else {
+            this.shimmer=false;
             this.mapOnTemplate();
           }
+          this.shimmer=false;
         }else{
           this.templateComponents = new SalaryTemplate();
         }
         this.loader = false;
+        this.shimmer=false;
+
       },
       (error) => {
         this.loader = false;
+        this.shimmer=false;
         this.templateComponents = new SalaryTemplate();
       } 
     );
@@ -177,8 +188,9 @@ pageChange(page: number){
 salaryTemplate:SalaryTemplate = new SalaryTemplate();
 createTemplate(isNew:boolean, template?:SalaryTemplate){
   this.toggle=true;
-  this.shimmer=true;
+
   if(isNew){
+    this.shimmer=true;
     this.isNewTemplate = true;
   }else{
     this.isNewTemplate = false;
@@ -557,6 +569,7 @@ searchByInput(event: any) {
     const pastedText = event.clipboardData.getData('text');
     if (/^[a-zA-Z\s]{3,}$/.test(pastedText)) {
       this.currentPage = 1;
+      this.isSearching=true;
       this.getOrganizationSalaryTemplates();
     }
     return;
@@ -564,15 +577,18 @@ searchByInput(event: any) {
   if (/^[a-zA-Z]$/.test(inp)) {
     if (this.search.length >= 2) {
       this.currentPage = 1;
+      this.isSearching=true;
       this.getOrganizationSalaryTemplates();
     }
   } 
   else if (event.code === 'Backspace' && event.target.value.length >= 3) {
     this.currentPage = 1;
+    this.isSearching=true;
     this.getOrganizationSalaryTemplates();
   } 
   else if (this.search.length === 0) {
     this.currentPage = 1;
+    this.isSearching=true;
     this.search = '';
     this.getOrganizationSalaryTemplates();
   }
@@ -580,7 +596,11 @@ searchByInput(event: any) {
 
        
  
-
+backFromTemplate(){
+  this.toggle = false;
+  this.salaryTemplate = new SalaryTemplate();
+  this.isNewTemplate = false;
+}
 
 
 

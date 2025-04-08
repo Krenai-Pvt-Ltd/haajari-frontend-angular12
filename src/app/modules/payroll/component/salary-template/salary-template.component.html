@@ -3,7 +3,7 @@
     <div class="page-content-tab pb-0">
         <div class="container-fluid">
             <!-- salary template empty notification start -->
-            <ng-container *ngIf="!shimmer && salaryTemplateList.length == 0 && search.trim() === ''">
+            <ng-container *ngIf="!shimmer && holdTotalItems == 0 ">
                 <div class="row salary-template-empty-box p-3 mt-3 align-items-center m-0">
                     <div class="col-md-6">
                         <div class="pt-5 pb-5">
@@ -28,10 +28,10 @@
              <!-- salary template empty notification end -->
 
             <!-- template list start  -->
-            <ng-container *ngIf="!toggle ">
+            <ng-container *ngIf="!toggle && holdTotalItems>0">
                  
                 <div class="mt-4">
-                    <div class="salary-template-search border-rounded-2" *ngIf="!shimmer && (salaryTemplateList.length > 0 || search.trim() !== '')">
+                    <div class="salary-template-search border-rounded-2">
                         <div class="d-flex justify-content-start align-items-center">
                         <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
                             <div class="form-group w-100 position-relative">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="table-responsive vh-80 mt-3">
                         <table class="table">
-                            <thead *ngIf="!shimmer && (salaryTemplateList.length > 0 || search.trim() !== '')">
+                            <thead>
                             <tr>
                                 <th style="width:40%">Template Name</th>
                                 <th style="width:40%">Description</th>
@@ -72,7 +72,7 @@
                                 </td>
                                 </tr>
                             </tbody>
-                            <tbody *ngIf="salaryTemplateList.length ==0 && !shimmer  && search.trim() !== ''">
+                            <tbody *ngIf="salaryTemplateList.length ==0 && !shimmer">
                                 <tr>
                                 <td colspan="8">
                                     <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -834,6 +834,9 @@
                         
                     </div>
                     <div class="footer position-fixed bg-white d-flex align-items-center  justify-content-end gap-2" *ngIf="!templateForm.pristine">
+                        <button type="button" class="btn submitActionBtn font-13 fw-semibold text-white" (click)="backFromTemplate()">
+                            <span> Cancel</span>      
+                        </button>
                         <button type="submit" class="btn submitActionBtn font-13 fw-semibold text-white"  [ngClass]="{'disabled-lnk':saveLoader}">
                             <div *ngIf="saveLoader" class="dot-opacity-loader">
                                 <span></span>
