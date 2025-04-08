@@ -794,6 +794,9 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.dashBoardDateView = true;
     this.loading = true;
     this.getExpenseTrend();
+    this.page = 0;
+    this.itemsPerPage = 10;
+    this.teamWallets = [];
     this.getTeamWalletAmount();
     this.getCreditWalletAmount();
     this.getDebitWalletAmount();
@@ -979,16 +982,46 @@ onDateRangeChange(dates: [Date, Date] | null) {
  
 
   /* team wallet transacction */
-  teamWallets: any[] = [];
-  getTeamWalletAmount() {
-    this.expenseService.getTeamWallets().subscribe((res: any) => {
-      if (res.status) {
-        this.teamWallets = res.object;
-      }
-      
-      console.log("Team Wallet Data :", res);
-      });
+teamWallets: any[] = [];
+totalTeam: number = 0;
+page: number = 0;
+itemsPerPage: number = 10;
+isMoreTeamLoader: boolean = false;
+showAllTeams: boolean = false;
+
+getTeamWalletAmount(reset: boolean = false) {
+  this.isMoreTeamLoader = true;
+
+  if (reset) {
+    this.page = 0;
+    this.teamWallets = [];
   }
+
+  this.expenseService.getTeamWallets(this.page, this.itemsPerPage).subscribe((res: any) => {
+    if (res.status) {
+      this.teamWallets = this.teamWallets.concat(res.object);
+      this.totalTeam = res.totalItems;
+      if(res.object.length == 0){
+        this.totalTeam = this.teamWallets.length;
+      }
+      this.page++;
+    }
+    this.isMoreTeamLoader = false;
+    console.log("Team Wallet Data :", res);
+  }, () => {
+    this.isMoreTeamLoader = false;
+  });
+}
+
+loadMoreTeam() {
+  this.getTeamWalletAmount();
+}
+
+hideTeam() {
+  this.showAllTeams = false;
+  this.getTeamWalletAmount(true); // reset data
+}
+
 
   creditWalletAmount : number = 0;
   debitWalletAmount : number = 0;

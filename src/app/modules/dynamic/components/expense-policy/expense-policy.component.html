@@ -416,7 +416,7 @@
                                                    
                                                         <i class="bi bi-x search-icon position-absolute font-22 pointer" *ngIf="searchText.length !== 0" (click)="clearSearchText()"></i>
                                                   
-                                                    <i class="bi bi-search search-icon position-absolute pointer"></i>
+                                                    <i class="bi bi-search search-icon position-absolute pointer" *ngIf="searchText.length == 0"></i>
                                                 </div>
                                             </form>
                                        </div>
