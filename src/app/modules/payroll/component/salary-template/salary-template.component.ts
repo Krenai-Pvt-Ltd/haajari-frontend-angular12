@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
@@ -442,38 +443,32 @@ private calculateFixed(monthlyCTC: number,
   return Number(fixed.toFixed(2));
 }
 
-
-
-
-
-
-
-
-
-
 isSystemCalculated(component: any): boolean {
   return component.name == 'Fixed Allowance'&& this.previewCalculations && this.salaryTemplate.deductions.length > 0;
 }
-
-
-
-
-
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                                                         // 
 //                                                                       SALARY TEMPLATE SAVE                                                                            // 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+calculateGrossAmount(){
+  this.salaryTemplate.earningComponents.forEach(component=> {
+    this.salaryTemplate.monthlyGross += component.amount
+  });
+  this.salaryTemplate.reimbursementComponents.forEach(component=>{
+    this.salaryTemplate.monthlyGross += component.amount;
+  });
+  this.salaryTemplate.monthlyCtc = Math.round(this.salaryTemplate.annualCtc/12);
+  this.salaryTemplate.annualGross = Math.round(this.salaryTemplate.monthlyGross*12)
+}
 
 saveSalaryTemplate(){
   this.saveLoader = true;
+  this.calculateGrossAmount();
   this._salaryTemplateService.saveSalaryTemplate(this.salaryTemplate).subscribe((response) => {
           if(response.status){
-            this._helperService.showToast("Your Salary Template has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+            this._helperService.showToast("Your Salary Template saved successfully.", Key.TOAST_STATUS_SUCCESS);
+            this.backFromTemplate();
           }else{
             this._helperService.showToast("Error in saving Salary Template.", Key.TOAST_STATUS_ERROR);
           }
@@ -485,12 +480,7 @@ saveSalaryTemplate(){
   
         }
       );
-      this.getOrganizationSalaryTemplates();
-
 }
-
-
-epfEmployerContribution: number=0; 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                                                         // 
@@ -594,17 +584,57 @@ searchByInput(event: any) {
   }
 }
 
+clearSearch(){
+  this.search='';
+  this.isSearching=false;
+  this.currentPage = 1;
+  this.getOrganizationSalaryTemplates();
+}
        
  
 backFromTemplate(){
   this.toggle = false;
   this.salaryTemplate = new SalaryTemplate();
   this.isNewTemplate = false;
+  this.getOrganizationSalaryTemplates();
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                                                         // 
+//                                                                      DELETE TEMPLATE                                                                          // 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+@ViewChild("deleteTemplateButton") deleteTemplateButton!:ElementRef;
+@ViewChild("deleteTemplateCloseButton") deleteTemplateCloseButton!:ElementRef;
+openDeleteModal(templateId:number){
+  this.templateId=templateId;
+  this.deleteTemplateButton.nativeElement.click();
+}
 
+confirmDeleteTemplate(){
+  this.saveLoader = true;
+  this._salaryTemplateService.deleteTemplate(this.templateId).subscribe((response) => {
+    if(response.status){
+      this._helperService.showToast('Template deleted successfully.',Key.TOAST_STATUS_SUCCESS);  
+    }else{
+      this._helperService.showToast('Error Deleting Template.',Key.TOAST_STATUS_ERROR);
+    }
+    this.saveLoader=false;
+    this.toggle=false;
+    this.holdTotalItems=0;
+    this.deleteTemplateCloseButton.nativeElement.click();
+    this.getOrganizationSalaryTemplates();
+    this.saveLoader = false;
+  },
+  (error) => {
+    this._helperService.showToast('Error Deleting Template.',Key.TOAST_STATUS_ERROR);
+    this.saveLoader = false;
+    this.deleteTemplateCloseButton.nativeElement.click();
+
+  }
+);
+}
 
 }
 

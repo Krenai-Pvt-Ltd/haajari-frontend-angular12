@@ -36,4 +36,10 @@ export class SalaryTemplateService {
     .set('template_id', templateId)
     return this._http.put<any>(`${this._key.base_url}/salary-template/template-status`,{},{params});
   }
+
+  deleteTemplate(templateId:number): Observable<any>{
+    const params = new HttpParams()
+    .set('template_id', templateId)
+    return this._http.delete<any>(`${this._key.base_url}/salary-template/template`,{params});
+  }
 }

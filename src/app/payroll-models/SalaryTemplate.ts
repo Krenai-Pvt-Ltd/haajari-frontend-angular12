@@ -10,6 +10,8 @@ export class SalaryTemplate{
     updatedAt:Date=new Date();
     annualCtc:number=0;
     monthlyCtc:number=0;
+    monthlyGross:number=0;
+    annualGross:number=0;
     description:string=''
     // templateName:string='';
     statusId:number=0;

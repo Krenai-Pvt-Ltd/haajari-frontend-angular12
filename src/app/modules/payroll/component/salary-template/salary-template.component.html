@@ -39,7 +39,10 @@
                                 style="padding: 10px 45px;"
                                 (keyup)="searchDebounce($event)" (paste)="searchDebounce($event)" [(ngModel)]="search"
                                 [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; padding-right: 20px;flex-grow: 1;" />
-                                <i class="bi bi-search search-icon d-flex align-items-center h-100 ng-star-inserted"></i>   
+                                <i class="bi bi-search search-icon d-flex align-items-center h-100 ng-star-inserted"
+                                    *ngIf="search==''"></i>
+                                  <i class="bi bi-x-lg search-icon d-flex align-items-center h-100 ng-star-inserted"
+                                    *ngIf="search!=''" (click)="clearSearch()"></i>
                             </div>
                         </div>
                             <button class="btn p-0 font-14 text-primary fw-semibold add-btn" (click)="createTemplate(true)"><i class="bi bi-plus-lg"></i> Create New</button>
@@ -111,7 +114,7 @@
                                             <div class="dropdown-menu actionMenuList">
                                                 <ul class="pl-0 mb-0">
                                                     <li><a class="dropdown-item" (click)="createTemplate(false,template)">Edit</a></li>
-                                                    <li><a class="dropdown-item">Delete</a></li>
+                                                    <li><a class="dropdown-item" (click)="openDeleteModal(template.id)">Delete</a></li>
                                                     <li><a class="dropdown-item">Dissociate Employees</a></li>
                                                 </ul>
                                             </div>
@@ -140,8 +143,9 @@
                      <h5 class="font-15 fw-600 p-3 pt-4">Building Your Template</h5>
                      <div class="mt-3" *ngIf="!loader">
                             
-                            <div data-bs-toggle="collapse" href="#earningcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <div class="d-flex align-items-center justify-content-between p-3 active-box">
+                            <div >
+                            <div class="d-flex align-items-center justify-content-between p-3 active-box" 
+                            data-bs-toggle="collapse" href="#earningcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
                                 <h5 class="font-14 fw-semibold mb-0">Earnings</h5>
                                 <span class="collapse-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -164,7 +168,8 @@
                                         <ng-container *ngFor="let component of  templateComponents.earningComponents;let i = index">
                                         <li  
                                         class="d-flex align-items-center justify-content-between font-13 fw-normal"
-                                        (click)="toggleEarningComponent(component)">
+                                        (click)="toggleEarningComponent(component)"
+                                        onclick="event.stopPropagation()">
                                             {{component.displayName}}<span class="lh-base">
                                                 <i class="bi bi-plus font-20" ></i>
                                             </span>
@@ -174,8 +179,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div data-bs-toggle="collapse" href="#reibursementcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <div class="d-flex align-items-center justify-content-between p-3">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between p-3"
+                            data-bs-toggle="collapse" href="#reibursementcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
                                 <h5 class="font-14 fw-semibold mb-0">Reimbursement</h5>
                                 <span class="collapse-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -223,8 +229,9 @@
                                 </svg>
                             </span>
                         </div> -->
-                        <div data-bs-toggle="collapse" href="#benefitcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <div class="d-flex align-items-center justify-content-between p-3">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between p-3"
+                            data-bs-toggle="collapse" href="#benefitcollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
                                 <h5 class="font-14 fw-semibold mb-0">Benefits</h5>
                                 <span class="collapse-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
@@ -459,9 +466,8 @@
                                         <p class="mb-0 font-12 color-basic fw-semibold">{{component.name}}</p>
                                       </div>
                                       <div class="col-md-3" *ngIf="component.name == 'EPF'">
-                                        <div class="text-start py-3" [ngSwitch]="component.employerContribution">
-                                          <p class="font-13 fw-semibold color-basic mb-0" *ngSwitchCase="EPF_ACTUAL">12.00% of PF Wages</p>
-                                          <p class="font-13 fw-semibold color-basic mb-0" *ngSwitchCase="EPF_RESTRICTED">12.00% of Restricted Wages</p>
+                                        <div class="text-start py-3">
+                                          <p class="font-13 fw-semibold color-basic mb-0">{{component.description}}</p>
                                         </div>
                                       </div>
                                       <div class="col-md-3" *ngIf="component.name == 'ESI'">
@@ -513,7 +519,7 @@
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3 p-3">
                                     <div class="text-end px-3">
-                                        <h5 class="mb-0 font-13 fw-semibold">₹ {{salaryTemplate.annualCtc/12 |  number: '1.0-0' }}</h5>
+                                        <h5 class="mb-0 font-13 fw-semibold">₹ {{salaryTemplate.monthlyCtc |  number: '1.0-0' }}</h5>
                                     </div>
                                </div>
                                 <div class="col-md-3 p-3">
@@ -599,4 +605,55 @@
   </div>
 </div>
 <!----------------------------------- STATUS CHANGE CONFIRMATION MODAL END-------------------------->
+
+<!----------------------------------- DELETE CONFIRMATION MODAL START-------------------------->
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-component" #deleteTemplateButton></button>
+<div class="modal fade" id="delete-component" tabindex="-1" role="dialog" aria-hidden="true"  data-bs-backdrop="static" > 
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #deleteTemplateCloseButton>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div>
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              this Template?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [ngClass]="{'disabled-lnk':saveLoader}" class="btn continue-btn"
+              (click)="confirmDeleteTemplate()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="saveLoader"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------- DELETE CONFIRMATION MODAL END-------------------------->
   
