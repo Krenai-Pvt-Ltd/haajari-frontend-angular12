@@ -1780,6 +1780,9 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
       this.oldSelectedStaffIdsUser.push(id)
     });
 
+    this.isAllUsersSelected = this.selectedStaffIdsUser.length === this.totalUserCount;
+    console.log("Select All :",this.isAllUsersSelected);
+
     // this.oldSelectedStaffIdsUser = this.selectedStaffIdsUser
     console.log('old sel IDS: ',this.oldSelectedStaffIdsUser)
 
