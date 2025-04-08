@@ -1459,16 +1459,7 @@
     right: 0px;
     bottom: 0px;
   }
-  
-  .whatapp-login-input {
-    border-radius: 2px !important;
-    border: 1.021px solid #e9e9e9 !important;
-    background: rgba(236, 236, 236, 0.21) !important;
-    height: 45px !important;
-    font-size: 12px !important;
-    font-weight: 400 !important;
-  }
-  
+
   .register-form-box label {
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px !important;

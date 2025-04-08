@@ -37,10 +37,6 @@
     border-radius: 0px 0px 5px 5px;
 
 }
-/* .wallet-transactions-list img{
-    width: 45px;
-    border-radius: 50px;
-} */
 .wallet-transactions-list{
    max-height: 370px;
    overflow: scroll;
@@ -233,10 +229,10 @@
     border: 1px solid #e9e9e9;
 }
 .search-icon {
-    font-size: 13px !important;
-    position: absolute !important;
+    font-size: 13px;
+    position: absolute ;
     top: 0;
-    color: var(--tb-secondary-color) !important;
+    color: var(--tb-secondary-color) ;
     margin: auto auto auto 15px;
 }
 
@@ -344,4 +340,19 @@
 .calendar-separator {
     border-left: 1px solid #DCDCE4;
     height: 20px;
+}
+.form-multiselect {
+    border: 1px solid #e8ebf3 !important;
+}
+.info-count {
+    background-color: #F2F4F4;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
+.excel-upload-file-box {
+    border: 1px dashed #ABABAB;
+    background-color: rgba(244, 247, 255, 0.30);
+    border-radius: 2px;
+    height: 250px;
 }

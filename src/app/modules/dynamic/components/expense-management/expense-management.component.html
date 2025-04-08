@@ -450,7 +450,7 @@
                                                 <div class="form-group w-100 position-relative">
                                                     <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="requestsSearch" (input)="searchByNameRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="requestsSearch==''"></i>
-                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getExpenses();"></i>
+                                                    <i class="bi bi-x search-icon d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getExpenses();"></i>
                                                 </div>
                                         </div>
 
@@ -466,7 +466,7 @@
                                             <span class="calendar-separator"></span>
                                             
                                             <button *ngIf="!exportLoading" type="button" class="btn primaryBtnLink" (click)="export()">
-                                                <i class="bi bi-download"></i>&nbsp;
+                                                <i class="bi bi-download"></i>
                                                 <span *ngIf="!exportLoading">Download</span>
                                                 <div class="dot-opacity-loader" *ngIf="exportLoading">
                                                     <span></span>
@@ -513,7 +513,7 @@
                                             <label for="status" class="pb-2">Status</label>
                                             <nz-select 
                                                 [nzMaxTagCount]="3" 
-                                                class="w-100 form-control"
+                                                class="w-100 form-multiselect"
                                                 [nzMaxTagPlaceholder]="tagPlaceHolder"
                                                 nzMode="multiple" 
                                                 nzPlaceHolder="Select Status"
@@ -647,7 +647,7 @@
                                                 </td>
                                                 <td class="text-left">
                                                     <!-- <span class="table-font-weight white-space"> {{expense.notes}}  </span> -->
-                                                    <span class="white-space font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                                                    <span class="white-space fw-normal font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
                                                     [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{expense.notes}} </span>
                                                     <ng-template #contentTemplate>
                                                        <div>
@@ -656,7 +656,7 @@
                                                     </ng-template>
                                                 </td>
                                                 <td>
-                                                    <span class="white-space font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                                                    <span class="white-space fw-normal font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
                                                     [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{  expense.notes || '--'}}</span>
                                                     <ng-template #contentTemplate>
                                                        <div>
@@ -732,7 +732,7 @@
                                             <div class="form-group w-100 position-relative">
                                                 <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="requestsSearch" (input)="searchByEmployeeName($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                 <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="requestsSearch==''"></i>
-                                                <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getWalletUser();"></i>
+                                                <i class="bi bi-x search-icon d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getWalletUser();"></i>
                                             </div>
                                         </div>
                                         <!-- Button to open modal using ID -->
@@ -779,7 +779,7 @@
                                             <label for="status" class="pb-2">Select Employee</label>
                                             <nz-select 
                                                 [nzMaxTagCount]="3" 
-                                                class="form-control"
+                                                class="w-100 form-multiselect"
                                                 [nzMaxTagPlaceholder]="tagPlaceHolder"
                                                 nzMode="multiple" 
                                                 nzPlaceHolder="Select Employee"
@@ -1109,32 +1109,46 @@
             !isShimmer &&
             onboardUserList.length == 0
           ">
-          <div class="col-md-12">
-            <div class="card-body mt-0 p-0">
-              <div class="alert alert-light mb-0" role="alert">
-                <h4 class="alert-heading font-18">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-0">
+                <h4 class="text-black fw-semibold font-16">
                   Download the Sample Excel File!
                 </h4>
-                <p>
-                  Look for the sample file titled "Sample_Data.xlsx" and click
-                  on the download button to save it to your computer.
-                </p>
-                <p>
-                  Take a moment to review the existing data in the Excel file.
-                  This will help you understand the structure and content of the
-                  data before making any updates.
-                </p>
-                <p>
-                  <span class="text-primary">
-                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
-                  </span>
-                  , update its data, and upload it back with the updated content
-                  on our platform
-                </p>
+                <div class="mt-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">1</span>
+                        <p class="mb-0 font-13 w-80">
+                            Look for the sample file titled "Sample_Data.xlsx" and click
+                            on the download button to save it to your computer.
+                          </p>
+                    </div>
+                    <div class="d-flex align-items-start gap-3 mt-3">
+                        <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">2</span>
+                        <p class="mb-0 font-13 w-80">
+                            Take a moment to review the existing data in the Excel file.
+                            This will help you understand the structure and content of the
+                            data before making any updates.
+                          </p>
+                    </div>
+                    <div  class="d-flex align-items-start gap-3 mt-3 mb-3">
+                        <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">3</span>
+                        <p class="mb-0 font-13 w-80">
+                            <span class="text-primary">
+                              <a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a>
+                            </span>
+                            , update its data, and upload it back with the updated content
+                            on our platform
+                          </p>
+                    </div>
+               
+               
+                
+                </div>
               </div>
             </div>
-            <div class="card-body mt-3 p-0" *ngIf="data.length == 0">
-              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+            <div class="col-md-6" *ngIf="data.length == 0">
+              <div class="mb-0 excel-upload-file-box d-flex align-items-center justify-content-center flex-column" >
                 <input id="fileSelect" type="file" name="img[]" accept=".xlsx, .xls" class="input"
                   (change)="selectFile($event)" />
                 <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
