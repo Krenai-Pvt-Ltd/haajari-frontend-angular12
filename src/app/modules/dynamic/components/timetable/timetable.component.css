@@ -582,3 +582,16 @@ span.request-count {
   filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
   z-index: 999;
 }
+
+.info-count {
+  background-color: #F2F4F4;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+.excel-upload-file-box {
+  border: 1px dashed #ABABAB;
+  background-color: rgba(244, 247, 255, 0.30);
+  border-radius: 2px;
+  height: 250px;
+}

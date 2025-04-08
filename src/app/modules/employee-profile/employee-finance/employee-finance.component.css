@@ -496,6 +496,9 @@ i::before {
     .col-sm-6{
         width: 50%;
     }
+    .col-sm-4{
+        width: 33.33%;
+    }
     .col-sm-12{
         width: 100%;
     }

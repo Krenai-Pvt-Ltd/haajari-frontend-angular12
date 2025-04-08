@@ -428,3 +428,44 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; /* Matches Bootstrap Icons usage */
 }
+
+.prev-btn {
+  position: absolute;
+  top: 48%;
+  right: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(9.010000228881836px);
+  backdrop-filter: blur(9.010000228881836px);
+  width: 33px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prev-btn svg {
+  width: 18px;
+}
+
+.next-btn {
+  position: absolute;
+  top: 48%;
+  left: 45px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(9.010000228881836px);
+  backdrop-filter: blur(9.010000228881836px);
+  width: 33px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.next-btn svg {
+  width: 18px;
+  transform: rotate(180deg);
+}
