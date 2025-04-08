@@ -39,6 +39,7 @@ import { AdditionalModule } from '../additional/additional.module';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { EmployeeFinanceComponent } from './employee-finance/employee-finance.component';
 import { OverallAttendanceChartComponent } from './comman/overall-attendance-chart/overall-attendance-chart.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 // import { NgApexchartsModule } from 'ng-apexcharts';
 
 
@@ -92,6 +93,7 @@ import { OverallAttendanceChartComponent } from './comman/overall-attendance-cha
     SharedModule,
     AdditionalModule,
     NzInputNumberModule,
+    NgApexchartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],

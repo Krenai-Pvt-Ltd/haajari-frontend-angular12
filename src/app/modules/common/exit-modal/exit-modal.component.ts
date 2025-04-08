@@ -28,7 +28,7 @@ export class ExitModalComponent {
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
   readonly Routes=Routes;
   readonly StatusKeys= StatusKeys;
-  
+
 
   constructor(private dataService: DataService, private cdr: ChangeDetectorRef,
     public helperService: HelperService,
@@ -65,6 +65,8 @@ ngOnChanges(changes: SimpleChanges) {
     }
     if(this.data.isModal==0){
       this.isModal= false;
+    }else{
+      this.isModal= true;
     }
 
     // this.startCarousel();
