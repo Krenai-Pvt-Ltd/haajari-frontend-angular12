@@ -794,6 +794,9 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.dashBoardDateView = true;
     this.loading = true;
     this.getExpenseTrend();
+    this.page = 0;
+    this.itemsPerPage = 10;
+    this.teamWallets = [];
     this.getTeamWalletAmount();
     this.getCreditWalletAmount();
     this.getDebitWalletAmount();
