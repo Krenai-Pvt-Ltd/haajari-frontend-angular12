@@ -144,29 +144,38 @@ pageChange(page: number){
     this.tempTemplateComponents = JSON.parse(JSON.stringify(this.templateComponents));
     if (!this.isNewTemplate) {
       this.templateComponents.earningComponents = this.templateComponents.earningComponents.filter(tempComponent => {
-        const shouldKeep = !this.salaryTemplate.earningComponents.some(salaryComponent => salaryComponent.name === tempComponent.name);
-        if (shouldKeep) tempComponent.isAdd = true;  
-        return shouldKeep;
+        const salaryComponent = this.salaryTemplate.earningComponents.find(
+          sc => sc.name === tempComponent.name
+        );
+        if (!salaryComponent) return true;
+        salaryComponent.isAdd = true;
+        return false;
       });
-  
+      
       this.templateComponents.reimbursementComponents = this.templateComponents.reimbursementComponents.filter(tempComponent => {
-        const shouldKeep = !this.salaryTemplate.reimbursementComponents.some(salaryComponent => salaryComponent.type === tempComponent.type);
-        if (shouldKeep) tempComponent.isAdd = true;  
-        return shouldKeep;
+        const salaryComponent = this.salaryTemplate.reimbursementComponents.find(
+          sc => sc.type === tempComponent.type
+        );
+        if (!salaryComponent) return true;
+        salaryComponent.isAdd = true;
+        return false;
+      });
+      this.templateComponents.deductions = this.templateComponents.deductions.filter(tempComponent => {
+        const salaryComponent = this.salaryTemplate.deductions.find(
+          sc => sc.name === tempComponent.name
+        );
+        if (!salaryComponent) return true;
+        salaryComponent.isAdd = true;
+        return false;
       });
   
-      this.templateComponents.deductions = this.templateComponents.deductions.filter(tempComponent => {
-        const shouldKeep = !this.salaryTemplate.deductions.some(salaryComponent => salaryComponent.name === tempComponent.name);
-        if (shouldKeep) tempComponent.isAdd = true;  
-        return shouldKeep;
-      });  
              
     } else {
-      const basicComponent = this.templateComponents.earningComponents.find(component => component.name === 'Basic');
+      const basicComponent = this.templateComponents.earningComponents.find(component => component.name == 'Basic');
       if (basicComponent) {
         this.salaryTemplate.earningComponents.push({ ...basicComponent });
       }      
-      const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name === 'Fixed Allowance');
+      const fixedAllowanceComponent = this.templateComponents.earningComponents.find(component => component.name == 'Fixed Allowance');
       if (fixedAllowanceComponent) {
           this.salaryTemplate.earningComponents.push({ ...fixedAllowanceComponent });
       }
