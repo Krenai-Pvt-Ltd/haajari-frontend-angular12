@@ -164,11 +164,8 @@
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <p class="mb-0 text-optional font-12"><span class="fw-semibold text-black">{{deets?.totalApprovedleaves}}</span> Approved Leaves</p>
-
                                                 </div>
-
                                             </div>
-
                                         </div>
                                         <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="leaveCategoryDetails?.length == 0 && !leaveCategoryDetailsLoader">
                                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -180,15 +177,21 @@
                                               </ng-template>
                                             </nz-empty>
                                         </div>
-                                        <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%"
-                                                *ngIf="leaveCategoryDetailsLoader">
-                                                <div class="text-center load-more-btn">
-                                                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                <div>
-                                                    <small>Loading...</small>
-                                                </div>
-                                                </div>
 
+                                            <div *ngIf="leaveCategoryDetailsLoader">
+                                              <div class="leave-count mt-3">
+                                                <div class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3" *ngFor="let item of [].constructor(5)">
+                                                  
+                                                  <div class="d-flex align-items-center gap-2">
+                                                    <ngx-shimmer-loading [width]="'14px'" [height]="'14px'" [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                                    <ngx-shimmer-loading [width]="'100px'" [height]="'12px'"></ngx-shimmer-loading>
+                                                  </div>
+                                                  
+                                                  <div class="d-flex align-items-center gap-2">
+                                                    <ngx-shimmer-loading [width]="'140px'" [height]="'12px'"></ngx-shimmer-loading>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
 
 
