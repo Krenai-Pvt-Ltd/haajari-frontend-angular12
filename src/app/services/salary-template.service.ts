@@ -28,7 +28,7 @@ export class SalaryTemplateService {
 
 
   saveSalaryTemplate(salaryTemplate:SalaryTemplate): Observable<any>{
-    return this._http.post<any>(`${this._key.base_url}/salary-template/template`,salaryTemplate);
+    return this._http.put<any>(`${this._key.base_url}/salary-template/template`,salaryTemplate);
   }
 
   chnageTemplateStatus(templateId:number): Observable<any>{
