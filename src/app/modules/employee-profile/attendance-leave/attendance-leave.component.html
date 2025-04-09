@@ -79,7 +79,7 @@
                             <div class="row" style="border-right: 1px solid #EDEFF5;">
 
                                 <div *ngIf="isDateLoaded" class="col-md-3 mobile-overall-performance">
-                                    <app-overall-attendance-chart></app-overall-attendance-chart>
+                                  <app-overall-attendance-chart [data]="chartData()"></app-overall-attendance-chart>
                                 </div>
 
                                 <div class="col-md-8 ">
@@ -1310,14 +1310,14 @@
                         <div class="mobile-filter-selection">
                             <div class="position-relative">
                             <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleDropdown()">Leave Type</p>
-                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                            <span *ngIf="selectedLeaveType!='All'" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
                                 <span class="visually-hidden">New alerts</span>
                               </span>
                             </div>
                             <p class="mb-0 font-14 fw-semibold color-basic lh-base">|</p>
                             <div class="position-relative">
                             <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleStatusDropdown()">Status Filter</p>
-                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                            <span *ngIf="selectedStatus!='All'" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
                                 <span class="visually-hidden">New alerts</span>
                               </span>
                             </div>
@@ -1328,7 +1328,6 @@
                             <div class="sort-head p-3 d-flex align-items-center justify-content-between border-bottom">
                                 <p class="mb-0">Leave Type</p>
                                 <i class="bi bi-x-circle pointer" (click)="closeDropdown($event)"></i>
-
 
                             </div>
                             <div class="msort-dropdown">
@@ -1827,6 +1826,9 @@
                                 <p class="mb-0 font-14 fw-semibold color-basic lh-base pointer" (click)="toggleRequestDropdown()">
                                     Request Type
                                 </p>
+                                <span *ngIf="attendanceStatus!='All'" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                  <span class="visually-hidden">New alerts</span>
+                                </span>
                             </div>
                             <p class="mb-0 font-14 fw-semibold color-basic lh-base">|</p>
                             <div class="position-relative">
