@@ -90,15 +90,21 @@
                                   <div *ngIf="getCurrentMonthStats().currentMonthCount > 0" class="d-flex align-items-center justify-content-between gap-3 p-3 earned-funds">
                                      <div>
                                         <p class="mb-2 font-13">Monthly Assigned </p>
+
                                         <h5  class="mb-0 font-16 fw-normal">
                                            {{getCurrentMonthStats().currentMonthCount}}
                                            <span class="font-12 fw-semibold">
-                                              {{getCurrentMonthStats().percentageChange}}%
+                                              {{getCurrentMonthStats().percentageChange | number:'1.2-2' }}%
                                               <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="#388E3C"></path>
                                               </svg>
-                                           </span>
-                                        </h5>
+                                              <svg *ngIf="getCurrentMonthStats().percentageChange < 0" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                                                  <g transform="rotate(180, 3.5, 5.5)">
+                                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52807 10.0159H2.54674V5.8172H0.111328L3.53725 0.984065L6.96318 5.8172H4.52807V10.0159Z" fill="currentColor"></path>
+                                                  </g>
+                                              </svg>
+                                          </span>
+                                      </h5>
                                      </div>
                                      <span class="use-funds-separator"></span>
                                      <div class="text-end">
@@ -561,37 +567,14 @@
                                            class="form-control me-2 w-100"
                                            style="padding: 10px 45px;"
                                            />
-                                        <!-- <i class="bi bi-search search-icon d-flex align-items-center h-100"></i> -->
                                         <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="searchText==''"></i>
                                         <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="searchText!=''" (click)="resetAssetsFilter(0);"></i>
                                      </div>
                                   </div>
                                   <div>
-                                     <!-- <button *ngIf="selectedStatusId!=64" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="resetAssetsFilter(64); updateActiveFilters()">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_8109_4666" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8109_4666)">
-                                           <path d="M2.0835 17.1666V11.141H8.10912V17.1666H2.0835ZM3.3335 15.9166H6.85912V12.391H3.3335V15.9166ZM5.25662 8.41661L9.26308 1.84619L13.2693 8.41661H5.25662ZM7.46162 7.16661H11.0643L9.26308 4.26911L7.46162 7.16661ZM17.9954 19.1602L15.8031 16.9679C15.5274 17.1676 15.2247 17.3201 14.8952 17.4254C14.5656 17.5306 14.216 17.5833 13.8464 17.5833C12.8902 17.5833 12.0795 17.2507 11.4145 16.5856C10.7494 15.9206 10.4168 15.1099 10.4168 14.1537C10.4168 13.1976 10.7494 12.387 11.4145 11.7218C12.0795 11.0568 12.8902 10.7243 13.8464 10.7243C14.8025 10.7243 15.6131 11.0568 16.2783 11.7218C16.9433 12.387 17.2758 13.1976 17.2758 14.1537C17.2758 14.5148 17.2232 14.8588 17.1179 15.1858C17.0127 15.5127 16.8672 15.814 16.6812 16.0897L18.8735 18.282L17.9954 19.1602ZM13.846 16.3333C14.4563 16.3333 14.9722 16.1226 15.3937 15.7012C15.8151 15.2799 16.0258 14.7642 16.0258 14.1541C16.0258 13.5438 15.8152 13.0279 15.3939 12.6064C14.9725 12.185 14.4568 11.9743 13.8466 11.9743C13.2363 11.9743 12.7205 12.1849 12.2991 12.6062C11.8776 13.0276 11.6668 13.5433 11.6668 14.1535C11.6668 14.7638 11.8775 15.2796 12.2989 15.701C12.7202 16.1225 13.2359 16.3333 13.846 16.3333Z" fill="#6666F2"/>
-                                        </g>
-                                     </svg>
-                                     Not Assigned
-                                     </button> -->
-                                     <button class="btn p-0 font-14 text-primary fw-semibold filter-btn" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal><i class="bi bi-plus-lg"></i>  Add Assets</button>
-                                     <!-- TO DO: Filter-reset btn -->
-                                     <!-- <button *ngIf="selectedStatusId==64" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter reset-filter-btn" (click)="resetAssetsFilter(0); updateActiveFilters()">
-                                     Go Back
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                        <mask id="mask0_8129_6489" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                           <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8129_6489)">
-                                           <path d="M5.83366 16.3332L4.66699 15.1665L9.33366 10.4998L4.66699 5.83317L5.83366 4.6665L10.5003 9.33317L15.167 4.6665L16.3337 5.83317L11.667 10.4998L16.3337 15.1665L15.167 16.3332L10.5003 11.6665L5.83366 16.3332Z" fill="#6666F2"/>
-                                        </g>
-                                     </svg>
-                                     </button> -->
-                                     <!-- Filter-reset btn end -->
+                                     <button class="btn p-0 font-14 text-primary fw-semibold filter-btn" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal  *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)">
+                                       <i class="bi bi-plus-lg"></i>  Add Assets</button>
+
                                   </div>
                                </div>
                             </div>
@@ -741,7 +724,7 @@
                                      <td>
                                         <span>
                                            <h5 class="mb-1 font-13">{{ asset.purchasedDate | date:'dd-MMM-yy' }}</h5>
-                                           <p class="mb-0 font-12 text-optional">{{ asset.purchasedDate | date:'EEEE' }}</p>
+                                           <p class="mb-0 font-12">{{ asset.purchasedDate | date:'EEEE' }}</p>
                                         </span>
                                      </td>
                                      <!-- Expiry Date -->
@@ -750,7 +733,7 @@
                                            <h5 class="mb-1 font-13" *ngIf="asset.expiryDate; else naDate">
                                               {{ asset.expiryDate | date:'dd-MMM-yy' }}
                                            </h5>
-                                           <p class="mb-0 font-12 text-optional">{{ asset.expiryDate | date:'EEEE' }}</p>
+                                           <p class="mb-0 font-12">{{ asset.expiryDate | date:'EEEE' }}</p>
                                            <ng-template #naDate>
                                               <h5 class="mb-1 font-13">N/A</h5>
                                            </ng-template>
@@ -773,8 +756,11 @@
                                            <i class="bi bi-three-dots-vertical"></i>
                                            </button>
                                            <div class="dropdown-menu actionMenuList">
-                                              <li *ngIf="asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 62, asset.assignedToId, true)">
+                                             <ng-container *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)" >
+                                              <!-- <li *ngIf="asset.statusId != 66"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 62, asset.assignedToId, true)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, StatusKeys.ASSET_ASSIGNED, asset.assignedToId, true)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                                        <mask id="mask0_8123_5744" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
                                                           <rect x="0.384766" y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -787,8 +773,10 @@
                                                     <span *ngIf="asset.assignedToId== 0"> Assign</span>
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 64 && asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 64, 0, false)">
+                                              <!-- <li *ngIf="asset.statusId != 64 && asset.statusId != 66"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_AVAILABLE && asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, 64, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id, StatusKeys.ASSET_AVAILABLE, 0, false)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                        <mask id="mask0_8123_5738" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -800,8 +788,10 @@
                                                     Available
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 63 && asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,63, 0, false)">
+                                              <!--  *ngIf="asset.statusId != 63 && asset.statusId != 66" -->
+                                              <li  *ngIf="asset.statusId != StatusKeys.ASSET_UNAVAILABLE && asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,63, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,StatusKeys.ASSET_UNAVAILABLE, 0, false)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <mask id="mask0_8861_2575" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -813,9 +803,11 @@
                                                     Mark as Unavailable
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 66">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,66, 0, false)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                              <!-- <li *ngIf="asset.statusId != 66"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_DAMAGED">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,66, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,StatusKeys.ASSET_DAMAGED, 0, false)">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                        <mask id="mask0_8123_5732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
                                                        </mask>
@@ -826,8 +818,10 @@
                                                     Mark as Damaged
                                                  </a>
                                               </li>
-                                              <li *ngIf="asset.statusId != 65">
-                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,65, 0, false)">
+                                              <!-- <li *ngIf="asset.statusId != 65"> -->
+                                                <li *ngIf="asset.statusId != StatusKeys.ASSET_MAINTENANCE">
+                                                 <!-- <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,65, 0, false)"> -->
+                                                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addDescriptionModal" (click)="changeStatusModal(asset.id,StatusKeys.ASSET_MAINTENANCE, 0, false)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                        <mask id="mask0_8123_5726" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                                           <rect y="0.5" width="20" height="20" fill="#D9D9D9"/>
@@ -852,6 +846,7 @@
                                                     Update Asset
                                                  </a>
                                               </li>
+                                             </ng-container>
                                               <li>
                                                  <!-- data-bs-toggle="modal" data-bs-target="#assetsHistory" -->
                                                  <a class="dropdown-item" (click)="loadAssetHistory(asset); open();">
@@ -974,7 +969,7 @@
                          <!-- <ng-container > -->
                          <p class="filter-pills d-flex align-items-center gap-2 pointer font-12 fw-semibold"
                             *ngFor="let filter of selectedFiltersArray">
-                            {{ filter }}
+                            Status: {{ filter }}
                             <i class="bi bi-x-lg pointer" (click)="removeFilter(filter)"></i>
                          </p>
                          <!-- </ng-container> -->
@@ -1070,14 +1065,26 @@
                                      </ng-template>
                                   </td>
                                   <td>
-                                     <span class="fw-semibold"
+                                     <span class="fw-semibold font-13"
                                         [ngClass]="{'text-primary': asset.status == 'PENDING', 'text-danger': asset.status == 'REJECTED', 'text-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                                      {{ asset.status || '--' }}
                                      </span>
                                   </td>
                                   <td class="stickyColTdend">
-                                     <!-- (click)="openStatusChangeModal(asset, statusChangeModal)" -->
-                                     <button class="btn p-0 text-primary font-14 fw-semibold" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="onAssetRequestOpen(asset)" ><i class="bi bi-eye"></i>  View</button>
+                                    <div class="dropdown">
+                                        <span class="btnAction d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
+                                          <i class="bi bi-three-dots-vertical font-15"></i>
+                                        </span>
+                                        <div class="dropdown-menu actionMenuList">
+                                             <li>
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AssetsDetailModal" (click)="onAssetRequestOpen(asset)">
+                                                  <i class="bi bi-eye"></i>
+                                                  View request
+                                                </a>
+                                              </li>
+                                        </div>
+                                    </div>
+
                                   </td>
                                </tr>
                             </tbody>
@@ -1270,7 +1277,7 @@
         <app-asset-request
           *ngIf="isAssetRequestModalOpen"
           [data]="assetModalData"
-          (closeEvent)="onAssetComponentClose()">
+          (closeModal)="onAssetComponentClose()">
         </app-asset-request>
     </div>
  </div>
@@ -1374,7 +1381,7 @@
  </div>
 
 
- 
+
  <div class="modal fade delete-modal" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -1424,11 +1431,11 @@
  [nzMaskClosable]="false"
  [nzWidth]="400"
  [nzVisible]="visible2"
- nzTitle="Update Category"
+ nzTitle="Manage Categories"
  (nzOnClose)="close2()"
    >
    <ng-container *nzDrawerContent>
-      <div class="text-end border-bottom  pb-3">
+      <div class="text-end border-bottom  pb-3" *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)" >
         <button class="btn p-0 font-13 fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
          <i class="bi bi-plus font-16 position-relative" style="top: 2px;"></i> Add Category
       </button>
@@ -1439,7 +1446,7 @@
         <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0 font-14 fw-semibold">{{ category.categoryName }}</h5>
 
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-3" *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)">
            <i *ngIf="category.categoryId>0 && !isEditing[i]" class="bi bi-pencil text-primary font-14"
               (click)="assignCategoryId(category, i); isEditing[i] = !isEditing[i]"></i>
               <i class="bi bi-x-lg text-primary font-14"
@@ -1506,7 +1513,7 @@
             <div class="bg-white p-4 text-center">
 
               <div>
-                <h5 class="alert-heading font-18 mb-2">
+                <h5 class="alert-heading font-18 mb-2 lh-base">
                   Are you sure you want to delete <br />
                     {{selectedAsset?.cat }} category?
                 </h5>

@@ -244,15 +244,7 @@
   border: 1px solid #f1f1f1;
 }
 
-.btnAction {
-  border-radius: 2px;
-  background: #e4e7ff;
-  color: var(--primary-color);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.14px;
-  padding: 3px 10px;
-}
+
 
 .btnAction svg {
   width: 18px;
@@ -263,6 +255,7 @@
 .table-font-weight {
   font-weight: 400;
 }
+
 
 .historyToggleMain {
   border: none;

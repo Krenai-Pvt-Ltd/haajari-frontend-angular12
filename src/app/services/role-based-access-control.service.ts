@@ -73,6 +73,7 @@ export class RoleBasedAccessControlService {
         // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
+        // this.userInfo!.role=res.role;
         this.ROLE = res.role;
         // console.log("updated uuid",  this.userInfo!.uuid)
         this.isUserInfoInitialized = true;
@@ -90,27 +91,16 @@ export class RoleBasedAccessControlService {
   }
 
   async getRole() {
-
-    let role = null;
-    // this.userInfo = await this.helperService.getDecodedValueFromToken();
-    // this.userInfo= await this.helperService
-    //   .getDecodedValueFromToken()
-    //   .then((response: any) => {
-    //     this.userInfo = response;
-    //     role = this.userInfo.role;
-      // });
-    return this.userInfo.role;
+    return this.userInfo?.role;
   }
 
   getRoles() {
-    // console.log("role is ",this.userInfo)
-    return this.userInfo!.role;
+    return this.userInfo?.role;
   }
 
   async getUUID(): Promise<string> {
    
     if (this.userInfo && this.userInfo.uuid) {
-      // console.log('userInfo:', this.userInfo);
       return Promise.resolve(this.userInfo.uuid);
     } else {
       return Promise.resolve("");
@@ -122,18 +112,8 @@ export class RoleBasedAccessControlService {
     return Promise.resolve(this.userInfo!.onboardingStep);
   }
 
-  // getUUID(){
-  //   return this.userInfo.uuid;
-  // }
-
-  // getUUIDTemp(): Promise<string>{
-  //   return Promise.resolve(this.userInfo.uuid);
-  // }
 
   getOrgRefUUID() {
-    debugger
-    //TODO
-    // console.log(this.userInfo)
     if(this.userInfo){
       return this.userInfo!.orgRefId;
 
@@ -152,15 +132,6 @@ export class RoleBasedAccessControlService {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         let subModules = this.helperService.subModuleResponseList;
-
-        // if(this.helperService.subModuleResponseList == undefined 
-        //   || this.helperService.subModuleResponseList == null 
-        //   || this.helperService.subModuleResponseList.length ==0  ){
-
-        //     this.helperService.subModuleResponseList = await this.helperService.getAccessibleSubModuleResponseMethodCall(); 
-
-        // }
-
         if (subModules == undefined || subModules == null || subModules.length == 0) {
           this.helperService.subModuleResponseList = await this.helperService.getAccessibleSubModuleResponseMethodCall();  
           subModules = this.helperService.subModuleResponseList; 
@@ -179,19 +150,76 @@ export class RoleBasedAccessControlService {
           resolve(false);
         }
 
-        // for (const subModule of subModules) {
-        //   if (
-        //     subModule.description === subModuleRouteValue &&
-        //     subModule.isAccessible
-        //   ) {
-        //     resolve(true);
-        //     return;
-        //   }
-        // }
-
       } catch (error) {
         reject(error);
       }
     });
   }
+
+  hasWriteAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return true;
+    }
+  
+    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+      return this.helperService.subModuleResponseList.some((module: any) => 
+        module.description === route && module.privilegeId === 2
+      );
+    }
+  
+    return false; // Ensures default behavior if no match is found
+  }
+  
+
+  hasReadOnlyAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return false;
+    }
+    if ( this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0 ) {
+      return this.helperService.subModuleResponseList.some((module: any) =>
+         module.description === route && module.privilegeId === 1);
+    }
+  
+    return true;
+  }
+  idAdminOnlyAccess(): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  hasAccess(route: string): boolean {
+    if (this.ROLE === Key.ADMIN) {
+      return true;
+    }
+  
+    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+      return this.helperService.subModuleResponseList.some((module: any) => 
+        module.description === route 
+      );
+    }
+  
+    return true; // Ensures default behavior if no match is found
+  }
+  
+
+  /**
+   * Common action buttons managemnt methods for all modules START
+   */
+  showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
+    return (leave.status == statusCheck &&
+       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+        ||logInUserUuid==leave.managerUuid ));
+   }
+
+   showAttendanceUpdateActionButton(leave:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
+    return (leave.status.id == statusCheck &&
+       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+        ||logInUserUuid==leave.managerUuid ));
+   }
+    /**
+   * Common action buttons managemnt methods for all modules END
+   */
 }

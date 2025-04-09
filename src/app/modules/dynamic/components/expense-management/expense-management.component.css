@@ -37,10 +37,6 @@
     border-radius: 0px 0px 5px 5px;
 
 }
-.wallet-transactions-list img{
-    width: 45px;
-    border-radius: 50px;
-}
 .wallet-transactions-list{
    max-height: 370px;
    overflow: scroll;
@@ -134,19 +130,25 @@
     border: 1px solid #F2F2F2;
     border-radius: 2px;
 }
-.client-report{
-    border: 1px solid #EAEAEA;
-}
-.client-report img{
-    width: 60px;
-    border-radius: 50px;
-}
 .categories-report{
-   height: 500px;
+    height: 500px;
+}
+.categories-list{
+   height: 350px;
    overflow: scroll;
 }
-.categories-report::-webkit-scrollbar{
+.categories-list::-webkit-scrollbar{
     display: none;
+}
+.expanse-type-list{
+    height: 410px;
+    overflow: scroll;
+ }
+ .expanse-type-list::-webkit-scrollbar{
+     display: none;
+ }
+.object-fit-cover{
+    object-fit: cover;
 }
 ::ng-deep .ant-progress-bg, .ant-progress-success-bg{
     background-color: #6666F2 !important;
@@ -155,7 +157,7 @@
     position: sticky;
     top: 0px;
     background-color: #fff;
-    z-index: 999;
+    z-index: 10;
 }
 .departmental-separator{
     border-left: 1px solid #DCDCE4;
@@ -215,18 +217,22 @@
     border: none;
     height: 45px !important;
     border-left: 0;
-    border-right: 1px solid #EAEAEA;
     font-weight: 400 !important;
     font-size: 14px !important;
     color: #1f1f1f !important;
 }
 
-
+.nots-section{
+    background-color: rgba(236, 236, 236, 0.21) !important;
+    width: 100%;
+    height: 80px !important;
+    border: 1px solid #e9e9e9;
+}
 .search-icon {
-    font-size: 13px !important;
-    position: absolute !important;
+    font-size: 13px;
+    position: absolute ;
     top: 0;
-    color: var(--tb-secondary-color) !important;
+    color: var(--tb-secondary-color) ;
     margin: auto auto auto 15px;
 }
 
@@ -316,4 +322,37 @@
     transform: rotate(180deg);
     transition: transform 0.3s ease;
     display: inline-block;
+}
+.expanse-type-chart{
+    max-width: 190px;
+    width: 100%;
+    height: 71px;
+    margin-top: -20px;
+    margin-right: -36px;
+}
+
+.team-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 150px;
+}
+.calendar-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 20px;
+}
+.form-multiselect {
+    border: 1px solid #e8ebf3 !important;
+}
+.info-count {
+    background-color: #F2F4F4;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
+.excel-upload-file-box {
+    border: 1px dashed #ABABAB;
+    background-color: rgba(244, 247, 255, 0.30);
+    border-radius: 2px;
+    height: 250px;
 }

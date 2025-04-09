@@ -118,19 +118,13 @@
                   <button
                     class="btn w-100 text-white proceed-payment mt-3"
                     style="background-color: #ec4b42"
-                    *ngIf="orgSubscriptionPlanDetail.expired" (click)="selectPlan(orgSubscriptionPlanDetail.plan)">
+                    *ngIf="orgSubscriptionPlanDetail.expired && _roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)" (click)="selectPlan(orgSubscriptionPlanDetail.plan)">
                     Make Payment
                   </button>
                 </div>
 
                 <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
                   <div class="d-flex align-items-start justify-content-between">
-                    <!-- <span
-                      class="rules-regulatio-back d-flex align-items-center justify-content-center pointer"
-                      (click)="switchRulesRegulation()"
-                    >
-                      <i class="bi bi-chevron-left"></i>
-                    </span> -->
                     <div>
                       <h5 class="font-20 mb-1">Rules & Regulation</h5>
                       <p class="mb-0 font-14">
@@ -441,13 +435,15 @@
                                 with annual contract
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
-
+                             
                               <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==0"
+                              [ngClass]="{'disable-action-item':!_roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)}"
                                 (click)="selectPlan(plan)">
                                 Purchase plan
                               </button>
                               <!-- style="background-color: #8b8aff; color: #fff;" -->
                               <button class="btn current-plan w-100 mb-4 " *ngIf="plan.isPurchased==1"
+                              [ngClass]="{'disable-action-item':!_roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)}"      
                                 (click)="selectPlan(plan)">
                                 Current plan
                               </button>
@@ -793,16 +789,16 @@
           </div>
           <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
             <div class="col-md-12 mt-3" style="padding-right: 15px">
-              <ul class="nav historyToggleMain" id="pills-tab" role="tablist">
+              <ul class="nav historyToggleMain " id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="historyToggleBtn active" id="payment-history-tab" data-bs-toggle="pill"
+                  <button class="nav-link-punch active" id="payment-history-tab" data-bs-toggle="pill"
                     data-bs-target="#payment-history" type="button" role="tab" aria-controls="payment-history"
                     aria-selected="true">
                     Payment History
                   </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="historyToggleBtn" id="due-payment-tab" data-bs-toggle="pill"
+                  <button class="nav-link-punch" id="due-payment-tab" data-bs-toggle="pill"
                     data-bs-target="#due-payment" type="button" role="tab" aria-controls="due-payment"
                     aria-selected="false" tabindex="-1" *ngIf="dueInvoices.length>0">
                     Due payment
@@ -823,7 +819,7 @@
                     <table class="table empOnnoardtable">
                       <thead class="thead-light">
                         <tr>
-                          <th class="stickyColTh text-center" style="width: 10%">
+                          <th class="stickyColTh" style="width: 10%">
                             Invoice ID
                           </th>
                           <th class="text-center" style="width: 10%">Plan</th>
@@ -844,7 +840,7 @@
                             Payment Mode
                           </th> -->
 
-                          <th class="text-center stickyColThend" style="width: 10%">
+                          <th class="stickyColThend" style="width: 10%">
                             Action
                           </th>
                         </tr>
@@ -926,13 +922,13 @@
                       </tbody>
                       <tbody *ngIf="!invoiceLoading">
                         <tr class="" *ngFor="let invoice of invoices;">
-                          <td class="stickyColTd text-center">
+                          <td class="stickyColTd">
                             <span class="teme-maneger mb-0 table-font-weight">
                               {{invoice.invoiceNo}}</span>
                           </td>
                           <td class="text-center">
-                            <div class="badge rounded-pill"
-                              [ngClass]="{'badge-soft-primary': invoice.planName == 'Basic', 'badge-soft-warning': invoice.planName == 'Premium', 'badge-soft-success': invoice.planName == 'Custom'}">
+                            <div class="font-13 fw-semibold"
+                              [ngClass]="{'text-primary': invoice.planName == 'Basic', 'text-warning': invoice.planName == 'Premium', 'text-success': invoice.planName == 'Custom'}">
                               <span> {{invoice.planName}}</span>
                             </div>
                           </td>
@@ -961,8 +957,9 @@
                           </td> -->
 
 
-                          <td class="stickyColTdend text-center">
+                          <td class="stickyColTdend">
                             <button type="button" class="btn btnAction" (click)="download(invoice)">
+                              <!-- *ngIf="!downloadInvoiceLoading"-->
                               <svg *ngIf="!downloadInvoiceLoading" xmlns="http://www.w3.org/2000/svg" width="12"
                                 height="11" viewBox="0 0 12 11" fill="none">
                                 <path
@@ -975,7 +972,6 @@
                                 <span></span>
                                 <span></span>
                               </div>
-                              <span *ngIf="!downloadInvoiceLoading">Download</span>
                             </button>
                           </td>
                         </tr>
@@ -1404,7 +1400,7 @@
 
 
                   <i class="bi bi-x-lg" *ngIf="showCoupon"
-                    (click)="showCoupon=false; couponCode=''; isCouponVerified = false"></i>
+                    (click)="removeCoupon()" ></i>
 
                 </button>
               </div>
@@ -1445,7 +1441,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn w-100 text-white proceed-payment mt-3"
+            <button class="btn w-100 text-white proceed-payment mt-3" *ngIf="_roleBasedService.hasWriteAccess(Routes.SUBSCRIPTION)"
               [disabled]="payableAmount == 0 || isUnderProcess || !isValidEmployeeCount" (click)="activatePlan()">
               Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status"
                 aria-hidden="true"></span>

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { LeaveResponse } from 'src/app/models/leave-responses.model';
 import { HelperService } from 'src/app/services/helper.service';
 import { LeaveService } from 'src/app/services/leave.service';
@@ -16,7 +17,7 @@ export class LeaveRequestComponent implements OnInit {
   constructor(
     private leaveService: LeaveService,
     private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -30,6 +31,8 @@ export class LeaveRequestComponent implements OnInit {
 
 
     isModal: boolean = true;
+    readonly Routes=Routes;
+
   ngOnInit(): void {
 
     this.ROLE = this.rbacService.userInfo.role;

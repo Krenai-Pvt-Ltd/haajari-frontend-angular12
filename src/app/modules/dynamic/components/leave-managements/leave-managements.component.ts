@@ -10,6 +10,8 @@ import { DatePipe } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
 import {ApexAxisChartSeries, ApexChart,ApexXAxis,ApexYAxis,ApexDataLabels,ApexTooltip,ApexGrid,ApexFill,ApexMarkers,ApexTitleSubtitle,ChartComponent,ApexPlotOptions,ApexTheme,ApexStroke, ApexLegend,} from 'ng-apexcharts';
 import { constant } from 'src/app/constant/constant';
+import { NavigationExtras, Router } from '@angular/router';
+import { Routes } from 'src/app/constant/Routes';
 
 
 export type ChartOptions = {
@@ -48,7 +50,10 @@ export type ChartOptions1 = {
 })
 export class LeaveManagementsComponent implements OnInit {
 
-  constructor(private leaveService:LeaveService,private helperService: HelperService,  private dataService: DataService,   private rbacService: RoleBasedAccessControlService,private datePipe: DatePipe
+  constructor(private leaveService:LeaveService,
+    private helperService: HelperService,  private dataService: DataService,
+       public rbacService: RoleBasedAccessControlService,
+       private datePipe: DatePipe, private router: Router
   ,private cdr: ChangeDetectorRef) {
 
   }
@@ -72,6 +77,8 @@ export class LeaveManagementsComponent implements OnInit {
   HALFDAY = Key.HALFDAY;
 
   readonly Constants=constant;
+  readonly Routes=Routes;
+
 
   ALL: string = 'all';
   isLoadingLeaves:boolean = false;
@@ -329,6 +336,13 @@ organizationRegistrationDate: string = '';
    * GET LEAVES START
    */
 
+  routeToUserDetails(uuid: string) {
+      let navExtra: NavigationExtras = {
+        queryParams: { userId: uuid },
+      };
+      const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+      window.open(url, '_blank');
+    }
 
   pendingLeaveCount: number = 0;
   isFirstLoad: boolean = true;
@@ -1116,9 +1130,14 @@ onMonthChange(month: Date): void {
   getReportDetailsForLeaveTeamOverview(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDateWeek, this.endDateWeek).subscribe({
       next: (response: any) => {
+        if(response.status){
         this.leaveReportResponse = response.object;
         const approvedLeaveCounts = response.object?.approvedLeaveCounts ?? [];
         this.initChartData(approvedLeaveCounts);
+        }else {
+          this.series = [];
+          this.isChartInitialized = true;
+        }
       },
       error: (err) => console.error('Error fetching leave data', err),
     });
@@ -1162,8 +1181,12 @@ onMonthChange(month: Date): void {
   getReportDetailsForLeaveTeamOverviewForHeatMap(): void {
     this.leaveService.getReportDetailsForLeaveTeamOverview(this.startDate, this.endDate).subscribe({
       next: (response: any) => {
+        if(response.status){
         const approvedLeaveCounts = response.object?.approvedLeaveCounts ?? [];
         this.initChartDataHeatMap(approvedLeaveCounts);
+        } else {
+            this.initChartDataHeatMap([]);
+        }
       },
       error: (err) => console.error('Error fetching leave data', err),
     });
@@ -1460,6 +1483,10 @@ routeToUserProfile(uuid: string) {
 
 
 
-
+// showLeaveActionButton(leave:any): boolean {
+//   return (leave.status == this.PENDING &&
+//      ((this.logInUserUuid!=leave.uuid && this.logInUserUuid==leave.managerUuid)
+//       ||this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)));
+//  }
 
 }

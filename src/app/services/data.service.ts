@@ -525,7 +525,8 @@ export class DataService {
     searchBy: string,
     leaveSettingId: number,
     teamId: number,
-    selectedStaffIdsUser: any
+    selectedStaffIdsUser: any,
+    isProbation?: Boolean
   ): Observable<any> {
     let params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -541,6 +542,9 @@ export class DataService {
     if (search != null && search != '') {
       params = params.set('page_number', 0);
       params = params.set('item_per_page', 0);
+    }
+    if (isProbation) {
+      params = params.set('probation', isProbation.toString());
     }
 
     return this.httpClient.get<any>(
@@ -2083,7 +2087,7 @@ export class DataService {
   }
 
   getUserResignations(
-    status: string | null,
+    status: string[] | null,
     name: string | null,
     page: number = 1,
     size: number = 10
@@ -2092,8 +2096,11 @@ export class DataService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (status) {
-      params = params.set('status', status);
+      if (status && Array.isArray(status)) {
+        // Add multiple status IDs as separate parameters
+        status.forEach(statusId => {
+            params = params.append('statusIds', statusId);
+        });
     }
 
     if (name) {
@@ -4576,6 +4583,14 @@ export class DataService {
     });
   }
 
+
+  countPendingTransaction(statusId: number) {
+    const params = new HttpParams().set('statusId', statusId.toString());
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count-by-status`, { params });
+  }
+  
+
   saveTags(id: number, tags: string[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.baseUrl}/company-expense/save-tags?id=${id}`;
@@ -4678,12 +4693,14 @@ export class DataService {
     });
   }
 
-  deleteCompanyExpenseTypePolicy(id: number): Observable<any> {
-    const params = new HttpParams().set('expenseTypeId', id);
-    return this.httpClient.delete(`${this.baseUrl}/company-expense-type`, {
-      params,
-    });
+  deleteCompanyExpenseTypePolicy(expensePolicyId: number, expensePolicyTypeId: number): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('expenseTypeId', expensePolicyId);
+    params = params.append('companyexpensePolicyTypeId', expensePolicyTypeId);
+  
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-policy/delete-company-expense-type-policy`, { params });
   }
+  
 
   getUserMappedWithPolicy(
     selectedUserIds: any,

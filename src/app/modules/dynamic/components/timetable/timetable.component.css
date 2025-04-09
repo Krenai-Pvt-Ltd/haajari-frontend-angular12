@@ -493,20 +493,12 @@ span.request-count {
 
 .white-space{
   white-space: normal;
-  width: 140px;
+  max-width: 140px;
   display: block;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.btnAction {
-  background-color: #F9FAFC;
-  width: 30px;
-  height: 33px;
-  border-radius: 2px;
-  border: 1px solid #EFEFEF;
 }
 
 .actionMenuList .dropdown-item {
@@ -589,4 +581,17 @@ span.request-count {
   width: 300px !important;
   filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
   z-index: 999;
+}
+
+.info-count {
+  background-color: #F2F4F4;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+.excel-upload-file-box {
+  border: 1px dashed #ABABAB;
+  background-color: rgba(244, 247, 255, 0.30);
+  border-radius: 2px;
+  height: 250px;
 }

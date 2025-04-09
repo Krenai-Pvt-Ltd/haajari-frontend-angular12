@@ -415,25 +415,6 @@ span.lat {
     background-color: transparent;
 }
 
-/* .nav-pills .nav-item.show .nav-link,
-.nav-pills .nav-link.active {
-    background: transparent !important;
-    color: var(--primary-color) !important;
-    border-radius: 0;
-    border-bottom: 2px solid var(--primary-color);
-} */
-
-/* .nav-link {
-    margin-right: 20px;
-    display: block;
-    padding: 7px 10px;
-    color: #000;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 500;
-    text-align: left;
-} */
-
 .nav-link svg {
     width: 15px;
     position: relative;
@@ -471,9 +452,20 @@ span.lat {
 .mobile-top-menu {
     display: none;
 }
+.profile{
+    background-color: #EAEAFF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #6666f2;
+}
 
 
 @media screen and (max-width: 500px) {
+    .nav-link {
+        margin-right: 10px;
+        font-size: 15px;
+    }
     .col-md-3 {
         width: 100% !important;
     }

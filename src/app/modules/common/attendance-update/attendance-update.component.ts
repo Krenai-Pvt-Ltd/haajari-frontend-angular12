@@ -1,9 +1,10 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import moment from 'moment';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -31,12 +32,18 @@ export class AttendanceUpdateComponent implements OnInit {
 
   userId: any = '';
   ROLE: any = '';
+  logInUserUuid:any="";
   attendanceTimeUpdateForm!: FormGroup;
   attendanceData: any = {};
-  ngOnInit(): void {
 
-    this.userId = this.roleService.getUuid();
+  readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
+  async ngOnInit(): Promise<void> {
+
+    this.userId = await this.roleService.getUuid();
     this.ROLE = this.roleService.getRoles();
+    this.logInUserUuid = await this.roleService.getUUID();
+
     this.initializeForm();
     this.fetchManagerNames();
     this.isModal=this.data.isModal;
@@ -55,19 +62,19 @@ export class AttendanceUpdateComponent implements OnInit {
   // Initialize the form with controls
   initializeForm(): void {
     this.attendanceTimeUpdateForm = this.fb.group({
-      requestedDate: [null],
+      requestedDate: [null, Validators.required],
       attendanceRequestType: ['UPDATE'],
       updateGroup: this.fb.group({
-        requestType: [''],
-        attendanceId: [''],
-        updatedTime: [null],
+        requestType: ['', Validators.required],
+        attendanceId: ['', Validators.required],
+        updatedTime: [null, Validators.required],
       }),
       createGroup: this.fb.group({
-        inRequestTime: [null],
-        outRequestTime: [null],
+        inRequestTime: [null , Validators.required],
+        outRequestTime: [null , Validators.required],
       }),
-      managerId: [''],
-      requestReason: ['']
+      managerId: ['', Validators.required],
+      requestReason: ['', Validators.required],
     });
   }
 
@@ -202,18 +209,19 @@ export class AttendanceUpdateComponent implements OnInit {
     if (this.checkHoliday === true || this.checkAttendance === true) {
       return false;
     }
+    const requestedDate = this.attendanceTimeUpdateForm.get('requestedDate');
     if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'UPDATE') {
       const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-      return (updateGroup ? updateGroup.valid : false) &&
+      return (updateGroup ? updateGroup.valid : false) && (requestedDate ? requestedDate.valid : false) &&
         (managerId ? managerId.valid : false) &&
         (requestReason ? requestReason.valid : false);
     } else if (this.attendanceTimeUpdateForm.get('attendanceRequestType')?.value === 'CREATE') {
       const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-      return (createGroup ? createGroup.valid : false) &&
+      return (createGroup ? createGroup.valid : false) && (requestedDate ? requestedDate.valid : false) &&
         (managerId ? managerId.valid : false) &&
         (requestReason ? requestReason.valid : false);
     }

@@ -17,6 +17,7 @@
     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#TDS" type="button" [class.disabled]="step < TDS"
      role="tab" aria-controls="TDS" aria-selected="false" (click)="selectTab(TDS)" #step12Tab>TDS</button>
   </li>
+  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.PAYROLLDASHBOARD)">
   <button type="button" class="btn btn-primary text-center position-absolute" style="right:20px; width :150px" 
       *ngIf="step<=TDS" (click)="updatePayrollStep()">
     <span *ngIf="!processing">
@@ -30,6 +31,7 @@
         <span></span>
       </div>
   </button>
+  </ng-container>
 </ul>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade" id="EPF" role="tabpanel" aria-labelledby="pills-home-tab">

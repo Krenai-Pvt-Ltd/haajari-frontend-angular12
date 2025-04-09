@@ -51,7 +51,6 @@ import { HttpClientJsonpModule } from '@angular/common/http';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
-import { AssetsComponent } from './components/assets/assets.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
@@ -99,7 +98,6 @@ import { ExpensePolicyComponent } from './components/expense-policy/expense-poli
     SafePipe,
     RoleAddComponent,
     EmployeeOnboardingDataComponent,
-    AssetsComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,
     SubscriptionComponent,
@@ -110,7 +108,7 @@ import { ExpensePolicyComponent } from './components/expense-policy/expense-poli
     InboxComponent,
     AssetsManagementComponent,
     ExpenseManagementComponent,
-    ExpensePolicyComponent
+    ExpensePolicyComponent,
   ],
   imports: [
     CommonModule,
@@ -175,3 +173,4 @@ import { ExpensePolicyComponent } from './components/expense-policy/expense-poli
 })
 
 export class DynamicModule {}
+

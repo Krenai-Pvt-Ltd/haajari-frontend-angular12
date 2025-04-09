@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { async } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { StaffAddressDetailsForMultiLocationRequest } from 'src/app/models/StaffAddressDetailsForMultiLocationRequest';
@@ -20,9 +19,9 @@ import { ActivatedRoute } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
 import { constant } from 'src/app/constant/constant';
-import { NotificationType } from 'src/app/models/NotificationType';
 import { NotificationTypeInfoRequest } from 'src/app/models/NotificationType';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
 
 @Component({
   selector: 'app-company-setting',
@@ -39,15 +38,17 @@ export class CompanySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private afStorage: AngularFireStorage,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private sanitizer: DomSanitizer,
     private placesService: PlacesService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private rbacService: RoleBasedAccessControlService
+    public rbacService: RoleBasedAccessControlService
   ) { }
 
-  public constants = constant;
+  public readonly constants = constant;
+  readonly Routes=Routes;
+
 
   ngOnInit(): void {
     window.scroll(0, 0);
@@ -141,6 +142,13 @@ export class CompanySettingComponent implements OnInit {
         console.error('Error saving modules:', error);
       });
   }
+  // showErrorToast(){
+  //   // module.isFlag = isFlag;  // Revert the change
+  //   this.helperService.showToast(
+  //     'You can not update the configuration . You have Read Only access !',
+  //     Key.TOAST_STATUS_ERROR
+  //   );
+  // }
 
   isFileSelected = false;
   onFileSelected(event: Event): void {
@@ -600,7 +608,6 @@ export class CompanySettingComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   isAllUsersSelected: boolean = false;
@@ -659,7 +666,6 @@ export class CompanySettingComponent implements OnInit {
         }
       });
     }
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   onSelectAllUsersChange(event: any) {
@@ -671,7 +677,6 @@ export class CompanySettingComponent implements OnInit {
     this.isAllSelected = false;
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   clearSearchText() {
@@ -820,69 +825,6 @@ export class CompanySettingComponent implements OnInit {
     // this.fetchCurrentLocationLoader = false;
   }
 
-  // getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
-  //   return new Promise((resolve, reject) => {
-  //     if (navigator.geolocation) {
-  //       navigator.geolocation.getCurrentPosition(
-  //         (position) => {
-  //           resolve({
-  //             latitude: position.coords.latitude,
-  //             longitude: position.coords.longitude,
-  //           });
-  //         },
-  //         (err) => {
-  //           reject(err);
-  //         }
-  //       );
-  //     } else {
-  //       reject('Geolocation is not supported by this browser.');
-  //     }
-  //   });
-  // }
-
-
-
-
-  // checkFormValidationLocation() {
-  //   debugger
-  //   if (
-  //     this.organizationAddressForm.invalid ||
-  //     !this.organizationAddressDetail.longitude ||
-  //     !this.organizationAddressDetail.latitude
-  //   ) {
-  //     this.isFormInvalidLocation = true;
-  //     return;
-  //   } else {
-  //     if (!this.organizationAddressDetail.country) {
-  //       this.isFormInvalidLocation = true;
-  //     } else {
-  //       this.isFormInvalidLocation = false;
-  //       this.isStaffSelectionDisabled = false;
-  //       // this.isStaffSelectionDisabled = false;
-  //     }
-  //   }
-  //   // this.isStaffSelectionDisabled = !this.isFormInvalidLocation;
-  // }
-
-  // submit() {
-  //   debugger;
-  //   this.toggle = true;
-  //   this.checkFormValidationLocation();
-
-  //   if (this.isFormInvalidLocation == true) {
-  //      this.isStaffSelectionDisabled = true;
-  //      this.toggle = false;
-  //     return;
-  //   } else {
-  //     this.toggle = false;
-  //     // this.selectAll(true);
-
-  //     this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
-  //     this.openStaffSelection();
-  //     // this.getUserByFiltersMethodCall();
-  //   }
-  // }
-
   isFormInvalidLocation: boolean = false;
   isStaffSelectionDisabled: boolean = false;
   @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
@@ -917,7 +859,6 @@ export class CompanySettingComponent implements OnInit {
     }
 
     this.toggle = false;
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
     this.openStaffSelection();
   }
 
@@ -1264,22 +1205,7 @@ export class CompanySettingComponent implements OnInit {
   @ViewChild("closeButtonHrPolicies") closeButtonHrPolicies!:ElementRef;
 
   @ViewChild("closeButton") closeButton!:ElementRef;
-  userNameWithBranchName: any;
-  getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
-    this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
-      (response) => {
-        this.userNameWithBranchName = response.listOfObject;
-        if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
-          this.isAllSelected = false;
-          this.isAllUsersSelected = false;
-          this.closeButton.nativeElement.click();
-        }
-      },
-      (error) => {
-        console.log('error');
-      }
-    );
-  }
+
 
 
   isValidated: boolean = false;
@@ -1288,29 +1214,10 @@ export class CompanySettingComponent implements OnInit {
   }
 
 
-  removeUser(uuid: string) {
-    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-      (id) => id !== uuid
-    );
-    this.staffs.forEach((staff) => {
-      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
-    });
-
-    this.isAllSelected = false;
-    // if(this.selectedStaffsUuids.length <1) {
-      // this.unselectAllUsers();
-    // }
-    // this.updateSelectedStaffs();
-    this.userNameWithBranchName = [];
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "SHIFT_USER_EDIT");
-    // this.getUserByFiltersMethodCall();
-
-  }
 
 
   closeModal() {
     this.isValidated = false;
-    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   @ViewChild("closeButton2") closeButton2!:ElementRef;
@@ -2168,7 +2075,13 @@ handleSwitchDisable(type: string): Promise<void> {
 
   //  new
 
-
+  staffCount(staff:any){
+    if(staff  == null){
+      return 0;
+    }else{
+      return staff.length;
+    }
+  }
 
 
 }

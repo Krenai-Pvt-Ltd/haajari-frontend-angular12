@@ -258,4 +258,15 @@ return this._http.get<any>(`${this._key.base_url}/payroll/step/final-settlement`
     });
   }
 
+
+  updateUserBonusDetail(url:string, fileName:string,startDate:string, endDate:string): Observable<any>{
+    const params = new HttpParams()
+    .set('url',url)
+    .set('fileName',fileName)
+    .set('start_date',startDate)
+    .set('end_date',endDate);
+    return this._http.put<any>(`${this._key.base_url}/bonus/import`, {},{params});
+  }
+
+
 }

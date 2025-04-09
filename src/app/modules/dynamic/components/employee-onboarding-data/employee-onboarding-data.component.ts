@@ -1,5 +1,5 @@
 import { constant } from 'src/app/constant/constant';
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +25,8 @@ import { UserResignation } from 'src/app/models/UserResignation';
 import { OnboardUser } from 'src/app/models/OnboardUser';
 import { debounceTime } from 'rxjs/operators';
 import { ModalService } from 'src/app/services/modal.service';
+import { environment } from 'src/environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
@@ -33,12 +35,15 @@ import {
   ApexPlotOptions,
   ApexGrid,
 } from "ng-apexcharts";
+import { Routes } from 'src/app/constant/Routes';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import * as firebase from 'firebase/app';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 export interface Team {
   label: string;
   value: string;
 }
-
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -134,14 +139,20 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     new UserPersonalInformationRequest();
 
   @ViewChild('importModalOpen') importModalOpen!: ElementRef;
+
+    readonly Routes = Routes;
+    readonly Constants = constant;
   constructor(
     private dataService: DataService,
     private _onboardingService: OrganizationOnboardingService,
+    private db: AngularFireDatabase,
     private router: Router,
     private helperService: HelperService,
     private ngbModal: NgbModal,
     private _subscriptionService:SubscriptionPlanService,
-    private modalService: ModalService
+     public rbacService: RoleBasedAccessControlService,
+     private cdr: ChangeDetectorRef,
+
   ) {}
   // users: EmployeeOnboardingDataDto[] = [];
   users: EmployeeOnboardingDataDto[] = new Array();
@@ -217,10 +228,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
+    this.getUploadStatusFromFirebase(this.rbacService.getOrgRefUUID());
     this.dataService.onNotification().subscribe(() => {
       this.getShiftData();
     });
 
+    firebase.initializeApp(environment.firebase);
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
     if (storedDownloadUrl) {
@@ -491,7 +504,8 @@ appliedFilters: string[] = []
     resignations: any[] = [];
     page: number = 1;
     size: number = 10;
-    status: string | null = '13';
+    status: string[] | null = ['13'];
+    actualStatus: string[] = ['13'];
     resignationSearch: string | null = '';
     totalRequests: number = 0;
     isResignationLoading: boolean = false;
@@ -506,12 +520,13 @@ appliedFilters: string[] = []
     loadResignations(): void {
       this.isResignationLoading=true;
       this.dataService
-        .getUserResignations(this.status, this.resignationSearch, this.page, this.size)
+        .getUserResignations(this.selectedStatuses, this.resignationSearch, this.page, this.size)
         .subscribe({
           next: (data) => {
             this.isResignationLoading=false;
             this.resignations = data.content;
             this.totalRequests =data.totalElements;
+            this.actualStatus = this.selectedStatuses;
           },
           error: (err) => {
             this.isResignationLoading=false;
@@ -520,6 +535,63 @@ appliedFilters: string[] = []
         });
     }
 
+    selectedStatuses: string[] = ['13'];
+    onStatusChange(statusValue: string, event: Event): void {
+      const isChecked = (event.target as HTMLInputElement).checked;
+
+      console.log('Status value:', statusValue, isChecked);
+      console.log('Selected statuses:', this.selectedStatuses);
+      if (statusValue === '' && isChecked) {
+        // If "All" is selected, clear other selections
+        this.selectedStatuses = [];
+      } else if (isChecked) {
+        // Remove "All" if it exists and add new status
+        this.selectedStatuses = this.selectedStatuses.filter(s => s !== '');
+        this.selectedStatuses.push(statusValue);
+      } else {
+        // Remove the unchecked status
+        this.selectedStatuses = this.selectedStatuses.filter(s => s !== statusValue);
+      }
+
+    }
+
+    // Update status label (optional, can be removed if not needed elsewhere)
+    updateStatusLabel(): void {
+      if (this.selectedStatuses.length === 0 || this.selectedStatuses.includes('')) {
+        this.statusLabel = 'All';
+      } else {
+        this.statusLabel = ''; // We'll rely on pills instead
+      }
+    }
+
+    // Reset filters
+    resetFilter(): void {
+      this.selectedStatuses = [];
+      this.statusLabel = 'All';
+      this.resignationSearch = '';
+      this.loadResignations();
+      this.showFilter = false;
+    }
+
+    // Apply filters
+    applyFilters(): void {
+      this.loadResignations();
+      this.showFilter = false;
+    }
+    // Remove single status filter
+  removeStatus(status: string): void {
+    this.selectedStatuses = this.selectedStatuses.filter(s => s !== status);
+    this.actualStatus = this.actualStatus.filter(s => s !== status);
+    setTimeout(() => {
+    this.updateStatusLabel();
+    this.loadResignations();
+    }, 10);
+  }
+
+  // Get label for a status value
+  getStatusLabel(value: string): string {
+    return this.statusOptions.find(opt => opt.value === value)?.label || '';
+  }
     onResignationSearch(): void {
       if(this.resignationSearch!=null){
         this.searchSubject.next(this.resignationSearch);
@@ -530,14 +602,15 @@ appliedFilters: string[] = []
       this.page = page;
       this.loadResignations();
     }
-    selectResignationStatus(status: string, label:string){
-      if(status=='ALL'){
-        status='';
+    selectResignationStatus(statuses: string[] | 'ALL', label: string) {
+      if (statuses === 'ALL') {
+          this.status = null;  // Changed to null instead of empty string
+      } else {
+          this.status = statuses;
       }
-      this.status=status;
-      this.statusLabel=label;
+      this.statusLabel = label;
       this.loadResignations();
-    }
+  }
 
 
 
@@ -916,10 +989,16 @@ appliedFilters: string[] = []
   currentUserUuid: string = '';
   deleteOrDisableUserString: string = '';
 
-  @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+  @ViewChild('deleteConfirmationModalButton') deleteConfirmationModal: any;
 
   openDeleteConfirmationModal(userId: number, presenceStatus: boolean, uuid: string, stringStr: string) {
-    debugger
+    debugger;
+    if( !this.rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
+
+    this.deleteConfirmationModal.nativeElement.click();
     this.currentUserId = userId;
     this.currentUserPresenceStatus = presenceStatus;
     this.currentUserUuid = uuid;
@@ -928,6 +1007,10 @@ appliedFilters: string[] = []
 
 
   deleteOrDisable() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.SUBSCRIPTION)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+  }
     if(this.deleteOrDisableUserString === constant.DELETE) {
       if (this.currentUserId !== null) {
        this.deleteUser();
@@ -955,7 +1038,10 @@ appliedFilters: string[] = []
   text = '';
 
   changeStatusActive(status: boolean, userUuid: string) {
-    debugger;
+   if( !this.rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     this.disableUserLoader = true;
     this.dataService.changeStatusById(status, userUuid).subscribe(
       (data) => {
@@ -1109,6 +1195,7 @@ appliedFilters: string[] = []
       }
 
       const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
       reader.onload = (e: ProgressEvent<FileReader>) => {
         const arrayBuffer = e.target?.result as ArrayBuffer;
         const binaryStr = this.arrayBufferToString(arrayBuffer);
@@ -1123,7 +1210,6 @@ appliedFilters: string[] = []
         this.validateMap.clear;
 
         const columnNames: string[] = this.jsonData[0] as string[];
-        debugger
         if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) => {
                 // Ensure the 5th column is an array of strings, other columns are treated as strings
@@ -1136,19 +1222,18 @@ appliedFilters: string[] = []
                   }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
                     // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
                     const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-                    if (cell.includes('/')) {
-                      return undefined;
-                    }
+                    // if (cell.includes('/')) {
+                    //   return undefined;
+                    // }
                     cell=cell.replace(/\//g, '-');
 
                     if (isExactFormat) {
                         // Parse with strict format checking
-                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+                        const formattedDate = moment(cell, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
 
                         // Check if the date is valid and within the next year
                         if (formattedDate.isValid()) {
                             const oneYearFromNow = moment().add(1, 'year');
-
                             // Ensure date is within the next year
                             if (formattedDate.isBefore(oneYearFromNow)) {
                                 return formattedDate.format('MM-DD-YYYY');
@@ -1197,6 +1282,8 @@ appliedFilters: string[] = []
           });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
 
+          console.log(this.areAllFalse());
+          console.log(this.mismatches);
           if(this.areAllFalse() && this.mismatches.length===0){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
@@ -1209,20 +1296,29 @@ appliedFilters: string[] = []
           console.error('Invalid column names');
         }
       };
-      reader.readAsArrayBuffer(file);
     }
   }
   firstUpload:boolean=true;
   areAllFalse(): boolean {
+    try{
+
+
     if(this.firstUpload===true){
       this.firstUpload=false;
       return false;
     }
-    return this.invalidCells
-      .reduce((acc, row, rowIndex) => {
-        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
-      }, [])
-      .every(value => value === false);
+    return true;
+    // console.log("🚀 ~ EmployeeOnboardingDataComponent ~ areAllFalse ~ this.invalidCells:", this.invalidCells)
+    // return this.invalidCells
+    // .reduce((acc, row, rowIndex) => {
+    //   return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+    // }, [])
+    // .every((value:any) => value === false || value === null || value === undefined || value === "" || value === 0);
+      // .every(value => value === false);
+    }catch(error){
+      console.log("🚀 ~ EmployeeOnboardingDataComponent ~ areAllFalse ~ error:", error)
+      return false;
+    }
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -1300,7 +1396,6 @@ appliedFilters: string[] = []
   }
 
   validateRows(rows: any[]): void {
-    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
 
@@ -1324,6 +1419,7 @@ appliedFilters: string[] = []
           const email = cellValue.toString().trim();
           this.addToMap('Repeated Email: ' + email, `${i + 1}`);
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            this.addToMap('Invalid Email: ',`${i+1}`);
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -1338,6 +1434,7 @@ appliedFilters: string[] = []
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+            this.addToMap('Invalid Phone: ',`${i+1}`);
           }
         }else if(this.fileColumnName[j] === 'phone*'){
           this.addToMap('Empty Phone: ',`${i+1}`);
@@ -1379,62 +1476,114 @@ appliedFilters: string[] = []
           }
         }
 
-    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
-      if(this.constants.EMPTY_STRINGS.includes(cellValue)){
-        this.data[i+1][j]=[];
-      }
-      else{
-        console.log(cellValue)
-        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
-        this.data[i+1][j]=selectedData;
-      }
-    }else if(this.fileColumnName[j] === 'leavenames'){
-      this.addToMap('Empty Leave Names: ',`${i+1}`);
-    }
-    if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
-
-        // Replace slashes with hyphens
-        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
-
-        // Check if the normalized cell matches the exact MM-DD-YYYY format
-        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
-
-        if (isExactFormat) {
-            // Parse with strict format checking
-            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
-
-            // Check if the date is valid
-            if (formattedDate.isValid()) {
-                const oneYearFromNow = moment().add(1, 'year');
-
-                // Ensure the date is in the past or less than one year from today
-                if (formattedDate.isAfter(oneYearFromNow)) {
-                    this.data[i+1][j] = undefined;
-                    this.addToMap('Invalid Joining Date: ',`${i+1}`);
-                    rowIsValid = false;
-                    this.invalidRows[i] = true; // Mark the row as invalid
-                    this.invalidCells[i][j] = true; // Mark the cell as invalid
-                }
-            } else {
-                // If the date is not valid
-                this.addToMap('Invalid Joining Date: ',`${i+1}`);
-                this.data[i+1][j] = undefined;
-                rowIsValid = false;
-                this.invalidRows[i] = true; // Mark the row as invalid
-                this.invalidCells[i][j] = true; // Mark the cell as invalid
-            }
-        } else {
-            // If the format is not exactly MM-DD-YYYY
-            this.addToMap('Invalid Joining Date: ',`${i+1}`);
-            this.data[i+1][j] = undefined;
-            rowIsValid = false;
-            this.invalidRows[i] = true; // Mark the row as invalid
-            this.invalidCells[i][j] = true; // Mark the cell as invalid
+        if (this.fileColumnName[j] === 'gender*' ) {
+          var genderExists=false;
+          if(cellValue){
+            const gender = cellValue.toString().trim();
+            genderExists = this.genders.some(g =>g === gender);
           }
-        }else if(this.fileColumnName[j] === 'joiningdate*'){
-          this.addToMap('Empty Joining Date: ',`${i+1}`);
+          if (!genderExists || !cellValue) {
+              this.addToMap('Invalid gender: ',`${i+1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i+1][j] = '';
+          }
         }
 
+        if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
+          if (this.constants.EMPTY_STRINGS.includes(cellValue)) {
+            this.data[i + 1][j] = [];
+          }
+          else {
+            console.log(cellValue)
+            const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
+            this.data[i + 1][j] = selectedData;
+          }
+        } else if (this.fileColumnName[j] === 'leavenames') {
+          this.addToMap('Empty Leave Names: ', `${i + 1}`);
+        }
+        if (this.fileColumnName[j] === 'joiningdate*') {
+          if (!cellValue || cellValue.trim() === '') {
+            this.addToMap('Empty Joining Date: ', `${i + 1}`);
+            rowIsValid = false;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          } else {
+            let parsedDate;
+
+            // Debug: Log the raw cellValue and its type
+            console.log(`Raw cellValue for joiningdate* at row ${i + 1}, col ${j}:`, cellValue, `Type: ${typeof cellValue}`);
+
+            // Check if cellValue is a string that looks like an Excel serial number
+            if (typeof cellValue === 'string' && /^\d+$/.test(cellValue) && parseInt(cellValue) > 1) {
+              const serialNumber = parseInt(cellValue);
+              const excelEpoch = new Date(1899, 11, 30); // Dec 31, 1899
+              const jsDate = new Date(excelEpoch.getTime() + serialNumber * 24 * 60 * 60 * 1000);
+              parsedDate = moment(jsDate);
+              console.log(`Converted serial ${cellValue} to date:`, parsedDate.format('DD-MM-YYYY'));
+            } else {
+              // Try parsing as a date string
+              parsedDate = moment(cellValue, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+            }
+
+            if (parsedDate && parsedDate.isValid()) {
+              const oneYearFromNow = moment().add(1, 'year');
+              if (parsedDate.isBefore(oneYearFromNow)) {
+                this.data[i + 1][j] = parsedDate.format('DD-MM-YYYY');
+                console.log(`Formatted date for storage:`, this.data[i + 1][j]);
+              } else {
+                this.addToMap('Invalid Joining Date (date after one year): ', `${i + 1}`);
+                rowIsValid = false;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true;
+              }
+            } else {
+              this.addToMap('Invalid Joining Date format: ', `${i + 1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+            }
+          }
+        }
+
+        // Similar logic for 'dob'
+        if (this.fileColumnName[j] === 'dob') {
+          if (cellValue && cellValue.trim() !== '') {
+            let parsedDate;
+
+            // Debug: Log the raw cellValue and its type
+            console.log(`Raw cellValue for dob at row ${i + 1}, col ${j}:`, cellValue, `Type: ${typeof cellValue}`);
+
+            // Check if cellValue is a string that looks like an Excel serial number
+            if (typeof cellValue === 'string' && /^\d+$/.test(cellValue) && parseInt(cellValue) > 1) {
+              const serialNumber = parseInt(cellValue);
+              const excelEpoch = new Date(1899, 11, 30);
+              const jsDate = new Date(excelEpoch.getTime() + serialNumber * 24 * 60 * 60 * 1000);
+              parsedDate = moment(jsDate);
+              console.log(`Converted serial ${cellValue} to date:`, parsedDate.format('DD/MM/YYYY'));
+            } else {
+              parsedDate = moment(cellValue, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+            }
+
+            if (parsedDate && parsedDate.isValid()) {
+              if (parsedDate.isBefore(moment())) {
+                this.data[i + 1][j] = parsedDate.format('DD-MM-YYYY');
+                console.log(`Formatted date for storage:`, this.data[i + 1][j]);
+              } else {
+                this.addToMap('Invalid DOB (future date): ', `${i + 1}`);
+                rowIsValid = false;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true;
+              }
+            } else {
+              this.addToMap('Invalid DOB format: ', `${i + 1}`);
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+            }
+          }
+        }
 
         if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
           if(!(this.fileColumnName[j].toLowerCase()=='esi number' || this.fileColumnName[j].toLowerCase()== 'uan') || !cellValue){
@@ -1493,7 +1642,7 @@ appliedFilters: string[] = []
 
   onDateChange(event: Date, rowIndex: number, columnIndex: number) {
     // Format the selected date to 'MMM dd yyyy'
-    const formattedDate =moment(event).format('MM-DD-YYYY');
+    const formattedDate =moment(event).format('DD-MM-YYYY');
 
     //  this.datePipe.transform(event, 'MMM dd yyyy');
 
@@ -1501,6 +1650,12 @@ appliedFilters: string[] = []
     //rowIndex+1 represents data without header
      this.data[rowIndex+1][columnIndex] = formattedDate;
     this.onValueChange(rowIndex,columnIndex);
+  }
+  parseDate(dateString: string): any {
+    if (!dateString || dateString.trim() === '') return null;
+
+    const parsedDate = moment(dateString, ['DD-MM-YYYY', 'DD/MM/YYYY'], true);
+    return parsedDate.format('MM-DD-YYYY');
   }
 
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
@@ -1680,13 +1835,19 @@ console.log(this.data);
 
   alreadyUsedPhoneNumberArray: any = [];
   alreadyUsedEmailArray: any = [];
+  uploadedCount:any = 0;
   uploadUserFile(file: any, fileName: string) {
     debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
     this.errorMessage = '';
-    this._onboardingService.userImport(file, fileName).subscribe(
+    var uuid=this.rbacService.getOrgRefUUID();
+    setTimeout(() => {
+    this.getUploadStatusFromFirebase(uuid);
+    }
+    , 2000);
+    this._onboardingService.userImport(file, fileName, uuid).subscribe(
       (response: any) => {
         if (response.status) {
           this.importToggle = false;
@@ -1709,6 +1870,32 @@ console.log(this.data);
         this.errorMessage = error.error.message;
       }
     );
+  }
+
+  isUploading: boolean = false;
+  getUploadStatusFromFirebase(uuid: any) {
+    this.db.object('bulk_upload/user_' + uuid).valueChanges()
+      .subscribe(res => {
+         console.log(res);
+        var respObject: { status: any, count: any } = { status: "", count: 0 };
+        if (res != undefined && res != null) {
+          console.log(res);
+          //@ts-ignore
+          if(res.status=='InProcess'){
+            this.isUploading = true;
+          }
+          //@ts-ignore
+          if(res.status=='Completed' && this.isUploading){
+            this.getReport();
+            this.getUser();
+            this.isUploading = false;
+          }
+          //@ts-ignore
+          this.uploadedCount = res.count;
+
+        }
+
+      });
   }
 
   importLoading: boolean = false;
@@ -2348,7 +2535,7 @@ console.log(this.data);
     this.exitData = {};
       this.exitData.uuid = uuid;
       this.exitData.userType = 'ADMIN';
-      this.exitData.isModal = 0;
+      this.exitData.isModal = 1;
       this.showExitModal=true;
     // this.modalService.openInitiateExitModal(uuid, 'ADMIN').then(
     //   (result) => {
@@ -2616,6 +2803,11 @@ console.log(this.data);
   enableEmailNotification: boolean = false;
   enableWhatsAppNotification: boolean = false;
 
+  onNotificationChange(type: string) {
+    this.enableWhatsAppNotification = type === 'whatsapp';
+    this.enableEmailNotification = type === 'email';
+  }
+
   // sendNotifications(): void {
   //   this.loadingFlag = true;
   //   const notifications = this.onboardUserList.map((user) => ({
@@ -2642,28 +2834,36 @@ console.log(this.data);
   // }
 
   sendNotifications(): void {
-    if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
-      this.helperService.showToast(
-        'Please select at least one notification type to proceed.',
-        'error'
-      );
-      return;
-    }
+    // if (!this.enableEmailNotification && !this.enableWhatsAppNotification) {
+    //   this.helperService.showToast(
+    //     'Please select at least one notification type to proceed.',
+    //     'error'
+    //   );
+    //   return;
+    // }
 
     this.loadingFlag = true;
 
     // Filter users based on toggled notification preferences
-    const emailUsers = this.enableEmailNotification
-      ? this.onboardUserList
-        .filter((user) => user.emailNotificationEnabled && user.email)
-        .map((user) => user.email)
-      : [];
+    // const emailUsers = this.enableEmailNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.emailNotificationEnabled && user.email)
+    //     .map((user) => user.email)
+    //   : [];
 
-    const whatsappUsers = this.enableWhatsAppNotification
-      ? this.onboardUserList
-        .filter((user) => user.whatsappNotificationEnabled && user.phone)
-        .map((user) => user.phone)
-      : [];
+    // const whatsappUsers = this.enableWhatsAppNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.whatsappNotificationEnabled && user.phone)
+    //     .map((user) => user.phone)
+    //   : [];
+    const emailUsers:string[]=[]
+    const whatsappUsers:string[] =this.onboardUserList.filter((user) =>user.phone).map((user) => user.phone)
+    //     .map((user) => user.phone)
+    //  this.enableWhatsAppNotification
+    //   ? this.onboardUserList
+    //     .filter((user) => user.whatsappNotificationEnabled && user.phone)
+    //     .map((user) => user.phone)
+    //   : [];
 
     // Prepare request payload
     const notificationRequest = {
@@ -2711,4 +2911,6 @@ console.log(this.data);
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
+
+
 }

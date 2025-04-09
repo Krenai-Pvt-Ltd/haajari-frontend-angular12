@@ -449,7 +449,7 @@
                                     </div> -->
                   <div class="" style="width: 65%">
                     <!-- <p class="mb-0"><span><b>Project:</b> </span> Hajiri</p> -->
-                    <!-- <p class="mb-0"><span class="in-time"><b>Manager:</b></span> 
+                    <!-- <p class="mb-0"><span class="in-time"><b>Manager:</b></span>
                                         <span class="teme-maneger">
                                                  Pushpendra, An..  <a href="" class="user-avatar"><i class="bi bi-plus" ngbTooltip="Pushpendra, Anchal, Sunny." placement="top" style="font-size: 14px;"></i> 4 </a>
                                         </span>
@@ -532,7 +532,7 @@
       </div>
       <!--  ########best performer -->
       <div *ngIf="bestPerformerAttendanceDetailsResponseList.length > 0">
-        <div class="row mb-3" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
+        <div class="row mb-3">
           <div class="col-md-12">
             <div class="col mb-3">
               <h4 class="card-title" style="font-size: 18px">
@@ -586,7 +586,7 @@
                     else imageNull
                   ">
                           <span>
-                           
+
                             <img [src]="performer.image" alt="user" class="rounded-circle" style="
                                 width: 60px;
                                 border-radius: 50%;
@@ -611,11 +611,11 @@
                           </div>
                           <!-- <div class="media-body ms-3 align-self-center">
                                             <h5 class="pro-title m-0">Richa Dixit</h5>
-                                            <p class="mb-0 text-muted">richa@krenai.com</p>                                          
+                                            <p class="mb-0 text-muted">richa@krenai.com</p>
                                         </div> -->
                           <!-- <div class="position-absolute top-0 end-0 mt-3 me-3">
                                             <a href="#" class=""><i class="la la-pen text-secondary font-16 "></i></a>
-                                            <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a> 
+                                            <a href="#" class=""><i class="la la-trash-alt text-secondary font-16 "></i></a>
                                         </div>                                                                               -->
                         </div>
                       </div>
@@ -1018,26 +1018,34 @@
                                           let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
                                         ">
                                         <td class="text-center position-relative attendance-detail" [ngClass]="{
-                                            orange:
-                                              dayWiseStatus.status == LEAVE ||
-                                              dayWiseStatus.status == HALFDAY,
-                                            red:
-                                              dayWiseStatus.status == UNMARKED,
-                                            green:
-                                              dayWiseStatus.status == PRESENT,
-                                            blue:
-                                              dayWiseStatus.status == WEEKEND ||
-                                              dayWiseStatus.status == HOLIDAY
-                                          }" (mouseenter)="
-                                            fetchAttendanceDetails(
-                                              attendanceReportResponse.email,
-                                              dayWiseStatus.date
-                                            )
-                                          ">
-                                          {{
+                                          orange:
+                                            dayWiseStatus.status == LEAVE ||
+                                            dayWiseStatus.status == HALFDAY,
+                                          red:
+                                            dayWiseStatus.status == UNMARKED,
+                                          green:
+                                          dayWiseStatus.status == PRESENT ||
+                                          dayWiseStatus.status == 'WFH' ||
+                                          dayWiseStatus.status == 'OnDuty',
+                                          blue:
+                                            dayWiseStatus.status == WEEKEND ||
+                                            dayWiseStatus.status == HOLIDAY ||
+                                            dayWiseStatus.status == 'WeekOff'
+                                        }" (mouseenter)="
+                                          fetchAttendanceDetails(
+                                            attendanceReportResponse.email,
+                                            dayWiseStatus.date
+                                          )
+                                        ">
+                                        {{
                                           dayWiseStatus.status[0] == "U"
                                           ? "A"
-                                          : dayWiseStatus.status[0]
+                                          :  dayWiseStatus.status == "WeekOff"
+                                          ? "WO"
+                                          :  dayWiseStatus.status == "WFH"
+                                          ? "WFH"
+                                           :  dayWiseStatus.status == "OnDuty"
+                                          ? "OD" : dayWiseStatus.status[0]
                                           }}
 
                                           <span class="user-details p-3" *ngIf="
@@ -1050,8 +1058,8 @@
                                             <!-- <div class=" p-0" *ngIf="loadingFlag">
                                               <div class="spinner-grow text-primary" role="status">
                                                 <span class="sr-only">Loading...</span>
-                                              </div>  
-                                            </div> -->
+                                              </div>
+                                            </div>
                                             <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
                                               <div class="spinner-grow text-secondary" style="
                                                   width: 10px;
@@ -1072,46 +1080,67 @@
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
                                             </div>
-
-                                            <div class="p-0" *ngIf="
-                                                userAttendanceDetailDateWise?.checkInTime !=
-                                                  null && !loadingFlag
-                                              ">
-                                              <p class="mb-0">
-                                                Check In Time:
-                                                {{
-                                                userAttendanceDetailDateWise.checkInTime
-                                                | date : "shortTime"
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Check Out Time:
-                                                {{
-                                                userAttendanceDetailDateWise.checkOutTime
-                                                | date : "shortTime" || "-"
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Total Hours:
-                                                {{
-                                                userAttendanceDetailDateWise.totalWorkingHours
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Total Break:
-                                                {{
-                                                userAttendanceDetailDateWise.breakCount
-                                                }}
-                                              </p>
-                                              <p class="mb-0">
-                                                Break Duration:
-                                                {{
-                                                userAttendanceDetailDateWise.totalBreakHours
-                                                }}
-                                              </p>
+                                          </div> -->
+                                          <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
+                                            <div class="spinner-grow text-secondary" style="
+                                                width: 10px;
+                                                height: 10px;
+                                              " role="status">
+                                              <span class="visually-hidden">Loading...</span>
                                             </div>
-                                          </span>
-                                        </td>
+                                            <div class="spinner-grow text-secondary" style="
+                                                width: 10px;
+                                                height: 10px;
+                                              " role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <div class="spinner-grow text-secondary" style="
+                                                width: 10px;
+                                                height: 10px;
+                                              " role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                          </div>
+
+                                          <div class="p-0" *ngIf="
+                                              userAttendanceDetailDateWise?.checkInTime !=
+                                                null && !loadingFlag
+                                            ">
+                                            <p class="mb-0">
+                                              Check In Time:
+                                              {{
+                                              userAttendanceDetailDateWise.checkInTime
+                                              | date : "shortTime"
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Check Out Time:
+                                              {{
+                                              userAttendanceDetailDateWise.checkOutTime
+                                              | date : "shortTime" || "-"
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Total Hours:
+                                              {{
+                                              userAttendanceDetailDateWise.totalWorkingHours
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Total Break:
+                                              {{
+                                              userAttendanceDetailDateWise.breakCount
+                                              }}
+                                            </p>
+                                            <p class="mb-0">
+                                              Break Duration:
+                                              {{
+                                              userAttendanceDetailDateWise.totalBreakHours
+                                              }}
+                                            </p>
+                                          </div>
+                                        </span>
+                                      </td>
                                       </ng-container>
                                     </tr>
                                   </table>
@@ -1160,7 +1189,7 @@
                       class="errorboxmain"
                       *ngIf="dataNotFoundPlaceholderForAttendanceData"
                     >
-                     
+
                       <div
                         class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50"
                       >
@@ -1282,7 +1311,7 @@
               </div>
             </div>
             <!-- <div class="modal-footer">
-                 
+
               </div> -->
           </form>
         </div>
@@ -1333,7 +1362,7 @@
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>
 
@@ -1351,7 +1380,7 @@
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
               [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }"
               style="padding: 10px 40px; border: none" />
-           
+
             <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
             <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
               (click)="reloadPageLeave()"></i>
@@ -1385,7 +1414,7 @@
                     (error)="onError($event)" />
                   <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
                     }}</span>
-                  
+
                 </div>
                 <div class="media-body align-self-center ms-3">
                   <div class="transaction-data">
@@ -1483,8 +1512,6 @@
 
       </div>
       <div class="modal-body" *ngIf="attendanceDetailsResponseList.length > 0">
-       
-
         <div class="user-list-modal">
         <ul class="pb-3 mb-3 border-bottom" style="padding-left: 5px;" *ngFor="let attendList of attendanceDetailsResponseList">
           <li class="align-items-center d-flex justify-content-between">
@@ -1598,7 +1625,7 @@
           </li>
         </ul>
       </div>
-      
+
       </div>
       <div class="modal-footer d-flex align-items-center justify-content-between" *ngIf="totalCountBreak > 10">
           <p class="mb-0">
@@ -1729,7 +1756,7 @@
 
 
 
-    
+
 
 
 

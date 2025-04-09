@@ -29,14 +29,14 @@ export class AttendanceUrlComponent implements OnInit {
     zoom: number = 15; // Initial zoom level of the map
     markerPosition: any;
     attendanceMode: number = 0;
-  
+
     constructor(
       private dataService: DataService,
       private router: Router,
       private helper: HelperService,
       private afStorage: AngularFireStorage
     ) {}
-  
+
     isLogoVisible: boolean=false;
     ngOnInit(): void {
       debugger
@@ -52,16 +52,16 @@ export class AttendanceUrlComponent implements OnInit {
       window.scroll(0, 0);
       this.getFlexibleAttendanceMode()
       this.checkAttendanceLocationLinkStatusMethodCall();
-      
-      
+
+
       // let navExtra: NavigationExtras = {
       //   queryParams: { userUuid: userUuid },
       // };
       // this.router.navigate(['/location-validator'], navExtra);
       // this.getFlexibleAttendanceMode();
     }
-  
-  
+
+
     locateUser(){
       navigator.permissions.query({ name: 'geolocation' })
       .then( (PermissionStatus) => {
@@ -75,7 +75,7 @@ export class AttendanceUrlComponent implements OnInit {
               this.getCurrentLocation();
             },
             (error) => {
-              
+
             },
             {
               enableHighAccuracy: true,  // Precise location
@@ -83,17 +83,17 @@ export class AttendanceUrlComponent implements OnInit {
             }
             );
           }
-        } else {  
+        } else {
           this.requestPermission();
-        } 
-      
+        }
+
       });
-  
+
     }
-  
+
     accuracy:number=5;
     requestPermission(){
-      window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
+      window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');
       if (Key.GEOLOCATION in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -126,8 +126,8 @@ export class AttendanceUrlComponent implements OnInit {
        window.alert("Geolocation is not supported by this browser.");
       }
     }
-  
-  
+
+
     enableSubmitToggle: boolean = false;
     address: string = ''; // Add this property to hold the fetched address
     city: string = '';
@@ -137,11 +137,11 @@ export class AttendanceUrlComponent implements OnInit {
         this.address = '';
       }
           this.markerPosition = { lat: this.lat, lng: this.lng };
-  
+
           // Initialize the Geocoder
           const geocoder = new google.maps.Geocoder();
           const latlng = { lat: this.lat, lng: this.lng };
-          // console.log(latlng); 
+          // console.log(latlng);
           geocoder.geocode(
             { location: latlng },
             (results: { formatted_address: string }[], status: string) => {
@@ -167,8 +167,8 @@ export class AttendanceUrlComponent implements OnInit {
               }
             }
           );
-        
-     
+
+
     }
     isSelfieNeeded: boolean = false;
     routeToEmployeePhoto() {
@@ -176,28 +176,28 @@ export class AttendanceUrlComponent implements OnInit {
       this.missingLatLng();
       this.clickAgain();
     }
-  
+
     disableButton: boolean = false;
     calculateDistance() {
       // console.log("calculate distance called",this.organizationAddressDetails)
       debugger
       this.enableSubmitToggle = false;
-  
+
       this.disableButton = true;
       const userLatLng = new google.maps.LatLng(this.lat, this.lng);
       let isWithinAnyLocation = false;
-  
+
       for (const addressDetail of this.organizationAddressDetails) {
           const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
           var distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
           // window.alert("radius"+addressDetail.radius)
-  
+
           if(this.accuracy>0){
             addressDetail.radius=String(+addressDetail.radius+this.accuracy);
           // window.alert("🚀 ~ EmployeeLocationValidatorComponent ~ calculateDistance ~ distance=distance+this.accuracy;: AFTER"+ (addressDetail.radius+(this.accuracy)))
           }
           // window.alert(usee)
-  
+
           // window.alert(distance + '---' + addressDetail.radius);
           if (distance <= addressDetail.radius && !this.isFlexible) {
               isWithinAnyLocation = true;
@@ -209,7 +209,7 @@ export class AttendanceUrlComponent implements OnInit {
               break;
           }
       }
-  
+
       if (!isWithinAnyLocation) {
           this.helper.showToast(
               "Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!",
@@ -225,7 +225,7 @@ export class AttendanceUrlComponent implements OnInit {
           }
       }
   }
-  
+
   isFlexible: boolean = false;
   getFlexibleAttendanceMode() {
     const userUuid =this.data.uuid;
@@ -238,9 +238,9 @@ export class AttendanceUrlComponent implements OnInit {
     })
     }
   }
-  
-  
-  
+
+
+
     radius: string = '';
     organizationLat: string | undefined;
     OrganizationLong: string | undefined;
@@ -254,7 +254,7 @@ export class AttendanceUrlComponent implements OnInit {
                       this.organizationAddressDetails = response;
                       this.attendanceMode=response[0].attendanceMode;
                       // console.log("API RESPONSE", this.organizationAddressDetails[0].radius)
-  
+
                       // console.log(response);
                   } else {
                       console.log('No address details found');
@@ -268,9 +268,9 @@ export class AttendanceUrlComponent implements OnInit {
           console.error('userUuid not found');
       }
   }
-  
-  
-  
+
+
+
     toggle = false;
     @ViewChild('closeAttendanceButton', { static: true }) closeButton!: ElementRef<HTMLButtonElement>;
 
@@ -282,7 +282,7 @@ export class AttendanceUrlComponent implements OnInit {
       this.employeeAttendanceLocation.latitude = this.lat.toString();
       this.employeeAttendanceLocation.longitude = this.lng.toString();
       this.employeeAttendanceLocation.distance = this.radius;
-  
+
       this.dataService
         .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
         .subscribe(
@@ -298,13 +298,13 @@ export class AttendanceUrlComponent implements OnInit {
                 Key.TOAST_STATUS_ERROR
               );
             }
-  
+
             if (response.status == 'In') {
               this.helper.showToast(
                 "You're Successfully Checked In",
                 Key.TOAST_STATUS_SUCCESS
               );
-              
+
               this.toggle = true;
             }
 
@@ -313,10 +313,10 @@ export class AttendanceUrlComponent implements OnInit {
                 "You've Successfully Checked Out",
                 Key.TOAST_STATUS_SUCCESS
               );
-              
+
               this.toggle = true;
             }
-  
+
             if(response.onboardingVia == 'SLACK') {
               this.helper.showToast(
                 response.status,
@@ -324,7 +324,7 @@ export class AttendanceUrlComponent implements OnInit {
               );
               this.toggle = true;
             }
-  
+
             if(response.onboardingVia == 'WHATSAPP' || !response.onboardingVia || response.onboardingVia== null ) {
               window.location.href =
                 'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
@@ -342,10 +342,10 @@ export class AttendanceUrlComponent implements OnInit {
           }
         );
     }
-    
-  
 
-  
+
+
+
     isInvalid: boolean = false;
     checkAttendanceLocationLinkStatusMethodCall() {
       debugger
@@ -371,18 +371,18 @@ export class AttendanceUrlComponent implements OnInit {
     }
 
 
-    // selfie 
+    // selfie
 
      private trigger: Subject<any> = new Subject();
-    
+
       public webcamImage!: WebcamImage;
       private nextWebcam: Subject<any> = new Subject();
       captureImage = '';
 
-  
-        
 
-    
+
+
+
       routeToLocationValidator() {
         let navExtra: NavigationExtras = {
           queryParams: {
@@ -391,33 +391,33 @@ export class AttendanceUrlComponent implements OnInit {
         };
         this.router.navigate(['/location-validator'], navExtra);
       }
-    
+
       submitButton: boolean = false;
       public triggerSnapshot(): void {
         this.toggle = true;
         this.trigger.next();
       }
-    
+
       public get triggerObservable(): Observable<any> {
         return this.trigger.asObservable();
       }
-    
+
       isShimmer: boolean = true;
       public get nextWebcamObservable(): Observable<any> {
         return this.nextWebcam.asObservable();
       }
-    
+
       dataURLtoBlob(dataurl: string) {
         const arr = dataurl.split(',');
         const match = arr[0].match(/:(.*?);/);
-    
+
         if (match) {
           const mime = match[1];
-    
+
           const bstr = atob(arr[1]);
           let n = bstr.length;
           const u8arr = new Uint8Array(n);
-    
+
           while (n--) {
             u8arr[n] = bstr.charCodeAt(n);
           }
@@ -426,16 +426,16 @@ export class AttendanceUrlComponent implements OnInit {
           throw new Error('Invalid data URL');
         }
       }
-    
+
       imageFile: any;
       public handleImage(webcamImage: WebcamImage): void {
         this.webcamImage = webcamImage;
         this.captureImage = webcamImage.imageAsDataUrl;
         console.info('received webcam image', this.captureImage);
-    
+
         // Convert Data URL to Blob
         const imageBlob = this.dataURLtoBlob(this.captureImage);
-    
+
         // Create a file from Blob
         this.imageFile = new File([imageBlob], 'captured_image.png', {
           type: 'image/png',
@@ -444,13 +444,13 @@ export class AttendanceUrlComponent implements OnInit {
         // Upload file to Firebase
         this.uploadFile(this.imageFile, 'webcamImage');
       }
-    
+
       uploadFile(imageFile: File, documentType: string): void {
         debugger;
         const filePath = `documents/${new Date().getTime()}_${imageFile.name}`;
         const fileRef = this.afStorage.ref(filePath);
         const task = this.afStorage.upload(filePath, imageFile);
-    
+
         task
           .snapshotChanges()
           .pipe(
@@ -477,7 +477,7 @@ export class AttendanceUrlComponent implements OnInit {
             }
           );
       }
-    
+
       missingLatLng() {
         debugger;
         if (this.dataService.lat == 0 && this.dataService.lng == 0) {
@@ -499,21 +499,21 @@ export class AttendanceUrlComponent implements OnInit {
           return;
         }
       }
-    
+
       clickAgain() {
         this.disableButton = false;
         this.employeeAttendanceLocation.imageUrl = '';
         this.submitButton = false;
         this.captureImage = '';
       }
-    
+
       public devices: MediaDeviceInfo[] = [];
       public currentDeviceId: string | undefined;
-    
+
       public getAvailableCameras(): void {
         WebcamUtil.getAvailableVideoInputs().then((devices: MediaDeviceInfo[]) => {
           this.devices = devices;
-    
+
           // Attempt to set the front camera as default
           // This code assumes device labels are available and contain "front" for the front camera.
           // Adjust based on actual device label characteristics or use facingMode constraints if available.
@@ -531,7 +531,7 @@ export class AttendanceUrlComponent implements OnInit {
       sendNewAttendanceLink() {
         debugger;
         const userUuid = this.data.uuid;
-    
+
         if (userUuid) {
           this.dataService.generateNewAttendanceLinkGupShup(userUuid).subscribe(
             (response) => {
@@ -560,5 +560,5 @@ export class AttendanceUrlComponent implements OnInit {
           console.error('User UUID not found in the URL');
         }
       }
-  
+
 }

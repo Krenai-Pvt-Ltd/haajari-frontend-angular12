@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -28,8 +27,9 @@ import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
-// import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 @Component({
   selector: 'app-timetable',
@@ -148,6 +148,8 @@ export class TimetableComponent implements OnInit {
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
   readonly key = Key;
   readonly Constant = constant;
+  readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',
@@ -168,7 +170,7 @@ export class TimetableComponent implements OnInit {
     private dataService: DataService,
     public helperService: HelperService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe
@@ -221,15 +223,13 @@ export class TimetableComponent implements OnInit {
   }
 
   assignRole() {
-    this.role = this.rbacService.getRole();
-    this.userUuid = this.rbacService.getUUID();
+    this.role = this.rbacService.getRoles();
+    this.userUuid = this.rbacService.getUuid();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
 
   onDateChange(date: Date): void {
     this.selectedDate = date;
-    this.getAttendanceDetailsCountMethodCall();
-    this.getAttendanceDetailsReportByDateMethodCall();
     this.getHolidayForOrganization();
   }
 
@@ -358,6 +358,7 @@ export class TimetableComponent implements OnInit {
     this.networkConnectionErrorForAttendanceDetailsResponse = false;
   }
 
+  appliedDate: any = new Date();
   getAttendanceDetailsReportByDateMethodCall(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -381,6 +382,7 @@ export class TimetableComponent implements OnInit {
             this.attendanceDetailsResponseList = response.listOfObject;
             // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
+            this.appliedDate=this.selectedDate;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             this.isShimmerForAttendanceDetailsResponse = false;
 
@@ -462,7 +464,6 @@ export class TimetableComponent implements OnInit {
     this.attendanceDataByDateValue = [];
     this.total = 0;
     this.resetCriteriaFilter();
-    this.selectedDate = new Date();
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
   }
@@ -1542,7 +1543,7 @@ export class TimetableComponent implements OnInit {
     return formattedTime.isValid() ? formattedTime.format('HH:mm:ss') : null;
   }
 
-  
+
   isExcelFile(file: File): boolean {
     const allowedMimeTypes = [
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
@@ -1888,6 +1889,14 @@ export class TimetableComponent implements OnInit {
     back: 4,
   };
 
+  routeToUserDetails(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+  }
+
   // Fetch list of users for employee filter
   getAllUsers(): void {
     this.dataService.getOrganizationUserList().subscribe((response) => {
@@ -1935,7 +1944,9 @@ export class TimetableComponent implements OnInit {
     this.searchTextSystemOutage = '';
     this.activeMissedPunchFilters = [];
     this.activeSystemOutageFilters = [];
-    this.applyFilters();
+    setTimeout(()=>{
+      this.applyFilters();
+    }, 10);
   }
 
   onSearchTextMissedPunchChange(searchText: string): void {
@@ -2130,10 +2141,12 @@ export class TimetableComponent implements OnInit {
 
     // Add status filter
     if (this.selectedStatuses.length) {
-      this.activeMissedPunchFilters.push({
-        type: 'status',
-        label: 'Status',
-        value: this.selectedStatuses.join(', '),
+      this.selectedStatuses.forEach((status) => {
+        this.activeMissedPunchFilters.push({
+          type: 'status',
+          label: 'Status',
+          value: status,
+        });
       });
     }
 
@@ -2178,19 +2191,23 @@ export class TimetableComponent implements OnInit {
 
     // Add status filter
     if (this.selectedStatuses.length) {
-      this.activeSystemOutageFilters.push({
-        type: 'status',
-        label: 'Status',
-        value: this.selectedStatuses.join(', '),
+      this.selectedStatuses.forEach((status) => {
+        this.activeSystemOutageFilters.push({
+          type: 'status',
+          label: 'Status',
+          value: status,
+        });
       });
     }
 
     // Add attendance status filter
     if (this.selectedAttendanceStatus.length) {
-      this.activeSystemOutageFilters.push({
-        type: 'attendanceStatus',
-        label: 'Attendance Status',
-        value: this.selectedAttendanceStatus.join(', '),
+      this.selectedAttendanceStatus.forEach((status) => {
+        this.activeSystemOutageFilters.push({
+          type: 'attendanceStatus',
+          label: 'Attendance Status',
+          value: status,
+        });
       });
     }
 
@@ -2217,10 +2234,14 @@ export class TimetableComponent implements OnInit {
           this.endDate1 = null;
           break;
         case 'status':
-          this.selectedStatuses = [];
+          this.selectedStatuses = this.selectedStatuses.filter(
+            (status) => status !== filter.value
+          );
           break;
         case 'attendanceStatus':
-          this.selectedAttendanceStatus = [];
+          this.selectedAttendanceStatus = this.selectedAttendanceStatus.filter(
+            (status) => status !== filter.value
+          );
           break;
         case 'search':
           if (tab === 'missedPunch') this.searchTextMissedPunch = '';
@@ -2237,5 +2258,9 @@ export class TimetableComponent implements OnInit {
       this.fetchSystemOutageRequests();
       this.updateSystemOutageFilters();
     }
+  }
+
+  showAttendnaceUpdateActionButton(request:any): boolean {
+   return (request?.status?.id==52 && (request?.managerUuid==this.userUuid || this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)))
   }
 }
