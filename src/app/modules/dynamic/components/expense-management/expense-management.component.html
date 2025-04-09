@@ -867,7 +867,7 @@
                                                     <div class="d-flex align-items-center gap-3 wallet-transactions-list">
                                                         <!-- <img src="assets/images/pushpendra.jpeg"> -->
                                                         <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                                    [src]="user.imageUrl || 'assets/images/user.png'">
+                                                                    [src]="user.imageUrl || 'assets/images/user.png'" class="img-40 radius-50 object-fit-cover">
                                                         <div>
                                                             <!-- <h5 (click)="this.helperService.routeToUserProfile(user.userUuid)" -->
                                                             <h5 class="mb-1 font-14 fw-semibold pointer" (click)="this.helperService.routeToUserProfile(user.userUuid)">{{ user.userName}}</h5>
