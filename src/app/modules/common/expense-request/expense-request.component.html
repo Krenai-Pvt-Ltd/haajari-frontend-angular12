@@ -51,7 +51,7 @@
          </div>
          </ng-container>
          </div>
-         <div [ngClass]="{'col-md-12': (!isModal|| userExpense.slipUrls.length >0), 'col-md-7 ': isModal,'ml-0 pl-0': userExpense.slipUrls.length==0}">
+         <div [ngClass]="{'col-md-12': (!isModal|| userExpense.slipUrls.length ==0), 'col-md-7 ': (isModal && userExpense.slipUrls.length>0),'ml-0 pl-0': userExpense.slipUrls.length==0}">
             <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
                <div class="d-flex align-items-center justify-content-between p-3 user-detail">
                   <div class="d-flex align-items-center gap-3">
@@ -129,7 +129,7 @@
                         </div>
                         </div>
                         <p class="text-danger" *ngIf="userExpense?.approvedAmount > 0 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
-                        <div class="col-md-12 mb-3" *ngIf="!rejectDiv && userExpense.status.id == 13">
+                        <div class="col-md-12 mb-3 pl-0 pr-0" *ngIf="!rejectDiv && userExpense.status.id == 13">
                            <div class="form-check d-flex align-items-center gap-2">
                               <input type="checkbox" class="form-check-input position-relative" style="top: -1px" id="approveAmountCheckbox" name="checkbox-approve-amount" [(ngModel)]="approveAmountChecked" (change)="onApproveAmountCheckboxChange($event)"/>
                               <label class="form-check-label" for="approveAmountCheckbox">Modify Amount</label>
@@ -178,30 +178,8 @@
                      <textarea class="form-control nots-section" id="reject" placeholder="Write the reason" rows="3"
                      [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
                   </div>
-                  <!-- <div *ngIf="isTagsEditEnabled" class="col-md-12 mb-3 position-relative">
-                     <input type="text" id="tags" name="tags" (keyup.enter)="addTag()"
-                     class="form-control input-zorro" placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
-                     [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
-                     (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
-                     <i class="bi bi-search search-icon ml-3 pl-3 h-100 font-14 position-absolute"></i>
-                     <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
-                  </div> -->
 
                </div>
-                  <!-- TODO: remove this d-none -->
-                  <!-- <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary d-flex align-items-center justify-content-end w-100 font-14 fw-semibold">
-                  <span class="d-flex align-items-center" *ngIf="!isTagsEditEnabled" ><i class="bi bi-plus font-20 position-relative" style="top:-2px"></i> Add Tags</span>
-                  <span class="d-flex align-items-center" *ngIf="isTagsEditEnabled"> <i class="bi bi-x font-20 position-relative" style="top:-2px"></i> Cancel</span>
-                  </button>
-                  <div class="col-md-12 d-flex justify-content-between mt-3">
-                     <div class="skill-set-add">
-                        <ul class="skill-set">
-                           <li *ngFor="let tag of tags">
-                              {{ tag }} <i *ngIf="isTagsEditEnabled" class="bi bi-x" (click)="removeTag(tag)"></i>
-                           </li>
-                        </ul>
-                     </div>
-                  </div> -->
 
                   <div class="col-md-12" *ngIf="!isModal">
                      <div class="">
@@ -272,7 +250,7 @@
                      <span></span>
                   </div>
                   </button>
-                  <button type="button" *ngIf="userExpense?.status.id == 13" class="btn btn-soft-success text-success" (click)="approveOrDeny(userExpense.id, 14, 0)"
+                  <button type="button" *ngIf="userExpense?.status.id == 13" class="btn btn-soft-success" (click)="approveOrDeny(userExpense.id, 14, 0)"
                   [ngClass]="{'btn-border':!(approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount)}"
                   [disabled]="approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" >
                   <span *ngIf="!approveToggle">Approve</span>
