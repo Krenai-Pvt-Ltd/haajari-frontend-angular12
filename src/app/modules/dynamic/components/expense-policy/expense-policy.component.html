@@ -1,610 +1,123 @@
 <div class="mt-3">
     <div class="d-flex align-items-center justify-content-end">
-        <button class="btn text-primary font-14 fw-semibold p-0" data-bs-toggle="modal" data-bs-target="#addPolicy"><i class="bi bi-plus font-20 position-relative" style="top: 3px;"></i> Create expense policy </button>
+        <button *ngIf="companyExpensePolicyList.length > 0" class="btn text-primary font-14 fw-semibold p-0" data-bs-toggle="modal" data-bs-target="#addPolicy" (click)="toggleViewForm()">
+          <i class="bi bi-plus font-20 position-relative" style="top: 3px;"></i> Create expense policy </button>
     </div>
+
+    
 
     <div class="mt-3">
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="expanse-policy-hedding">
-                    <h5 class="card-title mb-1">Outing Policy</h5>
-                    <p class="mb-0 text-muted font-12 fw-normal">Define the expense rules for the employee</p>
+
+        <ng-container *ngIf="companyExpensePolicyList.length <= 0">
+                <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                        [nzNotFoundContent]="contentTpl">
+                        <ng-template #contentTpl>
+                            <p class="mb-1 empty-filenew">No Expenses Policies Yet!!</p>
+                            <button class="btn text-primary font-14 fw-semibold p-0" data-bs-toggle="modal" data-bs-target="#addPolicy" (click)="toggleViewForm()">
+                              <i class="bi bi-plus font-20 position-relative" style="top: 3px;"></i> Create expense policy </button>
+                        </ng-template>
+                    </nz-empty>
                 </div>
+        </ng-container>
+    
+        <div class="row mb-3" *ngFor="let expensePolicy of companyExpensePolicyList; let i = index">
+          <div class="col-md-4">
+            <div class="expanse-policy-hedding">
+              <h5 class="card-title mb-1">{{ expensePolicy?.policyName }}</h5>
+              <p class="mb-0 text-muted font-12 fw-normal">Define the expense rules for the employee</p>
             </div>
-            <div class="col-md-8">
-                <div class="expanse-policy-list p-3 border-rounded-2">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p  class="mb-0 font-13 "><i class="bi bi-arrow-right position-relative px-1" style="top: 1px;"></i> Rule 1</p>
-                        <div class="d-flex align-items-center  gap-3">
-                            <p class="mb-0 font-13 fw-semibold">Staff-3</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <span>
-                                    <i class="bi bi-pencil font-16"></i>
-                                </span>
-                                <span>
-                                    <i class="bi bi-trash text-danger font-16"></i>
-                                </span>
-                            </div>
-                            <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail" data-bs-toggle="collapse" href="#policydetails-1" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="collapse mt-3" id="policydetails-1">
-                       <div class="row">
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                       </div>
-                    </div>
-                  
+          </div>
+          <div class="col-md-8">
+            <div class="expanse-policy-list p-3 border-rounded-2">
+              <div class="d-flex align-items-center justify-content-between">
+                <p class="staff-leave-setting bg-white pointer font-12 fw-semibold border-rounded-2 lh-sm mb-0">Staff - {{ expensePolicy.totalEmployees }}</p>
+                <div class="d-flex align-items-center gap-3">
+                 
+                  <div class="d-flex align-items-center gap-3 shift-time">
+                    <a data-bs-toggle="modal" data-bs-target="#addPolicy" (click)="getExpenseInformationById(expensePolicy)">
+                        <!-- <i class="bi bi-pencil pointer" style="color: #6666f3"
+                          (click)="getExpenseInformationById(expensePolicy)"></i> -->
+                          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                            <mask id="mask0_10613_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
+                              <rect width="22.0262" height="22" fill="#444444" />
+                            </mask>
+                            <g mask="url(#mask0_10613_125)">
+                              <path d="M4.58904 17.4173H5.74679L15.1414 8.03386L13.9837 6.87748L4.58904 16.2609V17.4173ZM3.2124 18.7923V15.6899L15.3181 3.60384C15.4568 3.47795 15.61 3.38071 15.7777 3.31211C15.9455 3.24336 16.1214 3.20898 16.3054 3.20898C16.4894 3.20898 16.6676 3.2416 16.84 3.30684C17.0125 3.37208 17.1652 3.47581 17.2982 3.61805L18.419 4.75151C18.5614 4.88427 18.6629 5.03705 18.7234 5.20984C18.784 5.38263 18.8143 5.55542 18.8143 5.72821C18.8143 5.91262 18.7828 6.08854 18.7198 6.25598C18.6567 6.42358 18.5565 6.57666 18.419 6.71523L6.31855 18.7923H3.2124ZM14.5524 7.46575L13.9837 6.87748L15.1414 8.03386L14.5524 7.46575Z" fill="#444444" />
+                            </g>
+                          </svg>
+                      </a>
+                    <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0,false)">
+                        <!-- <i class="bi bi-trash pointer text-danger"></i> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                          <mask id="mask0_10613_119" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="23">
+                          <rect x="0.0527344" y="0.164062" width="22.0262" height="22" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_10613_119)">
+                          <path d="M6.75945 18.956C6.3018 18.956 5.91083 18.7941 5.58656 18.4704C5.26244 18.1465 5.10038 17.756 5.10038 17.2989V5.66431H4.18262V4.28931H8.31253V3.47852H13.8191V4.28931H17.949V5.66431H17.0312V17.2989C17.0312 17.7619 16.8706 18.1539 16.5494 18.4747C16.2282 18.7956 15.8358 18.956 15.3722 18.956H6.75945ZM15.6546 5.66431H6.47701V17.2989C6.47701 17.3812 6.50347 17.4488 6.5564 17.5017C6.60932 17.5545 6.67701 17.581 6.75945 17.581H15.3722C15.4428 17.581 15.5075 17.5516 15.5663 17.4927C15.6251 17.4341 15.6546 17.3695 15.6546 17.2989V5.66431ZM8.6833 15.7476H10.0597V7.49764H8.6833V15.7476ZM12.0719 15.7476H13.4483V7.49764H12.0719V15.7476Z" fill="#FF0000"/>
+                          </g>
+                        </svg>
+                    </a>
+                  </div>
+                  <!-- Ensure each button targets the correct collapse section using `i` -->
+                  <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail"
+                        data-bs-toggle="collapse" [attr.href]="'#policydetails-' + i"
+                        role="button" aria-expanded="false" [attr.aria-controls]="'policydetails-' + i" (click)="getExpenseInformationById(expensePolicy)">
+                    <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
+                  </span>
                 </div>
+              </div>
+      
+              <!-- Unique ID for each policy details section -->
+              <div class="collapse mt-3" [id]="'policydetails-' + i">
+                <div class="row">
+                  <div *ngFor="let expensePolicyType of expensePolicy.companyExpensePolicyTypeRes"
+                       [ngClass]="{
+                         'col-md-4': expensePolicy.companyExpensePolicyTypeRes.length > 2,
+                         'col-md-6': expensePolicy.companyExpensePolicyTypeRes.length == 2,
+                         'col-md-12': expensePolicy.companyExpensePolicyTypeRes.length == 1
+                       }">
+                    <div class="expanse-policy">
+                      <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 font-12 fw-normal color-basic">
+                          {{ expensePolicyType?.expenseTypeName || "N/A" }}
+                        </h4>
+                        <!-- <span (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.expenseTypeId, true, 0)">
+                          <i class="bi bi-trash text-danger font-16"></i>
+                        </span> -->
+                        <div *ngIf="expensePolicy.companyExpensePolicyTypeRes.length == 1">
+                          <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.expenseTypeId, true, 0,false)">
+                            <i class="bi bi-trash pointer text-danger"></i>
+                          </a>
+                        </div>
+
+                        <div *ngIf="expensePolicy.companyExpensePolicyTypeRes.length > 1">
+                          <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.expenseTypeId, true, 0,true)">
+                            <i class="bi bi-trash pointer text-danger"></i>
+                          </a>
+                        </div>
+                        
+                      </div>
+                      <div class="expanse-policy-detail p-3">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                          <p class="mb-0">Amount</p>
+                          <span style="color: #3f988f;">{{ expensePolicyType?.amount || "0" }}</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                          <p class="mb-0">Flexible Amount</p>
+                          <span style="color: #3f988f;">{{ expensePolicyType?.flexibleAmount || "0" }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+      
             </div>
+          </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="expanse-policy-hedding">
-                    <h5 class="card-title mb-1">Company Wallet</h5>
-                    <p class="mb-0 text-muted font-12 fw-normal">Define the expense rules for the employee</p>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="expanse-policy-list p-3 border-rounded-2">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p  class="mb-0 font-13 "><i class="bi bi-arrow-right position-relative px-1" style="top: 1px;"></i> Rule 2</p>
-                        <div class="d-flex align-items-center  gap-3">
-                            <p class="mb-0 font-13 fw-semibold">Staff-3</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <span>
-                                    <i class="bi bi-pencil font-16"></i>
-                                </span>
-                                <span>
-                                    <i class="bi bi-trash text-danger font-16"></i>
-                                </span>
-                            </div>
-                            <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail" data-bs-toggle="collapse" href="#policydetails-2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="collapse mt-3" id="policydetails-2">
-                       <div class="row">
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                       </div>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="expanse-policy-hedding">
-                    <h5 class="card-title mb-1">Management Team</h5>
-                    <p class="mb-0 text-muted font-12 fw-normal">Define the expense rules for the employee</p>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="expanse-policy-list p-3 border-rounded-2">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p  class="mb-0 font-13 "><i class="bi bi-arrow-right position-relative px-1" style="top: 1px;"></i> Rule 3</p>
-                        <div class="d-flex align-items-center  gap-3">
-                            <p class="mb-0 font-13 fw-semibold">Staff-3</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <span>
-                                    <i class="bi bi-pencil font-16"></i>
-                                </span>
-                                <span>
-                                    <i class="bi bi-trash text-danger font-16"></i>
-                                </span>
-                            </div>
-                            <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail" data-bs-toggle="collapse" href="#policydetails-3" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="collapse mt-3" id="policydetails-3">
-                       <div class="row">
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                       </div>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="expanse-policy-hedding">
-                    <h5 class="card-title mb-1">Expense Team</h5>
-                    <p class="mb-0 text-muted font-12 fw-normal">Define the expense rules for the employee</p>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="expanse-policy-list p-3 border-rounded-2">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p  class="mb-0 font-13 "><i class="bi bi-arrow-right position-relative px-1" style="top: 1px;"></i> Rule 4</p>
-                        <div class="d-flex align-items-center  gap-3">
-                            <p class="mb-0 font-13 fw-semibold">Staff-3</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <span>
-                                    <i class="bi bi-pencil font-16"></i>
-                                </span>
-                                <span>
-                                    <i class="bi bi-trash text-danger font-16"></i>
-                                </span>
-                            </div>
-                            <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail" data-bs-toggle="collapse" href="#policydetails-4" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="collapse mt-3" id="policydetails-4">
-                       <div class="row">
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                       </div>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="expanse-policy-hedding">
-                    <h5 class="card-title mb-1">Team</h5>
-                    <p class="mb-0 text-muted font-12 fw-normal">Define the expense rules for the employee</p>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="expanse-policy-list p-3 border-rounded-2">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <p  class="mb-0 font-13 "><i class="bi bi-arrow-right position-relative px-1" style="top: 1px;"></i> Rule 5</p>
-                        <div class="d-flex align-items-center  gap-3">
-                            <p class="mb-0 font-13 fw-semibold">Staff-3</p>
-                            <div class="d-flex align-items-center gap-3">
-                                <span>
-                                    <i class="bi bi-pencil font-16"></i>
-                                </span>
-                                <span>
-                                    <i class="bi bi-trash text-danger font-16"></i>
-                                </span>
-                            </div>
-                            <span class="policy-action-btn d-flex align-items-center justify-content-center border-rounded-2 bg-white location-detail" data-bs-toggle="collapse" href="#policydetails-5" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                <i class="bi bi-chevron-down font-18 position-relative transition" style="top: 2px;"></i>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="collapse mt-3" id="policydetails-5">
-                       <div class="row">
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            <div class="expanse-policy">
-                                <div class="expanse-policy-heading p-3 d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0 font-12 fw-normal color-basic"> Travel </h4>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                            <mask id="mask0_10146_4988" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="23" height="22">
-                                            <rect x="0.638672" width="22.3254" height="22" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_10146_4988)">
-                                            <path d="M7.43605 18.7919C6.97218 18.7919 6.57591 18.63 6.24723 18.3063C5.9187 17.9824 5.75444 17.5919 5.75444 17.1348V5.50025H4.82422V4.12524H9.01023V3.31445H14.5916V4.12524H18.7776V5.50025H17.8474V17.1348C17.8474 17.5979 17.6846 17.9898 17.359 18.3107C17.0334 18.6315 16.6357 18.7919 16.1657 18.7919H7.43605ZM16.452 5.50025H7.14978V17.1348C7.14978 17.2172 7.1766 17.2848 7.23024 17.3376C7.28389 17.3905 7.35249 17.4169 7.43605 17.4169H16.1657C16.2374 17.4169 16.3029 17.3875 16.3625 17.3287C16.4222 17.27 16.452 17.2054 16.452 17.1348V5.50025ZM9.38604 15.5836H10.7811V7.33358H9.38604V15.5836ZM12.8207 15.5836H14.2158V7.33358H12.8207V15.5836Z" fill="#FF0000"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="expanse-policy-detail p-3">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Amount</p>
-                                        <span style="color: #3f988f;">43</span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <p class="mb-0">Flexible Amount</p>
-                                        <span style="color: #3f988f;">0 </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                       </div>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
+      
 
 </div>
 
@@ -615,7 +128,8 @@
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title m-0"> Create another template </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="clearForm(shiftForm)" #closeExpensePolicyModal></button>
         </div>
         <div class="modal-body p-0">
             <div class="add-location-modal">
@@ -627,8 +141,8 @@
                         type="button" role="tab" #expensePolicy>
                         Expense Policy
                     </button>
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#staffSelection"
-                        type="button" role="tab" #staffSelectionTab>
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#staffSelection" #staffActiveTabInShiftTiming
+                        type="button" role="tab" (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0" #staffSelectionTab>
                         Staff selection
                     </button>
                     </div>
@@ -638,143 +152,245 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane show active" id="expensePolicy" role="tabpanel" #expensePolicy>
                             <div class="expanse-policy p-3 row" *ngIf="!showPolicyList">
-                                <div class="col-md-6 mb-3">
-                                    <label for="addressLine1" class="pb-2">Policy Name </label>
-                                    <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select Policy Name" required>
-                                        <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
-                                      </nz-select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="addressLine1" class="pb-2">Expense Type  </label>
-                                    <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select Expense Type" required>
-                                        <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
-                                      </nz-select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="addressLine1" class="pb-2">Leave Cycle </label>
-                                    <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select Leave Cycle" required>
-                                        <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
-                                      </nz-select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="addressLine1" class="pb-2">Select Account Type </label>
-                                    <nz-select class="form-control w-100 placeholder-line" nzSize="large" nzPlaceHolder="Select Account Type" required>
-                                        <nz-option *ngFor="let state of stateList" [nzValue]="state.name" [nzLabel]="state.name"></nz-option>
-                                      </nz-select>
-                                </div>
-
-                                <div class="col-md-12 mb-3 mt-1">
-                                    <div class="form-group requesting-half-leave p-3">
-                                       <div class="d-flex align-items-center justify-content-between" style="padding-top: 2px;">
-                                          <p class="mb-0 fonnt-14 fw-semibold">Select Your Payment Structure </p>
-                                       </div>
-                                       <hr>
-                                       <div class="row mt-2 mb-2">
-                                          <div class="col-md-6">
-                                             <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input type="radio" name="paymentType" id="flexible" value="flexible" required="" class="form-check-input ng-dirty ng-valid ng-touched" ng-reflect-required="" ng-reflect-name="paymentType" ng-reflect-value="flexible" ng-reflect-model="fixed">
-                                                <p for="exampleRadios1" class="form-check-label mb-0"> Flexible </p>
-                                             </label>
+                                <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
+                                    <div *ngIf="viewForm" class="row pt-3 pb-3 ">
+                                      <!-- Policy Name -->
+                                      <div class="col-md-12">
+                                        <div class="mb-3">
+                                          <label for="policyNameInput" class="pb-2">Policy Name</label>
+                                          <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
+                                            id="policyNameInput" placeholder="Enter policy name" required [(ngModel)]="policyName"
+                                            name="policyNameInput" #policyNameInput="ngModel" />
+                                          <div *ngIf="policyNameInput.invalid && policyNameInput.touched" class="text-danger">
+                                            Policy name is required.
                                           </div>
-                                          <div class="col-md-6">
-                                             <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input type="radio" name="paymentType" id="fixed" value="fixed" required="" class="form-check-input ng-dirty ng-valid ng-touched" ng-reflect-required="" ng-reflect-name="paymentType" ng-reflect-value="fixed" ng-reflect-model="fixed">
-                                                <p for="exampleRadios1" class="form-check-label mb-0"> Fixed </p>
-                                             </label>
+                                        </div>
+                                      </div>
+                    
+                                      <div class="col-md-6 mb-3">
+                                        <div class="form-field">
+                                          <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
+                    
+                                          <nz-form-control>
+                    
+                                            <!-- expenseTypeId -->
+                                            <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                                              [(ngModel)]="expensePolicyItem.expenseTypeId" (ngModelChange)="selectExpenseType($event)" required id="seleType"
+                                              name="seleExpType" #seleExpType="ngModel" class="form-control">
+                                              <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
+                                                [nzLabel]="expenseType.name" [nzDisabled]="isExpenseTypeDisabled(expenseType.id)">
+                                              </nz-option>
+                                            </nz-select>
+                                          </nz-form-control>
+                    
+                                        </div>
+                    
+                                      </div>
+                    
+                    
+                    
+                                      <div class="col-md-6 mb-3">
+                                        <div class="form-field">
+                                          <label for="expenseAmount" class="pb-2">Amount</label>
+                                          <input type="number" class="form-control whatapp-login-input" min="1" id="policyAmountInput"
+                                            placeholder="Enter amount" required [(ngModel)]="expensePolicyItem.amount" name="policyAmountInput"
+                                            #policyAmountInput="ngModel" />
+                                          <div *ngIf="isErrorShow && policyAmountInput.invalid && policyAmountInput.touched"
+                                            class="text-danger">
+                                            Amount is required.
                                           </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-12 mb-3">
-                                    <div class="form-check form-check-inline mb-3 d-flex align-items-center gap-2">
-                                        <input type="checkbox" id="thresholdCheckbox" name="checkThresold" class="form-check-input">
-                                        <label for="thresholdCheckbox" class="form-check-label">Do you want to set threshold?</label>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-4 mb-3">
-                                        <label for="addressLine1" class="pb-2">Threshold Amount </label>
-                                        <input type="number" placeholder="Amount" required="" name="" class="form-control whatsapp-login-input">
-                                 </div>
-                                 <div class="col-md-4 mb-3">
-                                    <label for="" class="pb-2">Threshold Type </label>
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start" style="background-color: #ececec36;">
-                                        <input type="radio" name="paymentType" id="flexible" value="flexible" required="" class="form-check-input ng-dirty ng-valid ng-touched" >
-                                        <p for="exampleRadios1" class="form-check-label mb-0"> Amount </p>
-                                     </label>
-                                 </div>
-                                 <div class="col-md-4 mb-3">
-                                    <label for="" class="pb-2">Threshold Type </label>
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start" style="background-color: #ececec36;">
-                                        <input type="radio" name="paymentType" id="flexible" value="flexible" required="" class="form-check-input ng-dirty ng-valid ng-touched" >
-                                        <p for="exampleRadios1" class="form-check-label mb-0"> Percentage </p>
-                                     </label>
-                                 </div>
-                                 <div class="col-md-12 d-flex justify-content-end">
-                                    <button class="btn p-0 font-14 text-primary fw-semibold" (click)="togglePolicyList()"><i class="bi bi-plus font-20 position-relative" style="top: 3px;"></i> Add</button>
-                                 </div>
-                                
-
-
-                            </div>
-
-                            <div class="policy-list p-3" *ngIf="showPolicyList">
-
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h5 class="mb-0 font-14 fw-semibold">Policy Name</h5>
-                                    <button class="btn p-0 font-14 text-primary fw-semibold" (click)="togglePolicyList()"><i class="bi bi-plus font-20 position-relative" style="top: 3px;"></i> Add</button>
-                                </div>
-
-                                <div class="table-responsive mt-3">
-                                    <table class="table">
-                                      <thead>
-                                        <tr>
-                                          <th>Sr.No</th>
-                                          <th>Expense Type</th>
-                                          <th class="text-center">Payment Type</th>
-                                          <th class="text-center">Amount</th>
-                                          <th class="text-center">Flexible Amount</th>
-                                          <th>Action</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr *ngFor="let expense of expenses; let i = index">
-                                          <td class="font-13 fw-normal">{{ i + 1 }}</td>
-                                          <td class="font-13 fw-normal">{{ expense.expenseType }}</td>
-                                          <td class="text-center">
-                                            <span [ngClass]="{'text-warning': expense.paymentType === 'Fixed', 'text-primary': expense.paymentType === 'Flexible'}" class="font-13 fw-semibold">
-                                              {{ expense.paymentType }}
-                                            </span>
-                                          </td>
-                                          <td class="text-center">
-                                            <span class="font-13 fw-normal">{{ expense.amount }}</span>
-                                          </td>
-                                          <td class="text-center">
-                                            <span class="font-13 fw-normal">{{ expense.flexibleAmount }}</span>
-                                          </td>
-                                          <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                              <span (click)="editExpense(expense.id)" class="pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                  <path d="M4.16667 15.8333H5.35417L13.5 7.6875L12.3125 6.5L4.16667 14.6458V15.8333ZM2.5 17.5V13.9583L13.5 2.97917C13.6667 2.82639 13.8507 2.70833 14.0521 2.625C14.2535 2.54167 14.4653 2.5 14.6875 2.5C14.9097 2.5 15.125 2.54167 15.3333 2.625C15.5417 2.70833 15.7222 2.83333 15.875 3L17.0208 4.16667C17.1875 4.31944 17.309 4.5 17.3854 4.70833C17.4618 4.91667 17.5 5.125 17.5 5.33333C17.5 5.55556 17.4618 5.76736 17.3854 5.96875C17.309 6.17014 17.1875 6.35417 17.0208 6.52083L6.04167 17.5H2.5ZM12.8958 7.10417L12.3125 6.5L13.5 7.6875L12.8958 7.10417Z" fill="black"/>
-                                                </svg>
-                                              </span>
-                                              <span (click)="deleteExpense(expense.id)" class="pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                  <path d="M5.83398 17.5C5.37565 17.5 4.98329 17.3368 4.6569 17.0104C4.33051 16.684 4.16732 16.2917 4.16732 15.8333V5H3.33398V3.33333H7.50065V2.5H12.5007V3.33333H16.6673V5H15.834V15.8333C15.834 16.2917 15.6708 16.684 15.3444 17.0104C15.018 17.3368 14.6257 17.5 14.1673 17.5H5.83398ZM14.1673 5H5.83398V15.8333H14.1673V5ZM7.50065 14.1667H9.16732V6.66667H7.50065V14.1667ZM10.834 14.1667H12.5007V6.66667H10.834V14.1667Z" fill="#FF0404"/>
-                                                </svg>
-                                              </span>
+                                        </div>
+                                      </div>
+                    
+                                      <div class="col-md-12 mb-3 mt-1" *ngIf="isExpenseTypeSelected">
+                                        <div class="form-group requesting-half-leave p-2">
+                                          <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
+                                            <p class="mb-0">Select Your Payment Structure </p>
+                                          </div>
+                                          <hr>
+                    
+                                          <div class="row mt-3 mb-2">
+                                            <div class="col-md-6">
+                                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio" name="paymentType" id="flexible"
+                                                  value="flexible" required 
+                                                  (change)="onPaymentTypeChange(constant.STRUCTURE_FLEXIBLE)">
+                                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                                  Flexible
+                                                </p>
+                                              </label>
                                             </div>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                  
+                                            <div class="col-md-6">
+                                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed"
+                                                  required  (change)="onPaymentTypeChange(constant.STRUCTURE_FIXED)">
+                                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                                  Fixed
+                                                </p>
+                                              </label>
+                                            </div>
+                                            <div *ngIf="!expensePolicyItem.paymentType && shiftForm.submitted" class="text-danger mt-2">
+                                              Payment type is required
+                                            </div>
+                                          </div>
+                    
+                                        </div>
+                                      </div>
+                                      <div class="form-check form-check-inline mb-3" *ngIf="expensePolicyItem.paymentType == constant.STRUCTURE_FIXED"
+                                        style="padding-left: 30px;">
+                                        <input class="form-check-input" type="checkbox" id="thresholdCheckbox" name="checkThresold"
+                                          [(ngModel)]="expensePolicyItem.isThresold" (ngModelChange)="setThresold($event)">
+                                        <label class="form-check-label" for="thresholdCheckbox">Do you want to set threshold?</label>
+                                      </div>
+                    
+                                      <div class="row mb-3" *ngIf="expensePolicyItem.amount && expensePolicyItem.paymentType == constant.STRUCTURE_FIXED && expensePolicyItem.isThresold">
+                                        <div class="col-md-4">
+                                          <div class="form-field">
+                                            <label for="expenseAmount" class="pb-2">Threshold Amount</label>
+                                            <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex"
+                                            
+                                              name="amountFlex" [(ngModel)]="expensePolicyItem.flexibleAmount" #amountFlex="ngModel" min="1" required />
+                                            <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger mt-2">
+                                              Flexible amount is required
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4" *ngIf="expensePolicyItem.isThresold">
+                                          <div class="form-field">
+                                            <label for="expenseAmount" class="pb-2">Threshold Type</label>
+                                            <label class="form-check assets-req d-flex align-items-center justify-content-start"
+                                              style="background-color: #ececec36;">
+                                              <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
+                                              [checked]=" this.expensePolicyItem.isPercentage==0"
+                                                required
+                                                (change)="onThresholdTypeChange(constant.AMOUNT)">
+                                              <p class="form-check-label mb-0" for="valueType">
+                                                Amount
+                                              </p>
+                                            </label>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4" *ngIf="expensePolicyItem.isThresold">
+                                          <div class="form-field">
+                                            <label for="expenseAmount" class="pb-2">Threshold Type</label>
+                                            <label class="form-check assets-req d-flex align-items-center justify-content-start"
+                                              style="background-color: #ececec36;">
+                                              <input class="form-check-input" type="radio" name="thresholdTypePercentage"
+                                                id="percentageType"  [checked]=" this.expensePolicyItem.isPercentage==1"
+                                                 required
+                                                (change)="onThresholdTypeChange(constant.PERCENTAGE)">
+                                              <p class="form-check-label mb-0" for="percentageType">
+                                                Percentage
+                                              </p>
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
+                    
+                                      <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn">
+                                        <button type="button" class="btn p-0 mt-2 text-primary font-14 fw-semibold" (click)="addExpensePolicy()"
+                                        [disabled]="!showAddOnEditBtn || shiftForm.invalid || expensePolicyItem.expenseTypeId == 0"
+                                          [ngClass]="{' btn-border-text':!shiftForm.invalid && showAddOnEditBtn } "><i class="bi bi-plus-lg"></i> Add </button>
+                    
+                                      </div>
+                                      <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
+                                        <button type="button" class="btn p-0 mt-2 text-primary font-14 fw-semibold" (click)="addExpensePolicy()"
+                                          [disabled]="!showAddOnEditBtn || shiftForm.invalid ||  expensePolicyItem.expenseTypeId == 0 "
+                                          [ngClass]="{' btn-border-text':!shiftForm.invalid && showAddOnEditBtn } ">Update </button>
+                    
+                                      </div>
+                    
+                                    </div>
 
+                                    <div *ngIf="viewAddBtn" class="d-flex justify-content-end add-update-btn">
+                                      <button type="button" class="btn p-0 mt-2 text-primary font-13 fw-semibold" (click)="changeViewForm()" ><i class="bi bi-plus-lg"></i> Add </button>
+                                    </div>
+                    
+                                    <div class="table-responsive bg-white mt-2 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
+                                      <table class="table empOnnoardtable">
+                                        <thead class="thead-light">
+                                          <tr>
+                                            <th style="width: 5%">Sr. No</th>
+                                            <th style="width: 10%">Expense Type</th>
+                                            <th style="width: 10%">Payment Type</th>
+                                            <th style="width: 10%">Amount</th>
+                                            <th style="width: 10%">Flexible Amount</th>
+                                            <th style="width: 10%">Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let expensePolicy of expensePolicyReqList; let i = index">
+                                            <td>{{ i + 1 }}.</td>
+                                            <td>{{ expensePolicy.expenseTypeName }}</td>
+                                            <td>
+                                              <div class="font-13 fw-semibold"
+                                                [ngClass]="{ 'text-primary': expensePolicy.isFlexibleAmount === 1, 'text-warning': expensePolicy.isFlexibleAmount === 0 }">
+                                                {{ expensePolicy.isFlexibleAmount === 1 ?   'Flexible' :'Fixed'}}
+                                              </div>
+                                            </td>
+                                            <td>{{ expensePolicy.amount }}</td>
+                                            <td>{{ expensePolicy.flexibleAmount }} <span
+                                                *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.flexibleAmount > 0">%</span>
+                                            </td>
+                    
+                                            <td>
+                                              <div class="d-flex align-items-center gap-2">
+                                                <button (click)="editExpensePolicy(i)" type="button" class="btn edit-policy align-items-center justify-content-center border-rounded-2">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                                                    fill="none">
+                                                    <mask id="mask0_4127_1895" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                                      y="0" width="19" height="19">
+                                                      <rect width="18.8342" height="18.8342" fill="#6666f2" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_4127_1895)">
+                                                      <path
+                                                        d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
+                                                        fill="#6666f2" />
+                                                    </g>
+                                                  </svg>
+                                                </button>
+                    
+                                                <button *ngIf="viewForm" (click)="deleteExpensePolicy(i)" type="button" class="btn delete-policy align-items-center justify-content-center  border-rounded-2">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                                                    fill="none">
+                                                    <mask id="mask0_4127_1892" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                                      y="0" width="19" height="19">
+                                                      <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_4127_1892)">
+                                                      <path
+                                                        d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
+                                                        fill="#FF0000" />
+                                                    </g>
+                                                  </svg>
+                                                </button>
+                                                
+                                                <button *ngIf="!viewForm" type="button" class="btn delete-policy align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#delete-policy" 
+                                                  (click)="getExpensePolicyOrExpensePolicyTypeId(expensePolicy.expenseTypeId, true, 0,true)">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                                    <mask id="mask0_4127_1892" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                                      <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_4127_1892)">
+                                                      <path d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z" fill="#FF0000" />
+                                                    </g>
+                                                  </svg>
+                                                </button>
+
+                                              </div>
+                                            </td>
+                    
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </form>
                             </div>
 
+                            
                             <div class="modal-footer d-flex align-items-center justify-content-end bg-white config-location-footer">
-                                <button type="submit" class="btn p-0 next-btn nextBtn font-16" >
+                                <button type="submit" [ngClass]="{' btn-border':expensePolicyReqList.length > 0 } " class="btn next-tab-btn" [disabled]="expensePolicyReqList.length == 0"
+                                            (click)="staffActiveTabInShiftTimingMethod()">
                                     <span>
                                         <span>Next</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -784,85 +400,127 @@
                                 </button>
                             </div>
                         </div>
+                        
                         <div class="tab-pane fade" id="staffSelection" role="tabpanel" #staffSelection>
                             <div class="configuration-location p-3">
-
                                 <div class="col-md-12">
                                     <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
-                                       <div>
-                                          <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid">
-                                             <div class="form-group position-relative">
-                                                <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 search-input" style="padding: 10px 50px 10px 40px;">
-                                                <i class="bi bi-search search-icon position-absolute ng-star-inserted"></i>
-                                            </div>
-                                          </form>
+                                        <div style="width: 70%">
+                                            <form novalidate="" role="search" (submit)="searchUsers()"
+                                                class="searching ng-untouched ng-pristine ng-valid">
+                                                <div class="form-group" style="position: relative">
+                                                    <input type="text" id="searchText" placeholder="Search by name and role"
+                                                        class="form-control me-2 border-0 attendance-details-search"
+                                                        (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
+                                                        style="padding: 10px 50px 10px 40px" />
+                                                   
+                                                        <i class="bi bi-x search-icon position-absolute font-22 pointer" *ngIf="searchText.length !== 0" (click)="clearSearchText()"></i>
+                                                  
+                                                    <i class="bi bi-search search-icon position-absolute pointer" *ngIf="searchText.length == 0"></i>
+                                                </div>
+                                            </form>
                                        </div>
-                                       <div class="d-flex align-items-center justify-content-end gap-2 w-100 search-list px-3">
-                                        <span class="text-black font-13 pointer">
-                                            <span class="text-primary fw-semibold">10 </span> Selected of <span class="text-primary fw-semibold"> 184 </span>
-                                        </span>
-                                        <span class="separator"></span>
-                                        <span class="text-danger fw-semibold pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
-                                                <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
-                                                    <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect></mask>
-                                                    <g mask="url(#mask0_4127_2858)"><path d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545">
-                                                    </path>
-                                                </g>
-                                            </svg> Clear Selection 
-                                        </span>
+                                       <div class="container">
+                                        <div class="content-wrapper">
+                                          <div class="d-flex align-items-ceter gap-3 justify-content-end">
+                                            <a class="info-button text-black font-13 fw-semibold " *ngIf="selectedStaffIdsUser.length > 0">
+                                             <span class="text-primary"> {{ selectedStaffIdsUser.length }} </span> selected of
+                                            <span class="text-primary"> {{ totalUserCount }} </span>
+                                            </a>
+                                            <div class="separator"></div>
+                                            <span class="clear-button text-danger pointer fw-semibold font-13" *ngIf="selectedStaffIdsUser.length > 0" (click)="unselectAllUsers()">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none"><mask  id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;"><rect  x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect></mask><g  mask="url(#mask0_4127_2858)"><path  d="M5.7642 14.8373L4.70508 13.7782L8.94157 9.54171L4.70508 5.30522L5.7642 4.24609L10.0007 8.48259L14.2372 4.24609L15.2963 5.30522L11.0598 9.54171L15.2963 13.7782L14.2372 14.8373L10.0007 10.6008L5.7642 14.8373Z" fill="#dc3545"></path></g></svg>
+                                               Clear Selection 
+                                            </span>
+                                            <div class="separator"></div>
+                
+                                            <label class="checkbox-label pointer d-flex align-items-center justify-content-center">
+                                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                                (change)="selectAllUsers($event)" />&nbsp;
+                                              Select all
+                                            </label>
+                
+                                          </div>
                                         </div>
+                                      </div>
                                     </div>
-                                 </div>
-                                 <div class="mt-3 location-user-table">
+                                </div>
+                                 
+                                <div class="mt-3 location-user-table">
                                     <table class="table">
                                         <thead>
                                             <tr>
+                                               
+
                                                 <th style="width: 5%;">
-                                                    <input type="checkbox" class="form-check-input pointer">
-                                                </th>
+                                                  <input type="checkbox" class="form-check-input pointer" 
+                                                  [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)">
+                                              </th>
                                                 <th style="width: 25%;">Name</th>
                                                 <th style="width: 25%;">Email Address</th>
                                                 <th style="width: 20%;" >Phone Number</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of [].constructor(10)">
-                                                <td>
-                                                    <input type="checkbox" class="form-check-input pointer">
-                                                </td>
-                                                <td class="font-13"> Yogesh Kumar </td>
-                                                <td>
-                                                    <span class="font-13">yogeshkrenai.com</span>
-                                                </td>
-                                                <td >
-                                                    <span class="font-13">95499011868</span>
-                                                </td>
-                                               
+                                        <tbody *ngIf="staffLoading">
+                                            <tr>
+                                              <td colspan="9" style="height: 40vh;">
+                                                <img src="assets/images/load-8.gif" style="width: 50px;">
+                                              </td>
                                             </tr>
-                                        </tbody>
+                                          </tbody>
+                        
+                        
+                                          <tbody *ngIf="!staffLoading">
+                                            <tr *ngFor="let staff of staffs; let i = index">
+                                              <td>
+                                                <div class="form-check pl-0">
+                                                  <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"
+                                                  [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                                                </div>
+                                              </td>
+                        
+                                              <td style="padding: 12px 15px">{{ staff.name }}</td>
+                                              <td style="padding: 12px 15px">
+                                                {{ staff.email ? staff.email : "N/A" }}
+                                              </td>
+                                              <td style="padding: 12px 15px">
+                                                {{ staff.phoneNumber || "N/A" }}
+                                              </td>
+                                            </tr>
+                                          </tbody>
                                     </table>
                                     
-                                 </div>
+                                </div>
                                  <div class=" config-location-footer">
-                                 <div class="d-flex align-items-center justify-content-between w-100 p-3 bg-white">
-                                    <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                    <ngb-pagination class="pagition-box"> </ngb-pagination>
-                                </div>
-                                 <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
-                                    
-                                    <button type="submit" class="btn p-0 next-btn nextBtn font-14" >
-                                        <span>
-                                            <span class="ng-star-inserted"> Create leave policy  </span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
-                                            </svg>
-                                        </span>
+                                    <div class="d-flex align-items-center justify-content-between w-100 p-3 bg-white">
+                                        <p class="mb-0" style="padding-left: 15px">
+                                            Showing {{ staffs.length }} of {{ total }} members
+                                          </p>
+                                        
+                                            <ngb-pagination [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
+                                                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                                [boundaryLinks]="true">
+                                            </ngb-pagination>
+
+                                    </div>
+                                    <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                                        
+                                        <button  type="button" class="btn btn-outline-primary btn-round"
+                                            (click)="getUserMappedWithPolicy(shiftForm)"
+                                            [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading">
+                                            <span  *ngIf="!userMappedLoading">Submit</span>
+                                        
+
+                                        <div class="dot-opacity-loader" *ngIf="userMappedLoading">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
                                     </button>
+                                    </div>
                                 </div>
                             </div>
-                                
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -875,3 +533,70 @@
     </div>
     </div>
 <!-- Add company policy modal start -->
+
+
+<!-- delete policy modal -->
+<div class="modal fade" id="delete-policy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0 delete-text">
+          <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+            <div class="delete-close-btn">
+              <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+                #closeButtonDeleteExpensePolicy>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                    height="30">
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_2031_1331)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="black" />
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <img src="/assets/images/delete-img.svg" style="width: 70px" />
+          </div>
+          <div class="bg-white p-4 text-center">
+  
+            <div *ngIf="expenseAppliedCount == 0">
+              <h5 class="alert-heading font-18 mb-2">
+                Are you sure you want to delete <br />
+                {{ !deletePolicyType ? "Expense Policy ?" : "Expense Policy Type ?" }}
+              </h5>
+              <p class="font-11">You will not be able to recover this</p>
+            </div>
+  
+            <!-- <div *ngIf="!deletePolicyType">
+              <h5 class="alert-heading font-18 mb-2">
+                Are you sure ?
+              </h5>
+              <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense
+                associated with this policy.
+                Deleting this policy will permanently remove all related data and cannot be recovered</p>
+            </div> -->
+  
+            <div class="mt-4 d-flex align-items-center flex-column">
+              <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId > 0"
+                (click)="deleteExpensePolicyById()">
+                Continue
+                <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
+              </button>
+  
+              <!-- <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="!viewForm"
+                (click)="deleteExpensePolicyTypeById()">
+                Continue
+                <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
+              </button> -->
+              <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- delete policy modal end-->

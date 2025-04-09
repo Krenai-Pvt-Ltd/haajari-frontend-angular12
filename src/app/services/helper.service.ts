@@ -249,7 +249,6 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    // this.router.navigate(['/employee'], navExtra);
     const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
     window.open(url, '_blank');
     return;
@@ -453,4 +452,7 @@ export class HelperService {
       Key.TOAST_STATUS_ERROR
     );
   }
+
+
+
 }

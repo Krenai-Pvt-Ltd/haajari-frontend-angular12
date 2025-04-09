@@ -466,6 +466,14 @@ input:checked + .slider:before {
 }
 
 .add-filtter {
+
+    background-color: #fff;
+    border-radius: 50%;
+    width: 33px;
+    height: 33px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
     line-height: 16px;
     border: 1px solid #6666f2;
 }
@@ -479,8 +487,8 @@ input:checked + .slider:before {
 
 .members-list:last-child{
    border-bottom: none;
-
 }
+
 
 .dot-opacity-loader {
     display: flex;

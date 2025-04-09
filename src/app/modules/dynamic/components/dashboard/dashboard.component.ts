@@ -413,7 +413,7 @@ export class DashboardComponent implements OnInit {
     this.myAttendanceData = {};
     this.total = 0;
     this.isShimer = true;
-
+    this.databaseHelper.currentPage = 1;
     this.resetCriteriaFilter();
     // this.getDataFromDate();
     this.getAttendanceReportByDateDurationMethodCall();
@@ -1884,7 +1884,7 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
 
   // to do step completion
 
-  
+
 }
 
 

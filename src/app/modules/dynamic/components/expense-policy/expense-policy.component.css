@@ -17,6 +17,24 @@
   padding-left: 35px;
 }
 
+.staff-leave-setting {
+  padding: 6px 12px;
+}
+.shift-time svg {
+  width: 20px;
+}
+.delete-policy{
+  width: 35px;
+  height: 35px;
+  background-color: #ff000012;
+  display: grid;
+}
+.edit-policy{
+  width: 35px;
+  height: 35px;
+  background-color: #6666f21a;
+  display: grid;
+}
 .add-location-modal .nav-link.active {
   background: #f2f3ff !important;
   color: #000 !important;
@@ -41,7 +59,7 @@
   background-color: transparent;
 }
 .search-icon {
-  top: 25px;
+  top: 23px;
   transform: translateY(-50%);
   left: 10px;
   padding-left: 5px;
@@ -129,4 +147,26 @@
 
 .location-detail[aria-expanded="true"] i {
   transform: rotate(180deg);
+}
+
+.checkbox-label input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+.location-user-table input[type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+  accent-color: #6766f3;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+}
+.configuration-location input{
+  position: relative;
+  top: 0px;
+  border-radius: 2px;
 }

@@ -26,7 +26,7 @@
           Onboarding Setting
         </button>
       </li>
-      <!-- TODO : dynamic for now -->  
+      <!-- TODO : dynamic for now -->
       <li role="presentation" class="nav-item" *ngIf="masterAttendanceModeId === 1">
         <button id="home-tab" data-bs-toggle="tab" data-bs-target="#notificationsSetting" type="button" role="tab"
           aria-controls="home" [attr.aria-selected]="activeTab === 'notificationsSetting'"
@@ -485,11 +485,11 @@
                           item.organizationAddress.addressStatus !=
                           'Default address'
                         ">
-                        
+
 
                         <span class="staff-leave-setting bg-white font-12 fw-semibold border-rounded-2 lh-sm pointer d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                             getUsersOfAddressDeatils( item.organizationAddress.id,  item.organizationAddress.addressStatus ) ">Staff - {{staffCount(item.staffListResponse)}}</span>
-                        
+
                         <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                         <a class="pointer text-black" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="openEditAddressTab(item.organizationAddress.id,
                               item.organizationAddress.addressStatus,false) " >
@@ -578,7 +578,7 @@
                                 getUsersOfAddressDeatils( item.organizationAddress.id,  item.organizationAddress.addressStatus ) ">
                               <i class="bi bi-people"></i>
                             </a>
-                            
+
                             <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)">
                             <a class="pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="openEditAddressTab(item.organizationAddress.id,
                                   item.organizationAddress.addressStatus,false) " >
@@ -751,13 +751,13 @@
                       </div>
                       <div class="form-check">
                         <!-- COMPANYSETTING -->
-                        <nz-switch [(ngModel)]="module.isFlag" [ngModelOptions]="{ standalone: true }" 
+                        <nz-switch [(ngModel)]="module.isFlag" [ngModelOptions]="{ standalone: true }"
                         *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                           id="enableModule{{ module.id }}" (ngModelChange)="onModuleSelect(i)"></nz-switch>
-                        
+
                           <nz-switch [ngModel]="module.isFlag" [ngModelOptions]="{ standalone: true }"
                           [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
-                            *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" 
+                            *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                          [attr.checked]="module.isFlag" id="enableModule{{ module.id }}" (ngModelChange)="helperService.showPrivilegeErrorToast()"></nz-switch>
 
                       </div>
@@ -789,15 +789,15 @@
                       <p class="mb-0 font-13">Remind employees to mark their attendance promptly at the start of their shift.</p>
                     </div>
                     <div>
-                      <nz-switch [ngModel]="shouldShowSwitch(type, false)" (ngModelChange)="onToggle($event, null, type, 0, 'SHIFT_SWITCH')" 
-                      *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)" 
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)" (ngModelChange)="onToggle($event, null, type, 0, 'SHIFT_SWITCH')"
+                      *ngIf="rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                       [nzLoading]="loadingFlags[type]"></nz-switch>
 
-                      <nz-switch [ngModel]="shouldShowSwitch(type, false)"  (ngModelChange)="helperService.showPrivilegeErrorToast()" 
+                      <nz-switch [ngModel]="shouldShowSwitch(type, false)"  (ngModelChange)="helperService.showPrivilegeErrorToast()"
                       [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                       *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" ></nz-switch>
 
-                   
+
                     </div>
                   </div>
                   <div *ngIf="shouldShowSwitch(type, false)">
@@ -815,7 +815,7 @@
 
                         <label class="form-check-label" [for]="'checkbox-' + i + '-' + j">{{ notification.description }}</label>
                       </div>
-                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn"  
+                        <button class="btn p-0 text-black fw-semibold font-14 text-decoration-underline edit-action-btn"
                         *ngIf="!notification.isEditMode && notification.isEnable && rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                         (click)="toggleNotification(notification, type, j)">
                           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 15 16" fill="none">
@@ -955,7 +955,7 @@
                             (ngModelChange)="onToggle($event, notification, type, j, 'OTHER_SWITCH')">
                           </nz-switch>
 
-                          <nz-switch [ngModel]="notification.isEnable"  (ngModelChange)="helperService.showPrivilegeErrorToast()" 
+                          <nz-switch [ngModel]="notification.isEnable"  (ngModelChange)="helperService.showPrivilegeErrorToast()"
                           [class.no-click]="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)"
                           *ngIf="!rbacService.hasWriteAccess(Routes.COMPANYSETTING)" ></nz-switch>
                         </div>
@@ -973,7 +973,7 @@
         </div>
       </div>
     </div>
-  
+
 </div>
 
   <!-- Modal to view document -->
@@ -1489,7 +1489,7 @@
                         </svg>
                         Previous
                       </button>
-                      <button type="button" class="btn next-btn nextBtn" *ngIf="
+                      <!-- <button type="button" class="btn next-btn nextBtn" *ngIf="
                         this.userNameWithBranchName?.length > 0 &&
                         !this.isValidated
                       " data-bs-target="#usersAlreadyAssigned" data-bs-toggle="modal"
@@ -1510,10 +1510,11 @@
                           <span></span>
                           <span></span>
                         </div>
-                      </button>
+                      </button> -->
+                      <!-- *ngIf="this.userNameWithBranchName?.length < 1"  -->
                       <button type="button" class="btn next-btn nextBtn"
                         [ngClass]="{'btn-border': (this.selectedStaffsUuids.length > 0)}"
-                        *ngIf="this.userNameWithBranchName?.length < 1" (click)="saveStaffAddressDetails()" [disabled]="this.selectedStaffsUuids.length < 1
+                        (click)="saveStaffAddressDetails()" [disabled]="this.selectedStaffsUuids.length < 1
                       ">
                         <span *ngIf="!loading">Submit
                           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
@@ -1547,123 +1548,9 @@
 <!-----------------------------------  CREATE NEW LOCATION POPUP END-------------------------->
 
 
-<!----------------------------------- REMOVE DUPLICATE USER POPUP START-------------------------->
-<button class="d-none" data-bs-toggle="modal" data-bs-target="#usersAlreadyAssigned"></button>
-<div class="modal fade" id="usersAlreadyAssigned" tabindex="-1" role="dialog" aria-hidden="true"
-  data-bs-backdrop="static" #usersAlreadyAssigned>
-  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
-    <div class="modal-content">
-      <div class="modal-body manualUpload p-0" style="background-image: url(../assets/images/user-alredy-img.svg)">
-        <div class="d-flex align-items-center justify-content-end pt-2 close-icon-btn" style="padding-right: 10px">
-          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton
-            (click)="closeModal()" data-bs-toggle="modal" data-bs-target="#shiftTime">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="31" viewBox="0 0 32 31" fill="none">
-              <mask id="mask0_3479_11687" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
-                height="31">
-                <rect x="0.972656" y="0.505066" width="30.0938" height="30.075" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0_3479_11687)">
-                <path
-                  d="M8.99766 24.3144L7.24219 22.5601L14.2641 15.5426L7.24219 8.52507L8.99766 6.77069L16.0195 13.7882L23.0414 6.77069L24.7969 8.52507L17.775 15.5426L24.7969 22.5601L23.0414 24.3144L16.0195 17.2969L8.99766 24.3144Z"
-                  fill="#181818" />
-              </g>
-            </svg>
-          </button>
-        </div>
-
-        <div class="row p-3 pb-4 pt-4 align-items-center">
-          <div class="col-md-8">
-            <div class="manualUploadDetail persnol-details p-0 quickGuideHeading">
-              <h5 class="alert-heading text-warning font-16 mb-2">
-                Users Already Assigned to Another Location
-              </h5>
-              <p class="mb-0 text-black">
-                Do you want to add them to the new location? Doing so will
-                remove them from the current location.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="side-img" style="background-image: url(../assets/images/user-img.svg)"></div>
-          </div>
-        </div>
-
-        <div class="p-3 employee-list bg-white">
-          <h4 class="mb-1">Employee List</h4>
-          <div class="manualemployList" *ngIf="userNameWithBranchName?.length > 0">
-            <div class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
-              *ngFor="let list of userNameWithBranchName">
-              <div class="d-flex align-items-center gap-3">
-                <span class="userName">{{
-                  list.userName.charAt(0).toUpperCase()
-                  }}</span>
-
-                <div>
-                  <h5 class="alert-heading font-13 mb-1">
-                    {{ list.userName }}
-                  </h5>
-                  <div class="d-flex align-items-center gap-2">
-                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
-                    <span class="spreter-line"></span>
-                    <span class="shift-tag">{{ list.branchName || "N/A"}}</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
-                    <mask id="mask0_3479_11708" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                      width="22" height="23">
-                      <rect x="0.015625" y="0.57843" width="21.8948" height="21.8948" fill="white" />
-                    </mask>
-                    <g mask="url(#mask0_3479_11708)">
-                      <path
-                        d="M6.40482 19.7378C5.90306 19.7378 5.47353 19.5592 5.11622 19.2019C4.75891 18.8446 4.58025 18.415 4.58025 17.9133V6.05359H3.66797V4.22903H8.22939V3.31674H13.7031V4.22903H18.2645V6.05359H17.3522V17.9133C17.3522 18.415 17.1736 18.8446 16.8163 19.2019C16.4589 19.5592 16.0294 19.7378 15.5277 19.7378H6.40482ZM15.5277 6.05359H6.40482V17.9133H15.5277V6.05359ZM8.22939 16.0887H10.054V7.87816H8.22939V16.0887ZM11.8785 16.0887H13.7031V7.87816H11.8785V16.0887Z"
-                        fill="#FF0404" />
-                    </g>
-                  </svg>
-                  Remove
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="border-top p-3">
-        <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
-          <input type="checkbox" id="validationCheck" style="position: relative; top: 2px"
-            class="ng-dirty ng-touched" [(ngModel)]="isValidated" (change)="checkValidation()" /><label
-            for="validationCheck" class="form-check-label iHaveRead">
-            I have validated the information and will proceed to add users to
-            the new location.
-          </label>
-        </div>
-        <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
-          <!-- <button class="btn submit-add-more">Cancel</button> -->
-
-          <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
-            Cancel
-          </button>
-          <button class="btn mannualSubmit" [ngClass]="{'btn-border': isValidated}" [disabled]="!isValidated"
-            (click)="registerAddress()">
-            <span *ngIf="!isRegisterLoad">Add all</span>
-            <div class="dot-opacity-loader-new" *ngIf="isRegisterLoad">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-----------------------------------  REMOVE DUPLICATE USER POPUP  END-------------------------->
 
 
-
-<!-----------------------------------  ADD DEFAULT SHIFT POPUP START-------------------------->
+<!-----------------------------------  ADD ADDRESS POPUP START-------------------------->
 <div class="modal fade" id="shifTimeDefaultAddress" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" #shifTimeDefaultAddress>
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -1974,7 +1861,7 @@
     </div>
   </div>
 </div>
-<!----------------------------------- ADD DEFAULT SHIFT POPUP  END-------------------------->
+<!----------------------------------- ADD ADDRESS POPUP  END-------------------------->
 
 <!-----------------------------------  UPLOAD HR POLICY  POPUP START-------------------------->
 <div class="modal fade" id="addDocument" name="addDocument" tabindex="-1" role="dialog"

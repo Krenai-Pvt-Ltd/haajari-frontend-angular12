@@ -53,7 +53,7 @@ Chart.register(
 })
 export class AttendanceLeaveComponent implements OnInit {
   userLeaveForm!: FormGroup;
-  userId: any;
+  userId: any= '';
   count: number = 0;
   currentUserUuid: any;
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
@@ -136,8 +136,10 @@ export class AttendanceLeaveComponent implements OnInit {
     this.updateThirtyDaysLabel();
     // // Set the default selected tab to the current week
     this.setDefaultWeekTab();
-    this.calculateDateRange();
+    //this.calculateDateRange();
+    setTimeout(() => {
     this.getEmployeeProfileAttendanceDetailsData();
+    }, 100);
     this.currentUserUuid = this.roleService.getUuid();
     this.checkUserLeaveTaken();
   }
@@ -152,6 +154,7 @@ export class AttendanceLeaveComponent implements OnInit {
     this.fetchAttendanceRequests();
   }
   updateAttendanceStatusFilter(status: string) {
+    console.log(status)
     this.attendanceStatus = status;
     this.fetchAttendanceRequests();
   }
@@ -783,6 +786,9 @@ export class AttendanceLeaveComponent implements OnInit {
       // Include only weeks where the end date is on or after the joining date
       return weekEnd >= joiningDate ? `Week ${i + 1}` : null;
     }).filter((week) => week !== null) as string[];
+
+    this.selectedTab = this.weekLabels[this.weekLabels.length - 1];
+    this.onTabChange(this.weekLabels[this.weekLabels.length - 1]);
   }
 
   calculateDateRange(): void {
@@ -813,8 +819,15 @@ export class AttendanceLeaveComponent implements OnInit {
       this.setWeekRange(this.selectedDate, weekNumber);
     }
     this.getWorkedHourForEachDayOfAWeek();
+    setTimeout(() => {
+      this.isDateLoaded = false;
+    }, 10);
+    setTimeout(() => {
+      this.isDateLoaded = true;
+    }, 40);
   }
 
+  isDateLoaded: boolean = false;
   setWeekRange(date: Date, weekNumber: number): void {
     debugger;
     const currentDate = new Date();
@@ -909,6 +922,10 @@ export class AttendanceLeaveComponent implements OnInit {
     debugger;
     this.isShimmer = true;
     this.attendanceDetails = [];
+    if (this.startDate === '' || this.endDate === '') {
+      this.isShimmer = false;
+      return;
+    }
     this.dataService
       .getEmployeeProfileAttendanceDetails(
         this.userId,
@@ -946,6 +963,15 @@ export class AttendanceLeaveComponent implements OnInit {
     this.attendanceDetails = [];
     this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
   }
+  chartData(): any {
+    return {
+      userId: this.userId,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      searchString: this.searchString,
+    };
+  }
+
 
   convertToHourMinuteFormat(time: string | null | undefined): string {
     if (!time) {
@@ -1272,7 +1298,6 @@ export class AttendanceLeaveComponent implements OnInit {
           } else {
             this.isPlaceholder = false;
           }
-
           this.initializeChart(labels, data);
         },
         (error) => {
@@ -1876,4 +1901,54 @@ export class AttendanceLeaveComponent implements OnInit {
     } else {
     }
   }
+  isDropdownOpen: boolean = false;
+
+  isDropdownStatus: boolean = false;
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  toggleDropdownS(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isDropdownOpen = false;
+  }
+
+  statusDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isDropdownStatus = false;
+  }
+
+  isStatusDropdownOpen: boolean = false;
+  statusess: string[] = ['All', 'Pending', 'Approved', 'Rejected'];
+  selectedStatuss: string = 'All';
+
+  toggleStatusDropdown(): void {
+    this.isStatusDropdownOpen = !this.isStatusDropdownOpen;
+  }
+
+  closeStatusDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isStatusDropdownOpen = false;
+  }
+
+  updateStatuss(status: string): void {
+    this.selectedStatus = status;
+    this.isStatusDropdownOpen = false; // Select karne ke baad dropdown close
+  }
+  isRequestDropdownOpen: boolean = false;
+  attendanceStatuses: string[] = ['All', 'Pending', 'Approved', 'Rejected'];
+
+
+  toggleRequestDropdown(): void {
+    this.isRequestDropdownOpen = !this.isRequestDropdownOpen;
+  }
+
+  closeRequestDropdown(event: Event): void {
+    event.stopPropagation(); // Prevents event bubbling
+    this.isRequestDropdownOpen = false;
+  }
+
 }

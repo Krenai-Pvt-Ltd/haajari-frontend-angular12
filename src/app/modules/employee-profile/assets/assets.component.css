@@ -291,9 +291,25 @@
 .mobile-filter{
     display: none;
 }
+.mobile-card-view{
+    display: none;
+}
 
 
 @media screen and (max-width: 500px) {
+    .mobile-attendance-date{
+        border-bottom: 20px solid #fff !important;
+    }
+   
+    .nav-link{
+        font-size: 14px;
+    }
+    .mobile-card-view{
+        display: block;
+    }
+    .desktop-attendance-date{
+        display: none;
+    }
 .assets-request-btn {
     min-width: 125px;
 }

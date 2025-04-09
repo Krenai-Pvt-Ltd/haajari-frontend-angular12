@@ -750,8 +750,9 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 text-black fw-normal " *ngIf="user.userShiftName">
                               {{ user.userShiftName ? user.userShiftName : "N/A" }}
                             </a>
-                            <button type="button" (click)="routeToAddUserInShift()" [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
-                             class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userShiftName">
+
+                            <button type="button" (click)="routeToAddUserInShift()" class="btn p-0 text-primary font-13 fw-semibold" 
+                            [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}" *ngIf="!user.userShiftName">
                               + Add Shift
                             </button>
                           </td>
@@ -759,19 +760,21 @@
                             <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email text-black fw-normal font-14" *ngIf="user.userLeavePolicyName">
                               {{ user.userLeavePolicyName ? user.userLeavePolicyName : "N/A" }}
                             </a>
-                            <button type="button" (click)="routeToAddUserInLeavePolicy()"  [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
-                            class="btn p-0 text-primary font-13 fw-semibold" *ngIf="!user.userLeavePolicyName">
+
+                            <button type="button" (click)="routeToAddUserInLeavePolicy()" class="btn p-0 text-primary font-13 fw-semibold" 
+                            [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}"
+                            *ngIf="!user.userLeavePolicyName">
                               + Add Leave Policy
                             </button>
                           </td>
-                          <td class="text-left" [ngClass]="{'disable-action-item': !rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)}">
+                          <td class="text-left" [ngClass]="{'disable-action-item':!rbacService .hasWriteAccess(Routes.EMPLOYEEONBOARDING)}">
                             <div class="material-switch">
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
                               (change)="changeStatusActive(user.presenceStatus, user.uuid)" *ngIf="!user.presenceStatus"/>
 
                               <!-- data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" -->
                               <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus"
-                              
+
                               (click)="openDeleteConfirmationModal(user.id, user.presenceStatus, user.uuid, 'Disable')" *ngIf="user.presenceStatus"/>
                               <label for="switch{{ user.uuid }}" class="label-success"></label>
                             </div>
@@ -1154,7 +1157,8 @@
                         </td>
                         <td>
                           <a (click)="routeToUserDetails(user.uuid)" class="mb-0 fw-normal text-black">
-                            {{ user.email ? user.email : "N/A" }} 
+                            {{ user.email ? user.email : "N/A" }}
+                            {{ user.email ? user.email : "N/A" }}
                           </a>
                           <p class="mb-0 font-12 fw-normal color-basic"> {{ user.phone ? user.phone : "N/A" }}</p>
                         </td>
@@ -1208,7 +1212,7 @@
                       </tr>
 
                     </tbody>
-                   
+
                   </table>
                 </div>
                 <div
@@ -1615,7 +1619,7 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
         <ng-container *ngIf="
             !isShimmer &&
             onboardUserList.length == 0 &&
-            !networkConnectionErrorPlaceholder
+            !networkConnectionErrorPlaceholder && !isUploading
           ">
           <div class="row" *ngIf="!(data.length > 0) ">
             <div class="col-md-6">
@@ -1626,23 +1630,23 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
                 <div class="mt-3">
                   <div class="d-flex align-items-start gap-3">
                     <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">1</span>
-                    <p class="mb-0 font-13">Users will receive updates on approved overtime, pending requests, <br> and payouts.</p>
+                    <p class="mb-0 font-13">Click the link below to get the template with all required <br> fields.</p>
                   </div>
                   <div class="d-flex align-items-start gap-3 mt-3">
                     <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">2</span>
-                    <p class="mb-0 font-13">ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.<br> Aliquam.</p>
+                    <p class="mb-0 font-13">Enter names, emails, contact numbers, shift details, and other <br> required information.</p>
                   </div>
                   <div class="d-flex align-items-start gap-3 mt-3">
                     <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">3</span>
-                    <p class="mb-0 font-13">Users will receive updates on approved overtime, pending requests,<br> and payouts.</p>
+                    <p class="mb-0 font-13">Ensure there are no missing or incorrect details to avoid errors <br> during upload.</p>
                   </div>
                   <div class="d-flex align-items-start gap-3 mt-3">
                     <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">4</span>
-                    <p class="mb-0 font-13">ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.<br> Aliquam.</p>
+                    <p class="mb-0 font-13">Keep the file in .xlsx format before uploading.</p>
                   </div>
                   <div class="d-flex align-items-start gap-3 mt-3">
                     <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">5</span>
-                    <p class="mb-0 font-13">Users will receive updates on approved overtime,<br> <a class="text-primary" href="assets/samples/HajiriBulkSheet.xlsx"> Download the Sample Excel file</a></p>
+                    <p class="mb-0 font-13">Drag & Drop the file or click Choose File to upload.<br> <a class="text-primary" href="assets/samples/HajiriBulkSheet.xlsx"> Download the Sample Excel file</a></p>
                   </div>
 
                 </div>
@@ -1796,10 +1800,10 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
                           <ng-container
                             *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
                             <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
-                              [(ngModel)]="row[j]" required
+                              [ngModel]="parseDate(row[j])" required
                               (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
                               [ngClass]="{'invalid-input bg-white': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
+                              [nzAllowClear]="false" nzPlaceHolder="Select  Date" [nzFormat]="'dd-MM-yyyy'">
                             </nz-date-picker>
                           </ng-container>
                         </ng-template>
@@ -1869,12 +1873,13 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
           </div>
         </ng-container>
         <ng-container *ngIf="
-            isProgressToggle &&
-              onboardUserList.length == 0;
+            (isProgressToggle &&
+              onboardUserList.length == 0 || isUploading);
             else onboardUserListCondition
           ">
           <div class="">
             <div class="text-end">
+              <div *ngIf="isUploading">Processing... {{ uploadedCount }} </div>
               <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" class="radius-50" ></ngx-shimmer-loading>
             </div>
           </div>
@@ -2003,14 +2008,14 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
             <p class="mb-0 font-12 fw-normal">Select updates for employee alerts.</p>
           </div>
         <div class="form-check through-email d-flex align-items-center gap-2 ">
-          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="whatsappradio" [checked]="enableWhatsAppNotification">
+          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="whatsappradio" [checked]="enableWhatsAppNotification" (change)="onNotificationChange('whatsapp')">
           <label class="form-check-label d-flex align-items-center gap-2 justify-content-center fw-semibold font-13 " for="whatsappradio">
             <span class="font-13 fw-normal"> Through </span> whatsapp
             <img src="assets/images/whatsapp-logo.svg" style="width:18px;">
           </label>
         </div>
         <div class="form-check through-email d-flex align-items-center gap-2">
-          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="emailradio" [checked]="enableEmailNotification">
+          <input class="form-check-input ml-0" type="radio" name="whatsEmailRadio" id="emailradio" [checked]="enableEmailNotification" (change)="onNotificationChange('email')">
           <label class="form-check-label d-flex align-items-center gap-2 justify-content-center fw-semibold font-13 " for="emailradio">
             <span class="font-13 fw-normal"> Through </span> Email
             <img src="assets/images/gmail.svg" style="width:18px;">
@@ -2018,7 +2023,8 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
         </div>
       </div>
         <div class="d-flex align-items-center gap-3">
-          <button *ngIf="enableEmailNotification || enableWhatsAppNotification" type="button" class="btn btn-border font-14 fw-semibold"
+          <!--  *ngIf="enableEmailNotification || enableWhatsAppNotification" -->
+          <button type="button" class="btn btn-border font-14 fw-semibold"
             (click)="sendNotifications()" [disabled]="loadingFlag">
             <span *ngIf="!loadingFlag">Send Notification</span>
             <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="loadingFlag">
@@ -2029,7 +2035,7 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
           </button>
 
 
-          <button *ngIf="!enableEmailNotification && !enableWhatsAppNotification" type="button" class="btn p-0 font-14 fw-semibold text-primary"
+          <button  type="button" class="btn p-0 font-14 fw-semibold text-primary"
             (click)="closeNotificationModal(); sendEmailToUsers(false);">
             <span *ngIf="!closeNotificationModalFlag">Skip Notification</span>
             <div class="dot-opacity-loader d-flex align-items-center justify-content-ceter" *ngIf="closeNotificationModalFlag">
@@ -2214,12 +2220,6 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-content">
 
           <div class="modal-body p-0">
-              <button #viewExitRequestDismiss id="viewExitRequestDismiss" type="button" class="close-btn pointer" data-bs-dismiss="modal" aria-label="Close">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 16 15" fill="none">
-                      <path d="M2.09533 14.3667L0.619141 12.9707L6.5239 7.38648L0.619141 1.8023L2.09533 0.40625L8.00009 5.99044L13.9049 0.40625L15.381 1.8023L9.47628 7.38648L15.381 12.9707L13.9049 14.3667L8.00009 8.78253L2.09533 14.3667Z" fill="black"/>
-                  </svg>
-              </button>
-              <!-- Add your content here -->
               <ng-container *ngIf="showExitModal">
              <app-exit-modal [data]="exitData" (closeEvent)="onExitComponentClose()" ></app-exit-modal>
               </ng-container>

@@ -889,6 +889,9 @@ input[type=radio], input[type=checkbox] {
     .logout-btn i{
        color: #6666F2;
     }
+    .sidebar-close-btn{
+        display: none;
+    }
 
 @media screen and (max-width: 500px) {
    
@@ -910,12 +913,10 @@ input[type=radio], input[type=checkbox] {
         position: absolute;
         right: 20px;
         top: 15px;
+        display: block;
     }
     .log-out-btn-box{
         width: 100%;
-    }
-    .sidebar-close-btn{
-    display: block;
     }
     .list-top{
         right: 165px !important;
