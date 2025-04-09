@@ -928,7 +928,7 @@ button.btn.add-card-btn {
 } */
 
 .user-list-modal {
-  max-height: 500px;
+  max-height: 525px;
   overflow-y: scroll;
 }
 

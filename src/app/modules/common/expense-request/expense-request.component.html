@@ -12,36 +12,56 @@
            <div class=" pr-0 mr-0" *ngIf="isModal" [ngClass]="{'col-md-5':userExpense && userExpense.slipUrls.length > 0}">
               <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
                  <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                       <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
+                     <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
                        [class.active]="i === 0">
-                       <div class="d-flex justify-content-center position-relative">
-                          <img [src]="url" alt="Image {{i}}" class="d-block w-100">
-                       </div>
-                    </div>
-                 </div>
-                 <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
-                    data-bs-slide="prev">
-                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                 <span class="visually-hidden">Previous</span>
+                           <div class="d-flex justify-content-center position-relative">
+                           <img [src]="url" alt="Image {{i}}" class="d-block w-100">
+                           </div>
+                        </div>
+                     </div>
+                 <!-- <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel" data-bs-slide="prev">
+                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                     <span class="visually-hidden">Previous</span>
                  </button>
-                 <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
-                    data-bs-slide="next">
-                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                 <span class="visually-hidden">Next</span>
-                 </button>
+                 <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel" data-bs-slide="next">
+                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                     <span class="visually-hidden">Next</span>
+                 </button> -->
+
+                 <div class="position-relitive">
+                  <span class="prev-btn" type="button" data-bs-target="#expenseCarousel" data-bs-slide="prev">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                          fill="none">
+                          <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                              x="0" y="0" width="24" height="25">
+                              <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)"
+                                  fill="white" />
+                          </mask>
+                          <g mask="url(#mask0_5929_1810)">
+                              <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z"
+                                  fill="white" />
+                          </g>
+                      </svg>
+                  </span>
+                  <span class="next-btn" type="button" data-bs-target="#expenseCarousel" data-bs-slide="next">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                          fill="none">
+                          <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                              x="0" y="0" width="24" height="25">
+                              <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)"
+                                  fill="white" />
+                          </mask>
+                          <g mask="url(#mask0_5929_1810)">
+                              <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z"
+                                  fill="white" />
+                          </g>
+                      </svg>
+                  </span>
+              </div>
            </div>
            </ng-container>
-           <!-- <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
-              <div class="empty-file" style="padding-top: 30%; padding-bottom: 30%">
-                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
-                    <ng-template #contentTpl>
-                       <p class="mb-1 empty-detail font-16">Image not found</p>
-                    </ng-template>
-                 </nz-empty>
-              </div>
-           </ng-container> -->
-        </div>
+           </div>
         <div [ngClass]="{'col-md-12  ': (!isModal|| userExpense.slipUrls.length >0), 'col-md-7 ': isModal,'ml-0 pl-0': userExpense.slipUrls.length==0}">
            <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
               <div class="d-flex align-items-center justify-content-between p-3 user-detail">
