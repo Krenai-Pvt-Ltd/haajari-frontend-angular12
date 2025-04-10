@@ -1794,11 +1794,12 @@
                           <div class="container">
                             <div class="d-flex justify-content-end content-wrapper">
                               <div class="filter-wrapper d-flex align-items-center gap-2">
-                                <a class="info-button text-black font-13 fw-semibold" *ngIf="selectedStaffsUuids.length > 0">
+                                <a class="info-button text-black font-13 fw-semibold pointer-none" *ngIf="selectedStaffsUuids.length > 0">
                                   <span class="text-primary">{{ selectedStaffsUuids.length }}</span> Selected of <span class="text-primary"> {{ totalUserCount }}</span>
                                 </a>
                                 <span class="separator"></span>
-                                <span *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)" class="clear-button font-13 fw-semibold text-danger" (click)="unselectAllUsers()">
+                                <span *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)" 
+                                  class="clear-button font-13 fw-semibold text-danger pointer" (click)="unselectAllUsers()">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
                                     <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
                                       <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect>
