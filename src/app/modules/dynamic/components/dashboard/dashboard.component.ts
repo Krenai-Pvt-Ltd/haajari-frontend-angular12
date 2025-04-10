@@ -786,7 +786,9 @@ export class DashboardComponent implements OnInit {
 
             this.attendanceReportResponseList = response.object;
             this.total = response.totalItems;
-
+            setTimeout(() => {
+            this.toggleAllCollapse(!this.isAllCollapsed);
+            }, 10);
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             resolve(response);
           })
