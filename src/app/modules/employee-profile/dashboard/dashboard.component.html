@@ -1428,8 +1428,9 @@
               </div>
             </div>
 
-            <div class="calendar-wrapper">
-              <nz-calendar class="" [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
+            <div class="no-click">
+              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)"
+              [class.full-view]="true" >
                 <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }">
                   <ng-container *ngFor="let item of getHolidayEvents(date)">
                     <li class="holiday-item">
