@@ -207,6 +207,7 @@ export class RoleBasedAccessControlService {
 
   /**
    * Common action buttons managemnt methods for all modules START
+   * logInUserUuid!=attendanceReq.uuid - to prevent sef
    */
   showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
     return (leave.status == statusCheck &&
@@ -214,10 +215,15 @@ export class RoleBasedAccessControlService {
         ||logInUserUuid==leave.managerUuid ));
    }
 
-   showAttendanceUpdateActionButton(leave:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
-    return (leave.status.id == statusCheck &&
-       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
-        ||logInUserUuid==leave.managerUuid ));
+   showAttendanceUpdateActionButton(attendanceReq:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
+    
+    console.log("c1-------",logInUserUuid!=attendanceReq.uuid && this.hasWriteAccess(moduleRoute));
+    console.log('c2---',(attendanceReq.status.id == statusCheck))
+    console.log('c3---',(logInUserUuid==attendanceReq.managerUuid))
+
+    return (attendanceReq.status.id == statusCheck &&
+      ((logInUserUuid!=attendanceReq.uuid && this.hasWriteAccess(moduleRoute))
+       ||logInUserUuid==attendanceReq.managerUuid ));
    }
     /**
    * Common action buttons managemnt methods for all modules END
