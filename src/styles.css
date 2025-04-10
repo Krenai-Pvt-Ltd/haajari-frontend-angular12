@@ -894,3 +894,10 @@ nz-switch.no-click {
 /**
 *for read and write acess managemnt view END
 */
+
+/**
+*TO rremove pointer form any element (if it is being imported dfor a library)
+**/
+.pointer-none{
+  pointer-events: none !important;
+}
