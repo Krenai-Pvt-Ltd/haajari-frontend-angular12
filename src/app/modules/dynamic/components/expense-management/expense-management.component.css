@@ -47,25 +47,32 @@
 .wallet-transactions-list p{
     color: #858585;
 }
-.expense-wallets .col-md-3{
-    width: 28%;
-}
-.expense-wallets .col-md-9{
-    width: 72%;
-}
+
 .total-expanse{
     border: 1px solid #EAEAEA;
 }
-.expense-info .col-md-3{
-    width: 20%;
+.col-md-28{
+    width: 28%;
+}
+.col-md-72{
+    width: 72%;
 }
 .total-expanse-icon {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border: 1px solid #EBEBEB;
     border-radius: 5px;
     background-color: #F6F6F6;
 }
+/* .location-detail[aria-expanded="true"] i {
+    transform: rotate(180deg);
+  }
+  .transition {
+    transition: transform 0.3s ease-in-out;
+  }
+  .rotate-180 {
+    transform: rotate(180deg);
+  } */
 .week-count svg {
     width: 18px;
 }
