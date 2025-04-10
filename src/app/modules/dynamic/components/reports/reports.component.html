@@ -46,6 +46,39 @@
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
 
+
+                <div class="Attendance-report-deta">
+                  <h5>Attendance Summary Report By Filter</h5>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal5">
+                    <i *ngIf="!isLoading5; else loadingTemplate5" class="bi bi-chevron-right"></i>
+                  </div>
+                </div>
+                <ng-template #loadingTemplate5>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+
+                <h4 class="heading">Leave Reports</h4>
+
+                <div class="Attendance-report-deta">
+                  <h5>Leave Summary Report</h5>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#leaveSummaryReport">
+                    <i *ngIf="!isLoading6; else loadingTemplate6" class="bi bi-chevron-right"></i>
+                  </div>
+                </div>
+                <ng-template #loadingTemplate6>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+
+                <div class="Attendance-report-deta">
+                  <h5>Sanctioned Leave Report</h5>
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#sanctionLeaveSummary">
+                    <i *ngIf="!isLoading7; else loadingTemplate7" class="bi bi-chevron-right"></i>
+                  </div>
+                </div>
+                <ng-template #loadingTemplate7>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+
               </div>
             </div>
 
@@ -518,6 +551,214 @@
             Cancel
           </button>
           <button type="button" class="btn submitActionBtn" (click)="downloadAttedanceReport()">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="dateRangeModal5" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Attendance Summary Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select date range</label>
+              <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
+                [nzDisabledDate]="disableBeforeOnboarding"></nz-range-picker>
+                <div *ngIf="dateRangeError" class="text-danger mt-1">{{ dateRangeError }}</div>
+            </div>
+
+
+            <!-- Attendance Type Filter Dropdown -->
+            <div class="col-md-12 mb-3">
+              <label for="attendanceType" class="mb-2">Select Attendance Type</label>
+              <nz-select
+                class="placeholder-line w-100"
+                nzPlaceHolder="Select attendance type"
+                [(ngModel)]="attendenceFilter"
+                [nzAllowClear]="true"
+                [nzShowSearch]="false"
+                style="border: 1px solid #e9e9e9"
+              >
+                <nz-option nzLabel="Present" nzValue="PRESENT"></nz-option>
+                <nz-option nzLabel="Absent" nzValue="ABSENT"></nz-option>
+                <nz-option nzLabel="Late" nzValue="LATE"></nz-option>
+                <nz-option nzLabel="EarlyExit" nzValue="EARLYEXIT"></nz-option>
+              </nz-select>
+
+              <div *ngIf="attendanceFilterError" class="text-danger mt-1">{{ attendanceFilterError }}</div>
+            </div>
+
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+             
+              <nz-switch nzSize="small" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                (change)="onToggleSelectAllUsers(isSelectAllUsers)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #dateRangeModalClose5>
+            Cancel
+          </button>
+          <button type="button" class="btn submitActionBtn " (click)="attendenceReportSummary()">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="leaveSummaryReport" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Leave Summary Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+
+            <!-- Leave Type Filter Dropdown -->
+            <div class="col-md-12 mb-3">
+              <label for="attendanceType" class="mb-2">Select Leave Type</label>
+              <nz-select
+                class="placeholder-line w-100"
+                nzPlaceHolder="Select Leave type"
+                [(ngModel)]="leaveFilter"
+                [nzAllowClear]="true"
+                [nzShowSearch]="false"
+                style="border: 1px solid #e9e9e9"
+              >
+                <nz-option nzLabel="Leave" nzValue="LEAVE"></nz-option>
+                <nz-option nzLabel="Wfh" nzValue="WFH"></nz-option>
+                <nz-option nzLabel="OutDuty" nzValue="OUTDUTY"></nz-option>
+              </nz-select>
+
+              <div *ngIf="leaveFilterError" class="text-danger mt-1">{{ leaveFilterError }}</div>
+            </div>
+
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+             
+              <nz-switch nzSize="small" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                (change)="onToggleSelectAllUsers(isSelectAllUsers)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #dateRangeModalClose6>
+            Cancel
+          </button>
+          <button type="button" class="btn submitActionBtn " (click)="generateLeaveSummaryReport()">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="sanctionLeaveSummary" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Sanction Leave Summary Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label class="pb-2">Select date range</label>
+              <nz-range-picker [(ngModel)]="selectedDateRange" [nzPlaceHolder]="['Start Date', 'End Date']"
+                [nzDisabledDate]="disableBeforeOnboarding"></nz-range-picker>
+                <div *ngIf="dateRangeError" class="text-danger mt-1">{{ dateRangeError }}</div>
+            </div>
+
+
+            <!-- Radio Toggle for Select All Users -->
+            <div class="col-md-12 mb-3 d-flex align-items-center gap-3">
+              <label>Generate a report for all user data</label>
+             
+              <nz-switch nzSize="small" id="selectAllUsersToggle" [(ngModel)]="isSelectAllUsers"
+                (change)="onToggleSelectAllUsers(isSelectAllUsers)"></nz-switch>
+            </div>
+
+
+            <!-- Select User Dropdown (visible only if Select All is off) -->
+            <div class="col-md-12 mb-3" *ngIf="!isSelectAllUsers">
+              <label for="selectUser" class="mb-2">Select users</label>
+
+
+              <nz-select class="placeholder-line w-100" nzMode="tags" nzPlaceHolder="Select users"
+                [(ngModel)]="selectedUserIds" style="border: 1px solid #e9e9e9">
+                <nz-option *ngFor="let option of userOptions" [nzLabel]="option.label"
+                  [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #dateRangeModalClose7>
+            Cancel
+          </button>
+          <button type="button" class="btn submitActionBtn " (click)="generateSanctionLeaveSummaryReport()">
             Generate
           </button>
         </div>

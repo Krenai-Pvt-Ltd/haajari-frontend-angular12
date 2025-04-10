@@ -600,4 +600,135 @@ handleOkOfAttendanceSummary(): void {
 
 
 
+  @ViewChild('dateRangeModalClose5') dateRangeModalClose5!: ElementRef;
+  attendenceFilter : string = '';
+  dateRangeError: string = '';
+  attendanceFilterError: string = '';
+  isLoading5 : boolean = false;
+  attendenceReportSummary(): void {
+      this.dateRangeError = '';
+      this.attendanceFilterError = '';
+
+      let hasError = false;
+
+      // Validate Date Range
+      if (!this.selectedDateRange || this.selectedDateRange.length !== 2) {
+        this.dateRangeError = 'Please select a valid date range.';
+        hasError = true;
+      }
+
+      // Validate Attendance Filter
+      if (!this.attendenceFilter || this.attendenceFilter.trim() === '') {
+        this.attendanceFilterError = 'Please select an attendance type.';
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+
+      const [startOfRange, endOfRange] = this.selectedDateRange;
+      this.startDate = new Date(startOfRange);
+      this.endDate = new Date(endOfRange);
+
+      const formattedStartDate = this.formatDate(this.startDate);
+      const formattedEndDate = this.formatDate(this.endDate);
+
+      this.isLoading5 = true;
+      this.generateAttendanceSummaryReport(formattedStartDate, formattedEndDate);
+      this.dateRangeModalClose5.nativeElement.click();
+      this.selectedDateRange = [];
+  }
+
+
+
+  generateAttendanceSummaryReport(startDate: string, endDate: string): void {
+    this.dataService.getAttendenceSummeryReportByFilter(startDate, endDate,this.attendenceFilter, this.selectedUserIds,).subscribe((res: any) => {
+      if(res.status){
+        console.log("Attendance Record Fetched Successfully...");
+        this.isLoading5 = false;
+        this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
+        this.attendenceFilter = '';
+        this.helperService.showToast(
+          'Attendance Records Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }else{
+        console.error('Error generating report', res.object);
+        this.isLoading5 = false;
+        this.attendenceFilter = '';
+        this.selectedUserIds = [];
+      }
+    });
+  }
+
+  
+  @ViewChild('dateRangeModalClose6') dateRangeModalClose6!: ElementRef;
+  isLoading6 : boolean = false;
+  leaveFilter : string = '';
+  leaveFilterError : string = '';
+  generateLeaveSummaryReport(): void {
+    this.leaveFilterError = '';
+    if (!this.leaveFilter || this.leaveFilter.trim() === '') {
+      this.leaveFilterError = 'Please select an Leave type.';
+      return;
+    }
+    this.isLoading6 = true;
+    this.dateRangeModalClose6.nativeElement.click();
+    this.dataService.getLeaveSummeryReport(this.leaveFilter, this.selectedUserIds).subscribe((res: any) => {
+      if(res.status){
+        console.log("Leave Record Fetched Successfully...");
+        this.isLoading6 = false;
+        this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
+        this.leaveFilter = '';
+        this.helperService.showToast('Leave Records Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating report', res.object);
+        this.isLoading6 = false;
+        this.leaveFilter = '';
+        this.selectedUserIds = [];
+      }
+    });
+  }
+
+
+  @ViewChild('dateRangeModalClose7') dateRangeModalClose7!: ElementRef;
+  isLoading7 : boolean = false;
+  generateSanctionLeaveSummaryReport(): void {
+    if (!this.selectedDateRange || this.selectedDateRange.length !== 2) {
+      this.dateRangeError = 'Please select a valid date range.';
+      return;
+    }
+    const [startOfRange, endOfRange] = this.selectedDateRange;
+    this.startDate = new Date(startOfRange);
+    this.endDate = new Date(endOfRange);
+
+    const formattedStartDate = this.formatDate(this.startDate);
+    const formattedEndDate = this.formatDate(this.endDate);
+    this.isLoading7 = true;
+    this.dateRangeModalClose7.nativeElement.click();
+    this.dataService.getSanctionLeaveSummeryReport(formattedStartDate, formattedEndDate,this.selectedUserIds).subscribe((res: any) => {
+      if(res.status){
+        console.log("Sanction Leave Record Fetched Successfully...");
+        this.isLoading7 = false;
+        this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
+        this.selectedDateRange = [];
+        this.helperService.showToast('Sanction Leave Records Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating report', res.object);
+        this.isLoading7 = false;
+        this.selectedDateRange = [];
+        this.selectedUserIds = [];
+      }
+    });
+  }
+
+
+
 }
