@@ -25,6 +25,7 @@ export const BASE_URL = 'http://localhost:8082/api/v2';
 
 // /* ------------------  Staging urls ----------------*/
 // export const BASE_URL = 'https://staging.hajiri.work/api/v2';
+
 /* ------------------  Production urls ----------------*/
 // export const BASE_URL = 'https://production.hajiri.work/api/v2';
 

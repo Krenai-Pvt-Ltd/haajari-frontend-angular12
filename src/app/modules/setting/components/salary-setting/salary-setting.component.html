@@ -1613,7 +1613,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title m-0"> Create your salary template </h5>
-        <button #cancelSalaryTemplateModal id="cancelSalaryTemplateModal" name="cancelSalaryTemplateModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button #cancelSalaryTemplateModal id="cancelSalaryTemplateModal" name="cancelSalaryTemplateModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clickTemplateTab()"></button>
       </div>
       <div class="modal-body p-0">
         <div class="shift-time-modal">
@@ -1753,11 +1753,12 @@
                           <div class="container">
                             <div class="d-flex justify-content-end content-wrapper">
                               <div class="filter-wrapper d-flex align-items-center gap-2">
-                                <a class="info-button text-black font-13 fw-semibold" *ngIf="selectedStaffsUuids.length > 0">
+                                <a class="info-button text-black font-13 fw-semibold pointer-none" *ngIf="selectedStaffsUuids.length > 0">
                                   <span class="text-primary">{{ selectedStaffsUuids.length }}</span> Selected of <span class="text-primary"> {{ totalUserCount }}</span>
                                 </a>
                                 <span class="separator"></span>
-                                <span *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)" class="clear-button font-13 fw-semibold text-danger" (click)="unselectAllUsers()">
+                                <span *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)"
+                                  class="clear-button font-13 fw-semibold text-danger pointer" (click)="unselectAllUsers()">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
                                     <mask id="mask0_4127_2858" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="19" style="mask-type: alpha;">
                                       <rect x="0.927246" y="0.460938" width="18.1564" height="18.1564" fill="#dc3545"></rect>
@@ -1856,7 +1857,7 @@
                       </svg>
                       Previous
                     </button>
-                    <button type="button" class="btn next-btn nextBtn ng-star-inserted btn-border" (click)="registerSalaryTemplateMethodCall()" [disabled]="salaryTemplateRegisterButtonLoader">
+                    <button type="button" class="btn next-btn nextBtn ng-star-inserted btn-border" [ngClass]="{'btn-border' : selectedStaffsUuids.length > 0}" (click)="registerSalaryTemplateMethodCall()" [disabled]="salaryTemplateRegisterButtonLoader || selectedStaffsUuids.length == 0">
                       <span *ngIf="!salaryTemplateRegisterButtonLoader">Submit
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                           <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>

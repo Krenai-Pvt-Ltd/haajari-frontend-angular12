@@ -10080,7 +10080,7 @@ button:disabled {
 
 .btn-border {
   background-color: var(--primary-background-color);
-  color: #fff ;
+  color: #fff !important;
   border-radius: 2px;
   padding: 7px 20px !important;
   -webkit-transform: perspective(1px) translateZ(0);
