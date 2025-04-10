@@ -1937,6 +1937,8 @@ export class AttendanceLeaveComponent implements OnInit {
   updateStatuss(status: string): void {
     this.selectedStatus = status;
     this.isStatusDropdownOpen = false; // Select karne ke baad dropdown close
+    this.currentPage = 1;
+    this.loadLeaveLogs();
   }
   isRequestDropdownOpen: boolean = false;
   attendanceStatuses: string[] = ['All', 'Pending', 'Approved', 'Rejected'];
