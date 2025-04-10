@@ -28,8 +28,8 @@
                     </ul>
                     <div id="pills-tabContent" class="tab-content">
                         <div class="tab-pane active show" id="dashboard" role="tabpanel" aria-labelledby="employee-tab">
-                            <div class="row mt-3 expense-wallets">
-                                <div class="col-md-3">
+                            <div class="row mt-3 ">
+                                <div class="col-md-28">
                                     <div class="expense-report">
                                         <div class="date-range d-flex align-items-center justify-content-between p-2">
                                             <h5 class="mb-0 font-14 fw-normal">Date Range</h5>
@@ -116,8 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="expense-info">
+                                <div class="col-md-72">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="total-expanse p-3 border-rounded-2">
@@ -230,7 +229,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <!-- <div class="col-md-3">
                                                 <div class="total-expanse p-3 border-rounded-2">
                                                     <div class="d-flex align-items-center gap-2">
                                                         <span class="total-expanse-icon d-flex align-items-center justify-content-center">
@@ -262,7 +261,7 @@
                                                         </span>
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
@@ -393,7 +392,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="assets-categories mt-3 border">
                                             <div class="categories-header p-3 d-flex align-items-center justify-content-between border-bottom">
                                                 <h5 class="mb-0 font-14 fw-semibold">Departmental Budget Allocation</h5>
@@ -419,14 +417,9 @@
                                                 </a>
                                               </div>
                                         </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
-                        
                         
                         <div class="tab-pane fade" id="expense-request" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="mt-3">
@@ -817,7 +810,7 @@
                             </div>
 
                             <div class="mt-3">
-                                <div class="table-responsive">
+                                <div class="table-responsive mb-4">
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -890,10 +883,10 @@
                                                     <span class="fw-normal">₹{{user.totalUsedAmount}}</span>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed" 
+                                                    <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed " 
                                                         data-bs-toggle="collapse" href="#expenseList" role="button" aria-expanded="false" 
                                                         aria-controls="expenseList" (click)="toggleCollapse(i); fetchUserTransactionsByClick(user.userUuid);">
-                                                        <i class="bi bi-chevron-down font-14 position-relative" style="top: 1px;"></i>
+                                                        <i class="bi bi-chevron-down font-14 position-relative  " style="top: 1px;"></i>
                                                     </button>
                                                 </td>                                                
                                             </tr>
@@ -909,7 +902,6 @@
                                                                     <th class="">Expense Type</th>
                                                                     <th class="">Date Range</th>
                                                                     <th class="text-center">Expense Amount</th>
-                                                                    <!-- <th class="text-center">Amount Rejected</th> -->
                                                                     <th class="text-center">Wallet Balance</th>
                                                                     <th class="text-center">Description</th>
                                                             </thead>
@@ -930,10 +922,6 @@
                                                                     <td>
                                                                         <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                                     </td>
-                                                                    <td>
-                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                                    </td>
-                                                    
                                                                 </tr>
                                                             </tbody>
                                                             <tbody>
@@ -996,11 +984,12 @@
 
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" [ngClass]="{'modal-xl':expenseData?.slipUrls?.length > 0,' modal-lg':expenseData?.slipUrls?.length == 0}" role="document">
+   
+   <div class="modal-dialog modal-dialog-centered" [ngClass]="{'modal-xl':expenseData?.expense?.slipUrls?.length > 0,' modal-lg':expenseData?.expense?.slipUrls?.length == 0}" role="document">
     <div class="modal-content">
       <div class="modal-header">
          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-            Bill Snapshot
+            Bill Snapshot 
          </h6>
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearApproveModal();"
          #closeApproveModal></button>
