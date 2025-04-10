@@ -101,6 +101,7 @@ export class SalarySettingComponent implements OnInit {
   EPF_ID = Key.EPF_ID;
   ESI_ID = Key.ESI_ID;
   PROFESSIONAL_TAX_ID = Key.PROFESSIONAL_TAX_ID;
+  LWF_ID = Key.LWF_ID;
 
   UNRESTRICTED_PF_WAGE = Key.UNRESTRICTED_PF_WAGE;
   RESTRICTED_PF_WAGE_UPTO_15000 = Key.RESTRICTED_PF_WAGE_UPTO_15000;
@@ -624,7 +625,9 @@ export class SalarySettingComponent implements OnInit {
       } else if (statutoryResponse.id == this.ESI_ID) {
         this.statutoryESIButton.nativeElement.click();
       } else if (statutoryResponse.id == this.PROFESSIONAL_TAX_ID) {
-        this.statutoryProButton.nativeElement.click();
+        this.statutoryOffButton.nativeElement.click();
+      } else if (statutoryResponse.id == this.LWF_ID) {
+        this.statutoryOffButton.nativeElement.click();
       }
     }else {
       this.statutoryOffButton.nativeElement.click();

@@ -1556,47 +1556,6 @@
     </div>
   </div>
 </div>
-<!-- <div *ngIf="switchValueForProfessionalTax" class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" style="background: rgba(0,0,0,0.5);"><div class="modal-dialog modal-dialog-centered mx-auto modal-lg" role="document"><div class="modal-content"><div class="modal-header border-bottom" style="background-color: white;"><h6 class="modal-title m-0" id="exampleModalDefaultLabel" style="color: black; font-size: large;">Professional Tax (Read Professional Tax Policy)</h6><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="switchValueForProfessionalTax = false"></button></div><div class="modal-body employees-provident"><div class="row"><div class="col-md-6"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">Pt Number</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Pt Number"></div></div><div class="col-md-6"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">State</label><div class="dropdown" style="width: 100%;"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-
-                                    State <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li><a class="dropdown-item">
-                                      Haryana
-                                    </a></li><li><a class="dropdown-item">
-                                      Delhi
-                                    </a></li></ul></div></div></div><div class="col-md-6"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">Deduction Frequency</label><div class="dropdown" style="width: 100%;"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                    Deduction Frequency <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li><a class="dropdown-item">
-                                      Monthly
-                                    </a></li><li><a class="dropdown-item">
-                                      Half Yearly
-                                    </a></li><li><a class="dropdown-item">
-                                      Yearly
-                                    </a></li></ul></div></div></div><div class="col-md-6"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">Exception Month </label><div class="dropdown" style="width: 100%;"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                    Exception Month <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%; height: 200px; overflow: scroll;"><li><a class="dropdown-item">
-                                      None
-                                    </a></li><li><a class="dropdown-item">
-                                      January
-                                    </a></li><li><a class="dropdown-item">
-                                      Fabruary
-                                    </a></li><li><a class="dropdown-item">
-                                      March
-                                    </a></li><li><a class="dropdown-item">
-                                      April
-                                    </a></li><li><a class="dropdown-item">
-                                      May
-                                    </a></li><li><a class="dropdown-item">
-                                      June
-                                    </a></li><li><a class="dropdown-item">
-                                      July
-                                    </a></li><li><a class="dropdown-item">
-                                      August
-                                    </a></li><li><a class="dropdown-item">
-                                      Setember
-                                    </a></li><li><a class="dropdown-item">
-                                      October
-                                    </a></li><li><a class="dropdown-item">
-                                      November
-                                    </a></li></ul></div></div></div><div class="tax-slabs"><h5>Tax Slabs Based On Gross Salary</h5></div><div class="col-md-4"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">START RANGE</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="0"></div></div><div class="col-md-4"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">
-                                END RANGE</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="max"></div></div><div class="col-md-4"><div class="form-group mb-3"><label for="exampleInputEmail1" style="padding-bottom: 6px;">
-                                MONTHLY TAX AMOUNT</label><input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="₹0"></div></div></div></div><div class="modal-footer"><button type="button" class="btn btn-de-secondary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Cancel</button><button type="button" class="btn btn-primary" data-dismiss="modal" (click)="switchValueForProfessionalTax = false">Save</button></div></div></div></div> -->
 
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton>
   Launch static backdrop modal
@@ -2204,32 +2163,6 @@
 <!-- End salery new modal -->
 
 
-<!-- SALARY CALCULATION MODE MODAL START -->
-<!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton>
-  Launch static backdrop modal
-</button>
-  <div class="modal fade" id="salaryMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-
-        <div class="modal-body">
-          <div class="">
-            <span class="d-flex justify-content-center"><i class="bi bi-question-circle"></i></span>
-            <h2>Are you sure, you want to proceed?</h2>
-            <p class="d-flex justify-content-center">Note: By clicking on proceed, your changes will get reflected.</p>
-          </div>
-          <div class="d-flex justify-content-center" style="gap:25px">
-            <button type="button" class="cancel-button" data-bs-dismiss="modal" #salaryModeClose>Cancel</button>
-            <button type="button" class="proceed-button" (click)="updateSalaryCalculationMode(selectedSalaryModeId)">
-              Proceed
-          </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- SALARY CALCULATION MODE MODAL END -->
 
   <!----------------------------------- SALARY CALCULATION MODE MODAL START-------------------------->
 <button class="d-none" data-bs-toggle="modal" data-bs-target="#statutoryPro" #statutoryProButton></button>
