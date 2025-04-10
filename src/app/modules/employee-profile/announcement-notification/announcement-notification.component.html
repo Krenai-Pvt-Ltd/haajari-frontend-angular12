@@ -9,7 +9,7 @@
         <div class="mt-3 desktop-notification" *ngIf="mailList.length>0 || mailLoading">
             <div class="notification">
                 <div class="d-flex align-items-center gap-2">
-                    <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
+                    <button *ngIf="currentUserUuid==userId" class="btn assets-request" (click)="markMailAsReadAll('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                             <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="25" height="25">
@@ -88,7 +88,7 @@
           <!-- mobile notification  -->
         <div class="mobile-notification" *ngIf="mailList.length>0 || mailLoading">
             <div class="d-flex align-items-center justify-content-between">
-                <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
+                <button *ngIf="currentUserUuid==userId" class="btn assets-request" (click)="markMailAsReadAll('mail')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                         <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="25" height="25">
