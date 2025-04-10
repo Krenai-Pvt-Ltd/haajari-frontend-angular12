@@ -279,7 +279,9 @@
                             </span>
                         </div> -->
                      </div>
+                     
                 </div>
+                
                </div>
                <div class="col-md-9 pl-0">
                     <form #templateForm="ngForm" ngNativeValidate (ngSubmit)="saveSalaryTemplate()">
@@ -298,7 +300,8 @@
                             <label class="pb-2">Annual CTC (per year)</label>
                             <input type="number" placeholder="Enter annual amount"  name="annualctc" class="form-control whatsapp-login-input" style="padding-left: 65px;" 
                             pattern="^[1-9][0-9]*$" 
-                            [(ngModel)]="salaryTemplate.annualCtc" required (ngModelChange)="CalculateMonthlyAmountNew()">
+                            [(ngModel)]="salaryTemplate.annualCtc" required (ngModelChange)="CalculateMonthlyAmountNew()"
+                            [max]="10000">
                             <span class="percentage-icon d-flex align-items-center justify-content-center">
                                 <i class="bi bi-currency-rupee font-18"></i>
                             </span>
@@ -370,7 +373,8 @@
                                             <div class="compliance-list bg-white border-rounded-2 attendance-border d-flex align-items-center justify-content-center" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                 <div class="w-50 position-relative" style="border-right: 1px solid #f1f1f1;">
                                                    <input type="number" placeholder="" required name="percentage{{i}}" id="valueType{{i}}"
-                                                        class="form-control borderLess" [(ngModel)]="component.value" (ngModelChange)="CalculateMonthlyAmountNew()">             
+                                                        class="form-control borderLess" [(ngModel)]="component.value" (ngModelChange)="CalculateMonthlyAmountNew()"
+                                                        [max]="100">             
                                                 </div>
                                                 <div class="w-50 currency-types-border d-flex align-items-center justify-content-start" *ngSwitchCase="VALUE_TYPE_PERCENTAGE">
                                                     <p class="mb-0 font-13 fw-semibold" *ngIf="component.calculationBasedId == CALCULATION_BASED_CTC">% of CTC</p>
@@ -392,7 +396,8 @@
                                                         <input type="number"  class="form-control borderLess" name="earningamount{{i}}" id="earningamount{{i}}"  step="0"
                                                         pattern="^[1-9][0-9]*$" 
                                                         [disabled]="component.valueTypeId == VALUE_TYPE_PERCENTAGE || component.name == 'Fixed Allowance'"
-                                                        [(ngModel)]="component.amount" (ngModelChange)="CalculateMonthlyAmountNew()">
+                                                        [(ngModel)]="component.amount" (ngModelChange)="CalculateMonthlyAmountNew()"
+                                                        [max]="99999999">
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,7 +445,8 @@
                                                 <div class="w-100 currency-types-border d-flex align-items-center justify-content-end px-3">
                                                     <input class="form-control borderLess" type="number" 
                                                     pattern="^[1-9][0-9]*$" placeholder="0" required name="reimbursement-amount{{i}}"
-                                                    [attr.max]="component.value"  [(ngModel)]="component.amount" (ngModelChange)="CalculateMonthlyAmountNew()"> 
+                                                    [attr.max]="component.value"  [(ngModel)]="component.amount" (ngModelChange)="CalculateMonthlyAmountNew()"
+                                                    [max]="9999999"> 
                                                 </div>
                                             </div>
                                         </div>
@@ -524,7 +530,7 @@
                                </div>
                                 <div class="col-md-3 p-3">
                                     <div class="text-end px-3">
-                                        <h5 class="mb-0 font-13 fw-semibold">₹ {{salaryTemplate.annualCtc}}</h5>
+                                        <h5 class="mb-0 font-13 fw-semibold">₹ {{salaryTemplate.annualCtc || 0}}</h5>
                                     </div>
                                 </div>
                             </div> 

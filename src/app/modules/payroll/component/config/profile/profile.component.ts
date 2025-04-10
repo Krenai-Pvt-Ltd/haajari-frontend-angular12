@@ -13,6 +13,7 @@ import { PayrollTodoStep } from 'src/app/payroll-models/PayrollTodoStep';
 import { Profile } from 'src/app/payroll-models/Profile';
 import { StaffAddressDetailsForMultiLocation } from 'src/app/payroll-models/StaffAddressDetailMultiLocation';
 import { State } from 'src/app/payroll-models/State';
+import { UserWithBranchName } from 'src/app/payroll-models/UserWithBranchName';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollConfigurationService } from 'src/app/services/payroll-configuration.service';
@@ -424,8 +425,14 @@ onAddressSelect(index: number, event: any) {
           if (response.status) {
             if (response.object && response.object.length > 0) {
               this.userNameWithBranchName = this.staffs.filter((staff) =>
-                response.object.includes(staff.uuid)
-              );
+                response.object.some((item: UserWithBranchName) => item.uuid === staff.uuid)
+              ).map((staff) => {
+                const matchedUser = response.object.find((item: UserWithBranchName) => item.uuid === staff.uuid);
+                return {
+                  ...staff,
+                  branch: matchedUser?.branchName || 'N/A',
+                };
+              });
               this.openUserAlreadyAssignedModal();
             } else {
               this.getOrganizationWorkAdddress();

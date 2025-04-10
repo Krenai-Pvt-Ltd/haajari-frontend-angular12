@@ -461,7 +461,7 @@ isSystemCalculated(component: any): boolean {
 //                                                                       SALARY TEMPLATE SAVE                                                                            // 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 calculateGrossAmount(){
-  this.salaryTemplate.monthlyGross=0;
+  this.salaryTemplate.monthlyGross
   this.salaryTemplate.earningComponents.forEach(component=> {
     this.salaryTemplate.monthlyGross += component.amount
   });
