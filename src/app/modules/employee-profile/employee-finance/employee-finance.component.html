@@ -79,12 +79,24 @@
           </p>
           <nz-switch [(ngModel)]="financeBlur"></nz-switch>
         </div>
-        <div
-          class="tab-pane fade active show pt-3 security-hide"
-          id="summary"
-          role="tabpanel"
-        >
-          <div class="payroll" [ngClass]="{ blurre: financeBlur }">
+        <div class="tab-pane fade active show pt-3 security-hide" id="summary" role="tabpanel">
+
+
+          <!-- mobile security box   -->
+          <div class="security p-2 d-n-desktop mb-3" *ngIf="!financeBlur">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-13 fw-semibold">Toggle disabled due to security reasons.</p>
+              <nz-switch
+                [(ngModel)]="financeBlur"
+                [nzControl]="true"
+                (click)="switchFinanceBlur()"
+              ></nz-switch>
+            </div>
+          </div>
+           <!-- mobile security box   -->
+
+
+          <div class="payroll" [ngClass]="{ blur: financeBlur }">
             <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0 font-15">Payroll</h5>
               <div class="attendance-date">
@@ -1049,7 +1061,21 @@
           </div>
         </div>
         <div class="tab-pane fade pt-3" id="payment" role="tabpanel">
-          <div class="payment-box mt-3" [ngClass]="{ blurre: financeBlur }">
+
+          <!-- mobile security box   -->
+          <div class="security p-2 d-n-desktop mb-3" *ngIf="!financeBlur">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-12 fw-semibold">Toggle disabled due to security reasons.</p>
+              <nz-switch
+                [(ngModel)]="financeBlur"
+                [nzControl]="true"
+                (click)="switchFinanceBlur()"
+              ></nz-switch>
+            </div>
+          </div>
+           <!-- mobile security box   -->
+
+          <div class="payment-box mt-3" [ngClass]="{ blur: financeBlur }">
             <div class="row">
               <div class="col-md-3 mb-3">
                 <div class="payroll-count p-3 d-flex align-items-center gap-3">
@@ -1248,45 +1274,22 @@
               <!-- mobile payment cycle end -->
             </div>
             <div class="mt-3 salary-simeline-box">
-              <div
-                class="salary-simeline p-3 d-flex align-items-center justify-content-between"
-              >
+              <div class="salary-simeline p-3 d-flex align-items-center justify-content-between">
                 <h5 class="mb-0 font-15">Salary Timeline</h5>
                 <div class="d-flex align-items-center gap-3">
-                  <div
-                    class="d-flex align-items-center gap-3"
-                    *ngIf="_roleService.getRoles() == 'ADMIN' || _roleService.hasWriteAccess(Routes.EMPLOYEE_PROFILE) "
-                  >
-                    <button
-                      type="button"
-                      class="btn p-0 text-primary font-13 fw-semibold"
-                      (click)="openSalaryTemplate()"
-                    >
+                  <div class="d-flex align-items-center gap-3 d-n-mobile" *ngIf="_roleService.getRoles() == 'ADMIN' || _roleService.hasWriteAccess(Routes.EMPLOYEE_PROFILE) ">
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openSalaryTemplate()" >
                       Update Template
                     </button>
                     <span class="calendar-separator"></span>
-                    <button
-                      type="button"
-                      class="btn p-0 text-primary font-13 fw-semibold"
-                      (click)="openAppraisal()"
-                    >
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openAppraisal()">
                       Appraisal
                     </button>
                     <span class="calendar-separator"></span>
-                    <button
-                      type="button"
-                      class="btn p-0 text-primary font-13 fw-semibold"
-                      (click)="openBonus()"
-                    >
-                      Bonus
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openBonus()">Bonus
                     </button>
                   </div>
-                  <span
-                    class="pointer"
-                    (click)="
-                      getCurrentSalaryDetail(); getEmployeeSalaryRevision()
-                    "
-                  >
+                  <span class="pointer" (click)=" getCurrentSalaryDetail(); getEmployeeSalaryRevision() ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="25"
@@ -1478,7 +1481,21 @@
               </div>
 
 
-              <div class="d-n-desktop" *ngFor=" let salaryRevision of userSalaryRevisionResList; let i = index">
+              <div class="d-flex align-items-center justify-content-between d-n-desktop p-3  border-bottom" *ngIf="_roleService.getRoles() == 'ADMIN' || _roleService.hasWriteAccess(Routes.EMPLOYEE_PROFILE) ">
+                <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openSalaryTemplate()" >
+                  Update Template
+                </button>
+                <span class="calendar-separator"></span>
+                <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openAppraisal()">
+                  Appraisal
+                </button>
+                <span class="calendar-separator"></span>
+                <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openBonus()">Bonus
+                </button>
+              </div>
+
+
+              <div class="d-n-desktop border-bottom" *ngFor=" let salaryRevision of userSalaryRevisionResList; let i = index">
                 <div class="d-flex align-items-center justify-content-between p-3">
                 <div class="d-flex align-items-center gap-3 ">
                   <span class="salary-simeline-icon d-flex align-items-center justify-content-center">
@@ -1584,8 +1601,23 @@
           </div>
         </div>
         <div class="tab-pane fade pt-3" id="pay-slips" role="tabpanel">
-          <div class="payroll" [ngClass]="{ blurre: financeBlur }">
+
+
+          <!-- mobile security box   -->
+          <div class="security p-2 d-n-desktop mb-3" *ngIf="!financeBlur">
             <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-13 fw-semibold">Toggle disabled due to security reasons.</p>
+              <nz-switch
+                [(ngModel)]="financeBlur"
+                [nzControl]="true"
+                (click)="switchFinanceBlur()"
+              ></nz-switch>
+            </div>
+          </div>
+           <!-- mobile security box   -->
+          
+          <div class="payroll" [ngClass]="{ blur: financeBlur }">
+            <div class="d-flex align-items-center justify-content-between d-n-mobile">
               <div>
                 <h5 class="mb-1 font-16">Pay Slips</h5>
                 <p class="mb-0 font-13 pay-slip">
@@ -1594,7 +1626,7 @@
                 </p>
               </div>
               <div class="attendance-date">
-                <nz-date-picker
+                <nz-date-picker nzBorderless
                   nzMode="year"
                   [nzSize]="size"
                   [(ngModel)]="selectedYear"
@@ -1605,18 +1637,33 @@
               </div>
             </div>
 
-            <div class="mt-3 pay-slip-box d-flex align-items-start">
-              <div class="" style="width: 300px">
-                <ul class="mb-0 pl-0">
-                  <li
-                    class="d-flex align-items-center justify-content-between"
-                    *ngFor="
-                      let payslip of employeePayslipLogResponseList;
-                      let i = index
-                    "
-                    [ngClass]="{ ' active-month': i == selectedIndex }"
-                    (click)="selectedIndex = i; loadPayslip(payslip)"
+
+
+            <!-- mobile payslip heading start  -->
+
+            <div class="d-n-desktop">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h5 class="mb-0 font-16">Pay Slips</h5>
+                <div class="attendance-date">
+                  <nz-date-picker nzBorderless
+                    nzMode="year"
+                    [nzSize]="size"
+                    [(ngModel)]="selectedYear"
+                    [nzDisabledDate]="disableYears"
+                    (ngModelChange)="onYearChange($event)"
                   >
+                  </nz-date-picker>
+                </div>
+              </div>
+            </div>
+
+            <!-- mobile payslip heading end  -->
+
+            <div class="mt-3 pay-slip-box d-flex align-items-start d-n-mobile">
+              <div class="payslip-sidebar">
+                <ul class="mb-0 pl-0">
+                  <li class="d-flex align-items-center justify-content-between" *ngFor="let payslip of employeePayslipLogResponseList; let i = index "
+                    [ngClass]="{ ' active-month': i == selectedIndex }" (click)="selectedIndex = i; loadPayslip(payslip)">
                     <span>{{ payslip.paySlipMonth | date : "MMMM yyyy" }}</span>
                     <span class="pointer" *ngIf="i == selectedIndex">
                       <svg
@@ -1650,16 +1697,54 @@
               </div>
               <div class="pay-slip-file w-100" *ngIf="selectedPayslip">
                 <div class="d-flex align-items-center justify-content-center">
-                  <iframe
-                    class="nest"
-                    [src]="selectedPayslipUrl"
-                    style="width: 100%; height: 100vh"
-                    frameborder="0"
-                  >
-                  </iframe>
+                  <iframe class="nest w-100" [src]="selectedPayslipUrl" style="height: 100vh" frameborder="0"></iframe>
                 </div>
               </div>
             </div>
+
+
+            <!-- mobile payslip section -->
+
+            <div class="payslip-sidebar d-n-desktop mt-3">
+              <ul class="mb-0 pl-0">
+                <li class="d-flex align-items-center justify-content-between mb-2 p-3" *ngFor="let payslip of employeePayslipLogResponseList; let i = index "
+                  [ngClass]="{ ' active-month': i == selectedIndex }" (click)="selectedIndex = i; loadPayslip(payslip)">
+                  <span class="fw-semibold font-13">{{ payslip.paySlipMonth | date : "MMMM yyyy" }}</span>
+                  <span class="pointer" *ngIf="i == selectedIndex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="29"
+                      height="30"
+                      viewBox="0 0 29 30"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_6709_6993"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="29"
+                        height="30"
+                      >
+                        <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_6709_6993)">
+                        <path
+                          d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- mobile payslip section -->
+
+
+
             <div
               class="empty-file d-flex align-items-center justify-content-center"
               *ngIf="employeePayslipLogResponseList.length == 0"

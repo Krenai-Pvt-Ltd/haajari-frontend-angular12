@@ -52,18 +52,6 @@ background-color: #f2f3ff;
 .compliance-name{
   border-right: 1px solid #f1f1f1;
 }
-/* .form-control:focus{
-  border: 1px solid #6666F2 !important;
-  box-shadow: 0 0 0 0.2rem rgba(102, 102, 242, 0.25) !important;
-} */
-/* .whatsapp-login-input {
-  border-radius: 2px !important;
-  border: 1.021px solid #e9e9e9 !important;
-  background: rgba(236, 236, 236, 0.21) !important;
-  height: 45px !important;
-  font-size: 12px !important;
-  font-weight: 400 !important;
-} */
 
 ::ng-deep .placeholder-line .ant-select-selection-placeholder {
   line-height: 45px !important;

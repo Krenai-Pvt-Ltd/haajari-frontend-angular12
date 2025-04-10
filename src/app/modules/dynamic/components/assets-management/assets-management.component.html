@@ -572,7 +572,7 @@
                                      </div>
                                   </div>
                                   <div>
-                                     <button class="btn p-0 font-14 text-primary fw-semibold filter-btn" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal  *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)">
+                                     <button (click)="assetData.id=0" class="btn p-0 font-14 text-primary fw-semibold filter-btn" data-bs-toggle="modal" data-bs-target="#createAssetsModal" AssetsDetailModal  *ngIf="rbacService.hasWriteAccess(Routes.ASSETS)">
                                        <i class="bi bi-plus-lg"></i>  Add Assets</button>
 
                                   </div>

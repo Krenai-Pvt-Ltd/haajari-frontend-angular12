@@ -1269,7 +1269,11 @@ div[ngbTooltip] {
 }
 
 @media screen and (max-width: 500px) {
-    
+
+    .mobile-t-s{
+        padding-top: 15px;
+    }
+
     .font-15 {
         font-size: 15px !important;
     }
