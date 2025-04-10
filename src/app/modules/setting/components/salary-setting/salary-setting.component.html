@@ -1672,8 +1672,8 @@
                 <div class="tab-pane fade show active" id="salarytemplatee" role="tabpanel" [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}">
                   <div class="row p-3">
                     <form #salaryForm="ngForm">
-                      <div class="description-main-box">
-                        <span class="eTjDuD">1</span>
+                      <div class="description-main-box d-flex m-0 gap-4">
+                        <span class="count-number radius-50 fw-bold font-13 mt-0 mb-0 text-primary d-flex align-items-center justify-content-center img-25">1</span>
                         <div class="description">
                           <h5>Name and description</h5>
                           <p>Define the name and description of your salary template</p>
@@ -1718,8 +1718,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="description-main-box mt-4">
-                        <span class="eTjDuD">2</span>
+                      <div class="description-main-box mt-4 d-flex gap-4">
+                        <span class="count-number radius-50 fw-bold font-13 mt-0 mb-0 text-primary d-flex align-items-center justify-content-center img-25">2</span>
                         <div class="description">
                           <h5>Define your salary component</h5>
                           <p>Salary will get calculated on the basis of these components</p>
@@ -1816,8 +1816,10 @@
                         </div>
                       </div>
                     </div>
-                    <table class="table">
-                      <thead class="thead-light">
+
+                    <div class="staff-section-table">
+                      <table class="table">
+                      <thead>
                         <tr>
                           <th style="width: 0%">
                             <input [disabled]="!rbacService.hasWriteAccess(Routes.SALARYSETTING)" type="checkbox" style="cursor: pointer" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
@@ -1868,49 +1870,54 @@
                           </tr>
                         </tbody>
                       </ng-template>
-                    </table>
-                  </div>
-                  <div class="pagination pl-3" *ngIf="total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
-                    <p class="mb-0" style="padding-left: 15px">
-                      Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} members
-                    </p>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <nav aria-label="Page navigation example">
-                          <ngb-pagination
-                            class="pagination justify-content-end"
-                            [(page)]="pageNumber"
-                            [pageSize]="itemPerPage"
-                            [collectionSize]="total"
-                            (pageChange)="changePage($event)"
-                            [maxSize]="5"
-
-                            aria-label="Pagination"
-                          ></ngb-pagination>
-                        </nav>
-                      </div>
+                      </table>
                     </div>
                   </div>
-                  <div class="modal-footer d-flex align-items-center justify-content-between bg-white" *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)">
-                    <button type="button" class="btn p-0 text-black next-btn previousBtn" (click)="clickTemplateTab()">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                        <path d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z" fill="black"></path>
-                      </svg>
-                      Previous
-                    </button>
-                    <button type="button" class="btn next-btn nextBtn ng-star-inserted btn-border" [ngClass]="{'btn-border' : selectedStaffsUuids.length > 0}" (click)="registerSalaryTemplateMethodCall()" [disabled]="salaryTemplateRegisterButtonLoader || selectedStaffsUuids.length == 0">
-                      <span *ngIf="!salaryTemplateRegisterButtonLoader">Submit
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                          <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
-                        </svg>
-                      </span>
-                      <div class="dot-opacity-loader" *ngIf="salaryTemplateRegisterButtonLoader">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+
+                  <div class="bg-white leave-footer">
+                    <div class="pagition-box p-3 d-flex align-items-center  justify-content-between" *ngIf="total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
+                      <p class="mb-0" style="padding-left: 15px">
+                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} members
+                      </p>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <nav aria-label="Page navigation example">
+                            <ngb-pagination
+                              class="pagination justify-content-end"
+                              [(page)]="pageNumber"
+                              [pageSize]="itemPerPage"
+                              [collectionSize]="total"
+                              (pageChange)="changePage($event)"
+                              [maxSize]="5"
+
+                              aria-label="Pagination"
+                            ></ngb-pagination>
+                          </nav>
                         </div>
-                    </button>
+                      </div>
+                    </div>
+                    <div class="modal-footer d-flex align-items-center justify-content-between bg-white" *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)">
+                      <button type="button" class="btn p-0 text-black next-btn previousBtn" (click)="clickTemplateTab()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                          <path d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z" fill="black"></path>
+                        </svg>
+                        Previous
+                      </button>
+                      <button type="button" class="btn next-btn nextBtn ng-star-inserted btn-border" [ngClass]="{'btn-border' : selectedStaffsUuids.length > 0}" (click)="registerSalaryTemplateMethodCall()" [disabled]="salaryTemplateRegisterButtonLoader || selectedStaffsUuids.length == 0">
+                        <span *ngIf="!salaryTemplateRegisterButtonLoader">Submit
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z" fill="#6666F2"></path>
+                          </svg>
+                        </span>
+                        <div class="dot-opacity-loader" *ngIf="salaryTemplateRegisterButtonLoader">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          </div>
+                      </button>
+                    </div>
                   </div>
+
                 </div>
               </div>
             </div>

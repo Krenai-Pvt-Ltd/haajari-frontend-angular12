@@ -1397,23 +1397,10 @@
 <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1000px;">
        <div class="modal-content">
-          <!-- <div class="modal-header">
-             <h5 class="modal-title" id="calendarModalLabel">Holidays Calendar</h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div> -->
-          <div class="modal-body p-0">
-            <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_5037_2014)">
-                        <path
-                            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                            fill="black" />
-                    </g>
-                </svg>
+         
+          <div class="modal-body p-0 position-relative">
+            <button type="button" class="btn btn-closes d-flex align-items-center justify-content-center bg-white position-absolute" data-bs-dismiss="modal" aria-label="Close">
+                <i class="bi bi-x font-24"></i>
             </button>
             <div class="calendar-date d-flex align-items-center justify-content-between p-4">
               <div class="d-flex align-items-center gap-2">
@@ -1441,8 +1428,8 @@
               </div>
             </div>
 
-            <div>
-              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
+            <div class="calendar-wrapper">
+              <nz-calendar class="" [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
                 <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }">
                   <ng-container *ngFor="let item of getHolidayEvents(date)">
                     <li class="holiday-item">
