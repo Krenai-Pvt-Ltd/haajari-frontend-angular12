@@ -899,7 +899,7 @@ export class SalarySettingComponent implements OnInit {
     this.selectedStaffsUuids = [];
     this.getUserByFiltersMethodCall();
     this.isAllUsersSelected = false;
-    this.salaryTemplateTab.nativeElement.click();
+    // this.salaryTemplateTab.nativeElement.click();
   }
 
   // toggleSalaryComponent(salaryComponent: SalaryComponent): void {
