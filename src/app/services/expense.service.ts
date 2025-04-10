@@ -33,12 +33,9 @@ export class ExpenseService {
           params = params.append('id', id);
         });
 
-
-        if (pageNumber != 0 && itemPerPage != 0) {
-          params = params.set('currentPage', pageNumber); 
-          params = params.set('itemPerPage', itemPerPage);
-        }
-      
+        params = params.set('currentPage', pageNumber); 
+        params = params.set('itemPerPage', itemPerPage);
+       
         if (startDate && endDate) {
           params = params.set('startDate', startDate);
           params = params.set('endDate', endDate);
