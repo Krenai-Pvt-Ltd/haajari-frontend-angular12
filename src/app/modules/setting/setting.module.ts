@@ -38,6 +38,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { LeavePolicyComponent } from './components/leave-policy/leave-policy.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     StaffAttendanceLocationComponent,
     UploadPhotoComponent,
     SalarySettingComponent,
-    ExistPolicyComponent
+    ExistPolicyComponent,
+    LeavePolicyComponent
   ],
   imports: [
     CommonModule,

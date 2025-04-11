@@ -1,0 +1,90 @@
+<div class="page-wrapper">
+    <div class="page-content-tab mt-3 pl-1">
+      <div class="row px-2">
+            <div class="col-md-12">
+                <ul id="pills-tab" role="tablist" class="nav nav-pills ">
+                    <li class="nav-item">
+                    <a id="pills-announcement-tab" data-bs-toggle="pill" href="#leave" role="tab" aria-controls="pills-announcement" aria-selected="false"
+                        class="nav-link active">Leave</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                    <a id="pills-notification-tab" data-bs-toggle="pill" href="#on-duty" role="tab"
+                        aria-controls="pills-notification" aria-selected="false" 
+                        class="nav-link">On Duty</a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center ">
+                    <a id="pills-notification-tab" data-bs-toggle="pill" href="#week-off" role="tab"
+                        aria-controls="pills-notification" aria-selected="false" class="nav-link">Week Off</a>
+                    </li>
+                </ul>
+
+
+                <div id="pills-tabContent" class="tab-content  mt-4">
+                    <div class="tab-pane active show" id="leave" role="tabpanel" aria-labelledby="employee-tab"> 
+                        <div class="row">
+                           <div class="col-md-4">
+                            <div class="policy-heading">
+                                <h5 class="text-black mb-2 font-16">Leave Policy</h5>
+                                <p class="font-13 mb-0">This will be displayed on your profile.</p>
+                            </div>
+                           </div>
+                           <div class="col-md-8">
+                                <div class="policy-main-box border border-rounded-2">
+                                   <div class="border-bottom d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+                                    <h6 class="mb-0 lh-lgg">Leave</h6>
+                                    <a data-bs-toggle="modal" data-bs-target="#leaveModal" class="font-14 fw-semibold text-primary">
+                                        <i class="bi bi-plus font-20"></i> Create another template 
+                                    </a>
+                                   </div>
+                                   <div>
+                                    <div class="policy-name p-3 m-3 border-rounded-2"  *ngFor="let item of [].constructor(3)">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <span class="p-3 radius-50 d-flex align-items-center justify-content-center bg-white">
+                                                    <img src="assets/images/rule-icon.svg">
+                                                </span>
+                                                <div>
+                                                    <h6 class="text-truncate mb-0 new-leave-tamplate-name"> Krenai Services Private Limited Leave </h6>
+                                                    <small class="text-muted">Define the leave rules for the employees</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="staff-count bg-white pointer font-12 fw-semibold border-rounded-2 lh-sm">Staff - 22</span>
+                                        </div>
+                                    </div>
+                                   </div>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="on-duty" role="tabpanel" aria-labelledby="employee-tab">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="policy-heading">
+                                    <h5 class="text-black mb-2 font-16">Leave Policy</h5>
+                                    <p class="font-13 mb-0">This will be displayed on your profile.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-7"></div>
+                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="week-off" role="tabpanel" aria-labelledby="employee-tab">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="policy-heading">
+                                    <h5 class="text-black mb-2 font-16">Leave Policy</h5>
+                                    <p class="font-13 mb-0">This will be displayed on your profile.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-7"></div>
+                         </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
