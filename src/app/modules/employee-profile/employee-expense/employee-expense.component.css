@@ -520,13 +520,24 @@
     font-size: 0.875rem !important;
     font-weight: 400 !important;
   }
+  ::ng-deep .ant-empty-image{
+    padding: 0px !important;
+  }
+  ::ng-deep .ant-empty-description{
+    padding: 0px !important;
+  }
   .mobile-attendance-date{
     border-bottom: 20px solid #fff !important;
 }
 .mobile-card-view{
     display: none;
 }
-
+.m-empty-notification{
+    height: 60vh;
+}
+.mb-60{
+    margin-bottom: 60px;
+}
   @media screen and (max-width: 500px) {
     .desktop-attendance-date{
         display: none;
@@ -557,7 +568,7 @@
     .expense-data{
         margin-bottom: 15px;
     }
-    .empOnnoardtable{
+    .mb-60{
         margin-bottom: 60px;
     }
     .bill-image{
