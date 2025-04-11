@@ -9,7 +9,7 @@
         <div class="mt-3 desktop-notification" *ngIf="mailList.length>0 || mailLoading">
             <div class="notification">
                 <div class="d-flex align-items-center gap-2">
-                    <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
+                    <button *ngIf="currentUserUuid==userId" class="btn assets-request" (click)="markMailAsReadAll('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                             <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="25" height="25">
@@ -88,7 +88,7 @@
           <!-- mobile notification  -->
         <div class="mobile-notification" *ngIf="mailList.length>0 || mailLoading">
             <div class="d-flex align-items-center justify-content-between">
-                <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
+                <button *ngIf="currentUserUuid==userId" class="btn assets-request" (click)="markMailAsReadAll('mail')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                         <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="25" height="25">
@@ -122,7 +122,7 @@
                         <span class="notification-name d-flex align-items-center justify-content-center fw-semibold font-12 fw-600 text-uppercase"
                         [ngClass]="{
                             'attendance-notification': mail.title.includes('Attendance'),
-                            'onboarding-notification': mail.title.includes('Onboarding'),
+                            'onboarding-notification': mail.title.includes('Onboarding') ||  mail.title.includes('Welcome'),
                             'resignation-notification': mail.title.includes('Resignation'),
                             'profile-notification': mail.title.includes('Profile'),
                             'overtime-notification': mail.title.includes('Overtime'),
@@ -133,7 +133,7 @@
                         }"> {{ mail.title.slice(0, 2) }} </span>
                         <h5 class="mb-0 font-13 fw-semibold">{{ mail.title }}</h5>
                     </div>
-                    
+
                     <div class="d-flex align-items-center gap-2">
                         <div *ngIf="!mail.isRead" class="new-notification"></div>
                         <span class="mb-0 fw-semibold font-12">{{ getTimeAgo(mail.createdDate.toLocaleString()) }}</span>
@@ -156,8 +156,8 @@
                     [(page)]="this.databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
                 </ngb-pagination>
             </div>
-            
-            
+
+
 
         </div>
          <!-- mobile notification end--->
