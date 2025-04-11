@@ -5566,6 +5566,95 @@ export class DataService {
 
     return this.httpClient.get(`${this.baseUrl}/attendance/attendance-update-requests`, { params });
   }
+
+
+  getAttendenceSummeryReportByFilter(
+    startDate: string,
+    endDate: string,
+    filter: string,
+    userIds: number[] | null
+  ){
+    let params = new HttpParams()
+      .append('startDate', startDate)
+      .append('endDate', endDate)
+      .append('filter_criteria', filter)
+      .append('dashBoardView',true)
+      
+      if (userIds) {
+        params = params.append(
+          'userIds',
+          userIds.length > 0 ? userIds.join(',') : ''
+        );
+      } else {
+        params = params.append('userIds', '');
+      }
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/get-attendance-details-excel-report-by-date`,{params});
+  }
+
+  getLeaveSummeryReport(
+    filter: string,
+    userIds: number[] | null
+  ){
+    let params = new HttpParams()
+      .append('filter', filter)
+      .append('dashBoardView',true)
+      
+      if (userIds) {
+        params = params.append(
+          'userIds',
+          userIds.length > 0 ? userIds.join(',') : ''
+        );
+      } else {
+        params = params.append('userIds', '');
+      }
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/leave-summary-for-excel`,{params});
+  }
+
+
+  getSanctionLeaveSummeryReport(
+    startDate: string,
+    endDate: string,
+    userIds: number[] | null
+  ){
+    let params = new HttpParams()
+      .append('startDate', startDate)
+      .append('endDate', endDate)
+      .append('dashBoardView',true)
+      
+      if (userIds) {
+        params = params.append(
+          'userIds',
+          userIds.length > 0 ? userIds.join(',') : ''
+        );
+      } else {
+        params = params.append('userIds', '');
+      }
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/sanction-leave-for-excel`,{params});
+  }
+
+
+  getAssetRequestReport(){
+      let params = new HttpParams()
+      .append('dashBoardView',true)
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-request-for-excel`,{params});
+  }
+
+  getAssetSummaryReport(){
+    let params = new HttpParams()
+    .append('dashBoardView',true)
+
+    return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-summary-for-excel`,{params});
+  }
+
+
+  
+
+
+
 }
 
 
