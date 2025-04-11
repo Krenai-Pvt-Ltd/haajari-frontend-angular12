@@ -295,7 +295,9 @@
     display: none;
 }
 
-
+.mb-60{
+    margin-bottom: 60px;
+}
 @media screen and (max-width: 500px) {
     .mobile-attendance-date{
         border-bottom: 20px solid #fff !important;

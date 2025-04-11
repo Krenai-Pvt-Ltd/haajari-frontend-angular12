@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { BulkAction } from 'src/app/models/bulkAction';
@@ -23,6 +23,7 @@ import { SalaryService } from 'src/app/services/salary.service';
 import * as XLSX from 'xlsx';
 import { Routes } from 'src/app/constant/Routes';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-salary-setting',
   templateUrl: './salary-setting.component.html',
@@ -47,6 +48,13 @@ export class SalarySettingComponent implements OnInit {
     this.getPFContributionRateMethodCall();
     this.getESIContributionRateMethodCall();
     this.getAllStatutoriesMethodCall();
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged() // Wait 300ms after the last keystroke
+    ).subscribe(() => {
+      this.pageNumber = 1;
+      this.getUserByFiltersMethodCall();
+    });
   }
 
   //Variable for pagination
@@ -900,7 +908,6 @@ export class SalarySettingComponent implements OnInit {
     this.getAllTemplateComponentsMethodCall();
     this.resetCriteriaFilter();
     this.selectedStaffsUuids = [];
-    this.getUserByFiltersMethodCall();
     this.isAllUsersSelected = false;
     // this.salaryTemplateTab.nativeElement.click();
   }
@@ -1034,9 +1041,13 @@ export class SalarySettingComponent implements OnInit {
   }
 
   //Method to search users
+  private searchSubject = new Subject<string>();
   searchUsers() {
-    this.pageNumber = 1;
-    this.getUserByFiltersMethodCall();
+    this.searchSubject.next(this.searchText);
+  }
+  onSearch(event: any) {
+    console.log('Search text:', this.searchText);
+    this.searchSubject.next(this.searchText);
   }
 
   //Method to clear search text
@@ -1079,7 +1090,6 @@ export class SalarySettingComponent implements OnInit {
           }
           this.total = response.count;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-          this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
 
           this.isShimmerForSalaryTemplateStaffSelection = false;
@@ -1158,16 +1168,14 @@ export class SalarySettingComponent implements OnInit {
   }
 
   // Pagination
-  changePage(page: number | string) {
-    if (typeof page === 'number') {
-      this.pageNumber = page;
-    } else if (page === 'prev' && this.pageNumber > 1) {
-      this.pageNumber--;
-    } else if (page === 'next' && this.pageNumber < this.totalPages) {
-      this.pageNumber++;
-    }
+  changePage(page: any) {
 
-    this.getUserByFiltersMethodCall();
+    console.log('Page changed:', page);
+    console.log('Current page:', this.pageNumber);
+    if(page!=this.pageNumber){
+      this.pageNumber=page;
+     this.getUserByFiltersMethodCall();
+    }
   }
 
   getPages(): number[] {

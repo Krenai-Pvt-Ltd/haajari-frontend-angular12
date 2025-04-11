@@ -21,21 +21,8 @@
     font-weight: 500;
 }
 
-.eTjDuD {
-    font-weight: 600;
-    font-size: 0.875rem;
-    line-height: 1.57143;
-    letter-spacing: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
+.count-number {
     background-color: rgb(239, 247, 255);
-    border-radius: 50%;
-    color: blue;
-    display: grid;
-    height: 25px;
-    place-items: center;
-    width: 25px;
 }
 
 .description-main-box{

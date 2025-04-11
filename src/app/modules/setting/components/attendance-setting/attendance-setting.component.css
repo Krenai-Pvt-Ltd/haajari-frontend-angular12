@@ -1662,7 +1662,7 @@ a.fetch-location {
   max-height: 50vh;
   overflow: scroll;
 }
-..staff-section-table::-webkit-scrollbar{
+.staff-section-table::-webkit-scrollbar{
   display: none;
 }
 

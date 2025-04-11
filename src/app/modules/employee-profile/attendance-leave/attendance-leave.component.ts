@@ -788,7 +788,7 @@ export class AttendanceLeaveComponent implements OnInit {
     }).filter((week) => week !== null) as string[];
 
     this.selectedTab = this.weekLabels[this.weekLabels.length - 1];
-    this.onTabChange(this.weekLabels[this.weekLabels.length - 1]);
+    this.onTabChange('30 DAYS');
   }
 
   calculateDateRange(): void {
