@@ -19,6 +19,7 @@ import { constant } from 'src/app/constant/constant';
 export class StatutoryComponent implements OnInit {
 
   readonly constant = constant;
+ 
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
     private _helperService : HelperService,
