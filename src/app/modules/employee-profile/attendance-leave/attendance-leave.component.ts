@@ -31,6 +31,7 @@ import moment from 'moment';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import saveAs from 'file-saver';
 import { BreakTimings } from 'src/app/models/break-timings';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 
@@ -61,6 +62,7 @@ export class AttendanceLeaveComponent implements OnInit {
   UUID: string = '';
   ROLE: string = '';
   readonly Constant = constant;
+  isMobileView: boolean = false;
   contentTemplate: string =
     'You are on the Notice Period, so that you can not apply leave';
 
@@ -75,7 +77,8 @@ export class AttendanceLeaveComponent implements OnInit {
     public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage,
     private modalService: NgbModal,
-    public roleService: RoleBasedAccessControlService
+    public roleService: RoleBasedAccessControlService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.getUuid();
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -142,6 +145,12 @@ export class AttendanceLeaveComponent implements OnInit {
     }, 100);
     this.currentUserUuid = this.roleService.getUuid();
     this.checkUserLeaveTaken();
+    this.breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+      .subscribe(result => {
+        this.isMobileView = result.matches;
+        console.log('Current view:', this.isMobileView ? 'Mobile' : 'Desktop');
+      });
   }
   get canSubmit() {
     return this.userLeaveForm?.valid;
@@ -788,7 +797,11 @@ export class AttendanceLeaveComponent implements OnInit {
     }).filter((week) => week !== null) as string[];
 
     this.selectedTab = this.weekLabels[this.weekLabels.length - 1];
+    if(this.isMobileView){
     this.onTabChange('30 DAYS');
+    }else{
+      this.onTabChange(this.selectedTab);
+    }
   }
 
   calculateDateRange(): void {
