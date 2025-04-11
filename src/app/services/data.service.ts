@@ -4546,7 +4546,6 @@ export class DataService {
   }
 
   getAllExpense(
-    role: string,
     pageNumber: number,
     itemPerPage: number,
     startDate: any,
@@ -4561,7 +4560,6 @@ export class DataService {
       .set('itemPerPage', itemPerPage)
       .set('sortBy', 'createdDate')
       .set('sortOrder', 'desc')
-      .set('role', role)
       .set('tag', tag)
       .set('search', search);
 
@@ -4633,7 +4631,6 @@ export class DataService {
   }
 
   getAllExpenseCount(
-    role: string,
     pageNumber: number,
     itemPerPage: number,
     startDate: any,
@@ -4643,7 +4640,6 @@ export class DataService {
     var params = new HttpParams()
       .set('currentPage', pageNumber)
       .set('itemPerPage', itemPerPage)
-      .set('role', role);
 
     if (startDate && endDate) {
       params = params.set('startDate', startDate);
