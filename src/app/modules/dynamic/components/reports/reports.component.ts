@@ -731,4 +731,38 @@ handleOkOfAttendanceSummary(): void {
 
 
 
+  isLoading8 : boolean = false;
+  generateAssetRequestReport(): void {
+    this.isLoading8 = true;
+    this.dataService.getAssetRequestReport().subscribe((res: any) => {
+      if(res.status){
+        console.log("Asset Request Summary Fetched Successfully...");
+        this.isLoading8 = false;
+        this.getFullReportLogs();
+        this.helperService.showToast('Asset Request Summary Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating Asset Request Summary ', res.object);
+        this.isLoading8 = false;
+      }
+    });
+  }
+
+  isLoading9 : boolean = false;
+  generateAssetSummaryReport(): void {
+    this.isLoading9 = true;
+    this.dataService.getAssetSummaryReport().subscribe((res: any) => {
+      if(res.status){
+        console.log("Asset Summary Fetched Successfully...");
+        this.isLoading9 = false;
+        this.getFullReportLogs();
+        this.helperService.showToast('Asset Summary Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating Asset Summary ', res.object);
+        this.isLoading9 = false;
+      }
+    });
+  }
+
+
+
 }

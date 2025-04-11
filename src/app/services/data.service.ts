@@ -5636,6 +5636,21 @@ export class DataService {
   }
 
 
+  getAssetRequestReport(){
+      let params = new HttpParams()
+      .append('dashBoardView',true)
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-request-for-excel`,{params});
+  }
+
+  getAssetSummaryReport(){
+    let params = new HttpParams()
+    .append('dashBoardView',true)
+
+    return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-summary-for-excel`,{params});
+  }
+
+
   
 
 
