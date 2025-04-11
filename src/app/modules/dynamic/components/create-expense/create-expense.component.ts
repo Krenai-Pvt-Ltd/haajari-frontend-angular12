@@ -67,7 +67,7 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseTotalItems = 0
     this.ROLE = await this.rbacService.getRole();
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '', this.selectedFilter,this.searchedName).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '', this.selectedFilter,this.searchedName).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.expenseTotalItems = res.totalItems
