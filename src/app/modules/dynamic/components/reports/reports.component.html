@@ -61,8 +61,28 @@
 
                 <div class="Attendance-report-deta">
                   <h5>Leave Summary Report</h5>
-                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#leaveSummaryReport">
-                    <i *ngIf="!isLoading6; else loadingTemplate6" class="bi bi-chevron-right"></i>
+                  <div class="report-icon"(click)="LeaveSummary('LEAVE')">
+                    <i *ngIf="!leaveLoading; else loadingTemplate6" class="bi bi-chevron-right"></i>
+                  </div>
+                </div>
+                <ng-template #loadingTemplate6>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+
+                <div class="Attendance-report-deta">
+                  <h5>WFH Summary Report</h5>
+                  <div class="report-icon"(click)="LeaveSummary('WFH')">
+                    <i *ngIf="!wfhLoading; else loadingTemplate6" class="bi bi-chevron-right"></i>
+                  </div>
+                </div>
+                <ng-template #loadingTemplate6>
+                  <div class="loading-icon">Loading...</div>
+                </ng-template>
+
+                <div class="Attendance-report-deta">
+                  <h5>OutDuty Summary Report</h5>
+                  <div class="report-icon"(click)="LeaveSummary('OUTDUTY')">
+                    <i *ngIf="!outdutyLoading; else loadingTemplate6" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
                 <ng-template #loadingTemplate6>
@@ -83,7 +103,7 @@
 
                 <div class="Attendance-report-deta">
                   <h5>Asset Request Report</h5>
-                  <div class="report-icon" (click)="generateAssetRequestReport()">
+                  <div class="report-icon" data-bs-toggle="modal" data-bs-target="#assetRequest">
                     <i *ngIf="!isLoading8; else loadingTemplate8" class="bi bi-chevron-right"></i>
                   </div>
                 </div>
@@ -784,6 +804,72 @@
             Cancel
           </button>
           <button type="button" class="btn submitActionBtn " (click)="generateSanctionLeaveSummaryReport()">
+            Generate
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel"
+    aria-hidden="true" #dateRangeModal>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dateRangeModalLabel">
+            Asset Request Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="attendanceType" class="mb-2">Select Request Status</label>
+              <nz-select
+                class="placeholder-line w-100"
+                nzPlaceHolder="Select attendance type"
+                [(ngModel)]="assetStatusFilter"
+                [nzAllowClear]="true"
+                [nzShowSearch]="false"
+                style="border: 1px solid #e9e9e9"
+              >
+                <nz-option nzLabel="Assigned" nzValue="ASSIGNED"></nz-option>
+                <nz-option nzLabel="Approved" nzValue="APPROVED"></nz-option>
+                <nz-option nzLabel="Rejected" nzValue="REJECTED"></nz-option>
+                <nz-option nzLabel="Pending" nzValue="PENDING"></nz-option>
+                
+              </nz-select>
+
+              <div *ngIf="typrError" class="text-danger mt-1">{{ typrError }}</div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+              <label for="attendanceType" class="mb-2">Select Request Type</label>
+              <nz-select
+                class="placeholder-line w-100"
+                nzPlaceHolder="Select attendance type"
+                [(ngModel)]="assetTypeFilter"
+                [nzAllowClear]="true"
+                [nzShowSearch]="false"
+                style="border: 1px solid #e9e9e9"
+              >
+                <nz-option nzLabel="Replacement" nzValue="Asset Replacement"></nz-option>
+                <nz-option nzLabel="New Allocation" nzValue="New Asset Allocation"></nz-option>
+                
+              </nz-select>
+
+              <div *ngIf="statusError" class="text-danger mt-1">{{ statusError }}</div>
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #dateRangeModalClose8>
+            Cancel
+          </button>
+          <button type="button" class="btn submitActionBtn " (click)="generateAssetRequestReport()">
             Generate
           </button>
         </div>

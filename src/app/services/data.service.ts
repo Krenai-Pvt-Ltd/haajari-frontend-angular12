@@ -5636,9 +5636,11 @@ export class DataService {
   }
 
 
-  getAssetRequestReport(){
+  getAssetRequestReport(type : string, status: string){
       let params = new HttpParams()
       .append('dashBoardView',true)
+      .append('type', type)
+      .append('status', status)
 
       return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-request-for-excel`,{params});
   }
