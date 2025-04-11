@@ -1779,17 +1779,15 @@
                       <div class="col-md-12">
                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
                           <div class="" style="width: 70%">
-                            <form novalidate="" role="search" (submit)="searchUsers()" class="searching ng-untouched ng-pristine ng-valid">
                               <div class="form-group" style="position: relative">
-                                <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 border-0 attendance-details-search" (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
+                                <input type="text" id="searchText" placeholder="Search by name and role" class="form-control me-2 border-0 attendance-details-search" (keyup)="onSearch($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 40px" />
                                 <button *ngIf="searchText.length !== 0" type="button" class="btn search-btn border-0 position-absolute" (click)="clearSearchText()">
                                   <i class="bi bi-x search-icon font-20"></i>
                                 </button>
-                                <button type="button" class="btn search-btn border-0 position-absolute" *ngIf="searchText.length == 0" (click)="searchUsers()">
+                                <button type="button" class="btn search-btn border-0 position-absolute" *ngIf="searchText.length == 0" >
                                   <i class="bi bi-search search-icon"></i>
                                 </button>
                               </div>
-                            </form>
                           </div>
                           <div class="container">
                             <div class="d-flex justify-content-end content-wrapper">
@@ -1797,7 +1795,7 @@
                                 <a class="info-button text-black font-13 fw-semibold pointer-none" *ngIf="selectedStaffsUuids.length > 0">
                                   <span class="text-primary">{{ selectedStaffsUuids.length }}</span> Selected of <span class="text-primary"> {{ totalUserCount }}</span>
                                 </a>
-                                <span class="separator"></span>
+                                <span *ngIf="selectedStaffsUuids.length > 0" class="separator"></span>
                                 <span *ngIf="selectedStaffsUuids.length > 0 && rbacService.hasWriteAccess(Routes.SALARYSETTING)"
                                   class="clear-button font-13 fw-semibold text-danger pointer" (click)="unselectAllUsers()">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
@@ -1870,9 +1868,9 @@
                           </tr>
                         </tbody>
                       </ng-template>
-                      </table>
-                    </div>
+                    </table>
                   </div>
+                
 
                   <div class="bg-white leave-footer">
                     <div class="pagition-box p-3 d-flex align-items-center  justify-content-between" *ngIf="total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
