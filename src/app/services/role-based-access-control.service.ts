@@ -210,7 +210,7 @@ export class RoleBasedAccessControlService {
    * logInUserUuid!=attendanceReq.uuid - to prevent sef
    */
   showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
-    return (leave.status == statusCheck &&
+    return (leave.status.id == statusCheck &&
        (( this.hasWriteAccess(moduleRoute))
         &&(logInUserUuid==leave.managerUuid || this.ROLE !=Key.MANAGER) ));
    }
@@ -221,12 +221,13 @@ export class RoleBasedAccessControlService {
   //  }
 
    showAttendanceUpdateActionButton(attendanceReq:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
-    return (attendanceReq.status == statusCheck &&
+    return (attendanceReq.status.id == statusCheck &&
       (( this.hasWriteAccess(moduleRoute))
        &&(logInUserUuid==attendanceReq.managerUuid || this.ROLE !=Key.MANAGER) ));
-    // return (attendanceReq.status.id == statusCheck &&
-    //   ((logInUserUuid!=attendanceReq.uuid && this.hasWriteAccess(moduleRoute))
-    //    ||logInUserUuid==attendanceReq.managerUuid ));
+   }
+
+   isActionRestrictedRole(): boolean {
+    return (this.ROLE == Key.MANAGER || this.ROLE == Key.USER);
    }
     /**
    * Common action buttons managemnt methods for all modules END
