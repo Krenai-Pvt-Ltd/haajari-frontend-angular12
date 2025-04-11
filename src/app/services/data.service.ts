@@ -4583,6 +4583,14 @@ export class DataService {
     });
   }
 
+
+  countPendingTransaction(statusId: number) {
+    const params = new HttpParams().set('statusId', statusId.toString());
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count-by-status`, { params });
+  }
+  
+
   saveTags(id: number, tags: string[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.baseUrl}/company-expense/save-tags?id=${id}`;
@@ -4685,12 +4693,14 @@ export class DataService {
     });
   }
 
-  deleteCompanyExpenseTypePolicy(id: number): Observable<any> {
-    const params = new HttpParams().set('expenseTypeId', id);
-    return this.httpClient.delete(`${this.baseUrl}/company-expense-type`, {
-      params,
-    });
+  deleteCompanyExpenseTypePolicy(expensePolicyId: number, expensePolicyTypeId: number): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('expenseTypeId', expensePolicyId);
+    params = params.append('companyexpensePolicyTypeId', expensePolicyTypeId);
+  
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-policy/delete-company-expense-type-policy`, { params });
   }
+  
 
   getUserMappedWithPolicy(
     selectedUserIds: any,

@@ -11,13 +11,6 @@
         </g>
       </svg>
     </button>
-    <!-- <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
-      'badge-soft-success': attendanceData?.status === 'APPROVED',
-      'badge-soft-danger': attendanceData?.status === 'PENDING',
-      'badge-soft-secondary': attendanceData?.status === 'REJECTED'
-    }">
-    {{ attendanceData?.status | uppercase }}
-  </span> -->
   </div>
   <div class="modal-body p-0">
     <div *ngIf="!isCreate" class="d-flex align-items-center justify-content-between p-3 user-detail">
@@ -32,10 +25,10 @@
       <div class="text-end">
          <p class="font-12 mb-2"> Date: {{attendanceData?.createdDate | date:'MM/dd/yyyy hh:mm:ss a' }} </p>
          <span  class="badge rounded-pill" [ngClass]="{
-          'badge-soft-success': attendanceData?.status === 'APPROVED',
-          'badge-soft-danger': attendanceData?.status === 'PENDING',
-          'badge-soft-secondary': attendanceData?.status === 'REJECTED'
-        }">  {{ attendanceData?.status | uppercase }} </span>
+          'badge-soft-success': attendanceData?.status.id == StatusKeys.ATTENDANCE_UPDATE_REQUEST_APPROVED,
+          'badge-soft-danger': attendanceData?.status.id == StatusKeys.ATTENDANCE_UPDATE_REQUEST_PREJECTED,
+          'badge-soft-secondary': attendanceData?.status.id ==StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING
+        }">  {{ attendanceData?.status?.response | uppercase }} </span>
       </div>
    </div>
     <div class="assets-request-form p-3">
@@ -65,7 +58,7 @@
               </div>
               <hr>
               <div class="row mt-3 mb-2">
-                <div class="col-md-6">
+                <div class="col-md-6 m-mb-3">
                   <label class="form-check assets-req d-flex align-items-center justify-content-start">
                     <input class="form-check-input" type="radio" formControlName="attendanceRequestType" [value]="'UPDATE'" (change)="resetError()">
                     <p class="form-check-label mb-0">Update Timing</p>
@@ -87,7 +80,7 @@
               <div class="form-group">
                 <label for="employeeTypeId" class="mb-2">Type<span class="text-danger" *ngIf="isCreate">*</span></label>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-6 m-mb-3">
                     <nz-form-control>
                       <nz-select class="form-control" formControlName="requestType" id="requestType" nzPlaceHolder="Select request type" style="width: 100%" nzSize="large" [ngModel]="attendanceData.requestOf"
                         [nzDisabled]="!isCreate" (ngModelChange)="getAttendanceChecktimeListDate($event)">
@@ -98,7 +91,7 @@
                       </nz-select>
                     </nz-form-control>
                   </div>
-                  <div *ngIf="isCreate" class="col-md-6">
+                  <div *ngIf="isCreate" class="col-md-6 m-mb-3">
                     <nz-form-control>
                       <nz-select class="form-control" formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time to be updated" style="width: 100%" nzSize="large" [nzDisabled]="!isCreate">
                         <nz-option *ngFor="let time of attendanceCheckTimeResponse" [nzValue]="time.attendanceId" [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
@@ -172,7 +165,7 @@
       </form>
     </div>
   </div>
-  <div *ngIf="isCreate || attendanceData.status === 'PENDING' " class="modal-footer d-flex align-items-center justify-content-end">
+  <div *ngIf="isCreate || attendanceData.status.id == StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING " class="modal-footer d-flex align-items-center justify-content-end">
     <div class="d-flex align-items-center gap-2">
       <button *ngIf="isCreate" type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" (click)="emptySelectRequest()" #closeAttendanceUpdateModal>Cancel</button>
       <ng-container *ngIf="isCreate">
@@ -187,7 +180,8 @@
           </ng-container>
         </button>
       </ng-container>
-      <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING' && (ROLE=='ADMIN' || attendanceData.managerUuid == logInUserUuid)">
+      <!-- <ng-container *ngIf="!isCreate && attendanceData.status === 'PENDING' && (ROLE=='ADMIN' || attendanceData.managerUuid == userId)"> -->
+        <ng-container  *ngIf="!isCreate && roleService.showAttendanceUpdateActionButton(attendanceData,logInUserUuid,StatusKeys.ATTENDANCE_UPDATE_REQUEST_PENDING,Routes.TIMETABLE)">
         <button [disabled]="approveLoader || rejectLoader" type="button" class="btn btn-soft-success" (click)="approveOrReject(
                   attendanceData.id,
                   'APPROVED'

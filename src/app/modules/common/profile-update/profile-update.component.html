@@ -2,19 +2,6 @@
 <div>
   <div>
     <h5 *ngIf="!isModal" class="p-3 pb-0">Update Request</h5>
-    <!-- <button #closeReqDataModal *ngIf="isModal" (click)="closeDataRequestModal()" type="button" class="close-btn"
-      data-bs-dismiss="modal" aria-label="Close">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
-          height="24">
-          <rect width="24" height="24" fill="#D9D9D9" />
-        </mask>
-        <g mask="url(#mask0_5037_2014)">
-          <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-            fill="black" />
-        </g>
-      </svg>
-    </button> -->
   </div>
   <div class="p-0" [ngClass]="{'modal-body':isModal}" >
     <div *ngIf="isRequestedDataLoading" class="d-flex align-items-center justify-content-center">
@@ -75,7 +62,14 @@
                   <p class="fon-12 mb-0 fw-semibold">{{data.name}} Update</p>
                 </div>
                 <div class="d-flex align-items-center gap-3">
+                   <!-- Spinner: Show only if this field is loading -->
+                   <div *ngIf="fieldLoadingStates[i]" class="loading-spinner d-flex align-items-center gap-2">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
                   <!-- Buttons: Show unless this field is disabled or loading -->
+                   <ng-container *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
                   <div *ngIf="!disabledStates[i] && !fieldLoadingStates[i]" class="d-flex align-items-center gap-2">
                     <button type="button"
                             class="pointer btn p-0"
@@ -107,13 +101,10 @@
                       </svg>
                     </button>
                   </div>
-                  <!-- Spinner: Show only if this field is loading -->
-                  <div *ngIf="fieldLoadingStates[i]" class="loading-spinner d-flex align-items-center gap-2">
-                    <div class="spinner-border text-primary" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
                   <div class="break-line"></div>
+                </ng-container>
+                 
+                 
                   <div #divElement (click)="toggleModal(i)" class="pointer" data-bs-toggle="collapse" [attr.href]="'#view-edit-request-' + i"
                     role="button" aria-expanded="false" aria-controls="view-edit-request">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
@@ -162,6 +153,7 @@
     </div>
 
   </div>
+  <ng-container *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING)">
   <div *ngIf="remainingField!==0" class="p-3 d-flex align-items-center justify-content-end gap-2" [ngClass]="{'modal-footer':isModal}">
     <button type="button" (click)="rejectData()" [disabled]="rejectLoading || fieldLoading || approveLoading || (isRejectModalOpen && (!rejectedReason || rejectedReason.length < 10))"
       class="btn btn-soft-danger">
@@ -196,4 +188,5 @@
     <span >Done</span>
   </button>
 </div>
+  </ng-container>
 </div>

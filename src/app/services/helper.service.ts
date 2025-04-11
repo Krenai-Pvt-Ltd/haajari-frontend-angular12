@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
@@ -42,9 +42,6 @@ export class HelperService {
    closeModal$ = this.closeModalSubject.asObservable();
 
   closeModal() {
-    debugger
-    console.log('Current Modal Ref service1:', this.closeModal$);
-    console.log('Current Modal Ref service2:', this.closeModalSubject);
     this.closeModalSubject.next();
   }
 
@@ -252,7 +249,6 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    // this.router.navigate(['/employee'], navExtra);
     const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
     window.open(url, '_blank');
     return;
@@ -448,5 +444,15 @@ export class HelperService {
   toggleIsShowSidebar(){
     this.isShowSidebar=!this.isShowSidebar;
    }
+
+   showPrivilegeErrorToast(){
+    // module.isFlag = isFlag;  // Revert the change
+    this.showToast(
+      'You can not update the configuration . You have Read Only access !',
+      Key.TOAST_STATUS_ERROR
+    );
+  }
+
+
 
 }

@@ -26,7 +26,7 @@ import { catchError, map } from 'rxjs/operators';
 export class PersonalInformationComponent implements OnInit {
 
   profileEdit: boolean = false;
-  profileLoding: boolean = false;
+  profileLoding: boolean = true;
   userId: any;
   onboardingForm!: FormGroup;
   isFormInvalid: boolean = false;

@@ -321,3 +321,15 @@ button.close-btn {
     height: 40px;
     border: none;
 }
+.d-n-desktop{
+    display: none;
+}
+
+@media screen and (max-width: 500px) {
+    .d-n-mobile{
+        display: none !important;
+    }
+    .d-n-desktop{
+        display: block;
+    }
+}

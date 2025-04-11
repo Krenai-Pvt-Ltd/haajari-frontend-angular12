@@ -2,6 +2,7 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { constant } from 'src/app/constant/constant';
+import { Routes } from 'src/app/constant/Routes';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { GstResponse } from 'src/app/models/GstResponse';
@@ -31,7 +32,7 @@ export class SubscriptionComponent implements OnInit {
   
   readonly Constant = constant; 
   constructor( public _subscriptionPlanService: SubscriptionPlanService,
-    private _roleBasedService: RoleBasedAccessControlService,
+    public _roleBasedService: RoleBasedAccessControlService,
     private _helperService: HelperService,
     private db: AngularFireDatabase,private ngZone: NgZone, private fb: FormBuilder, private dataService: DataService) {
 
@@ -47,6 +48,7 @@ export class SubscriptionComponent implements OnInit {
 
     }
 
+    readonly Routes= Routes;
   ngOnInit(): void {
     this.getCurrentSubscriptionPlan();
     this.getPlans();
@@ -117,8 +119,11 @@ export class SubscriptionComponent implements OnInit {
   validateDowngrade:boolean=false;
   @ViewChild('downgradeModalButton')downgradeModalButton!:ElementRef;
   selectPlan(plan:SubscriptionPlan){
-    debugger
-    // console.log("======Soooo",this.orgSubscriptionPlanDetail )
+
+   if(!this._roleBasedService.hasWriteAccess(this.Routes.SUBSCRIPTION)){
+        this._helperService.showPrivilegeErrorToast();
+        return;
+    }
     this.selectedSubscriptionPlan = plan;
     this.typeBySubscriptionPlans = new Array();
     this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlan.planType);

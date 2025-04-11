@@ -1,9 +1,10 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import moment from 'moment';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -34,11 +35,15 @@ export class AttendanceUpdateComponent implements OnInit {
   logInUserUuid:any="";
   attendanceTimeUpdateForm!: FormGroup;
   attendanceData: any = {};
+
+  readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
   async ngOnInit(): Promise<void> {
 
     this.userId = await this.roleService.getUuid();
-    this.ROLE = this.roleService.getRoles();
+    this.ROLE = this.roleService.getRoles();  
     this.logInUserUuid = await this.roleService.getUUID();
+
 
     this.initializeForm();
     this.fetchManagerNames();

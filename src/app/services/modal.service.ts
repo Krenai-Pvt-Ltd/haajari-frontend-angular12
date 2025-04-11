@@ -24,7 +24,9 @@ export class ModalService {
   openInitiateExitModal(uuid:string, userType: string) {
     const modalRef =this.modalService.open(ExitModalComponent, {
       ariaLabelledBy: 'initiateExitModalLabel',
-
+      size: 'sm', // Available options: 'sm' (small), 'lg' (large), 'xl' (extra-large)
+      backdrop: 'static', // Prevents modal from closing when clicking outside
+      keyboard: false // Prevents closing on pressing "Escape"
     });
     modalRef.componentInstance.closeModal.subscribe(() => {
       modalRef.close();  // Close the modal when the close event is emitted

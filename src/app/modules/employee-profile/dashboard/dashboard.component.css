@@ -224,7 +224,15 @@ nz-calendar .holiday-cell {
   max-height: 330px;
   overflow: scroll;
 }
-
+.mobile-attendance-date{
+  border-bottom: 20px solid #fff !important;
+}
+.schedule {
+  border-left: var(--Border-Radius-4-px, 4px) solid #CECDFF;
+  background-color: #F6F6F6;
+  padding: 7px 10px;
+  border-radius: 2px;
+}
 .birthday-section::-webkit-scrollbar {
   display: none;
 }
@@ -815,118 +823,130 @@ span.holiday-initial {
   top: -1px;
 }
 
-::ng-deep .ant-picker-calendar-header {
-  position: absolute;
-  top: 10px;
-  right: 25px;
+/* Customizing the header positioning */
+nz-calendar.full-view {
+  .ant-picker-calendar-header {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+  }
+
+  /* Adjusting calendar body margin */
+  .ant-picker-body {
+    margin-top: 15px;
+  }
+
+  /* Year Select dropdown */
+  .ant-picker-calendar-year-select {
+    width: 100%;
+    max-width: 130px;
+    border: 1px solid #dcdce4;
+    border-radius: 2px;
+    height: 40px;
+  }
+
+  /* Month Select dropdown */
+  .ant-picker-calendar-month-select {
+    width: 100%;
+    max-width: 130px;
+    border: 1px solid #dcdce4;
+    border-radius: 2px;
+    height: 40px;
+  }
+
+  /* Styling the select dropdown's background */
+  .ant-select-selector {
+    background-color: white !important;
+    min-height: 38px !important;
+  }
+
+  /* Placeholder styling */
+  .ant-select-selection-placeholder,
+  .ant-select-selection-item {
+    line-height: 40px !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+  }
+
+  /* Hiding the mode switch button */
+  .ant-picker-calendar-mode-switch {
+    display: none;
+  }
+
+  /* Custom date cell background color */
+  .customDateCellTemplate {
+    background-color: #543af8;
+  }
+
+  /* Date cell size */
+  .ant-picker-calendar-date {
+    height: 100px !important;
+    border-top: none !important;
+  }
+
+  /* Border for the calendar content table */
+  .ant-picker-content tr td {
+    border: 1px solid #dcdcdc !important;
+  }
+
+  .ant-picker-content tr th {
+    padding: 0 7px 15px 0 !important;
+    border: 1px solid #ccc !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #9b9b9b !important;
+    text-align: center;
+  }
+
+  /* Padding adjustment for the calendar panel */
+  .ant-picker-calendar .ant-picker-panel .ant-picker-body {
+    padding: 0px !important;
+  }
+
+  /* Full calendar date cell padding */
+  .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
+    padding: 5px !important;
+    margin: 0px !important;
+    height: 100px !important;
+  }
+
+  .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-value {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+
+  /* Adjusting the panel margin */
+  .ant-picker-panel {
+    margin-top: 15px !important;
+  }
+
+  /* Holiday cell background */
+  .ant-picker-calendar-date:has(.holiday-cell) {
+    background-color: #fff3e2 !important;
+  }
+
+  /* Flex alignment of date cell content */
+  .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
-::ng-deep .ant-picker-body{
-  margin-top: 15px;
-}
-::ng-deep .ant-picker-calendar-year-select{
-  width: 130px;
-  border: 1px solid #DCDCE4;
-  border-radius: 2px;
-  height: 40px;
-}
-
-::ng-deep .ant-select-selector{
-  background-color: white !important;
-  min-height: 38px !important;
-}
-
-::ng-deep .ant-picker-calendar-month-select{
-  width: 130px;
-  border: 1px solid #DCDCE4;
-  border-radius: 2px;
-  height: 40px;
-}
 
 
-::ng-deep .ant-select-selection-placeholder {
-  line-height: 40px !important;
-  font-size: 0.875rem !important;
-  font-weight: 400 !important;
-}
 
-::ng-deep .ant-select-selection-item {
-  line-height: 40px !important;
-  font-size: 0.875rem !important;
-  font-weight: 400 !important;
-}
-
-::ng-deep .ant-picker-calendar-mode-switch{
-  display: none;
-}
-
-.customDateCellTemplate{
-  background-color: #543AF8;
-}
-::ng-deep .ant-picker-calendar-date{
-  height: 100px !important;
-}
-::ng-deep .ant-picker-content tr td{
-  border: 1px solid #ccc !important;
-}
-
-::ng-deep .ant-picker-calendar-date{
-  border-top: none !important;
-}
-
-::ng-deep .ant-picker-content tr td{
-  border: 1px solid #DCDCDC !important;
-}
-
-::ng-deep .ant-picker-content tr th{
-  padding: 0 7px 15px 0 !important;
-  border: 1px solid #ccc !important;
-  border-top: none !important;
-  border-bottom: none !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #9B9B9B !important;
-  text-align: center;
-}
-
-::ng-deep .ant-picker-calendar .ant-picker-panel .ant-picker-body {
-  padding: 0px 0 !important;
-}
- 
-::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {
-  padding: 5px !important;
-  margin: 0px 0px !important;
-  height: 100px !important;
-}
-
-::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-value {
-  font-size: 13px !important;
-  font-weight: 500 !important;
-}
-
-::ng-deep .ant-picker-panel{
-  margin-top: 15px !important;
-}
-
-::ng-deep .ant-picker-calendar-date:has(.holiday-cell) {
-  background-color: #FFF3E2 !important;
-}
-::ng-deep .ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-content{
-  display: flex;
-  align-items: center;
-
-}
 
 .btn-closes {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  position: absolute;
   right: -15px;
   top: -15px;
-  background-color: #fff;
   opacity: 1;
   box-shadow: 0px 4.211px 4.211px 0px rgba(0, 0, 0, 0.10);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
 }
 
 .attendance-report-height{
@@ -956,8 +976,26 @@ span.holiday-initial {
   border: 1px solid #D9D9D9;
   border-radius: 10px;
 }
-
+.mobile-card-view{
+  display: none;
+}
 @media screen and (max-width: 500px) {
+  .nav-link {
+    margin-right: 10px;
+    font-size: 14px;
+}
+  .mobile-card-view{
+    display: block;
+}
+  .desktop-attendance-date{
+    display: none;
+}
+  .birthday-anniversaries{
+    display: none;
+  }
+  .col-sm-6{
+    width: 50%;
+}
   .attendance-report-height{
     height: auto;
     margin-bottom: 15px;
@@ -998,9 +1036,9 @@ span.holiday-initial {
   display: block;
   margin-top: -10px;
 }
-.desktop-holiday{
+/* .desktop-holiday{
   display: none;
-}
+} */
 
 .team-overview{
   display: none;

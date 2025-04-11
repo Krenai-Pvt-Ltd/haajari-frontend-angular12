@@ -60,11 +60,9 @@
               </div>
             </div>
 
-            <div class="table-responsive bg-white mt-3">
-              <!-- <div *ngIf="isLoadingAsset" class="shimmer-wrapper">
-                            <div class="shimmer"></div>
-                          </div> -->
-              <table class="table empOnnoardtable">
+              <!-- desktop asset assigned list -->
+            <div class="table-responsive bg-white mt-3 desktop-attendance-date">
+              <table class="table mb-60">
                 <thead class="thead-light">
                   <tr>
                     <th class="text-left font-13">Asset Name</th>
@@ -128,15 +126,15 @@
                       <span>{{ asset.assetCategoryName }}</span>
                     </td>
                     <td class="text-left">
-                      <span class="table-font-weight">{{ asset.purchasedDate | date: 'dd-MM-yyyy' }}</span>
+                      <span class="table-font-weight">{{ asset.assignedOn | date: 'dd-MM-yyyy' }}</span>
                     </td>
                     <td class="text-left">
                       <span class="table-font-weight">{{ asset.price | currency: 'INR' }}</span>
                     </td>
                     <td class="text-left">
-                      <span class="badge rounded-pill" [ngClass]="{
-                                      'badge-soft-success': asset.statusName == 'ASSIGNED',
-                                      'badge-soft-danger': asset.statusName !== 'ASSIGNED'
+                      <span class="font-13 fw-semibold" [ngClass]="{
+                                      'text-success': asset.statusName == 'ASSIGNED',
+                                      'text-danger': asset.statusName !== 'ASSIGNED'
                                     }">
                         {{ asset.statusName }}
                       </span>
@@ -144,22 +142,109 @@
                   </tr>
                 </tbody>
               </table>
+              <div *ngIf="totalPages()>1"
+                class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+                <!-- Ngb Pagination Component -->
+                <p>
+                  Showing items {{ (pageNumber - 1) * itemPerPage + 1 }}
+                  to {{ Math.min(pageNumber * itemPerPage, totalCount) }}
+                  of {{ totalCount }} records
+                </p>
+  
+                <ngb-pagination [collectionSize]="totalCount" [rotate]="true" class="pagition-box"
+                  (pageChange)="pageChanged($event)" [pageSize]="itemPerPage" [(page)]="pageNumber" [maxSize]="5"
+                  [boundaryLinks]="true">
+                </ngb-pagination>
+              </div>
             </div>
+              <!-- desktop asset assigned list end -->
 
-            <div *ngIf="totalPages()>1"
-              class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
-              <!-- Ngb Pagination Component -->
-              <p>
-                Showing items {{ (pageNumber - 1) * itemPerPage + 1 }}
-                to {{ Math.min(pageNumber * itemPerPage, totalCount) }}
-                of {{ totalCount }} records
-              </p>
 
-              <ngb-pagination [collectionSize]="totalCount" [rotate]="true" class="pagition-box"
-                (pageChange)="pageChanged($event)" [pageSize]="itemPerPage" [(page)]="pageNumber" [maxSize]="5"
-                [boundaryLinks]="true">
-              </ngb-pagination>
-            </div>
+            <!-- mobile asset assigned list -->
+              <div class="mobile-card-view mt-3">
+                <table class="table">
+
+                  <tbody *ngIf="isLoadingAsset">
+                    <tr *ngFor="let item of [].constructor(7)">
+                      <td *ngFor="let item of [].constructor(2)">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="assets?.length === 0 && !isLoadingAsset">
+                        <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                          <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                            [nzNotFoundContent]="contentTpl">
+                            <ng-template #contentTpl>
+                              <p class="mb-1 empty-detail">No data for now</p>
+                            </ng-template>
+
+                          </nz-empty>
+                        </div>
+                  </tbody>
+
+                  <ng-container *ngIf="!isLoadingAsset">
+                  <tbody class="mobile-attendance-date" *ngFor="let asset of assets">
+                    <tr>
+                      <th class="font-13 fw-semibold">Asset Name</th>
+                      <td>
+                        <span class="semibold">{{ asset.assetName }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="font-13 fw-semibold">Asset ID</th>
+                      <td>
+                        <span class="fw-semibold">{{ asset.serialNumber }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="font-13 fw-semibold">Asset Category</th>
+                      <td>
+                        <span class="fw-semibold">{{ asset.assetCategoryName }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="font-13 fw-semibold">Assigned On</th>
+                      <td>
+                        <span class="fw-semibold">{{ asset.purchasedDate | date: 'dd-MM-yyyy' }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="font-13 fw-semibold">Price & Status</th>
+                      <td>
+                        <div class="d-flex align-items-center justify-content-between">
+                          <span class="fw-semibold">{{ asset.price | currency: 'INR' }}</span>
+                          <span class="font-13 fw-semibold" [ngClass]="{
+                            'text-success': asset.statusName == 'ASSIGNED',
+                            'text-danger': asset.statusName !== 'ASSIGNED' }">
+                          {{ asset.statusName }}
+                        </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+                </table>
+
+
+                <div *ngIf="totalPages()>1"
+                  class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+                  <p>
+                    Showing items {{ (pageNumber - 1) * itemPerPage + 1 }}
+                    to {{ Math.min(pageNumber * itemPerPage, totalCount) }}
+                    of {{ totalCount }} records
+                  </p>
+    
+                  <ngb-pagination [collectionSize]="totalCount" [rotate]="true" class="pagition-box"
+                    (pageChange)="pageChanged($event)" [pageSize]="itemPerPage" [(page)]="pageNumber" [maxSize]="5"
+                    [boundaryLinks]="true">
+                  </ngb-pagination>
+                </div>
+              </div>
+              <!-- mobile asset assigned list -->
+
+            
 
           </div>
         </ng-template>
@@ -195,24 +280,10 @@
       </div>
       <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
 
-        <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty() || isLoading; else noAssets">
+        <ng-container *ngIf="(!isAssetRequestArrayEmpty() || isLoading); else noAssets">
+        <div class="obboard-employee-list" >
 
-          <div class="mobile-filter mb-3">
-
-          <div class="dropdown empFilerDropfilter">
-            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-              class="btn btn-secondary dropdown-toggle new-deopdown">
-              {{ statusFilter || 'Status' }} <i class="bi bi-chevron-down"></i>
-            </button>
-            <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
-              <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
-              <li><a class="dropdown-item" (click)="filterStatus('Assigned')">Assigned</a></li>
-              <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
-              <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
-            </ul>
-          </div>
-        </div>
+         
 
 
           <div class="onboard-add row align-items-center mx-0">
@@ -275,9 +346,10 @@
             </div>
           </div>
 
-          <div class="table-responsive bg-white mt-3">
+          <!-- desktop asset request -->
+          <div class="table-responsive bg-white mt-3 desktop-attendance-date">
            
-            <table class="table empOnnoardtable">
+            <table class="table mb-60">
               <thead class="thead-light">
                 <tr>
                   <th class="text-left font-13" style="width: 10%">Requested on</th>
@@ -294,31 +366,7 @@
 
               <tbody *ngIf="isLoading">
                 <tr *ngFor="let item of [].constructor(7)">
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                  </td>
-                  <td>
+                  <td *ngFor="let item of [].constructor(9)">
                     <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                   </td>
                 </tr>
@@ -374,8 +422,8 @@
                     </ng-template>
                   </td>
                   <td class="text-left">
-                    <span class="badge rounded-pill"
-                      [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
+                    <span class="font-13 fw-semibold"
+                      [ngClass]="{'text-warning': asset.status == 'PENDING', 'text-danger': asset.status == 'REJECTED', 'text-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
                       {{ asset.status }}
                     </span>
                   </td>
@@ -383,25 +431,119 @@
               </tbody>
             </table>
 
-          </div>
+            <div *ngIf="this.assetRequestsTotalPage>1"
+              class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+              <p class="mb-0">
+                Showing items
+                {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                of {{ assetRequestsTotalCount }} records
+              </p>
+              <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+                (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage"
+                [maxSize]="5" [boundaryLinks]="true">
+              </ngb-pagination>
+            </div>
 
-          <div *ngIf="this.assetRequestsTotalPage>1"
-            class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
-            <p class="mb-0">
-              Showing items
-              {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-              {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-              of {{ assetRequestsTotalCount }} records
-            </p>
-            <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
-              (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage"
-              [maxSize]="5" [boundaryLinks]="true">
-            </ngb-pagination>
           </div>
+          <!-- desktop asset request end -->
 
-        </div>
+
+
+           <!-- mobile asset request -->
+          <div class="mobile-card-view mt-3">
+            <table class="table">
+              <tbody *ngIf="isLoading">
+                <tr *ngFor="let item of [].constructor(7)">
+                  <td *ngFor="let item of [].constructor(2)">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="assetRequests?.length === 0 && !isLoading">
+                <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                    <ng-template #contentTpl>
+                      <p class="mb-1 empty-filenew">No data for now</p>
+                    </ng-template>
+                  </nz-empty>
+                </div>
+              </tbody>
+              <ng-container *ngIf="!isLoading">
+              <tbody  class="mobile-attendance-date" *ngFor="let asset of assetRequests">
+                <tr>
+                  <th class="font-13 fw-semibold">Requested on - Status</th>
+                  <td>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span class="fw-semibold">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy')
+                      : '--' }}</span>
+                       <span class="font-13 fw-semibold"
+                       [ngClass]="{'text-warning': asset.status == 'PENDING', 'text-danger': asset.status == 'REJECTED', 'text-success': asset.status == 'APPROVED' || asset.status == 'ASSIGNED' }">
+                       {{ asset.status }}
+                     </span>
+                      </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="font-13 fw-semibold">Asset Name & Type</th>
+                  <td>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span>{{ asset.assetName || '--' }} </span>
+
+                      <span class="fw-semibold">{{ asset.assetType || '--' }} </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="font-13 fw-semibold">Asset Cat - Action on</th>
+                  <td>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span class="fw-semibold"> {{ asset.assetCategoryName || '--' }} </span>
+                      <span class="fw-semibold"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy')
+                      : '--' }} </span>
+                     
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="font-13 fw-semibold">Requested - Approved</th>
+                  <td>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span> {{ asset.requestedUser || '--' }} </span>
+                      <span class="table-font-weight">{{ asset.approvedBy || '--' }} </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="font-13 fw-semibold">Note</th>
+                  <td>
+                    <span class="table-font-weight">{{ asset.note || '--'}}</span>
+                  </td>
+                </tr>
+              </tbody>
+             </ng-container>
+            </table>
+
+            <div *ngIf="this.assetRequestsTotalPage>1"
+              class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+              <p class="mb-0">
+                Showing items
+                {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                of {{ assetRequestsTotalCount }} records
+              </p>
+              <ngb-pagination class="pagition-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+                (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage"
+                [maxSize]="5" [boundaryLinks]="true">
+              </ngb-pagination>
+            </div>
+          </div>
+           <!-- mobile asset request end -->
 
         
+
+        </div>
+      </ng-container>
         <ng-template #noAssets>
           <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
             <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
@@ -431,6 +573,7 @@
             </nz-empty>
           </div>
         </ng-template>
+       
 
       </div>
 
@@ -470,18 +613,18 @@
         <div class="modal-body">
           <div class="assets-request-form">
             <div class="row register-form-box">
-              <div class="col-md-12 mb-3">
+              <div class="col-md-12">
                 <div class="form-group">
                   <label for="requestType" class="mb-2">What would you like to request?</label>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                       <label class="form-check assets-req d-flex align-items-center justify-content-start">
                         <input type="radio" formControlName="requestType" value="Asset Replacement"
                           class="form-check-input">
                         <p class="form-check-label mb-0">Asset Replacement</p>
                       </label>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                       <label class="form-check assets-req d-flex align-items-center justify-content-start">
                         <input type="radio" formControlName="requestType" value="New Asset Allocation"
                           class="form-check-input">

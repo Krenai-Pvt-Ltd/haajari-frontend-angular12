@@ -7,12 +7,13 @@
                    <div class="col-md-3"></div>
                         <div class="col-md-6">
 
-                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="updateRoleWithPermissionsMethodCall()">
+                            <form #addRoleForm="ngForm" ngNativeValidate (ngSubmit)="updateRoleWithPermissionsMethodCall()"
+                            [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.SALARYSETTING)}">
 
                                 <div class="name-description">
                                     <div class="">
                                         <h3 class="description-main-box">
-                                            <span class="eTjDuD">1</span>
+                                            <span class="count-number radius-50 fw-bold font-13 mt-0 mb-0 text-primary d-flex align-items-center justify-content-center img-25">1</span>
                                             <div class="description">
                                                 <span class="epkbnY">Name and description</span>
                                                 <span class="fAtrDv">Make this role easily identifiable.</span>
@@ -45,7 +46,7 @@
 
                                     <div class="mt-4">
                                         <h3 class="description-main-box">
-                                            <span class="eTjDuD">2</span>
+                                            <span class="count-number radius-50 fw-bold font-13 mt-0 mb-0 text-primary d-flex align-items-center justify-content-center img-25">2</span>
                                             <div class="description">
                                                 <span class="epkbnY">Information access</span>
                                                 <span class="fAtrDv">What type of information can this role access?</span>
@@ -90,7 +91,7 @@
                                             </ng-container>
                                         </ng-template>
                                         <ng-template #errorInFetchingRoleAccessibilityTypeData>
-                                            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
+                                            <!-- <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/addnewproduct.svg"
@@ -103,10 +104,20 @@
                                                         We're unable to locate a record associated with the information you entered.
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForRoleAccessibilityType">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                          No data for now
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
         
         
-                                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
+                                            <!-- <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/signal.svg"
@@ -119,7 +130,17 @@
                                                         Please try again after sometimes!
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="networkConnectionErrorPlaceHolderForRoleAccessibilityType">
+                                                <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                        Something went wrong!
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
                                         </ng-template>
 
                                         
@@ -127,7 +148,7 @@
 
                                     <div class="mt-4">
                                         <h3 class="description-main-box">
-                                            <span class="eTjDuD">3</span>
+                                            <span class="count-number radius-50 fw-bold font-13 mt-0 mb-0 text-primary d-flex align-items-center justify-content-center img-25">3</span>
                                             <div class="description">
                                                 <span class="epkbnY">Permissions</span>
                                                 <span class="fAtrDv">Select the areas of the platform this role can view or edit.</span>
@@ -213,14 +234,8 @@
                                                                 <div class="d-flex align-items-center justify-content-between">
                                                                     <div class="iyxoZR">
                                                                         <span class="epkbnY" style="font-size: 12px;">{{submodule.name}}</span>
-                                                                        <!-- <span class="fAtrDv" style="font-size: 11px;">Access and manage all your employees’ and contractors’ information</span> -->
                                                                     </div>
                                                                     <div class="d-flex align-items-center " style="gap:30px;">
-        
-        
-        
-        
-        
                                                                             <div class="form-check">
                                                                                 <input type="checkbox" class="form-check-input"
                                                                                     [checked]="submodule.privilegeId == 1"
@@ -257,7 +272,7 @@
                                             </ng-container>
                                         </ng-template>
                                         <ng-template #errorInFetchingModuleResponseData>
-                                            <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
+                                            <!-- <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/addnewproduct.svg"
@@ -270,10 +285,20 @@
                                                         We're unable to locate a record associated with the information you entered.
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="dataNotFoundPlaceholderForRolePermissionModules">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                          No data for now
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
         
         
-                                            <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
+                                            <!-- <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
                                                 <div class="errorboxinner text-center">
                                                     <div class="errorboxplaceholder mb-2">
                                                         <img src="assets/images/signal.svg"
@@ -286,7 +311,18 @@
                                                         Please try again after sometimes!
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+
+                                            <div class="empty-file d-flex align-items-centar justify-content-center w-100 mt-5 mb-5" *ngIf="networkConnectionErrorPlaceHolderForRolePermissionModules">
+                                                <nz-empty nzNotFoundImage="assets/images/signal.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                      <p class="mb-1 empty-detail font-16">
+                                                        Something went wrong!
+                                                      </p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                             </div>
                                         </ng-template>
 
                                         
@@ -295,10 +331,9 @@
 
                                     <div class="mt-4">
                                         <h3 class="description-main-box">
-                                            <span class="eTjDuD">4</span>
+                                            <span class="count-number radius-50 fw-bold font-13 mt-0 mb-0 text-primary d-flex align-items-center justify-content-center img-25">4</span>
                                             <div class="description">
                                                 <span class="epkbnY"> Email notifications</span>
-                                                <!-- <span class="fAtrDv">Select the areas of the platform this role can view or edit.</span> -->
                                             </div>
                                         </h3>
 
@@ -320,7 +355,7 @@
                                         </div>
                                 </div>
 
-                                <div id="cancel-and-save">
+                                <div id="cancel-and-save" *ngIf="rbacService.hasWriteAccess(Routes.SALARYSETTING)">
                                     <div class="modal-footer d-flex align-items-center justify-content-end">
                                         <button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button>
                                     </div>

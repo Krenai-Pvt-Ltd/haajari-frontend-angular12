@@ -1,32 +1,9 @@
-/* .nav-tabs {
-  box-shadow: none !important;
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
 }
-
-.nav-tabs {
-  border-bottom: 1px solid #f1f1f1;
-}
-
-.nav-tabs .nav-item {
-  margin-bottom: -1px;
-  margin-right: 1rem;
-}
-
-.nav-tabs .nav-link.active {
-  border-bottom: 2px solid #6666f3;
-  color: #6666f3;
-  background-color: transparent;
-}
-
-.nav-tabs .nav-link {
-  font-style: normal;
-  border-radius: 0px 0 0 0;
-  border: none;
-  padding: 7px 10px;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 21px;
-  color: #6B7280;
-} */
 
 .rules-main {
   padding: 15px;
@@ -594,7 +571,6 @@ button.btn.close-btn {
 
 .search-section button svg {
   position: relative;
-  width: 15px;
   top: -1px;
 }
 
@@ -631,18 +607,6 @@ button.btn.close-btn {
   color: var(--primary-color);
 }
 
-/* .manager-icon {
-  background-color: #fff0d6;
-  border-radius: 2px;
-  width: 50px;
-  height: 45px;
-}
-.HR-icon {
-  background-color: #e4f3ff;
-  border-radius: 2px;
-  width: 50px;
-  height: 45px;
-} */
 .add-role-security {
   border-radius: 2px;
   border: 1px dashed var(--primary-color);

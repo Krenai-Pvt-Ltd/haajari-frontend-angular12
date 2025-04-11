@@ -1493,6 +1493,12 @@ a.fetch-location {
   font-size: 14px;
   font-weight: 500px;
 }
+.staff-leave-setting {
+  padding: 6px 12px;
+}
+.svg-width svg{
+  width: 20px;
+}
 
 .iHaveRead {
   color: #71737b;
@@ -1502,6 +1508,10 @@ a.fetch-location {
   line-height: 15px;
   letter-spacing: 0.152px;
   padding-left: 10px;
+}
+
+::ng-deep .ant-popover-inner-content {
+  padding: 0px !important;
 }
 
 /* new side tab for new modal */
@@ -1591,7 +1601,7 @@ a.fetch-location {
 .next-btn {
   color: #6666f2;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 22px;
 }
@@ -1652,7 +1662,7 @@ a.fetch-location {
   max-height: 50vh;
   overflow: scroll;
 }
-..staff-section-table::-webkit-scrollbar{
+.staff-section-table::-webkit-scrollbar{
   display: none;
 }
 
@@ -1672,7 +1682,7 @@ a.fetch-location {
 
 .search-list .checkbox-label input {
   position: relative;
-  top: 1px;
+  top: 3px;
   border-radius: 2px;
 }
 
@@ -1691,7 +1701,13 @@ a.fetch-location {
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
-
+.list-down-btn {
+  width: 30px;
+  height: 30px;
+}
+.shift-time svg{
+  width: 20px;
+}
 .dot-opacity-loader-new span:nth-child(1) {
   animation-delay: -0.32s;
 }

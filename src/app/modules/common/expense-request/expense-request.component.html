@@ -4,319 +4,315 @@
         <h5 *ngIf="!isModal" class="mb-4">
            Bill Snapshot
         </h5>
-        <!-- <button *ngIf="isModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearApproveModal(); close();"
-        #closeApproveModal></button> -->
      </div>
-     <div class="p-0" [ngClass]="{'modal-body':isModal}">
+     <div [ngClass]="{'modal-body':isModal ,'p-0':userExpense && userExpense?.slipUrls.length > 0}">
         <div class="row">
-           <div class="col-md-5 pr-0 mr-0" *ngIf="isModal">
-              <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
-                 <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                       <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
-                       [class.active]="i === 0">
-                       <div class="d-flex justify-content-center position-relative">
-                          <img [src]="url" alt="Image {{i}}" class="d-block w-100">
-                       </div>
-                    </div>
-                 </div>
-                 <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
-                    data-bs-slide="prev">
-                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                 <span class="visually-hidden">Previous</span>
-                 </button>
-                 <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
-                    data-bs-slide="next">
-                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                 <span class="visually-hidden">Next</span>
-                 </button>
-           </div>
-           </ng-container>
-           <ng-container *ngIf="userExpense && userExpense.slipUrls.length == 0">
-              <div class="empty-file" style="padding-top: 30%; padding-bottom: 30%">
-                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
-                    <ng-template #contentTpl>
-                       <p class="mb-1 empty-detail font-16">Image not found</p>
-                    </ng-template>
-                 </nz-empty>
-              </div>
-           </ng-container>
-        </div>
-        <div [ngClass]="{'col-md-12 ml-0 pl-0 ': !isModal, 'col-md-7 ml-0 pl-0': isModal}">
-           <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
-              <div class="d-flex align-items-center justify-content-between p-3 user-detail">
-                 <div class="d-flex align-items-center gap-3">
-                    <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                       [src]="userExpense.imageUrl || 'assets/images/user.png'">
-                    <div>
-                       <h5 class="mb-1">{{ userExpense.employeeName }}</h5>
-                       <p class="mb-0 font-13 user-email">{{ userExpense.email }}</p>
-                    </div>
-                 </div>
-                 <div class="text-end">
-                    <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning' : userExpense.status.id == 13,
-                       'badge-soft-success' : userExpense.status.id == 14 || userExpense.status.id == 41,
-                       'badge-soft-danger' : userExpense.status.id == 15,
-                       'badge-soft-primary' : userExpense.status.id == 40}">
-                    {{userExpense.status.response}}
-                    </span>
-                    <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" || "N/A"}}</p>
-                 </div>
-              </div>
-              <div class="p-3" [ngClass]="{'expance-forn-data':isModal}">
-
-                  <div class="limit-amount p-3 mb-3" *ngIf="userExpense.remainingWalletAmount != null || userExpense.remainingWalletAmount > 0">
-                    <p class="mb-0 font-14 text-success fw-semibold">Limit Amount: {{userExpense.remainingWalletAmount}}</p>
-                </div>
-                 <div class="row">
-                    <div class="col-md-12 mb-3">
-                       <label for="templateName" class="pb-2">
-                       Expense Type
-                       </label>
-                       <nz-form-control>
-                          <nz-select disabled style="padding:0px;" nzSize="large" nzPlaceHolder="Select Expense type"
-                          [(ngModel)]="userExpense.expenseTypeId" required id="seleType" name="seleExpType"
-                          #seleExpType="ngModel" class="form-control w-100 placeholder-lineee">
-                          <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
-                          [nzLabel]="expenseType.name">
-                          </nz-option>
-                          </nz-select>
-                       </nz-form-control>
-                    </div>
-                    <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount == null">
-                       <div class="row">
-                          <label for="employeeTypeId" class="mb-2">Amount </label>
-                          <!-- <div class="col-md-6 mb-3"> -->
-                          <div class="mb-3" [ngClass]="{
-                             'col-md-12': userExpense.limitAmount == null || userExpense.amount <= userExpense.limitAmount,
-                             'col-md-6': userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount
-                             }">
-                             <div class="form-group">
-                                <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
-                                minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount" name="amountInput"
-                                disabled required />
-                             </div>
-                          </div>
-                       </div>
-                       <div class="row">
-                       <div class="col-md-6 mb-3"
-                          *ngIf="userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount">
-                          <div class="notice-period-error">
-                             <div class="d-flex align-items-center gap-2" style="padding-top: 8px;">
-                                <p class="mb-0">Allocated Amount</p>
-                                <span class="calendar-separator"></span>
-                                <h6 class="mb-0">₹ {{userExpense.limitAmount}}</h6>
-                             </div>
-                          </div>
-                       </div>
+         <div class="pr-0 mr-0" *ngIf="isModal" [ngClass]="{'col-md-5':userExpense && userExpense?.slipUrls.length > 0}">
+            <ng-container *ngIf="userExpense && userExpense?.slipUrls?.length > 0">
+               <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
+                     <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor="let url of userExpense?.slipUrls; let i = index"
+                     [class.active]="i === 0">
+                           <div class="d-flex justify-content-center position-relative">
+                           <img [src]="url" alt="Image {{i}}" class="d-block w-100">
+                           </div>
+                        </div>
                      </div>
-                       <p class="text-danger" *ngIf="userExpense?.approvedAmount > 0 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
-                       <div class="col-md-12 mb-3" *ngIf="!rejectDiv && userExpense.status.id == 13">
-                          <div class="form-check d-flex align-items-center gap-2">
-                             <input type="checkbox" class="form-check-input position-relative" style="top: -1px" id="approveAmountCheckbox" name="checkbox-approve-amount" [(ngModel)]="approveAmountChecked" (change)="onApproveAmountCheckboxChange($event)"/>
-                             <label class="form-check-label" for="approveAmountCheckbox">Modify Amount</label>
-                          </div>
-                          <div class="mt-3" *ngIf="approveAmountChecked">
-                             <input
-                             type="number"
-                             min="1"
-                             class="form-control input-zorro"
-                             placeholder="Enter approved amount"
-                             id="appoveAmount"
-                             name="input-approve-amout"
-                             [(ngModel)]="approvedAmount"
-                             />
-                          </div>
-                          <p class="text-danger" *ngIf="approvedAmount > userExpense.amount">Modify Amount should be less from Expense Amount</p>
-                       </div>
-                    </div>
-                    <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount != null">
-                       <div class="row">
-                          <label for="employeeTypeId" class="mb-2">Amount </label>
-                          <div class="mb-3" [ngClass]="{
-                             'col-md-6': userExpense.partiallyPaidAmount != null}">
-                             <div class="form-group">
-                                <input type="number" class="form-control input-zorro" placeholder="Enter amount spend"
-                                nzSize="large" minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount"
-                                name="amountInput" disabled required />
-                             </div>
-                          </div>
-                       </div>
-                       <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
-                       <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.approvedAmount - userExpense.partiallyPaidAmount}}</p>
-                    </div>
-
-                 <div class="col-md-12 mb-3">
-                    <label for="templateName" class="pb-2">
-                    Note
-                    </label>
-                    <textarea disabled class="form-control nots-section" id="exampleFormControlTextarea1"
-                    placeholder="Write the note" [(ngModel)]="userExpense.notes" name="notesInput" rows="3"></textarea>
-                 </div>
-                 <div class="col-md-12 mb-3" *ngIf="rejectDiv">
-                    <label for="templateName" class="pb-2">
-                    Reason of Rejection
-                    </label>
-                    <textarea class="form-control nots-section" id="reject" placeholder="Write the reason" rows="3"
-                    [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
-                 </div>
-                 <!-- <div *ngIf="isTagsEditEnabled" class="col-md-12 mb-3 position-relative">
-                    <input type="text" id="tags" name="tags" (keyup.enter)="addTag()"
-                    class="form-control input-zorro" placeholder="Search Your Tags (Ex: Testing)" style="padding: 10px 70px 10px 40px;"
-                    [(ngModel)]="searchTag" (ngModelChange)="onTagsChange($event)"
-                    (keydown)="preventLeadingWhitespace($event)" [nzAutocomplete]="tagsAuto" />
-                    <i class="bi bi-search search-icon ml-3 pl-3 h-100 font-14 position-absolute"></i>
-                    <nz-autocomplete [nzDataSource]="tagsFilteredOptions" #tagsAuto></nz-autocomplete>
-               </div> -->
-
+               <div class="position-relitive">
+                  <span class="prev-btn" type="button" data-bs-target="#expenseCarousel" data-bs-slide="prev">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                        fill="none">
+                        <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                              x="0" y="0" width="24" height="25">
+                              <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)"
+                                 fill="white" />
+                        </mask>
+                        <g mask="url(#mask0_5929_1810)">
+                              <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z"
+                                 fill="white" />
+                        </g>
+                     </svg>
+                  </span>
+                  <span class="next-btn" type="button" data-bs-target="#expenseCarousel" data-bs-slide="next">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25"
+                        fill="none">
+                        <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse"
+                              x="0" y="0" width="24" height="25">
+                              <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)"
+                                 fill="white" />
+                        </mask>
+                        <g mask="url(#mask0_5929_1810)">
+                              <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z"
+                                 fill="white" />
+                        </g>
+                     </svg>
+                  </span>
             </div>
-                 <!-- TODO: remove this d-none -->
-                 <!-- <button (click)="isTagsEditEnabled=!isTagsEditEnabled;" class="btn p-0 text-primary d-flex align-items-center justify-content-end w-100 font-14 fw-semibold">
-                 <span class="d-flex align-items-center" *ngIf="!isTagsEditEnabled" ><i class="bi bi-plus font-20 position-relative" style="top:-2px"></i> Add Tags</span>
-                 <span class="d-flex align-items-center" *ngIf="isTagsEditEnabled"> <i class="bi bi-x font-20 position-relative" style="top:-2px"></i> Cancel</span>
-                 </button>
-                 <div class="col-md-12 d-flex justify-content-between mt-3">
-                    <div class="skill-set-add">
-                       <ul class="skill-set">
-                          <li *ngFor="let tag of tags">
-                             {{ tag }} <i *ngIf="isTagsEditEnabled" class="bi bi-x" (click)="removeTag(tag)"></i>
-                          </li>
-                       </ul>
-                    </div>
-                 </div> -->
-
-                 <div class="col-md-12" *ngIf="!isModal">
-                  <div class="">
-                     <button *ngIf="userExpense.slipUrls.length > 0" class="btn submitActionBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">View Attachment</button>
+         </div>
+         </ng-container>
+         </div>
+         <div [ngClass]="{'col-md-12': (!isModal|| userExpense?.slipUrls.length ==0), 'col-md-7 ': (isModal && userExpense?.slipUrls.length>0),'ml-0 pl-0': userExpense?.slipUrls.length==0}">
+            <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
+               <div class="d-flex align-items-center justify-content-between p-3 user-detail">
+                  <div class="d-flex align-items-center gap-3">
+                     <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
+                        [src]="userExpense.imageUrl || 'assets/images/user.png'">
+                     <div>
+                        <h5 class="mb-1">{{ userExpense.employeeName }}</h5>
+                        <p class="mb-0 font-13 user-email">{{ userExpense.email }}</p>
+                     </div>
+                  </div>
+                  <div class="text-end">
+                     <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning' : userExpense.status.id == 13,
+                        'badge-soft-success' : userExpense.status.id == 14 || userExpense.status.id == 41,
+                        'badge-soft-danger' : userExpense.status.id == 15,
+                        'badge-soft-primary' : userExpense.status.id == 40}">
+                     {{userExpense.status.response}}
+                     </span>
+                     <p class="mb-0 mt-2 font-14 expance-date">Date: {{userExpense.expenseDate | date : "dd MMM yyyy" || "N/A"}}</p>
                   </div>
                </div>
-                 <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46 || userExpense.status.id == 53) && !rejectDiv">
-                    <div class="row mt-3 mb-2">
-                       <div class="col-md-6 mb-3">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                             <input class="form-check-input" type="radio" name="expPaymentType" id="full" value="full"
-                             [disabled]="userExpense && userExpense.partiallyPaidAmount != null" [(ngModel)]="expensePaymentType" (change)="onExpensePaymentTypeChange(0)">
-                             <p class="form-check-label mb-0" for="exampleRadios1">
-                                Full Payment
-                             </p>
-                          </label>
-                       </div>
-                       <div class="col-md-6 mb-3">
-                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                             <input class="form-check-input" type="radio" name="expPaymentType" id="partial" value="partial"
-                             [(ngModel)]="expensePaymentType" (change)="onExpensePaymentTypeChange(1)">
-                             <p class="form-check-label mb-0" for="exampleRadios1">
-                                Partial Payment
-                             </p>
-                          </label>
-                       </div>
-                    </div>
-                    <div *ngIf="partiallyPayment" class="col-md-12 mb-3">
-                       <label for="employeeTypeId" class="mb-2">Enter Amount </label>
-                       <div class="form-group">
-                          <input [disabled]="payCashDiv" type="number" class="form-control input-zorro no-arrow"
-                          style="border: none !important; border-bottom: 1px dashed #CDC9C9 !important; " min="1"
-                          placeholder="Enter the Amount " nzSize="large" minlength="3" maxlength="50" id="amount"
-                          name="amount" [(ngModel)]="partialAmount" #amountInput="ngModel" required />
-                       </div>
-                       <div>
-                          <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.approvedAmount"
-                             class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
-                             from expense amount
-                          </p>
-                          <p *ngIf="userExpense.partiallyPaidAmount != null && partialAmount > fullPartialAmount"
-                             class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
-                             from remaining amount
-                          </p>
-                       </div>
-                    </div>
-                    <div class="col-md-12 mb-3" *ngIf="showTransactionDiv">
-                       <label for="employeeTypeId" class="mb-2"> Transaction Id </label>
-                       <div class="form-group">
-                          <input class="form-control input-zorro" placeholder="Enter transaction id  " nzSize="large"
-                          id="tranId" name="tranId" [(ngModel)]="transactionId" #transactionIdInput="ngModel" required />
-                          <p *ngIf="existTransactionId" class="mt-1 text-danger">Transaction ID already exists</p>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-           </div>
-           <div class="modal-footer expense-admin bg-white">
-              <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
-                 <button class="btn btn-soft-danger" [disabled]="approveToggle || payrollToggle"
-                 *ngIf="!partiallyPayment && (userExpense?.status.id == 13)" (click)="showExpenseRejectDiv()">Reject</button>
-                 <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment"
-                 class="btn payroll-btn" (click)="approveOrDeny(userExpense.id, 40, 0)" [disabled]="payrollToggle" >
-                 <span *ngIf="!payrollToggle">Settled With Payroll</span>
-                 <div class="dot-opacity-loader" *ngIf="payrollToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                 </div>
-                 </button>
-                 <button type="button" *ngIf="userExpense?.status.id == 13" class="btn btn-soft-success text-success" (click)="approveOrDeny(userExpense.id, 14, 0)"
-                 [ngClass]="{'btn-border':!(approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount)}"
-                 [disabled]="approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" >
-                 <span *ngIf="!approveToggle">Approved</span>
-                 <div class="dot-opacity-loader" *ngIf="approveToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                 </div>
-                 </button>
-                 <button class="btn approve-btn" [disabled]="partiallyPayment  && (!partialAmount || partialAmount > userExpense.approvedAmount)"
-                 *ngIf="!expenseCancelToggle && userExpense?.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
-                 <button class="btn btn-soft-success text-success" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
-                 [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
-                 *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approved</button>
-              </div>
-              <div *ngIf="rejectDiv" class="d-flex align-items-center gap-2">
-                 <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 15, 0)"
-                 [ngClass]="{'btn-border': (approveReq.rejectionReason)}"
-                 [disabled]="!approveReq.rejectionReason || rejectToggle" >
-                 <span *ngIf="!rejectToggle">Submit</span>
-                 <div class="dot-opacity-loader" *ngIf="rejectToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                 </div>
-                 </button>
-              </div>
-              <div class="d-flex align-items-center justify-content-start d-none w-100">
-                 <p class="font-13 text-success mb-0">This request has been approved, and reimbursement will be made in
-                    cash.
-                 </p>
-              </div>
-              <div *ngIf="payCashDiv && !showTransactionDiv"
-                 class="d-flex align-items-center justify-content-between w-100">
-                 <p class="font-13 text-primary mb-0">Would you prefer to settle this in cash?</p>
-                 <div class="d-flex align-items-center gap-2">
-                    <button [disabled]="paymentCashNoToggle || paymentCashYesToggle" class="btn btn cancel-btn mt-0"
-                    (click)="onlineTransaction()">No</button>
-                    <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 41, 1)" [disabled]="paymentCashYesToggle" >
-                    <span *ngIf="!paymentCashYesToggle">Yes</span>
-                    <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle">
-                       <span></span>
-                       <span></span>
-                       <span></span>
-                    </div>
-                    </button>
-                 </div>
-              </div>
-              <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
-                 <button type="button" class="btn submitActionBtn" (click)="checkTransactionId(userExpense.id, 41, 0)"
-                 [ngClass]="{'btn-border':(transactionId)}" [disabled]="transactionId == '' || paymentCashNoToggle">
-                 <span *ngIf="!paymentCashNoToggle">Submit</span>
-                 <div class="dot-opacity-loader" *ngIf="paymentCashNoToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                 </div>
-                 </button>
-              </div>
-           </div>
+               <div class="p-3" [ngClass]="{'expance-forn-data':isModal}">
+
+                     <div class="limit-amount p-3 mb-3" *ngIf="userExpense.remainingWalletAmount != null || userExpense.remainingWalletAmount > 0">
+                     <p class="mb-0 font-14 text-success fw-semibold">Available Wallet Amount: {{userExpense.remainingWalletAmount}}</p>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-12 mb-3">
+                        <label for="templateName" class="pb-2">
+                        Expense Type
+                        </label>
+                        <nz-form-control>
+                           <nz-select 
+                              [disabled]="userExpense.expenseTypeId ? true : false" 
+                              style="padding:0px;" 
+                              nzSize="large" 
+                              nzPlaceHolder="Select Expense type"
+                              [(ngModel)]="userExpense.expenseTypeId" 
+                              required 
+                              id="seleType" 
+                              name="seleExpType"
+                              #seleExpType="ngModel" 
+                              class="form-control w-100 placeholder-lineee">
+                              <nz-option *ngFor="let expenseType of expenseTypeList" 
+                                 [nzValue]="expenseType.id"
+                                 [nzLabel]="expenseType.name">
+                              </nz-option>
+                           </nz-select>                    
+                        </nz-form-control>
+                     </div>
+                     <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount == null">
+                        <div class="row">
+                           <label for="employeeTypeId" class="mb-2">Amount </label>
+                           <!-- <div class="col-md-6 mb-3"> -->
+                           <div class="mb-3" [ngClass]="{
+                              'col-md-12': userExpense.limitAmount == null || userExpense.amount <= userExpense.limitAmount,
+                              'col-md-6': userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount
+                              }">
+                              <div class="form-group">
+                                 <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
+                                 minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount" name="amountInput"
+                                 disabled required />
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-6 mb-3"
+                           *ngIf="userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount">
+                           <div class="notice-period-error">
+                              <div class="d-flex align-items-center gap-2" style="padding-top: 8px;">
+                                 <p class="mb-0">Allocated Amount</p>
+                                 <span class="calendar-separator"></span>
+                                 <h6 class="mb-0">₹ {{userExpense.limitAmount}}</h6>
+                              </div>
+                           </div>
+                        </div>
+                        </div>
+                        <p class="text-danger" *ngIf="userExpense?.approvedAmount > 0 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
+                        <div class="col-md-12 mb-3 pl-0 pr-0" *ngIf="!rejectDiv && userExpense.status.id == 13">
+                           <div class="form-check d-flex align-items-center gap-2">
+                              <input type="checkbox" class="form-check-input position-relative" style="top: -1px" id="approveAmountCheckbox" name="checkbox-approve-amount" [(ngModel)]="approveAmountChecked" (change)="onApproveAmountCheckboxChange($event)"/>
+                              <label class="form-check-label" for="approveAmountCheckbox">Modify Amount</label>
+                           </div>
+                           <div class="mt-3" *ngIf="approveAmountChecked">
+                              <input
+                              type="number"
+                              min="1"
+                              class="form-control input-zorro"
+                              placeholder="Enter approved amount"
+                              id="appoveAmount"
+                              name="input-approve-amout"
+                              [(ngModel)]="approvedAmount"
+                              />
+                           </div>
+                           <p class="text-danger" *ngIf="approvedAmount > userExpense.amount">Modify Amount should be less from Expense Amount</p>
+                        </div>
+                     </div>
+                     <div class="col-md-12" *ngIf="userExpense.partiallyPaidAmount != null">
+                        <div class="row">
+                           <label for="employeeTypeId" class="mb-2">Amount </label>
+                           <div class="mb-3" [ngClass]="{
+                              'col-md-6': userExpense.partiallyPaidAmount != null}">
+                              <div class="form-group">
+                                 <input type="number" class="form-control input-zorro" placeholder="Enter amount spend"
+                                 nzSize="large" minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount"
+                                 name="amountInput" disabled required />
+                              </div>
+                           </div>
+                        </div>
+                        <p class="text-danger" *ngIf="userExpense?.status?.id != 13 && userExpense?.approvedAmount < userExpense?.amount" >Appoved amount {{userExpense.approvedAmount}} by Manager/HR</p>
+                        <p *ngIf="fullPartialAmount > 0">Remaining amount is: {{userExpense.approvedAmount - userExpense.partiallyPaidAmount}}</p>
+                     </div>
+
+                  <div class="col-md-12 mb-3">
+                     <label for="templateName" class="pb-2">
+                     Note
+                     </label>
+                     <textarea disabled class="form-control nots-section" id="exampleFormControlTextarea1"
+                     placeholder="Write the note" [(ngModel)]="userExpense.notes" name="notesInput" rows="3"></textarea>
+                  </div>
+                  <div class="col-md-12 mb-3" *ngIf="rejectDiv">
+                     <label for="templateName" class="pb-2">
+                     Reason of Rejection
+                     </label>
+                     <textarea class="form-control nots-section" id="reject" placeholder="Write the reason" rows="3"
+                     [(ngModel)]="approveReq.rejectionReason" name="rejectInput"></textarea>
+                  </div>
+
+               </div>
+
+                  <div class="col-md-12" *ngIf="!isModal">
+                     <div class="">
+                        <button *ngIf="userExpense?.slipUrls.length > 0" class="btn submitActionBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">View Attachment</button>
+                     </div>
+                  </div>
+                  <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46 || userExpense.status.id == 53) && !rejectDiv">
+                     <div class="row mt-3 mb-2">
+                        <div class="col-md-6 mb-3">
+                           <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input class="form-check-input" type="radio" name="expPaymentType" id="full" value="full"
+                              [disabled]="userExpense && userExpense.partiallyPaidAmount != null" [(ngModel)]="expensePaymentType" (change)="onExpensePaymentTypeChange(0)">
+                              <p class="form-check-label mb-0" for="exampleRadios1">
+                                 Full Payment
+                              </p>
+                           </label>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                           <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input class="form-check-input" type="radio" name="expPaymentType" id="partial" value="partial"
+                              [(ngModel)]="expensePaymentType" (change)="onExpensePaymentTypeChange(1)">
+                              <p class="form-check-label mb-0" for="exampleRadios1">
+                                 Partial Payment
+                              </p>
+                           </label>
+                        </div>
+                     </div>
+                     <div *ngIf="partiallyPayment" class="col-md-12 mb-3">
+                        <label for="employeeTypeId" class="mb-2">Enter Amount </label>
+                        <div class="form-group">
+                           <input [disabled]="payCashDiv" type="number" class="form-control input-zorro no-arrow"
+                           style="border: none !important; border-bottom: 1px dashed #CDC9C9 !important; " min="1"
+                           placeholder="Enter the Amount " nzSize="large" minlength="3" maxlength="50" id="amount"
+                           name="amount" [(ngModel)]="partialAmount" #amountInput="ngModel" required />
+                        </div>
+                        <div>
+                           <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.approvedAmount"
+                              class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
+                              from expense amount
+                           </p>
+                           <p *ngIf="userExpense.partiallyPaidAmount != null && partialAmount > fullPartialAmount"
+                              class="d-flex justify-content-end" style="color: red !important;"> Flexible amount should be less
+                              from remaining amount
+                           </p>
+                        </div>
+                     </div>
+                     <div class="col-md-12 mb-3" *ngIf="showTransactionDiv">
+                        <label for="employeeTypeId" class="mb-2"> Transaction Id </label>
+                        <div class="form-group">
+                           <input class="form-control input-zorro" placeholder="Enter transaction id  " nzSize="large"
+                           id="tranId" name="tranId" [(ngModel)]="transactionId" #transactionIdInput="ngModel" required />
+                           <p *ngIf="existTransactionId" class="mt-1 text-danger">Transaction ID already exists</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-footer expense-admin bg-white">
+               <div *ngIf="!rejectDiv && !payCashDiv && rbacService.hasWriteAccess(Routes.EXPENSE)" class="d-flex align-items-center gap-2">
+                  <button class="btn btn-soft-danger" [disabled]="approveToggle || payrollToggle"
+                  *ngIf="!partiallyPayment && (userExpense?.status.id == 13)" (click)="showExpenseRejectDiv()">Reject</button>
+                  <button type="button" *ngIf="userExpense && userExpense.status.id == 14 && !partiallyPayment"
+                  class="btn payroll-btn" (click)="approveOrDeny(userExpense.id, 40, 0)" [disabled]="payrollToggle" >
+                  <span *ngIf="!payrollToggle">Settled With Payroll</span>
+                  <div class="dot-opacity-loader" *ngIf="payrollToggle">
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                  </div>
+                  </button>
+                  <button type="button" *ngIf="userExpense?.status.id == 13" class="btn btn-soft-success" (click)="approveOrDeny(userExpense.id, 14, 0)"
+                  [ngClass]="{'btn-border':!(approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount)}"
+                  [disabled]="approveToggle || (approveAmountChecked && approvedAmount == '') || (approveAmountChecked &&!approvedAmount) || approvedAmount > userExpense.amount" >
+                  <span *ngIf="!approveToggle">Approve</span>
+                  <div class="dot-opacity-loader" *ngIf="approveToggle">
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                  </div>
+                  </button>
+                  <button class="btn approve-btn" [disabled]="partiallyPayment  && (!partialAmount || partialAmount > userExpense.approvedAmount)"
+                  *ngIf="!expenseCancelToggle && userExpense?.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
+                  <button class="btn btn-soft-success text-success" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
+                  [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
+                  *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approve</button>
+               </div>
+               <div *ngIf="rejectDiv" class="d-flex align-items-center gap-2">
+                  <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 15, 0)"
+                  [ngClass]="{'btn-border': (approveReq.rejectionReason)}"
+                  [disabled]="!approveReq.rejectionReason || rejectToggle" >
+                  <span *ngIf="!rejectToggle">Submit</span>
+                  <div class="dot-opacity-loader" *ngIf="rejectToggle">
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                  </div>
+                  </button>
+               </div>
+               <div class="d-flex align-items-center justify-content-start d-none w-100">
+                  <p class="font-13 text-success mb-0">This request has been approved, and reimbursement will be made in
+                     cash.
+                  </p>
+               </div>
+               <div *ngIf="payCashDiv && !showTransactionDiv"
+                  class="d-flex align-items-center justify-content-between w-100">
+                  <p class="font-13 text-primary mb-0">Would you prefer to settle this in cash?</p>
+                  <div class="d-flex align-items-center gap-2">
+                     <button [disabled]="paymentCashNoToggle || paymentCashYesToggle" class="btn btn cancel-btn mt-0"
+                     (click)="onlineTransaction()">No</button>
+                     <button type="button" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 41, 1)" [disabled]="paymentCashYesToggle" >
+                     <span *ngIf="!paymentCashYesToggle">Yes</span>
+                     <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                     </div>
+                     </button>
+                  </div>
+               </div>
+               <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
+                  <button type="button" class="btn submitActionBtn" (click)="checkTransactionId(userExpense.id, 41, 0)"
+                  [ngClass]="{'btn-border':(transactionId)}" [disabled]="transactionId == '' || paymentCashNoToggle">
+                  <span *ngIf="!paymentCashNoToggle">Submit</span>
+                  <div class="dot-opacity-loader" *ngIf="paymentCashNoToggle">
+                     <span></span>
+                     <span></span>
+                     <span></span>
+                  </div>
+                  </button>
+               </div>
+            </div>
+         </div>
         </div>
-     </div>
   </div>
 </div>
 
@@ -328,27 +324,27 @@
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
        </div>
        <div class="modal-body">
-         <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
+         <ng-container *ngIf="userExpense && userExpense?.slipUrls.length > 0">
             <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
                <div class="carousel-inner">
-                  <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
-                  [class.active]="i === 0">
-                  <div class="d-flex justify-content-center position-relative">
-                     <img [src]="url" alt="Image {{i}}" class="d-block w-100">
+                     <div class="carousel-item" *ngFor="let url of userExpense?.slipUrls; let i = index"
+                     [class.active]="i === 0">
+                     <div class="d-flex justify-content-center position-relative">
+                        <img [src]="url" alt="Image {{i}}" class="d-block w-100">
+                     </div>
                   </div>
                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
-               data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
-               data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-            </button>
-      </div>
+               <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
+                  data-bs-slide="prev" *ngIf="userExpense?.slipUrls.length > 1">
+               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Previous</span>
+               </button>
+               <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
+                  data-bs-slide="next" *ngIf="userExpense?.slipUrls.length > 1">
+               <span class="carousel-control-next-icon" aria-hidden="true"></span>
+               <span class="visually-hidden">Next</span>
+               </button>
+         </div>
       </ng-container>
        </div>
 

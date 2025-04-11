@@ -43,7 +43,7 @@
             >
           </li>
         </ul>
-        <div class="d-flex align-items-center gap-3" *ngIf="!financeBlur">
+        <div class="d-flex align-items-center gap-3 mobile-hide-section" *ngIf="!financeBlur">
           <p class="mb-0 font-13 fw-semibold">Close at your convenience</p>
           <nz-switch
             [(ngModel)]="financeBlur"
@@ -79,12 +79,24 @@
           </p>
           <nz-switch [(ngModel)]="financeBlur"></nz-switch>
         </div>
-        <div
-          class="tab-pane fade active show pt-3 security-hide"
-          id="summary"
-          role="tabpanel"
-        >
-          <div class="payroll" [ngClass]="{ blurre: financeBlur }">
+        <div class="tab-pane fade active show pt-3 security-hide" id="summary" role="tabpanel">
+
+
+          <!-- mobile security box   -->
+          <div class="security p-2 d-n-desktop mb-3" *ngIf="!financeBlur">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-13 fw-semibold">Toggle disabled due to security reasons.</p>
+              <nz-switch
+                [(ngModel)]="financeBlur"
+                [nzControl]="true"
+                (click)="switchFinanceBlur()"
+              ></nz-switch>
+            </div>
+          </div>
+           <!-- mobile security box   -->
+
+
+          <div class="payroll" [ngClass]="{ blur: financeBlur }">
             <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0 font-15">Payroll</h5>
               <div class="attendance-date">
@@ -98,8 +110,8 @@
                 </nz-date-picker>
               </div>
             </div>
-            <div class="row collem-5 mt-3">
-              <div class="col-md-3">
+            <div class="row mt-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -158,7 +170,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -224,7 +236,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6  mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -270,7 +282,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -310,7 +322,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-m-5 col-sm-6 mb-3">
                 <div
                   class="payroll-count p-3 d-flex align-items-center justify-content-between"
                 >
@@ -378,14 +390,10 @@
               </div>
             </div>
 
-            <div class="payroll-summary p-3 mt-3 pb-0">
-              <div
-                class="d-flex align-items-center justify-content-between payroll-summary-hedding"
-              >
+            <div class="payroll-summary p-3 pb-0">
+              <div class="d-flex align-items-center justify-content-between payroll-summary-hedding  d-n-mobile">
                 <div class="d-flex align-items-center gap-2">
-                  <span
-                    class="d-flex align-items-center justify-content-center"
-                  >
+                  <span class="d-flex align-items-center justify-content-center ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -412,34 +420,56 @@
                       </g>
                     </svg>
                   </span>
-
-                  <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
+                   <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
                 </div>
-                <p class="mb-0 fw-semibold font-15">
-                  Last Processes Cycle:
-                  <!-- <span class="text-primary"> Sep 2024 (01 sep - 30 sep)</span> -->
-                  <span class="text-primary">
-                    {{ startDate | date : "MMM yyyy" }} ({{
-                      startDate | date : "dd MMM"
-                    }}
-                    - {{ endDate | date : "dd MMM" }})</span
-                  >
+                <p class="mb-0 fw-semibold font-14"> Last Processes Cycle:
+                  <span class="text-primary"> {{ startDate | date : "MMM yyyy" }} ({{ startDate | date : "dd MMM" }} - {{ endDate | date : "dd MMM" }})</span>
+                </p>
+              </div>
+
+
+              <div class="d-n-desktop">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="d-flex align-items-center justify-content-center payroll-icon radius-50">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_6642_10899"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="18"
+                        height="18"
+                      >
+                        <rect width="18" height="18" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_6642_10899)">
+                        <path
+                          d="M10.2937 15.75L5.25 10.5V9H7.875C8.5375 9 9.10938 8.78437 9.59062 8.35312C10.0719 7.92187 10.3625 7.3875 10.4625 6.75H4.5V5.25H10.2375C10.025 4.8125 9.70937 4.45312 9.29063 4.17188C8.87188 3.89062 8.4 3.75 7.875 3.75H4.5V2.25H13.5V3.75H11.0625C11.2375 3.9625 11.3938 4.19375 11.5312 4.44375C11.6687 4.69375 11.775 4.9625 11.85 5.25H13.5V6.75H11.9813C11.8813 7.8125 11.4438 8.70312 10.6688 9.42188C9.89375 10.1406 8.9625 10.5 7.875 10.5H7.33125L12.375 15.75H10.2937Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                  </span>
+                   <h5 class="mb-0 font-14 fw-semibold">Payroll Summary</h5>
+                </div>
+                <p class="mb-0 fw-semibold font-12"> Last Processes Cycle:
+                  <span class="text-primary"> {{ startDate | date : "MMM yyyy" }} ({{ startDate | date : "dd MMM" }} - {{ endDate | date : "dd MMM" }})</span>
                 </p>
               </div>
 
               <div class="row border-top mt-3">
-                <div
-                  class="col-md-3 m-0 p-0"
-                  style="border-right: 1px solid #f1f1f1"
-                >
+                <div class="col-md-3 m-0 p-0 border-right">
                   <div class="scene scene--card">
                     <div class="card">
                       <div class="month-day pt-4 p-3">
-                        <button
-                          class="p-0 btn text-primary summary-btn fw-semibold"
-                          (click)="flipView()"
-                        >
-                          Summary
+                        <button class="p-0 btn text-primary summary-btn fw-semibold" (click)="flipView()"> Summary
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="13"
@@ -485,55 +515,28 @@
                         <div class="row mt-5">
                           <div class="col-md-6">
                             <div class="standard-days mb-5">
-                              <p class="mb-2 fw-semibold font-13">
-                                Standard Days
-                              </p>
-                              <h5 class="mb-1 font-14">
-                                {{ totalStandardDays }} days
-                              </h5>
+                              <p class="mb-2 fw-semibold font-13"> Standard Days </p>
+                              <h5 class="mb-1 font-14"> {{ totalStandardDays }} days </h5>
                               <p class="mb-0 font-12">Defined Payout Days</p>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="standard-days mb-5">
-                              <p class="mb-2 fw-semibold font-13">
-                                Payout Days
-                              </p>
-                              <h5 class="mb-1 font-14">
-                                {{ totalPayoutDays }} days
-                              </h5>
+                              <p class="mb-2 fw-semibold font-13"> Payout Days</p>
+                              <h5 class="mb-1 font-14"> {{ totalPayoutDays }} days</h5>
                               <p class="mb-0 font-12">Payable Days Count</p>
                             </div>
                           </div>
-                          <!-- <div class="col-md-6">
-                                                        <div class="standard-days 4">
-                                                            <p class="mb-2 fw-semibold font-13">LOP Days</p>
-                                                            <h5 class="mb-1 font-14">{{totalLopDays}} days</h5>
-                                                            <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="standard-days 4">
-                                                            <p class="mb-2 fw-semibold font-13">Arrear Days</p>
-                                                            <h5 class="mb-1 font-14">{{totalArrearDays}} days</h5>
-                                                            <p class="mb-0 font-12">Lorem ipsum dolor sit</p>
-
-                                                        </div>
-                                                    </div> -->
                         </div>
                       </div>
 
-                      <div class="card__face overview-summary">
+                      <div class="card__face overview-summary h-100">
                         <!-- Back Content -->
                         <div
                           class="d-flex align-items-center justify-content-between border-bottom"
                           style="padding: 13px 15px"
                         >
-                          <button
-                            class="p-0 btn text-black fw-semibold"
-                            (click)="flipView()"
-                          >
+                          <button class="p-0 btn text-black fw-semibold" (click)="flipView()">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="15"
@@ -671,7 +674,9 @@
                 </div>
                 <div class="col-md-9 p-0 m-0">
                   <div class="d-flex align-items-start table-responsive h-100">
-                    <div class="earning">
+
+                     <!-- desktop calculation box -->
+                    <div class="earning d-n-mobile">
                       <table class="table">
                         <thead class="thead-light">
                           <tr>
@@ -758,7 +763,87 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="deduction">
+                      <!-- desktop calculation box -->
+
+                    <!-- mobile calculation box -->
+                    <div class="d-n-desktop w-100">
+                      <table class="table mb-3">
+                        <thead>
+                          <tr>
+                            <th class="font-13 fw-semibold" style="width:33.33%">Earning</th>
+                            <th class="font-13 fw-semibold" style="width:33.33%">Standard</th>
+                            <th class="font-13 fw-semibold" style="width:33.33%">Actual</th>
+                          </tr>
+                        </thead>
+                        <tbody >
+                            <tr *ngFor="let payslipBreakup of employeePayslipBreakupResponseList">
+                              <td>
+                                {{ payslipBreakup.name }}
+                              </td>
+                              <td> ₹{{convertNumberToStringFormat( payslipBreakup.standardAmount) }}</td>
+                              <td>
+                                ₹{{ convertNumberToStringFormat( payslipBreakup.actualAmount) }}
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                <span class="fw-bold text-black"
+                                  >Gross Earning</span
+                                >
+                              </td>
+                              <td>
+                                <span class="fw-bold text-primary"
+                                  >₹{{
+                                    convertNumberToStringFormat(monthlySalary)
+                                  }}</span
+                                >
+                              </td>
+                              <td>
+                                <span class="fw-bold text-primary"
+                                  >₹{{
+                                    convertNumberToStringFormat(earningSalary)
+                                  }}</span
+                                >
+                              </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                      <h5 class="font-14 fw-semibold mb-3"> Deduction</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="text-center font-13 fw-semibold">TDS</th>
+                            <th class="text-center font-13 fw-semibold">EPF</th>
+                            <th class="text-center font-13 fw-semibold">ESI</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.tds ) }}</td>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employeeEpf ) }} </td>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employeeEsi ) }} </td>
+                        </tbody>
+                      </table>
+                      <h5 class="font-14 fw-semibold mb-3"> Employer Contribution</h5>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="text-center font-13 fw-semibold">EPF</th>
+                            <th class="text-center font-13 fw-semibold">ESI</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employerEpf )}}</td>
+                            <td class="text-center font-13 fw-semibold">₹{{ convertNumberToStringFormat( salaryDeductionResponse.employerEsi ) }} </td>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- mobile calculation box end  -->
+
+                      <!-- desktop calculation box -->
+                    <div class="deduction d-n-mobile">
                       <table class="table">
                         <thead class="thead-light">
                           <tr>
@@ -866,12 +951,13 @@
                         </tbody>
                       </table>
                     </div>
+                      <!-- desktop calculation box -->
                   </div>
                 </div>
               </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-6">
+              <div class="col-md-6 mb-3">
                 <div class="payment-information p-3">
                   <div
                     class="d-flex align-items-center justify-content-between border-bottom pb-3"
@@ -887,7 +973,7 @@
                     </button>
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                       <div class="payment-information-box border-right">
                         <div class="mt-4">
                           <p class="mb-1 font-13">Salary Payment Mode</p>
@@ -909,9 +995,7 @@
                     </div>
                     <div class="col-md-6">
                       <div
-                        class="payment-information-box"
-                        style="padding-left: 30px"
-                      >
+                        class="payment-information-box" >
                         <div class="mt-4">
                           <p class="mb-1 font-13">Account Number</p>
                           <h5 class="mb-0 font-15">
@@ -931,17 +1015,13 @@
               </div>
               <div class="col-md-6">
                 <div class="payment-information p-3">
-                  <div
-                    class="d-flex align-items-center justify-content-between border-bottom pb-3"
-                  >
+                  <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                     <h5 class="mb-0 font-14 fw-semibold">
                       Statutory Information
                     </h5>
                   </div>
                   <div
-                    class="payment-information-box"
-                    style="padding-left: 30px"
-                  >
+                    class="payment-information-box" >
                     <div class="mt-4">
                       <h5 class="mb-1 font-15">EPF Account Information</h5>
                       <p class="mb-1 font-13">EPF Status</p>
@@ -981,9 +1061,23 @@
           </div>
         </div>
         <div class="tab-pane fade pt-3" id="payment" role="tabpanel">
-          <div class="payment-box mt-3" [ngClass]="{ blurre: financeBlur }">
+
+          <!-- mobile security box   -->
+          <div class="security p-2 d-n-desktop mb-3" *ngIf="!financeBlur">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-12 fw-semibold">Toggle disabled due to security reasons.</p>
+              <nz-switch
+                [(ngModel)]="financeBlur"
+                [nzControl]="true"
+                (click)="switchFinanceBlur()"
+              ></nz-switch>
+            </div>
+          </div>
+           <!-- mobile security box   -->
+
+          <div class="payment-box mt-3" [ngClass]="{ blur: financeBlur }">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-3 mb-3">
                 <div class="payroll-count p-3 d-flex align-items-center gap-3">
                   <span
                     class="payroll-count-icon bg-white d-flex align-items-center justify-content-center"
@@ -1038,7 +1132,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-9">
+              <div class="col-md-9 d-n-mobile">
                 <div class="payroll-count p-3">
                   <div class="d-flex align-items-center justify-content-center">
                     <div
@@ -1110,47 +1204,92 @@
                   </div>
                 </div>
               </div>
+              <!-- mobile payment cycle start -->
+              <div class="col-md-12 mb-3 d-n-desktop">
+                <div class="payroll-count p-3">
+                <div class="d-flex align-items-center justify-content-start">
+                  <div class="d-flex align-items-center gap-3" >
+                    <span class="payroll-count-icon bg-white d-flex align-items-center justify-content-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="42"
+                        height="42"
+                        viewBox="0 0 42 42"
+                        fill="none"
+                      >
+                        <path
+                          d="M17.9006 35.4353C9.53685 35.305 5.96685 32.8284 5.96685 27.1729C5.96685 22.9946 10.5144 16.9626 14.3813 12.5888H15.5979C14.3741 14.2615 13.4979 16.1877 13.0634 18.2153C13.0127 18.4398 13.1503 18.6932 13.4689 18.7222C13.6644 18.7367 13.831 18.5919 13.8744 18.3964C14.3234 16.3108 15.2648 14.3195 16.5972 12.6467C16.6117 12.6322 16.6117 12.6105 16.6262 12.596H18.6031C19.5879 14.1964 20.3265 15.9198 20.7972 17.7157C20.8479 17.9039 21.0796 18.0705 21.3041 18.0126C21.5286 17.9546 21.6589 17.7301 21.601 17.5057C21.152 15.7895 20.4641 14.1457 19.5589 12.596H22.9769C24.1934 13.9791 25.3086 15.326 26.2862 16.6077C26.3658 16.7164 26.6048 16.8684 26.8727 16.6874C27.061 16.557 27.09 16.2891 26.9524 16.1008C26.0906 14.9639 25.1203 13.7836 24.0631 12.567C24.8379 12.4657 25.4317 11.8067 25.4317 11.0101C25.4317 10.1412 24.722 9.43152 23.8531 9.43152H23.5634C23.7951 9.04049 24.0775 8.67118 24.4106 8.35256C25.171 7.62842 26.1703 7.15773 27.2203 7.03463C27.3579 7.02014 27.4737 6.93325 27.5389 6.81738C27.6041 6.69428 27.6041 6.54945 27.5389 6.42635C26.612 4.66669 25.6127 3.76152 24.4975 3.64566C23.5489 3.54428 22.5931 4.04394 21.6155 5.10842C20.5437 4.10911 19.4793 3.61669 18.4655 3.66014C17.5313 3.69635 16.6262 4.18152 15.7717 5.08669C14.7724 4.05118 13.8237 3.58049 12.8679 3.66738C11.7744 3.76152 10.7751 4.5798 9.81202 6.16566C9.73961 6.28152 9.73237 6.41911 9.78306 6.54221C9.83375 6.66531 9.94237 6.75945 10.0727 6.78842C11.5934 7.15773 12.9548 8.12807 13.8237 9.43876H13.5051C12.6362 9.43876 11.9265 10.1484 11.9265 11.0174C11.9265 11.8139 12.5203 12.4657 13.2879 12.5743C9.43547 16.9988 5.13409 22.9077 5.13409 27.1729C5.13409 35.0588 11.9482 36.1812 17.8862 36.2681H17.8934C18.1179 36.2681 18.3062 36.087 18.3134 35.8553C18.3134 35.6308 18.1324 35.4353 17.9006 35.4353ZM10.8331 6.12945C11.5427 5.10118 12.2524 4.55083 12.9548 4.4929C13.6934 4.42773 14.5624 4.92738 15.482 5.98463C15.5617 6.07876 15.6413 6.13669 15.8006 6.12945C15.9237 6.12945 16.0396 6.07152 16.1193 5.97738C16.9086 5.02152 17.7124 4.52187 18.5234 4.4929C19.3924 4.44945 20.3555 4.96359 21.362 6.00635C21.4417 6.09325 21.5648 6.14394 21.6806 6.12945C21.7965 6.12221 21.9124 6.07152 21.9848 5.97738C22.8755 4.89842 23.6937 4.39876 24.4396 4.47118C25.1493 4.54359 25.8589 5.16635 26.5469 6.31049C25.5403 6.54221 24.5989 7.04187 23.8603 7.75152C23.3534 8.23669 22.9479 8.816 22.651 9.43152H14.7941C13.9324 7.88187 12.4986 6.6798 10.8331 6.12945ZM12.7665 11.0101C12.7665 10.5974 13.0996 10.2643 13.5124 10.2643H23.8748C24.2875 10.2643 24.6206 10.5974 24.6206 11.0101C24.6206 11.4229 24.2875 11.756 23.8748 11.756H13.5124C13.0996 11.7488 12.7665 11.4157 12.7665 11.0101Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M26.4672 17.5938C20.7392 17.5938 16.0758 22.2572 16.0758 27.9924C16.0758 33.7203 20.7392 38.3837 26.4672 38.3837C32.2023 38.3837 36.8658 33.7203 36.8658 27.9924C36.8658 22.2572 32.2023 17.5938 26.4672 17.5938ZM26.4672 37.551C21.1954 37.551 16.9085 33.2641 16.9085 27.9924C16.9085 22.7206 21.1954 18.4265 26.4672 18.4265C31.7389 18.4265 36.033 22.7206 36.033 27.9924C36.033 33.2641 31.7389 37.551 26.4672 37.551Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M26.4673 20.2969C22.2311 20.2969 18.7769 23.751 18.7769 27.9945C18.7769 32.2307 22.2238 35.6848 26.4673 35.6848C30.7107 35.6848 34.1648 32.2379 34.1648 27.9945C34.1648 23.751 30.7107 20.2969 26.4673 20.2969ZM26.4673 34.852C22.6873 34.852 19.6097 31.7745 19.6097 27.9945C19.6097 24.2145 22.6873 21.1369 26.4673 21.1369C30.2473 21.1369 33.3248 24.2145 33.3248 27.9945C33.3321 31.7745 30.2545 34.852 26.4673 34.852Z"
+                          fill="black"
+                        />
+                        <path
+                          d="M29.1392 24.4181C29.3709 24.4181 29.5592 24.2299 29.5592 23.9981C29.5592 23.7664 29.3709 23.5781 29.1392 23.5781H24.4323C24.2006 23.5781 24.0123 23.7664 24.0123 23.9981C24.0123 24.2299 24.2006 24.4181 24.4323 24.4181H25.6488C26.5251 24.4181 27.2564 25.0336 27.4447 25.8519H24.4323C24.2006 25.8519 24.0123 26.0402 24.0123 26.2719C24.0123 26.5036 24.2006 26.6919 24.4323 26.6919H27.4447C27.2564 27.5102 26.5251 28.1257 25.6488 28.1257H24.4323C24.2006 28.1257 24.0123 28.314 24.0123 28.5457C24.0123 28.7774 24.2006 28.9657 24.4323 28.9657C26.1195 28.9657 27.4954 30.3416 27.4954 32.0288C27.4954 32.0288 27.4085 32.6588 27.9154 32.6588C28.444 32.6588 28.3354 32.0288 28.3354 32.0288C28.3354 30.6747 27.6402 29.4871 26.5902 28.7847C27.4809 28.4516 28.1399 27.6623 28.292 26.6992H29.1464C29.3782 26.6992 29.5664 26.5109 29.5664 26.2792C29.5664 26.0474 29.3782 25.8592 29.1464 25.8592H28.292C28.2051 25.3088 27.9516 24.8164 27.5895 24.4254H29.1392V24.4181Z"
+                          fill="black"
+                        />
+                      </svg>
+                    </span>
+                    <div>
+                    </div>
+                  </div>
+                  <div>
+                    <p class="mb-1 font-13">Legal Entity</p>
+                    <h5 class="mb-0 fw-semibold font-14">
+                      {{ currentSalaryDetail.companyName }}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="col-sm-4 mb-3 d-n-desktop">
+                <div class="payroll-count p-3">
+                  <div>
+                    <p class="mb-1 font-13">Remuneration</p>
+                      <h5 class="mb-0 fw-semibold font-14">Annual</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mb-3 d-n-desktop">
+                <div class="payroll-count p-3">
+                  <div>
+                    <p class="mb-1 font-13">Remuneration</p>
+                      <h5 class="mb-0 fw-semibold font-14">Annual</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mb-3 d-n-desktop">
+                <div class="payroll-count p-3">
+                  <div>
+                    <p class="mb-1 font-13">Pay Cycle</p>
+                    <h5 class="mb-0 fw-semibold font-14">Monthly</h5>
+                  </div>
+                </div>
+              </div>
+              <!-- mobile payment cycle end -->
             </div>
             <div class="mt-3 salary-simeline-box">
-              <div
-                class="salary-simeline p-3 d-flex align-items-center justify-content-between"
-              >
+              <div class="salary-simeline p-3 d-flex align-items-center justify-content-between">
                 <h5 class="mb-0 font-15">Salary Timeline</h5>
                 <div class="d-flex align-items-center gap-3">
-                  <div
-                    class="d-flex align-items-center gap-3"
-                    *ngIf="_roleService.getRoles() == 'ADMIN'"
-                  >
-                    <button
-                      type="button"
-                      class="btn p-0 text-primary font-13 fw-semibold"
-                      (click)="openSalaryTemplate()"
-                    >
+                  <div class="d-flex align-items-center gap-3 d-n-mobile" *ngIf="_roleService.getRoles() == 'ADMIN' || _roleService.hasWriteAccess(Routes.EMPLOYEE_PROFILE) ">
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openSalaryTemplate()" >
                       Update Template
                     </button>
                     <span class="calendar-separator"></span>
-                    <button
-                      type="button"
-                      class="btn p-0 text-primary font-13 fw-semibold"
-                      (click)="openAppraisal()"
-                    >
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openAppraisal()">
                       Appraisal
                     </button>
                     <span class="calendar-separator"></span>
-                    <button
-                      type="button"
-                      class="btn p-0 text-primary font-13 fw-semibold"
-                      (click)="openBonus()"
-                    >
-                      Bonus
+                    <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openBonus()">Bonus
                     </button>
                   </div>
-                  <span
-                    class="pointer"
-                    (click)="
-                      getCurrentSalaryDetail(); getEmployeeSalaryRevision()
-                    "
-                  >
+                  <span class="pointer" (click)=" getCurrentSalaryDetail(); getEmployeeSalaryRevision() ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="25"
@@ -1185,34 +1324,18 @@
                 </div>
               </div>
 
-              <div
-                class="empty-file"
-                style="margin-top: 20%; margin-bottom: 20%"
-                *ngIf="userSalaryRevisionResList.length == 0"
-              >
-                <nz-empty
-                  nzNotFoundImage="assets/images/no-data-found-img.svg"
-                  [nzNotFoundContent]="contentTpl"
-                >
+              <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%" *ngIf="userSalaryRevisionResList.length == 0">
+                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
                   <ng-template #contentTpl>
                     <p class="mb-1 empty-detail">No data for now</p>
                   </ng-template>
                 </nz-empty>
               </div>
 
-              <div
-                *ngFor="
-                  let salaryRevision of userSalaryRevisionResList;
-                  let i = index
-                "
-              >
-                <div
-                  class="d-flex align-items-center justify-content-between p-3"
-                >
+              <div class="d-n-mobile" *ngFor=" let salaryRevision of userSalaryRevisionResList; let i = index">
+                <div class="d-flex align-items-center justify-content-between p-3">
                   <div class="d-flex align-items-center gap-3">
-                    <span
-                      class="salary-simeline-icon d-flex align-items-center justify-content-center"
-                    >
+                    <span class="salary-simeline-icon d-flex align-items-center justify-content-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
@@ -1337,11 +1460,7 @@
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <div class="">
-                        <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                            <p class="mb-0"> Regular Salary | <span style="color: #3f988f;">INR
-                                                                    {{convertNumberToStringFormat(salaryRevision.annualCtc)}}</span></p>
-                                                        </div> -->
+                      <div>
                         <div class="p-3 holiday-date mb-3 universal-holiday">
                           <p class="mb-0">
                             Salary Per Month |
@@ -1355,25 +1474,152 @@
                             >
                           </p>
                         </div>
-                        <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                            <p class="mb-0"> Tax Deduction | <span style="color: #3f988f;">INR
-                                                                    7000</span></p>
-                                                        </div> -->
-                        <!-- <div class="p-3 holiday-date mb-3 universal-holiday">
-                                                            <p class="mb-0"> EPF Detection (Pre Month) | <span
-                                                                    style="color: #3f988f;">INR 1800</span></p>
-                                                        </div> -->
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+
+              <div class="d-n-desktop">
+              <div class="d-flex align-items-center justify-content-between p-3 border-bottom" *ngIf="_roleService.getRoles() == 'ADMIN' || _roleService.hasWriteAccess(Routes.EMPLOYEE_PROFILE) ">
+                <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openSalaryTemplate()" >
+                  Update Template
+                </button>
+                <span class="calendar-separator"></span>
+                <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openAppraisal()">
+                  Appraisal
+                </button>
+                <span class="calendar-separator"></span>
+                <button type="button" class="btn p-0 text-primary font-13 fw-semibold" (click)="openBonus()">Bonus
+                </button>
+              </div>
+              </div>
+
+
+              <div class="d-n-desktop border-bottom" *ngFor=" let salaryRevision of userSalaryRevisionResList; let i = index">
+                <div class="d-flex align-items-center justify-content-between p-3">
+                <div class="d-flex align-items-center gap-3 ">
+                  <span class="salary-simeline-icon d-flex align-items-center justify-content-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="21"
+                      height="21"
+                      viewBox="0 0 21 21"
+                      fill="none"
+                    >
+                      <path
+                        d="M3.67826 15.3627L2.54492 14.2294L8.5354 8.19844L11.7735 11.4365L15.983 7.26749H13.8783V5.64844H18.7354V10.5056H17.1163V8.40082L11.7735 13.7437L8.5354 10.5056L3.67826 15.3627Z"
+                        fill="#444444"
+                      />
+                    </svg>
+                  </span>
+                  <div>
+                    <h5 class="mb-1 font-15 fw-semibold">Salary Revision</h5>
+                    <p class="mb-0 font-13"> Effective {{ salaryRevision.effectiveDate | date : "MMM , dd yyyy" }}</p>
+                  </div>
+                </div>
+
+
+                <span class="down-icon d-flex align-items-center justify-content-center collapsed"
+                      data-bs-toggle="collapse" [attr.href]="'#collapseExample' + i" role="button"
+                       aria-expanded="false" aria-controls="collapseExample" *ngIf="salaryRevision.salaryBreakup.length > 0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="17"
+                        height="11"
+                        viewBox="0 0 17 11"
+                        fill="none"
+                      >
+                        <path
+                          d="M8.125 10.6625L0.0625 2.6L1.94375 0.71875L8.125 6.9L14.3063 0.71875L16.1875 2.6L8.125 10.6625Z"
+                          fill="#444444"
+                        />
+                      </svg>
+                  </span>
+              </div>
+                <div class="d-flex align-items-center justify-content-between p-3 pt-0">
+                  <div class="d-flex align-items-center gap-2">
+                    <p class="mb-0 font-13">Regular Salary</p>
+                    <p class="mb-0 fw-bold font-13">
+                      INR {{ convertNumberToStringFormat(salaryRevision.monthlyCtc) }}
+                    </p>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <p class="mb-0 font-13">Total</p>
+                    <p class="mb-0 fw-bold font-13">
+                      INR {{ convertNumberToStringFormat(salaryRevision.annualCtc) }}
+                    </p>
+                  </div>
+               </div>
+
+
+               <div
+               class="collapse p-3 border-bottom"
+               [attr.id]="'collapseExample' + i"
+             >
+               <h5 class="mb-0 font-14 mb-3">Summary</h5>
+               <div class="row">
+                 <div class="col-md-6">
+                   <div class="border-right w-100">
+
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor="let component of salaryRevision.salaryBreakup">
+                          <th class="fw-normal font-14">{{ component.name }}</th>
+                          <td class="fw-normal font-14">₹{{ convertNumberToStringFormat( component.standardAmount ) }}</td>
+                        </tr>
+                        <tr>
+                          <th>
+                            <span class="fw-boid font-15"> Gross Earning</span></th>
+                          <td class="fw-bold text-primary font-15">₹{{convertNumberToStringFormat( salaryRevision.monthlyCtc )}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                   
+                   </div>
+                 </div>
+                 <div class="col-md-6">
+                   <div>
+                     <div class="p-3 holiday-date mb-3 universal-holiday">
+                       <p class="mb-0">
+                         Salary Per Month |
+                         <span style="color: #3f988f"
+                           >INR
+                           {{
+                             convertNumberToStringFormat(
+                               salaryRevision.monthlyCtc
+                             )
+                           }}</span
+                         >
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="tab-pane fade pt-3" id="pay-slips" role="tabpanel">
-          <div class="payroll" [ngClass]="{ blurre: financeBlur }">
+
+
+          <!-- mobile security box   -->
+          <div class="security p-2 d-n-desktop mb-3" *ngIf="!financeBlur">
             <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-13 fw-semibold">Toggle disabled due to security reasons.</p>
+              <nz-switch
+                [(ngModel)]="financeBlur"
+                [nzControl]="true"
+                (click)="switchFinanceBlur()"
+              ></nz-switch>
+            </div>
+          </div>
+           <!-- mobile security box   -->
+          
+          <div class="payroll" [ngClass]="{ blur: financeBlur }">
+            <div class="d-flex align-items-center justify-content-between d-n-mobile">
               <div>
                 <h5 class="mb-1 font-16">Pay Slips</h5>
                 <p class="mb-0 font-13 pay-slip">
@@ -1382,7 +1628,7 @@
                 </p>
               </div>
               <div class="attendance-date">
-                <nz-date-picker
+                <nz-date-picker nzBorderless
                   nzMode="year"
                   [nzSize]="size"
                   [(ngModel)]="selectedYear"
@@ -1393,18 +1639,33 @@
               </div>
             </div>
 
-            <div class="mt-3 pay-slip-box d-flex align-items-start">
-              <div class="" style="width: 300px">
-                <ul class="mb-0 pl-0">
-                  <li
-                    class="d-flex align-items-center justify-content-between"
-                    *ngFor="
-                      let payslip of employeePayslipLogResponseList;
-                      let i = index
-                    "
-                    [ngClass]="{ ' active-month': i == selectedIndex }"
-                    (click)="selectedIndex = i; loadPayslip(payslip)"
+
+
+            <!-- mobile payslip heading start  -->
+
+            <div class="d-n-desktop">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h5 class="mb-0 font-16">Pay Slips</h5>
+                <div class="attendance-date">
+                  <nz-date-picker nzBorderless
+                    nzMode="year"
+                    [nzSize]="size"
+                    [(ngModel)]="selectedYear"
+                    [nzDisabledDate]="disableYears"
+                    (ngModelChange)="onYearChange($event)"
                   >
+                  </nz-date-picker>
+                </div>
+              </div>
+            </div>
+
+            <!-- mobile payslip heading end  -->
+
+            <div class="mt-3 pay-slip-box d-flex align-items-start d-n-mobile">
+              <div class="payslip-sidebar">
+                <ul class="mb-0 pl-0">
+                  <li class="d-flex align-items-center justify-content-between" *ngFor="let payslip of employeePayslipLogResponseList; let i = index "
+                    [ngClass]="{ ' active-month': i == selectedIndex }" (click)="selectedIndex = i; loadPayslip(payslip)">
                     <span>{{ payslip.paySlipMonth | date : "MMMM yyyy" }}</span>
                     <span class="pointer" *ngIf="i == selectedIndex">
                       <svg
@@ -1438,16 +1699,54 @@
               </div>
               <div class="pay-slip-file w-100" *ngIf="selectedPayslip">
                 <div class="d-flex align-items-center justify-content-center">
-                  <iframe
-                    class="nest"
-                    [src]="selectedPayslipUrl"
-                    style="width: 100%; height: 100vh"
-                    frameborder="0"
-                  >
-                  </iframe>
+                  <iframe class="nest w-100" [src]="selectedPayslipUrl" style="height: 100vh" frameborder="0"></iframe>
                 </div>
               </div>
             </div>
+
+
+            <!-- mobile payslip section -->
+
+            <div class="payslip-sidebar d-n-desktop mt-3">
+              <ul class="mb-0 pl-0">
+                <li class="d-flex align-items-center justify-content-between mb-2 p-3" *ngFor="let payslip of employeePayslipLogResponseList; let i = index "
+                  [ngClass]="{ ' active-month': i == selectedIndex }" (click)="selectedIndex = i; loadPayslip(payslip)">
+                  <span class="fw-semibold font-13">{{ payslip.paySlipMonth | date : "MMMM yyyy" }}</span>
+                  <span class="pointer" *ngIf="i == selectedIndex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="29"
+                      height="30"
+                      viewBox="0 0 29 30"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_6709_6993"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="29"
+                        height="30"
+                      >
+                        <rect y="0.5" width="29" height="29" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_6709_6993)">
+                        <path
+                          d="M10 23.1253V6.875L18.1252 15.0002L10 23.1253Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- mobile payslip section -->
+
+
+
             <div
               class="empty-file d-flex align-items-center justify-content-center"
               *ngIf="employeePayslipLogResponseList.length == 0"

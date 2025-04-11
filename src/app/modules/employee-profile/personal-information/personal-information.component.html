@@ -1,6 +1,82 @@
 <div class="m-3 assets-detail p-3 pt-0 mt-4" *ngIf="!profileEdit">
   <div class="employee-profile-information">
+
+<ng-container *ngIf="!profileEdit && !profileLoding"> 
+    <div class="action-btn d-n-desktop mb-3 d-none" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING' && !profileLoding">
+      <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid() ">
+        <button
+          class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
+          (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
+
+          <i class="ti ti-checks font-20"></i>
+          <ng-container *ngIf="!approveLoading && !rejectLoading">Approve</ng-container>
+          <div *ngIf="approveLoading" class="dot-opacity-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+
+        <button
+          class="btn text-danger bg-soft-danger font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
+          data-bs-toggle="modal" data-bs-target="#rejectReasonModal" [disabled]="approveLoading || rejectLoading">
+          <i class="ti ti-x font-20"></i>
+          <ng-container *ngIf="!rejectLoading && !approveLoading">Reject</ng-container>
+          <ng-container *ngIf="rejectLoading">
+            <div class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </ng-container>
+        </button>
+
+      </div>
+      <!-- *ngIf="editStatus=='APPROVED' && rbacService.userInfo.role == 'USER'" -->
+      <div class="d-flex align-items-center gap-3">
+        <div *ngIf="requestedData && rbacService.userInfo.role == 'USER'"
+          class="badge profile-badge rounded-pill badge-soft-warning">You have requested a profile update.</div>
+        <button *ngIf="(userId===rbacService.getUuid() || rbacService.getRoles()=='ADMIN') && !profileLoding && (!requestedData || this.userId == rbacService.getUuid())" class="p-0 btn text-primary font-14 fw-semibold edit-btn"
+          (click)="profileEdit=true; editProfile()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <mask id="mask0_6512_3882" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
+              height="22">
+              <rect width="22" height="22" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_6512_3882)">
+              <path
+                d="M4.58333 17.4167H5.88958L14.85 8.45625L13.5438 7.15L4.58333 16.1104V17.4167ZM2.75 19.25V15.3542L14.85 3.27708C15.0333 3.10903 15.2358 2.97917 15.4573 2.8875C15.6788 2.79583 15.9118 2.75 16.1562 2.75C16.4007 2.75 16.6375 2.79583 16.8667 2.8875C17.0958 2.97917 17.2944 3.11667 17.4625 3.3L18.7229 4.58333C18.9063 4.75139 19.0399 4.95 19.124 5.17917C19.208 5.40833 19.25 5.6375 19.25 5.86667C19.25 6.11111 19.208 6.3441 19.124 6.56562C19.0399 6.78715 18.9063 6.98958 18.7229 7.17292L6.64583 19.25H2.75ZM14.1854 7.81458L13.5438 7.15L14.85 8.45625L14.1854 7.81458Z"
+                fill="#6666F2" />
+            </g>
+          </svg>
+          Edit It
+        </button>
+
+
+         <span class="separator-border" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"></span>
+
+        <div class="badge rounded-pill badge-soft-danger" *ngIf=" !requestedData && onboardingPreviewData!.reasonOfRejection"
+         [nzPopoverOverlayStyle]="{'width':'350px'}"
+          [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">  REJECTED </div>
+          <ng-template #contentTemplate>
+            <div class="request-g">
+            <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+              <h5 class="mb-0 font-14">Rejection Reason</h5>
+            </div>
+            <div class="p-3">
+            <p class="mb-0 font-13 fw-semibold"> {{onboardingPreviewData!.reasonOfRejection}}</p>
+          </div>
+          </div>
+          </ng-template>
+
+      </div>
+    </div>
+  </ng-container>
+
+
     <div class="d-flex align-items-center justify-content-between profile-imfo mt-2 mb-3">
+
+      
       <div>
         <div class="d-flex align-items-center gap-2">
         <h5>{{ user.name }}</h5>
@@ -194,14 +270,9 @@
               </svg>
             </span>
             <ng-template #contentTemplate>
-              <!-- <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                (click)="removeField('department', requestedData.user.department)">Delete</button>
-              <button class="btn btn-primary" *ngIf="rbacService.userInfo.role != 'USER' && !fieldLoading"
-                (click)="approveField('department', requestedData.user.department)">Approve</button> -->
               <div class="request-g">
                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                   <h5 class="mb-0">Update Request</h5>
-                  <!-- <span class="badge rounded-pill badge-soft-warning"> PENDING </span> -->
 
                   <div class="d-flex align-items-center gap-2">
                     <span class="badge rounded-pill badge-soft-warning"> PENDING </span>
@@ -266,8 +337,8 @@
         <span>Joining Date: {{ (user.joiningDate | date:'dd-MM-yyyy') || '--' }}</span>
       </div>
 
-      <div class="action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()">
+      <div class="action-btn d-n-mobile" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
+        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()  && !profileLoding">
           <button
             class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
             (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
@@ -340,7 +411,7 @@
       <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Personal Information</h5>
+            <h5 class="mb-3">Personal Information</h5>
           </div>
 
         </div>
@@ -997,7 +1068,7 @@
       <div *ngIf="routes.includes('/employee-address-detail')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Address Details</h5>
+            <h5 class="mb-3">Address Details</h5>
           </div>
 
         </div>
@@ -1226,7 +1297,7 @@
       <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Reference <span class="font-12">(optional)</span>
+            <h5 class="mb-3">Reference <span class="font-12">(optional)</span>
               <span *ngIf="requestedData && findAllGuarantorWithNullId().length > 0"
                 class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -1427,7 +1498,7 @@
       <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Academic Details</h5>
+            <h5 class="mb-3">Academic Details</h5>
           </div>
 
         </div>
@@ -2010,7 +2081,7 @@
       <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Experience
+            <h5 class="mb-3">Experience
               <span *ngIf="requestedData && findAllExperienceWithNullId().length > 0"
                 class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -2142,7 +2213,7 @@
       <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Bank Details</h5>
+            <h5 class="mb-3">Bank Details</h5>
           </div>
 
         </div>
@@ -2541,7 +2612,7 @@
       <div *ngIf="routes.includes('/statutory')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Statutory Details</h5>
+            <h5 class="mb-3">Statutory Details</h5>
           </div>
 
         </div>
@@ -2747,7 +2818,7 @@
       <div *ngIf="routes.includes('/emergency-contact')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Emergency Contact</h5>
+            <h5 class="mb-3">Emergency Contact</h5>
             <span *ngIf="requestedData && findAllEmergencyContactWithNullId().length > 0"
               class="profile-editrequest d-flex align-items-center justify-content-center pointer position-relative">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -2815,11 +2886,6 @@
 
         </div>
         <div class="col-md-9">
-
-
-
-
-
           <div class="row">
             <div *ngFor="let emergencyContact of emergencyContacts" class="col-md-12 ">
               <div class="profile-information mb-3">
@@ -2948,7 +3014,7 @@
       <div class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Personal Information</h5>
+            <h5 class="mb-3">Personal Information</h5>
           </div>
 
         </div>
@@ -2966,7 +3032,7 @@
       <div class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Address Details</h5>
+            <h5 class="mb-3">Address Details</h5>
           </div>
 
         </div>
@@ -3011,7 +3077,7 @@
       <div class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Academic Details</h5>
+            <h5 class="mb-3">Academic Details</h5>
           </div>
 
         </div>
@@ -3030,7 +3096,7 @@
       <div class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Experience</h5>
+            <h5 class="mb-3">Experience</h5>
           </div>
 
         </div>
@@ -3048,7 +3114,7 @@
       <div class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Bank Details</h5>
+            <h5 class="mb-3">Bank Details</h5>
           </div>
 
         </div>
@@ -3065,7 +3131,7 @@
       <div class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Emergency Contact</h5>
+            <h5 class="mb-3">Emergency Contact</h5>
           </div>
 
         </div>
@@ -3119,7 +3185,7 @@
       <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3" formGroupName="user">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Personal Information</h5>
+            <h5 class="mb-3">Personal Information</h5>
           </div>
         </div>
         <div class="col-md-9">
@@ -3264,7 +3330,7 @@
       <div *ngIf="routes.includes('/employee-address-detail')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Address Details</h5>
+            <h5 class="mb-3">Address Details</h5>
           </div>
         </div>
         <div class="col-md-9">
@@ -3379,7 +3445,7 @@
       <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Reference</h5>
+            <h5 class="mb-3">Reference</h5>
           </div>
         </div>
         <div formArrayName="references" class="col-md-9">
@@ -3449,7 +3515,7 @@
       <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3" formGroupName="academicDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Academic Details</h5>
+            <h5 class="mb-3">Academic Details</h5>
           </div>
         </div>
         <div class="col-md-9">
@@ -3517,7 +3583,7 @@
       <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Experience Details</h5>
+            <h5 class="mb-3">Experience Details</h5>
           </div>
         </div>
 
@@ -3645,7 +3711,7 @@
       <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3" formGroupName="bankDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Bank Details</h5>
+            <h5 class="mb-3">Bank Details</h5>
           </div>
         </div>
         <div class="col-md-9">
@@ -3711,7 +3777,7 @@
       <div *ngIf="routes.includes('/statutory')" class="row border-top pt-4 pb-3" formGroupName="statutoryDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Statutory Details</h5>
+            <h5 class="mb-3">Statutory Details</h5>
           </div>
         </div>
         <div class="col-md-9">
@@ -3783,7 +3849,7 @@
       <div *ngIf="routes.includes('/emergency-contact')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
-            <h5>Emergency Contact</h5>
+            <h5 class="mb-3">Emergency Contact</h5>
           </div>
         </div>
 

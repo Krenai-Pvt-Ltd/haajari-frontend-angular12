@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -28,8 +27,9 @@ import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
-// import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
 @Component({
   selector: 'app-timetable',
@@ -148,6 +148,8 @@ export class TimetableComponent implements OnInit {
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
   readonly key = Key;
   readonly Constant = constant;
+  readonly Routes = Routes;
+  readonly StatusKeys =StatusKeys;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',
@@ -168,7 +170,7 @@ export class TimetableComponent implements OnInit {
     private dataService: DataService,
     public helperService: HelperService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe
@@ -221,15 +223,13 @@ export class TimetableComponent implements OnInit {
   }
 
   assignRole() {
-    this.role = this.rbacService.getRole();
+    this.role = this.rbacService.getRoles();
     this.userUuid = this.rbacService.getUuid();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
 
   onDateChange(date: Date): void {
     this.selectedDate = date;
-    this.getAttendanceDetailsCountMethodCall();
-    this.getAttendanceDetailsReportByDateMethodCall();
     this.getHolidayForOrganization();
   }
 
@@ -358,6 +358,7 @@ export class TimetableComponent implements OnInit {
     this.networkConnectionErrorForAttendanceDetailsResponse = false;
   }
 
+  appliedDate: any = new Date();
   getAttendanceDetailsReportByDateMethodCall(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -381,6 +382,7 @@ export class TimetableComponent implements OnInit {
             this.attendanceDetailsResponseList = response.listOfObject;
             // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
+            this.appliedDate=this.selectedDate;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             this.isShimmerForAttendanceDetailsResponse = false;
 
@@ -462,7 +464,6 @@ export class TimetableComponent implements OnInit {
     this.attendanceDataByDateValue = [];
     this.total = 0;
     this.resetCriteriaFilter();
-    this.selectedDate = new Date();
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
   }
@@ -2257,5 +2258,9 @@ export class TimetableComponent implements OnInit {
       this.fetchSystemOutageRequests();
       this.updateSystemOutageFilters();
     }
+  }
+
+  showAttendnaceUpdateActionButton(request:any): boolean {
+   return (request?.status?.id==52 && (request?.managerUuid==this.userUuid || this.rbacService.hasWriteAccess(this.Routes.TIMETABLE)))
   }
 }

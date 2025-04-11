@@ -41,7 +41,6 @@ const routes: Routes = [
       {
         path: 'account-settings',
         component: AccountSettingsComponent,
-        canActivate: [AuthGuard, SubscriptionGuard],
       },
       {
         path: 'staff-attendance-location',

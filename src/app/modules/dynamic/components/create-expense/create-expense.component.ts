@@ -18,6 +18,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Subject } from 'rxjs';
+import { Routes } from 'src/app/constant/Routes';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -27,12 +28,14 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class CreateExpenseComponent implements OnInit {
 
-  ROLE: any
-  sampleFileUrl: string =''
+  ROLE: any;
+  sampleFileUrl: string ='';
+  readonly Routes=Routes;
+
   // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
-    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) {
+    private dataService: DataService, private helperService: HelperService, public rbacService: RoleBasedAccessControlService) {
 
     }
 
@@ -617,13 +620,13 @@ this.expenseTypeName = selectedExpense.name
   }
 
   type: number = 0;
-  onPaymentTypeChange(type: number, paymentType: string): void {
+  onPaymentTypeChange(type: number, isFixed: boolean): void {
     this.type = type;
-    this.expensePolicyReq.isFixed = paymentType
-    this.paymentType = paymentType;
-    if (this.paymentType === 'fixed') {
-      this.flexibleAmount = null; // Clear flexible amount if "Fixed" is selected
-    }
+    // this.expensePolicyReq.isFixed = isFixed;
+    // this.paymentType = paymentType;
+    // if (this.expensePolicyReq.isFixed) {
+    //   this.flexibleAmount = null; // Clear flexible amount if "Fixed" is selected
+    // }
   }
 
   // staff selection
@@ -913,6 +916,10 @@ this.expenseTypeName = selectedExpense.name
 
   deSelectedStaffIdsUser: number[] = [];
   selectSingle(event: any, i: any) {
+    if(!this.rbacService.hasWriteAccess(Routes.EXPENSE)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
     debugger
     if (event.checked) {
       this.allselected = false;
@@ -1145,8 +1152,8 @@ this.expenseTypeName = selectedExpense.name
     debugger
 
     this.tempPolicyName = this.policyName;
-      this.expensePolicyReq.paymentType = this.type
-      this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
+      // this.expensePolicyReq.paymentType = this.type
+      // this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
       this.expensePolicyReq.expenseTypeId = this.expenseTypeId
       this.expensePolicyReq.expenseTypeName = this.expenseTypeName
       this.expensePolicyReq.amount = Number(this.policyAmount)
@@ -1156,9 +1163,9 @@ this.expenseTypeName = selectedExpense.name
       // this.isThresholdSelected = item.isThresold
 
       // this.expensePolicyReq.paymentType = this.paymentType
-      this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
+      // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
       this.expensePolicyReq.isThresold = this.isThresholdSelected
-      this.expensePolicyReq.isFixed = this.paymentType
+      // this.expensePolicyReq.isFixed = this.paymentType
       this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
       this.policyAmount = this.policyAmount
       this.flexibleAmount = this.flexibleAmount
@@ -1463,17 +1470,17 @@ this.expenseTypeName = selectedExpense.name
 
     this.selectExpenseType(defaultExpenseType)
     this.expensePolicyReq.paymentType = item.paymentType
-    this.expensePolicyReq.limitAmount = item.limitAmount
+    // this.expensePolicyReq.limitAmount = item.limitAmount
     this.expensePolicyReq.expenseTypeId = item.expenseTypeId
     this.policyAmount = item.amount.toString()
     // this.paymentType = this.paymentType
     // this.isThresholdSelected = this.isThresholdSelected
-    this.flexibleAmount = item.limitAmount
+    // this.flexibleAmount = item.limitAmount
     // this.thresholdType = this.thresholdType
     // this.expensePolicyReq.expenseTypeName = this.expenseTypeName
 
-    this.paymentType = item.isFixed
-    this.thresholdType = item.isPercent
+    // this.paymentType = item.isFixed
+    // this.thresholdType = item.isPercent
     this.isThresholdSelected = item.isThresold
 
     console.log('update expensePolicyReq: ',this.expensePolicyReq)
@@ -1532,17 +1539,17 @@ this.expenseTypeName = selectedExpense.name
     })
   }
 
-  deleteExpensePolicyTypeById(){
-    this.deletePolicyToggle = true;
-    this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
-      if(res.status){
-          this.expensePolicyTypeId = 0;
-          this.deletePolicyToggle = false;
-          this.getAllCompanyExpensePolicy();
-          this.closeButtonDeleteExpensePolicy.nativeElement.click()
-      }
-    })
-  }
+  // deleteExpensePolicyTypeById(){
+  //   this.deletePolicyToggle = true;
+  //   this.dataService.deleteCompanyExpenseTypePolicy(this.expensePolicyTypeId).subscribe((res: any) => {
+  //     if(res.status){
+  //         this.expensePolicyTypeId = 0;
+  //         this.deletePolicyToggle = false;
+  //         this.getAllCompanyExpensePolicy();
+  //         this.closeButtonDeleteExpensePolicy.nativeElement.click()
+  //     }
+  //   })
+  // }
 
   // getExpenseInformationById(id: number, flag: boolean){
 
@@ -1554,7 +1561,7 @@ this.expenseTypeName = selectedExpense.name
   onThresholdTypeChange(isPercentagFlag: number, type: string): void {
     this.thresholdType = type;
     this.expensePolicyReq.isPercentage = isPercentagFlag
-    this.expensePolicyReq.isPercent = type
+    // this.expensePolicyReq.isPercent = isPercentagFlag==1?true:false;
 
     this.thresholdAmount = 0; // Reset threshold amount when changing type
     console.log('thresold Type: ',this.expensePolicyReq.isPercentage)
@@ -1744,7 +1751,7 @@ this.expenseTypeName = selectedExpense.name
 
       companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
         this.expensePolicyReq.paymentType = expenseType.isFlexibleAmount
-        this.expensePolicyReq.limitAmount = expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount
+        // this.expensePolicyReq.limitAmount = expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount
         this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId
         this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName
         this.expensePolicyReq.amount = Number(expenseType.amount)
@@ -1816,12 +1823,13 @@ this.expenseTypeName = selectedExpense.name
         amount: Number(expenseType.amount),
         isPercentage: expenseType.isPercentage,
         isThresold: false,
-        isFixed: (expenseType.isFlexibleAmount == 1 ? 'fixed' : ''),
-        isPercent: ''
+        isFixed: (expenseType.isFlexibleAmount == 1 ? true : false),
+        isPercent: false,
+        paymentTypeStr : ''
       };
 
       // Push the new object into the list
-      this.expensePolicyReqList.push(expensePolicyReq);
+      // this.expensePolicyReqList.push(expensePolicyReq);
     });
 
     // console.log('type list: ',this.expensePolicyReqList)

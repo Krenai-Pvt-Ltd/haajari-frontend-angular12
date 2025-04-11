@@ -25,16 +25,16 @@
                 </div>
               </form>
             </div>
-            <div class="d-flex justify-content-end align-items-center"
+            <div class="d-flex justify-content-end align-items-center" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)"
               style="gap: 10px; width: 30%; padding-right: 20px">
               <div class="add-filtter d-flex align-items-center justify-content-end gap-1">
-                <button data-bs-toggle="modal" data-bs-target="#createteam2" type="button" *ngIf="ROLE == 'ADMIN'"
+                <button data-bs-toggle="modal" data-bs-target="#createteam2" type="button"
                   class="btn primaryBtnLink">
                   <i class="bi bi-plus-lg"></i> Create Team
                 </button>
-                <span class="btnSeprator" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"></span>
+                <span class="btnSeprator" *ngIf="onboardingVia == 'SLACK'"></span>
                 <button class="btn primaryBtnLink" (click)="getFlagOfSlackPlaceholder2()"
-                  [ngClass]="{ 'disabled-lnk': rotateToggle }" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'">
+                  [ngClass]="{ 'disabled-lnk': rotateToggle }" *ngIf="onboardingVia == 'SLACK'">
                   <i [ngClass]="{
                            'spinner-border': rotateToggle,
                            'bi bi-arrow-clockwise': !rotateToggle
@@ -257,18 +257,22 @@
             <div class="card-body">
               <div class="float-end">
                 <div class="dropdown d-inline-block">
-                  <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false">
-                    <i class="las la-ellipsis-v font-24 text-muted"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dLabel1">
+                  <ng-container  *ngIf="rbacService.hasWriteAccess(Routes.TEAM)">
+                  <button type="button" data-bs-toggle="dropdown" id="dLabel1" aria-expanded="true" class="btn btnAction dropdown-toggle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end actionMenuList" aria-labelledby="dLabel1">
 
                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="
                               openDeleteConfirmationModal(team.uuid, logInUserUuid)
-                              " *ngIf="team.exitFromTeam">Exit From Team!</a>
-                    <a class="dropdown-item" (click)="deleteTeamByTeamId(team.id)"
-                      *ngIf="localStorageRoleAdminFlag">Delete Team</a>
+                              " *ngIf="team.exitFromTeam">
+                              <i class="bi bi-x-circle"></i>
+                              Exit From Team!</a>
+                    <a class="dropdown-item" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)" (click)="selectedTeamId=team.id" data-bs-toggle="modal" data-bs-target="#delete-modal">
+                     <i class="bi bi-trash3"></i> Delete Team
+                    </a>
                   </div>
+                </ng-container>
                 </div>
               </div>
               <div class="media align-items-center">
@@ -277,7 +281,7 @@
                     <span class="members-icon">{{
                       capitalizeFirstLetter(team.name[0])
                       }}</span>
-                    <span class="avatar-badge online"></span>
+
                   </a>
 
                 </div>
@@ -288,11 +292,7 @@
                     </h5>
                   </div>
                   <!-- <p class="text-muted font-12 mb-0">Team Name</p>  -->
-                  <p class="text-muted mb-0 fw-semibold team-description" style="
-                              font-size: 12px;
-                              padding-top: 2px;
-                              font-weight: 400 !important;
-                              ">
+                  <p class="text-muted mb-0 fw-semibold team-description font-12 fw-normal pt-1">
                     {{ team.description }}
                     <!-- {{ team.teamLocation.addressLine1 }} -->
                   </p>
@@ -736,7 +736,7 @@
                           }}
                           <i class="bi bi-chevron-down font-14 text-muted"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+                        <div class="dropdown-menu dropdown-menu-end list-top actionMenuList" aria-labelledby="dLabel1">
                           <div class="manager-list">
                             <a class="dropdown-item" *ngIf="ul.roleId == 2" (click)="
                                           assignManagerRoleToMemberMethodCall(
@@ -768,8 +768,8 @@
                   </div>
               </div>
 
-             
-             
+
+
               </div>
             <div class="tab-pane p-3" id="advanced" role="tabpanel">
               <p class="text-muted mb-0">
@@ -787,7 +787,7 @@
             </ng-template>
           </nz-empty>
         </div>
-        
+
         <!--end card-body-->
       </div>
       <!-- <div class="modal-footer">
@@ -802,7 +802,7 @@
 <!--end modal-->
 <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
   aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
-  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 400px !important">
     <div class="modal-content p-0" style="border-radius: 15px">
       <form #confirmationForm="ngForm">
         <div class="modal-body text-center mt-1 mb-3">
@@ -829,6 +829,54 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-modal"></button>
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteUser>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2 lh-base">
+            Are you sure you want to delete Team?
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="isDeleting" (click)="deleteTeamByTeamId()" class="btn continue-btn">
+             <span *ngIf="!isDeleting">Continue</span>
+              <div *ngIf="isDeleting" class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

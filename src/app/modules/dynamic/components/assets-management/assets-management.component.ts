@@ -24,6 +24,9 @@ import {
   ApexLegend
 } from "ng-apexcharts";
 import { constant } from 'src/app/constant/constant';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -54,12 +57,18 @@ export class AssetsManagementComponent implements OnInit {
     private helperService : HelperService,
      private modalService: NgbModal,
      private afStorage: AngularFireStorage,
-     private cdr: ChangeDetectorRef,) {  this.getMonthlyAssignmentsAssets();}
+     private cdr: ChangeDetectorRef,
+     public rbacService: RoleBasedAccessControlService
+    ) {  this.getMonthlyAssignmentsAssets();}
   showFilter: boolean = false;
   assetsList: boolean[] = [false];
 
   isEditing: boolean[] = [];
   loading: boolean[] = [];
+
+
+  readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
 
   ngOnInit(): void {
     this.getPendingRequestsCounter();
@@ -385,6 +394,7 @@ newCategory: any = {
 
   onCloseAddAssetModal(form: NgForm): void {
     form.resetForm();
+    this.assetData.id=0;
     Object.values(form.controls).forEach(control => {
       control.markAsUntouched();
     });
@@ -786,12 +796,15 @@ onSearch(searchText: string): void {
     onAssetRequestOpen(asset: any): void {
       this.assetModalData ={isModal:true, asset:asset};
       this.isAssetRequestModalOpen = true;
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
     }
 
     onAssetComponentClose(): void {
       this.assetModalData={};
       this.assetRequestTab();
       this.isAssetRequestModalOpen = false;
+      this.assetRequestClose.nativeElement.click();
       console.log('Asset request tab closed');
     }
 

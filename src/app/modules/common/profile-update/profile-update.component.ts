@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-profile-update',
@@ -16,11 +19,17 @@ export class ProfileUpdateComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
+    
   ) {}
 
   uuid: any;
   isModal: boolean = true;
+
+
+  readonly Routes=Routes;
+  readonly StatusKeys= StatusKeys;
   ngOnInit(): void {
     this.fetchData();
   }

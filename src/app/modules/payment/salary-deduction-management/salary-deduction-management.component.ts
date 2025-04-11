@@ -2,12 +2,14 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { Routes } from 'src/app/constant/Routes';
 import { EpfDetailsResponse } from 'src/app/models/epf-details-response';
 import { EsiDetailsResponse } from 'src/app/models/esi-details-response';
 import { TdsDetailsResponse } from 'src/app/models/tds-details-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PayrollService } from 'src/app/services/payroll.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-salary-deduction-management',
@@ -32,6 +34,8 @@ export class SalaryDeductionManagementComponent implements OnInit {
   readonly ESI = Key.ESI;
   readonly TDS = Key.TDS;
 
+  readonly Routes =Routes;
+  
   sendBulkDataToComponent() {
     this.getData.emit(this.step);
   }
@@ -44,6 +48,7 @@ export class SalaryDeductionManagementComponent implements OnInit {
 
   constructor(private _dataService : DataService, 
     public _helperService : HelperService,
+     public rbacService: RoleBasedAccessControlService,
   private _payrollService: PayrollService) { 
 
        this.searchSubject
