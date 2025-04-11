@@ -1,9 +1,9 @@
 <div class="m-3 assets-detail p-3 pt-0 mt-4" *ngIf="!profileEdit">
   <div class="employee-profile-information">
 
-
-    <div class="action-btn d-n-desktop mb-3" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-      <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()">
+<ng-container *ngIf="!profileEdit && !profileLoding"> 
+    <div class="action-btn d-n-desktop mb-3 d-none" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING' && !profileLoding">
+      <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid() ">
         <button
           class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
           (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">
@@ -71,7 +71,7 @@
 
       </div>
     </div>
-
+  </ng-container>
 
 
     <div class="d-flex align-items-center justify-content-between profile-imfo mt-2 mb-3">
@@ -338,7 +338,7 @@
       </div>
 
       <div class="action-btn d-n-mobile" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
-        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()">
+        <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid()  && !profileLoding">
           <button
             class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
             (click)="approveRequestedData()" [disabled]="approveLoading || rejectLoading">

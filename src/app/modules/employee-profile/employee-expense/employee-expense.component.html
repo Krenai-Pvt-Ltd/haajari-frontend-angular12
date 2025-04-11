@@ -41,7 +41,7 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <nz-date-picker nzMode="month" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        <nz-date-picker nzMode="month" nzBorderless nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
                                         (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
 
                                     </div>
@@ -77,8 +77,7 @@
 
                             <!--TODO: ROLE != 'ADMIN' && -->
                             <div *ngIf=" UUID==userId && (expenseTypeList && expenseTypeList.length>0)">
-                                <button data-bs-toggle="modal" data-bs-target="#apply-expense"
-                                    class="btn new-announcement">New Request
+                                <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn p-0 text-primary fw-semibold font-14"><i class="bi bi-plus font-20 position-relative" style="top:3px;"></i> New Request
                                 </button>
                             </div>
                         </div>
@@ -132,7 +131,7 @@
 
                           <!-- desktop expanse list -->
                         <div class="table-responsive bg-white mt-3 desktop-attendance-date">
-                            <table class="table empOnnoardtable">
+                            <table class="table mb-60">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-left font-13" style="width: 10%">Date</th>
@@ -394,7 +393,7 @@
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
                                         <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
-                                        <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        <nz-date-picker nzMode="month" nzBorderless  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
                                         (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths" ></nz-date-picker>
                                     </div>
                                     <span class="calendar-separator"></span>
@@ -426,7 +425,7 @@
 
                          <!-- desktop past expanse list -->
                         <div class="table-responsive bg-white mt-3 desktop-attendance-date">
-                            <table class="table empOnnoardtable">
+                            <table class="table mb-60">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-left font-13" style="width: 10%">Initiation Date</th>
@@ -525,7 +524,7 @@
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
                                 <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                [boundaryLinks]="true"></ngb-pagination>2
+                                [boundaryLinks]="true"></ngb-pagination>
                               </div>
 
                         </div>
@@ -543,9 +542,9 @@
                                 </tbody>
                                 <ng-container *ngIf="!loading">
                                     <ng-container *ngIf="expenseList.length == 0">
-                                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                            <div class="empty-file m-empty-notification d-flex align-items-center justify-content-center" >
                                                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                    [nzNotFoundContent]="contentTpl">
+                                                    [nzNotFoundContent]="contentTpl" class="p-0">
                                                     <ng-template #contentTpl>
                                                         <p class="mb-1 empty-filenew">No data for now</p>
                                                     </ng-template>
@@ -660,7 +659,7 @@
                                     </span>
                                     <span class="calendar-separator"></span>
                                     <div class="dropdown ">
-                                        <nz-date-picker nzMode="month"  nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                        <nz-date-picker nzMode="month" nzBorderless nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
                                         (ngModelChange)="onExpenseMonthChange($event)" [nzDisabledDate]="disableMonths" ></nz-date-picker>
                                     </div>
                                     <span class="calendar-separator"></span>
@@ -693,7 +692,7 @@
 
                         <!-- Desktop Settlement Expense Log -->
                         <div class="table-responsive bg-white mt-3 desktop-attendance-date">
-                            <table class="table empOnnoardtable">
+                            <table class="table mb-60">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-left font-13" style="width: 10%">Settlement Date</th>
@@ -772,7 +771,7 @@
                                 <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
                                 <ngb-pagination class="pagition-box pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
-                                [boundaryLinks]="true"></ngb-pagination>2
+                                [boundaryLinks]="true"></ngb-pagination>
                               </div>
 
                         </div>

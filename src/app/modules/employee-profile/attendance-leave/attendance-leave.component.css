@@ -1268,6 +1268,7 @@ div[ngbTooltip] {
     display: none;
 }
 
+
 @media screen and (max-width: 500px) {
 
     .mobile-t-s{
@@ -1368,6 +1369,7 @@ div[ngbTooltip] {
         min-width: 135px;
         display: block !important;
         text-align: center;
+
     }
     .desktop-filter{
         display: none;
@@ -1379,6 +1381,11 @@ div[ngbTooltip] {
         display: block;
         border: 1px solid #f2f2f2;
         height: 45px;
+    }
+    .m-request-btn{
+        display: flex;
+        justify-content: end !important;
+        font-size: 14px;
     }
 
     .mobile-filter .empFilerDropfilter .new-deopdown {
@@ -1405,6 +1412,10 @@ div[ngbTooltip] {
         text-align: center;
         font-size: 10px !important;
         padding: 0px 10px;
+    }
+
+    .d-n-mobile{
+        display: none !important;
     }
 
 

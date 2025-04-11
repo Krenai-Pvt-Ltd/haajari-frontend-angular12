@@ -62,7 +62,7 @@
 
               <!-- desktop asset assigned list -->
             <div class="table-responsive bg-white mt-3 desktop-attendance-date">
-              <table class="table empOnnoardtable">
+              <table class="table mb-60">
                 <thead class="thead-light">
                   <tr>
                     <th class="text-left font-13">Asset Name</th>
@@ -280,7 +280,8 @@
       </div>
       <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
 
-        <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty() || isLoading; else assets">
+        <ng-container *ngIf="(!isAssetRequestArrayEmpty() || isLoading); else noAssets">
+        <div class="obboard-employee-list" >
 
          
 
@@ -348,7 +349,7 @@
           <!-- desktop asset request -->
           <div class="table-responsive bg-white mt-3 desktop-attendance-date">
            
-            <table class="table empOnnoardtable">
+            <table class="table mb-60">
               <thead class="thead-light">
                 <tr>
                   <th class="text-left font-13" style="width: 10%">Requested on</th>
@@ -542,7 +543,7 @@
         
 
         </div>
-
+      </ng-container>
         <ng-template #noAssets>
           <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
             <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">

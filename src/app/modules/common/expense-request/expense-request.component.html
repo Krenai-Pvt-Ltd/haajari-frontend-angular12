@@ -5,13 +5,13 @@
            Bill Snapshot
         </h5>
      </div>
-     <div [ngClass]="{'modal-body':isModal ,'p-0':userExpense && userExpense.slipUrls.length > 0}">
+     <div [ngClass]="{'modal-body':isModal ,'p-0':userExpense && userExpense?.slipUrls.length > 0}">
         <div class="row">
-         <div class="pr-0 mr-0" *ngIf="isModal" [ngClass]="{'col-md-5':userExpense && userExpense.slipUrls.length > 0}">
-            <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
+         <div class="pr-0 mr-0" *ngIf="isModal" [ngClass]="{'col-md-5':userExpense && userExpense?.slipUrls.length > 0}">
+            <ng-container *ngIf="userExpense && userExpense?.slipUrls?.length > 0">
                <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
                      <div class="carousel-inner">
-                        <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
+                        <div class="carousel-item" *ngFor="let url of userExpense?.slipUrls; let i = index"
                      [class.active]="i === 0">
                            <div class="d-flex justify-content-center position-relative">
                            <img [src]="url" alt="Image {{i}}" class="d-block w-100">
@@ -51,7 +51,7 @@
          </div>
          </ng-container>
          </div>
-         <div [ngClass]="{'col-md-12': (!isModal|| userExpense.slipUrls.length ==0), 'col-md-7 ': (isModal && userExpense.slipUrls.length>0),'ml-0 pl-0': userExpense.slipUrls.length==0}">
+         <div [ngClass]="{'col-md-12': (!isModal|| userExpense?.slipUrls.length ==0), 'col-md-7 ': (isModal && userExpense?.slipUrls.length>0),'ml-0 pl-0': userExpense?.slipUrls.length==0}">
             <div class="bill-snapshot-modal" *ngIf="userExpense != undefined">
                <div class="d-flex align-items-center justify-content-between p-3 user-detail">
                   <div class="d-flex align-items-center gap-3">
@@ -183,7 +183,7 @@
 
                   <div class="col-md-12" *ngIf="!isModal">
                      <div class="">
-                        <button *ngIf="userExpense.slipUrls.length > 0" class="btn submitActionBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">View Attachment</button>
+                        <button *ngIf="userExpense?.slipUrls.length > 0" class="btn submitActionBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">View Attachment</button>
                      </div>
                   </div>
                   <div *ngIf="(userExpense.status.id == 14 || userExpense.status.id == 46 || userExpense.status.id == 53) && !rejectDiv">
@@ -324,10 +324,10 @@
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
        </div>
        <div class="modal-body">
-         <ng-container *ngIf="userExpense && userExpense.slipUrls.length > 0">
+         <ng-container *ngIf="userExpense && userExpense?.slipUrls.length > 0">
             <div id="expenseCarousel" class="carousel slide bill-image" data-bs-ride="carousel">
                <div class="carousel-inner">
-                     <div class="carousel-item" *ngFor="let url of userExpense.slipUrls; let i = index"
+                     <div class="carousel-item" *ngFor="let url of userExpense?.slipUrls; let i = index"
                      [class.active]="i === 0">
                      <div class="d-flex justify-content-center position-relative">
                         <img [src]="url" alt="Image {{i}}" class="d-block w-100">
@@ -335,12 +335,12 @@
                   </div>
                </div>
                <button class="carousel-control-prev" type="button" data-bs-target="#expenseCarousel"
-                  data-bs-slide="prev" *ngIf="userExpense.slipUrls.length > 1">
+                  data-bs-slide="prev" *ngIf="userExpense?.slipUrls.length > 1">
                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                <span class="visually-hidden">Previous</span>
                </button>
                <button class="carousel-control-next" type="button" data-bs-target="#expenseCarousel"
-                  data-bs-slide="next" *ngIf="userExpense.slipUrls.length > 1">
+                  data-bs-slide="next" *ngIf="userExpense?.slipUrls.length > 1">
                <span class="carousel-control-next-icon" aria-hidden="true"></span>
                <span class="visually-hidden">Next</span>
                </button>
