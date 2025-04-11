@@ -62,7 +62,6 @@ export class AttendanceLeaveComponent implements OnInit {
   UUID: string = '';
   ROLE: string = '';
   readonly Constant = constant;
-  isMobileView: boolean = false;
   contentTemplate: string =
     'You are on the Notice Period, so that you can not apply leave';
 
@@ -78,7 +77,6 @@ export class AttendanceLeaveComponent implements OnInit {
     private afStorage: AngularFireStorage,
     private modalService: NgbModal,
     public roleService: RoleBasedAccessControlService,
-    private breakpointObserver: BreakpointObserver
   ) {
     this.getUuid();
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -145,12 +143,7 @@ export class AttendanceLeaveComponent implements OnInit {
     }, 100);
     this.currentUserUuid = this.roleService.getUuid();
     this.checkUserLeaveTaken();
-    this.breakpointObserver
-      .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
-      .subscribe(result => {
-        this.isMobileView = result.matches;
-        console.log('Current view:', this.isMobileView ? 'Mobile' : 'Desktop');
-      });
+
   }
   get canSubmit() {
     return this.userLeaveForm?.valid;
@@ -797,8 +790,8 @@ export class AttendanceLeaveComponent implements OnInit {
     }).filter((week) => week !== null) as string[];
 
     this.selectedTab = this.weekLabels[this.weekLabels.length - 1];
-    if(this.isMobileView){
-    this.onTabChange('30 DAYS');
+    if(this.dataService.isMobileView){
+      this.onTabChange('30 DAYS');
     }else{
       this.onTabChange(this.selectedTab);
     }

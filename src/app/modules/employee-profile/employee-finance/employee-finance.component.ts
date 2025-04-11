@@ -41,7 +41,8 @@ export class EmployeeFinanceComponent implements OnInit {
     private sanitizer: DomSanitizer,
     public employeeProfileComponent: EmployeeProfileComponent,
     private _userService: UserService,
-    public _roleService: RoleBasedAccessControlService
+    public _roleService: RoleBasedAccessControlService,
+    private dataService: DataService
   ) {
       this.ROLE=this._roleService.getRole();
     const userUuidParam = new URLSearchParams(window.location.search).get('userId');
@@ -156,7 +157,7 @@ export class EmployeeFinanceComponent implements OnInit {
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //                                                                   SUMMARY TAB  
+  //                                                                   SUMMARY TAB
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   disableMonths = (date: Date): boolean => {
@@ -220,7 +221,7 @@ export class EmployeeFinanceComponent implements OnInit {
   }
 
   employeePayslipResponse: EmployeePayslipResponse = new EmployeePayslipResponse();
-  
+
   getEmployeePayslipResponseByUserUuidMethodCall() {
     this._salaryService.getEmployeePayslipResponseByUserUuid(this.userUuid, this.startDate, this.endDate).subscribe((response) => {
       if (response.status) {
@@ -344,7 +345,7 @@ export class EmployeeFinanceComponent implements OnInit {
       }else{
         this.esiLoader= true;
       }
-      this._userService.toggleStatutory(this.userUuid, statutoryId).subscribe((response) => {    
+      this._userService.toggleStatutory(this.userUuid, statutoryId).subscribe((response) => {
           if(response.status){
             if(this.EPF_STATUTORY_ID == statutoryId){
               this.isEPF =  !this.isEPF;
@@ -354,13 +355,13 @@ export class EmployeeFinanceComponent implements OnInit {
             this._helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
           }else{
             this._helperService.showToast(response.message,Key.TOAST_STATUS_WARNING);
-          }   
+          }
           this.epfLoader = false;
           this.esiLoader = false;
       },
         (error) => {
           this.epfLoader = false;
-          this.esiLoader = false; 
+          this.esiLoader = false;
           this._helperService.showToast( 'Error in updating', Key.TOAST_STATUS_ERROR);
         }
       );
@@ -369,7 +370,7 @@ export class EmployeeFinanceComponent implements OnInit {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //                                                               PAYMENT TAB
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   currentSalaryDetail: CurrentSalaryDetail = new CurrentSalaryDetail();
   getCurrentSalaryDetail() {
@@ -457,6 +458,9 @@ export class EmployeeFinanceComponent implements OnInit {
   loadPayslip(selectedPayslip: EmployeePayslipLogResponse) {
     this.selectedPayslip = selectedPayslip;
     this.selectedPayslipUrl = this.sanitizer.bypassSecurityTrustResourceUrl(selectedPayslip.paySlipUrl);
+    if(this.dataService.isMobileView){
+      window.open(selectedPayslip.paySlipUrl, '_blank');
+    }
   }
 
 
@@ -465,7 +469,7 @@ export class EmployeeFinanceComponent implements OnInit {
   // }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                // SALARY TEMPLATE 
+                                                                // SALARY TEMPLATE
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // userSalaryTemplate: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
@@ -589,7 +593,7 @@ saveAppraisal() {
 @ViewChild('bonusButton')bonusButton!:ElementRef;
 @ViewChild('bonusCloseButton')bonusCloseButton!:ElementRef;
 @ViewChild('bonusForm')bonusForm!:NgForm;
-bonusRequest: BonusRequest = new BonusRequest(); 
+bonusRequest: BonusRequest = new BonusRequest();
 openBonus(){
   this.bonusRequest = new BonusRequest();
   this.bonusRequest.userUuid = this.userUuid;

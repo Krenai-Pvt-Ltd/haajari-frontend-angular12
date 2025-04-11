@@ -78,6 +78,7 @@ import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 import { EmployeeProfileResponse } from '../models/employee-profile-info';
 import { NotificationTypeInfoRequest } from '../models/NotificationType';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Injectable({
@@ -95,13 +96,25 @@ export class DataService {
   ]);
   orgId: any;
   private readonly _key: Key = new Key();
-
-  constructor(private readonly httpClient: HttpClient) {
+  public isMobileView: boolean = false;
+  constructor(private readonly httpClient: HttpClient,
+    private breakpointObserver: BreakpointObserver
+  ) {
     window.addEventListener('storage', (event) => {
       if (event.key === this.notificationKey) {
         this.messageSubject.next();
       }
     });
+    this.getView();
+  }
+
+  getView(){
+    this.breakpointObserver
+          .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+          .subscribe(result => {
+            this.isMobileView = result.matches;
+            console.log('Current view:', this.isMobileView ? 'Mobile' : 'Desktop');
+          });
   }
 
   private readonly orgIdEmitter = new EventEmitter<number>();
@@ -4586,10 +4599,10 @@ export class DataService {
 
   countPendingTransaction(statusId: number) {
     const params = new HttpParams().set('statusId', statusId.toString());
-  
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count-by-status`, { params });
   }
-  
+
 
   saveTags(id: number, tags: string[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -4697,10 +4710,10 @@ export class DataService {
     let params = new HttpParams();
     params = params.append('expenseTypeId', expensePolicyId);
     params = params.append('companyexpensePolicyTypeId', expensePolicyTypeId);
-  
+
     return this.httpClient.delete(`${this.baseUrl}/company-expense-policy/delete-company-expense-type-policy`, { params });
   }
-  
+
 
   getUserMappedWithPolicy(
     selectedUserIds: any,
