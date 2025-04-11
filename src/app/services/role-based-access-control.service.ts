@@ -210,7 +210,12 @@ export class RoleBasedAccessControlService {
    * logInUserUuid!=attendanceReq.uuid - to prevent sef
    */
   showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
-    return (leave.status.id == statusCheck &&
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ attendanceReq.status.id == statusCheck:", leave.status)
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ this.hasWriteAccess(moduleRoute):", this.hasWriteAccess(moduleRoute))
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ this.hasWriteAccess(moduleRoute):", logInUserUuid)
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ this.hasWriteAccess(moduleRoute):", leave.managerUuid)
+
+    return (leave.status == 'pending' &&
        (( this.hasWriteAccess(moduleRoute))
         &&(logInUserUuid==leave.managerUuid || this.ROLE !=Key.MANAGER) ));
    }
