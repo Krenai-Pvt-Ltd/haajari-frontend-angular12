@@ -1,0 +1,9 @@
+.policy-header{
+    background-color: #eeeefd;
+}
+.policy-rule-list{
+    min-height: 130px;
+}
+.policy-rule-list span{
+    color: #3f988f;
+}
