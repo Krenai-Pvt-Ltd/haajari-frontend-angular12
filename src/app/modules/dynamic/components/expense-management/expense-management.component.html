@@ -557,8 +557,7 @@
                                                 <th>Type</th>
                                                 <th>Amount</th>
                                                 <th>Settled </th>
-                                                <th>UnSettled </th>
-                                                <th>Company reason  </th>
+                                                <th>Un-Settled </th>
                                                 <th>Note</th>
                                                 <th>Status</th>
                                                 <th class="stickyColThend">Action</th>
@@ -567,9 +566,7 @@
                                         <!-- TO DO: Shimmer Loading Ui -->
                                         <tbody *ngIf="loading">
                                             <tr *ngFor="let item of [].constructor(10)"> 
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
+                                                
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
@@ -638,16 +635,7 @@
                                                 <td class="text-left">
                                                     <span class="font-13 fw-semibold"> ₹ {{ (expense.amount - expense.paidAmount) === expense.amount ? 0 : expense.amount - expense.paidAmount}} </span>
                                                 </td>
-                                                <td class="text-left">
-                                                    <!-- <span class="table-font-weight white-space"> {{expense.notes}}  </span> -->
-                                                    <span class="white-space fw-normal font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
-                                                    [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{expense.notes}} </span>
-                                                    <ng-template #contentTemplate>
-                                                       <div>
-                                                        {{expense.notes}} 
-                                                       </div>
-                                                    </ng-template>
-                                                </td>
+                                               
                                                 <td>
                                                     <span class="white-space fw-normal font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
                                                     [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{  expense.notes || '--'}}</span>

@@ -1746,7 +1746,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     this.expensePolicyReq = new ExpensePolicy()
     this.expensePolicyReqList = []
     this.oldSelectedStaffIdsUser = []
-
+    
     // console.log('expense obj: ',companyExpense)
 
     companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
