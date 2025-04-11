@@ -38,17 +38,17 @@
                                                 <h5 class="mb-1 font-14 fw-semibold text-black">{{ step.name }}</h5>
                                                 <p class="font-13 fw-light mb-0">{{ step.description }}</p>
                                                 <button class="btn submitActionBtn text-white font-13 fw-normal mt-3" *ngIf="!step.completed && step.isActive"
-                                                (click)="route(getStepRoute(step.id))">Complete Now</button>
+                                                (click)="route(getStepRoute(step.id),step.route)">Complete Now</button>
                                             </div>
                                         </div>
                                         <ng-container *ngIf="!step.completed">
                                           
                                             <button class="btn normal-btn font-13 fw-normal mt-2" *ngIf="!step.isActive" 
-                                            (click)="route(getStepRoute(step.id))">Complete Now</button>
+                                            (click)="route(getStepRoute(step.id),step.route)">Complete Now</button>
                                             <img [src]="step.icon" *ngIf="step.isActive">
                                         </ng-container>
                                         <button class="btn p-0 text-success font-14 fw-semibold" *ngIf="step.completed" 
-                                        (click)="route(getStepRoute(step.id))">Complete</button>
+                                        (click)="route(getStepRoute(step.id),step.route)">Complete</button>
                                     </div>
                                 </div>
                             </ng-container>

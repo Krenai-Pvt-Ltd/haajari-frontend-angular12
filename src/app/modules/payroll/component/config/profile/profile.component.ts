@@ -51,7 +51,6 @@ export class ProfileComponent implements OnInit {
     this.getProfile();
     this.getOrganizationWorkAdddress();
     this.fetchExistingAddress();
-    this.getStateList();
   }
 
   selectedLocation: string = 'India';
@@ -389,6 +388,7 @@ onAddressSelect(index: number, event: any) {
 
   @ViewChild('addLocation') addLocation!: ElementRef;
   openLocationModal() {
+    this.getStateList();
     this.fetchUserList();
     this.organizationUserLocation = new OrganizationUserLocation();
     this.selectedStaffsUuids = [];

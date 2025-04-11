@@ -241,21 +241,22 @@
                              <div *ngIf="organizationShiftTimingResponse.updateFrom && !organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
                               [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate" nz-popover nzPopoverPlacement="left">
                               New Shift</div>
-                            </div>
+                            
                             <ng-template #contentTemplate>
                               <div class="request-g p-0">
                                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                   <h5 class="mb-0 font-14">New Updated Shift</h5>
                                 </div>
                                 <div class="p-3">
-                                  <p class="mb-0 font-13 fw-semibold"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( New shift update from {{ organizationShiftTimingResponse.updateFrom | date: 'd MMM' }} at {{ organizationShiftTimingResponse.updateFrom | date: 'hh:mm a' }}) </span></p>
+                                  <p class="mb-3 font-13 fw-semibold"> <span class="text-danger fw-normal"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( New shift update from {{ organizationShiftTimingResponse.updateFrom | date: 'd MMM' }} at {{ organizationShiftTimingResponse.updateFrom | date: 'hh:mm a' }}) </span></p>
+                                  <a class="font-13 fw-semibold text-primary" data-bs-toggle="modal" data-bs-target="#shiftTime" *ngIf="organizationShiftTimingResponse.updateId > 0" (click)="fetchShiftTiming(organizationShiftTimingResponse)">View</a>
                                 </div>
-                                <a data-bs-toggle="modal" data-bs-target="#shiftTime" *ngIf="organizationShiftTimingResponse.updateId > 0" (click)="fetchShiftTiming(organizationShiftTimingResponse)">View</a>
                               </div>
                             </ng-template>
-                            <div  *ngIf="organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
+                            <div *ngIf="organizationShiftTimingResponse.scheduledToDelete" class="badge rounded-pill badge-soft-danger font-12"
                             [nzPopoverOverlayStyle]="{'width':'350px'}" [nzPopoverContent]="contentTemplate1" nz-popover nzPopoverPlacement="left">
                             Delete Shift
+                            </div>
                           </div>
 
                           <ng-template #contentTemplate1>
@@ -264,13 +265,13 @@
                                 <h5 class="mb-0 font-14">Shift Scheduled to be deleted</h5>
                               </div>
                               <div class="p-3">
-                                <p class="mb-0 font-13 fw-semibold"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( Shift will be deleted today after 1 hour of out time) </span></p>
+                                <p class="mb-0 font-13 fw-normal"> <span class="text-danger"  *ngIf="organizationShiftTimingResponse.updateFrom"> ( Shift will be deleted today after 1 hour of out time) </span></p>
                               </div>
                              </div>
                           </ng-template>
                             </div>
                             <div class="d-flex align-items-center gap-3 svg-width"  *ngIf="!organizationShiftTimingResponse.scheduledToDelete" >
-                          
+
                               <span class="staff-leave-setting bg-white font-12 fw-semibold border-rounded-2 lh-sm pointer d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#shiftTime" (click)="
                               updateOrganizationShiftTiming( organizationShiftTimingResponse, 'STAFF_SELECTION')" >Staff - {{staffCount(organizationShiftTimingResponse.userUuids)}}</span>
 
@@ -303,7 +304,7 @@
                                 </svg>
                               </a> -->
 
-                              <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime" 
+                              <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
                                 (click)="updateOrganizationShiftTiming(organizationShiftTimingResponse, 'SHIFT_TIME')">
 
                                 <!-- Show Edit Icon if User has Write Access -->
@@ -320,7 +321,7 @@
 
                                 <!-- View Icon (Shown if User DOES NOT have Write Access) -->
                                 <ng-template #viewIcon>
-                                  <svg *ngIf="!rbacService.hasWriteAccess(Routes.LEAVESETTING)" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                  <svg *ngIf="!rbacService.hasWriteAccess(Routes.ATTENDANCESETTING)" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                     <mask id="mask0_9177_4533" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
                                       <rect width="17" height="17" fill="#D9D9D9"/>
                                     </mask>
@@ -747,7 +748,7 @@
 
                             </a> -->
 
-                            <a data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule pointer" 
+                            <a data-bs-toggle="modal" data-bs-target="#rules-value" class="create-rule pointer"
                                 (click)="updateAttendanceRuleDefinition(
                                   attendanceRuleDefinitionResponse,
                                   attendanceRuleWithAttendanceRuleDefinitionResponse.attendanceRuleResponse,
@@ -779,9 +780,9 @@
                                 </ng-template>
 
                                 <!-- SVG Icons -->
-                               
 
-                                
+
+
                               </a>
 
 
@@ -2641,6 +2642,26 @@
                                         </li>
                                       </ul>
                                     </div>
+
+                                    <!-- TO DO: Dropdown Integrate  -->
+
+                                    <!-- <nz-select
+                                    [(ngModel)]="selectedCustomDeductionType"
+                                    (ngModelChange)="selectCustomDeductionType($event)"
+                                    [nzPlaceHolder]="'Select deduction type'"
+                                    class="form-control placeholder-line">
+                                    <nz-option
+                                      *ngFor="let deductionType of deductionTypeList"
+                                      [nzValue]="deductionType"
+                                      [nzLabel]="deductionType.type"
+                                    ></nz-option>
+                                  </nz-select> -->
+
+                                   <!-- end  -->
+
+                                    
+
+                                    
                                   </div>
                                 </div>
                                 <div class="col-md-4">

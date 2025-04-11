@@ -394,6 +394,7 @@ newCategory: any = {
 
   onCloseAddAssetModal(form: NgForm): void {
     form.resetForm();
+    this.assetData.id=0;
     Object.values(form.controls).forEach(control => {
       control.markAsUntouched();
     });

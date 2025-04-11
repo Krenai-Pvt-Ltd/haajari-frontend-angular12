@@ -52,11 +52,11 @@ export class PayrollSetupComponent implements OnInit {
     }
 
     currentTab: any= 'profile';
-    route(tabName: string) {
+    route(tabName: string,route:string) {
       if (tabName === 'salary-template') {
-        this.router.navigate(['/payroll/salary-template']);
+        this.router.navigate([route]);
       }else{
-        this.router.navigate(['/payroll/configuration'], {
+        this.router.navigate([route], {
           queryParams: { tab: tabName },
         });
       }

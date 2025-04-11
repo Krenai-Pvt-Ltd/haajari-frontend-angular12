@@ -35,7 +35,7 @@
     border-radius: 2px;
 }
 
-.collem-5 .col-md-3 {
+.col-m-5 {
     width: 20%;
 }
 
@@ -229,20 +229,14 @@ i::before {
     transform: rotate(180deg);
 }
 
-.blurre {
+.blur {
     filter: blur(10px);
     user-select: none;
-    /* border-radius: 10px; */
-    /* background: linear-gradient(165deg, rgba(123, 123, 123, 0.10) -5.23%, rgba(249, 250, 252, 0.10) 89.41%); */
-
 }
 
 .security {
     visibility: visible !important;
 }
-
-
-
 .scene {
     display: inline-block;
     perspective: 600px;
@@ -487,4 +481,69 @@ i::before {
 .tex-regime{
     background-color: #f2f2f2;
     padding: 10px 15px;
+}
+.d-n-desktop{
+    display: none;
+}
+
+.payslip-sidebar{
+    width: 300px;
+}
+
+.security{
+    border: 1px solid #6666f270;
+    border-radius: 10px;
+}
+
+.mobile-security{
+    display: none ;
+}
+
+@media screen and (max-width: 500px) {
+    .mobile-security{
+        display: block ;
+    }
+    .payslip-sidebar{
+        width: 100%;
+    }
+    .col-sm-6{
+        width: 50%;
+    }
+    .col-sm-4{
+        width: 33.33%;
+    }
+    .col-sm-12{
+        width: 100%;
+    }
+    .mobile-hide-section{
+        display: none !important;
+    }
+    .nav-link {
+        font-size: 14px;
+        margin-right: 10px;
+    }
+    .security-reasons{
+        width: 75%;
+        left: 50%;
+    }
+    .security-reasons p{
+        font-size: 11px !important;
+    }
+    .d-n-mobile{
+        display: none !important;
+    }
+    .d-n-desktop{
+        display: block;
+    }
+    .payroll-icon{
+        width: 30px;
+        height: 30px;
+        background-color: #EAEAFF;
+    }
+    .border-right{
+        border-right: none;
+    }
+    .payment-information{
+       height: 100%;
+    }
 }

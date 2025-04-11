@@ -732,27 +732,13 @@ tbody tr {
 .description-main-box {
   -webkit-box-align: baseline;
   align-items: baseline;
-  display: flex;
   margin: 0px;
-  gap: 20px;
 }
 
-.description-main-box span {
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.57143;
-  letter-spacing: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  background-color: #f2f3ff ;
-  border-radius: 50%;
-  color: #6666f2  ;
-  display: grid;
-  height: 25px;
-  place-items: center;
-  width: 25px;
+.count-number {
+  background-color: rgb(239, 247, 255);
 }
+
 .salary-define{
   height: 300px;
   overflow: scroll;
@@ -1076,6 +1062,26 @@ a.text-primary:hover {
   border: 1px solid #aeaeae !important;
   color: #444 !important;
   height: 37px;
+}
+.staff-section-table {
+  max-height: 50vh;
+  overflow: scroll;
+}
+.staff-section-table::-webkit-scrollbar{
+  display: none;
+}
+
+.staff-section-table thead th {
+  position: sticky;
+  top: 0px;
+}
+
+.leave-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+  border-radius: 0px;
 }
 
 .proceed-button {

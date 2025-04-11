@@ -1,501 +1,15 @@
-<div class="m-3 mt-4 assets-detail mb-4">
+<div class="m-3 mt-3 assets-detail mb-4">
     <div class="employee-assets">
-        <div class="d-flex align-items-center justify-content-between ">
+        <div class="d-flex align-items-center justify-content-between d-none-md">
             <h5 class="font-18 ">Latest Updates</h5>
         </div>
 
-        <!-- <div>
-            <ul id="pills-tab" role="tablist" class="nav nav-pills">
-                <li class="nav-item">
-                    <a id="pills-announcement-tab" data-bs-toggle="pill" href="#announcementNotification" role="tab"
-                        aria-controls="pills-announcement" aria-selected="false" class="nav-link active">Announcement</a>
-                </li>
-                <li class="nav-item">
-                    <a id="pills-notification-tab" data-bs-toggle="pill" href="#newNotification" role="tab"
-                        aria-controls="pills-notification" aria-selected="false" class="nav-link">Notification</a>
-                </li>
-            </ul>
 
-            <div id="pills-tabContent" class="tab-content">
-                <div class="tab-pane active show pt-3" id="announcementNotification" role="tabpanel" aria-labelledby="announcement-tab" >
-                    <div>
-
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                    <label class="btn btn-outline-secondary" for="btnradio1">All</label>
-
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                    <label class="btn btn-outline-secondary" for="btnradio2">Unread</label>
-                                </div>
-                            </div>
-                            <div class="">
-                                <button class="btn new-announcement" data-bs-toggle="modal" data-bs-target="#createAnnouncement">New Announcement
-                                    &nbsp;
-                                    <span class="calendar-separator"></span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                        <mask id="mask0_5566_935" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                        </mask>
-                                        <g mask="url(#mask0_5566_935)">
-                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
-                                                fill="#6666F2" />
-                                        </g>
-                                    </svg>
-                                </button>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="announcement-detail border-bottom pb-4 pt-4">
-                                        <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
-                                            <img src="assets/images/user.png" style="width:45px;">
-                                            <div class="">
-                                                <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                                                <h6 class="mb-0 ">3 Months Ago</h6>
-                                            </div>
-                                        </div>
-                                        <h5 class="mb-3">Employee Onboard!</h5>
-                                        <p class="mb-3">Dear All,</p>
-                                        <p class="mb-4">We are excited to inform you that we have a new member joined our team today on 12th August 2024! Nikhil Rawat has
-                                        joined us as Business Development Manager in Delhi.
-                                        It Is essental that we suppor and work togetner as a team to acnieve our goals ana make oul company</p>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-4">
-                                                <button class="btn p-0 text-black font-13">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                        <mask id="mask0_5561_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                                                            <rect width="20" height="20" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_5561_125)">
-                                                            <path
-                                                                d="M14.9999 17.5026H5.83323V6.66927L11.6666 0.835938L12.7082 1.8776C12.8055 1.97483 12.8853 2.10677 12.9478 2.27344C13.0103 2.4401 13.0416 2.59983 13.0416 2.7526V3.04427L12.1249 6.66927H17.4999C17.9443 6.66927 18.3332 6.83594 18.6666 7.16927C18.9999 7.5026 19.1666 7.89149 19.1666 8.33594V10.0026C19.1666 10.0998 19.1527 10.204 19.1249 10.3151C19.0971 10.4262 19.0693 10.5304 19.0416 10.6276L16.5416 16.5026C16.4166 16.7804 16.2082 17.0165 15.9166 17.2109C15.6249 17.4054 15.3193 17.5026 14.9999 17.5026ZM7.4999 15.8359H14.9999L17.4999 10.0026V8.33594H9.9999L11.1249 3.7526L7.4999 7.3776V15.8359ZM5.83323 6.66927V8.33594H3.33323V15.8359H5.83323V17.5026H1.66656V6.66927H5.83323Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </svg>
-                                                    Like </button>
-                                                <button class="btn p-0 text-black font-13">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-                                                        <mask id="mask0_5561_141" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="20">
-                                                            <rect x="0.0796509" width="20" height="20" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_5561_141)">
-                                                            <path
-                                                                d="M1.74622 18.3307V3.33073C1.74622 2.8724 1.90941 2.48003 2.2358 2.15365C2.56219 1.82726 2.95455 1.66406 3.41288 1.66406H16.7462C17.2045 1.66406 17.5969 1.82726 17.9233 2.15365C18.2497 2.48003 18.4129 2.8724 18.4129 3.33073V13.3307C18.4129 13.7891 18.2497 14.1814 17.9233 14.5078C17.5969 14.8342 17.2045 14.9974 16.7462 14.9974H5.07955L1.74622 18.3307ZM4.37122 13.3307H16.7462V3.33073H3.41288V14.2682L4.37122 13.3307Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </svg>
-                                                    Comment </button>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-3 total-like-comment">
-                                                <div class="d-flex align-items-center gap-2">
-                                                <span class="like-icon d-flex align-items-center justify-content-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                        <path
-                                                            d="M11.5225 13.668H4.18988V5.00215L8.85609 0.335938L9.68934 1.16919C9.76711 1.24696 9.831 1.3525 9.88099 1.48583C9.93099 1.61915 9.95598 1.74691 9.95598 1.86912V2.10243L9.22272 5.00215H13.5223C13.8778 5.00215 14.1889 5.13547 14.4555 5.40211C14.7222 5.66875 14.8555 5.97983 14.8555 6.33535V7.66855C14.8555 7.74632 14.8444 7.82965 14.8222 7.91853C14.8 8.00741 14.7777 8.09074 14.7555 8.16851L12.7557 12.868C12.6557 13.0902 12.4891 13.2791 12.2558 13.4347C12.0224 13.5902 11.778 13.668 11.5225 13.668ZM5.52308 12.3348H11.5225L13.5223 7.66855V6.33535H7.52289L8.4228 2.66904L5.52308 5.56876V12.3348ZM4.18988 5.00215V6.33535H2.19008V12.3348H4.18988V13.668H0.856873V5.00215H4.18988Z"
-                                                            fill="#6666F2" />
-                                                    </svg>
-                                                </span>
-                                                <span>2 reaction</span>
-                                                </div>
-                                                <span class="calendar-separator" style="height: 20px;"></span>
-                                                <span>5 comments</span>
-                                            </div>
-
-                                        </div>
-
-                                </div>
-                                <div class="announcement-detail border-bottom pb-4 pt-4">
-                                    <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
-                                        <img src="assets/images/user.png" style="width:45px;">
-                                        <div class="">
-                                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                                            <h6 class="mb-0 ">3 Months Ago</h6>
-                                        </div>
-                                    </div>
-                                    <h5 class="mb-3">Employee Onboard!</h5>
-                                    <p class="mb-3">Dear All,</p>
-                                    <p class="mb-3">We are excited to inform you that we have a new member joined our team today on 12th August 2024!
-                                        Nikhil Rawat has
-                                        joined us as Business Development Manager in Delhi.
-                                        It Is essental that we suppor and work togetner as a team to acnieve our goals ana make oul company</p>
-                                        <img src="assets/images/onboard-img.png" class="mb-4 ">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center gap-4">
-                                            <button class="btn p-0 text-black font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                    <mask id="mask0_5561_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                                        height="20">
-                                                        <rect width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5561_125)">
-                                                        <path
-                                                            d="M14.9999 17.5026H5.83323V6.66927L11.6666 0.835938L12.7082 1.8776C12.8055 1.97483 12.8853 2.10677 12.9478 2.27344C13.0103 2.4401 13.0416 2.59983 13.0416 2.7526V3.04427L12.1249 6.66927H17.4999C17.9443 6.66927 18.3332 6.83594 18.6666 7.16927C18.9999 7.5026 19.1666 7.89149 19.1666 8.33594V10.0026C19.1666 10.0998 19.1527 10.204 19.1249 10.3151C19.0971 10.4262 19.0693 10.5304 19.0416 10.6276L16.5416 16.5026C16.4166 16.7804 16.2082 17.0165 15.9166 17.2109C15.6249 17.4054 15.3193 17.5026 14.9999 17.5026ZM7.4999 15.8359H14.9999L17.4999 10.0026V8.33594H9.9999L11.1249 3.7526L7.4999 7.3776V15.8359ZM5.83323 6.66927V8.33594H3.33323V15.8359H5.83323V17.5026H1.66656V6.66927H5.83323Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                                Like </button>
-                                            <button class="btn p-0 text-black font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-                                                    <mask id="mask0_5561_141" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                        height="20">
-                                                        <rect x="0.0796509" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5561_141)">
-                                                        <path
-                                                            d="M1.74622 18.3307V3.33073C1.74622 2.8724 1.90941 2.48003 2.2358 2.15365C2.56219 1.82726 2.95455 1.66406 3.41288 1.66406H16.7462C17.2045 1.66406 17.5969 1.82726 17.9233 2.15365C18.2497 2.48003 18.4129 2.8724 18.4129 3.33073V13.3307C18.4129 13.7891 18.2497 14.1814 17.9233 14.5078C17.5969 14.8342 17.2045 14.9974 16.7462 14.9974H5.07955L1.74622 18.3307ZM4.37122 13.3307H16.7462V3.33073H3.41288V14.2682L4.37122 13.3307Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                                Comment </button>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-3 total-like-comment">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="like-icon d-flex align-items-center justify-content-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                        <path
-                                                            d="M11.5225 13.668H4.18988V5.00215L8.85609 0.335938L9.68934 1.16919C9.76711 1.24696 9.831 1.3525 9.88099 1.48583C9.93099 1.61915 9.95598 1.74691 9.95598 1.86912V2.10243L9.22272 5.00215H13.5223C13.8778 5.00215 14.1889 5.13547 14.4555 5.40211C14.7222 5.66875 14.8555 5.97983 14.8555 6.33535V7.66855C14.8555 7.74632 14.8444 7.82965 14.8222 7.91853C14.8 8.00741 14.7777 8.09074 14.7555 8.16851L12.7557 12.868C12.6557 13.0902 12.4891 13.2791 12.2558 13.4347C12.0224 13.5902 11.778 13.668 11.5225 13.668ZM5.52308 12.3348H11.5225L13.5223 7.66855V6.33535H7.52289L8.4228 2.66904L5.52308 5.56876V12.3348ZM4.18988 5.00215V6.33535H2.19008V12.3348H4.18988V13.668H0.856873V5.00215H4.18988Z"
-                                                            fill="#6666F2" />
-                                                    </svg>
-                                                </span>
-                                                <span>2 reaction</span>
-                                            </div>
-                                            <span class="calendar-separator" style="height: 20px;"></span>
-                                            <span>5 comments</span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <div class="announcement-detail border-bottom pb-4 pt-4">
-                                    <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
-                                        <img src="assets/images/user.png" style="width:45px;">
-                                        <div class="">
-                                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                                            <h6 class="mb-0 ">3 Months Ago</h6>
-                                        </div>
-                                    </div>
-                                    <span class="poll-title ">Poll</span>
-                                    <h5 class="mb-3 mt-2">Are you a Morning,Afternoon,evening or Night person?</h5>
-                                    <div class="row">
-                                        <div class="col-md-7 mb-2">
-                                            <label  class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked="" class="form-check-input">
-                                                <p for="exampleRadios1" class="form-check-label mb-0"> No time ever </p>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-7 mb-2">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input type="radio" name="exampleRadios" id="exampleRadios2" value="option2"
-                                                    class="form-check-input">
-                                                <p for="exampleRadios2" class="form-check-label mb-0"> Morning </p>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-7 mb-2">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input type="radio" name="exampleRadios" id="exampleRadios3" value="option3"
-                                                    class="form-check-input">
-                                                <p for="exampleRadios3" class="form-check-label mb-0"> Afternoon </p>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-7 mb-2">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input type="radio" name="exampleRadios" id="exampleRadios4" value="option3"
-                                                    class="form-check-input">
-                                                <p for="exampleRadios4" class="form-check-label mb-0"> Night/evening </p>
-                                            </label>
-                                        </div>
-                                        <button class="p-3 text-primary btn d-flex justify-content-start">Submit
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                <mask id="mask0_5570_2282" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                                    <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5570_2282)">
-                                                    <path
-                                                        d="M15.3977 13.825H3.51947V11.175H15.3977L10.1087 5.88578L12 4.01953L20.4805 12.5L12 20.9805L10.1087 19.1143L15.3977 13.825Z"
-                                                        fill="#6666F2" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center gap-4">
-                                            <button class="btn p-0 text-black font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                    <mask id="mask0_5561_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                                        height="20">
-                                                        <rect width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5561_125)">
-                                                        <path
-                                                            d="M14.9999 17.5026H5.83323V6.66927L11.6666 0.835938L12.7082 1.8776C12.8055 1.97483 12.8853 2.10677 12.9478 2.27344C13.0103 2.4401 13.0416 2.59983 13.0416 2.7526V3.04427L12.1249 6.66927H17.4999C17.9443 6.66927 18.3332 6.83594 18.6666 7.16927C18.9999 7.5026 19.1666 7.89149 19.1666 8.33594V10.0026C19.1666 10.0998 19.1527 10.204 19.1249 10.3151C19.0971 10.4262 19.0693 10.5304 19.0416 10.6276L16.5416 16.5026C16.4166 16.7804 16.2082 17.0165 15.9166 17.2109C15.6249 17.4054 15.3193 17.5026 14.9999 17.5026ZM7.4999 15.8359H14.9999L17.4999 10.0026V8.33594H9.9999L11.1249 3.7526L7.4999 7.3776V15.8359ZM5.83323 6.66927V8.33594H3.33323V15.8359H5.83323V17.5026H1.66656V6.66927H5.83323Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                                Like </button>
-                                            <button class="btn p-0 text-black font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-                                                    <mask id="mask0_5561_141" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                        height="20">
-                                                        <rect x="0.0796509" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5561_141)">
-                                                        <path
-                                                            d="M1.74622 18.3307V3.33073C1.74622 2.8724 1.90941 2.48003 2.2358 2.15365C2.56219 1.82726 2.95455 1.66406 3.41288 1.66406H16.7462C17.2045 1.66406 17.5969 1.82726 17.9233 2.15365C18.2497 2.48003 18.4129 2.8724 18.4129 3.33073V13.3307C18.4129 13.7891 18.2497 14.1814 17.9233 14.5078C17.5969 14.8342 17.2045 14.9974 16.7462 14.9974H5.07955L1.74622 18.3307ZM4.37122 13.3307H16.7462V3.33073H3.41288V14.2682L4.37122 13.3307Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                                Comment </button>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-3 total-like-comment">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="like-icon d-flex align-items-center justify-content-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                        <path
-                                                            d="M11.5225 13.668H4.18988V5.00215L8.85609 0.335938L9.68934 1.16919C9.76711 1.24696 9.831 1.3525 9.88099 1.48583C9.93099 1.61915 9.95598 1.74691 9.95598 1.86912V2.10243L9.22272 5.00215H13.5223C13.8778 5.00215 14.1889 5.13547 14.4555 5.40211C14.7222 5.66875 14.8555 5.97983 14.8555 6.33535V7.66855C14.8555 7.74632 14.8444 7.82965 14.8222 7.91853C14.8 8.00741 14.7777 8.09074 14.7555 8.16851L12.7557 12.868C12.6557 13.0902 12.4891 13.2791 12.2558 13.4347C12.0224 13.5902 11.778 13.668 11.5225 13.668ZM5.52308 12.3348H11.5225L13.5223 7.66855V6.33535H7.52289L8.4228 2.66904L5.52308 5.56876V12.3348ZM4.18988 5.00215V6.33535H2.19008V12.3348H4.18988V13.668H0.856873V5.00215H4.18988Z"
-                                                            fill="#6666F2" />
-                                                    </svg>
-                                                </span>
-                                                <span>2 reaction</span>
-                                            </div>
-                                            <span class="calendar-separator" style="height: 20px;"></span>
-                                            <span>5 comments</span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <div class="announcement-detail border-bottom pb-4 pt-4">
-                                    <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
-                                        <img src="assets/images/user.png" style="width:45px;">
-                                        <div class="">
-                                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                                            <h6 class="mb-0 ">3 Months Ago</h6>
-                                        </div>
-                                    </div>
-                                    <h5 class="mb-3">Employee Onboard!</h5>
-                                    <p class="mb-3">Dear All,</p>
-                                    <p class="mb-4">We are excited to inform you that we have a new member joined our team today on 12th August 2024!
-                                        Nikhil Rawat has
-                                        joined us as Business Development Manager in Delhi.
-                                        It Is essental that we suppor and work togetner as a team to acnieve our goals ana make oul company</p>
-
-
-                                    <div class="new-post mb-4">
-                                        <div class="d-flex align-items-center gap-2 notification-heading p-3">
-                                            <img src="assets/images/user.png" style="width:40px;">
-                                            <div class="">
-                                                <h5 class="mb-1 font-15">HR <span class="created-announcement">Created an Announcement</span></h5>
-                                                <h6 class="mb-0 font-13">3 Months Ago</h6>
-                                            </div>
-                                        </div>
-                                        <img src="assets/images/new-post-img.png" class="w-100">
-                                        <div class="p-3">
-                                        <p  class="mb-0">Dear All,<br>
-                                        We are excited to inform you that we have a new member joined our team today on 12th August 2024! Nikhil e support him</p>
-                                        </div>
-                                    </div>
-
-
-
-
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center gap-4">
-                                            <button class="btn p-0 text-black font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                    <mask id="mask0_5561_125" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                                        height="20">
-                                                        <rect width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5561_125)">
-                                                        <path
-                                                            d="M14.9999 17.5026H5.83323V6.66927L11.6666 0.835938L12.7082 1.8776C12.8055 1.97483 12.8853 2.10677 12.9478 2.27344C13.0103 2.4401 13.0416 2.59983 13.0416 2.7526V3.04427L12.1249 6.66927H17.4999C17.9443 6.66927 18.3332 6.83594 18.6666 7.16927C18.9999 7.5026 19.1666 7.89149 19.1666 8.33594V10.0026C19.1666 10.0998 19.1527 10.204 19.1249 10.3151C19.0971 10.4262 19.0693 10.5304 19.0416 10.6276L16.5416 16.5026C16.4166 16.7804 16.2082 17.0165 15.9166 17.2109C15.6249 17.4054 15.3193 17.5026 14.9999 17.5026ZM7.4999 15.8359H14.9999L17.4999 10.0026V8.33594H9.9999L11.1249 3.7526L7.4999 7.3776V15.8359ZM5.83323 6.66927V8.33594H3.33323V15.8359H5.83323V17.5026H1.66656V6.66927H5.83323Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                                Like </button>
-                                            <button class="btn p-0 text-black font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-                                                    <mask id="mask0_5561_141" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                        height="20">
-                                                        <rect x="0.0796509" width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_5561_141)">
-                                                        <path
-                                                            d="M1.74622 18.3307V3.33073C1.74622 2.8724 1.90941 2.48003 2.2358 2.15365C2.56219 1.82726 2.95455 1.66406 3.41288 1.66406H16.7462C17.2045 1.66406 17.5969 1.82726 17.9233 2.15365C18.2497 2.48003 18.4129 2.8724 18.4129 3.33073V13.3307C18.4129 13.7891 18.2497 14.1814 17.9233 14.5078C17.5969 14.8342 17.2045 14.9974 16.7462 14.9974H5.07955L1.74622 18.3307ZM4.37122 13.3307H16.7462V3.33073H3.41288V14.2682L4.37122 13.3307Z"
-                                                            fill="#1C1B1F" />
-                                                    </g>
-                                                </svg>
-                                                Comment </button>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-3 total-like-comment">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="like-icon d-flex align-items-center justify-content-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
-                                                        <path
-                                                            d="M11.5225 13.668H4.18988V5.00215L8.85609 0.335938L9.68934 1.16919C9.76711 1.24696 9.831 1.3525 9.88099 1.48583C9.93099 1.61915 9.95598 1.74691 9.95598 1.86912V2.10243L9.22272 5.00215H13.5223C13.8778 5.00215 14.1889 5.13547 14.4555 5.40211C14.7222 5.66875 14.8555 5.97983 14.8555 6.33535V7.66855C14.8555 7.74632 14.8444 7.82965 14.8222 7.91853C14.8 8.00741 14.7777 8.09074 14.7555 8.16851L12.7557 12.868C12.6557 13.0902 12.4891 13.2791 12.2558 13.4347C12.0224 13.5902 11.778 13.668 11.5225 13.668ZM5.52308 12.3348H11.5225L13.5223 7.66855V6.33535H7.52289L8.4228 2.66904L5.52308 5.56876V12.3348ZM4.18988 5.00215V6.33535H2.19008V12.3348H4.18988V13.668H0.856873V5.00215H4.18988Z"
-                                                            fill="#6666F2" />
-                                                    </svg>
-                                                </span>
-                                                <span>2 reaction</span>
-                                            </div>
-                                            <span class="calendar-separator" style="height: 20px;"></span>
-                                            <span>5 comments</span>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade pt-3" id="newNotification" role="tabpanel" aria-labelledby="notification-tab">
-                    <div>
-
-                        <div class="notification">
-                            <div class="d-flex align-items-center gap-2">
-                                <button class="btn assets-request">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                                        <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
-                                            height="25">
-                                            <rect x="0.5" y="0.5" width="24" height="24" fill="#D9D9D9" />
-                                        </mask>
-                                        <g mask="url(#mask0_5653_2453)">
-                                            <path
-                                                d="M12.0079 22.5C11.4694 22.5 11.0084 22.3042 10.625 21.9125C10.2415 21.5208 10.0498 21.05 10.0498 20.5H13.966C13.966 21.05 13.7743 21.5208 13.3908 21.9125C13.0073 22.3042 12.5464 22.5 12.0079 22.5ZM4.17542 19.5V17.5H6.13353V10.5C6.13353 9.11667 6.54147 7.8875 7.35735 6.8125C8.17323 5.7375 9.23388 5.03333 10.5393 4.7V4C10.5393 3.58333 10.6821 3.22917 10.9676 2.9375C11.2532 2.64583 11.5999 2.5 12.0079 2.5C12.4158 2.5 12.7626 2.64583 13.0481 2.9375C13.3337 3.22917 13.4765 3.58333 13.4765 4V4.325C13.297 4.69167 13.1664 5.06667 13.0848 5.45C13.0033 5.83333 12.9706 6.225 12.9869 6.625C12.8238 6.59167 12.6647 6.5625 12.5096 6.5375C12.3546 6.5125 12.1874 6.5 12.0079 6.5C10.9309 6.5 10.009 6.89167 9.24204 7.675C8.47511 8.45833 8.09165 9.4 8.09165 10.5V17.5H15.9241V11.075C16.2178 11.2083 16.5319 11.3125 16.8664 11.3875C17.201 11.4625 17.5396 11.5 17.8822 11.5V17.5H19.8403V19.5H4.17542ZM17.8822 9.5C17.0663 9.5 16.3728 9.20833 15.8017 8.625C15.2306 8.04167 14.945 7.33333 14.945 6.5C14.945 5.66667 15.2306 4.95833 15.8017 4.375C16.3728 3.79167 17.0663 3.5 17.8822 3.5C18.6981 3.5 19.3916 3.79167 19.9627 4.375C20.5338 4.95833 20.8194 5.66667 20.8194 6.5C20.8194 7.33333 20.5338 8.04167 19.9627 8.625C19.3916 9.20833 18.6981 9.5 17.8822 9.5Z"
-                                                fill="#1C1B1F" />
-                                        </g>
-                                    </svg>
-                                    Mark All AS read
-                                </button>
-                                <button class="btn assets-request">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                                        <mask id="mask0_5653_2460" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25"
-                                            height="24">
-                                            <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
-                                        </mask>
-                                        <g mask="url(#mask0_5653_2460)">
-                                            <path
-                                                d="M12.5 20C10.2667 20 8.375 19.225 6.825 17.675C5.275 16.125 4.5 14.2333 4.5 12C4.5 9.76667 5.275 7.875 6.825 6.325C8.375 4.775 10.2667 4 12.5 4C13.65 4 14.75 4.2375 15.8 4.7125C16.85 5.1875 17.75 5.86667 18.5 6.75V4H20.5V11H13.5V9H17.7C17.1667 8.06667 16.4375 7.33333 15.5125 6.8C14.5875 6.26667 13.5833 6 12.5 6C10.8333 6 9.41667 6.58333 8.25 7.75C7.08333 8.91667 6.5 10.3333 6.5 12C6.5 13.6667 7.08333 15.0833 8.25 16.25C9.41667 17.4167 10.8333 18 12.5 18C13.7833 18 14.9417 17.6333 15.975 16.9C17.0083 16.1667 17.7333 15.2 18.15 14H20.25C19.7833 15.7667 18.8333 17.2083 17.4 18.325C15.9667 19.4417 14.3333 20 12.5 20Z"
-                                                fill="#1C1B1F" />
-                                        </g>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="notification-message mt-3">
-                            <div class="d-flex align-items-center gap-3 p-3 unread-mssage border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Onboarding</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="new-message">Grntle Reminder: your on boarding form</b> awaits your attention-
-                                        Rodi flip (rof@acbd.gom) Lorem ipsum dolor sit amet
-                                        consectetur adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%" class="text-end d-flex align-items-center gap-2 justify-content-end">
-
-                                    <div class="new-notification"></div>
-                                    <span class="mb-0"> Just Now</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 p-3 unread-mssage border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Leave Request</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="new-message">Grntle Reminder: your on boarding form</b> awaits your attention-
-                                        Rodi flip (rof@acbd.gom)
-                                        Lorem ipsum dolor sit amet consectetur adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%" class="text-end">
-                                    <span class="mb-0">12th Jun</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 p-3 border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Attendance update</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="read-message">Grntle Reminder: your on boarding form</b> awaits your
-                                        attention- Rodi flip (rof@acbd.gom)
-                                        Lorem ipsum dolor sit amet consectetur adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%; " class="text-end">
-                                    <span class="mb-0">11th Jun</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 p-3 border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Leave Request</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="read-message">@Admin:</b> your on boarding form awaits your attention- Rodi
-                                        flip (rof@acbd.gom) Lorem ipsum dolor sit amet consectetur
-                                        adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%; " class="text-end">
-                                    <span class="mb-0">11th Jun</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 p-3 border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Leave Request</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="read-message">Grntle Reminder: your on boarding form</b> awaits your
-                                        attention- Rodi flip (rof@acbd.gom) Lorem ipsum dolor sit amet
-                                        consectetur adipiscing elit Ut...
-                                        adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%; " class="text-end">
-                                    <span class="mb-0">11th Jun</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 p-3 unread-mssage border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Leave Request</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="new-message">@Admin:</b> your on boarding form awaits your attention- Rodi
-                                        flip (rof@acbd.gom) Lorem ipsum dolor
-                                        sit amet consectetur
-                                        adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%; " class="text-end">
-                                    <span class="mb-0">11th Jun</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 p-3 border-bottom pointer" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-                                <div style="width:15%">
-                                    <h6 class="mb-0">Leave Request</h6>
-                                </div>
-                                <div style="width:75%">
-                                    <p class="mb-0"><b class="read-message">@Admin:</b> your on boarding form awaits your attention- Rodi
-                                        flip (rof@acbd.gom) Lorem ipsum dolor
-                                        sit amet consectetur
-                                        adipiscing elit Ut</p>
-                                </div>
-                                <div style="width:10%; " class="text-end">
-                                    <span class="mb-0">11th Jun</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <div class="mt-3" *ngIf="mailList.length>0 || mailLoading">
-
+        <!-- desktop notification  -->
+        <div class="mt-3 desktop-notification" *ngIf="mailList.length>0 || mailLoading">
             <div class="notification">
                 <div class="d-flex align-items-center gap-2">
-                    <button class="btn assets-request" (click)="markMailAsReadAll('mail')">
+                    <button *ngIf="currentUserUuid==userId" class="btn assets-request" (click)="markMailAsReadAll('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                             <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                                 width="25" height="25">
@@ -536,7 +50,7 @@
                 <ng-template #notificationList>
                     <!-- Actual Notification List -->
                     <div *ngFor="let mail of mailList" class="d-flex align-items-center gap-3 p-3 border-bottom pointer"
-                        [ngClass]="{'unread-mssage': !mail.isRead}" (click)="readNotification(mail)">
+                        [ngClass]="{'bg-light': !mail.isRead}" (click)="readNotification(mail)">
                         <div style="width:15%">
                             <h6 class="mb-0">{{ mail.title }}</h6>
                         </div>
@@ -567,9 +81,87 @@
                     [(page)]="this.databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
                 </ngb-pagination>
             </div>
+        </div>
+         <!-- desktop notification end -->
+
+
+          <!-- mobile notification  -->
+        <div class="mobile-notification" *ngIf="mailList.length>0 || mailLoading">
+            <div class="d-flex align-items-center justify-content-between">
+                <button *ngIf="currentUserUuid==userId" class="btn assets-request" (click)="markMailAsReadAll('mail')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                        <mask id="mask0_5653_2453" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="25" height="25">
+                            <rect x="0.5" y="0.5" width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5653_2453)">
+                            <path
+                                d="M12.0079 22.5C11.4694 22.5 11.0084 22.3042 10.625 21.9125C10.2415 21.5208 10.0498 21.05 10.0498 20.5H13.966C13.966 21.05 13.7743 21.5208 13.3908 21.9125C13.0073 22.3042 12.5464 22.5 12.0079 22.5ZM4.17542 19.5V17.5H6.13353V10.5C6.13353 9.11667 6.54147 7.8875 7.35735 6.8125C8.17323 5.7375 9.23388 5.03333 10.5393 4.7V4C10.5393 3.58333 10.6821 3.22917 10.9676 2.9375C11.2532 2.64583 11.5999 2.5 12.0079 2.5C12.4158 2.5 12.7626 2.64583 13.0481 2.9375C13.3337 3.22917 13.4765 3.58333 13.4765 4V4.325C13.297 4.69167 13.1664 5.06667 13.0848 5.45C13.0033 5.83333 12.9706 6.225 12.9869 6.625C12.8238 6.59167 12.6647 6.5625 12.5096 6.5375C12.3546 6.5125 12.1874 6.5 12.0079 6.5C10.9309 6.5 10.009 6.89167 9.24204 7.675C8.47511 8.45833 8.09165 9.4 8.09165 10.5V17.5H15.9241V11.075C16.2178 11.2083 16.5319 11.3125 16.8664 11.3875C17.201 11.4625 17.5396 11.5 17.8822 11.5V17.5H19.8403V19.5H4.17542ZM17.8822 9.5C17.0663 9.5 16.3728 9.20833 15.8017 8.625C15.2306 8.04167 14.945 7.33333 14.945 6.5C14.945 5.66667 15.2306 4.95833 15.8017 4.375C16.3728 3.79167 17.0663 3.5 17.8822 3.5C18.6981 3.5 19.3916 3.79167 19.9627 4.375C20.5338 4.95833 20.8194 5.66667 20.8194 6.5C20.8194 7.33333 20.5338 8.04167 19.9627 8.625C19.3916 9.20833 18.6981 9.5 17.8822 9.5Z"
+                                fill="#1C1B1F" />
+                        </g>
+                    </svg>
+                    Mark All as Read
+                </button>
+                <button class="btn assets-request" (click)="reload('mail')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_5653_2460" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="25" height="24">
+                            <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5653_2460)">
+                            <path
+                                d="M12.5 20C10.2667 20 8.375 19.225 6.825 17.675C5.275 16.125 4.5 14.2333 4.5 12C4.5 9.76667 5.275 7.875 6.825 6.325C8.375 4.775 10.2667 4 12.5 4C13.65 4 14.75 4.2375 15.8 4.7125C16.85 5.1875 17.75 5.86667 18.5 6.75V4H20.5V11H13.5V9H17.7C17.1667 8.06667 16.4375 7.33333 15.5125 6.8C14.5875 6.26667 13.5833 6 12.5 6C10.8333 6 9.41667 6.58333 8.25 7.75C7.08333 8.91667 6.5 10.3333 6.5 12C6.5 13.6667 7.08333 15.0833 8.25 16.25C9.41667 17.4167 10.8333 18 12.5 18C13.7833 18 14.9417 17.6333 15.975 16.9C17.0083 16.1667 17.7333 15.2 18.15 14H20.25C19.7833 15.7667 18.8333 17.2083 17.4 18.325C15.9667 19.4417 14.3333 20 12.5 20Z"
+                                fill="#1C1B1F" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="notifaction-list border mt-3" [ngClass]="{'bg-light': !mail.isRead}" (click)="readNotification(mail)" *ngFor="let mail of mailList">
+                <div class="d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="notification-name d-flex align-items-center justify-content-center fw-semibold font-12 fw-600 text-uppercase"
+                        [ngClass]="{
+                            'attendance-notification': mail.title.includes('Attendance'),
+                            'onboarding-notification': mail.title.includes('Onboarding') ||  mail.title.includes('Welcome'),
+                            'resignation-notification': mail.title.includes('Resignation'),
+                            'profile-notification': mail.title.includes('Profile'),
+                            'overtime-notification': mail.title.includes('Overtime'),
+                            'leave-notification': mail.title.includes('Leave'),
+                            'expense-notification': mail.title.includes('Expense'),
+                            'assets-notification': mail.title.includes('Asset'),
+                            'shift-notification': mail.title.includes('Shift')
+                        }"> {{ mail.title.slice(0, 2) }} </span>
+                        <h5 class="mb-0 font-13 fw-semibold">{{ mail.title }}</h5>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <div *ngIf="!mail.isRead" class="new-notification"></div>
+                        <span class="mb-0 fw-semibold font-12">{{ getTimeAgo(mail.createdDate.toLocaleString()) }}</span>
+                    </div>
+                </div>
+                <p class="mb-0 font-13 fw-normal p-3">{{ mail.message }} </p>
+            </div>
+
+            <div *ngIf="(totalMailNotification-1)/databaseHelper.itemPerPage > 0"
+                class="d-flex align-items-center justify-content-between pagination-box-profile p-3 bg-white border-top">
+                <!-- Ngb Pagination Component -->
+                <p class="mb-0">
+                    Showing items
+                    {{ (databaseHelper.currentPage - 1) * databaseHelper.itemPerPage + 1 }} –
+                    {{ Math.min(databaseHelper.currentPage * databaseHelper.itemPerPage, totalMailNotification) }}
+                    of {{ totalMailNotification }} records
+                </p>
+                <ngb-pagination class="pagition-box" [collectionSize]="totalMailNotification" [rotate]="true"
+                    (pageChange)="pageChanged($event)" [pageSize]="this.databaseHelper.itemPerPage"
+                    [(page)]="this.databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                </ngb-pagination>
+            </div>
+
 
 
         </div>
+         <!-- mobile notification end--->
+
         <div class="mt-3" *ngIf="(mailList.length==0 && !mailLoading)">
             <div class="empty-file" style="margin-top: 20%; margin-bottom: 20%">
                 <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">

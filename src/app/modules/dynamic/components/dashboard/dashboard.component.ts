@@ -413,7 +413,7 @@ export class DashboardComponent implements OnInit {
     this.myAttendanceData = {};
     this.total = 0;
     this.isShimer = true;
-
+    this.databaseHelper.currentPage = 1;
     this.resetCriteriaFilter();
     // this.getDataFromDate();
     this.getAttendanceReportByDateDurationMethodCall();
@@ -539,7 +539,7 @@ export class DashboardComponent implements OnInit {
     debugger;
     this.isAllCollapsed = !toggle;
 
-    let elements = document.querySelectorAll('.bi-chevron-right');
+    let elements = document.querySelectorAll('.random');
     elements.forEach((element) => {
       if (this.isAllCollapsed && !element.classList.contains('collapsed')) {
         (element as HTMLElement).click();
@@ -786,7 +786,9 @@ export class DashboardComponent implements OnInit {
 
             this.attendanceReportResponseList = response.object;
             this.total = response.totalItems;
-
+            setTimeout(() => {
+            this.toggleAllCollapse(!this.isAllCollapsed);
+            }, 10);
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             resolve(response);
           })
@@ -1884,7 +1886,7 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
 
   // to do step completion
 
-  
+
 }
 
 

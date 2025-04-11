@@ -27,7 +27,7 @@
     <!-- Starting Date -->
     <div class="form-field">
       <label>Pick a starting date</label>
-      <input type="date" formControlName="startDate" [min]="currentNewDate" />
+      <input type="date" formControlName="startDate" />
       <div
         *ngIf="
           userLeaveForm.get('startDate')?.touched &&

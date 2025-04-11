@@ -15,7 +15,7 @@
                         </g>
                     </svg>
                 </button>
-                <span  class="badge rounded-pill font-11" [ngClass]="{
+                <span *ngIf="!isModal" class="badge rounded-pill font-11" [ngClass]="{
                   'badge-soft-success': userResignationInfo.status.response === 'APPROVED',
                   'badge-soft-danger':  userResignationInfo.status.response === 'REJECTED' || userResignationInfo.status.response === 'REVOKED',
                   'badge-soft-secondary':  userResignationInfo.status.response === 'PENDING' || userResignationInfo.status.response === 'NOTICE PERIOD'
@@ -231,7 +231,8 @@
                             data-bs-dismiss="modal" (click)="clearForm(); close();" aria-label="Close"
                             #closeApproveModal>Cancel</button>
 
-                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING"
+
+                        <button *ngIf="rbacService.hasWriteAccess(Routes.EMPLOYEEONBOARDING) && this.userResignationInfo.status.id == StatusKeys.RESIGNATION_PENDING" 
                         type="button" class="btn submitActionBtn"
                             [disabled]="approveToggle" (click)="approveOrDenyResignation(userResignationInfo.id)">
                             <span *ngIf="!approveToggle">Approve</span>
