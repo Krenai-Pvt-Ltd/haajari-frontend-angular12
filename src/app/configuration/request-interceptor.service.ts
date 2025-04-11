@@ -1,3 +1,4 @@
+import { HelperService } from 'src/app/services/helper.service';
 // import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 // import { Injectable } from '@angular/core';
 // import { Observable } from 'rxjs';
@@ -44,14 +45,16 @@ import { DataService } from '../services/data.service';
 })
 export class RequestInterceptorService implements HttpInterceptor {
 
-  constructor(private dataService : DataService, private router : Router) { }
+  constructor(private dataService : DataService, private router : Router,
+    private helperService: HelperService
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const token = localStorage.getItem('token');
     if (token !== null) {
       request = this.addTokenToHeaders(request, token);
-  
+
       return next.handle(request).pipe(
         catchError(error => {
           if (error.status === 401 || error.status === 400) {
@@ -60,6 +63,12 @@ export class RequestInterceptorService implements HttpInterceptor {
                 if (newToken) {
                   localStorage.setItem('token', newToken.access_token);
                   const updatedReq = this.addTokenToHeaders(request, newToken.access_token);
+                  setTimeout(() => {
+                    this.dataService.getAccessibleSubModuleResponse().subscribe(response => {
+                      this.helperService.subModuleResponseList = response;
+                    }, error => {
+                    });
+                  }, 1000);
                   return next.handle(updatedReq);
                 } else {
                   return throwError('Failed to refresh token');
@@ -76,10 +85,10 @@ export class RequestInterceptorService implements HttpInterceptor {
         })
       );
     }
-  
+
     return next.handle(request);
   }
-  
+
   private addTokenToHeaders(request: HttpRequest<any>, token: string): HttpRequest<any> {
     request = request.clone({
       setHeaders: {
@@ -89,5 +98,5 @@ export class RequestInterceptorService implements HttpInterceptor {
 
     return request;
   }
-  
+
 }
