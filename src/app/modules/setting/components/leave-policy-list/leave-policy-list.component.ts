@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { LeaveTemplateCategoryRes } from 'src/app/models/LeaveTemplateCategoryRes';
 
 @Component({
   selector: 'app-leave-policy-list',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeavePolicyListComponent implements OnInit {
 
+  @Input() leaveCategories: LeaveTemplateCategoryRes[] = [];
   constructor() { }
 
   ngOnInit(): void {
