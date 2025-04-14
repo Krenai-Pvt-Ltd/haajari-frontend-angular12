@@ -479,6 +479,7 @@
                                   <label for="addressLine1" class="pb-2">Enter City </label><span class="text-danger">*</span>
                                   <input type="text" placeholder="City" required name="city"
                                   [(ngModel)]="organizationUserLocation.city"
+                                  maxlength="50"
                                   class="form-control whatsapp-login-input">
                               </div>
                               <div class="col-md-4 mb-3">
@@ -797,6 +798,8 @@
                     <h5 class="font-13 fw-semibold">{{list.name}}</h5>
                     <div class="d-flex align-items-center justify-content-between">
                     <p class="mb-0 font-11">{{ list.email || "N/A" }}</p>
+                    <span class="spreter-line"></span>
+                    <span class="shift-tag">{{ list.branch || "N/A"}}</span>
                     <span class="font-12 fw-semibold text-primary pointer"
                     (click)="removeUser(list.uuid)"><span>{{constant.REMOVE_SHIFT_STRING}} </span> {{
                       list.shiftName }} </span>

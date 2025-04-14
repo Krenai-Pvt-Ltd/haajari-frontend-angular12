@@ -52,12 +52,18 @@ export class PayrollSetupComponent implements OnInit {
     }
 
     currentTab: any= 'profile';
-    route(tabName: string) {
-      this.router.navigate(['/payroll/configuration'], {
-        queryParams: { tab: tabName },
-      });
+    route(tabName: string,route:string) {
+      if (tabName === 'salary-template') {
+        this.router.navigate([route]);
+      }else{
+        this.router.navigate([route], {
+          queryParams: { tab: tabName },
+        });
+      }
       this.currentTab = tabName;
     }
+
+    
     
     getStepRoute(stepId: number): string {
       const step = this.toDoStepList.find((s: any) => s.id === stepId);
@@ -77,5 +83,6 @@ export class PayrollSetupComponent implements OnInit {
         default: return 'profile';
       }
     }
+
 
 }

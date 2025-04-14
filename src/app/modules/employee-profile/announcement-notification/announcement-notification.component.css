@@ -64,8 +64,8 @@
     background-color: #F9FAFC;
 }
 .new-notification{
-    width: 5px;
-    height: 5px;
+    width: 8px;
+    height: 8px;
     background-color: var(--primary-color);
     border-radius: 50%;
 }
@@ -324,4 +324,55 @@
   100% {
     background-position: 200% 0;
   }
+}
+
+.mobile-notification{
+    display: none;
+}
+
+.attendance-notification{
+    background-color: #96D18B;
+}
+.onboarding-notification{
+    background-color: #4FAEA8;
+}
+.resignation-notification{
+    background-color: #DD5571;
+}
+.profile-notification{
+    background-color: #3E89AE;
+}
+.overtime-notification{
+    background-color: #2B627C;
+}
+.leave-notification{
+    background-color: #E99172;
+}
+.expense-notification{
+    background-color: #183B4B;
+}
+.shift-notification{
+    background-color: #3E89AE;
+}
+
+.assets-notification{
+    background-color: #008489;
+}
+
+.notification-name {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff;
+}
+@media screen and (max-width: 500px) {
+    .d-none-md{
+        display: none !important;
+    }
+    .desktop-notification{
+        display: none;
+    }
+    .mobile-notification{
+        display: block;
+    }
 }

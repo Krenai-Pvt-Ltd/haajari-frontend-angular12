@@ -1504,6 +1504,10 @@ a.fetch-location {
   color: #71737b;
 }
 
+::ng-deep .ant-popover-inner-content {
+  padding: 0px !important;
+}
+
 /* new side tab for new modal */
 
 .shift-time-modal {

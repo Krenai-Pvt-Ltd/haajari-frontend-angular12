@@ -41,7 +41,6 @@ import { AttendanceUpdateComponent } from './attendance-update/attendance-update
     LeaveRequestComponent,
     AttendanceUpdateComponent
 
-
   ],
   imports: [CommonModule, CommonRoutingModule, FormsModule, ReactiveFormsModule, NzFormModule, NzSelectModule, NzAutocompleteModule, NzInputModule, NgbModule,
     AgmCoreModule.forRoot({

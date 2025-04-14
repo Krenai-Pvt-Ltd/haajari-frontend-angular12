@@ -101,13 +101,13 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(this.returnUrl);
           
         }
-         else if (this.rbacService.userInfo.role != 'ADMIN') {
-          this.helperService.orgStepId = 5;
-          this.onboardingService.isLoadingOnboardingStatus = false;
-          this.router.navigate([this.helperService.subModuleResponseList[0].description], {
-            queryParams: { userId: this.UUID, dashboardActive: 'true' },
-          });
-        }
+        //  else if (this.rbacService.userInfo.role != 'ADMIN') {
+        //   this.helperService.orgStepId = 5;
+        //   this.onboardingService.isLoadingOnboardingStatus = false;
+        //   this.router.navigate([this.helperService.subModuleResponseList[0].description], {
+        //     queryParams: { userId: this.UUID, dashboardActive: 'true' },
+        //   });
+        // }
         else {
           await this._subscriptionService.LoadAsync();
           const helper = new JwtHelperService();

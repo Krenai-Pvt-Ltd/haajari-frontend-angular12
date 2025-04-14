@@ -12,5 +12,6 @@ export class EarningComponent{
     payTypeId:number=0;
     canStatusChange:boolean=false;
     custom:boolean=false;
+    deletion:boolean=false;
     configurations:ComponentConfiguration[]= new Array();
 }

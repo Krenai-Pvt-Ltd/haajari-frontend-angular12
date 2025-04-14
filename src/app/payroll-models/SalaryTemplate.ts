@@ -10,6 +10,8 @@ export class SalaryTemplate{
     updatedAt:Date=new Date();
     annualCtc:number=0;
     monthlyCtc:number=0;
+    monthlyGross:number=0;
+    annualGross:number=0;
     description:string=''
     // templateName:string='';
     statusId:number=0;
@@ -21,7 +23,20 @@ export class SalaryTemplate{
 }
 
 export class TemplateDeductionResponse{
-    esiConfiguration!:EmployeeProvidentFund;
-    epfConfiguration!:EpfTemplate;
+
+    id:number=0;
+    name:string='';
+    isCtcIncluded:number=0;
+    employeeContribution:number=0;
+    employerContribution:number=0;
+    statusId:number=0;
+    deductionFrequecncyId:number=0
+    isProRate:number=0;
+    condiserLop:number=0;
+    description:string='';
+    value:number=0;
+    amount:number=0;
     isAdd:boolean=false;
+    maxLimit:number=0;
+
 }
