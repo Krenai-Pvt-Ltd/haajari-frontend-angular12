@@ -75,7 +75,16 @@ export class EmployeeFinanceComponent implements OnInit {
   }
 
 
-  convertNumberToStringFormat(value: number) {
+  convertNumberToStringFormat(value: any) {
+    if(value == null){
+      return 0;
+    }
+    const formattedValue = value.toLocaleString('en-IN');
+    return formattedValue;
+  }
+
+
+  convertNumberToStringFormatWithDecimal(value: number) {
     const formattedValue = value.toLocaleString('en-IN', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
