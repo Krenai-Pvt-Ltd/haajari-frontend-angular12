@@ -26,6 +26,8 @@ import { SalaryTemplateComponent } from './component/salary-template/salary-temp
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PayrollManagementComponent } from './component/payroll-management/payroll-management.component';
 import { StatutoryDeductionComponent } from './component/statutory-deduction/statutory-deduction.component';
+import { SalaryTemplateCopyComponent } from './component/salary-template-copy/salary-template-copy.component';
+import { SalaryTemplateSidebarComponent } from './component/salary-template-sidebar/salary-template-sidebar.component';
 
 
 
@@ -45,7 +47,9 @@ import { StatutoryDeductionComponent } from './component/statutory-deduction/sta
     PreferencesComponent,
     PayrollManagementComponent,
     StatutoryDeductionComponent,
-    SalaryTemplateComponent
+    SalaryTemplateComponent,
+    SalaryTemplateCopyComponent,
+    SalaryTemplateSidebarComponent,
   ],
   imports: [
     CommonModule,

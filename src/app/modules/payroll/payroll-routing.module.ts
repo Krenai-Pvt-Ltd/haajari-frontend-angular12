@@ -6,6 +6,7 @@ import { ConfigurationComponent } from './component/configuration/configuration.
 import { PayrollManagementComponent } from './component/payroll-management/payroll-management.component';
 import { StatutoryDeductionComponent } from './component/statutory-deduction/statutory-deduction.component';
 import { SalaryTemplateComponent } from './component/salary-template/salary-template.component';
+import { SalaryTemplateCopyComponent } from './component/salary-template-copy/salary-template-copy.component';
 
 
 const routes: Routes = [{ path: '', redirectTo: '/payroll/setup', pathMatch: 'full' },
@@ -31,6 +32,10 @@ const routes: Routes = [{ path: '', redirectTo: '/payroll/setup', pathMatch: 'fu
       {
         path: 'salary-template',
         component: SalaryTemplateComponent
+      },
+      {
+        path: 'salary-template-copy',
+        component: SalaryTemplateCopyComponent
       },
       
       
