@@ -39,7 +39,7 @@ const routes: Routes = [{ path: '', redirectTo: '/payroll/setup', pathMatch: 'fu
       {
         path: 'salary-template-copy',
         component: SalaryTemplateCopyComponent
-      }
+      },
       {
         path: 'payroll-dashboard',
         component: PayrollDashboardComponent
