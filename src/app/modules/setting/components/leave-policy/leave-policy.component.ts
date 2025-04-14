@@ -282,11 +282,11 @@ export class LeavePolicyComponent implements OnInit {
     getLeaveCategoryListMethodCall() {
       this.dataService.getLeaveCategoryList().subscribe((response) => {
         if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
-          this.leaveCategoryList = response.listOfObject;
+          let categoryList: LeaveCategory[] = response.listOfObject;
 
-          this.leaveCategoryList = this.leaveCategoryList.filter(category => category.category === 'LEAVE');
-          this.onDutyList = this.leaveCategoryList.filter(category => category.category === 'ON_DUTY');
-          this.weekOffCategoryList = this.leaveCategoryList.filter(category => category.category === 'WEEK_OFF');
+          this.leaveCategoryList = categoryList.filter(category => category.category === 'LEAVE');
+          this.onDutyList = categoryList.filter(category => category.category === 'ON_DUTY');
+          this.weekOffCategoryList = categoryList.filter(category => category.category === 'WEEK_OFF');
 
         }
       }, (error) => {
