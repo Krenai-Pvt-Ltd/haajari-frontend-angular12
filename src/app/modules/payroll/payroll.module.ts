@@ -28,6 +28,7 @@ import { PayrollManagementComponent } from './component/payroll-management/payro
 import { StatutoryDeductionComponent } from './component/statutory-deduction/statutory-deduction.component';
 import { SalaryTemplateCopyComponent } from './component/salary-template-copy/salary-template-copy.component';
 import { SalaryTemplateSidebarComponent } from './component/salary-template-sidebar/salary-template-sidebar.component';
+import { PayrollDashboardComponent } from './component/payroll-dashboard/payroll-dashboard.component';
 
 
 
@@ -50,6 +51,7 @@ import { SalaryTemplateSidebarComponent } from './component/salary-template-side
     SalaryTemplateComponent,
     SalaryTemplateCopyComponent,
     SalaryTemplateSidebarComponent,
+    PayrollDashboardComponent
   ],
   imports: [
     CommonModule,
