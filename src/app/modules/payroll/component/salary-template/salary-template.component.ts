@@ -68,10 +68,11 @@ public _helperService : HelperService) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 salaryTemplateList:SalaryTemplate[] = new Array();
 holdTotalItems:number=0;
+isActive:number=0;
 getOrganizationSalaryTemplates() {
   this.shimmer=true;
   this.salaryTemplateList = [];
-  this._salaryTemplateService.getSalaryTemplates(this.currentPage, this.itemPerPage,this.search).subscribe((response) => {
+  this._salaryTemplateService.getSalaryTemplates(this.isActive,this.currentPage, this.itemPerPage,this.search).subscribe((response) => {
       if (response.status) {
         this.salaryTemplateList = response.object.content;
         this.totalItems = response.object.totalElements;
