@@ -262,7 +262,7 @@
                   </button>
                   <button class="btn approve-btn" [disabled]="partiallyPayment  && (!partialAmount || partialAmount > userExpense.approvedAmount)"
                   *ngIf="!expenseCancelToggle && userExpense?.status.id == 14" (click)="showPayCashDiv()">Settle Now</button>
-                  <button class="btn btn-soft-success text-success" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
+                  <button class="btn btn-soft-success" [ngClass]="{'btn-border': partiallyPayment && partialAmount}"
                   [disabled]="partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount)"
                   *ngIf="!expenseCancelToggle && userExpense?.status.id == 46" (click)="showPayCashDiv()">Approve</button>
                </div>
