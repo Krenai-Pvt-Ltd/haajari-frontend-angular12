@@ -1,12 +1,16 @@
+
+
+
+
 <div class="page-wrapper">
     <div class="page-content-tab mb-4">
         <div class="row mt-2 p-3">
-            <div class="col-md-8">
-                <div class="faq-topic">
-                    <h5 class="mb-3 font-16 text-black fw-normal">We’re here to help</h5>
+            <div class="col-md-8" *ngIf="!viewDetails">
+                <div class="faq-topic" *ngFor="let section of faqList" >
+                    <h5 class="mb-3 font-16 text-black fw-normal">{{ section.topic }}</h5>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 pointer" (click)="route()">
+                        <div class="col-md-6" *ngFor="let faq of (section.expanded ? section.faqs : section.faqs.slice(0, 6))">
+                            <div class="faq-point p-3 d-flex align-items-start gap-3 pointer" (click)="faqDetails(faq,section.topic)">
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                                         <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
@@ -18,108 +22,17 @@
                                       </svg>
                                 </div>
                                 <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
+                                    <h5 class="mb-2 font-14 fw-semibold text-black">{{ faq.question }}</h5>
+                                    <p class="font-13 fw-normal mb-0">{{ faq.shortAnswer }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-itemms-center gap-3 justify-content-between">
+                        
+                    <div class="d-flex align-itemms-center gap-3 justify-content-between" *ngIf="section.faqs.length > 6">
                         <div class="w-100">
                             <hr>
                         </div>
-                        <button class="btn p-0 font-14 text-black text-end find-more-btn">Find More
+                        <button class="btn p-0 font-14 text-black text-end find-more-btn" (click)="toggleSection(section)">{{ section.expanded ? 'Find Less' : 'Find More' }}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <mask id="mask0_8410_327" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                                 <rect width="24" height="24" fill="#D9D9D9"/>
@@ -130,138 +43,62 @@
                                 </svg>
                         </button>
                     </div>
-
-                    <h5 class="mb-3 font-16 text-black fw-normal mt-3">General & Technical Solution </h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 mb-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="faq-point p-3 d-flex align-items-start gap-3 pointer">
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                        <mask id="mask0_8410_277" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                          <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
-                                        </mask>
-                                        <g mask="url(#mask0_8410_277)">
-                                          <path d="M3 17.5V15.5H8V13.5H3V11.5H8V9.5H3V7.5H8C8.55 7.5 9.02083 7.69583 9.4125 8.0875C9.80417 8.47917 10 8.95 10 9.5V11C10 11.4167 9.85417 11.7708 9.5625 12.0625C9.27083 12.3542 8.91667 12.5 8.5 12.5C8.91667 12.5 9.27083 12.6458 9.5625 12.9375C9.85417 13.2292 10 13.5833 10 14V15.5C10 16.05 9.80417 16.5208 9.4125 16.9125C9.02083 17.3042 8.55 17.5 8 17.5H3ZM21 11.5V15.5C21 16.05 20.8042 16.5208 20.4125 16.9125C20.0208 17.3042 19.55 17.5 19 17.5H14C13.45 17.5 12.9792 17.3042 12.5875 16.9125C12.1958 16.5208 12 16.05 12 15.5V9.5C12 8.95 12.1958 8.47917 12.5875 8.0875C12.9792 7.69583 13.45 7.5 14 7.5H19C19.55 7.5 20.0208 7.69583 20.4125 8.0875C20.8042 8.47917 21 8.95 21 9.5H14V15.5H19V13.5H16.5V11.5H21Z" fill="#1C1B1F"/>
-                                        </g>
-                                      </svg>
-                                </div>
-                                <div>
-                                    <h5 class="mb-2 font-14 fw-semibold text-black">What is Hajiri, and how does it help me?</h5>
-                                    <p class="font-13 fw-normal mb-0">Learn More abount Hajiri  and how it will help to Hajiri and how it will help to manage your workspace</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-itemms-center gap-3 justify-content-between">
-                      <div class="w-100">
-                          <hr>
-                      </div>
-                      <button class="btn p-0 font-14 text-black text-end find-more-btn">Find More
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                              <mask id="mask0_8410_327" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                              <rect width="24" height="24" fill="#D9D9D9"/>
-                              </mask>
-                              <g mask="url(#mask0_8410_327)">
-                              <path d="M12 15.4L6 9.4L7.4 8L12 12.6L16.6 8L18 9.4L12 15.4Z" fill="black"/>
-                              </g>
-                              </svg>
-                      </button>
-                  </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <app-chat></app-chat>
+        </div>
+
+        <div class="col-md-8" *ngIf="viewDetails">
+            <div class="faq-topic-detail pr-3">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="back-btm pointer d-flex align-items-center justify-content-center bg-white" type="button" (click)="viewFaqDetails()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <mask id="mask0_8410_560" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="22">
+                            <rect x="0.200195" y="0.200195" width="21.6" height="21.6" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_8410_560)">
+                            <path d="M14.6001 20L5.6001 11L14.6001 2L16.1976 3.5975L8.7951 11L16.1976 18.4025L14.6001 20Z" fill="#6666F2"/>
+                            </g>
+                            </svg>
+                        </button>
+                    <p class="mb-0 font-14 fw-normal"><a class="" (click)="viewFaqDetails()">FAQ > </a>{{ selectedTopic }}</p>
+                </div>
+                <div class="mt-4">
+                <h5 class="mb-0 font-20 fw-semibold lh-base">{{selectedfaq.question}}</h5>
+                <p class="mb-0 mt-4 font-13 lg-base">{{selectedfaq.shortAnswer}}</p>
+                <!-- <p class="mb-0 font-13 lg-base mt-4"> Hajiri’s customizable dashboards and role-based permissions help ensure every employee is accurately accounted for. With secure data encryption and compliance with major regulations, you can trust your information is protected. Plus, our comprehensive support resources—including a knowledge base, ticket system, and live chat—ensure you get help whenever you need it. Ultimately, Hajiri saves you time, reduces admin workload, and provides insights that can help boost productivity across your organization</p> -->
+                </div>
+                <div class="mt-4">
+                    <iframe width="100%" height="500" [src]="setPreviewString(selectedfaq.videoUrl)" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"  allowfullscreen></iframe>
+                </div>
+                
+                <!-- <div class="mt-4">
+                    <h5 class="mb-33 font-20 fw-semibold lh-base">What Is Hajiri and How Does It Help Me?</h5>
+                    <p class="mb-3 mt-4 font-13 lg-base">Hajiri is a comprehensive workforce management platform that streamlines attendance tracking, scheduling, and HR tasks—all in one place. By incorporating real-time clock-ins, geolocation tracking, and automated reporting, Hajiri eliminates the need for manual spreadsheets or paper-based processes.</p>
+                    <h5 class="mb-3 font-20 fw-semibold lh-base">Key Benefits</h5>
+                    <h5 class="mb-2 font-14 fw-semibold">1. Accurate Attendance Tracking</h5>
+                    <p class="mb-3 font-13 lg-base">Eliminate manual errors with automatic clock-ins, digital timesheets, and real-time dashboards.</p>
+                    <h5 class="mb-2 font-14 fw-semibold">2. Time & Cost Savings</h5>
+                    <p class="mb-3 font-13 lg-base">Eliminate manual errors with automatic clock-ins, digital timesheets, and real-time dashboards.</p>
+                    <h5 class="mb-2 font-14 fw-semibold">3. Enhanced Visibility & Control</h5>
+                    <p class="mb-3 font-13 lg-base">Monitor workforce activity across locations or departments, and generate custom reports for data-driven decisions.</p>
+                    <h5 class="mb-2 font-14 fw-semibold">4. Scalability & Flexibility</h5>
+                    <p class="mb-3 font-13 lg-base">Adapt to growing teams or multiple worksites, with role-based permissions and easy-to-configure settings.</p>
+                    <h5 class="mb-2 font-14 fw-semibold">5. Robust Security & Compliance</h5>
+                    <p class="mb-3 font-13 lg-base">Protect your data with advanced encryption and meet industry standards (e.g., GDPR) for peace of mind.</p>
+                    <h5 class="mb-2 font-14 fw-semibold">6. Dedicated Support & Resources</h5>
+                    <p class="mb-3 font-13 lg-base">Access a knowledge base, live chat, and email support for quick solutions to any challenges.</p>
+                </div> -->
+
+                <div [innerHTML]="selectedfaq.answer"></div>
+               
             </div>
         </div>
+        <div class="col-md-4">
+          <app-chat></app-chat>
+      </div>
     </div>
 </div>
+
+
+
+

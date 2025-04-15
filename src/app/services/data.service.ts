@@ -5649,6 +5649,13 @@ export class DataService {
   }
 
 
+  getFaq(pageNumber : number, itemPerPage : number) {
+    const params = new HttpParams()
+      .set('page', pageNumber)
+      .set('itemsPerPage',itemPerPage)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/faq`,{ params });
+  }
   
 
 
