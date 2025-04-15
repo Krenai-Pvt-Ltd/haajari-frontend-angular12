@@ -27,8 +27,7 @@
                             <ng-container *ngFor="let component of  templateComponents.earningComponents;let i = index">
                             <li  
                             class="d-flex align-items-center justify-content-between font-13 fw-normal"
-                            (click)="toggleEarningComponent(component)"
-                            onclick="event.stopPropagation()">
+                            (click)="toggleEarningComponent(component)">
                                 {{component.displayName}}<span class="lh-base">
                                     <i class="bi bi-plus font-20" ></i>
                                 </span>

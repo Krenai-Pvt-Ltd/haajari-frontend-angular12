@@ -44,7 +44,7 @@ export class SalaryComponent implements OnInit {
   currentPage = 1;
   itemPerPage = 10;
   totalItems = 0;
-
+  totalPages:number=0;
   shimmer: boolean = false;
   toggle:boolean =false;
   saveLoader:boolean=false;
@@ -122,6 +122,7 @@ export class SalaryComponent implements OnInit {
             if(response.status){
               this.earningComponents= response.object.content;
               this.totalItems = response.object.totalElements;
+              this.totalPages = response.object.totalPages;
               if(this.earningComponents==null){
                 this.earningComponents= new Array();
                 this.totalItems = 0;
@@ -129,6 +130,7 @@ export class SalaryComponent implements OnInit {
             }else{
               this.earningComponents= new Array();
               this.totalItems = 0;
+              this.totalPages = 0;
             }
             this.shimmer = false;
           },
@@ -136,6 +138,8 @@ export class SalaryComponent implements OnInit {
             this.shimmer = false;
             this.earningComponents= new Array();
             this.totalItems = 0;
+            this.totalPages = 0;
+
           }
         );
       }
@@ -385,14 +389,18 @@ getOrganizationBenefitComponent(){
         if(response.status){
           this.benefitComponents= response.object.content;
           this.totalItems = response.object.totalElements;
+          this.totalPages = response.object.totalPages;
 
           if(this.benefitComponents==null){
             this.benefitComponents= new Array();
             this.totalItems = 0;
+            this.totalPages =0;
           }
         }else{
           this.benefitComponents= new Array();
           this.totalItems = 0;
+          this.totalPages =0;
+
         }
         this.shimmer = false;
       },
@@ -400,6 +408,8 @@ getOrganizationBenefitComponent(){
         this.shimmer = false;
         this.benefitComponents= new Array();
         this.totalItems = 0;
+        this.totalPages =0;
+
       }
     );
   }
@@ -614,14 +624,18 @@ getOrganizationDeductionComponent(){
         if(response.status){
           this.deductionComponents= response.object.content;
           this.totalItems = response.object.totalElements;
+          this.totalPages = response.object.totalPages;
 
           if(this.deductionComponents==null){
             this.deductionComponents= new Array();
             this.totalItems = 0;
+            this.totalPages = 0;
           }
         }else{
           this.deductionComponents= new Array();
           this.totalItems = 0;
+          this.totalPages = 0;
+
         }
         this.shimmer = false;
       },
@@ -629,6 +643,8 @@ getOrganizationDeductionComponent(){
         this.shimmer = false;
         this.deductionComponents= new Array();
         this.totalItems = 0;
+        this.totalPages = 0;
+
       }
     );
   }
@@ -766,14 +782,18 @@ getOrganizationDeductionComponent(){
         if(response.status){
           this.reimbursementComponents= response.object.content;
           this.totalItems = response.object.totalElements;
+          this.totalPages = response.object.totalPages;
 
           if(this.reimbursementComponents==null){
             this.reimbursementComponents= new Array();
             this.totalItems = 0;
+            this.totalPages = 0;
           }
         }else{
           this.reimbursementComponents= new Array();
           this.totalItems = 0;
+          this.totalPages = 0;
+
         }
         this.shimmer = false;
       },
@@ -781,6 +801,8 @@ getOrganizationDeductionComponent(){
         this.shimmer = false;
         this.reimbursementComponents= new Array();
         this.totalItems = 0;
+        this.totalPages = 0;
+
       }
     );
   }

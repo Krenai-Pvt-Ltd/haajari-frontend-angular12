@@ -124,7 +124,7 @@
                             </tbody>
                         </table>
 
-                        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalPages > 1">
                             <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                             <div class="pagition-box">
                                 <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"

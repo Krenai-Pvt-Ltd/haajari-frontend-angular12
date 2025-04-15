@@ -45,6 +45,7 @@
                                     *ngIf="search!=''" (click)="clearSearch()"></i>
                             </div>
                         </div>
+                            <button class="btn p-0 font-14 text-primary fw-semibold add-btn" (click)="mapUser()"><i class="bi bi-plus-lg"></i> Map User</button>
                             <button class="btn p-0 font-14 text-primary fw-semibold add-btn" (click)="createTemplate(true)"><i class="bi bi-plus-lg"></i> Create New</button>
                         </div>
                     </div>
@@ -124,7 +125,7 @@
                             </tbody>
                         </table>
 
-                        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalItems > 0">
+                        <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="totalPages > 1">
                             <p class="mb-0"> Showing {{_helperService.startIndex(currentPage,itemPerPage) }} - {{_helperService.lastIndex(currentPage,itemPerPage,totalItems)}} of {{ totalItems }} results</p>
                             <div class="pagition-box">
                                 <ngb-pagination [collectionSize]="totalItems" [page]="currentPage" [pageSize]="itemPerPage" [maxSize]="5"
@@ -138,7 +139,7 @@
             <!-- template list end  -->
             <ng-container *ngIf="toggle">
             <div class="row m-0">
-            <div class="col-md-3 pl-0 pr-0">
+            <div class="col-md-3 pl-0 pr-0" *ngIf="!isUserMapping">
                 <app-salary-template-sidebar 
                             [templateComponents]="templateComponents"
                             [loader]="loader"
@@ -147,9 +148,28 @@
                             (deductionComponentToggled)="toggleDeductionComponent($event)"
                 ></app-salary-template-sidebar>
              </div>
-               <div class="col-md-9 pl-0">
+               <div [ngClass]="isUserMapping ? 'col-md-12 pl-0' : 'col-md-9 pl-0'">
+                    <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center"
+                        *ngIf="isUserMapping && salaryTemplateList.length>0">
+                            <div class="w-100" >
+                            <nz-select  name="salaryTemplate" class="form-control w-100 placeholder-line currency-types" 
+                            nzSize="large" nzPlaceHolder="Select Template"
+                            [(ngModel)]="selectedTemplateId"
+                            (ngModelChange)="selectedTemplate($event)"
+                            required>
+                                <nz-option 
+                                *ngFor="let template of salaryTemplateList"
+                                [nzLabel]="template.name" 
+                                [nzValue]="template.id">
+                                </nz-option>
+                            </nz-select>
+                            </div>
+                            <button type="button" (click)="reviseSalary()" class="btn text-primary border-primary dropdown-toggle d-flex align-items-center justify-content-center font-13 fw-semibold">
+                                Revise Salary
+                            </button>
+                    </div>
                     <form #templateForm="ngForm" ngNativeValidate (ngSubmit)="saveSalaryTemplate()">
-                    <div class="create-template-box p-3 pt-4 h-100 pb-5">
+                    <div class="create-template-box p-3 pt-4 h-100 pb-5"  *ngIf="!isUserMapping || (isUserMapping && selectedTemplateId)">
                         <div class="row">
                            <div class="col-md-6 mb-3">
                             <label class="pb-2">Template Name </label>
@@ -164,7 +184,7 @@
                             <input type="number" placeholder="Enter annual amount"  name="annualctc" class="form-control whatsapp-login-input" style="padding-left: 65px;" 
                             pattern="^[1-9][0-9]*$" 
                             [(ngModel)]="salaryTemplate.annualCtc" required 
-                            (ngModelChange)="onUserInteraction()"
+                            (ngModelChange)="CalculateMonthlyAmountNew()"
                             [max]="10000000">
                             <span class="percentage-icon d-flex align-items-center justify-content-center">
                                 <i class="bi bi-currency-rupee font-18"></i>
@@ -177,6 +197,19 @@
                             pattern="^[A-Za-z\s]+$" 
                             [(ngModel)]="salaryTemplate.description"></textarea>
                            </div>
+                           <div class="col-md-8">
+                            <div class="row" *ngIf="userSalaryTemplate.isRevision">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="pb-2">Revised Salary Effective from</label>
+                                        <nz-date-picker class="form-control w-100 placeholder-line" nzMode="month" 
+                                        name="effetive Date" nzBorderless nzFormat="MM/yyyy" nzPlaceHolder="Starting Month"
+                                        [(ngModel)]="userSalaryTemplate.effectiveDate" [nzDisabledDate]="disableMonths"    
+                                        ></nz-date-picker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </div>
                         <div class="mt-3 template-calculation border-rounded-2 bg-white">
                             <div class="row p-3 border-bottom p-0 m-0 px-4">
@@ -230,7 +263,6 @@
                                         <div class="col-md-3">
                                                 <p class="mb-0 font-13 color-basic fw-semibold">{{component.displayName}}</p>
                                                 <p class="mb-0 font-12 color-basic" *ngIf="component.displayName=='Fixed Allowance'" >Monthly CTC - Sum of all other components</p>
-    
                                         </div>
                                         <!-- Calculation Type start -->
                                         <div class="col-md-3" [ngSwitch]="component.valueTypeId">
@@ -277,7 +309,7 @@
                                                 <p class="font-14 fw-normal color-basic mb-0"  *ngIf="component.amount>=0 && !isSystemCalculated(component)">{{component.amount * 12}}</p>
                                                 <p class="font-13 fw-normal color-basic mb-0" *ngIf="component.amount<0 || isSystemCalculated(component)"> System Calculated</p>
                                             </div>
-                                            <button *ngIf="!(component.name == 'Basic' || component.name == 'Fixed Allowance')" 
+                                            <button *ngIf="!isUserMapping && !(component.name == 'Basic' || component.name == 'Fixed Allowance' )" 
                                             class="btn p-0 text-danger action-btn font-18" (click)="toggleEarningComponent(component)"><i class="bi bi-x"></i></button>
      
                                         </div>
@@ -319,7 +351,8 @@
                                                 <p class="font-13 fw-normal color-basic mb-0">{{component.amount*12}}</p>
                                             </div>
                                         </div>
-                                        <button class="btn p-0 text-danger action-btn font-18" (click)="toggleReimbursementComponent(component)"><i class="bi bi-x"></i></button>
+                                        <button class="btn p-0 text-danger action-btn font-18" *ngIf="!isUserMapping"
+                                        (click)="toggleReimbursementComponent(component)"><i class="bi bi-x"></i></button>
                                     </div>
                                     
                                 </div> 
@@ -357,7 +390,8 @@
                                           <p class="font-13 fw-normal color-basic mb-0" *ngIf="!previewCalculations">{{ component.amount*12 }}</p>
                                         </div>
                                       </div>
-                                      <button class="btn p-0 text-danger action-btn font-18" (click)="toggleDeductionComponent(component)"><i class="bi bi-x"></i></button>
+                                      <button class="btn p-0 text-danger action-btn font-18" *ngIf="!isUserMapping"
+                                      (click)="toggleDeductionComponent(component)"><i class="bi bi-x"></i></button>
                                     </div>
                                   </div>
                                   <div>
@@ -365,7 +399,7 @@
                                 </ng-container>
                             </div>
 
-                                <div class="earing-list p-3 border-rounded-2  pt-0" *ngIf="isUserInteracting && negativeMonthlyCTC<0">
+                                <div class="earing-list p-3 border-rounded-2  pt-0" *ngIf="negativeMonthlyCTC<0">
                                     <div class="row align-items-center border-bottom position-relative mb-3 pb-3 pt-3">
                                         <div class="col-md-6">
                                             <div>

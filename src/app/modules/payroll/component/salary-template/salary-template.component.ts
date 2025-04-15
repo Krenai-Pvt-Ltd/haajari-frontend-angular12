@@ -69,6 +69,7 @@ public _helperService : HelperService) {
 salaryTemplateList:SalaryTemplate[] = new Array();
 holdTotalItems:number=0;
 isActive:number=0;
+totalPages:number=0;
 getOrganizationSalaryTemplates() {
   this.shimmer=true;
   this.salaryTemplateList = [];
@@ -76,16 +77,19 @@ getOrganizationSalaryTemplates() {
       if (response.status) {
         this.salaryTemplateList = response.object.content;
         this.totalItems = response.object.totalElements;
+        this.totalPages = response.object.totalPages;
         if(!this.isSearching){
           this.holdTotalItems = this.totalItems ;
         }
         if(this.salaryTemplateList == null){
           this.salaryTemplateList = new Array();
           this.totalItems = 0;
+          this.totalPages = 0;
         }
       } else {
         this.salaryTemplateList = new Array();
         this.totalItems = 0;
+        this.totalPages = 0;
       }
       this.isSearching=false;
       this.shimmer=false;
@@ -93,6 +97,7 @@ getOrganizationSalaryTemplates() {
     (error) => {
       this.salaryTemplateList = new Array();
       this.totalItems = 0;
+      this.totalPages = 0;
       this.shimmer=false;
       this.isSearching=false;
     }
@@ -266,7 +271,6 @@ toggleDeductionComponent(component: TemplateDeductionResponse) {
   }
   this.CalculateMonthlyAmountNew();
 }
-
 
 calculatedAmountWithoutFixed:number=0;
 totalEarningAmount: number=0;
