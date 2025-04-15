@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PayrollDashboardComponent } from './payroll-dashboard.component';
+import { PayrollManagementsComponent } from './payroll-managements.component';
 
-describe('PayrollDashboardComponent', () => {
-  let component: PayrollDashboardComponent;
-  let fixture: ComponentFixture<PayrollDashboardComponent>;
+describe('PayrollManagementsComponent', () => {
+  let component: PayrollManagementsComponent;
+  let fixture: ComponentFixture<PayrollManagementsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PayrollDashboardComponent ]
+      declarations: [ PayrollManagementsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PayrollDashboardComponent);
+    fixture = TestBed.createComponent(PayrollManagementsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
