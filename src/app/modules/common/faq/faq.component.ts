@@ -14,12 +14,12 @@ export class FaqComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFaq();
-    this.injectTawkScript();
+    // this.injectTawkScript();
   }
-
   private scriptId = 'tawk-script';
   private tawkInterval: any;
   ngOnDestroy(): void {
+    console.log("destriy called");
     this.cleanupTawk();
   }
 
@@ -41,34 +41,99 @@ export class FaqComponent implements OnInit {
 
   }
 
-  private cleanupTawk() {
-    // Remove script
-    const script = document.getElementById(this.scriptId);
-    if (script) {
-      script.remove();
+  cleanupTawk() {
+    // 1. Remove script by ID
+    const tawkScript = document.getElementById('tawk-script');
+    if (tawkScript && tawkScript.parentNode) {
+      tawkScript.parentNode.removeChild(tawkScript);
+      console.log('✅ Removed Tawk script');
     }
+  this.startTawkCleanupWatcher()
+     // 2. Remove Tawk-related iframes and DOM nodes
+  const selectors = [
+    'iframe[src*="tawk.to"]',
+    '.tawk-min-container',
+    '.tawk-button',
+    '[class*="tawk"]',
+    '[id*="tawk"]',
+  ];
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.remove();
+      console.log(`✅ Removed element matching: ${sel}`);
+    });
+  });
 
-    // Remove all Tawk.to injected DOM elements
-    const tawkSelectors = [
-      '[id^="tawk"]',
-      '[class^="tawk"]',
-      '[id*="tawk"]',
-      '[class*="tawk"]',
+  // 3. Delete global vars
+  delete (window as any).Tawk_API;
+  delete (window as any).Tawk_LoadStart;
+  
+  
+    console.log('✅ Tawk cleanup complete');
+  }
+  
+  removeTawkElements() {
+    const selectors = [
+      'script[src*="tawk.to"]',
       'iframe[src*="tawk.to"]',
       'link[href*="tawk.to"]',
-      'script[src*="tawk.to"]',
+      '[id*="tawk"]',
+      '[class*="tawk"]',
       'style[data-tawk]',
       '.tawk-min-container',
       '.tawk-button',
       '.tawk-bubble-container',
       '.tawk-live-chat'
     ];
-
-    tawkSelectors.forEach(selector => {
-      const elements = document.querySelectorAll(selector);
-      elements.forEach(el => el.remove());
+  
+    selectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(el => {
+        console.log('Removing element:', el);
+        el.remove();
+      });
     });
   }
+
+  startTawkCleanupWatcher() {
+    // Remove existing Tawk-related elements immediately
+    this.removeTawkElements();
+  
+    // Start a MutationObserver to watch for new additions
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach((node: any) => {
+          if (node.tagName === 'SCRIPT' && node.src && node.src.includes('tawk.to')) {
+            console.log('Removing Tawk script:', node.src);
+            node.remove();
+          }
+  
+          if (node.tagName === 'IFRAME' && node.src && node.src.includes('tawk.to')) {
+            console.log('Removing Tawk iframe:', node.src);
+            node.remove();
+          }
+  
+          if (node.tagName === 'LINK' && node.href && node.href.includes('tawk.to')) {
+            console.log('Removing Tawk link:', node.href);
+            node.remove();
+          }
+  
+          if (node.tagName === 'DIV' && node.id && node.id.includes('tawk')) {
+            console.log('Removing Tawk div:', node.id);
+            node.remove();
+          }
+        });
+      });
+    });
+  
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  
+    // Optionally store the observer so you can disconnect it later
+    // this.tawkObserver = observer;
+  }
+  
 
   route(faq: any) {
     this.router.navigate(['/faq-detail'], { state: { faq } });
