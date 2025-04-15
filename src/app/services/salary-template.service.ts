@@ -18,8 +18,9 @@ export class SalaryTemplateService {
     return this._http.get<any>(`${this._key.base_url}/salary-template/template-components`);
   }
 
-  getSalaryTemplates(currentPage:number,itemPerPage:number,search:string): Observable<any>{
+  getSalaryTemplates(isActive:number,currentPage:number,itemPerPage:number,search:string): Observable<any>{
     const params = new HttpParams()
+    .set('is_active', isActive)
     .set('currentPage', currentPage)
     .set('itemPerPage', itemPerPage)
     .set('search',search);
