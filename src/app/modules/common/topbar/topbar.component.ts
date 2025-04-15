@@ -230,6 +230,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Manage Employee Expense Reimbursements"
       break;
     }
+    case this.Routes.LEAVEPOLICY:{
+      routeValue = 'Leave Policy';
+      routeDesc="Define and Manage Leave Policies"
+      break;
+    }
 
    }
 
