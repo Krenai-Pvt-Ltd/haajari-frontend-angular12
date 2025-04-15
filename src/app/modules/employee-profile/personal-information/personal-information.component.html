@@ -1,8 +1,8 @@
 <div class="m-3 assets-detail p-3 pt-0 mt-4" *ngIf="!profileEdit">
   <div class="employee-profile-information">
 
-<ng-container *ngIf="!profileEdit && !profileLoding"> 
-    <div class="action-btn d-n-desktop mb-3 d-none" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING' && !profileLoding">
+<ng-container *ngIf="!profileEdit && !profileLoding">
+    <div class="action-btn d-n-desktop mb-3" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING' && !profileLoding">
       <div class="d-flex align-items-center gap-3" *ngIf="requestedData && rbacService.userInfo.role != 'USER' && this.userId !== rbacService.getUuid() ">
         <button
           class="btn text-success bg-soft-success font-14 d-flex align-items-center gap-1 justify-content-center fw-semibold"
@@ -76,7 +76,7 @@
 
     <div class="d-flex align-items-center justify-content-between profile-imfo mt-2 mb-3">
 
-      
+
       <div>
         <div class="d-flex align-items-center gap-2">
         <h5>{{ user.name }}</h5>
