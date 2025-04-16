@@ -577,7 +577,7 @@
 
                   <!-- Staff Selection Tab -->
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    <form #staffForm="ngForm" (ngSubmit)="saveLeaveTemplate()" novalidate>
+                    <form #staffForm="ngForm" novalidate>
                       <div class="col-md-12">
                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
                           <div style="width: 70%;">
@@ -640,9 +640,10 @@
                                   <ng-container *ngIf="staff.joiningDate && staff.id !== editingStaff.id">
                                     <button
                                       class="add-employee border-0 fw-normal border-rounded-2"
-                                      (click)="onStaffSelect(staff); staff.checked = true"
+                                      (click)="onStaffSelect(staff); staff.checked = !staff.checked"
                                     >
-                                      <i class="bi bi-plus-lg"></i> Add
+                                      <i *ngIf="!staff.checked" class="bi bi-plus-lg"></i ><span *ngIf="!staff.checked"> Add </span>
+                                      <i *ngIf="staff.checked" class="bi bi-minus-lg"></i><span *ngIf="staff.checked"> Remove </span>
                                     </button>
                                   </ng-container>
                                   <ng-container *ngIf="!staff.joiningDate && staff.id !== editingStaff.id">
@@ -1024,9 +1025,10 @@
                                   <ng-container *ngIf="staff.joiningDate && staff.id !== editingStaff.id">
                                     <button
                                       class="add-employee border-0 fw-normal border-rounded-2"
-                                      (click)="onStaffSelect(staff); staff.checked = true"
+                                      (click)="onStaffSelect(staff); staff.checked = !staff.checked"
                                     >
-                                      <i class="bi bi-plus-lg"></i> Add
+                                      <i *ngIf="!staff.checked" class="bi bi-plus-lg"></i ><span *ngIf="!staff.checked"> Add </span>
+                                      <i *ngIf="staff.checked" class="bi bi-minus-lg"></i><span *ngIf="staff.checked"> Remove </span>
                                     </button>
                                   </ng-container>
                                   <ng-container *ngIf="!staff.joiningDate && staff.id !== editingStaff.id">
@@ -1407,9 +1409,10 @@
                                   <ng-container *ngIf="staff.joiningDate && staff.id !== editingStaff.id">
                                     <button
                                       class="add-employee border-0 fw-normal border-rounded-2"
-                                      (click)="onStaffSelect(staff); staff.checked = true"
+                                      (click)="onStaffSelect(staff); staff.checked = !staff.checked"
                                     >
-                                      <i class="bi bi-plus-lg"></i> Add
+                                      <i *ngIf="!staff.checked" class="bi bi-plus-lg"></i ><span *ngIf="!staff.checked"> Add </span>
+                                      <i *ngIf="staff.checked" class="bi bi-minus-lg"></i><span *ngIf="staff.checked"> Remove </span>
                                     </button>
                                   </ng-container>
                                   <ng-container *ngIf="!staff.joiningDate && staff.id !== editingStaff.id">
