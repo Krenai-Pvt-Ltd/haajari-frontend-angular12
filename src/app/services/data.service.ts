@@ -4429,6 +4429,35 @@ export class DataService {
     });
   }
 
+  getLeaveTemplates(
+    category?: string,
+    page: number = 0,
+    size: number = 10,
+    sort: string = 'id,asc',
+    startDate?: Date,
+    endDate?: Date
+  ){
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', sort);
+
+    if (category) {
+      params = params.set('category', category);
+    }
+    if (startDate) {
+      params = params.set('startDate', startDate.toISOString());
+    }
+    if (endDate) {
+      params = params.set('endDate', endDate.toISOString());
+    }
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/leave-template/by-filter`,
+      { params }
+    );
+  }
+
   saveSlackUserIdViaEmail(email: string) {
     const params = new HttpParams().set('emailId', email);
 
@@ -5592,7 +5621,7 @@ export class DataService {
       .append('endDate', endDate)
       .append('filter_criteria', filter)
       .append('dashBoardView',true)
-      
+
       if (userIds) {
         params = params.append(
           'userIds',
@@ -5612,7 +5641,7 @@ export class DataService {
     let params = new HttpParams()
       .append('filter', filter)
       .append('dashBoardView',true)
-      
+
       if (userIds) {
         params = params.append(
           'userIds',
@@ -5635,7 +5664,7 @@ export class DataService {
       .append('startDate', startDate)
       .append('endDate', endDate)
       .append('dashBoardView',true)
-      
+
       if (userIds) {
         params = params.append(
           'userIds',
@@ -5664,7 +5693,7 @@ export class DataService {
   }
 
 
-  
+
 
 
 

@@ -12,6 +12,7 @@
               aria-controls="pills-announcement"
               aria-selected="true"
               class="nav-link active"
+              (click)="onTabChange('LEAVE')"
             >Leave</a>
           </li>
           <li class="nav-item d-flex align-items-center">
@@ -23,6 +24,7 @@
               aria-controls="pills-notification"
               aria-selected="false"
               class="nav-link"
+              (click)="onTabChange('ON_DUTY')"
             >On Duty</a>
           </li>
           <li class="nav-item d-flex align-items-center">
@@ -34,6 +36,7 @@
               aria-controls="pills-notification"
               aria-selected="false"
               class="nav-link"
+              (click)="onTabChange('WEEK_OFF')"
             >Week Off</a>
           </li>
         </ul>
@@ -430,8 +433,13 @@
                         </div>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-profile" (click)="category1.click()" [disabled]="templateForm.invalid">
-                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-profile" (click)="category1.click()" [disabled]="templateForm.invalid" [ngClass]="{'btn-primary text-white btn-border' : !templateForm.invalid}">
+                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                          fill="none">
+                          <path
+                            d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                            fill="#6666F2" />
+                        </svg>
                         </button>
                       </div>
                     </form>
@@ -491,8 +499,10 @@
                         <div class="col-md-3 mb-3">
                           <label class="pb-2">Unused Leave Action <span class="text-danger">*</span></label>
                           <nz-select [(ngModel)]="newCategory.unusedLeaveActionId" name="unusedLeaveActionId" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Unused Leave Action" #unusedLeaveActionId="ngModel">
-                            <nz-option [nzValue]="1" nzLabel="Lapse"></nz-option>
-                            <nz-option [nzValue]="2" nzLabel="Carry Forward"></nz-option>
+                            <nz-option *ngFor="
+                            let unusedLeaveAction of unusedLeaveActionList
+                          " [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name">
+                        </nz-option>
                           </nz-select>
                           <div *ngIf="unusedLeaveActionId.invalid && (unusedLeaveActionId.dirty || unusedLeaveActionId.touched)" class="text-danger">
                             <div *ngIf="unusedLeaveActionId.errors?.['required']">Unused leave action is required.</div>
@@ -514,7 +524,7 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-end">
-                          <button class="p-0 btn text-primary font-14 fw-semibold" (click)="addLeaveCategory()" [disabled]="categoryForm.invalid">
+                          <button class="p-0 btn text-primary font-14 fw-semibold" (click)="addLeaveCategory()" [disabled]="categoryForm.invalid" [ngClass]="{'btn-border-text' : !categoryForm.invalid}">
                             <i class="bi bi-plus-lg"></i> Save Leave Category
                           </button>
                         </div>
@@ -538,11 +548,11 @@
                               <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList">
                                 <td>{{ leaveTemplate.gender || 'All' }}</td>
                                 <td>{{ findCategoryById(category.id)}}</td>
-                                <td>{{ category.leaveCycleId === 1 ? 'Monthly' : 'Yearly' }}</td>
-                                <td>{{ category.accrualTypeId === 1 ? 'Start' : 'End' }}</td>
+                                <td>{{ findCycleById(category.leaveCycleId) }}</td>
+                                <td>{{ findAccrualTypeById(category.accrualTypeId) }}</td>
                                 <td>{{ category.flexible ? 'Yes' : 'No' }}</td>
                                 <td>{{ category.leaveCount }}</td>
-                                <td>{{ category.unusedLeaveActionId === 1 ? 'Lapse' : 'Carry Forward' }} - {{ category.unusedLeaveActionCount }}</td>
+                                <td>{{ findUnusedLeaveActionById(category.unusedLeaveActionId) }} - {{ category.unusedLeaveActionCount }}</td>
                                 <td>{{ category.carryover }}</td>
                               </tr>
                             </tbody>
@@ -553,8 +563,13 @@
                         </div>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer bg-white">
-                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-messages" (click)="staff1.click()" [disabled]="!leaveTemplate.leaveTemplateCategoryRequestList?.length">
-                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-messages" (click)="staff1.click()" [ngClass]="{'btn-primary text-white btn-border' : leaveTemplate.leaveTemplateCategoryRequestList?.length}" [disabled]="!leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                          fill="none">
+                          <path
+                            d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                            fill="#6666F2" />
+                        </svg>
                         </button>
                       </div>
                     </form>
@@ -562,7 +577,7 @@
 
                   <!-- Staff Selection Tab -->
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    <form #staffForm="ngForm" (ngSubmit)="saveLeaveTemplate()" novalidate>
+                    <form #staffForm="ngForm" novalidate>
                       <div class="col-md-12">
                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
                           <div style="width: 70%;">
@@ -591,6 +606,11 @@
                                          </svg>
                                          Clear Selection
                                 </span>
+                                <span class="separator"></span>
+                                <span class="clear-button text-danger fw-semibold pointer font-13" (click)="selectAllStaffAcrossPages()">
+                                    <input type="checkbox" name="allSelect" [ngModel]="selectAllPages">
+                                       Select All
+                              </span>
                               </div>
                             </div>
                           </div>
@@ -601,7 +621,7 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th><input type="checkbox" disabled></th>
+                                <th><input type="checkbox" name="allSelect" [ngModel]="isAllSelected()" (click)="selectAllEmployee()"></th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
@@ -620,9 +640,10 @@
                                   <ng-container *ngIf="staff.joiningDate && staff.id !== editingStaff.id">
                                     <button
                                       class="add-employee border-0 fw-normal border-rounded-2"
-                                      (click)="onStaffSelect(staff); staff.checked = true"
+                                      (click)="onStaffSelect(staff); staff.checked = !staff.checked"
                                     >
-                                      <i class="bi bi-plus-lg"></i> Add
+                                      <i *ngIf="!staff.checked" class="bi bi-plus-lg"></i ><span *ngIf="!staff.checked"> Add </span>
+                                      <i *ngIf="staff.checked" class="bi bi-minus-lg"></i><span *ngIf="staff.checked"> Remove </span>
                                     </button>
                                   </ng-container>
                                   <ng-container *ngIf="!staff.joiningDate && staff.id !== editingStaff.id">
@@ -676,8 +697,20 @@
                             <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
                           </div>
                           <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn p-0 next-btn" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
-                              Update Leave Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 no11..." fill="#6666F2"></path></svg>
+                            <button type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                              <span *ngIf="!isLoadingSave">
+                              Update Leave Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                              fill="none">
+                              <path
+                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                fill="#6666F2" />
+                            </svg>
+                          </span>
+                            <div class="dot-opacity-loader" *ngIf="isLoadingSave">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              </div>
                             </button>
                           </div>
                         </div>
@@ -786,8 +819,13 @@
                         </div>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-profile-on-duty" (click)="category2.click()" [disabled]="templateForm.invalid">
-                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-profile-on-duty" (click)="category2.click()" [disabled]="templateForm.invalid" [ngClass]="{'btn-primary text-white btn-border' : !templateForm.invalid}">
+                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                          fill="none">
+                          <path
+                            d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                            fill="#6666F2" />
+                        </svg>
                         </button>
                       </div>
                     </form>
@@ -847,8 +885,10 @@
                         <div class="col-md-3 mb-3">
                           <label class="pb-2">Unused On Duty Action <span class="text-danger">*</span></label>
                           <nz-select [(ngModel)]="newCategory.unusedLeaveActionId" name="unusedLeaveActionIdOnDuty" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Unused On Duty Action" #unusedLeaveActionIdOnDuty="ngModel">
-                            <nz-option [nzValue]="1" nzLabel="Lapse"></nz-option>
-                            <nz-option [nzValue]="2" nzLabel="Carry Forward"></nz-option>
+                            <nz-option *ngFor="
+                            let unusedLeaveAction of unusedLeaveActionList
+                          " [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name">
+                        </nz-option>
                           </nz-select>
                           <div *ngIf="unusedLeaveActionIdOnDuty.invalid && (unusedLeaveActionIdOnDuty.dirty || unusedLeaveActionIdOnDuty.touched)" class="text-danger">
                             <div *ngIf="unusedLeaveActionIdOnDuty.errors?.['required']">Unused On Duty action is required.</div>
@@ -870,7 +910,7 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-end">
-                          <button class="p-0 btn text-primary font-14 fw-semibold" (click)="addLeaveCategory()" [disabled]="categoryForm.invalid">
+                          <button class="p-0 btn text-primary font-14 fw-semibold" (click)="addLeaveCategory()" [disabled]="categoryForm.invalid" [ngClass]="{'btn-border-text' : !categoryForm.invalid}">
                             <i class="bi bi-plus-lg"></i> Save On Duty Category
                           </button>
                         </div>
@@ -894,11 +934,11 @@
                               <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList">
                                 <td>{{ leaveTemplate.gender || 'All' }}</td>
                                 <td>{{ findCategoryById(category.id) }}</td>
-                                <td>{{ category.leaveCycleId === 1 ? 'Monthly' : 'Yearly' }}</td>
-                                <td>{{ category.accrualTypeId === 1 ? 'Start' : 'End' }}</td>
+                                <td>{{ findCycleById(category.leaveCycleId) }}</td>
+                                <td>{{ findAccrualTypeById(category.accrualTypeId) }}</td>
                                 <td>{{ category.flexible ? 'Yes' : 'No' }}</td>
                                 <td>{{ category.leaveCount }}</td>
-                                <td>{{ category.unusedLeaveActionId === 1 ? 'Lapse' : 'Carry Forward' }} - {{ category.unusedLeaveActionCount }}</td>
+                                <td>{{ findUnusedLeaveActionById(category.unusedLeaveActionId) }} - {{ category.unusedLeaveActionCount }}</td>
                                 <td>{{ category.carryover }}</td>
                               </tr>
                             </tbody>
@@ -909,8 +949,13 @@
                         </div>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer bg-white">
-                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-messages-on-duty" (click)="staff2.click()" [disabled]="!leaveTemplate.leaveTemplateCategoryRequestList?.length">
-                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-messages-on-duty" (click)="staff2.click()" [ngClass]="{'btn-primary text-white btn-border' : leaveTemplate.leaveTemplateCategoryRequestList?.length}" [disabled]="!leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                          fill="none">
+                          <path
+                            d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                            fill="#6666F2" />
+                        </svg>
                         </button>
                       </div>
                     </form>
@@ -947,6 +992,10 @@
                                        </svg>
                                        Clear Selection
                               </span>
+                              <span class="clear-button text-danger fw-semibold pointer font-13" (click)="selectAllStaffAcrossPages()">
+                                <input type="checkbox" name="allSelect" [ngModel]="selectAllPages">
+                                   Select All
+                              </span>
                               </div>
                             </div>
                           </div>
@@ -957,7 +1006,7 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th><input type="checkbox" disabled></th>
+                                <th><input type="checkbox" name="allSelect" [ngModel]="isAllSelected()" (click)="selectAllEmployee()"></th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
@@ -976,9 +1025,10 @@
                                   <ng-container *ngIf="staff.joiningDate && staff.id !== editingStaff.id">
                                     <button
                                       class="add-employee border-0 fw-normal border-rounded-2"
-                                      (click)="onStaffSelect(staff); staff.checked = true"
+                                      (click)="onStaffSelect(staff); staff.checked = !staff.checked"
                                     >
-                                      <i class="bi bi-plus-lg"></i> Add
+                                      <i *ngIf="!staff.checked" class="bi bi-plus-lg"></i ><span *ngIf="!staff.checked"> Add </span>
+                                      <i *ngIf="staff.checked" class="bi bi-minus-lg"></i><span *ngIf="staff.checked"> Remove </span>
                                     </button>
                                   </ng-container>
                                   <ng-container *ngIf="!staff.joiningDate && staff.id !== editingStaff.id">
@@ -1032,8 +1082,20 @@
                             <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
                           </div>
                           <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn p-0 next-btn" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
-                              Update On Duty Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                            <button type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                            <span *ngIf="!isLoadingSave">
+                              Update On Duty Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                              fill="none">
+                              <path
+                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                fill="#6666F2" />
+                            </svg>
+                            </span>
+                              <div class="dot-opacity-loader" *ngIf="isLoadingSave">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              </div>
                             </button>
                           </div>
                         </div>
@@ -1141,8 +1203,13 @@
                         </div>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-profile-week-off" (click)="category3.click()" [disabled]="templateForm.invalid">
-                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-profile-week-off" (click)="category3.click()" [disabled]="templateForm.invalid" [ngClass]="{'btn-primary text-white btn-border' : !templateForm.invalid}">
+                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                          fill="none">
+                          <path
+                            d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                            fill="#6666F2" />
+                        </svg>
                         </button>
                       </div>
                     </form>
@@ -1202,8 +1269,10 @@
                         <div class="col-md-3 mb-3">
                           <label class="pb-2">Unused Week Off Action <span class="text-danger">*</span></label>
                           <nz-select [(ngModel)]="newCategory.unusedLeaveActionId" name="unusedLeaveActionIdWeekOff" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Unused Week Off Action" #unusedLeaveActionIdWeekOff="ngModel">
-                            <nz-option [nzValue]="1" nzLabel="Lapse"></nz-option>
-                            <nz-option [nzValue]="2" nzLabel="Carry Forward"></nz-option>
+                            <nz-option *ngFor="
+                            let unusedLeaveAction of unusedLeaveActionList
+                          " [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name">
+                        </nz-option>
                           </nz-select>
                           <div *ngIf="unusedLeaveActionIdWeekOff.invalid && (unusedLeaveActionIdWeekOff.dirty || unusedLeaveActionIdWeekOff.touched)" class="text-danger">
                             <div *ngIf="unusedLeaveActionIdWeekOff.errors?.['required']">Unused Week Off action is required.</div>
@@ -1225,7 +1294,7 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-end">
-                          <button class="p-0 btn text-primary font-14 fw-semibold" (click)="addLeaveCategory()" [disabled]="categoryForm.invalid">
+                          <button class="p-0 btn text-primary font-14 fw-semibold" (click)="addLeaveCategory()" [disabled]="categoryForm.invalid" [ngClass]="{'btn-border-text' : !categoryForm.invalid}">
                             <i class="bi bi-plus-lg"></i> Save Week Off Category
                           </button>
                         </div>
@@ -1249,11 +1318,11 @@
                               <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList">
                                 <td>{{ leaveTemplate.gender || 'All' }}</td>
                                 <td>{{ findCategoryById(category.id) }}</td>
-                                <td>{{ category.leaveCycleId === 1 ? 'Monthly' : 'Yearly' }}</td>
-                                <td>{{ category.accrualTypeId === 1 ? 'Start' : 'End' }}</td>
+                                <td>{{ findCycleById(category.leaveCycleId) }}</td>
+                                <td>{{ findAccrualTypeById(category.accrualTypeId) }}</td>
                                 <td>{{ category.flexible ? 'Yes' : 'No' }}</td>
                                 <td>{{ category.leaveCount }}</td>
-                                <td>{{ category.unusedLeaveActionId === 1 ? 'Lapse' : 'Carry Forward' }} - {{ category.unusedLeaveActionCount }}</td>
+                                <td>{{ findUnusedLeaveActionById(category.unusedLeaveActionId) }} - {{ category.unusedLeaveActionCount }}</td>
                                 <td>{{ category.carryover }}</td>
                               </tr>
                             </tbody>
@@ -1264,8 +1333,13 @@
                         </div>
                       </div>
                       <div class="modal-footer d-flex align-items-center justify-content-end leave-footer bg-white">
-                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-messages-week-off" (click)="staff3.click()" [disabled]="!leaveTemplate.leaveTemplateCategoryRequestList?.length">
-                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                        <button type="button" class="btn p-0 next-btn" data-bs-toggle="pill" data-bs-target="#v-pills-messages-week-off" (click)="staff3.click()" [ngClass]="{'btn-primary text-white btn-border' : leaveTemplate.leaveTemplateCategoryRequestList?.length}" [disabled]="!leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                          Next <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                          fill="none">
+                          <path
+                            d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                            fill="#6666F2" />
+                        </svg>
                         </button>
                       </div>
                     </form>
@@ -1302,6 +1376,10 @@
                                        </svg>
                                        Clear Selection
                               </span>
+                              <span class="clear-button text-danger fw-semibold pointer font-13" (click)="selectAllStaffAcrossPages()">
+                                <input type="checkbox" name="allSelect" [ngModel]="selectAllPages">
+                                   Select All
+                              </span>
                               </div>
                             </div>
                           </div>
@@ -1312,7 +1390,7 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th><input type="checkbox" [ngModel]="isAllSelected()" (click)="selectAllEmployee()"></th>
+                                <th><input type="checkbox" name="allSelect" [ngModel]="isAllSelected()" (click)="selectAllEmployee()"></th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
@@ -1331,9 +1409,10 @@
                                   <ng-container *ngIf="staff.joiningDate && staff.id !== editingStaff.id">
                                     <button
                                       class="add-employee border-0 fw-normal border-rounded-2"
-                                      (click)="onStaffSelect(staff); staff.checked = true"
+                                      (click)="onStaffSelect(staff); staff.checked = !staff.checked"
                                     >
-                                      <i class="bi bi-plus-lg"></i> Add
+                                      <i *ngIf="!staff.checked" class="bi bi-plus-lg"></i ><span *ngIf="!staff.checked"> Add </span>
+                                      <i *ngIf="staff.checked" class="bi bi-minus-lg"></i><span *ngIf="staff.checked"> Remove </span>
                                     </button>
                                   </ng-container>
                                   <ng-container *ngIf="!staff.joiningDate && staff.id !== editingStaff.id">
@@ -1387,8 +1466,20 @@
                             <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
                           </div>
                           <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn p-0 next-btn" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
-                              Update Week Off Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M1.95801 11..." fill="#6666F2"></path></svg>
+                            <button type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                              <span *ngIf="!isLoadingSave">
+                              Update Week Off Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
+                              fill="none">
+                              <path
+                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                fill="#6666F2" />
+                            </svg>
+                          </span>
+                            <div class="dot-opacity-loader" *ngIf="isLoadingSave">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              </div>
                             </button>
                           </div>
                         </div>
