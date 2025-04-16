@@ -29,7 +29,7 @@ export class LeavePolicyComponent implements OnInit {
 
   ngOnInit(
   ): void {
-    this.getAllLeaveTemplate();
+    // this.getAllLeaveTemplate();
     this.resetForm();
     this.fetchStaffs();
     this.getLeaveCategoryListMethodCall();
@@ -37,6 +37,7 @@ export class LeavePolicyComponent implements OnInit {
     this.loadAccrualType();
     this.getLeaveCycleList();
     this.getUnusedLeaveActionList();
+    this.getLeaveTemplate();
   }
   isLoading: boolean = false;
   leaveTemplates: LeaveTemplateRes[] = []
@@ -68,6 +69,42 @@ export class LeavePolicyComponent implements OnInit {
       }
     );
   }
+
+  page: number = 1;
+  pageSize: number = 10;
+  currentTab: string = 'LEAVE';
+  getLeaveTemplate() {
+    debugger
+    this.isLoading = true;
+    const tab = this.currentTab;
+    this.dataService.getLeaveTemplates(this.currentTab,this.page-1, this.pageSize).subscribe((response: any) => {
+
+      this.isLoading = false;
+      if (tab === 'LEAVE') {
+        this.leaveTemplates = response.object.content;
+      } else if (tab === 'ON_DUTY') {
+        this.wfhLeaveTemplates = response.object.content;
+      } else if (tab === 'WEEK_OFF') {
+        this.weekOffTemplates = response.object.content;
+      }else if (tab === 'ALL') {
+        this.leaveTemplates = response.object.content;
+      }
+    },
+      (error: any) => {
+        this.isLoading = false;
+      }
+    );
+  }
+  onPageChange1(event: any) {
+    this.page = event;
+    this.getLeaveTemplate();
+  }
+  onTabChange(tab: string) {
+    this.page=1;
+    this.currentTab = tab;
+    this.getLeaveTemplate();
+  }
+
 
 
   @ViewChild('leaveModal') leaveModal?: any; // For ngx-bootstrap modal reference

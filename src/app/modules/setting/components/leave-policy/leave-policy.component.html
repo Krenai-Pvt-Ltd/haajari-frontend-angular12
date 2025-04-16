@@ -12,6 +12,7 @@
               aria-controls="pills-announcement"
               aria-selected="true"
               class="nav-link active"
+              (click)="onTabChange('LEAVE')"
             >Leave</a>
           </li>
           <li class="nav-item d-flex align-items-center">
@@ -23,6 +24,7 @@
               aria-controls="pills-notification"
               aria-selected="false"
               class="nav-link"
+              (click)="onTabChange('ON_DUTY')"
             >On Duty</a>
           </li>
           <li class="nav-item d-flex align-items-center">
@@ -34,6 +36,7 @@
               aria-controls="pills-notification"
               aria-selected="false"
               class="nav-link"
+              (click)="onTabChange('WEEK_OFF')"
             >Week Off</a>
           </li>
         </ul>
