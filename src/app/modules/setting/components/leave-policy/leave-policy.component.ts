@@ -160,7 +160,7 @@ export class LeavePolicyComponent implements OnInit {
       this.helperService.showPrivilegeErrorToast();
       return;
     }
-    if (this.isAllSelected()) {
+    if (!this.isAllSelected()) {
       this.staffs.forEach((element) => {
         // Only select if joiningDate exists
         if (element.joiningDate) {
@@ -171,8 +171,9 @@ export class LeavePolicyComponent implements OnInit {
     } else {
       this.staffs.forEach((element: any) => {
         element.checked = false;
+        // Remove the ID from selectedStaffIds if it exists
+        this.selectedStaffIds = this.selectedStaffIds.filter((id) => id !== element.id);
       });
-      this.selectedStaffIds = [];
     }
     // Remove duplicates using Set
     this.selectedStaffIds = Array.from(new Set(this.selectedStaffIds));
@@ -185,6 +186,95 @@ export class LeavePolicyComponent implements OnInit {
     return allChecked;
   }
 
+  selectAllPages: boolean = false;
+  // Properties
+  private cachedStaffIdsWithJoiningDate: number[] = []; // Cache for staff IDs with joining dates
+  private isCacheLoaded: boolean = false; // Flag to track if cache is initialized
+   cachedStaffIdsWithoutJoiningDate: number[] = [];
+  // Separate method to load and cache staff IDs
+  private loadStaffIdsCache() {
+    let isProbation: boolean | undefined = undefined;
+    if (this.employeeTypeId !== 1) {
+      isProbation = this.employeeTypeId === 2; // 2 = Provisional, 3 = Confirmed
+    }
+    this.dataService.getUsersByFilterForLeaveSetting(
+      0, // 0 items per page to get all records
+      1, // Start from page 1
+      'asc',
+      'id',
+      this.searchText,
+      '',
+      0, // Assuming leaveSettingId is 0 for new template
+      0, // selectedTeamId, adjust if needed
+      [],
+      isProbation
+    ).subscribe(
+      (response) => {
+        // Filter staff with joining dates and cache their IDs
+        this.cachedStaffIdsWithJoiningDate = response.users
+          .filter((staff: { joiningDate: any }) => staff.joiningDate)
+          .map((staff: { id: any }) => staff.id);
+
+          this.cachedStaffIdsWithoutJoiningDate = response.users
+          .filter((staff: { joiningDate: any }) => !staff.joiningDate)
+          .map((staff: { id: any }) => staff.id);
+
+        // Remove duplicates from both caches
+        this.cachedStaffIdsWithJoiningDate = Array.from(new Set(this.cachedStaffIdsWithJoiningDate));
+        this.cachedStaffIdsWithoutJoiningDate = Array.from(new Set(this.cachedStaffIdsWithoutJoiningDate));
+        this.isCacheLoaded = true;
+
+        // Update current page if "Select all" is active
+        if (this.selectAllPages) {
+          this.selectedStaffIds = [...this.cachedStaffIdsWithJoiningDate];
+          this.staffs.forEach((element) => {
+            // Only select if joiningDate exists
+            if (element.joiningDate) {
+              element.checked = true;
+            }
+          });
+        }
+      },
+      (error) => {
+        console.error('Error loading staff IDs cache:', error);
+        this.isCacheLoaded = false;
+        this.selectAllPages = false;
+      }
+    );
+  }
+
+  // Modified selectAllStaffAcrossPages method
+  selectAllStaffAcrossPages() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
+    this.selectAllPages = !this.selectAllPages;
+    setTimeout(() => {
+    if (this.selectAllPages) {
+      this.selectedStaffIds = [];
+      if (this.isCacheLoaded) {
+        // Use cached data
+        this.selectedStaffIds = [...this.cachedStaffIdsWithJoiningDate];
+        this.staffs.forEach((element) => {
+          // Only select if joiningDate exists
+          if (element.joiningDate) {
+            element.checked = true;
+          }
+        });
+      } else {
+        // Load cache and proceed
+        this.loadStaffIdsCache();
+      }
+    } else {
+      this.selectedStaffIds = [];
+      this.staffs.forEach((element) => {
+        element.checked = false;
+      });
+    }
+  },10);
+  }
+
   onPageChange(page: number) {
     this.pageNumber = page;
     this.fetchStaffs(0); // Fetch without debounce on page change
@@ -194,7 +284,13 @@ export class LeavePolicyComponent implements OnInit {
   @ViewChild('closeModal') closeModal!: ElementRef;
   @ViewChild('closeModal1') closeModal1!: ElementRef;
   @ViewChild('closeModal2') closeModal2!: ElementRef;
+  isLoadingSave: boolean = false;
   saveLeaveTemplate() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
+    this.isLoadingSave = true;
     this.leaveTemplate.userIds = this.selectedStaffIds;
     // Filter IDs from readOnlySelectedStaffIds that are not in selectedStaffIdsUser
     const newUnSelectedIds = this.readOnlySelectedStaffIds.filter(
@@ -207,8 +303,10 @@ export class LeavePolicyComponent implements OnInit {
     ];
     this.leaveTemplate.deselectUserIds = this.unSelectedStaffIds;
     this.leaveTemplate.leaveTemplateCategoryRequestList = this.leaveTemplateCategoryRequestList;
+
     this.dataService.registerLeaveTemplate(this.leaveTemplate).subscribe(
       (response) => {
+        this.isLoadingSave = false;
         this.resetForm();
         this.getAllLeaveTemplate();
         this.closeModal.nativeElement.click();
@@ -220,6 +318,7 @@ export class LeavePolicyComponent implements OnInit {
         );
       },
       (error) => {
+        this.isLoadingSave = false;
         console.error('Error saving leave template:', error);
       }
     );
@@ -235,6 +334,7 @@ export class LeavePolicyComponent implements OnInit {
     this.searchText = '';
     this.pageNumber = 1;
     this.total = 0;
+    this.selectAllPages=false;
 
   }
 
@@ -284,11 +384,12 @@ export class LeavePolicyComponent implements OnInit {
     leaveCategoryList: LeaveCategory[] = [];
     onDutyList: LeaveCategory[] = [];
     weekOffCategoryList: LeaveCategory[] = [];
+    allCategoryList: LeaveCategory[] = [];
     getLeaveCategoryListMethodCall() {
       this.dataService.getLeaveCategoryList().subscribe((response) => {
         if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
           let categoryList: LeaveCategory[] = response.listOfObject;
-
+          this.allCategoryList = categoryList;
           this.leaveCategoryList = categoryList.filter(category => category.category === 'LEAVE');
           this.onDutyList = categoryList.filter(category => category.category === 'ON_DUTY');
           this.weekOffCategoryList = categoryList.filter(category => category.category === 'WEEK_OFF');
@@ -299,8 +400,17 @@ export class LeavePolicyComponent implements OnInit {
       })
     }
     findCategoryById(id: number): any{
-      return this.leaveCategoryList.find((category) => category.id === id)?.name;
+      return this.allCategoryList.find((category) => category.id === id)?.name;
     }
+    findCycleById(id: number): any{
+      return this.leaveCycleList.find((category) => category.id === id)?.name;
+    }
+    findAccrualTypeById(id: number): any{
+      return this.accrualTypes.find((category) => category.id === id)?.name;
+    }
+  findUnusedLeaveActionById(id: number): any{
+    return this.unusedLeaveActionList.find((category) => category.id === id)?.name;
+  }
 
   yearTypeList: YearType[] = [];
   getYearTypeList() {
@@ -447,7 +557,7 @@ export class LeavePolicyComponent implements OnInit {
         flexible: !!category.isFlexible, // Convert 0/1 to boolean
         carryover: category.carryover,
         carryoverAction: category.carryoverAction || '',
-        categoryName: this.leaveCategoryList.find(c => c.id === category.leaveCategory.id)?.name || 'N/A',
+        categoryName: this.allCategoryList.find(c => c.id === category.leaveCategory.id)?.name || 'N/A',
         unusedLeaveName: this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id)?.name || 'N/A',
         accrualName: this.accrualTypes.find(c => c.id === category.accrualType.id)?.name || 'N/A',
         leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A'
