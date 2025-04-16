@@ -47,7 +47,7 @@
                 </ng-template>
 
 
-                <div class="Attendance-report-deta">
+                <div class="Attendance-report-deta d-none">
                   <h5>Attendance Summary Report By Filter</h5>
                   <div class="report-icon" data-bs-toggle="modal" data-bs-target="#dateRangeModal5">
                     <i *ngIf="!isLoading5; else loadingTemplate5" class="bi bi-chevron-right"></i>
@@ -57,9 +57,9 @@
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
 
-                <h4 class="heading">Leave Reports</h4>
+                <h4 class="heading d-none">Leave Reports</h4>
 
-                <div class="Attendance-report-deta">
+                <div class="Attendance-report-deta d-none">
                   <h5>Leave Summary Report</h5>
                   <div class="report-icon" data-bs-toggle="modal" data-bs-target="#leaveSummaryReport">
                     <i *ngIf="!isLoading6; else loadingTemplate6" class="bi bi-chevron-right"></i>
@@ -69,7 +69,7 @@
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
 
-                <div class="Attendance-report-deta">
+                <div class="Attendance-report-deta d-none">
                   <h5>Sanctioned Leave Report</h5>
                   <div class="report-icon" data-bs-toggle="modal" data-bs-target="#sanctionLeaveSummary">
                     <i *ngIf="!isLoading7; else loadingTemplate7" class="bi bi-chevron-right"></i>
@@ -79,9 +79,9 @@
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
 
-                <h4 class="heading">Asset Reports</h4>
+                <h4 class="heading d-none">Asset Reports</h4>
 
-                <div class="Attendance-report-deta">
+                <div class="Attendance-report-deta d-none">
                   <h5>Asset Request Report</h5>
                   <div class="report-icon" (click)="generateAssetRequestReport()">
                     <i *ngIf="!isLoading8; else loadingTemplate8" class="bi bi-chevron-right"></i>
@@ -91,7 +91,7 @@
                   <div class="loading-icon">Loading...</div>
                 </ng-template>
 
-                <div class="Attendance-report-deta">
+                <div class="Attendance-report-deta d-none">
                   <h5>Asset Summary Report</h5>
                   <div class="report-icon" (click)="generateAssetSummaryReport()">
                     <i *ngIf="!isLoading9; else loadingTemplate9" class="bi bi-chevron-right"></i>

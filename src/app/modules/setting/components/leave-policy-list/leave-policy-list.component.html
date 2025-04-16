@@ -1,80 +1,28 @@
 <div class="row mt-3">
-    <div class="col-md-4">
-         <div>
-            <div class="p-3 d-flex align-items-center justify-content-between policy-header">
-                <h4 class="mb-0 font-12 fw-normal color-basic"> Earned Leave </h4>
-                <i data-bs-toggle="modal" data-bs-target="#delete-leave" class="bi bi-trash pointer text-danger"></i>
-            </div>
-            <div class="bg-white policy-rule-list p-3">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <p class="mb-0 font-12">Leave Count</p>
-                    <span class="font-13">4</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <p class="mb-0 font-12">Leave Rule</p>
-                    <span class="font-13">Lapse</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <p class="mb-0 font-12">Carry Forward Limit</p>
-                    <span class="font-13">N/A</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-0 font-12">Quota Renew Cycle</p>
-                    <span class="font-13">Carry Forward</span>
-                </div>
-            </div>
+  <div class="col-md-4" [ngClass]="{'col-md-4' : leaveCategories.length>2, 'col-md-6' : leaveCategories.length==2, 'col-md-12' : leaveCategories.length==1 } " *ngFor="let category of leaveCategories">
+    <div>
+      <div class="p-3 d-flex align-items-center justify-content-between policy-header">
+        <h4 class="mb-0 font-12 fw-normal color-basic">{{ category.leaveName }}</h4>
+        <i (click)="selectCategory(category.id)" (keydown.enter)="selectCategory(category.id)" data-bs-toggle="modal" data-bs-target="#delete-leave" class="bi bi-trash pointer text-danger"></i>
+      </div>
+      <div class="bg-white policy-rule-list p-3">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <p class="mb-0 font-12">Leave Count</p>
+          <span class="font-13">{{ category.leaveCount }}</span>
         </div>
-    </div>
-    <div class="col-md-4">
-            <div>
-            <div class="p-3 d-flex align-items-center justify-content-between policy-header">
-                <h4 class="mb-0 font-12 fw-normal color-basic"> Earned Leave </h4>
-                <i data-bs-toggle="modal" data-bs-target="#delete-leave" class="bi bi-trash pointer text-danger"></i>
-            </div>
-            <div class="bg-white policy-rule-list p-3">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <p class="mb-0 font-12">Leave Count</p>
-                    <span class="font-13">4</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <p class="mb-0 font-12">Leave Rule</p>
-                    <span class="font-13">Lapse</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-3" >
-                    <p class="mb-0 font-12">Carry Forward Limit</p>
-                    <span class="font-13">N/A</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <p class="mb-0 font-12">Quota Renew Cycle</p>
-                    <span class="font-13">Carry Forward</span>
-                </div>
-            </div>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <p class="mb-0 font-12">Leave Rule</p>
+          <span class="font-13">{{ category.unusedLeaveActionName }}</span>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div>
-        <div class="p-3 d-flex align-items-center justify-content-between policy-header">
-            <h4 class="mb-0 font-12 fw-normal color-basic"> Earned Leave </h4>
-            <i data-bs-toggle="modal" data-bs-target="#delete-leave" class="bi bi-trash pointer text-danger"></i>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <p class="mb-0 font-12">Carry Forward Limit</p>
+          <span class="font-13">{{ category.unusedLeaveActionCount || 'N/A' }}</span>
         </div>
-        <div class="bg-white policy-rule-list p-3">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <p class="mb-0 font-12">Leave Count</p>
-                <span class="font-13">4</span>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <p class="mb-0 font-12">Leave Rule</p>
-                <span class="font-13">Lapse</span>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <p class="mb-0 font-12">Carry Forward Limit</p>
-                <span class="font-13">N/A</span>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-                <p class="mb-0 font-12">Quota Renew Cycle</p>
-                <span class="font-13">Carry Forward</span>
-            </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <p class="mb-0 font-12">Quota Renew Cycle</p>
+          <span class="font-13">{{ category.leaveCycleName }}</span>
         </div>
+      </div>
     </div>
-    </div>
+  </div>
 </div>

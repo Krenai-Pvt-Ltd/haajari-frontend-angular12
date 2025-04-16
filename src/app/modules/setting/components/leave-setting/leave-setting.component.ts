@@ -2380,7 +2380,7 @@ closeModal() {
   getAllLeaveTemplate() {
     debugger
     this.isLoading = true;
-    this.dataService.getAllLeaveTemplate(1, 10).subscribe((response: any) => {
+    this.dataService.getAllLeaveTemplate(1, 30).subscribe((response: any) => {
 
       this.isLoading = false;
 
@@ -2454,7 +2454,7 @@ closeModal() {
   }
 
   selectSingle1(event: any, i: any) {
-   
+
     if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
       this.helperService.showPrivilegeErrorToast();
       return;
