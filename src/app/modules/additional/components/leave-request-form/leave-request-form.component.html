@@ -3,14 +3,14 @@
   <img src="assets/images/load-8.gif" style="width: 80px;">
 </div>
 
-<div *ngIf="!leaveLoading && userLeave.length == 0" class="container d-flex align-items-center justify-content-center vh-100" >
+<div *ngIf="!leaveLoading &&  !leaveReqContain" class="container d-flex align-items-center justify-content-center vh-100" >
   <div class="expired-message">
     <div class="leave-assigned-icon text-center d-flex align-items-center justify-content-center">
       <img src="assets/images/leave-not-assigned.svg" style="width: 120px;">
     </div>
     <div class="p-4 not-assigned-text">
-      <h1 class="font-20 fw-semibold mb-3 text-black">No Leave Is Assigned</h1>
-      <p class="font-14 ">You have currently no leave allocated..</p>
+      <h1 class="font-20 fw-semibold mb-3 text-black">No {{formatLeaveTypeToUpper(leaveTypeReq)}} Is Assigned</h1>
+      <p class="font-14 ">You have currently no {{ formatLeaveType(leaveTypeReq) }} allocated..</p>
       <p class="font-14 mb-0">Please check with your administrator or refer<br> to the leave  policy for further assistance.</p>
     </div>
 
@@ -18,8 +18,8 @@
 </div>
 
 
-<div *ngIf="!leaveLoading && userLeave.length > 0" class="form-container">
-  <div class="form-header">Apply for a Leave</div>
+<div *ngIf="!leaveLoading && userLeave.length > 0 && leaveReqContain" class="form-container">
+  <div class="form-header">Apply for a {{ formatLeaveType(leaveTypeReq) }}</div>
   <form
     [formGroup]="userLeaveForm"
     (ngSubmit)="saveLeaveRequestForWhatsappUser()"
@@ -50,7 +50,7 @@
     </div>
 
     <!-- Leave Type -->
-    <div class="form-field">
+    <div class="form-field" *ngIf="leaveTypeReq === 'LEAVE'">
       <label>Select the type of leave you want to request</label>
       <!-- <select formControlName="leaveType">
         <option value="">Select Leave Type</option>
@@ -79,7 +79,7 @@
     </div>
 
     <!-- Half Day Leave Checkbox -->
-    <div class="form-field d-flex">
+    <div class="form-field d-flex" *ngIf="leaveTypeReq === 'LEAVE'">
       <input type="checkbox" id="half-leave" formControlName="halfDayLeave" />
       <label class="mt-1" for="half-leave">Half Leave (optional)</label>
     </div>

@@ -18,6 +18,7 @@ export class LeaveRequestFormComponent implements OnInit {
   submitLeaveLoader: boolean = false;
   userUuid!: string;
   ROLE: string = '';
+  leaveTypeReq: string = '';
   // currentNewDate = new Date().toISOString().split('T')[0];
   currentDate: Date = new Date();
   currentNewDate = moment(this.currentDate)
@@ -34,10 +35,14 @@ export class LeaveRequestFormComponent implements OnInit {
     const userUuidParam = new URLSearchParams(window.location.search).get(
       'userUuid'
     );
+    const leaveType = new URLSearchParams(window.location.search).get(
+      'leaveType'
+    );
 
     // this.userUuid = userUuidParam?.toString() ?? '731a011e-ae1e-11ee-9597-784f4361d885';
     // uncomment 
-    this.userUuid = userUuidParam?.toString() ?? '';  
+    this.userUuid = userUuidParam?.toString() ?? '';
+    this.leaveTypeReq = leaveType?.toString() ?? '';
     
   }
 
@@ -47,7 +52,7 @@ export class LeaveRequestFormComponent implements OnInit {
     // this.updateManagerIdValidators();
     this.getUserLeaveReq();
     this.fetchManagerNames();
-    // this.getUserLeaveReq();
+     
   }
 
   initializeForm() {
@@ -63,6 +68,50 @@ export class LeaveRequestFormComponent implements OnInit {
       eveningShift: [false],
     });
   }
+
+
+  // checkReqLeaveAssaignOrNot(){
+  //   this.isContain(this. userLeave,this.leaveTypeReq)
+  // }
+
+  leaveReqContain : boolean = false;
+  
+  checkReqLeaveAssaignOrNot(): void {
+    this.leaveReqContain = false;
+    let matchedLeave = null;
+  
+    const normalizedReq = this.normalizeLeaveType(this.leaveTypeReq);
+    console.log("Normalized leaveTypeReq:", normalizedReq);
+    console.log("User Leaves Array : ",this.userLeave);
+    for (let leave of this.userLeave) {
+      const normalizedLeaveType = this.normalizeLeaveType(leave.leaveType);
+      console.log(`Comparing '${normalizedLeaveType}' with '${normalizedReq}'`);
+  
+      if (normalizedLeaveType === normalizedReq) {
+        matchedLeave = leave;
+        this.leaveReqContain = true;
+        break; // found it, break the loop
+      }
+    }
+  
+    console.log("matchedLeave :", matchedLeave);
+    console.log("leaveReqContain :", this.leaveReqContain);
+  
+    if (this.leaveReqContain && matchedLeave?.userLeaveTemplateId) {
+      this.userLeaveForm.patchValue({
+        userLeaveTemplateId: matchedLeave.userLeaveTemplateId,
+        leaveType: matchedLeave.leaveType
+      });
+    }
+  }
+  
+
+  normalizeLeaveType(value: string): string {
+    return value?.trim().toLowerCase().replace(/[_\s]/g, '') || '';
+  }
+  
+  
+  
 
   updateManagerIdValidators() {
     debugger
@@ -201,6 +250,16 @@ export class LeaveRequestFormComponent implements OnInit {
             this.userLeave = []
           }
 
+          if (this.leaveTypeReq !== 'LEAVE' && this.leaveTypeReq) {
+            this.checkReqLeaveAssaignOrNot();
+          }else if (!this.leaveTypeReq){
+            this.leaveReqContain = true;
+            this.leaveTypeReq = 'LEAVE'
+          }else{
+            this.leaveReqContain = true;
+            this.leaveTypeReq = 'LEAVE'
+          }
+
           this.leaveLoading = false;
       });
   }
@@ -331,4 +390,23 @@ export class LeaveRequestFormComponent implements OnInit {
          this.updateManagerIdValidators();
       });
   }
+
+  formatLeaveType(value: string): string {
+    if (!value) return '';
+    return value
+      .replace(/_/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .toLowerCase()
+      .replace(/\b\w/g, char => char.toUpperCase());
+  }
+
+  formatLeaveTypeToUpper(value: string): string {
+    if (!value) return '';
+    return value
+      .replace(/_/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .toUpperCase()
+  }
+
+  
 }
