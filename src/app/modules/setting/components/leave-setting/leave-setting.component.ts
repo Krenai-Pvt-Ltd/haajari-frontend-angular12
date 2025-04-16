@@ -2454,7 +2454,7 @@ closeModal() {
   }
 
   selectSingle1(event: any, i: any) {
-   
+
     if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
       this.helperService.showPrivilegeErrorToast();
       return;
