@@ -150,6 +150,8 @@ export class TimetableComponent implements OnInit {
   readonly Constant = constant;
   readonly Routes = Routes;
   readonly StatusKeys =StatusKeys;
+  pendingWeekOffs: number = 0;
+  pendingOnDuty: number = 0;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',

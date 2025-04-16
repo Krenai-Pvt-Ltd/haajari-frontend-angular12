@@ -60,12 +60,13 @@
                     </a>
                   </div>
                   <div>
+                    <span *ngIf="isLoading">
                     <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let item of [].constructor(5)">
                       <ngx-shimmer-loading [height]="'auto'" [width]="'100%'">
                       </ngx-shimmer-loading>
                     </div>
-                    
-                    
+                    </span>
+                    <span *ngIf="!isLoading">
                     <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let template of leaveTemplates; let i = index">
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -141,13 +142,22 @@
                         <app-leave-policy-list [leaveCategories]="template.leaveTemplateCategoryRes" (leaveCategoryDel)="onCategorySelected($event)"></app-leave-policy-list>
                       </div>
                     </div>
+                  </span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-              <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-              <ngb-pagination class="pagition-box"> </ngb-pagination>
+            <div *ngIf="pageSize < totalTemplates" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+
+              <p class="mb-0">
+                Showing items {{ (page - 1) * pageSize + 1 }} - {{ page * pageSize > totalTemplates ? totalTemplates : page * pageSize }} of {{ totalTemplates }} records
+              </p>
+              <ngb-pagination
+                class="pagition-box"
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="totalTemplates"
+              ></ngb-pagination>
            </div>
           </div>
 
@@ -169,10 +179,13 @@
                     </a>
                   </div>
                   <div>
-                    <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let item of [].constructor(5)">
-                      <ngx-shimmer-loading [height]="'auto'" [width]="'100%'">
-                      </ngx-shimmer-loading>
-                    </div>
+                    <span *ngIf="isLoading">
+                      <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let item of [].constructor(5)">
+                        <ngx-shimmer-loading [height]="'auto'" [width]="'100%'">
+                        </ngx-shimmer-loading>
+                      </div>
+                      </span>
+                      <span *ngIf="!isLoading">
                     <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let template of wfhLeaveTemplates; let i = index">
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -248,13 +261,22 @@
                         <app-leave-policy-list [leaveCategories]="template.leaveTemplateCategoryRes" (leaveCategoryDel)="onCategorySelected($event)"></app-leave-policy-list>
                       </div>
                     </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-              <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-              <ngb-pagination class="pagition-box"> </ngb-pagination>
+            <div *ngIf="pageSize < totalTemplates" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+
+              <p class="mb-0">
+                Showing items {{ (page - 1) * pageSize + 1 }} - {{ page * pageSize > totalTemplates ? totalTemplates : page * pageSize }} of {{ totalTemplates }} records
+              </p>
+              <ngb-pagination
+                class="pagition-box"
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="totalTemplates"
+              ></ngb-pagination>
            </div>
           </div>
 
@@ -276,10 +298,13 @@
                     </a>
                   </div>
                   <div>
-                    <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let item of [].constructor(5)">
-                      <ngx-shimmer-loading [height]="'auto'" [width]="'100%'">
-                      </ngx-shimmer-loading>
-                    </div>
+                    <span *ngIf="isLoading">
+                      <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let item of [].constructor(5)">
+                        <ngx-shimmer-loading [height]="'auto'" [width]="'100%'">
+                        </ngx-shimmer-loading>
+                      </div>
+                      </span>
+                      <span *ngIf="!isLoading">
                     <div class="policy-name p-3 m-3 border-rounded-2" *ngFor="let template of weekOffTemplates; let i = index">
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -355,14 +380,23 @@
                         <app-leave-policy-list [leaveCategories]="template.leaveTemplateCategoryRes" (leaveCategoryDel)="onCategorySelected($event)"></app-leave-policy-list>
                       </div>
                     </div>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-              <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-              <ngb-pagination class="pagition-box"> </ngb-pagination>
+            <div *ngIf="pageSize < totalTemplates" class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
+
+              <p class="mb-0">
+                Showing items {{ (page - 1) * pageSize + 1 }} - {{ page * pageSize > totalTemplates ? totalTemplates : page * pageSize }} of {{ totalTemplates }} records
+              </p>
+              <ngb-pagination
+                class="pagition-box"
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [collectionSize]="totalTemplates"
+              ></ngb-pagination>
            </div>
           </div>
         </div>

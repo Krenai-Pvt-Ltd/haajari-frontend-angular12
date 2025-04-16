@@ -72,6 +72,7 @@ export class LeavePolicyComponent implements OnInit {
 
   page: number = 1;
   pageSize: number = 10;
+  totalTemplates: number = 0;
   currentTab: string = 'LEAVE';
   getLeaveTemplate() {
     debugger
@@ -89,6 +90,7 @@ export class LeavePolicyComponent implements OnInit {
       }else if (tab === 'ALL') {
         this.leaveTemplates = response.object.content;
       }
+      this.totalTemplates = response.object.totalElements;
     },
       (error: any) => {
         this.isLoading = false;

@@ -75,6 +75,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ExpensePolicyComponent } from './components/expense-policy/expense-policy.component';
+import { LeaveRequestsComponent } from './components/leave-requests/leave-requests.component';
 
  @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { ExpensePolicyComponent } from './components/expense-policy/expense-poli
     AssetsManagementComponent,
     ExpenseManagementComponent,
     ExpensePolicyComponent,
+    LeaveRequestsComponent,
   ],
   imports: [
     CommonModule,
