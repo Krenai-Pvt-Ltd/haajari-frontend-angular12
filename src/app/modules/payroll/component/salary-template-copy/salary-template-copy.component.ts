@@ -90,9 +90,9 @@ export class SalaryTemplateCopyComponent implements OnInit {
             this.salaryTemplateList = response.object.content;
             this.totalItems = response.object.totalElements;
             this.totalPages = response.object.totalPages;
-            if(this.isActive == 1){
-              this.selectedTemplateId = this.salaryTemplateList[0].id;
-              this.selectedTemplate(this.selectedTemplateId);
+            if(this.isActive == 1 && this.salaryTemplateList.length>0){
+                this.selectedTemplateId = this.salaryTemplateList[0].id;
+                this.selectedTemplate(this.selectedTemplateId);
             }
             if (!this.isSearching) {
               this.holdTotalItems = this.totalItems;
@@ -162,21 +162,21 @@ export class SalaryTemplateCopyComponent implements OnInit {
     this.calculateGrossAmount();
     this.userSalaryTemplate.salaryTemplate = this.salaryTemplate;
     console.log("---------------------",this.userSalaryTemplate);
-    this._salaryTemplateService.saveUserSalaryTemplate(this.userSalaryTemplate).subscribe(
-        (response) => {
-          if (response.status) {
-            this._helperService.showToast('User mapped successfully.', Key.TOAST_STATUS_SUCCESS);
-            this.backFromTemplate();
-          } else {
-            this._helperService.showToast('Error in mapping users.', Key.TOAST_STATUS_ERROR);
-          }
-          this.saveLoader = false;
-        },
-        (error) => {
-          this.saveLoader = false;
-          this._helperService.showToast('Error in mapping users.',Key.TOAST_STATUS_ERROR);
-        }
-      );
+    // this._salaryTemplateService.saveUserSalaryTemplate(this.userSalaryTemplate).subscribe(
+    //     (response) => {
+    //       if (response.status) {
+    //         this._helperService.showToast('User mapped successfully.', Key.TOAST_STATUS_SUCCESS);
+    //         this.backFromTemplate();
+    //       } else {
+    //         this._helperService.showToast('Error in mapping users.', Key.TOAST_STATUS_ERROR);
+    //       }
+    //       this.saveLoader = false;
+    //     },
+    //     (error) => {
+    //       this.saveLoader = false;
+    //       this._helperService.showToast('Error in mapping users.',Key.TOAST_STATUS_ERROR);
+    //     }
+    //   );
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
