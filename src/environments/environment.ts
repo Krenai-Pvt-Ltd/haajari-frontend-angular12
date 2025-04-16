@@ -24,6 +24,7 @@ export const BASE_URL = 'http://localhost:8082/api/v2';
 // 
 // /* ------------------  Staging urls ----------------*/
 //  export const BASE_URL = 'https://staging.hajiri.work/api/v2';
+ 
 //  export const BASE_URL = 'https://c35a-43-230-65-6.ngrok-free.app/api/v2';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 

@@ -86,8 +86,11 @@ export class Key {
     '/payroll/salary-template',
     '/payroll/payroll-management',
     '/payroll/statutory-deduction',
+    '/payroll/salary-template-copy',
+    '/payroll/payroll-managements',
+    '/payroll/employee-changes',
+    '/payroll/attendance-lop-management'
 
-    '/payroll/salary-template-copy'
     
   ];
 
@@ -146,8 +149,10 @@ export class Key {
     '/payroll/salary-template',
     '/payroll/payroll-management',
     '/payroll/statutory-deduction',
-
-    '/payroll/salary-template-copy'
+    '/payroll/salary-template-copy',
+    '/payroll/payroll-managements',
+    '/payroll/employee-changes',
+    '/payroll/attendance-lop-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [

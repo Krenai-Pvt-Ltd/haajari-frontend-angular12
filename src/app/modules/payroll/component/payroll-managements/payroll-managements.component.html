@@ -1,0 +1,257 @@
+<div class="page-wrapper">
+    <div class="page-content-tab">
+       <div class="container-fluid mb-4">
+            <div class="row mt-4">
+                <div class="col-md-8">
+
+                    <div class="">
+                        <div class="border border-rounded-2 bg-color" >
+                            <div class="p-2 px-3 border-bottom d-flex align-items-center justify-content-between">
+                                <h5 class="mb-0 font-14 fw-semibold w-100">Date Range</h5>
+                                <nz-date-picker nzMode="month"></nz-date-picker>
+                            </div>
+                            <!-- Months -->
+                            <div class="d-flex gap-3 overflow-auto m-2 no-scrollbar position-relative">
+                                <!-- left-btn -->
+                                <span class="position-absolute left-side-icon">
+                                    <i class="bi bi-chevron-left font-20"></i>
+                                </span>
+                                 <!-- right-btn -->
+                                <span class="position-absolute right-side-icon">
+                                    <i class="bi bi-chevron-right font-20"></i>
+                                </span>
+                                <div class="d-flex gap-3 overflow-auto mx-4 py-3 no-scrollbar align-items-center">
+                                    <ng-container *ngFor="let item of months; let last = last">
+                                      <div class="text-center border-rounded-2 date-box min-w-130" [ngClass]="{ 'active': item.status === 'Current' }">
+                                        <h5 class="fw-bold font-13">{{ item.title }}</h5>
+                                        <p class="font-12 fw-normal text-gray-600 mb-1">{{ item.range }}</p>
+                                        <p class="font-12 fw-semibold mb-0"
+                                           [ngClass]="{ 'text-warning': item.status === 'Pending', 'text-success': item.status === 'Completed', 'text-primary': item.status === 'Current', 'text-muted': item.status === 'Upcoming' }"> {{ item.status }}
+                                        </p>
+                                      </div>
+                                      <div class="separator" *ngIf="!last"></div>
+                                    </ng-container>
+                                  </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 border border-rounded-2">
+                            <div class="pt-1 border-bottom d-flex align-items-center justify-content-between px-3">
+                                <ul id="pills-tab" role="tablist" class="nav nav-pills border-0">
+                                    <li class="nav-item">
+                                       <a id="pills-announcement-tab" data-bs-toggle="pill" href="#run-payroll" role="tab" 
+                                          aria-controls="pills-dashboard" aria-selected="false"
+                                          class="nav-link active">Run Payroll</a>
+                                    </li>
+                                    <li class="nav-item d-flex align-items-center">
+                                       <a id="pills-notification-tab" data-bs-toggle="pill" href="#payroll-history" role="tab"
+                                          aria-controls="pills-request" aria-selected="false"
+                                          class="nav-link">Payroll History </a>
+                                    </li>
+                                 </ul>
+                                <button class="btn p-0 text-black font-14 fw-semibold">Sync
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <mask id="mask0_10724_2628" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                        <rect x="0.54541" y="0.636719" width="18.5455" height="18.5455" fill="#D9D9D9"/>
+                                        </mask>
+                                        <g mask="url(#mask0_10724_2628)">
+                                        <path d="M1.70662 16.924V15.5527H4.37886L3.71423 14.9164C2.96306 14.2213 2.42893 13.4433 2.11185 12.5824C1.79477 11.7215 1.63623 10.8516 1.63623 9.97258C1.63623 8.39267 2.0989 6.97595 3.02423 5.72242C3.94957 4.46888 5.16295 3.6083 6.66439 3.14068V4.58582C5.5614 5.01703 4.67621 5.72348 4.00884 6.70519C3.34131 7.68675 3.00755 8.77588 3.00755 9.97258C3.00755 10.6875 3.14293 11.3819 3.41369 12.0558C3.68445 12.7298 4.10582 13.3527 4.67781 13.9247L5.25788 14.505V12.0014H6.6292V16.924H1.70662ZM10.7783 16.6779V15.2327C11.8813 14.8015 12.7665 14.0951 13.4339 13.1134C14.1014 12.1318 14.4352 11.0427 14.4352 9.84597C14.4352 9.13105 14.2998 8.43663 14.0291 7.76271C13.7583 7.08878 13.3369 6.46582 12.7649 5.89383L12.1849 5.31353V7.8171H10.8135V2.89453H15.7361V4.26585H13.0639L13.7285 4.90214C14.4516 5.62543 14.9788 6.41044 15.3099 7.25715C15.641 8.10401 15.8065 8.96695 15.8065 9.84597C15.8065 11.4259 15.3438 12.8426 14.4185 14.0961C13.4932 15.3497 12.2798 16.2102 10.7783 16.6779Z" fill="black"/>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="pills-tabContent" class="tab-content ">
+                                <div class="tab-pane active show p-3" id="run-payroll" role="tabpanel" aria-labelledby="employee-tab">
+                                   <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="payrun-step">
+                                            <h5 class="mb-3 font-13 fw-semibold">Payrun Steps</h5>
+                                            <div class="border border-rounded-10 p-3 d-flex align-items-center justify-content-between mb-3 step-complete pointer">
+                                                <div class="d-flex align-items-center gap-3 pointer" routerLink="/payroll/employee-changes">
+                                                    <span class="payrunn-icon img-40 border-rounded-2 d-flex align-items-center justify-content-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                            <mask id="mask0_10717_6595" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                                            <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_10717_6595)">
+                                                            <path d="M12 12.5C10.9 12.5 9.95833 12.1083 9.175 11.325C8.39167 10.5417 8 9.6 8 8.5C8 7.4 8.39167 6.45833 9.175 5.675C9.95833 4.89167 10.9 4.5 12 4.5C13.1 4.5 14.0417 4.89167 14.825 5.675C15.6083 6.45833 16 7.4 16 8.5C16 9.6 15.6083 10.5417 14.825 11.325C14.0417 12.1083 13.1 12.5 12 12.5ZM4 20.5V17.7C4 17.1333 4.14583 16.6125 4.4375 16.1375C4.72917 15.6625 5.11667 15.3 5.6 15.05C6.63333 14.5333 7.68333 14.1458 8.75 13.8875C9.81667 13.6292 10.9 13.5 12 13.5C13.1 13.5 14.1833 13.6292 15.25 13.8875C16.3167 14.1458 17.3667 14.5333 18.4 15.05C18.8833 15.3 19.2708 15.6625 19.5625 16.1375C19.8542 16.6125 20 17.1333 20 17.7V20.5H4ZM6 18.5H18V17.7C18 17.5167 17.9542 17.35 17.8625 17.2C17.7708 17.05 17.65 16.9333 17.5 16.85C16.6 16.4 15.6917 16.0625 14.775 15.8375C13.8583 15.6125 12.9333 15.5 12 15.5C11.0667 15.5 10.1417 15.6125 9.225 15.8375C8.30833 16.0625 7.4 16.4 6.5 16.85C6.35 16.9333 6.22917 17.05 6.1375 17.2C6.04583 17.35 6 17.5167 6 17.7V18.5ZM12 10.5C12.55 10.5 13.0208 10.3042 13.4125 9.9125C13.8042 9.52083 14 9.05 14 8.5C14 7.95 13.8042 7.47917 13.4125 7.0875C13.0208 6.69583 12.55 6.5 12 6.5C11.45 6.5 10.9792 6.69583 10.5875 7.0875C10.1958 7.47917 10 7.95 10 8.5C10 9.05 10.1958 9.52083 10.5875 9.9125C10.9792 10.3042 11.45 10.5 12 10.5Z" fill="#1C1B1F"/>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <div>
+                                                        <h5 class="font-13 fw-semibold mb-1">Employees Changes</h5>
+                                                        <p class="mb-0 font-11 fwq-normal">Lorem ipsum dolor sit amet consectetur </p>
+                                                    </div>
+                                                </div>
+                                                <span class="pointer">
+                                                    <i class="bi bi-chevron-right font-18"></i>
+                                                </span>
+                                            </div>
+                                            <div class="border border-rounded-10 p-3 d-flex align-items-center justify-content-between mb-3 active-section pointer" routerLink="/payroll/attendance-lop-management">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="payrunn-icon img-40 border-rounded-2 d-flex align-items-center justify-content-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                            <mask id="mask0_10741_2676" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                                            <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_10741_2676)">
+                                                            <path d="M5 19.5V5.5V9.975V9.5V19.5ZM7 13.5H12.525C12.5583 13.1333 12.6417 12.7833 12.775 12.45C12.9083 12.1167 13.075 11.8 13.275 11.5H7V13.5ZM7 17.5H10.925C11.2083 17.1667 11.5333 16.8958 11.9 16.6875C12.2667 16.4792 12.65 16.3083 13.05 16.175C12.9833 16.075 12.925 15.9667 12.875 15.85C12.825 15.7333 12.7833 15.6167 12.75 15.5H7V17.5ZM7 9.5H17V7.5H7V9.5ZM5 21.5C4.45 21.5 3.97917 21.3042 3.5875 20.9125C3.19583 20.5208 3 20.05 3 19.5V5.5C3 4.95 3.19583 4.47917 3.5875 4.0875C3.97917 3.69583 4.45 3.5 5 3.5H19C19.55 3.5 20.0208 3.69583 20.4125 4.0875C20.8042 4.47917 21 4.95 21 5.5V11.95C20.7667 11.5167 20.4833 11.1333 20.15 10.8C19.8167 10.4667 19.4333 10.1917 19 9.975V5.5H5V19.5H10.05C10.0333 19.6 10.0208 19.7 10.0125 19.8C10.0042 19.9 10 20 10 20.1V21.5H5ZM17 16.5C16.3 16.5 15.7083 16.2583 15.225 15.775C14.7417 15.2917 14.5 14.7 14.5 14C14.5 13.3 14.7417 12.7083 15.225 12.225C15.7083 11.7417 16.3 11.5 17 11.5C17.7 11.5 18.2917 11.7417 18.775 12.225C19.2583 12.7083 19.5 13.3 19.5 14C19.5 14.7 19.2583 15.2917 18.775 15.775C18.2917 16.2583 17.7 16.5 17 16.5ZM12 21.5V20.1C12 19.7 12.1042 19.3292 12.3125 18.9875C12.5208 18.6458 12.8167 18.4 13.2 18.25C13.8 18 14.4208 17.8125 15.0625 17.6875C15.7042 17.5625 16.35 17.5 17 17.5C17.65 17.5 18.2958 17.5625 18.9375 17.6875C19.5792 17.8125 20.2 18 20.8 18.25C21.1833 18.4 21.4792 18.6458 21.6875 18.9875C21.8958 19.3292 22 19.7 22 20.1V21.5H12Z" fill="#1C1B1F"/>
+                                                            </g>
+                                                            </svg>
+                                                    </span>
+                                                    <div>
+                                                        <h5 class="font-13 fw-semibold mb-1">Attendance, Leave & Present Days</h5>
+                                                        <p class="mb-0 font-11 fwq-normal">Lorem ipsum dolor sit amet consectetur </p>
+                                                    </div>
+                                                </div>
+                                                <span class="pointer">
+                                                    <i class="bi bi-chevron-right font-18"></i>
+                                                </span>
+                                            </div>
+                                            <div class="border border-rounded-10 p-3 d-flex align-items-center justify-content-between mb-3 pointer">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="payrunn-icon img-40 border-rounded-2 d-flex align-items-center justify-content-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                            <mask id="mask0_10741_2684" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                                            <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_10741_2684)">
+                                                            <path d="M13.275 18H15.675V17.925L11.55 13.55L11.575 13.475H11.825C12.725 13.475 13.4708 13.2 14.0625 12.65C14.6542 12.1 15.0167 11.4583 15.15 10.725H16.15V9.55H15.125C15.075 9.3 14.9875 9.0625 14.8625 8.8375C14.7375 8.6125 14.5833 8.39167 14.4 8.175H16.15V7H7.85V8.425H11.75C12.1833 8.425 12.5375 8.53333 12.8125 8.75C13.0875 8.96667 13.275 9.23333 13.375 9.55H7.85V10.725H13.4C13.3 11.0583 13.1083 11.3458 12.825 11.5875C12.5417 11.8292 12.1583 11.95 11.675 11.95H9.175V13.55L13.275 18ZM12 22.5C10.6167 22.5 9.31667 22.2375 8.1 21.7125C6.88333 21.1875 5.825 20.475 4.925 19.575C4.025 18.675 3.3125 17.6167 2.7875 16.4C2.2625 15.1833 2 13.8833 2 12.5C2 11.1167 2.2625 9.81667 2.7875 8.6C3.3125 7.38333 4.025 6.325 4.925 5.425C5.825 4.525 6.88333 3.8125 8.1 3.2875C9.31667 2.7625 10.6167 2.5 12 2.5C13.3833 2.5 14.6833 2.7625 15.9 3.2875C17.1167 3.8125 18.175 4.525 19.075 5.425C19.975 6.325 20.6875 7.38333 21.2125 8.6C21.7375 9.81667 22 11.1167 22 12.5C22 13.8833 21.7375 15.1833 21.2125 16.4C20.6875 17.6167 19.975 18.675 19.075 19.575C18.175 20.475 17.1167 21.1875 15.9 21.7125C14.6833 22.2375 13.3833 22.5 12 22.5ZM12 20.5C14.2333 20.5 16.125 19.725 17.675 18.175C19.225 16.625 20 14.7333 20 12.5C20 10.2667 19.225 8.375 17.675 6.825C16.125 5.275 14.2333 4.5 12 4.5C9.76667 4.5 7.875 5.275 6.325 6.825C4.775 8.375 4 10.2667 4 12.5C4 14.7333 4.775 16.625 6.325 18.175C7.875 19.725 9.76667 20.5 12 20.5Z" fill="#1C1B1F"/>
+                                                            </g>
+                                                            </svg>
+                                                    </span>
+                                                    <div>
+                                                        <h5 class="font-13 fw-semibold mb-1">Salary Revision, Overtime & Deduction</h5>
+                                                        <p class="mb-0 font-11 fwq-normal">Lorem ipsum dolor sit amet consectetur </p>
+                                                    </div>
+                                                </div>
+                                                <span class="pointer">
+                                                    <i class="bi bi-chevron-right font-18"></i>
+                                                </span>
+                                            </div>
+                                            <div class="border border-rounded-10 p-3 d-flex align-items-center justify-content-between mb-4 pointer">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <span class="payrunn-icon img-40 border-rounded-2 d-flex align-items-center justify-content-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                            <mask id="mask0_10741_2688" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                                            <rect y="0.5" width="24" height="24" fill="#D9D9D9"/>
+                                                            </mask>
+                                                            <g mask="url(#mask0_10741_2688)">
+                                                            <path d="M15 20.5C12.7667 20.5 10.875 19.725 9.325 18.175C7.775 16.625 7 14.7333 7 12.5C7 10.2667 7.775 8.375 9.325 6.825C10.875 5.275 12.7667 4.5 15 4.5C17.2333 4.5 19.125 5.275 20.675 6.825C22.225 8.375 23 10.2667 23 12.5C23 14.7333 22.225 16.625 20.675 18.175C19.125 19.725 17.2333 20.5 15 20.5ZM7 20.25C5.23333 19.7833 3.79167 18.8333 2.675 17.4C1.55833 15.9667 1 14.3333 1 12.5C1 10.6667 1.55833 9.03333 2.675 7.6C3.79167 6.16667 5.23333 5.21667 7 4.75V6.85C5.8 7.26667 4.83333 7.99167 4.1 9.025C3.36667 10.0583 3 11.2167 3 12.5C3 13.7833 3.36667 14.9417 4.1 15.975C4.83333 17.0083 5.8 17.7333 7 18.15V20.25ZM15 18.5C16.6667 18.5 18.0833 17.9167 19.25 16.75C20.4167 15.5833 21 14.1667 21 12.5C21 10.8333 20.4167 9.41667 19.25 8.25C18.0833 7.08333 16.6667 6.5 15 6.5C13.3333 6.5 11.9167 7.08333 10.75 8.25C9.58333 9.41667 9 10.8333 9 12.5C9 14.1667 9.58333 15.5833 10.75 16.75C11.9167 17.9167 13.3333 18.5 15 18.5Z" fill="#1C1B1F"/>
+                                                            </g>
+                                                            </svg>
+                                                    </span>
+                                                    <div>
+                                                        <h5 class="font-13 fw-semibold mb-1">EPF, ESI, & TDS</h5>
+                                                        <p class="mb-0 font-11 fwq-normal">Lorem ipsum dolor sit amet consectetur </p>
+                                                    </div>
+                                                </div>
+                                                <span class="pointer">
+                                                    <i class="bi bi-chevron-right font-18"></i>
+                                                </span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <p class="mb-0 font-12 fw-semibold">Last Preview Run On 14 Apr at 11:46 AM</p>
+                                                <button class="btn font-13 fw-semibold submitActionBtn">Run Payroll</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="payrun-step d-flex align-items-center justify-content-between mb-3">
+                                            <h5 class="mb-0 font-13 fw-semibold">Average Pay Distribution </h5>
+                                            <p class="mb-0 font-12 fw-normal">Apr - 2025</p>
+                                    </div>
+
+                                    <div class="text-center mt-5 mb-5">
+                                        <img src="assets/images/payrollstep-img/average-pay.svg">
+                                    </div>
+
+                                     <div>
+                                        <div class="border d-flex align-items-center justify-content-between p-2 border-rounded-2 mb-3" *ngFor="let item of expenses">
+                                          <div class="d-flex align-items-center gap-2">
+                                            <span [ngClass]="item.class"></span>
+                                            <p class="mb-0 text-black fw-semibold font-13"> {{ item.label }} <span class="fw-light">({{ item.percentage }}%)</span></p>
+                                          </div>
+                                          <h5 class="mb-0 font-12 text-black fw-semibold">{{ item.value }}</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                   </div>
+                                </div>
+                                <div class="tab-pane fade" id="payroll-history" role="tabpanel" aria-labelledby="employee-tab">
+                                   <div class="mt-1 payroll-history-list">
+                                    <div class="d-flex align-items-center justify-content-between border-bottom p-3" *ngFor="let item of payrolls">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="march-pay-icon d-flex align-items-center justify-content-center radius-50">
+                                        <!-- Tick SVG -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                            <mask id="mask0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="20">
+                                            <rect x="0" y="0" width="20" height="20" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0)">
+                                            <path d="M8.5 14.5L4 10L5.2 8.8L8.5 12.1L15 5.5L16.2 6.7L8.5 14.5Z" fill="#388E3C"/>
+                                            </g>
+                                        </svg>
+                                        </span>
+                                        <h5 class="mb-0 font-13 fw-semibold">{{ item.title }}</h5>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <p class="mb-0 font-12 fw-normal">Admin Name <span class="fw-600">{{ item.admin }}</span></p>
+                                        <span class="calendar-separator"></span>
+                                        <p class="mb-0 font-12 fw-normal">Date <span class="fw-600">{{ item.date }}</span></p>
+                                        <span class="calendar-separator"></span>
+                                        <button class="btn font-13 fw-semibold p-0 text-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <mask id="mask1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                            <rect x="0" y="0" width="20" height="20" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask1)">
+                                            <path d="M10.5 13.8L6.4 9.7L7.6 8.5L9.7 10.6V3.8H11.4V10.6L13.6 8.5L14.8 9.7L10.5 13.8ZM5.6 17.2C5.1 17.2 4.7 17 4.4 16.7C4.1 16.3 4 15.9 4 15.5V13H5.6V15.5H15.6V13H17.2V15.5C17.2 15.9 17.1 16.3 16.8 16.7C16.4 17 16 17.2 15.6 17.2H5.6Z" fill="#6666F2"/>
+                                            </g>
+                                        </svg>
+                                        Download
+                                        </button>
+                                    </div>
+                                    </div>
+                                   </div>
+                                </div>
+                            </div>
+
+                        </div>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="border p-3 border-rounded-2">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="approved position-relative" *ngFor="let item of stats">
+                              <h5 class="font-12 mb-2">{{ item.title }}</h5>
+                              <h5 class="font-18 mb-1 fw-semibold mb-0"> {{ item.value }}
+                                <span *ngIf="item.sub" [ngClass]="[item.subFont, 'fw-light', item.subClass]"> {{ item.sub }}</span>
+                              </h5>
+                            </div>
+                          </div>
+                        <div class="payroll-graph mt-4 mb-3">
+                            <img src="assets/images/payrollstep-img/payroll-graph.svg" class="w-100">
+                        </div>
+                        <div class="mt-4">
+                            
+                            <ng-container *ngIf="isLoading; else content">
+                                <div class="border p-3 border-rounded-2 d-flex align-items-center justify-content-between mb-3" *ngFor="let s of [].constructor(6)" >
+                                  <ngx-shimmer-loading [width]="'120px'" [height]="'13px'" class="rounded"></ngx-shimmer-loading>
+                                  <ngx-shimmer-loading [width]="'80px'" [height]="'13px'" class="rounded"></ngx-shimmer-loading>
+                                </div>
+                            </ng-container>
+                              
+                              <ng-template #content>
+                                <div class="border p-3 border-rounded-2 d-flex align-items-center justify-content-between" *ngFor="let item of tdsItems; let last = last" [ngClass]="{ 'mb-3': !last }">
+                                  <h5 class="mb-0 font-12 fw-semibold">{{ item.label }}</h5>
+                                  <h5 class="mb-0 text-primary font-12 fw-semibold">₹{{ item.amount | number }}</h5>
+                                </div>
+                              </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

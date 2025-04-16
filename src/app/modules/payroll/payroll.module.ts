@@ -28,7 +28,9 @@ import { PayrollManagementComponent } from './component/payroll-management/payro
 import { StatutoryDeductionComponent } from './component/statutory-deduction/statutory-deduction.component';
 import { SalaryTemplateCopyComponent } from './component/salary-template-copy/salary-template-copy.component';
 import { SalaryTemplateSidebarComponent } from './component/salary-template-sidebar/salary-template-sidebar.component';
-import { PayrollDashboardComponent } from './component/payroll-dashboard/payroll-dashboard.component';
+import { PayrollManagementsComponent } from './component/payroll-managements/payroll-managements.component';
+import { EmployeeChangesComponent } from './component/employee-changes/employee-changes.component';
+import { AttendanceAndLopManagementComponent } from './component/attendance-and-lop-management/attendance-and-lop-management.component';
 
 
 
@@ -51,7 +53,9 @@ import { PayrollDashboardComponent } from './component/payroll-dashboard/payroll
     SalaryTemplateComponent,
     SalaryTemplateCopyComponent,
     SalaryTemplateSidebarComponent,
-    PayrollDashboardComponent
+    PayrollManagementsComponent,
+    EmployeeChangesComponent,
+    AttendanceAndLopManagementComponent,
   ],
   imports: [
     CommonModule,

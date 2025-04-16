@@ -1,0 +1,123 @@
+.approved::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: -2px;
+    background-color: #6666f2;
+    width: 2px;
+    height: 20px;
+    border-radius: 5px;
+}
+.approved {
+    border-left: 2px solid #EDEDED;
+    padding-left: 10px;
+}
+.date-box{
+    min-width: 150px;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; 
+  }
+  .use-funds-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 50px;
+}
+.bg-color{
+    background-color: #F9FAFC;
+}
+
+::ng-deep .ant-picker {
+    border: 1px solid #e9e9e9 !important;
+    width: 200px !important;
+    height: 40px !important;
+    border-radius: 2px !important;
+    background-color: rgb(255, 255, 255);
+}
+.separator {
+    border-right: 1px solid #e0e0e0;
+    height: 50px;
+  }
+  .left-side-icon{
+    top: 35px;
+    left:-5px;
+  }
+  .right-side-icon{
+    right:-5px;
+    top: 35px;
+  }
+  .date-box.active {
+    border: 1px dashed #6666f3;
+    background-color: #f1f1fd;
+    padding: 5px 0px 5px 0px;
+  }
+  .min-w-130{
+    min-width: 130px;
+  }
+  .payrunn-icon{
+    background-color: #F2F2FF;
+  }
+  .earned-leave{
+    background-color: #CA365F;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .casual-leave{
+    background-color: #47539F;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  .sick-leave{
+    background-color: #327DD1;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+ 
+  .maternity-leave{
+    background-color: #5ECED8;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+ 
+  .submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    width: 140px;
+}
+.step-complete{
+    border: 1px solid #388E3C !important;
+    background-color: #F5FFF5 !important;
+}
+.step-complete .payrunn-icon{
+    background-color: #388E3C !important;
+}
+.step-complete .payrunn-icon svg{
+    filter: invert(1);
+}
+.active-section{
+    border: 1px solid #6666f2 !important;
+}
+.march-pay-icon{
+    border: 1px solid #388E3C;
+    background: #F7FFF8;
+    width: 30px;
+    height: 30px;
+}
+.calendar-separator {
+    border-left: 1px solid #DCDCE4;
+    height: 20px;
+}
+.payroll-history-list{
+    max-height: 500px;
+    overflow: scroll;
+}
+.payroll-history-list::-webkit-scrollbar{
+    display: none;
+}

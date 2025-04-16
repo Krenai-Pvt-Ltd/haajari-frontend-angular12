@@ -18,6 +18,9 @@
 .border-rounded-2{
   border-radius:2px !important;
 }
+.border-rounded-10{
+  border-radius: 10px;
+}
 .radius-50 {
   border-radius: 50%;
 }
