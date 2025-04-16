@@ -2380,7 +2380,7 @@ closeModal() {
   getAllLeaveTemplate() {
     debugger
     this.isLoading = true;
-    this.dataService.getAllLeaveTemplate(1, 10).subscribe((response: any) => {
+    this.dataService.getAllLeaveTemplate(1, 30).subscribe((response: any) => {
 
       this.isLoading = false;
 

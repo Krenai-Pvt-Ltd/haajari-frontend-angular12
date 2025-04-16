@@ -1,6 +1,5 @@
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { LeaveTemplateRes } from 'src/app/models/LeaveTemplateRes';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
@@ -12,17 +11,20 @@ import { LeaveCategory } from 'src/app/models/leave-category';
 import { YearType } from 'src/app/models/year-type';
 import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
+import { Routes } from 'src/app/constant/Routes';
 @Component({
   selector: 'app-leave-policy',
   templateUrl: './leave-policy.component.html',
   styleUrls: ['./leave-policy.component.css']
 })
 export class LeavePolicyComponent implements OnInit {
+  readonly Routes=Routes;
 
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
     private cdr: ChangeDetectorRef,
+    public rbacService: RoleBasedAccessControlService
   ) { }
 
   ngOnInit(
@@ -145,6 +147,42 @@ export class LeavePolicyComponent implements OnInit {
     } else {
       this.selectedStaffIds = this.selectedStaffIds.filter((id) => id !== staff.id);
     }
+  }
+  onStaffClear() {
+    this.staffs.forEach((staff) => {
+      staff.checked = false;
+    });
+    this.selectedStaffIds = [];
+  }
+
+  selectAllEmployee() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
+    if (this.isAllSelected()) {
+      this.staffs.forEach((element) => {
+        // Only select if joiningDate exists
+        if (element.joiningDate) {
+          this.selectedStaffIds.push(element.id);
+          element.checked = true;
+        }
+      });
+    } else {
+      this.staffs.forEach((element: any) => {
+        element.checked = false;
+      });
+      this.selectedStaffIds = [];
+    }
+    // Remove duplicates using Set
+    this.selectedStaffIds = Array.from(new Set(this.selectedStaffIds));
+
+  }
+
+  isAllSelected(): boolean {
+    const allChecked = this.staffs.filter((staff) => staff.joiningDate).every((staff) => staff.checked);
+    console.log('All selected:', allChecked);
+    return allChecked;
   }
 
   onPageChange(page: number) {
