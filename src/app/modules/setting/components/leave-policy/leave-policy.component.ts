@@ -345,7 +345,7 @@ export class LeavePolicyComponent implements OnInit {
       (response) => {
         this.isLoadingSave = false;
         this.resetForm();
-        this.getAllLeaveTemplate();
+        this.getLeaveTemplate();
         this.closeModal.nativeElement.click();
         this.closeModal1.nativeElement.click();
         this.closeModal2.nativeElement.click();
@@ -631,7 +631,7 @@ export class LeavePolicyComponent implements OnInit {
     this.deleteLoading = true;
     this.dataService.deleteLeaveTemplate(this.deleteLeaveTemplateId).subscribe((response: any) => {
       if (response.status) {
-        this.getAllLeaveTemplate();
+        this.getLeaveTemplate();
         this.closeButtonDeleteLeave.nativeElement.click();
         this.deleteLoading = false;
         this.deleteLeaveTemplateId=0;
@@ -657,7 +657,7 @@ export class LeavePolicyComponent implements OnInit {
         this.deleteLoading = false;
         this.closeButtonDeleteLeave.nativeElement.click();
         this.deleteCategoryId = 0;
-        this.getAllLeaveTemplate();
+        this.getLeaveTemplate();
         this.helperService.showToast(
           'Leave Category deleted',
           Key.TOAST_STATUS_SUCCESS
