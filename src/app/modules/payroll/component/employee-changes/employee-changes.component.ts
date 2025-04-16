@@ -11,5 +11,5 @@ export class EmployeeChangesComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  collapseStates = Array(4).fill(false);
 }

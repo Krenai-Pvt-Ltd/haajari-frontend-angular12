@@ -9,6 +9,7 @@ import { SalaryTemplateComponent } from './component/salary-template/salary-temp
 
 import { SalaryTemplateCopyComponent } from './component/salary-template-copy/salary-template-copy.component';
 import { PayrollManagementsComponent } from './component/payroll-managements/payroll-managements.component';
+import { EmployeeChangesComponent } from './component/employee-changes/employee-changes.component';
 
 
 const routes: Routes = [{ path: '', redirectTo: '/payroll/setup', pathMatch: 'full' },
@@ -42,6 +43,10 @@ const routes: Routes = [{ path: '', redirectTo: '/payroll/setup', pathMatch: 'fu
       {
         path: 'payroll-managements',
         component: PayrollManagementsComponent
+      },
+      {
+        path: 'employee-changes',
+        component: EmployeeChangesComponent
       },
       
       

@@ -245,6 +245,11 @@ export class TopbarComponent implements OnInit {
       routeDesc="Manage tax deductions like PF, ESI, PT, and TDS."
       break;
     }
+    case this.Routes.EMPLOYEECHANGES:{
+      routeValue = 'Payroll Management ';
+      routeDesc="Manage tax deductions like PF, ESI, PT, and TDS."
+      break;
+    }
 
    }
 

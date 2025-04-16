@@ -58,6 +58,7 @@ export class Routes {
     public static PAYROLLMANAGEMENT = "/payroll/payroll-management"
     public static STATUTORYDEDUCTION = "/payroll/statutory-deduction"
     public static PAYROLLMANAGEMENTS = "/payroll/payroll-managements"
+    public static EMPLOYEECHANGES = "/payroll/employee-changes"
 
     public static EMPLOYEE_PROFILE = "/employee";
     
