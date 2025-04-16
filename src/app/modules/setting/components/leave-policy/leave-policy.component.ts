@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LeaveTemplateRes } from 'src/app/models/LeaveTemplateRes';
 import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
@@ -12,19 +11,20 @@ import { LeaveCategory } from 'src/app/models/leave-category';
 import { YearType } from 'src/app/models/year-type';
 import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
+import { Routes } from 'src/app/constant/Routes';
 @Component({
   selector: 'app-leave-policy',
   templateUrl: './leave-policy.component.html',
   styleUrls: ['./leave-policy.component.css']
 })
 export class LeavePolicyComponent implements OnInit {
+  readonly Routes=Routes;
 
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
     private cdr: ChangeDetectorRef,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    public rbacService: RoleBasedAccessControlService
   ) { }
 
   ngOnInit(
@@ -49,7 +49,7 @@ export class LeavePolicyComponent implements OnInit {
   getAllLeaveTemplate() {
     debugger
     this.isLoading = true;
-    this.dataService.getAllLeaveTemplate(1, 10).subscribe((response: any) => {
+    this.dataService.getAllLeaveTemplate(1, 30).subscribe((response: any) => {
 
       this.isLoading = false;
       this.wfhLeaveTemplates = response.object.filter((template: any) =>
@@ -92,8 +92,10 @@ export class LeavePolicyComponent implements OnInit {
   }
 
   // Leave Category Methods
+  leaveTemplateCategoryRequestList: LeaveTemplateCategoryRequest[] = [];
   addLeaveCategory() {
     this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
+    this.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
     this.newCategory = new LeaveTemplateCategoryRequest(); // Reset for next entry
   }
 
@@ -119,7 +121,7 @@ export class LeavePolicyComponent implements OnInit {
           '',
           0, // Assuming leaveSettingId is 0 for new template
           0, // selectedTeamId, adjust if needed
-          this.selectedStaffIds,
+          [],
           isProbation
         )
         .subscribe(
@@ -146,6 +148,42 @@ export class LeavePolicyComponent implements OnInit {
       this.selectedStaffIds = this.selectedStaffIds.filter((id) => id !== staff.id);
     }
   }
+  onStaffClear() {
+    this.staffs.forEach((staff) => {
+      staff.checked = false;
+    });
+    this.selectedStaffIds = [];
+  }
+
+  selectAllEmployee() {
+    if(!this.rbacService.hasWriteAccess(this.Routes.LEAVESETTING)){
+      this.helperService.showPrivilegeErrorToast();
+      return;
+    }
+    if (this.isAllSelected()) {
+      this.staffs.forEach((element) => {
+        // Only select if joiningDate exists
+        if (element.joiningDate) {
+          this.selectedStaffIds.push(element.id);
+          element.checked = true;
+        }
+      });
+    } else {
+      this.staffs.forEach((element: any) => {
+        element.checked = false;
+      });
+      this.selectedStaffIds = [];
+    }
+    // Remove duplicates using Set
+    this.selectedStaffIds = Array.from(new Set(this.selectedStaffIds));
+
+  }
+
+  isAllSelected(): boolean {
+    const allChecked = this.staffs.filter((staff) => staff.joiningDate).every((staff) => staff.checked);
+    console.log('All selected:', allChecked);
+    return allChecked;
+  }
 
   onPageChange(page: number) {
     this.pageNumber = page;
@@ -153,12 +191,33 @@ export class LeavePolicyComponent implements OnInit {
   }
 
   // Save and Modal Management
+  @ViewChild('closeModal') closeModal!: ElementRef;
+  @ViewChild('closeModal1') closeModal1!: ElementRef;
+  @ViewChild('closeModal2') closeModal2!: ElementRef;
   saveLeaveTemplate() {
     this.leaveTemplate.userIds = this.selectedStaffIds;
+    // Filter IDs from readOnlySelectedStaffIds that are not in selectedStaffIdsUser
+    const newUnSelectedIds = this.readOnlySelectedStaffIds.filter(
+      id => !this.selectedStaffIds.includes(id)
+    );
+
+    // Add new IDs to unSelectedStaffIds, avoiding duplicates
+    this.unSelectedStaffIds = [
+      ...new Set([...this.unSelectedStaffIds, ...newUnSelectedIds])
+    ];
+    this.leaveTemplate.deselectUserIds = this.unSelectedStaffIds;
+    this.leaveTemplate.leaveTemplateCategoryRequestList = this.leaveTemplateCategoryRequestList;
     this.dataService.registerLeaveTemplate(this.leaveTemplate).subscribe(
       (response) => {
-        this.closeModal();
         this.resetForm();
+        this.getAllLeaveTemplate();
+        this.closeModal.nativeElement.click();
+        this.closeModal1.nativeElement.click();
+        this.closeModal2.nativeElement.click();
+        this.helperService.showToast(
+          'Leave template saved successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       (error) => {
         console.error('Error saving leave template:', error);
@@ -166,26 +225,17 @@ export class LeavePolicyComponent implements OnInit {
     );
   }
 
-  closeModal() {
-    if (this.leaveModal) {
-      this.leaveModal.hide(); // For ngx-bootstrap
-    } else {
-      // For Bootstrap JS
-      const modalElement = document.getElementById('leaveModal');
-      if (modalElement) {
-        (modalElement as any).modal('hide');
-      }
-    }
-  }
-
   resetForm() {
     this.leaveTemplate = new LeaveTemplateRequest();
     this.newCategory = new LeaveTemplateCategoryRequest();
     this.selectedStaffIds = [];
+    this.readOnlySelectedStaffIds = [];
+    this.unSelectedStaffIds = [];
     this.staffs = [];
     this.searchText = '';
     this.pageNumber = 1;
     this.total = 0;
+
   }
 
 
@@ -230,51 +280,6 @@ export class LeavePolicyComponent implements OnInit {
   gender: any = null;
 
   filteredLeaveCategories: any;
-  onGenderChange(value: any, i: number) {
-    if (value != null) {
-
-      if (value == 'Male') {
-        this.selectedGenderId = 2;
-      } else if (value == 'Female') {
-        this.selectedGenderId = 3
-      } else {
-        this.selectedGenderId = 1;
-      }
-
-      this.leaveTemplate.gender = 'All';
-      if (!this.filteredLeaveCategories) {
-        this.filteredLeaveCategories = [];
-      }
-
-      // Ensure the index exists in filteredLeaveCategories
-      if (!this.filteredLeaveCategories[i]) {
-        this.filteredLeaveCategories[i] = [...this.leaveCategoryList]; // Initialize with original list
-      }
-
-      // Filter based on the selected gender and index
-      if (this.selectedGenderId == 2) {
-        // Example: Exclude leave category with id 3 for males
-        this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
-        this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 3);
-        this.leaveTemplate.gender = 'Male';
-      } else if (this.selectedGenderId == 3) {
-        // Example: Exclude leave category with id 4 for females
-        this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
-        this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 4);
-        this.leaveTemplate.gender = 'Female';
-      } else if (this.selectedGenderId == 1) {
-        // Reset to original list if 'All' is selected
-        this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
-        this.leaveTemplate.gender = 'All';
-      }
-
-      this.gender = this.leaveTemplate.gender;
-    } else {
-
-      this.gender = null;
-      this.selectedGenderId = 0
-    }
-  }
 
     leaveCategoryList: LeaveCategory[] = [];
     onDutyList: LeaveCategory[] = [];
@@ -389,7 +394,10 @@ export class LeavePolicyComponent implements OnInit {
         })
       }
 
-      selectedStaffIdsUser: number[] = [];
+      readOnlySelectedStaffIds: number[] = [];
+      unSelectedStaffIds: number[] = [];
+      readOnlyLeaveTemplateCategory : LeaveTemplateCategoryRequest[] = [];
+
       getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
         this.leaveTemplate.id = leaveSettingId;
         this.dataService.getLeaveSettingInformationById(leaveSettingId).subscribe(
@@ -405,7 +413,11 @@ export class LeavePolicyComponent implements OnInit {
             });
 
             response.userIds.forEach((id: number) => {
-              this.selectedStaffIdsUser.push(id)
+              this.selectedStaffIds.push(id)
+
+            });
+            response.userIds.forEach((id: number) => {
+              this.readOnlySelectedStaffIds.push(id)
 
             });
 
@@ -422,29 +434,104 @@ export class LeavePolicyComponent implements OnInit {
               }
             }, 200)
 
+           // Map leave template categories
+      this.leaveTemplate.leaveTemplateCategoryRequestList = response.leaveTemplateCategories.map((category: any) => ({
+        id: category.leaveCategory.id,
+        leaveCount: category.leaveCount,
+        leaveCycleId: category.leaveCycle.id,
+        unusedLeaveActionId: category.unusedLeaveAction.id,
+        unusedLeaveActionCount: category.unusedLeaveActionCount,
+        sandwichLeave: category.sandwichLeave,
+        accrualTypeId: category.accrualType.id,
+        reset: category.reset,
+        flexible: !!category.isFlexible, // Convert 0/1 to boolean
+        carryover: category.carryover,
+        carryoverAction: category.carryoverAction || '',
+        categoryName: this.leaveCategoryList.find(c => c.id === category.leaveCategory.id)?.name || 'N/A',
+        unusedLeaveName: this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id)?.name || 'N/A',
+        accrualName: this.accrualTypes.find(c => c.id === category.accrualType.id)?.name || 'N/A',
+        leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A'
+      } as LeaveTemplateCategoryRequest));
 
-            this.filteredLeaveCategories = [];
-            setTimeout(() => {
-              this.leaveTemplate.leaveTemplateCategoryRequestList = response.leaveTemplateCategories.map((category: any) => {
-                const matchedCategory = this.leaveCategoryList.find(c => c.id === category.leaveCategory.id);
-                const matchedUnusedLeaveAction = this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id);
-                const matchedAccrualType = this.accrualTypes.find(c => c.id === category.accrualType.id);
-                const matchedLeaveCycle = this.leaveCycleList.find(c => c.id === category.leaveCycle.id);
-                return {
-                  ...category,
-                  categoryName: matchedCategory ? matchedCategory.name : 'N/A',
-                  unusedLeaveName: matchedUnusedLeaveAction ? matchedUnusedLeaveAction.name : 'N/A',
-                  accrualName: matchedAccrualType ? matchedAccrualType.name : 'N/A',
-                  leaveCycleName: matchedLeaveCycle ? matchedLeaveCycle.name : 'N/A'
-                };
-              });
-            }, 200)
+      // Trigger change detection
+      this.cdr.detectChanges();
           },
           (error) => {
             console.error('Error fetching leave setting information by ID:', error);
           }
         );
       }
+
+
+  deleteLeaveSettingRule(leaveSettingId: number): void {
+    this.dataService.deleteLeaveSettingRule(leaveSettingId).subscribe(
+      () => {
+        this.helperService.showToast(
+          'Leave rule deleted successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
+  deleteLoading: boolean = false;
+  deleteLeaveTemplateId: number = 0;
+  @ViewChild('closeButtonDeleteLeave') closeButtonDeleteLeave!: ElementRef;
+  deleteLeaveTemplate(): void {
+    this.deleteLoading = true;
+    this.dataService.deleteLeaveTemplate(this.deleteLeaveTemplateId).subscribe((response: any) => {
+      if (response.status) {
+        this.getAllLeaveTemplate();
+        this.closeButtonDeleteLeave.nativeElement.click();
+        this.deleteLoading = false;
+        this.deleteLeaveTemplateId=0;
+        this.helperService.showToast(
+          'Leave Template Deleted',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      } else {
+        this.deleteLoading = false;
+        this.helperService.showToast(
+          'Something went wrong!',
+          Key.TOAST_STATUS_ERROR
+        );
+      }
+    })
+  }
+
+  deleteCategoryId: number = 0;
+  deleteLeaveSettingCategoryById(): void {
+    this.deleteLoading = true;
+    this.dataService.deleteLeaveSettingCategoryById(this.deleteCategoryId).subscribe({
+      next: () => {
+        this.deleteLoading = false;
+        this.closeButtonDeleteLeave.nativeElement.click();
+        this.deleteCategoryId = 0;
+        this.getAllLeaveTemplate();
+        this.helperService.showToast(
+          'Leave Category deleted',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      error: (err) => {
+        this.deleteLoading = false;
+        console.error('Delete failed', err);
+      },
+    });
+  }
+
+  onCategorySelected(categoryId: number): void {
+    console.log('Selected category ID:', categoryId);
+   this.deleteCategoryId = categoryId;
+  }
+  onUnusedLeaveActionChange(value: number) {
+    if (value === 1) {
+      this.newCategory.unusedLeaveActionCount = 0;
+    }
+  }
 
 
 

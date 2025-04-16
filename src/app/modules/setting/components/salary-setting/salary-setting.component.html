@@ -1829,7 +1829,7 @@
                       </ng-template>
                     </table>
                   </div>
-                
+
 
                   <div class="bg-white leave-footer">
                     <div class="pagition-box p-3 d-flex align-items-center  justify-content-between" *ngIf="total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
@@ -1841,7 +1841,7 @@
                           <nav aria-label="Page navigation example">
                             <ngb-pagination
                               class="pagination justify-content-end"
-                              [(page)]="pageNumber"
+                              [page]="pageNumber"
                               [pageSize]="itemPerPage"
                               [collectionSize]="total"
                               (pageChange)="changePage($event)"
