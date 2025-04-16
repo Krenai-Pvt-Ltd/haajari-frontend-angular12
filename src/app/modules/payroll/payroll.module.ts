@@ -30,6 +30,7 @@ import { SalaryTemplateCopyComponent } from './component/salary-template-copy/sa
 import { SalaryTemplateSidebarComponent } from './component/salary-template-sidebar/salary-template-sidebar.component';
 import { PayrollManagementsComponent } from './component/payroll-managements/payroll-managements.component';
 import { EmployeeChangesComponent } from './component/employee-changes/employee-changes.component';
+import { AttendanceAndLopManagementComponent } from './component/attendance-and-lop-management/attendance-and-lop-management.component';
 
 
 
@@ -54,6 +55,7 @@ import { EmployeeChangesComponent } from './component/employee-changes/employee-
     SalaryTemplateSidebarComponent,
     PayrollManagementsComponent,
     EmployeeChangesComponent,
+    AttendanceAndLopManagementComponent,
   ],
   imports: [
     CommonModule,

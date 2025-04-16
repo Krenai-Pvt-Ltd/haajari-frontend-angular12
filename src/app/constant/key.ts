@@ -89,6 +89,7 @@ export class Key {
     '/payroll/salary-template-copy',
     '/payroll/payroll-managements',
     '/payroll/employee-changes',
+    '/payroll/attendance-lop-management'
 
     
   ];
@@ -151,6 +152,7 @@ export class Key {
     '/payroll/salary-template-copy',
     '/payroll/payroll-managements',
     '/payroll/employee-changes',
+    '/payroll/attendance-lop-management'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
