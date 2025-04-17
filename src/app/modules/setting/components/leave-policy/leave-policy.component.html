@@ -512,7 +512,7 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Select Gender <span class="text-danger">*</span></label>
-                          <nz-select [(ngModel)]="leaveTemplate.gender" name="gender" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Gender" #gender="ngModel">
+                          <nz-select [(ngModel)]="newCategory.gender" name="gender" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Gender" #gender="ngModel">
                             <nz-option nzValue="All" nzLabel="All"></nz-option>
                             <nz-option nzValue="Male" nzLabel="Male"></nz-option>
                             <nz-option nzValue="Female" nzLabel="Female"></nz-option>
@@ -523,6 +523,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Leave Category Name <span class="text-danger">*</span></label>
+                          {{newCategory.id}}
                           <nz-select [(ngModel)]="newCategory.id" name="leaveCategoryId" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Leave Category Name" #leaveCategoryId="ngModel">
                             <nz-option *ngFor="let category of leaveCategoryList" [nzValue]="category.id" [nzLabel]="category.name"></nz-option>
                           </nz-select>
@@ -639,8 +640,8 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList">
-                                <td>{{ leaveTemplate.gender || 'All' }}</td>
+                              <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList; let i = index">
+                                <td>{{ category.gender || 'All' }}</td>
                                 <td>{{ findCategoryById(category.id)}}</td>
                                 <td>{{ findCycleById(category.leaveCycleId) }}</td>
                                 <td>{{ findAccrualTypeById(category.accrualTypeId) }}</td>
@@ -648,6 +649,40 @@
                                 <td>{{ category.leaveCount }}</td>
                                 <td>{{ findUnusedLeaveActionById(category.unusedLeaveActionId) }} - {{ category.unusedLeaveActionCount }}</td>
                                 <td>{{ category.carryover }}</td>
+                                <td *ngIf="category.categoryId == 0" class="text-center">
+                                  <div class="d-flex align-items-center gap-2">
+                                    <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                        viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_4127_1895" style="mask-type: alpha"
+                                          maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                          <rect width="18.8342" height="18.8342" fill="#444444" />
+                                        </mask>
+                                        <g mask="url(#mask0_4127_1895)">
+                                          <path
+                                            d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
+                                            fill="#444444" />
+                                        </g>
+                                      </svg>
+                                    </button>
+
+                                    <button (click)="deleteCategory(i)" type="button" class="btn btnAction p-0">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                        viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_4127_1892" style="mask-type: alpha"
+                                          maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                          <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342"
+                                            fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_4127_1892)">
+                                          <path
+                                            d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
+                                            fill="#FF0000" />
+                                        </g>
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -931,7 +966,7 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Select Gender <span class="text-danger">*</span></label>
-                          <nz-select [(ngModel)]="leaveTemplate.gender" name="genderOnDuty" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Gender" #genderOnDuty="ngModel">
+                          <nz-select disabled [(ngModel)]="leaveTemplate.gender" name="genderOnDuty" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Gender" #genderOnDuty="ngModel">
                             <nz-option nzValue="All" nzLabel="All"></nz-option>
                             <nz-option nzValue="Male" nzLabel="Male"></nz-option>
                             <nz-option nzValue="Female" nzLabel="Female"></nz-option>
@@ -1026,15 +1061,49 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList">
-                                <td>{{ leaveTemplate.gender || 'All' }}</td>
-                                <td>{{ findCategoryById(category.id) }}</td>
+                              <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList; let i = index">
+                                <td>{{ category.gender || 'All' }}</td>
+                                <td>{{ findCategoryById(category.id)}}</td>
                                 <td>{{ findCycleById(category.leaveCycleId) }}</td>
                                 <td>{{ findAccrualTypeById(category.accrualTypeId) }}</td>
                                 <td>{{ category.flexible ? 'Yes' : 'No' }}</td>
                                 <td>{{ category.leaveCount }}</td>
                                 <td>{{ findUnusedLeaveActionById(category.unusedLeaveActionId) }} - {{ category.unusedLeaveActionCount }}</td>
                                 <td>{{ category.carryover }}</td>
+                                <td *ngIf="category.categoryId == 0" class="text-center">
+                                  <div class="d-flex align-items-center gap-2">
+                                    <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                        viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_4127_1895" style="mask-type: alpha"
+                                          maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                          <rect width="18.8342" height="18.8342" fill="#444444" />
+                                        </mask>
+                                        <g mask="url(#mask0_4127_1895)">
+                                          <path
+                                            d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
+                                            fill="#444444" />
+                                        </g>
+                                      </svg>
+                                    </button>
+
+                                    <button (click)="deleteCategory(i)" type="button" class="btn btnAction p-0">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                        viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_4127_1892" style="mask-type: alpha"
+                                          maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                          <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342"
+                                            fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_4127_1892)">
+                                          <path
+                                            d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
+                                            fill="#FF0000" />
+                                        </g>
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -1316,7 +1385,7 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Select Gender <span class="text-danger">*</span></label>
-                          <nz-select [(ngModel)]="leaveTemplate.gender" name="genderWeekOff" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Gender" #genderWeekOff="ngModel">
+                          <nz-select disabled [(ngModel)]="newCategory.gender" name="genderWeekOff" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Gender" #genderWeekOff="ngModel">
                             <nz-option nzValue="All" nzLabel="All"></nz-option>
                             <nz-option nzValue="Male" nzLabel="Male"></nz-option>
                             <nz-option nzValue="Female" nzLabel="Female"></nz-option>
@@ -1410,15 +1479,49 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList">
-                                <td>{{ leaveTemplate.gender || 'All' }}</td>
-                                <td>{{ findCategoryById(category.id) }}</td>
+                              <tr *ngFor="let category of leaveTemplate.leaveTemplateCategoryRequestList; let i = index">
+                                <td>{{ category.gender || 'All' }}</td>
+                                <td>{{ findCategoryById(category.id)}}</td>
                                 <td>{{ findCycleById(category.leaveCycleId) }}</td>
                                 <td>{{ findAccrualTypeById(category.accrualTypeId) }}</td>
                                 <td>{{ category.flexible ? 'Yes' : 'No' }}</td>
                                 <td>{{ category.leaveCount }}</td>
                                 <td>{{ findUnusedLeaveActionById(category.unusedLeaveActionId) }} - {{ category.unusedLeaveActionCount }}</td>
                                 <td>{{ category.carryover }}</td>
+                                <td *ngIf="category.categoryId == 0" class="text-center">
+                                  <div class="d-flex align-items-center gap-2">
+                                    <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                        viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_4127_1895" style="mask-type: alpha"
+                                          maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                          <rect width="18.8342" height="18.8342" fill="#444444" />
+                                        </mask>
+                                        <g mask="url(#mask0_4127_1895)">
+                                          <path
+                                            d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
+                                            fill="#444444" />
+                                        </g>
+                                      </svg>
+                                    </button>
+
+                                    <button (click)="deleteCategory(i)" type="button" class="btn btnAction p-0">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                        viewBox="0 0 19 19" fill="none">
+                                        <mask id="mask0_4127_1892" style="mask-type: alpha"
+                                          maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                                          <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342"
+                                            fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_4127_1892)">
+                                          <path
+                                            d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
+                                            fill="#FF0000" />
+                                        </g>
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </td>
                               </tr>
                             </tbody>
                           </table>

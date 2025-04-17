@@ -12,6 +12,7 @@ import { YearType } from 'src/app/models/year-type';
 import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
 import { Routes } from 'src/app/constant/Routes';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-leave-policy',
   templateUrl: './leave-policy.component.html',
@@ -49,6 +50,10 @@ export class LeavePolicyComponent implements OnInit {
   pageSize: number = 10;
   totalTemplates: number = 0;
   currentTab: string = 'LEAVE';
+
+  @ViewChild('templateForm') templateForm: NgForm | undefined;
+  @ViewChild('categoryForm') categoryForm: NgForm | undefined;
+  @ViewChild('staffForm') staffForm: NgForm | undefined;
   getLeaveTemplate() {
     debugger
     this.isLoading = true;
@@ -107,7 +112,18 @@ export class LeavePolicyComponent implements OnInit {
   }
 
   addLeaveCategory() {
-    this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
+    if (this.updateToggle && this.editingCategoryIndex !== null) {
+      // Update existing category
+      this.leaveTemplate.leaveTemplateCategoryRequestList[this.editingCategoryIndex] = this.newCategory;
+      this.updateToggle = false;
+      this.editingCategoryIndex = null;
+    }else{
+      this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
+    }
+    if (this.categoryForm) {
+      this.categoryForm.form.markAsUntouched();
+      this.categoryForm.form.markAsPristine();
+    }
     this.newCategory = new LeaveTemplateCategoryRequest(); // Reset for next entry
   }
 
@@ -350,6 +366,21 @@ export class LeavePolicyComponent implements OnInit {
     this.pageNumber = 1;
     this.total = 0;
     this.selectAllPages=false;
+    this.resetFormValidation();
+  }
+
+  resetFormValidation() {
+    // Reset the template form
+    if (this.templateForm) {
+      this.templateForm.form.markAsUntouched(); // Explicitly mark as untouched
+      this.templateForm.form.markAsPristine(); // Explicitly mark as pristine
+    }
+
+    // Reset the category form
+    if (this.categoryForm) {
+      this.categoryForm.form.markAsUntouched();
+      this.categoryForm.form.markAsPristine();
+    }
 
   }
 
@@ -599,6 +630,7 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
            // Map leave template categories
       this.leaveTemplate.leaveTemplateCategoryRequestList = response.leaveTemplateCategories.map((category: any) => ({
         id: category.leaveCategory.id,
+        categoryId: category.id,
         leaveCount: category.leaveCount,
         leaveCycleId: category.leaveCycle.id,
         unusedLeaveActionId: category.unusedLeaveAction.id,
@@ -613,7 +645,7 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
         unusedLeaveName: this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id)?.name || 'N/A',
         accrualName: this.accrualTypes.find(c => c.id === category.accrualType.id)?.name || 'N/A',
         leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A',
-        isReset: category?.reset,
+        gender: category?.gender || 'All',
       } as LeaveTemplateCategoryRequest));
 
       // Trigger change detection
@@ -686,6 +718,35 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
     });
   }
 
+  updateToggle: boolean = false;
+  editingCategoryIndex: number | null = null;
+
+  // Edit a category
+  editCategory(index: number) {
+    // Set edit mode
+    this.updateToggle = true;
+    this.editingCategoryIndex = index;
+
+    // Get the category to edit
+    const category = this.leaveTemplate.leaveTemplateCategoryRequestList[index];
+    // Populate the form with the category's data
+    this.newCategory = { ...category }; // Shallow copy to avoid direct binding
+    this.newCategory.id = category.id; // Set the category ID
+    this.newCategory.id = category.id; // Set the category ID
+  }
+
+  // Delete a category
+  deleteCategory(index: number) {
+
+      this.leaveTemplate.leaveTemplateCategoryRequestList.splice(index, 1);
+      // Reset form and edit mode if the deleted category was being edited
+      if (this.editingCategoryIndex === index) {
+        this.newCategory = new LeaveTemplateCategoryRequest();
+        this.updateToggle = false;
+        this.editingCategoryIndex = null;
+      }
+
+  }
   onCategorySelected(categoryId: number): void {
     console.log('Selected category ID:', categoryId);
    this.deleteCategoryId = categoryId;
