@@ -119,7 +119,7 @@ export class LeavePolicyComponent implements OnInit {
   onEmployeeTypeChange(id: number) {
     this.leaveTemplate.employeeTypeId = id;
     this.employeeTypeId = id;
-    this.fetchStaffs(); // Refresh staff list based on employee type
+    // this.fetchStaffs(); // Refresh staff list based on employee type
   }
 
   addLeaveCategory() {
