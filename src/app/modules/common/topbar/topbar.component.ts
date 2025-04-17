@@ -75,12 +75,12 @@ export class TopbarComponent implements OnInit {
       break;
     }
     case this.Routes.TEAM:{
-      routeValue = 'Team';
+      routeValue = 'Department';
       routeDesc="Manage and Organize Employee Groups"
       break;
     }
     case this.Routes.TEAMDETAIL:{
-      routeValue = 'Team Detail';
+      routeValue = 'Department Detail';
       routeDesc="Manage and Organize Employee Groups"
       break;
     }
