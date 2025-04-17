@@ -19,7 +19,7 @@
                          </div>
 
 
-                         <div class="mt-3">
+                         <div class="mt-4">
                             <ul id="pills-tab" role="tablist" class="nav nav-pills align-items-center gap-3 ">
                                 <li class="nav-item mx-0">
                                    <a id="pills-announcement-tab" data-bs-toggle="pill" href="#leave-applied" role="tab" 
@@ -254,151 +254,12 @@
                                 </div>
                                 <div class="tab-pane fade" id="LOP-summary" role="tabpanel" aria-labelledby="employee-tab">
 
-                                    <div class="asset-assigned-search d-flex justify-content-start align-items-center">
-                                        <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
-                                            <div class="form-group w-100 position-relative">
-                                                <input type="text" id="searchText" placeholder="Search by name.." class="form-control me-2 w-100 border-0" style="padding: 10px 40px;" >
-                                                <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn text-primary fw-semibold filter-btn font-13 text-center">
-                                            
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_10851_7605" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                <rect width="21" height="21" fill="#D9D9D9"/>
-                                                </mask>
-                                                <g mask="url(#mask0_10851_7605)">
-                                                <path d="M8.35625 14L3.39062 9.03438L4.6375 7.7875L8.35625 11.5063L16.3625 3.5L17.6094 4.74688L8.35625 14ZM4.375 17.5V15.75H16.625V17.5H4.375Z" fill="#6666F2"/>
-                                                </g>
-                                                </svg>
-                                                Save & Continue 
-                                        </button>
-                                    </div>
-                                    <div class="mt-3 table-responsive">
-
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 15%;" class="fw-semibold">Employee Name</th>
-                                                    <th style="width: 25%;" class="fw-semibold ">Exit Action & Reason</th>
-                                                    <th style="width: 10%;" class="fw-semibold ">Last working day</th>
-                                                    <th style="width: 5%;" class="fw-semibold">Status </th>
-                                                    <th style="width: 10%;" class="fw-semibold"> Settled Amount </th>
-                                                    <th style="width: 10%;" class="fw-semibold">Actions</th>
-                                                    <th style="width: 30%;" class="fw-semibold">Comments</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let item of [].constructor(4); let i = index"s>
-                                                <tr>
-                                                    <td>
-                                                        <span class="fw-normal font-13">Leslie Alexander</span>
-                                                    </td>
-                                                    <td>
-                                                        <div>
-                                                            <input class="form-control me-2 w-100 input-zorro" type="text"  placeholder="Write Comments...">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-normal font-13">9th Jan 2024</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-semibold font-13 text-warning">Pending</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-normal font-13">7th March, 2025</span>
-                                                    </td>
-                                                   
-                                                    <td>
-                                                        <span class="fw-normal font-13">₹40,000.00</span>
-                                                    </td>
-                                                    <td>
-                                                        <div>
-                                                            <input class="form-control me-2 w-100 input-zorro" type="text"  placeholder="Write Comments...">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
-                                     </div>
+                                    
+                                    
                                 </div>
                                 <div class="tab-pane fade" id="LOP-reversal" role="tabpanel" aria-labelledby="employee-tab">
 
-                                    <div class="asset-assigned-search d-flex justify-content-start align-items-center">
-                                        <div class="search-date d-flex align-items-center justify-content-between position-relative w-100">
-                                            <div class="form-group w-100 position-relative">
-                                                <input type="text" id="searchText" placeholder="Search by name.." class="form-control me-2 w-100 border-0" style="padding: 10px 40px;" >
-                                                <i class="bi bi-search search-icon d-flex align-items-center h-100"></i>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn text-primary fw-semibold filter-btn font-13 text-center">
-                                            
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_10851_7605" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                <rect width="21" height="21" fill="#D9D9D9"/>
-                                                </mask>
-                                                <g mask="url(#mask0_10851_7605)">
-                                                <path d="M8.35625 14L3.39062 9.03438L4.6375 7.7875L8.35625 11.5063L16.3625 3.5L17.6094 4.74688L8.35625 14ZM4.375 17.5V15.75H16.625V17.5H4.375Z" fill="#6666F2"/>
-                                                </g>
-                                                </svg>
-                                                Save & Continue 
-                                        </button>
-                                    </div>
-                                    <div class="mt-3 table-responsive">
-
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 15%;" class="fw-semibold">Employee Name</th>
-                                                    <th style="width: 25%;" class="fw-semibold ">Exit Action & Reason</th>
-                                                    <th style="width: 10%;" class="fw-semibold ">Last working day</th>
-                                                    <th style="width: 5%;" class="fw-semibold">Status </th>
-                                                    <th style="width: 10%;" class="fw-semibold"> Settled Amount </th>
-                                                    <th style="width: 10%;" class="fw-semibold">Actions</th>
-                                                    <th style="width: 30%;" class="fw-semibold">Comments</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let item of [].constructor(4); let i = index"s>
-                                                <tr>
-                                                    <td>
-                                                        <span class="fw-normal font-13">Leslie Alexander</span>
-                                                    </td>
-                                                    <td>
-                                                        <div>
-                                                            <input class="form-control me-2 w-100 input-zorro" type="text"  placeholder="Write Comments...">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-normal font-13">9th Jan 2024</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-semibold font-13 text-warning">Pending</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="fw-normal font-13">7th March, 2025</span>
-                                                    </td>
-                                                   
-                                                    <td>
-                                                        <span class="fw-normal font-13">₹40,000.00</span>
-                                                    </td>
-                                                    <td>
-                                                        <div>
-                                                            <input class="form-control me-2 w-100 input-zorro" type="text"  placeholder="Write Comments...">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
-                                     </div>
+                                   
                                 </div>
                             </div>
                      </div>
