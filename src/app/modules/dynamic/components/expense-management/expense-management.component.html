@@ -17,7 +17,7 @@
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <a id="pills-notification-tab" data-bs-toggle="pill" href="#expense-policy" role="tab"
-                                aria-controls="pills-request" aria-selected="false"
+                                aria-controls="pills-request" aria-selected="false" (click)="activeTab = 'expense-policy'"
                                 class="nav-link">Company Expense Policy</a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
@@ -689,7 +689,9 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="expense-policy" role="tabpanel" aria-labelledby="employee-tab">
-                             <app-expense-policy></app-expense-policy>
+                            <ng-container *ngIf="activeTab === 'expense-policy'">
+                                <app-expense-policy></app-expense-policy>
+                              </ng-container>
                         </div>
                         <div class="tab-pane fade" id="expense-wallet" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="mt-3">
@@ -951,11 +953,11 @@
 
                                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="walletUserList.length > 0 && totalWalletUser > 9">
                                         <p class="mb-0">
-                                            Showing {{ getStartIndex() }} to {{ walletgetEndIndex() }} of {{ totalWalletUser }} records
+                                            Showing {{ walletgetStartIndex() }} to {{ walletgetEndIndex() }} of {{ totalWalletUser }} records
                                         </p>                                        
                                         <ngb-pagination class="pagition-box pagination-ul"  [collectionSize]="totalWalletUser" [rotate]="true" (pageChange)="walletPageChanged($event)"
-                                        [pageSize]="databaseHelper.itemPerPage"
-                                        [(page)]="databaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
+                                        [pageSize]="walletdatabaseHelper.itemPerPage"
+                                        [(page)]="walletdatabaseHelper.currentPage" [maxSize]="4" [boundaryLinks]="true">
                                         </ngb-pagination>
                                     </div>
                                 </div>
