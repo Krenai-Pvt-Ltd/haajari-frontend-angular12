@@ -25,11 +25,11 @@ import { constant } from 'src/app/constant/constant';
 })
 export class ExpenseManagementComponent implements OnInit {
 
-  constructor(private dataService: DataService, private expenseService: ExpenseService, private helperService: HelperService,private cdr: ChangeDetectorRef,
+  constructor(private dataService: DataService, private expenseService: ExpenseService, public helperService: HelperService,private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   showFilter: boolean = false;
-  ROLE: any;
+  // ROLE: any;
   userId: any;
   ngOnInit(): void {
     const userUuidParam = new URLSearchParams(window.location.search).get(
@@ -41,7 +41,7 @@ export class ExpenseManagementComponent implements OnInit {
     // this.getExpenses();
     this.getExpensesCount();
     // this.getWalletUser();
-    this.getRole();
+    // this.getRole();
     this.fetchDashboardData();
   }
 
@@ -54,9 +54,9 @@ export class ExpenseManagementComponent implements OnInit {
     this.getUsersByFilterMethodCall();
   }
 
-  async getRole(){
-    this.ROLE = await this.rbacService.getRole();
-  }
+  // async getRole(){
+  //   this.ROLE = await this.rbacService.getRole();
+  // }
 
 
   // dashboard(): void {
@@ -134,7 +134,7 @@ export class ExpenseManagementComponent implements OnInit {
      debugger
      this.loading = true;
      this.expenseList = []
-     this.ROLE = await this.rbacService.getRole();
+    //  this.ROLE = await this.rbacService.getRole();
   
      if (this.filters.fromDate !== undefined && this.filters.toDate !== undefined) {
       this.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
@@ -150,7 +150,7 @@ export class ExpenseManagementComponent implements OnInit {
     console.log("Start Date :",this.startDate)
     console.log("End Date :", this.endDate);
     this.expenseList = []
-     this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'',this.requestsSearch).subscribe((res: any) => {
+     this.dataService.getAllExpense(this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'',this.requestsSearch).subscribe((res: any) => {
        if (res.status) {
          this.expenseList = res.object
          this.totalItems = res.totalItems
@@ -186,14 +186,14 @@ export class ExpenseManagementComponent implements OnInit {
   async getExpensesCount() {
     debugger
     this.expenseCount = []
-    this.ROLE = await this.rbacService.getRole();
+    // this.ROLE = await this.rbacService.getRole();
   
     if(this.expenseSelectedDate == null){
       this.startDate = '';
       this.endDate = '';
     }
   
-    this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.userId).subscribe((res: any) => {
+    this.dataService.getAllExpenseCount(this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.userId).subscribe((res: any) => {
       if (res.status) {
         this.expenseCount = res.object
   
@@ -272,6 +272,7 @@ removeFilter(filter: string) {
       this.tempSelectedFilter = this.tempSelectedFilter.filter(f => f !== statusName);
       this.selectedStatus = this.selectedStatus.filter(f => f !== statusName);
   }
+  this.selectedFilters = this.tempSelectedFilter.map(status => `Status: ${status}`);
   this.getExpenses();
   console.log("Removed Status:", statusName);
   console.log("Updated Filters:", this.tempSelectedFilter);
@@ -482,7 +483,6 @@ openExpenseComponent(expense: any) {
     console.log("Requested Employee Name : ",this.tempRequestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
-      this.ROLE,
       this.databaseHelper.currentPage,
       this.databaseHelper.itemPerPage,
       this.startDate,
@@ -793,6 +793,9 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.dashBoardDateView = true;
     this.loading = true;
     this.getExpenseTrend();
+    this.page = 0;
+    this.itemsPerPage = 10;
+    this.teamWallets = [];
     this.getTeamWalletAmount();
     this.getCreditWalletAmount();
     this.getDebitWalletAmount();
@@ -882,7 +885,7 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.chartOptions = {
       series: this.expenseTypeSummery.map(item => parseFloat(item.percentage) || 0), // Convert to number and prevent NaN
       chart: {
-        width: 180,
+        width: '100%',
         type: "donut"
       },
       colors: this.getDynamicColors(this.expenseTypeSummery),
@@ -978,16 +981,46 @@ onDateRangeChange(dates: [Date, Date] | null) {
  
 
   /* team wallet transacction */
-  teamWallets: any[] = [];
-  getTeamWalletAmount() {
-    this.expenseService.getTeamWallets().subscribe((res: any) => {
-      if (res.status) {
-        this.teamWallets = res.object;
-      }
-      
-      console.log("Team Wallet Data :", res);
-      });
+teamWallets: any[] = [];
+totalTeam: number = 0;
+page: number = 0;
+itemsPerPage: number = 10;
+isMoreTeamLoader: boolean = false;
+showAllTeams: boolean = false;
+
+getTeamWalletAmount(reset: boolean = false) {
+  this.isMoreTeamLoader = true;
+
+  if (reset) {
+    this.page = 0;
+    this.teamWallets = [];
   }
+
+  this.expenseService.getTeamWallets(this.page, this.itemsPerPage).subscribe((res: any) => {
+    if (res.status) {
+      this.teamWallets = this.teamWallets.concat(res.object);
+      this.totalTeam = res.totalItems;
+      if(res.object.length == 0){
+        this.totalTeam = this.teamWallets.length;
+      }
+      this.page++;
+    }
+    this.isMoreTeamLoader = false;
+    console.log("Team Wallet Data :", res);
+  }, () => {
+    this.isMoreTeamLoader = false;
+  });
+}
+
+loadMoreTeam() {
+  this.getTeamWalletAmount();
+}
+
+hideTeam() {
+  this.showAllTeams = false;
+  this.getTeamWalletAmount(true); // reset data
+}
+
 
   creditWalletAmount : number = 0;
   debitWalletAmount : number = 0;

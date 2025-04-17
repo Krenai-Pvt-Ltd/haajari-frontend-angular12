@@ -83,7 +83,8 @@ export class Key {
     '/payroll/setup',
     '/payroll/configuration',
     '/payroll/earning-details',
-    '/payroll/salary-template'
+    '/payroll/salary-template',
+    '/setting/leave-policy'
     
   ];
 
@@ -139,7 +140,8 @@ export class Key {
     '/payroll/setup',
     '/payroll/configuration',
     '/payroll/earning-details',
-    '/payroll/salary-template'
+    '/payroll/salary-template',
+    '/setting/leave-policy'
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -180,6 +182,7 @@ export class Key {
   public static EPF_ID = 1;
   public static ESI_ID = 2;
   public static PROFESSIONAL_TAX_ID = 3;
+  public static LWF_ID = 4;
 
   public static PASTE = 'paste';
   public static COPY = 'copy';

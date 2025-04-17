@@ -3,7 +3,7 @@
 
         <!-- mobile section -->
         <div *ngIf="!shouldShowResignationRow() || requestModal" class="col-md-7 mobile-holiday-section">
-            <div class="holidays-list ">
+            <!-- <div class="holidays-list ">
                 <div class="d-flex align-items-center holidays-flex-column">
                     <div class="holidays-cal-box">
                         <div id="carouselExampleControlsmb" class="carousel slide" data-bs-ride="carousel"
@@ -72,7 +72,7 @@
                     </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- mobile section end -->
         <div class="col-md-4">
@@ -80,13 +80,24 @@
             <div class="attendance-report p-3 attendance-report-height">
                 <h5 class="font-14 border-bottom pb-3">Attendance Report</h5>
                 <div class="mb-4">
-                   
-                    <div class="chart-container w-100" *ngIf="!isPlaceholder">
-                        <canvas #chartCanvas id="workingHoursChart"></canvas>
 
-                        
+                    <div class="chart-container w-100" *ngIf="!isPlaceholder && isChartInitialized">
+                      <apx-chart
+                      [series]="series"
+                      [chart]="chart"
+                      [xaxis]="xaxis"
+                      [yaxis]="yaxis"
+                      [fill]="fill"
+                      [dataLabels]="dataLabels"
+                      [markers]="markers"
+                      [tooltip]="tooltip"
+                      [grid]="grid"
+                      [colors]="this.Constants.COLORS"
+                      [stroke]="{width:1.5}"
+                    ></apx-chart>
                     </div>
-                   
+
+
                     <div class="empty-file d-flex align-items-center justify-content-center" *ngIf="isPlaceholder">
                         <p class="mb-1 empty-detail">No data for now</p>
                     </div>
@@ -94,28 +105,28 @@
                 <h6 class="pb-2 mt-3">{{currentDate | date: 'EEEE, MMMM d, y'}}</h6>
 
                 <div class="row">
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-6 col-sm-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-In time</p>
                             <h5 class="mb-2">{{(attendanceSummary?.inTime | date: 'hh:mm a')|| '--'}}</h5>
                             <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.inLateTime}} </span></p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Check-Out time</p>
                             <h5 class="mb-2">{{(attendanceSummary?.outTime | date: 'hh:mm a') || '--'}}</h5>
                             <p class="mb-0  font-13"><span class="text-danger">{{attendanceSummary?.outLateTime}}</span></p>
                         </div>
                     </div>
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-6 col-sm-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Duration</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakDuration}}</h5>
                             <p class="mb-0 font-13"><span class="text-danger">{{attendanceSummary?.breakRemaining}}</span></p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div class="employee-dashboard p-2 mb-3">
                             <p class="mb-3 font-13">Break Count</p>
                             <h5 class="mb-2">{{attendanceSummary?.breakCount}}</h5>
@@ -501,12 +512,6 @@
                                 aria-controls="pills-announcement" aria-selected="false"
                                 class="nav-link active">Attendance Update</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a id="pills-notification-tab" data-bs-toggle="pill" href="#overtimeRequest" role="tab"
-                                (click)="getOvertimeRequestLogResponseByUserUuidMethodCall()"
-                                aria-controls="pills-notification" aria-selected="false" class="nav-link">Overtime
-                                Request</a>
-                        </li> -->
                         <li class="nav-item">
                             <a id="pills-notification-tab" data-bs-toggle="pill" href="#leaveRequest" role="tab"
                                 (click)="loadLeaveLogs()" aria-controls="pills-notification" aria-selected="false"
@@ -517,7 +522,8 @@
                         <div class="tab-pane active show pt-3" id="attendanceUpdate" role="tabpanel"
                             aria-labelledby="attendanceUpdate-tab">
 
-                            <div class="birthday-section">
+                            <!-- desktop attendance update request -->
+                            <div class="birthday-section desktop-attendance-date">
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
@@ -539,7 +545,7 @@
                                                     <ngx-shimmer-loading [width]="'100%'"
                                                         [height]="'15px'"></ngx-shimmer-loading>
                                                 </td>
-                                            
+
                                             </tr>
                                         </tbody>
 
@@ -595,11 +601,93 @@
                                     </table>
                                 </div>
                             </div>
+                             <!-- desktop attendance update request end -->
+
+                            <!-- mobile attendance update request -->
+                            <div class="mobile-card-view " >
+                                <table class="table">
+
+
+                                    <tbody *ngIf="isFullLogLoader">
+                                        <tr *ngFor="let item of [].constructor(7)">
+                                            <td *ngFor="let item of [].constructor(2)">
+                                                <ngx-shimmer-loading [width]="'100%'"
+                                                    [height]="'15px'"></ngx-shimmer-loading>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                    <div class="d-flex align-items-center justify-content-center" *ngIf="!isAttendanceLoading && attendanceRequests?.length==0">
+                                        <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                    <p class="mb-1 empty-detail">No data for now</p>
+                                                </ng-template>
+                                            </nz-empty>
+                                        </div>
+                                    </div>
+
+                                    <ng-container *ngIf="!isAttendanceLoading && attendanceRequests?.length!=0">
+                                    <tbody class="mobile-attendance-date" *ngFor="let item of attendanceRequests">
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Apply On</th>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                <span class="team-maneger mb-0">
+                                                    {{item.createdDate | date:'fullDate'}}
+                                                </span>
+
+                                                <span class="font-13 fw-semibold text-warning"> {{
+                                                    item.status | uppercase}}
+                                                </span>
+                                              </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Type - Request</th>
+                                            <td>
+                                                <div class="d-flex align0-items-center justify-content-between">
+                                                <span class="team-maneger mb-0">{{ item.requestType }}</span>
+
+                                                <span class="team-maneger mb-0 fw-semibold">{{
+                                                        item.managerName || 'N/A' }}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Time</th>
+                                            <td>
+                                                <div class="schedule">
+                                                <h5 class="mb-0 font-13">
+                                                    {{ item.outRequestTime | date: 'd MMM yy' }}{{ item.updatedDate
+                                                    | date: 'd MMM yy' }}</h5>
+                                                <p class="mb-0 font-11">{{ item.updatedDate | date: 'hh:mm a' }}{{
+                                                    item.inRequestTime | date: 'hh:mm a' }} - {{ item.outRequestTime
+                                                    | date: 'hh:mm a' }}</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Note</th>
+                                            <td>
+                                                <span class="team-maneger mb-0 table-font-weight">{{
+                                                        item.requestReason || 'N/A'}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </ng-container>
+
+                                </table>
+                            </div>
+                            <!-- mobile attendance update request end -->
 
                         </div>
                         <div class="tab-pane fade pt-3" id="overtimeRequest" role="tabpanel"
                             aria-labelledby="overtimeRequest-tab">
-                            <div class="birthday-section">
+
+                           <!-- desktop leave request  -->
+                            <div class="birthday-section desktop-attendance-date">
                                 <div class="table-responsive bg-white">
 
                                     <table class="table empOnnoardtable">
@@ -664,10 +752,7 @@
                                                 <td>
                                                     <div class="d-flex align-items-center gap-2">
                                                         <span class="badge rounded-pill badge-soft-warning">
-                                                            <!-- Dynamic Status -->
                                                             {{item.statusName | uppercase}}
-
-                                                            
                                                         </span>
                                                     </div>
                                                 </td>
@@ -677,13 +762,14 @@
                                     </table>
                                 </div>
                             </div>
+                             <!-- desktop leave request end -->
 
                         </div>
                         <div class="tab-pane fade pt-3" id="leaveRequest" role="tabpanel"
                             aria-labelledby="leaveRequest-tab">
-                            <div class="birthday-section">
-                                <div class="table-responsive bg-white">
 
+                            <div class="birthday-section desktop-attendance-date">
+                                <div class="table-responsive bg-white">
                                     <table class="table empOnnoardtable">
                                         <thead *ngIf="!isLoading && userLeaveLog?.length > 0" class="thead-light">
                                             <tr>
@@ -779,36 +865,7 @@
                                                 <td>
                                                     <div class="d-flex align-items-center gap-2">
                                                         <span class="badge rounded-pill badge-soft-warning">
-                                                            <!-- Dynamic Status -->
                                                             {{ item.status | uppercase }}
-
-                                                            <!-- Delete Button -->
-                                                            <!-- <button class="icon-button btn p-0" (click)="deleteRecord(item)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                            <mask id="mask0_6083_5461" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                                            </mask>
-                                                            <g mask="url(#mask0_6083_5461)">
-                                                                <path
-                                                                    d="M6.74353 18.4102C6.2852 18.4102 5.89284 18.247 5.56645 17.9206C5.24006 17.5942 5.07686 17.2018 5.07686 16.7435V5.91016H4.24353V4.24349H8.4102V3.41016H13.4102V4.24349H17.5769V5.91016H16.7435V16.7435C16.7435 17.2018 16.5803 17.5942 16.2539 17.9206C15.9276 18.247 15.5352 18.4102 15.0769 18.4102H6.74353ZM15.0769 5.91016H6.74353V16.7435H15.0769V5.91016ZM8.4102 15.0768H10.0769V7.57682H8.4102V15.0768ZM11.7435 15.0768H13.4102V7.57682H11.7435V15.0768Z"
-                                                                    fill="#FF0404" />
-                                                            </g>
-                                                        </svg>
-                                                    </button> -->
-
-                                                            <!-- Edit Button -->
-                                                            <!-- <button class="btn p-0 icon-button" (click)="editRecord(item)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                            <mask id="mask0_6083_5464" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                                <rect x="0.910156" y="0.910156" width="20" height="20" fill="#D9D9D9" />
-                                                            </mask>
-                                                            <g mask="url(#mask0_6083_5464)">
-                                                                <path
-                                                                    d="M5.07682 16.7435H6.26432L14.4102 8.59766L13.2227 7.41016L5.07682 15.556V16.7435ZM3.41016 18.4102V14.8685L14.4102 3.88932C14.5768 3.73655 14.7609 3.61849 14.9622 3.53516C15.1636 3.45182 15.3754 3.41016 15.5977 3.41016C15.8199 3.41016 16.0352 3.45182 16.2435 3.53516C16.4518 3.61849 16.6324 3.74349 16.7852 3.91016L17.931 5.07682C18.0977 5.2296 18.2192 5.41016 18.2956 5.61849C18.372 5.82682 18.4102 6.03516 18.4102 6.24349C18.4102 6.46571 18.372 6.67752 18.2956 6.87891C18.2192 7.0803 18.0977 7.26432 17.931 7.43099L6.95182 18.4102H3.41016ZM13.806 8.01432L13.2227 7.41016L14.4102 8.59766L13.806 8.01432Z"
-                                                                    fill="black" />
-                                                            </g>
-                                                        </svg>
-                                                    </button> -->
                                                         </span>
                                                     </div>
                                                 </td>
@@ -818,6 +875,88 @@
                                     </table>
                                 </div>
                             </div>
+
+                            <!-- mobile leave request -->
+                            <div class="mobile-card-view " >
+                                <table class="table">
+
+                                    <tbody *ngIf="isLoading">
+                                        <tr *ngFor="let item of [].constructor(7)">
+                                            <td *ngFor="let item of [].constructor(2)">
+                                                <ngx-shimmer-loading [width]="'100%'"
+                                                    [height]="'15px'"></ngx-shimmer-loading>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                    <div class="d-flex align-items-center justify-content-center"
+                                        *ngIf="!isLoading && userLeaveLog?.length === 0">
+                                        <div class="empty-file" style="margin-top: 9%; margin-bottom: 9%">
+                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                [nzNotFoundContent]="contentTpl">
+                                                <ng-template #contentTpl>
+                                                    <p class="mb-1 empty-detail">No data for now</p>
+                                                </ng-template>
+                                            </nz-empty>
+                                        </div>
+                                    </div>
+
+
+                                    <ng-container *ngIf="!isLoading">
+                                    <tbody class="mobile-attendance-date" *ngFor="let item of userLeaveLog">
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Apply/Status</th>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="team-maneger mb-0">
+                                                        {{item.createdDate | date:'fullDate'}}
+                                                    </span>
+                                                    <span class="text-warning fw-semibold font-13">
+                                                        {{ item.status | uppercase }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Date</th>
+                                            <td>
+                                                <div class="schedule">
+                                                    <h5 class="fw-semiibold font-13">{{ item.startDate | date: 'd MMM yy'
+                                                    }} - {{ item.endDate | date: 'd MMM yy' }}</h5>
+                                                    <p class="mb-0 font-11">
+                                                        {{ item.totalDays }} Day
+                                                        <span class="text-primary" *ngIf="item.firstHalf">(1st
+                                                            half)</span>
+                                                        <span class="text-primary" *ngIf="item.secondHalf">(2nd
+                                                            half)</span>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-13 fw-semibold">Type - Request</th>
+                                            <td>
+                                                <div class="d-flex align-items-ceter justify-content-between">
+                                                   <span class="team-maneger mb-0 fw-semibold">
+                                                    {{ item.leaveType }}</span>
+
+                                                    <span class="team-maneger mb-0 fw-semibold">{{
+                                                        item.requestedTo || 'N/A' }}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="font-13 fw-semibold">
+                                            <th>Note</th>
+                                            <td>
+                                                <span class="team-maneger mb-0 table-font-weight">{{ item.optNotes
+                                                        || 'N/A'}}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    </ng-container>
+                                </table>
+                            </div>
+                            <!-- mobile leave request end -->
 
                         </div>
                     </div>
@@ -1258,23 +1397,10 @@
 <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1000px;">
        <div class="modal-content">
-          <!-- <div class="modal-header">
-             <h5 class="modal-title" id="calendarModalLabel">Holidays Calendar</h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div> -->
-          <div class="modal-body p-0">
-            <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_5037_2014)">
-                        <path
-                            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                            fill="black" />
-                    </g>
-                </svg>
+         
+          <div class="modal-body p-0 position-relative">
+            <button type="button" class="btn btn-closes d-flex align-items-center justify-content-center bg-white position-absolute" data-bs-dismiss="modal" aria-label="Close">
+                <i class="bi bi-x font-24"></i>
             </button>
             <div class="calendar-date d-flex align-items-center justify-content-between p-4">
               <div class="d-flex align-items-center gap-2">
@@ -1302,8 +1428,9 @@
               </div>
             </div>
 
-            <div>
-              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)" >
+            <div class="no-click">
+              <nz-calendar [ngModel]="currentDate" (nzValueChange)="onYearChange($event)"
+              [class.full-view]="true" >
                 <ul *nzDateCell="let date" class="events" [ngClass]="{ 'holiday-cell': isHoliday(date) }">
                   <ng-container *ngFor="let item of getHolidayEvents(date)">
                     <li class="holiday-item">
@@ -1326,7 +1453,7 @@
  </div>
 
 
-  
+
   <!--To  Do List Modal -->
   <div class="modal fade" id="todo-list" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

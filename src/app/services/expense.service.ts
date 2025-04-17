@@ -13,7 +13,6 @@ export class ExpenseService {
   private readonly baseUrl = this._key.base_url;
 
   getAllUserByWallet(
-      role: string,
       pageNumber: number,
       itemPerPage: number,
       startDate: any,
@@ -26,19 +25,15 @@ export class ExpenseService {
         .set('sortBy', 'createdDate')
         .set('sortOrder', 'desc')
         .set('tag', tag)
-        .set('role', role)
         .set('search', search);
 
         userIds.forEach(id => {
           params = params.append('id', id);
         });
 
-
-        if (pageNumber != 0 && itemPerPage != 0) {
-          params = params.set('currentPage', pageNumber); 
-          params = params.set('itemPerPage', itemPerPage);
-        }
-      
+        params = params.set('currentPage', pageNumber); 
+        params = params.set('itemPerPage', itemPerPage);
+       
         if (startDate && endDate) {
           params = params.set('startDate', startDate);
           params = params.set('endDate', endDate);
@@ -82,9 +77,14 @@ export class ExpenseService {
     }
 
 
-    getTeamWallets() {
-      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets`);
+    // getTeamWallets() {
+    //   return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets`);
+    // }
+
+    getTeamWallets(page: number = 0, itemsPerPage: number = 10) {
+      return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/team-wallets?page=${page}&itemsPerPage=${itemsPerPage}`);
     }
+    
 
     getCreditWalletAmount() {
       return this.httpClient.get<any>(`${this.baseUrl}/user-expense-wallet/company-credit-wallet-amount`);

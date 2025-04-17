@@ -76,7 +76,7 @@
                             <p class="mb-0">Add member</p>
                           </div>
                           <!-- *ngIf="managerIdFlag && !localStorageRoleAdminFlag" -->
-                          <div
+                          <!-- <div
                             class="members-list d-flex align-items-center"
                             style="gap: 10px"
                             data-bs-toggle="modal"
@@ -87,7 +87,7 @@
                               <i class="bi bi-plus"></i>
                             </span>
                             <p class="mb-0">View Members</p>
-                          </div>
+                          </div> -->
 
                         </div>
                         <div class="col-md-4" *ngFor="let ul of team.userList">
@@ -112,22 +112,11 @@
                             <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" >
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
-                                class="bi bi-patch-check-fill"
+                                class="bi bi-patch-check-fill text-primary"
                                 *ngIf="ul.roleId == 3"
                               ></i>
                             </p>
-                            <!-- <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
-                              {{ capitalizeFirstLetter(ul.name) }}
-                              <i
-                                class="bi bi-patch-check-fill"
-                                *ngIf="ul.roleId == 3"
-                              ></i>
-                            </p> -->
-
-                            <!--  *ngIf="
-                                localStorageRoleAdminFlag == true ||
-                                managerIdFlag == true
-                              " -->
+                            
                             <div class="dropdown d-inline-block"  *ngIf="rbacService.hasWriteAccess(Routes.TEAMDETAIL)">
                              
                               <a
@@ -387,171 +376,11 @@
         <div class="modal-body p-0">
           <div class="card-body p-0">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item" *ngIf="isGeneralTab">
-                <a
-                  class="nav-link"
-                  data-bs-toggle="tab"
-                  href="#general"
-                  role="tab"
-                  aria-selected="true"
-                  >General</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  data-bs-toggle="tab"
-                  href="#members-add"
-                  role="tab"
-                  aria-selected="true"
-                  >Members</a
-                >
-              </li>
-              <li class="nav-item" *ngIf="isAdvanceTab">
-                <a
-                  class="nav-link"
-                  data-bs-toggle="tab"
-                  href="#advanced"
-                  role="tab"
-                  aria-selected="false"
-                  >Advanced</a
-                >
-              </li>
-            </ul>
+           
 
             <!-- Tab panes -->
             <div class="tab-content contant-scrool">
-              <div class="tab-pane p-3" id="general" role="tabpanel">
-                <div class="general-tab-design">
-                  <div class="">
-                    <div class="mb-3">
-                      <label
-                        for="username"
-                        style="padding-bottom: 6px; font-size: 13px"
-                      >
-                        Organization
-                      </label>
-                      <p>Krenai.com</p>
-                    </div>
-
-                    <div class="mb-3">
-                      <label
-                        for="username"
-                        style="padding-bottom: 6px; font-size: 13px"
-                      >
-                        Team name
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="username"
-                        placeholder="Team name"
-                        name="username"
-                        required
-                      />
-                    </div>
-
-                    <div class="mb-3">
-                      <label
-                        for="username"
-                        style="padding-bottom: 6px; font-size: 13px"
-                      >
-                        Description
-                      </label>
-                      <textarea
-                        class="form-control description"
-                        id="exampleFormControlTextarea1"
-                        placeholder="Description"
-                        rows="5"
-                      ></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                      <label
-                        for="username"
-                        style="padding-bottom: 6px; font-size: 13px"
-                      >
-                        License type
-                      </label>
-                      <p>Business</p>
-                    </div>
-
-                    <div class="form-group">
-                      <label
-                        for="username"
-                        class="mb-2"
-                        style="font-size: 13px"
-                      >
-                        Team status
-                      </label>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                        <label class="form-check-label" for="flexCheckDefault">
-                          Endorsed
-                          <span class="endorsed"
-                            ><a href="">Upgrade to Hajari Enterprise</a></span
-                          ><br />
-                          <p class="endorsed-para">
-                            Endorsed teams are recommended by admins in your
-                            organization.
-                          </p>
-                        </label>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label
-                        for="username"
-                        class="mb-2"
-                        style="font-size: 13px"
-                      >
-                        Team privacy
-                      </label>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          value=""
-                          id="radio-one"
-                        />
-                        <label class="form-check-label" for="radio-one">
-                          <i class="bi bi-envelope icon-space"></i> Membership
-                          by request<br />
-                          <p class="endorsed-para">
-                            A member has to request to join this team
-                          </p>
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          value=""
-                          id="radio-two"
-                        />
-                        <label class="form-check-label" for="radio-two">
-                          <i class="bi bi-lock icon-space"></i> Private<br />
-                          <p class="endorsed-para">
-                            A member must be invited to join this team
-                          </p>
-                        </label>
-                      </div>
-                    </div>
-
-                    <div class="d-flex justify-content-end">
-                      <button class="btn updateteam" type="btn">
-                        Update Team
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+           
               <div class="tab-pane p-3 active" id="members-add" role="tabpanel">
                 <div class="">
                   <div class="">
@@ -758,248 +587,7 @@
                   </div>
                 </div>
               </div>
-              <div class="tab-pane p-3" id="advanced" role="tabpanel">
-                <div class="advanced">
-                  <p
-                    style="
-                      color: #000;
-                      font-size: 15px;
-                      font-weight: 500;
-                      margin-bottom: 8px;
-                    "
-                  >
-                    Editing permissions
-                  </p>
-                  <div class="mb-3">
-                    <label class="mb-2" style="font-size: 13px">
-                      Who can edit the team name and description?
-                    </label>
-                    <div class="input-group w-100">
-                      <div class="dropdown" style="width: 100%">
-                        <button
-                          class="btn btn-secondary dropdown-toggle new-deopdown"
-                          type="button"
-                          id="dropdownMenuButton1"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          All team members <i class="bi bi-chevron-down"></i>
-                        </button>
-                        <ul
-                          class="dropdown-menu"
-                          aria-labelledby="dropdownMenuButton1"
-                          style="width: 100%"
-                        >
-                          <li>
-                            <a class="dropdown-item">All team members</a>
-                            <p class="members-description">
-                              Any team member can edit the team name and
-                              description
-                            </p>
-                          </li>
-                          <li>
-                            <a class="dropdown-item">Only team admins</a>
-                            <p class="members-description">
-                              Team members cannot edit the team name or
-                              description
-                            </p>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="mb-2" style="font-size: 13px">
-                      Who can edit the team privacy level and delete the team?
-                    </label>
-                    <div class="input-group w-100">
-                      <div class="dropdown" style="width: 100%">
-                        <button
-                          class="btn btn-secondary dropdown-toggle new-deopdown"
-                          type="button"
-                          id="dropdownMenuButton1"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          All team members <i class="bi bi-chevron-down"></i>
-                        </button>
-                        <ul
-                          class="dropdown-menu"
-                          aria-labelledby="dropdownMenuButton1"
-                          style="width: 100%"
-                        >
-                          <li>
-                            <a class="dropdown-item">All team members</a>
-                            <p class="pr-3 members-description">
-                              Any team member can edit the team name and
-                              description
-                            </p>
-                          </li>
-                          <li>
-                            <a class="dropdown-item">Only team admins</a>
-                            <p class="pr-3 members-description">
-                              Team members cannot edit the team name or
-                              description
-                            </p>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <p
-                    style="
-                      color: #000;
-                      font-size: 15px;
-                      font-weight: 500;
-                      margin-bottom: 8px;
-                    "
-                  >
-                    Membership permissions
-                  </p>
-
-                  <div
-                    class="d-flex justify-content-between align-items-center permissions mt-2"
-                  >
-                    <div class="d-flex align-items-center" style="gap: 10px">
-                      <i class="bi bi-bookmark-check"></i>
-                      <p class="mb-0 Upgrade-text">
-                        Upgrade to Asana Enterprise to edit this team's
-                        membership permissions.
-                      </p>
-                    </div>
-                    <div class="">
-                      <button class="btn Upgrade" type="button">Upgrade</button>
-                    </div>
-                  </div>
-
-                  <div class="mt-3">
-                    <p
-                      style="
-                        color: #000;
-                        font-size: 13px;
-                        font-weight: 500;
-                        margin-bottom: 8px;
-                        color: #444;
-                      "
-                    >
-                      Invitations
-                    </p>
-                    <div class="">
-                      <div
-                        class="d-flex align-items-center mb-2"
-                        style="gap: 10px"
-                      >
-                        <label class="switch"
-                          ><input type="checkbox" /><span class="slider"></span
-                        ></label>
-                        <p class="mb-0">
-                          New members invited to this team must be approved by a
-                          team admin
-                        </p>
-                      </div>
-                      <div
-                        class="d-flex align-items-center mb-2"
-                        style="gap: 10px"
-                      >
-                        <label class="switch"
-                          ><input type="checkbox" /><span class="slider"></span
-                        ></label>
-                        <p class="mb-0">
-                          New guests invited to this team must be approved by a
-                          team admin
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-3 border-bottom pb-2">
-                    <p
-                      style="
-                        color: #000;
-                        font-size: 13px;
-                        font-weight: 500;
-                        margin-bottom: 8px;
-                        color: #444;
-                      "
-                    >
-                      Removals
-                    </p>
-                    <div class="">
-                      <div
-                        class="d-flex align-items-center mb-2"
-                        style="gap: 10px"
-                      >
-                        <label class="switch"
-                          ><input type="checkbox" /><span class="slider"></span
-                        ></label>
-                        <p class="mb-0">
-                          Only team admins can remove members or guests from
-                          this team
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mt-3 border-bottom pb-3">
-                    <p
-                      style="
-                        color: #000;
-                        font-size: 13px;
-                        font-weight: 500;
-                        margin-bottom: 8px;
-                        color: #444;
-                      "
-                    >
-                      Harvest integration
-                    </p>
-                    <div class="">
-                      <p>
-                        Asana works with Harvest time-tracking. Activate this
-                        integration to add a time-tracking button to the toolbar
-                        of your task details pane.
-                      </p>
-                      <div class="form-check">
-                        <input
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                          class="form-check-input"
-                        />
-                        <label
-                          for="flexCheckDefault"
-                          style="padding-top: 2px"
-                          class="form-check-label"
-                        >
-                          Enable Harvest integration for the krenai It Team
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="mt-3 pb-3">
-                    <p
-                      style="
-                        color: #000;
-                        font-size: 13px;
-                        font-weight: 500;
-                        margin-bottom: 8px;
-                        color: #444;
-                      "
-                    >
-                      Time Periods
-                    </p>
-                    <div class="">
-                      <p>
-                        You can match your organization’s annual operating
-                        rhythm (i.e. fiscal year) in Asana for things like goal
-                        management. Your annual time periods currently start on
-                        1 Jan. To edit this, <a href="">contact support.</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             
             </div>
           </div>
          
@@ -1021,20 +609,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
         </div>
         <div class="modal-body p-0">
-            <ul class="nav nav-tabs" role="tablist">
             
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  data-bs-toggle="tab"
-                  href="#members"
-                  role="tab"
-                  aria-selected="false"
-                  >Members</a
-                >
-              </li>
-       
-            </ul>
 
             <div class="tab-content mt-2">
               <div class="tab-pane p-3 active" id="members" role="tabpanel">
@@ -1066,46 +641,71 @@
                     </div>
                  </div>
               </div>
-              <div class="tab-pane p-3" id="members" role="tabpanel">
+              <!-- <div class="tab-pane p-3" id="members" role="tabpanel">
                  <p class="mb-0 text-muted">
                     Food truck fixie locavore, accusamus mcsweeney's single-origin
                     coffee squid.
                  </p>
-              </div>
-              <div class="tab-pane p-3" id="advanced" role="tabpanel">
+              </div> -->
+              <!-- <div class="tab-pane p-3" id="advanced" role="tabpanel">
                  <p class="text-muted mb-0">
                     Trust fund seitan letterpress, keytar raw denim keffiyeh etsy.
                  </p>
-              </div>
+              </div> -->
            </div>
         </div>
       </div>
     </div>
   </div>
   <!-- team member modal end -->
-<!-- delete modal -->
-  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false" >
-    <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important" >
-      <div class="modal-content p-0" style="border-radius: 15px">
-        <form #confirmationForm="ngForm">
-          <div class="modal-body text-center mt-1 mb-3">
-            <img src="assets/images/delete.svg" style="width: 70px" />
 
-            <h4 class="confirm-detail">
-              Are you sure want to delete this user from team?
-            </h4>
 
-            <div class="d-flex align-items-center justify-content-center mt-4 gap-3">
-              <button type="button" class="btn btn-primary btnmarkcancel" data-bs-dismiss="modal" #closeUserDeleteModal>  Cancel </button>
-              <button type="button" class="btn btnmarkdelete" (click)="deleteUserFromTeam()" *ngIf="!deleteUserFromTeamLoader">  Delete </button>
-              <div class="dot-opacity-loader" *ngIf="deleteUserFromTeamLoader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0 delete-text">
+          <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+            <div class="delete-close-btn">
+              <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteShift>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                  <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                    height="30">
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_2031_1331)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="black" />
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <img src="/assets/images/delete-img.svg" style="width: 70px" />
+          </div>
+          <div class="bg-white p-4 text-center">
+  
+            <div>
+              <h5 class="alert-heading font-18 mb-2 lh-base">
+                Are you sure want to delete this <br> user from team?
+              </h5>
+              <p class="font-11">You will not be able to recover this</p>
+            </div>
+  
+            <div class="mt-4 d-flex align-items-center flex-column">
+              <button class="btn continue-btn" (click)="deleteUserFromTeam()" *ngIf="!deleteUserFromTeamLoader">
+                Continue
+                <div class="dot-opacity-loader" *ngIf="deleteUserFromTeamLoader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+              <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" #closeUserDeleteModal>
+                Cancel
+              </button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>

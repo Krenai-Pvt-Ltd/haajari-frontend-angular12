@@ -600,4 +600,218 @@ handleOkOfAttendanceSummary(): void {
 
 
 
+  @ViewChild('dateRangeModalClose5') dateRangeModalClose5!: ElementRef;
+  attendenceFilter : string = '';
+  dateRangeError: string = '';
+  attendanceFilterError: string = '';
+  isLoading5 : boolean = false;
+  attendenceReportSummary(): void {
+      this.dateRangeError = '';
+      this.attendanceFilterError = '';
+
+      let hasError = false;
+
+      // Validate Date Range
+      if (!this.selectedDateRange || this.selectedDateRange.length !== 2) {
+        this.dateRangeError = 'Please select a valid date range.';
+        hasError = true;
+      }
+
+      // Validate Attendance Filter
+      if (!this.attendenceFilter || this.attendenceFilter.trim() === '') {
+        this.attendanceFilterError = 'Please select an attendance type.';
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+
+      const [startOfRange, endOfRange] = this.selectedDateRange;
+      this.startDate = new Date(startOfRange);
+      this.endDate = new Date(endOfRange);
+
+      const formattedStartDate = this.formatDate(this.startDate);
+      const formattedEndDate = this.formatDate(this.endDate);
+
+      this.isLoading5 = true;
+      this.generateAttendanceSummaryReport(formattedStartDate, formattedEndDate);
+      this.dateRangeModalClose5.nativeElement.click();
+      this.selectedDateRange = [];
+  }
+
+
+
+  generateAttendanceSummaryReport(startDate: string, endDate: string): void {
+    this.dataService.getAttendenceSummeryReportByFilter(startDate, endDate,this.attendenceFilter, this.selectedUserIds,).subscribe((res: any) => {
+      if(res.status){
+        console.log("Attendance Record Fetched Successfully...");
+        this.isLoading5 = false;
+        this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
+        this.attendenceFilter = '';
+        this.helperService.showToast(
+          'Attendance Records Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }else{
+        console.error('Error generating report', res.object);
+        this.isLoading5 = false;
+        this.attendenceFilter = '';
+        this.selectedUserIds = [];
+      }
+    });
+  }
+
+  LeaveSummary(filter : string){
+    if(filter === 'LEAVE'){
+      this.leaveFilter = filter;
+    }else if(filter === 'WFH'){
+      this.leaveFilter = filter;
+    }else{
+      this.leaveFilter = filter;
+    }
+    this.generateLeaveSummaryReport();
+  }
+
+  
+  @ViewChild('dateRangeModalClose6') dateRangeModalClose6!: ElementRef;
+  leaveLoading : boolean = false;
+  wfhLoading : boolean = false;
+  outdutyLoading : boolean = false;
+  leaveFilter : string = '';
+  leaveFilterError : string = '';
+  generateLeaveSummaryReport(): void {
+    if(this.leaveFilter === 'LEAVE'){
+      this.leaveLoading = true;
+    }else if(this.leaveFilter === 'WFH'){
+      this.wfhLoading = true;
+    }else if(this.leaveFilter === 'OUTDUTY'){
+      this.outdutyLoading = true;
+    }
+    this.dateRangeModalClose6.nativeElement.click();
+    this.dataService.getLeaveSummeryReport(this.leaveFilter, this.selectedUserIds).subscribe((res: any) => {
+      if(res.status){
+        console.log("Leave Record Fetched Successfully...");
+        this.resetloading();
+        this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
+        this.leaveFilter = '';
+        this.helperService.showToast('Leave Records Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating report', res.object);
+        this.resetloading();
+        this.leaveFilter = '';
+        this.selectedUserIds = [];
+        this.helperService.showToast('Error generating Leave Records!',Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+
+  resetloading(){
+    this.leaveLoading = false;
+    this.wfhLoading = false;
+    this.outdutyLoading = false;
+  }
+
+
+  @ViewChild('dateRangeModalClose7') dateRangeModalClose7!: ElementRef;
+  isLoading7 : boolean = false;
+  generateSanctionLeaveSummaryReport(): void {
+    if (!this.selectedDateRange || this.selectedDateRange.length !== 2) {
+      this.dateRangeError = 'Please select a valid date range.';
+      return;
+    }
+    const [startOfRange, endOfRange] = this.selectedDateRange;
+    this.startDate = new Date(startOfRange);
+    this.endDate = new Date(endOfRange);
+
+    const formattedStartDate = this.formatDate(this.startDate);
+    const formattedEndDate = this.formatDate(this.endDate);
+    this.isLoading7 = true;
+    this.dateRangeModalClose7.nativeElement.click();
+    this.dataService.getSanctionLeaveSummeryReport(formattedStartDate, formattedEndDate,this.selectedUserIds).subscribe((res: any) => {
+      if(res.status){
+        console.log("Sanction Leave Record Fetched Successfully...");
+        this.isLoading7 = false;
+        this.getFullReportLogs();
+        this.selectedUserIds = [];
+        this.isSelectAllUsers = true;
+        this.selectedDateRange = [];
+        this.helperService.showToast('Sanction Leave Records Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating report', res.object);
+        this.isLoading7 = false;
+        this.selectedDateRange = [];
+        this.selectedUserIds = [];
+        this.helperService.showToast('Error generating Sanction Leave Records!',Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+
+
+
+  isLoading8 : boolean = false;
+  assetTypeFilter : string = '';
+  assetStatusFilter : string = '';
+  typrError : string = '';
+  statusError : string = '';
+  @ViewChild('dateRangeModalClose8') dateRangeModalClose8!: ElementRef;
+  generateAssetRequestReport(): void {
+    
+    let hasError = false;
+
+      if (!this.assetTypeFilter || this.assetTypeFilter.trim() === '') {
+        this.typrError = 'Please select request type.';
+        hasError = true;
+      }
+
+      if (!this.assetStatusFilter || this.assetStatusFilter.trim() === '') {
+        this.statusError = 'Please select an request status.';
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+    this.dateRangeModalClose8.nativeElement.click();
+    this.isLoading8 = true;
+    this.dataService.getAssetRequestReport(this.assetTypeFilter,this.assetStatusFilter).subscribe((res: any) => {
+      if(res.status){
+        console.log("Asset Request Summary Fetched Successfully...");
+        this.isLoading8 = false;
+        this.assetTypeFilter = '';
+        this.assetStatusFilter = '';
+        this.getFullReportLogs();
+        this.helperService.showToast('Asset Request Summary Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating Asset Request Summary ', res.object);
+        this.isLoading8 = false;
+        this.assetTypeFilter = '';
+        this.assetStatusFilter = '';
+        this.helperService.showToast('Error generating Asset Request Summary!',Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+
+  isLoading9 : boolean = false;
+  generateAssetSummaryReport(): void {
+    this.isLoading9 = true;
+    this.dataService.getAssetSummaryReport().subscribe((res: any) => {
+      if(res.status){
+        console.log("Asset Summary Fetched Successfully...");
+        this.isLoading9 = false;
+        this.getFullReportLogs();
+        this.helperService.showToast('Asset Summary Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
+      }else{
+        console.error('Error generating Asset Summary ', res.object);
+        this.isLoading9 = false;
+      }
+    });
+  }
+
+
+
 }

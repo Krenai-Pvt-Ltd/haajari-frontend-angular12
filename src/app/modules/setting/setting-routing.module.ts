@@ -10,6 +10,7 @@ import { StaffAttendanceLocationComponent } from './components/staff-attendance-
 import { UploadPhotoComponent } from './components/upload-photo/upload-photo.component';
 import { SalarySettingComponent } from './components/salary-setting/salary-setting.component';
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
+import { LeavePolicyComponent } from './components/leave-policy/leave-policy.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/setting/attendance-setting', pathMatch: 'full' },
@@ -46,7 +47,12 @@ const routes: Routes = [
         path: 'staff-attendance-location',
         component: StaffAttendanceLocationComponent,
       },
-      { path: 'upload-photo', component: UploadPhotoComponent },
+      { path: 'upload-photo', 
+        component: UploadPhotoComponent
+       },
+      { path: 'leave-policy',
+        component: LeavePolicyComponent
+       },
     ],
   },
 ];

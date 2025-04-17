@@ -28,43 +28,30 @@
                     </ul>
                     <div id="pills-tabContent" class="tab-content">
                         <div class="tab-pane active show" id="dashboard" role="tabpanel" aria-labelledby="employee-tab">
-                            <div class="row mt-3 expense-wallets">
-                                <div class="col-md-3">
+                            <div class="row mt-3 ">
+                                <div class="col-md-28">
                                     <div class="expense-report">
                                         <div class="date-range d-flex align-items-center justify-content-between p-2">
-                                            <h5 class="mb-0 font-16 fw-normal">Date Range</h5>
+                                            <h5 class="mb-0 font-14 fw-normal">Date Range</h5>
                                             <div class="d-flex align-items-center attendance-date bg-white border-rounded-2">
-                                                <!-- <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                        <path d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z" fill="#060606"></path>
-                                                    </svg>
-                                                </span> -->
-                                                <span class="calendar-separator"></span>
                                                 
                                                 <!-- Date Range Picker -->
                                                 <div class="dropdown">
-                                                    <nz-range-picker 
+                                                    <nz-range-picker nzBorderless  class="form-control  w-100 placeholder-lines"
                                                         [(ngModel)]="selectedDateRange" 
                                                         [nzSize]="'small'" 
                                                         (ngModelChange)="onDateRangeChange($event)">
                                                     </nz-range-picker>
                                                 </div>
                                             
-                                                <span class="calendar-separator"></span>
-                                                <!-- <span class="d-flex align-items-center justify-content-center pointer calendar-back-btn disabled">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                        <path d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z" fill="#060606"></path>
-                                                    </svg>
-                                                </span> -->
                                             </div>
                                             
                                         </div>
                                         <div class="mt-3 expense-chart p-3">
-                                            <h5 class="mb-0 font-14 fw-semibold">Wallet Details</h5>
-                                            <!-- <h5 class="mb-0 font-14 fw-semibold">Expense Allocation</h5> -->
+                                            <h5 class="mb-0 font-13 fw-semibold">Wallet Details</h5>
                                             <div class="mt-3 mb-3 expense-wallet" style="background-image: url(../assets/images/sidebar-icon/wallet-img.png);">
                                                 <div class="p-3">
-                                                    <h5 class="font-14 fw-normal ">Company  Wallet</h5>
+                                                    <h5 class="font-13 fw-normal ">Company  Wallet</h5>
                                                     <h5 class="mb-1 font-14 fw-semibold mt-4">Total Recharge Amount</h5>
                                                     <h3 class="mb-3 font-16 fw-bold text-black">₹{{creditWalletAmount}}</h3>
                                                 </div>
@@ -78,34 +65,44 @@
                                             </div> -->
                                             <hr>
 
-                                            <h5 class="mb-0 font-14 fw-normal color-basic">Employee Wallet Balance</h5>
+                                            <h5 class="mb-0 font-14 fw-semibold color-basic">Employee Wallet Balance</h5>
                                             <!-- <h5 class="mb-0 font-14 fw-normal color-basic">Employee Transactions</h5> -->
                                             <div class="wallet-transactions-list mt-4">
                                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="walletUserList.length == 0 && !loading">
                                                     <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
                                                       [nzNotFoundContent]="contentTpl">
                                                       <ng-template #contentTpl>
-                                                        <p class="mb-1 empty-detail font-16">
+                                                        <p class="mb-1 empty-detail font-14">
                                                           No data for now
                                                         </p>
                                                       </ng-template>
                                                     </nz-empty>
                                                 </div>
 
-                                                <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%" *ngIf="loading">
-                                                    <div class="text-center load-more-btn">
-                                                        <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                            <div>
-                                                                <small>Loading...</small>
-                                                            </div>
+                                              
+                                                <div *ngIf="loading">
+                                                    <div class="d-flex align-items-center justify-content-between mb-4" *ngFor="let item of [].constructor(6)">
+                                                      <!-- Left: User image and info -->
+                                                      <div class="d-flex align-items-center gap-2">
+                                                        <ngx-shimmer-loading [width]="'40px'" [height]="'40px'" [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                                        <div>
+                                                          <ngx-shimmer-loading [width]="'120px'" [height]="'14px'" class="mb-2"></ngx-shimmer-loading>
+                                                          <ngx-shimmer-loading [width]="'160px'" [height]="'10px'"></ngx-shimmer-loading>
+                                                        </div>
+                                                      </div>
+                                                  
+                                                      <!-- Right: Wallet amount and date -->
+                                                      <div class="text-end">
+                                                        <ngx-shimmer-loading [width]="'80px'" [height]="'14px'" class="mb-2"></ngx-shimmer-loading>
+                                                        <ngx-shimmer-loading [width]="'60px'" [height]="'10px'"></ngx-shimmer-loading>
+                                                      </div>
                                                     </div>
-                                                </div>
+                                                  </div>
                                                 <div class="d-flex align-items-center justify-content-between mb-4" *ngFor="let user of walletUserList">
                                                     <div class="d-flex align-items-center gap-2 ">
-                                                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                                    [src]="user.imageUrl || 'assets/images/user.png'">
+                                                        <img onerror="this.src='./assets/images/broken-image-icon.jpg';" [src]="user.imageUrl || 'assets/images/user.png'" class="img-40 radius-50 object-fit-cover">
                                                         <div>
-                                                            <h5 class="mb-1 font-14 fw-semibold">{{user.userName}}</h5>
+                                                            <h5 (click)="this.helperService.routeToUserProfile(user.uuid)"class="mb-1 cursor font-14 fw-semibold pointer">{{user.userName}}</h5>
                                                             <p class="mb-0 fw-light font-12">Department | <span class="text-black fw-normal">{{user.department}}</span></p>
                                                         </div>
                                                     </div>
@@ -119,8 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="expense-info">
+                                <div class="col-md-72">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="total-expanse p-3 border-rounded-2">
@@ -135,9 +131,9 @@
                                                                 </g>
                                                             </svg>    
                                                         </span>
-                                                        <p class="mb-0 font-23 ">Settled Expense</p>
+                                                        <p class="mb-0 font-13 ">Settled Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{ settledAmount }}</h5>
+                                                    <h5 class="mb-2 font-14 fw-bold mt-2">₹ {{ settledAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
                                                         <ng-container *ngIf="amountChanges['settled'] >= 0; else negativeIcon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -153,7 +149,7 @@
                                                             {{ getAbsolute(amountChanges['settled'] )| number:'1.0-0' }}% {{ amountChanges['settled'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
-                                                    
+                                                     
 
                                                 </div>
                                             </div>
@@ -172,7 +168,7 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">U-Settled Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{ unsettledAmount }}</h5>
+                                                    <h5 class="mb-2 font-14 fw-bold mt-2">₹ {{ unsettledAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
                                                         <ng-container *ngIf="amountChanges['unsettled'] >= 0; else negativeIcon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -185,7 +181,7 @@
                                                             </svg>
                                                         </ng-template>
                                                         <span [ngClass]="{'text-success': amountChanges['unsettled'] >= 0, 'text-danger': amountChanges['unsettled'] < 0}">
-                                                            {{ amountChanges['unsettled'] | number:'1.0-0' }}% {{ amountChanges['unsettled'] >= 0 ? 'Up' : 'Down' }} past week
+                                                            {{ getAbsolute(amountChanges['unsettled']) | number:'1.0-0' }}% {{ amountChanges['unsettled'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
                                                 </div>
@@ -205,7 +201,7 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">Pending</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{pendingAmount }}</h5>
+                                                    <h5 class="mb-2 font-14 fw-bold mt-2">₹ {{pendingAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
                                                         <span class="text-black fw-semibold">{{pendingExpenseCountByWeek}} Request</span> in this week
                                                     </p>
@@ -226,14 +222,14 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">Rejected Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{rejectedAmount }}</h5>
+                                                    <h5 class="mb-2 font-14 fw-bold mt-2">₹ {{rejectedAmount }}</h5>
 
                                                     <p class="mb-0 font-12 week-count">
                                                         <span class="text-black fw-semibold">{{rejectedExpenseCountByWeek}} Request</span> in this week
                                                     </p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <!-- <div class="col-md-3">
                                                 <div class="total-expanse p-3 border-rounded-2">
                                                     <div class="d-flex align-items-center gap-2">
                                                         <span class="total-expanse-icon d-flex align-items-center justify-content-center">
@@ -248,7 +244,7 @@
                                                         </span>
                                                         <p class="mb-0 font-13 ">Payroll Expense</p>
                                                     </div>
-                                                    <h5 class="mb-2 font-15 fw-bold mt-2">₹ {{ payrollAmount }}</h5>
+                                                    <h5 class="mb-2 font-14 fw-bold mt-2">₹ {{ payrollAmount }}</h5>
                                                     <p class="mb-0 font-12 week-count">
                                                         <ng-container *ngIf="amountChanges['payroll'] >= 0; else negativeIcon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -261,25 +257,17 @@
                                                             </svg>
                                                         </ng-template>
                                                         <span [ngClass]="{'text-success': amountChanges['payroll'] >= 0, 'text-danger': amountChanges['payroll'] < 0}">
-                                                            {{ amountChanges['payroll'] | number:'1.0-0' }}% {{ amountChanges['payroll'] >= 0 ? 'Up' : 'Down' }} past week
+                                                            {{ getAbsolute(amountChanges['payroll'] )| number:'1.0-0' }}% {{ amountChanges['payroll'] >= 0 ? 'Up' : 'Down' }} past week
                                                         </span>
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
                                                 <div class="categories-report border-rounded-2">
                                                     <div class="report-header p-3 d-flex align-items-center justify-content-between border-bottom">
-                                                        <h5 class="mb-0 font-15 fw-semibold">Categories</h5>
-                                                        <!-- <div>
-                                                            <nz-select class="week-filter" ngModel="Week 1" style="width: 100px;">
-                                                                <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
-                                                                <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
-                                                                <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
-                                                                <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
-                                                              </nz-select>
-                                                        </div> -->
+                                                        <h5 class="mb-0 font-14 fw-semibold">Categories</h5>
                                                     </div>
                                                     <div class="p-3">
                                                         <div class="d-flex align-items-center justify-content-between">
@@ -287,10 +275,10 @@
                                                                 <h5 class="mb-1 font-20 fw-semibold">{{ totalExpenseType }}
                                                                     <span class="font-13 fw-semibold">Types Of Expense</span>
                                                                 </h5>
-                                                                <p class="font-12 fw-normal color-basic">Defined By Your Organisation</p>
+                                                                <p class="font-12 fw-normal color-basic mb-0">Defined By Your Organisation</p>
                                                             </div>
                                                             <!-- Half-circle chart container -->
-                                                            <div *ngIf="sChartLoaded && chartOptions">
+                                                            <div class="expanse-type-chart" *ngIf="sChartLoaded && chartOptions">
                                                                 <apx-chart 
                                                                   [series]="chartOptions.series"
                                                                   [chart]="chartOptions.chart"
@@ -305,7 +293,7 @@
                                                               </div>                                                              
                                                         </div>
                                                     
-                                                        <div class="mt-4">
+                                                        <div class="mt-4 categories-list">
                                                             <div *ngFor="let expense of expenseTypeSummery" class="d-flex align-items-center justify-content-between leave-count-list p-2 mb-3">
                                                                 <div class="d-flex align-items-center gap-2">
                                                                     <!-- different color icon span -->
@@ -324,18 +312,10 @@
                                             <div class="col-md-6">
                                                 <div class="categories-report border-rounded-2">
                                                     <div class="report-header p-3 d-flex align-items-center justify-content-between border-bottom">
-                                                        <h5 class="mb-0 font-15 fw-semibold">Top 5 Spending User</h5>
-                                                        <!-- <div>
-                                                            <nz-select class="week-filter" ngModel="Week 1" style="width: 100px;">
-                                                                <nz-option nzValue="Week 1" nzLabel="Week 1"></nz-option>
-                                                                <nz-option nzValue="Week 2" nzLabel="Week 2"></nz-option>
-                                                                <nz-option nzValue="Week 3" nzLabel="Week 3"></nz-option>
-                                                                <nz-option nzValue="Week 4" nzLabel="Week 4"></nz-option>
-                                                              </nz-select>
-                                                        </div> -->
+                                                        <h5 class="mb-0 font-14 fw-semibold">Top 5 Spending User</h5>
                                                     </div>
 
-                                                    <div class="p-3">
+                                                    <div class="p-3 expanse-type-list">
                                                         
                                                         <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%" *ngIf="topExpenseUser.length == 0 && !userLoader">
                                                             <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -349,39 +329,55 @@
                                                         </div>
         
 
-                                                        <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%" *ngIf="userLoader">
-                                                            <div class="text-center load-more-btn">
-                                                                <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                                                                    <div>
-                                                                        <small>Loading...</small>
-                                                                    </div>
+                                                        
+                                                        <div *ngIf="userLoader" >
+                                                            <div class="client-report border p-3 mb-3" *ngFor="let item of [].constructor(5)">
+                                                              <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                  <ngx-shimmer-loading [width]="'40px'" [height]="'40px'" [borderRadius]="'50%'"></ngx-shimmer-loading>
+                                                                  <div>
+                                                                    <ngx-shimmer-loading [width]="'120px'" [height]="'14px'" class="mb-2"></ngx-shimmer-loading>
+                                                                    <ngx-shimmer-loading [width]="'200px'" [height]="'8px'"></ngx-shimmer-loading>
+                                                                  </div>
+                                                                </div>
+                                                                <div class="text-end">
+                                                                  <ngx-shimmer-loading [width]="'80px'" [height]="'14px'" class="mb-2"></ngx-shimmer-loading>
+                                                                  <ngx-shimmer-loading [width]="'60px'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                </div>
+                                                              </div>
+                                                          
+                                                              <div class="d-flex align-items-center justify-content-between pt-3">
+                                                                <ngx-shimmer-loading [width]="'200px'" [height]="'10px'"></ngx-shimmer-loading>
+                                                                <ngx-shimmer-loading [width]="'80px'" [height]="'10px'"></ngx-shimmer-loading>
+                                                              </div>
                                                             </div>
-                                                        </div>
+                                                          </div>
 
-                                                        <div class="client-report p-3 mb-3" *ngFor="let user of topExpenseUser">
+                                                        <div class="client-report border p-3 mb-3" *ngFor="let user of topExpenseUser">
                                                             <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                                                                 <div class="d-flex align-items-center gap-2">
-                                                                    <img [src]="user.userImageUrl">
+                                                                    <img [src]="user.userImageUrl" class="img-40 radius-50 object-fit-cover">
                                                                     <div>
-                                                                        <h5 class="mb-0 font-16 fw-semibold">{{ user.name }} </h5>
-                                                                        <div class="mt-1" style="width:200px;" *ngIf="user.usagePercentage != 0">
+                                                                        <h5 (click)="this.helperService.routeToUserProfile(user.userUuid)"
+                                                                        class="mb-0 font-14 fw-semibold pointer">{{ user.name }} </h5>
+                                                                        <div class="mt-0" style="width:200px;" *ngIf="user.usagePercentage != 0">
                                                                             <nz-progress [nzPercent]="user.usagePercentage"
                                                                             [nzSuccessPercent]="0"
                                                                            ></nz-progress>
                                                                         </div>
-                                                                        <div class="mt-1" style="width:200px;" *ngIf="user.usagePercentage == 0">
+                                                                        <div class="mt-1 font-13" style="width:200px;" *ngIf="user.usagePercentage == 0">
                                                                             <span>Do not have Wallet</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="text-end">
-                                                                    <h5 class="mb-1 font-16 fw-bold">₹{{ user.totalExpense | number:'1.2-2' }}</h5>
-                                                                    <p class="mb-0 font-13 fw-normal color-basic">This week</p>
+                                                                    <h5 class="mb-1 font-14 fw-bold">₹{{ user.totalExpense | number:'1.2-2' }}</h5>
+                                                                    <p class="mb-0 font-12 fw-normal color-basic">This week</p>
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex align-items-center justify-content-between pt-3">
                                                                 <p class="mb-0 font-12 fw-normal color-basic">Total money spend till now <span class="text-black fw-semibold">₹{{ user.totalExpense | number:'1.2-2' }}</span></p>
-                                                                <button class="btn p-0 fw-semibold font-13 collapsed view-details" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + user.userId">
+                                                                <button class="btn p-0 fw-semibold font-12 collapsed view-details" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + user.userId">
                                                                     View details <i class="bi bi-caret-down-fill font-10"></i>
                                                                   </button>
                                                             </div>
@@ -396,33 +392,34 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="assets-categories mt-3 border">                                              
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="categories-header p-3 d-flex align-items-center justify-content-between">
-                                                      <h5 class="mb-0 font-15 fw-semibold">Departmental Budget Allocation</h5>
-                                                    </div>
-                                                    <div class="d-flex align-items-center justify-content-between p-3 gap-3">
-                                                      <ng-container *ngFor="let team of teamWallets; let last = last">
-                                                        <div>
-                                                          <h5 class="mb-1 font-14 fw-bold">₹{{ team.amount | number }}</h5>
-                                                          <p class="mb-0 font-12">{{ team.teamName }}</p>
-                                                        </div>
-                                                        <span *ngIf="!last" class="departmental-separator"></span>
-                                                      </ng-container>
-                                                    </div>
-                                                  </div>                                                  
+                                        <div class="assets-categories mt-3 border">
+                                            <div class="categories-header p-3 d-flex align-items-center justify-content-between border-bottom">
+                                                <h5 class="mb-0 font-14 fw-semibold">Departmental Budget Allocation</h5>
+                                             </div>
+                                            <div class="row p-3 pb-0">
+                                                <div class="col-md-3" *ngFor="let team of teamWallets; let last = last">
+                                                    <div class="border p-3 mb-3 border-rounded-2">
+                                                    <h5 class="mb-1 font-14 fw-semibold">₹{{ team.amount | number }}</h5>
+                                                    <p class="mb-0 font-12 fw-normal team-name">{{ team.teamName }}</p>
+                                                </div>
+                                                </div>
+                                            </div>  
+                                            <!-- View More -->
+                                            <div class="d-flex align-items-center justify-content-end p-3 pt-0" *ngIf="teamWallets.length < totalTeam">
+                                                <a class="view-all-btn text-primary fw-semibold font-14" (click)="loadMoreTeam()">
+                                                  View More <i class="bi bi-chevron-down position-relative" style="top:2px"></i>
+                                                </a>
+                                              </div>
+                                              <!-- View Less -->
+                                              <div class="d-flex align-items-center justify-content-end p-3 pt-0" *ngIf="teamWallets.length >= totalTeam && totalTeam > itemsPerPage">
+                                                <a class="view-all-btn text-primary fw-semibold font-14" (click)="hideTeam()">
+                                                  View Less <i class="bi bi-chevron-up position-relative" style="top:2px"></i>
+                                                </a>
+                                              </div>
                                         </div>
-                                   </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
-                        
                         
                         <div class="tab-pane fade" id="expense-request" role="tabpanel" aria-labelledby="employee-tab">
                             <div class="mt-3">
@@ -446,14 +443,14 @@
                                                 <div class="form-group w-100 position-relative">
                                                     <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="requestsSearch" (input)="searchByNameRequest($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                     <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="requestsSearch==''"></i>
-                                                    <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getExpenses();"></i>
+                                                    <i class="bi bi-x search-icon d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getExpenses();"></i>
                                                 </div>
                                         </div>
 
                                         
-                                        <div class="d-flex align-items-center gap-3" style="margin-right: 15px;">
+                                        <div class="d-flex align-items-center gap-3 px-3">
 
-                                            <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal"
+                                            <button class="btn p-0 primaryBtnLink" data-bs-toggle="modal"
                                                 data-bs-target="#sampleFileModal">
                                                 <i class="bi bi-upload"></i>
                                                 <span>Import</span>
@@ -461,8 +458,8 @@
                                             
                                             <span class="calendar-separator"></span>
                                             
-                                            <button *ngIf="!exportLoading" type="button" class="btn primaryBtnLink filter-btn d-block text-cennter" (click)="export()">
-                                                <i class="bi bi-download"></i>&nbsp;
+                                            <button *ngIf="!exportLoading" type="button" class="btn primaryBtnLink" (click)="export()">
+                                                <i class="bi bi-download"></i>
                                                 <span *ngIf="!exportLoading">Download</span>
                                                 <div class="dot-opacity-loader" *ngIf="exportLoading">
                                                     <span></span>
@@ -474,7 +471,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="not-assign-filter p-0 border position-absolute bg-white" [ngClass]="{'d-none': !showFilter}">                                   
+                                <div class="not-assign-filter filter-box p-0 border position-absolute bg-white" [ngClass]="{'d-none': !showFilter}">                                   
                                      <div class="d-flex align-items-center justify-content-between border-bottom p-3">
                                         <h5 class="mb-0 font-14 fw-semibold">Filter</h5>
                                         <span class="pointer lh-1" (click)="changeShowFilter(false)">
@@ -509,7 +506,7 @@
                                             <label for="status" class="pb-2">Status</label>
                                             <nz-select 
                                                 [nzMaxTagCount]="3" 
-                                                class="w-100"
+                                                class="w-100 form-multiselect"
                                                 [nzMaxTagPlaceholder]="tagPlaceHolder"
                                                 nzMode="multiple" 
                                                 nzPlaceHolder="Select Status"
@@ -551,28 +548,25 @@
                             
 
                             <div class="mt-3">
-                                <div class="table-responsive">
+                                <div class="table-responsive mb-4">
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th>Date</th>
-                                                <th>Staff Name</th>
+                                                <th>Employee Name</th>
                                                 <th>Type</th>
                                                 <th>Amount</th>
                                                 <th>Settled </th>
-                                                <th>UnSettled </th>
-                                                <th>Company reason  </th>
+                                                <th>Un-Settled </th>
                                                 <th>Note</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                <th class="stickyColThend">Action</th>
                                             </tr>
                                         </thead>
                                         <!-- TO DO: Shimmer Loading Ui -->
                                         <tbody *ngIf="loading">
                                             <tr *ngFor="let item of [].constructor(10)"> 
-                                                <td>
-                                                    <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
+                                                
                                                 <td>
                                                     <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                 </td>
@@ -604,24 +598,7 @@
                                         </tbody>
                                         <!-- Shimmer Loading Ui End-->
 
-                                        <!-- TO DO: empty notification  -->
-                                        <!-- <tbody>
-                                            <tr>
-                                              <td colspan="10">
-                                                <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
-                                                  <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                    [nzNotFoundContent]="contentTpl">
-                                                    <ng-template #contentTpl>
-                                                      <p class="mb-1 empty-detail font-16">
-                                                        No data for now
-                                                      </p>
-                                                    </ng-template>
-                                                  </nz-empty>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody> -->
-                                           <!-- empty notification end -->
+                                  
                                            <tbody *ngIf="!loading">
                                             <ng-container *ngIf="expenseList.length == 0">
                                                 <tr>
@@ -641,29 +618,26 @@
                                         <ng-container *ngIf="expenseList.length > 0">
                                             <tr *ngFor="let expense of expenseList; let i= index">
                                                 <td class="text-left">
-                                                    <!-- <span class="table-font-weight">Tue, June 12 2022</span> -->
-                                                    <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                                    <span class="font-13 fw-semibold">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
+                                                </td>
+                                                <td (click)="this.helperService.routeToUserProfile(expense.uuid)" class="text-left pointer">
+                                                    <span class="font-13 fw-semibold"> {{expense.employeeName}}</span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span> {{expense.employeeName}}</span>
+                                                    <span class="fw-normal font-13">{{expense.expenseType}} </span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span class="table-font-weight">{{expense.expenseType}} </span>
+                                                    <span class="font-13 fw-semibold"> ₹ {{expense.amount}} </span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span class="table-font-weight"> ₹ {{expense.amount}} </span>
+                                                    <span class="font-13 fw-semibold"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount }} </span>
                                                 </td>
                                                 <td class="text-left">
-                                                    <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount }} </span>
+                                                    <span class="font-13 fw-semibold"> ₹ {{ (expense.amount - expense.paidAmount) === expense.amount ? 0 : expense.amount - expense.paidAmount}} </span>
                                                 </td>
-                                                <td class="text-left">
-                                                    <span class="table-font-weight"> ₹ {{ (expense.amount - expense.paidAmount) === expense.amount ? 0 : expense.amount - expense.paidAmount}} </span>
-                                                </td>
-                                                <td class="text-left">
-                                                    <span class="table-font-weight white-space"> {{expense.notes}}  </span>
-                                                </td>
+                                               
                                                 <td>
-                                                    <span class="fw-normal white-space" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
+                                                    <span class="white-space fw-normal font-13" nz-popover nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate"
                                                     [nzPopoverOverlayStyle]="{'width':'300px'}" nzPopoverPlacement="top">{{  expense.notes || '--'}}</span>
                                                     <ng-template #contentTemplate>
                                                        <div>
@@ -673,20 +647,27 @@
                                                  </td>
                                         
                                                 <td class="text-left">
-                                                    <span class="badge rounded-pill "
-                                                        [ngClass]="{'badge-soft-warning': expense.status.id == 13 || expense.status.id == 46, 'badge-soft-success': expense.status.id == 14 || expense.status.id == 41 || expense.status.id == 40 || expense.status.id == 53,
-                                                        'badge-soft-danger': expense.status.id == 15, 'badge-soft-primary': expense.status.id == 40 || expense.status.id == 48}" >
+                                                    <span class="font-13 fw-semibold"
+                                                        [ngClass]="{'text-warning': expense.status.id == 13 || expense.status.id == 46, 'text-success': expense.status.id == 14 || expense.status.id == 41 || expense.status.id == 40 || expense.status.id == 53,
+                                                        'text-danger': expense.status.id == 15, 'text-primary': expense.status.id == 40 || expense.status.id == 48}" >
                                                         {{expense.status.response}}
                                                     </span>
                                                 </td> 
                                                 
-                                                <td class="text-left">
-                                                    <div>
-                                                      <button type="button" class="btn p-0 text-primary View-btn fw-semibold" (click)="
-                                                        openExpenseComponent(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
-                                                        <i class="bi bi-eye"></i> View
-                                                      </button>
-                                                    </div>
+                                                <td class="text-left stickyColTdend">
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btnAction d-flex align-items-center justify-content-center pointer" type="button" data-bs-toggle="dropdown">
+                                                            <i class="bi bi-three-dots-vertical font-15"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu actionMenuList">
+                                                            <li>
+                                                                <a class="dropdown-item" (click)="openExpenseComponent(expense)"  data-bs-toggle="modal" data-bs-target="#approveModal">
+                                                                    <i class="bi bi-eye"></i>  View request
+                                                                </a>
+                                                            </li>
+                                                        </div>
+                                                      </div>
+
                                                   </td>
 
                                             </tr>
@@ -694,11 +675,6 @@
                                     </tbody>
                                         
                                     </table>
-
-                                    <!-- <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top">
-                                        <p class="mb-0"> Showing items 10 - 2 of 12 records</p>
-                                        <ngb-pagination class="pagition-box"> </ngb-pagination>
-                                    </div> -->
 
                                     <div class="d-flex align-items-center justify-content-between pagination-box w-100 p-3 bg-white border-top" *ngIf="expenseList.length > 0 && totalItems > 9">
                                         <p class="mb-0">
@@ -737,7 +713,7 @@
                                             <div class="form-group w-100 position-relative">
                                                 <input type="text" id="searchText" #searchInput placeholder="Search by name.." [ngModel]="requestsSearch" (input)="searchByEmployeeName($event)" class="form-control me-2 w-100" style="padding: 10px 45px;" />
                                                 <i class="bi bi-search search-icon d-flex align-items-center h-100" *ngIf="requestsSearch==''"></i>
-                                                <i class="bi bi-x search-icon text-primary d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getWalletUser();"></i>
+                                                <i class="bi bi-x search-icon d-flex align-items-center h-100 font-20" *ngIf="requestsSearch!=''" (click)="requestsSearch=''; databaseHelper.currentPage = 1; getWalletUser();"></i>
                                             </div>
                                         </div>
                                         <!-- Button to open modal using ID -->
@@ -784,7 +760,7 @@
                                             <label for="status" class="pb-2">Select Employee</label>
                                             <nz-select 
                                                 [nzMaxTagCount]="3" 
-                                                class="w-100"
+                                                class="w-100 form-multiselect"
                                                 [nzMaxTagPlaceholder]="tagPlaceHolder"
                                                 nzMode="multiple" 
                                                 nzPlaceHolder="Select Employee"
@@ -822,7 +798,7 @@
                             </div>
 
                             <div class="mt-3">
-                                <div class="table-responsive">
+                                <div class="table-responsive mb-4">
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -874,11 +850,12 @@
                                                 
                                                 <td>
                                                     <div class="d-flex align-items-center gap-3 wallet-transactions-list">
-                                                        <!-- <img src="assets/images/pushpendra.jpeg"> -->
+                                                        
                                                         <img onerror="this.src='./assets/images/broken-image-icon.jpg';"
-                                                                    [src]="user.imageUrl || 'assets/images/user.png'">
+                                                                    [src]="user.imageUrl || 'assets/images/user.png'" class="img-40 radius-50 object-fit-cover">
                                                         <div>
-                                                            <h5 class="mb-1 font-14 fw-semibold">{{ user.userName}}</h5>
+                                                            <!-- <h5 (click)="this.helperService.routeToUserProfile(user.userUuid)" -->
+                                                            <h5 class="mb-1 font-14 fw-semibold pointer" (click)="this.helperService.routeToUserProfile(user.userUuid)">{{ user.userName}}</h5>
                                                             <p class="mb-0 font-12 fw-light color-basic">Department: <span class="fw-normal"> {{user.department}} </span></p>
                                                         </div>
                                                     </div>
@@ -894,10 +871,10 @@
                                                     <span class="fw-normal">₹{{user.totalUsedAmount}}</span>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed" 
+                                                    <button type="button" class="btn action-btn d-flex align-items-center justify-content-center collapsed " 
                                                         data-bs-toggle="collapse" href="#expenseList" role="button" aria-expanded="false" 
                                                         aria-controls="expenseList" (click)="toggleCollapse(i); fetchUserTransactionsByClick(user.userUuid);">
-                                                        <i class="bi bi-chevron-down font-14 position-relative" style="top: 1px;"></i>
+                                                        <i class="bi bi-chevron-down font-14 position-relative  " style="top: 1px;"></i>
                                                     </button>
                                                 </td>                                                
                                             </tr>
@@ -913,7 +890,6 @@
                                                                     <th class="">Expense Type</th>
                                                                     <th class="">Date Range</th>
                                                                     <th class="text-center">Expense Amount</th>
-                                                                    <!-- <th class="text-center">Amount Rejected</th> -->
                                                                     <th class="text-center">Wallet Balance</th>
                                                                     <th class="text-center">Description</th>
                                                             </thead>
@@ -934,10 +910,6 @@
                                                                     <td>
                                                                         <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                                                                     </td>
-                                                                    <td>
-                                                                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                                    </td>
-                                                    
                                                                 </tr>
                                                             </tbody>
                                                             <tbody>
@@ -1000,11 +972,12 @@
 
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" [ngClass]="{'modal-xl':expenseData?.slipUrls?.length > 0,' modal-lg':expenseData?.slipUrls?.length == 0}" role="document">
+   
+   <div class="modal-dialog modal-dialog-centered" [ngClass]="{'modal-xl':expenseData?.expense?.slipUrls?.length > 0,' modal-md':expenseData?.expense?.slipUrls?.length == 0}" role="document">
     <div class="modal-content">
       <div class="modal-header">
          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-            Bill Snapshot
+            Bill Snapshot 
          </h6>
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearApproveModal();"
          #closeApproveModal></button>
@@ -1023,7 +996,7 @@
 
 <!-- Bootstrap Modal RECHARGE WALLET-->
 <div class="modal fade" id="rechargeWalletModal" tabindex="-1" aria-labelledby="rechargeWalletModalLabel" aria-hidden="true" >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="rechargeWalletModalLabel">Recharge Wallet</h5>
@@ -1033,11 +1006,11 @@
             <form #rechargeForm="ngForm">
                 <!-- User Selection Dropdown -->
                 <div class="mb-3">
-                  <label for="userSelect" class="form-label">Select User</label>
+                  <label for="userSelect" class="pb-2">Select User</label>
                   <nz-select nzShowSearch 
                     [(ngModel)]="selectedUserId" 
                     [nzPlaceHolder]="'Select a user'" 
-                    class="w-100 form-control placeholder-lines" 
+                    class="w-100 form-control placeholder-line" 
                     required 
                     name="userId">
                     <nz-option 
@@ -1052,10 +1025,10 @@
               
                 <!-- Amount Input -->
                 <div class="mb-3">
-                  <label for="amount" class="form-label">Amount</label>
+                  <label for="amount" class="pb-2">Amount</label>
                   <input 
                     type="number" 
-                    class="form-control" 
+                    class="form-control profile-input" 
                     id="amount" 
                     [(ngModel)]="amount" 
                     name="amount" 
@@ -1065,9 +1038,9 @@
               
                 <!-- Remark Input -->
                 <div class="mb-3">
-                  <label for="remark" class="form-label">Remark</label>
+                  <label for="remark" class="pb-2">Remark</label>
                   <textarea 
-                    class="form-control" 
+                    class="form-control nots-section" 
                     id="remark" 
                     [(ngModel)]="remark" 
                     name="remark" 
@@ -1076,9 +1049,9 @@
                   <div *ngIf="!remark && submitted" class="text-danger">Remark is required.</div>
                 </div>
               
-                <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" (click)="resetFields()">Cancel</button>
-                  <button type="button" class="btn btn-primary" (click)="rechargeWallet()">
+                <div class="d-flex align-items-center gap-3 justify-content-end ">
+                  <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal" (click)="resetFields()">Cancel</button>
+                  <button type="button" class="btn submitActionBtn" (click)="rechargeWallet()">
                     <span *ngIf="!isLoadingHnS">Recharge</span>
                     <div class="dot-opacity-loader" *ngIf="isLoadingHnS">
                         <span></span>
@@ -1113,32 +1086,46 @@
             !isShimmer &&
             onboardUserList.length == 0
           ">
-          <div class="col-md-12">
-            <div class="card-body mt-0 p-0">
-              <div class="alert alert-light mb-0" role="alert">
-                <h4 class="alert-heading font-18">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-0">
+                <h4 class="text-black fw-semibold font-16">
                   Download the Sample Excel File!
                 </h4>
-                <p>
-                  Look for the sample file titled "Sample_Data.xlsx" and click
-                  on the download button to save it to your computer.
-                </p>
-                <p>
-                  Take a moment to review the existing data in the Excel file.
-                  This will help you understand the structure and content of the
-                  data before making any updates.
-                </p>
-                <p>
-                  <span class="text-primary">
-                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
-                  </span>
-                  , update its data, and upload it back with the updated content
-                  on our platform
-                </p>
+                <div class="mt-4">
+                    <div class="d-flex align-items-start gap-3">
+                        <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">1</span>
+                        <p class="mb-0 font-13 w-80">
+                            Look for the sample file titled "Sample_Data.xlsx" and click
+                            on the download button to save it to your computer.
+                          </p>
+                    </div>
+                    <div class="d-flex align-items-start gap-3 mt-3">
+                        <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">2</span>
+                        <p class="mb-0 font-13 w-80">
+                            Take a moment to review the existing data in the Excel file.
+                            This will help you understand the structure and content of the
+                            data before making any updates.
+                          </p>
+                    </div>
+                    <div  class="d-flex align-items-start gap-3 mt-3 mb-3">
+                        <span class="info-count d-flex align-items-center justify-content-center font-13 fw-normal">3</span>
+                        <p class="mb-0 font-13 w-80">
+                            <span class="text-primary">
+                              <a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a>
+                            </span>
+                            , update its data, and upload it back with the updated content
+                            on our platform
+                          </p>
+                    </div>
+               
+               
+                
+                </div>
               </div>
             </div>
-            <div class="card-body mt-3 p-0" *ngIf="data.length == 0">
-              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+            <div class="col-md-6" *ngIf="data.length == 0">
+              <div class="mb-0 excel-upload-file-box d-flex align-items-center justify-content-center flex-column" >
                 <input id="fileSelect" type="file" name="img[]" accept=".xlsx, .xls" class="input"
                   (change)="selectFile($event)" />
                 <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />

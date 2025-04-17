@@ -73,7 +73,7 @@ export class RoleBasedAccessControlService {
         // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
-        this.userInfo!.role=res.role;
+        // this.userInfo!.role=res.role;
         this.ROLE = res.role;
         // console.log("updated uuid",  this.userInfo!.uuid)
         this.isUserInfoInitialized = true;
@@ -207,17 +207,32 @@ export class RoleBasedAccessControlService {
 
   /**
    * Common action buttons managemnt methods for all modules START
+   * logInUserUuid!=attendanceReq.uuid - to prevent sef
    */
   showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
-    return (leave.status == statusCheck &&
-       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
-        ||logInUserUuid==leave.managerUuid ));
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ attendanceReq.status.id == statusCheck:", leave.status)
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ this.hasWriteAccess(moduleRoute):", this.hasWriteAccess(moduleRoute))
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ this.hasWriteAccess(moduleRoute):", logInUserUuid)
+    // console.log("🚀 ~ RoleBasedAccessControlService ~ showAttendanceUpdateActionButton ~ this.hasWriteAccess(moduleRoute):", leave.managerUuid)
+
+    return (leave.status == 'pending' &&
+       (( this.hasWriteAccess(moduleRoute))
+        &&(logInUserUuid==leave.managerUuid || this.ROLE !=Key.MANAGER) ));
+   }
+  // showLeaveActionButton(leave:any,logInUserUuid:string,statusCheck:string, moduleRoute:string): boolean {
+  //   return (leave.status == statusCheck &&
+  //      ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
+  //       ||logInUserUuid==leave.managerUuid ));
+  //  }
+
+   showAttendanceUpdateActionButton(attendanceReq:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
+    return (attendanceReq.status.id == statusCheck &&
+      (( this.hasWriteAccess(moduleRoute))
+       &&(logInUserUuid==attendanceReq.managerUuid || this.ROLE !=Key.MANAGER) ));
    }
 
-   showAttendanceUpdateActionButton(leave:any,logInUserUuid:string,statusCheck:number, moduleRoute:string): boolean {
-    return (leave.status.id == statusCheck &&
-       ((logInUserUuid!=leave.uuid && this.hasWriteAccess(moduleRoute))
-        ||logInUserUuid==leave.managerUuid ));
+   isActionRestrictedRole(): boolean {
+    return (this.ROLE == Key.MANAGER || this.ROLE == Key.USER);
    }
     /**
    * Common action buttons managemnt methods for all modules END

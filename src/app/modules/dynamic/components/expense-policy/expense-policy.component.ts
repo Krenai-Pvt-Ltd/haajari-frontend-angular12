@@ -88,7 +88,7 @@ export class ExpensePolicyComponent implements OnInit {
     this.expenseTotalItems = 0
     this.ROLE = await this.rbacService.getRole();
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '', this.selectedFilter,this.searchedName).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '', this.selectedFilter,this.searchedName).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.expenseTotalItems = res.totalItems
@@ -1746,7 +1746,7 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
     this.expensePolicyReq = new ExpensePolicy()
     this.expensePolicyReqList = []
     this.oldSelectedStaffIdsUser = []
-
+    
     // console.log('expense obj: ',companyExpense)
 
     companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
@@ -1779,6 +1779,9 @@ this.expensePolicyItem.expenseTypeName=selectedExpense.name;
       this.selectedStaffIdsUser.push(id)
       this.oldSelectedStaffIdsUser.push(id)
     });
+
+    this.isAllUsersSelected = this.selectedStaffIdsUser.length === this.totalUserCount;
+    console.log("Select All :",this.isAllUsersSelected);
 
     // this.oldSelectedStaffIdsUser = this.selectedStaffIdsUser
     console.log('old sel IDS: ',this.oldSelectedStaffIdsUser)

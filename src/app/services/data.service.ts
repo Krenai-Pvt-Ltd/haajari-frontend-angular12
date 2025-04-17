@@ -78,6 +78,7 @@ import { UserResignation } from '../models/UserResignation';
 import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 import { EmployeeProfileResponse } from '../models/employee-profile-info';
 import { NotificationTypeInfoRequest } from '../models/NotificationType';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Injectable({
@@ -95,13 +96,25 @@ export class DataService {
   ]);
   orgId: any;
   private readonly _key: Key = new Key();
-
-  constructor(private readonly httpClient: HttpClient) {
+  public isMobileView: boolean = false;
+  constructor(private readonly httpClient: HttpClient,
+    private breakpointObserver: BreakpointObserver
+  ) {
     window.addEventListener('storage', (event) => {
       if (event.key === this.notificationKey) {
         this.messageSubject.next();
       }
     });
+    this.getView();
+  }
+
+  getView(){
+    this.breakpointObserver
+          .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+          .subscribe(result => {
+            this.isMobileView = result.matches;
+            console.log('Current view:', this.isMobileView ? 'Mobile' : 'Desktop');
+          });
   }
 
   private readonly orgIdEmitter = new EventEmitter<number>();
@@ -4546,7 +4559,6 @@ export class DataService {
   }
 
   getAllExpense(
-    role: string,
     pageNumber: number,
     itemPerPage: number,
     startDate: any,
@@ -4561,7 +4573,6 @@ export class DataService {
       .set('itemPerPage', itemPerPage)
       .set('sortBy', 'createdDate')
       .set('sortOrder', 'desc')
-      .set('role', role)
       .set('tag', tag)
       .set('search', search);
 
@@ -4586,10 +4597,10 @@ export class DataService {
 
   countPendingTransaction(statusId: number) {
     const params = new HttpParams().set('statusId', statusId.toString());
-  
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count-by-status`, { params });
   }
-  
+
 
   saveTags(id: number, tags: string[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -4633,7 +4644,6 @@ export class DataService {
   }
 
   getAllExpenseCount(
-    role: string,
     pageNumber: number,
     itemPerPage: number,
     startDate: any,
@@ -4643,7 +4653,6 @@ export class DataService {
     var params = new HttpParams()
       .set('currentPage', pageNumber)
       .set('itemPerPage', itemPerPage)
-      .set('role', role);
 
     if (startDate && endDate) {
       params = params.set('startDate', startDate);
@@ -4697,10 +4706,10 @@ export class DataService {
     let params = new HttpParams();
     params = params.append('expenseTypeId', expensePolicyId);
     params = params.append('companyexpensePolicyTypeId', expensePolicyTypeId);
-  
+
     return this.httpClient.delete(`${this.baseUrl}/company-expense-policy/delete-company-expense-type-policy`, { params });
   }
-  
+
 
   getUserMappedWithPolicy(
     selectedUserIds: any,
@@ -5566,6 +5575,104 @@ export class DataService {
 
     return this.httpClient.get(`${this.baseUrl}/attendance/attendance-update-requests`, { params });
   }
+
+
+  getAttendenceSummeryReportByFilter(
+    startDate: string,
+    endDate: string,
+    filter: string,
+    userIds: number[] | null
+  ){
+    let params = new HttpParams()
+      .append('startDate', startDate)
+      .append('endDate', endDate)
+      .append('filter_criteria', filter)
+      .append('dashBoardView',true)
+      
+      if (userIds) {
+        params = params.append(
+          'userIds',
+          userIds.length > 0 ? userIds.join(',') : ''
+        );
+      } else {
+        params = params.append('userIds', '');
+      }
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/get-attendance-details-excel-report-by-date`,{params});
+  }
+
+  getLeaveSummeryReport(
+    filter: string,
+    userIds: number[] | null
+  ){
+    let params = new HttpParams()
+      .append('filter', filter)
+      .append('dashBoardView',true)
+      
+      if (userIds) {
+        params = params.append(
+          'userIds',
+          userIds.length > 0 ? userIds.join(',') : ''
+        );
+      } else {
+        params = params.append('userIds', '');
+      }
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/leave-summary-for-excel`,{params});
+  }
+
+
+  getSanctionLeaveSummeryReport(
+    startDate: string,
+    endDate: string,
+    userIds: number[] | null
+  ){
+    let params = new HttpParams()
+      .append('startDate', startDate)
+      .append('endDate', endDate)
+      .append('dashBoardView',true)
+      
+      if (userIds) {
+        params = params.append(
+          'userIds',
+          userIds.length > 0 ? userIds.join(',') : ''
+        );
+      } else {
+        params = params.append('userIds', '');
+      }
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/sanction-leave-for-excel`,{params});
+  }
+
+
+  getAssetRequestReport(type : string, status: string){
+      let params = new HttpParams()
+      .append('dashBoardView',true)
+      .append('type', type)
+      .append('status', status)
+
+      return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-request-for-excel`,{params});
+  }
+
+  getAssetSummaryReport(){
+    let params = new HttpParams()
+    .append('dashBoardView',true)
+
+    return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-summary-for-excel`,{params});
+  }
+
+
+  getFaq(pageNumber : number, itemPerPage : number) {
+    const params = new HttpParams()
+      .set('page', pageNumber)
+      .set('itemsPerPage',itemPerPage)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/faq`,{ params });
+  }
+  
+
+
+
 }
 
 
