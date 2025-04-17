@@ -55,6 +55,7 @@ export class AccountSettingsComponent implements OnInit {
     this.loadNotificationSettings();
     this.fetchGuidelines();
     this.fetchHrPolicies();
+    this.checkSlackNotification();
   }
   setFormData(): void {
     this.supportForm.patchValue({
@@ -550,7 +551,23 @@ userExistsInShift(): void {
   });
 }
 
-
+isEnableSlack : boolean = false;
+checkSlackNotification(){
+  this.dataService.getSlackNotification().subscribe({
+    next: (data) => {
+      console.log("Check User Organisatioon have Slack or Not : ",data);
+      if(data.slack == true){
+        this.isEnableSlack = true;
+      }else{
+        this.isEnableSlack = false;
+      }
+    },
+    error: (err) => {
+      this.isEnableSlack = false;
+      console.error('Error check slack Notification:', err);
+    }
+  });
+}
 
 
 
