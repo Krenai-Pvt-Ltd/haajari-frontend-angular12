@@ -923,7 +923,7 @@
                       <tbody *ngIf="!invoiceLoading">
                         <tr class="" *ngFor="let invoice of invoices;">
                           <td class="stickyColTd">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               {{invoice.invoiceNo}}</span>
                           </td>
                           <td class="text-center">
@@ -933,32 +933,27 @@
                             </div>
                           </td>
                           <td>
-                            <span class="teme-maneger text-center mb-0 table-font-weight">
+                            <span class="text-center mb-0 fw-normal">
                               {{invoice.paymentDate | date:'dd MMM yyyy'}}</span>
                           </td>
                           <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               {{invoice.transactionId}}</span>
                           </td>
                           <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹{{invoice.payableAmount}}</span>
+                            <span class="mb-0"> ₹{{invoice.payableAmount}}</span>
                           </td>
                           <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               {{invoice.fromDate | date:'dd MMM yyyy'}}</span>
                           </td>
                           <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               {{invoice.toDate | date:'dd MMM yyyy'}}</span>
                           </td>
-                          <!-- 31 Aug 2024 -->
-                          <!-- <td class="text-center">
-                            <span class="teme-maneger mb-0"> {{invoice.paymentMode}}</span>
-                          </td> -->
-
 
                           <td class="stickyColTdend">
-                            <button type="button" class="btn btnAction" (click)="download(invoice)">
+                            <button type="button" class="btnAction d-flex align-items-center justify-content-center p-0" (click)="download(invoice)">
                               <!-- *ngIf="!downloadInvoiceLoading"-->
                               <svg *ngIf="!downloadInvoiceLoading" xmlns="http://www.w3.org/2000/svg" width="12"
                                 height="11" viewBox="0 0 12 11" fill="none">
@@ -1106,11 +1101,11 @@
                       <tbody class="">
                         <tr class="" *ngFor="let dueInvoice of dueInvoices">
                           <td class="stickyColTd text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               {{dueInvoice.createdDate | date: 'dd MMM yyyy'}}</span>
                           </td>
                           <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               {{dueInvoice.invoiceType}}</span>
                           </td>
 
@@ -1120,12 +1115,12 @@
                             </div>
                           </td>
                           <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
+                            <span class="mb-0 fw-normal">
                               INR</span>
                           </td>
 
                           <td class="text-center">
-                            <span class="teme-maneger mb-0"> {{dueInvoice.payableAmount | number: '1.0-2'}}</span>
+                            <span class="mb-0"> {{dueInvoice.payableAmount | number: '1.0-2'}}</span>
                           </td>
                           <td class="stickyColTdend text-center">
                             <button type="button" class="btn btnPayNow" (click)="selectedDuesInvoice(dueInvoice)">
