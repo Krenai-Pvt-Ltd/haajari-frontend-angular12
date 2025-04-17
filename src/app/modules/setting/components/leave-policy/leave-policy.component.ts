@@ -39,6 +39,7 @@ export class LeavePolicyComponent implements OnInit {
     this.getUnusedLeaveActionList();
     this.getLeaveTemplate();
   }
+  readonly CARRY_FORWARD = Key.CARRY_FORWARD;
   isLoading: boolean = false;
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
@@ -130,11 +131,8 @@ export class LeavePolicyComponent implements OnInit {
     this.fetchStaffs(); // Refresh staff list based on employee type
   }
 
-  // Leave Category Methods
-  leaveTemplateCategoryRequestList: LeaveTemplateCategoryRequest[] = [];
   addLeaveCategory() {
     this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
-    this.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
     this.newCategory = new LeaveTemplateCategoryRequest(); // Reset for next entry
   }
 
@@ -179,12 +177,14 @@ export class LeavePolicyComponent implements OnInit {
   }
 
   onStaffSelect(staff: Staff) {
-    if (staff.checked) {
+    if (!staff.checked) {
       if (!this.selectedStaffIds.includes(staff.id)) {
         this.selectedStaffIds.push(staff.id);
+        staff.checked = true;
       }
     } else {
       this.selectedStaffIds = this.selectedStaffIds.filter((id) => id !== staff.id);
+      staff.checked = false;
     }
   }
   onStaffClear() {
@@ -341,7 +341,6 @@ export class LeavePolicyComponent implements OnInit {
       ...new Set([...this.unSelectedStaffIds, ...newUnSelectedIds])
     ];
     this.leaveTemplate.deselectUserIds = this.unSelectedStaffIds;
-    this.leaveTemplate.leaveTemplateCategoryRequestList = this.leaveTemplateCategoryRequestList;
 
     this.dataService.registerLeaveTemplate(this.leaveTemplate).subscribe(
       (response) => {
@@ -376,6 +375,19 @@ export class LeavePolicyComponent implements OnInit {
     this.selectAllPages=false;
 
   }
+
+  tempForwardDaysCount:number=0;
+forwardDaysCountArray: number[][] = [];
+updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
+  while (this.forwardDaysCountArray.length <= index) {
+    this.forwardDaysCountArray.push([]);
+  }
+  this.forwardDaysCountArray[index] = Array.from(
+    { length: count  },
+    (_, i) => count - i
+  );
+  this.tempForwardDaysCount = count;
+}
 
 
   editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
@@ -460,6 +472,10 @@ export class LeavePolicyComponent implements OnInit {
     })
   }
 
+  carryoverActions: Array<{id:number,name: string, value: string }> = [
+    {id: 1, name: 'Total', value: 'Total' },
+    {id: 2, name: 'Restricted', value: 'Restricted' },
+  ];
   dateRange: Date[] = [];
   onStartDateChange() {
     const startDate = new Date(this.leaveTemplate.startDate);
@@ -599,7 +615,8 @@ export class LeavePolicyComponent implements OnInit {
         categoryName: this.allCategoryList.find(c => c.id === category.leaveCategory.id)?.name || 'N/A',
         unusedLeaveName: this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id)?.name || 'N/A',
         accrualName: this.accrualTypes.find(c => c.id === category.accrualType.id)?.name || 'N/A',
-        leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A'
+        leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A',
+        isReset: category?.reset,
       } as LeaveTemplateCategoryRequest));
 
       // Trigger change detection
