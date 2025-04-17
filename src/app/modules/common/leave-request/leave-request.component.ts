@@ -25,6 +25,8 @@ export class LeaveRequestComponent implements OnInit {
     @Input() data: any; // Existing input for passing data
     @Output() closeModal: EventEmitter<any> = new EventEmitter<any>();
     @Output() notFetching: EventEmitter<void> = new EventEmitter<void>();
+    @Input() isLeave: boolean = true;
+
     sendBulkDataToComponent() {
       this.closeModal.emit(this.userLeaveQuota);
     }

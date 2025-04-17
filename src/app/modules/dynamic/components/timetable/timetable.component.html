@@ -30,14 +30,14 @@
                 class="position-relative" [ngClass]="{
                     'active-tab': ACTIVE_TAB == 6}" aria-controls="pills-notification" aria-selected="false" class="nav-link">WEEK OFFs</a>
               <span class="request-count d-flex align-items-center justify-content-center"
-                *ngIf="totalPendingRequests > 0">{{ pendingWeekOffs }}</span>
+                *ngIf="pendingWeekOffs > 0">{{ pendingWeekOffs }}</span>
             </li>
             <li class="nav-item d-flex align-items-center">
               <a id="pills-notification-tab" role="tab" (click)="changeTab(7);"
                 class="position-relative" [ngClass]="{
                     'active-tab': ACTIVE_TAB == 7}" aria-controls="pills-notification" aria-selected="false" class="nav-link">ON DUTY</a>
               <span class="request-count d-flex align-items-center justify-content-center"
-                *ngIf="totalPendingRequests > 0">{{ pendingOnDuty }}</span>
+                *ngIf="pendingOnDuty > 0">{{ pendingOnDuty }}</span>
             </li>
           </ul>
           <!-- ; else attendanceSectionOtherTabCondition -->
@@ -1682,10 +1682,10 @@
         </div>
 
         <div class="row" *ngIf="ACTIVE_TAB == 6">
-          <app-leave-requests (pendingLeaveCountChange)="pendingWeekOffs = $event" [category]="'WEEK_OFF'"></app-leave-requests>
+          <app-leave-requests [isLeave]="false" (pendingLeaveCountChange)="pendingWeekOffs = $event" [category]="'WEEK_OFF'"></app-leave-requests>
         </div>
         <div class="row" *ngIf="ACTIVE_TAB == 7">
-          <app-leave-requests (pendingLeaveCountChange)="pendingOnDuty = $event" [category]="'ON_DUTY'"></app-leave-requests>
+          <app-leave-requests [isLeave]="false" (pendingLeaveCountChange)="pendingOnDuty = $event" [category]="'ON_DUTY'"></app-leave-requests>
         </div>
     </div>
   </div>

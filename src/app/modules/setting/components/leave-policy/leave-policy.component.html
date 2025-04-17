@@ -440,7 +440,7 @@
                 <div class="tab-content" id="v-pills-tabContent">
                   <!-- Template Setting Tab -->
                   <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                    <form #templateForm="ngForm" novalidate>
+                    <form #templateForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="row register-form-box">
                         <div class="col-md-12 mb-3">
                           <label class="pb-2">Template Name <span class="text-danger">*</span></label>
@@ -508,7 +508,7 @@
 
                   <!-- Leave Categories Tab -->
                   <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <form #categoryForm="ngForm" novalidate>
+                    <form #categoryForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Select Gender <span class="text-danger">*</span></label>
@@ -671,7 +671,7 @@
 
                   <!-- Staff Selection Tab -->
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                    <form #staffForm="ngForm" novalidate>
+                    <form #staffForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="col-md-12">
                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
                           <div style="width: 70%;">
@@ -780,7 +780,7 @@
                             </tbody>
                           </table>
                           <div *ngIf="!selectedStaffIds.length" class="text-danger">
-                            At least one staff member must be selected.
+                            <!-- At least one staff member must be selected. -->
                           </div>
                         </div>
 
@@ -791,7 +791,7 @@
                             <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
                           </div>
                           <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                            <button *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)" type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
                               <span *ngIf="!isLoadingSave">
                               Update Leave Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
@@ -859,7 +859,7 @@
                 <div class="tab-content" id="v-pills-tabContent-on-duty">
                   <!-- Template Setting Tab -->
                   <div class="tab-pane fade show active" id="v-pills-home-on-duty" role="tabpanel" aria-labelledby="v-pills-home-tab-on-duty">
-                    <form #templateForm="ngForm" novalidate>
+                    <form #templateForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="row register-form-box">
                         <div class="col-md-12 mb-3">
                           <label class="pb-2">Template Name <span class="text-danger">*</span></label>
@@ -927,7 +927,7 @@
 
                   <!-- On Duty Categories Tab -->
                   <div class="tab-pane fade" id="v-pills-profile-on-duty" role="tabpanel" aria-labelledby="v-pills-profile-tab-on-duty">
-                    <form #categoryForm="ngForm" novalidate>
+                    <form #categoryForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Select Gender <span class="text-danger">*</span></label>
@@ -1058,7 +1058,7 @@
 
                   <!-- Staff Selection Tab -->
                   <div class="tab-pane fade" id="v-pills-messages-on-duty" role="tabpanel" aria-labelledby="v-pills-messages-tab-on-duty">
-                    <form #staffForm="ngForm" novalidate>
+                    <form #staffForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="col-md-12">
                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
                           <div style="width: 70%;">
@@ -1166,7 +1166,7 @@
                             </tbody>
                           </table>
                           <div *ngIf="!selectedStaffIds.length" class="text-danger">
-                            At least one staff member must be selected.
+                            <!-- At least one staff member must be selected. -->
                           </div>
                         </div>
 
@@ -1177,7 +1177,7 @@
                             <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
                           </div>
                           <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                            <button *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)" type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
                             <span *ngIf="!isLoadingSave">
                               Update On Duty Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
@@ -1244,7 +1244,7 @@
                 <div class="tab-content" id="v-pills-tabContent-week-off">
                   <!-- Template Setting Tab -->
                   <div class="tab-pane fade show active" id="v-pills-home-week-off" role="tabpanel" aria-labelledby="v-pills-home-tab-week-off">
-                    <form #templateForm="ngForm" novalidate>
+                    <form #templateForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="row register-form-box">
                         <div class="col-md-12 mb-3">
                           <label class="pb-2">Template Name <span class="text-danger">*</span></label>
@@ -1312,7 +1312,7 @@
 
                   <!-- Week Off Categories Tab -->
                   <div class="tab-pane fade" id="v-pills-profile-week-off" role="tabpanel" aria-labelledby="v-pills-profile-tab-week-off">
-                    <form #categoryForm="ngForm" novalidate>
+                    <form #categoryForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Select Gender <span class="text-danger">*</span></label>
@@ -1442,7 +1442,7 @@
 
                   <!-- Staff Selection Tab -->
                   <div class="tab-pane fade" id="v-pills-messages-week-off" role="tabpanel" aria-labelledby="v-pills-messages-tab-week-off">
-                    <form #staffForm="ngForm" novalidate>
+                    <form #staffForm="ngForm" novalidate [ngClass]="{'disable-action-item':!rbacService.hasWriteAccess(Routes.LEAVESETTING)}">
                       <div class="col-md-12">
                         <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1;">
                           <div style="width: 70%;">
@@ -1550,7 +1550,7 @@
                             </tbody>
                           </table>
                           <div *ngIf="!selectedStaffIds.length" class="text-danger">
-                            At least one staff member must be selected.
+                            <!-- At least one staff member must be selected. -->
                           </div>
                         </div>
 
@@ -1561,7 +1561,7 @@
                             <ngb-pagination [collectionSize]="total" [(page)]="pageNumber" [pageSize]="itemPerPage" [maxSize]="5" (pageChange)="onPageChange($event)"></ngb-pagination>
                           </div>
                           <div class="modal-footer d-flex align-items-center justify-content-end">
-                            <button type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
+                            <button *ngIf="rbacService.hasWriteAccess(Routes.LEAVESETTING)" type="button" class="btn p-0 next-btn" [ngClass]="{'btn-primary text-white btn-border' : selectedStaffIds.length}" (click)="saveLeaveTemplate()" [disabled]="templateForm.invalid || !selectedStaffIds.length || !leaveTemplate.leaveTemplateCategoryRequestList?.length">
                               <span *ngIf="!isLoadingSave">
                               Update Week Off Policy <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">

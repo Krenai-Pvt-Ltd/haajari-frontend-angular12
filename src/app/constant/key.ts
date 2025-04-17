@@ -85,7 +85,7 @@ export class Key {
     '/payroll/earning-details',
     '/payroll/salary-template',
     '/setting/leave-policy'
-    
+
   ];
 
   public static TOPBAR_ROUTES = [
@@ -248,7 +248,7 @@ export class Key {
   public static SHIFT_TIME = 1;
   public static WEEK_OFF = 2;
   public static STAFF_SELECTION = 3;
-  
+
 
 
   // Attendance mode id
@@ -435,6 +435,9 @@ export class Key {
   public static MODE2 = 'Machine';
   public static MODE3 = 'Lens';
 
+  public static LEAVE_CATEGORY = 'LEAVE';
+  public static WEEK_OFF_CATEGORY = 'WEEK_OFF';
+  public static ON_DUTY_CATEGORY = 'ON_DUTY';
   // OnboardingProcessStep
   public static COMPANY_SETTING_ID = 1;
   public static ATTENDANCE_MODE_ID = 2;
