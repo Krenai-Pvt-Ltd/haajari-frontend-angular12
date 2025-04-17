@@ -5691,9 +5691,6 @@ export class DataService {
   }
 
 
-<<<<<<< HEAD
-
-=======
   getFaq(pageNumber : number, itemPerPage : number) {
     const params = new HttpParams()
       .set('page', pageNumber)
@@ -5702,7 +5699,6 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/faq`,{ params });
   }
   
->>>>>>> 98d6282721973142c2bf733b6c0405c7ede424dc
 
 
 
