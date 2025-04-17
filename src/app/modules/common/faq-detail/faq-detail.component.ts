@@ -12,7 +12,16 @@ export class FaqDetailComponent implements OnInit {
     private router:Router
   ) { }
 
+  faq: any;
+
   ngOnInit(): void {
+    const nav = this.router.getCurrentNavigation();
+    this.faq = nav?.extras?.state?.['faq'];
+
+    // if (!this.faq) {
+    //   // fallback if accessed directly
+    //   this.router.navigate(['/faq']);
+    // }
   }
 
   route(){

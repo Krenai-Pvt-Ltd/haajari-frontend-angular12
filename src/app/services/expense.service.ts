@@ -13,7 +13,6 @@ export class ExpenseService {
   private readonly baseUrl = this._key.base_url;
 
   getAllUserByWallet(
-      role: string,
       pageNumber: number,
       itemPerPage: number,
       startDate: any,
@@ -26,7 +25,6 @@ export class ExpenseService {
         .set('sortBy', 'createdDate')
         .set('sortOrder', 'desc')
         .set('tag', tag)
-        .set('role', role)
         .set('search', search);
 
         userIds.forEach(id => {

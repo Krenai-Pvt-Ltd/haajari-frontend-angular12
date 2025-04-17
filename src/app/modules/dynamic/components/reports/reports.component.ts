@@ -664,23 +664,37 @@ handleOkOfAttendanceSummary(): void {
     });
   }
 
+  LeaveSummary(filter : string){
+    if(filter === 'LEAVE'){
+      this.leaveFilter = filter;
+    }else if(filter === 'WFH'){
+      this.leaveFilter = filter;
+    }else{
+      this.leaveFilter = filter;
+    }
+    this.generateLeaveSummaryReport();
+  }
+
   
   @ViewChild('dateRangeModalClose6') dateRangeModalClose6!: ElementRef;
-  isLoading6 : boolean = false;
+  leaveLoading : boolean = false;
+  wfhLoading : boolean = false;
+  outdutyLoading : boolean = false;
   leaveFilter : string = '';
   leaveFilterError : string = '';
   generateLeaveSummaryReport(): void {
-    this.leaveFilterError = '';
-    if (!this.leaveFilter || this.leaveFilter.trim() === '') {
-      this.leaveFilterError = 'Please select an Leave type.';
-      return;
+    if(this.leaveFilter === 'LEAVE'){
+      this.leaveLoading = true;
+    }else if(this.leaveFilter === 'WFH'){
+      this.wfhLoading = true;
+    }else if(this.leaveFilter === 'OUTDUTY'){
+      this.outdutyLoading = true;
     }
-    this.isLoading6 = true;
     this.dateRangeModalClose6.nativeElement.click();
     this.dataService.getLeaveSummeryReport(this.leaveFilter, this.selectedUserIds).subscribe((res: any) => {
       if(res.status){
         console.log("Leave Record Fetched Successfully...");
-        this.isLoading6 = false;
+        this.resetloading();
         this.getFullReportLogs();
         this.selectedUserIds = [];
         this.isSelectAllUsers = true;
@@ -688,11 +702,18 @@ handleOkOfAttendanceSummary(): void {
         this.helperService.showToast('Leave Records Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
       }else{
         console.error('Error generating report', res.object);
-        this.isLoading6 = false;
+        this.resetloading();
         this.leaveFilter = '';
         this.selectedUserIds = [];
+        this.helperService.showToast('Error generating Leave Records!',Key.TOAST_STATUS_ERROR);
       }
     });
+  }
+
+  resetloading(){
+    this.leaveLoading = false;
+    this.wfhLoading = false;
+    this.outdutyLoading = false;
   }
 
 
@@ -725,6 +746,7 @@ handleOkOfAttendanceSummary(): void {
         this.isLoading7 = false;
         this.selectedDateRange = [];
         this.selectedUserIds = [];
+        this.helperService.showToast('Error generating Sanction Leave Records!',Key.TOAST_STATUS_ERROR);
       }
     });
   }
@@ -732,17 +754,44 @@ handleOkOfAttendanceSummary(): void {
 
 
   isLoading8 : boolean = false;
+  assetTypeFilter : string = '';
+  assetStatusFilter : string = '';
+  typrError : string = '';
+  statusError : string = '';
+  @ViewChild('dateRangeModalClose8') dateRangeModalClose8!: ElementRef;
   generateAssetRequestReport(): void {
+    
+    let hasError = false;
+
+      if (!this.assetTypeFilter || this.assetTypeFilter.trim() === '') {
+        this.typrError = 'Please select request type.';
+        hasError = true;
+      }
+
+      if (!this.assetStatusFilter || this.assetStatusFilter.trim() === '') {
+        this.statusError = 'Please select an request status.';
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+    this.dateRangeModalClose8.nativeElement.click();
     this.isLoading8 = true;
-    this.dataService.getAssetRequestReport().subscribe((res: any) => {
+    this.dataService.getAssetRequestReport(this.assetTypeFilter,this.assetStatusFilter).subscribe((res: any) => {
       if(res.status){
         console.log("Asset Request Summary Fetched Successfully...");
         this.isLoading8 = false;
+        this.assetTypeFilter = '';
+        this.assetStatusFilter = '';
         this.getFullReportLogs();
         this.helperService.showToast('Asset Request Summary Fetched Successfully!',Key.TOAST_STATUS_SUCCESS);
       }else{
         console.error('Error generating Asset Request Summary ', res.object);
         this.isLoading8 = false;
+        this.assetTypeFilter = '';
+        this.assetStatusFilter = '';
+        this.helperService.showToast('Error generating Asset Request Summary!',Key.TOAST_STATUS_ERROR);
       }
     });
   }
