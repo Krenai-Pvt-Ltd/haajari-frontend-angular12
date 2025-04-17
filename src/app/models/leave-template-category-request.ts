@@ -11,5 +11,4 @@ export class LeaveTemplateCategoryRequest {
     flexible: boolean = true;
     carryover:number=0;
     carryoverAction:string='';
-    isReset: boolean = false;
 }

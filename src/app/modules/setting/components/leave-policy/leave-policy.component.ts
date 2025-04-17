@@ -44,34 +44,6 @@ export class LeavePolicyComponent implements OnInit {
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
   weekOffTemplates: LeaveTemplateRes[] = []
-  //TODO:remove thesids and uuse a separate modeel fo this
-  wfhLeaveTemplatesIds: number[] = [8, 9];
-  weekOffTemplatesIds: number[] = [10];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 11, 12];
-
-  getAllLeaveTemplate() {
-    debugger
-    this.isLoading = true;
-    //TODO : hwat is this 1,30
-    this.dataService.getAllLeaveTemplate(1, 30).subscribe((response: any) => {
-
-      this.isLoading = false;
-      this.wfhLeaveTemplates = response.object.filter((template: any) =>
-        this.wfhLeaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-      );
-      this.weekOffTemplates = response.object.filter((template: any) =>
-        this.weekOffTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-      );
-      this.leaveTemplates = response.object.filter((template: any) =>
-        this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-      );
-    },
-      (error: any) => {
-        this.isLoading = false;
-        console.error('Error fetching leave templates:', error);
-      }
-    );
-  }
 
   page: number = 1;
   pageSize: number = 10;
@@ -91,8 +63,6 @@ export class LeavePolicyComponent implements OnInit {
         this.wfhLeaveTemplates = response.object.content;
       } else if (tab === 'WEEK_OFF') {
         this.weekOffTemplates = response.object.content;
-      }else if (tab === 'ALL') {
-        this.leaveTemplates = response.object.content;
       }
       this.totalTemplates = response.object.totalElements;
     },
@@ -381,6 +351,25 @@ export class LeavePolicyComponent implements OnInit {
     this.total = 0;
     this.selectAllPages=false;
 
+  }
+
+  changeCarryForwardAccrual(index: number){
+
+    const leaveCycle =this.newCategory.leaveCycleId;
+    const unusedLeaveActionCount = this.newCategory.unusedLeaveActionCount;
+    if(leaveCycle && unusedLeaveActionCount){
+      var count = unusedLeaveActionCount;
+      var id = leaveCycle;
+
+      if(id == 1){
+        count = count * 12; //Monthly
+      }else if(id == 2){
+        count = count * 4;  //Quaterly
+      }else if(id == 3){
+        count = count * 2;  //Half Yearly
+      }
+      this.updateCarryForwardAccrualDaysDropdown(index, count);
+    }
   }
 
   tempForwardDaysCount:number=0;
@@ -706,6 +695,7 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
       this.newCategory.unusedLeaveActionCount = 0;
     }
   }
+
 
 
 
