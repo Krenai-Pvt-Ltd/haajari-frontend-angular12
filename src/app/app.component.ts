@@ -27,13 +27,21 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event:any) => {
       if (event instanceof RouteConfigLoadStart) {
-        this._helperService.detectOpenModalOnBack();
+        // this._helperService.detectOpenModalOnBack();
       } 
       if(event instanceof NavigationEnd){
         window.scrollTo(0, 0);
       }
-      if(event instanceof NavigationEnd &&  document.body?.classList){
+      if(event instanceof NavigationEnd &&  document.body?.classList.contains('modal-open')){
         document.body?.classList?.remove("modal-open")
+        const backdrops = document.getElementsByClassName("modal-backdrop");
+
+          if (backdrops.length > 0) {
+            while (backdrops.length > 0) {
+              backdrops[0].parentNode?.removeChild(backdrops[0]);
+            }
+          }
+
         document.body.style.overflow = 'scroll';
       }
     })

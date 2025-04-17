@@ -29,7 +29,7 @@ export class ExpenseManagementComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService, private afStorage: AngularFireStorage) { }
 
   showFilter: boolean = false;
-  ROLE: any;
+  // ROLE: any;
   userId: any;
   ngOnInit(): void {
     const userUuidParam = new URLSearchParams(window.location.search).get(
@@ -41,7 +41,7 @@ export class ExpenseManagementComponent implements OnInit {
     // this.getExpenses();
     this.getExpensesCount();
     // this.getWalletUser();
-    this.getRole();
+    // this.getRole();
     this.fetchDashboardData();
   }
 
@@ -54,9 +54,9 @@ export class ExpenseManagementComponent implements OnInit {
     this.getUsersByFilterMethodCall();
   }
 
-  async getRole(){
-    this.ROLE = await this.rbacService.getRole();
-  }
+  // async getRole(){
+  //   this.ROLE = await this.rbacService.getRole();
+  // }
 
 
   // dashboard(): void {
@@ -134,7 +134,7 @@ export class ExpenseManagementComponent implements OnInit {
      debugger
      this.loading = true;
      this.expenseList = []
-     this.ROLE = await this.rbacService.getRole();
+    //  this.ROLE = await this.rbacService.getRole();
   
      if (this.filters.fromDate !== undefined && this.filters.toDate !== undefined) {
       this.startDate = moment(this.filters.fromDate).format(this.networkDateFormat);
@@ -150,7 +150,7 @@ export class ExpenseManagementComponent implements OnInit {
     console.log("Start Date :",this.startDate)
     console.log("End Date :", this.endDate);
     this.expenseList = []
-     this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'',this.requestsSearch).subscribe((res: any) => {
+     this.dataService.getAllExpense(this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId,'',this.requestsSearch).subscribe((res: any) => {
        if (res.status) {
          this.expenseList = res.object
          this.totalItems = res.totalItems
@@ -186,14 +186,14 @@ export class ExpenseManagementComponent implements OnInit {
   async getExpensesCount() {
     debugger
     this.expenseCount = []
-    this.ROLE = await this.rbacService.getRole();
+    // this.ROLE = await this.rbacService.getRole();
   
     if(this.expenseSelectedDate == null){
       this.startDate = '';
       this.endDate = '';
     }
   
-    this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.userId).subscribe((res: any) => {
+    this.dataService.getAllExpenseCount(this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDateStr, this.endDateStr, this.userId).subscribe((res: any) => {
       if (res.status) {
         this.expenseCount = res.object
   
@@ -483,7 +483,6 @@ openExpenseComponent(expense: any) {
     console.log("Requested Employee Name : ",this.tempRequestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
-      this.ROLE,
       this.databaseHelper.currentPage,
       this.databaseHelper.itemPerPage,
       this.startDate,

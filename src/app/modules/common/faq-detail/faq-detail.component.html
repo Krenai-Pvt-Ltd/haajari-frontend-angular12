@@ -17,12 +17,12 @@
                         <p class="mb-0 font-14 fw-normal"><a class="" (click)="route()">FAQ > </a> We’re here to help</p>
                     </div>
                     <div class="mt-4">
-                    <h5 class="mb-0 font-20 fw-semibold lh-base">What is Hajiri, and how does it help me?</h5>
-                    <p class="mb-0 mt-4 font-13 lg-base">Hajiri is an all-in-one workforce management solution that automates attendance tracking and scheduling for businesses of all sizes. By integrating features like real-time clock-ins, geolocation tracking, and automatic report generation, Hajiri eliminates manual errors and streamlines HR tasks. Whether you manage a remote team or multiple physical locations,</p>
-                    <p class="mb-0 font-13 lg-base mt-4"> Hajiri’s customizable dashboards and role-based permissions help ensure every employee is accurately accounted for. With secure data encryption and compliance with major regulations, you can trust your information is protected. Plus, our comprehensive support resources—including a knowledge base, ticket system, and live chat—ensure you get help whenever you need it. Ultimately, Hajiri saves you time, reduces admin workload, and provides insights that can help boost productivity across your organization</p>
+                    <h5 class="mb-0 font-20 fw-semibold lh-base">{{faq.question}}</h5>
+                    <p class="mb-0 mt-4 font-13 lg-base">{{faq.answer}}</p>
+                    <!-- <p class="mb-0 font-13 lg-base mt-4"> Hajiri’s customizable dashboards and role-based permissions help ensure every employee is accurately accounted for. With secure data encryption and compliance with major regulations, you can trust your information is protected. Plus, our comprehensive support resources—including a knowledge base, ticket system, and live chat—ensure you get help whenever you need it. Ultimately, Hajiri saves you time, reduces admin workload, and provides insights that can help boost productivity across your organization</p> -->
                     </div>
                     <div class="mt-4">
-                        <iframe width="100%" height="500" src="https://www.youtube.com/embed/jh7-qF48ANk?si=4VZ_RUeOVNg6BSdX?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"  allowfullscreen></iframe>
+                        <iframe width="100%" height="500" src="{{faq.videoUrl}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"  allowfullscreen></iframe>
                     </div>
                     
                     <div class="mt-4">

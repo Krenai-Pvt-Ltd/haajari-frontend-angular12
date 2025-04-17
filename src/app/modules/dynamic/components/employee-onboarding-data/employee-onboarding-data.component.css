@@ -672,3 +672,9 @@ span.request-count {
 .employee-apex-chart{
   top: -8px;
 }
+
+.leave-assigned-icon {
+  border-radius: 2px 2px 0px 0px;
+  background-color: #FFEBEA;
+  height: 170px;
+}
