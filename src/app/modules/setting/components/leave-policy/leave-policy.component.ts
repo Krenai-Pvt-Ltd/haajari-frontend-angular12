@@ -44,6 +44,7 @@ export class LeavePolicyComponent implements OnInit {
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
   weekOffTemplates: LeaveTemplateRes[] = []
+  //TODO:remove thesids and uuse a separate modeel fo this
   wfhLeaveTemplatesIds: number[] = [8, 9];
   weekOffTemplatesIds: number[] = [10];
   leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 11, 12];
@@ -51,6 +52,7 @@ export class LeavePolicyComponent implements OnInit {
   getAllLeaveTemplate() {
     debugger
     this.isLoading = true;
+    //TODO : hwat is this 1,30
     this.dataService.getAllLeaveTemplate(1, 30).subscribe((response: any) => {
 
       this.isLoading = false;
@@ -82,6 +84,7 @@ export class LeavePolicyComponent implements OnInit {
     this.dataService.getLeaveTemplates(this.currentTab,this.page-1, this.pageSize).subscribe((response: any) => {
 
       this.isLoading = false;
+      //TODO : use constants
       if (tab === 'LEAVE') {
         this.leaveTemplates = response.object.content;
       } else if (tab === 'ON_DUTY') {
@@ -125,6 +128,8 @@ export class LeavePolicyComponent implements OnInit {
   debounceTimer: any;
   employeeTypeId: number = 1; // Default to 'All'
   // Template Setting Methods
+
+  //TODO : fetch the staff list onlyy on when list tab is clicked,
   onEmployeeTypeChange(id: number) {
     this.leaveTemplate.employeeTypeId = id;
     this.employeeTypeId = id;
@@ -143,6 +148,7 @@ export class LeavePolicyComponent implements OnInit {
     }
 
     let isProbation: boolean | undefined = undefined;
+    //TODO:uuse constants, no one okows 1,2
     if (this.employeeTypeId !== 1) {
       isProbation = this.employeeTypeId === 2; // 2 = Provisional, 3 = Confirmed
     }
@@ -343,6 +349,7 @@ export class LeavePolicyComponent implements OnInit {
     this.leaveTemplate.deselectUserIds = this.unSelectedStaffIds;
 
     this.dataService.registerLeaveTemplate(this.leaveTemplate).subscribe(
+      //TODO: add status check,why we are showing success,even if status is false
       (response) => {
         this.isLoadingSave = false;
         this.resetForm();
@@ -441,6 +448,7 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
         if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
           let categoryList: LeaveCategory[] = response.listOfObject;
           this.allCategoryList = categoryList;
+          //TODO: use constants
           this.leaveCategoryList = categoryList.filter(category => category.category === 'LEAVE');
           this.onDutyList = categoryList.filter(category => category.category === 'ON_DUTY');
           this.weekOffCategoryList = categoryList.filter(category => category.category === 'WEEK_OFF');
