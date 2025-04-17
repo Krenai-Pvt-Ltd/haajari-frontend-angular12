@@ -150,6 +150,8 @@ export class TimetableComponent implements OnInit {
   readonly Constant = constant;
   readonly Routes = Routes;
   readonly StatusKeys =StatusKeys;
+  pendingWeekOffs: number = 0;
+  pendingOnDuty: number = 0;
   readonly filterCriteriaList: string[] = [
     'ALL',
     'PRESENT',
@@ -220,6 +222,15 @@ export class TimetableComponent implements OnInit {
     this.findPendingRequests();
     this.getAllUsers();
     this.logInUserUuid = await this.rbacService.getUUID();
+
+    this.ACTIVE_TAB = 6;
+    setTimeout(() => {
+    this.ACTIVE_TAB = 7;
+    }
+    , 25);
+    setTimeout(() => {
+    this.ACTIVE_TAB = Key.ATTENDANCE_TAB;
+    }, 50);
   }
 
   assignRole() {

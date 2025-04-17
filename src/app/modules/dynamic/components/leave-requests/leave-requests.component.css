@@ -1,0 +1,307 @@
+/* Filter Section */
+.onboard-add {
+  border: 1px solid #f1f1f1;
+}
+
+.empFilerDropfilter .new-deopdown {
+  display: block;
+  width: 120px;
+  padding: 0.4rem 0.5rem;
+  font-size: 14px !important;
+  background-color: #fff;
+  border: none;
+  border-right: 1px solid #f2f2f2 !important;
+  font-weight: 500;
+  box-shadow: unset;
+}
+
+.empFilerDropfilter svg {
+  width: 18px;
+}
+
+.onboarding-date input[type="text"] {
+  border: none;
+  height: 45px !important;
+  border-left: 0;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+
+.search-icon {
+  font-size: 13px !important;
+  position: absolute !important;
+  top: 0;
+  color: var(--tb-secondary-color) !important;
+  margin: auto auto auto 15px;
+}
+
+.filter-box {
+  width: 400px !important;
+  border-radius: 2px !important;
+  padding: 0px !important;
+  filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.15));
+  z-index: 999;
+}
+
+.filter-bdg {
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+}
+
+.filter-pills {
+  line-height: 18px;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 52px;
+  padding: 6px 15px;
+  white-space: nowrap;
+  margin-bottom: 0 !important;
+  background-color: #557ef826;
+}
+
+.form-multiselect {
+  border: 1px solid #e8ebf3 !important;
+}
+
+::ng-deep .form-multiselect .ant-select-selection-placeholder {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .form-multiselect .ant-select-selection-item {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .form-multiselect .ant-select-selector {
+  background-color: rgba(236, 236, 236, 0.21);
+}
+
+::ng-deep .ant-picker-input > input {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+/* Table Section */
+.table-responsive {
+  /* No specific styles in provided CSS, but included for completeness */
+}
+
+.employee-table {
+  min-height: 400px;
+}
+
+.thead-light {
+  /* No specific styles, but included to ensure table header styling */
+}
+
+.stickyColTdend {
+  /* No specific styles, but included to ensure action column alignment */
+}
+
+.team-maneger {
+  /* No specific styles, but included for pointer and text styling */
+}
+
+.white-space {
+  white-space: normal;
+  min-width: 215px;
+  max-width: 100px;
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.table-font-weight {
+  font-weight: 400;
+}
+
+.btnAction {
+  width: 35px;
+  height: 35px;
+  border-radius: 3px;
+  border: 1px solid #EFEFEF;
+  background-color: #F9FAFC;
+}
+
+.btnAction svg {
+  width: 18px;
+}
+
+.actionMenuList {
+  box-shadow: 0px 3px 12px -3px #1111111f;
+  overflow: hidden;
+  padding: 7px !important;
+}
+
+.actionMenuList .dropdown-item {
+  font-size: 14px !important;
+  color: #333 !important;
+  border-radius: 6px;
+  padding: 3px 15px !important;
+}
+
+.actionMenuList .dropdown-item i {
+  font-size: 18px;
+  position: relative;
+  top: 2px;
+}
+
+.actionMenuList svg {
+  width: 18px;
+  position: relative;
+  top: -1px;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1fd;
+}
+
+.staff-month-sheet {
+  background-color: #557ef826;
+  border: 1px solid #6666f2 !important;
+}
+
+.month-deta {
+  /* No specific styles, but included for collapsible table */
+}
+
+.table-bordesick-leaves {
+  /* No specific styles, but included for day-wise table */
+}
+
+.day-data th {
+  background-color: #f9fafb;
+  border: 1px solid #ccc;
+  padding: 6px !important;
+  font-size: 12px !important;
+  font-weight: 400;
+}
+
+.day-data td {
+  font-size: 10px !important;
+  border: 1px solid #ececec;
+  padding: 10px 7px !important;
+}
+
+.attendance-detail {
+  /* No specific styles, but included for dynamic classes like text-success */
+}
+
+/* Pagination */
+.pagination-box {
+  /* No specific styles, but included for layout */
+}
+
+.pagition-box {
+  /* Typo in HTML class, assuming it’s pagination-box */
+}
+
+/* Leave Quota Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background: #fff;
+  width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-header {
+  /* Bootstrap default, but included for completeness */
+}
+
+.modal-body {
+  /* Bootstrap default, but included for completeness */
+}
+
+.modal-footer {
+  /* Bootstrap default, but included for completeness */
+}
+
+.info-message {
+  background-color: #e6e6ff;
+  border: 1px solid #6666F2;
+  color: #6666F2;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  padding: 10px 14px;
+  background-color: #f5f5f5;
+}
+
+.close-btn {
+  /* Specific to Leave Quota Modal */
+  font-size: 24px;
+}
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  width: 100px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Leave Request Modal (Bootstrap) */
+.modal {
+  /* Bootstrap default */
+}
+
+.modal-dialog {
+  /* Bootstrap default */
+}
+
+.modal-lg {
+  /* Bootstrap default */
+}
+
+.modal-content {
+  /* Bootstrap default */
+}
+
+.modal-title {
+  /* Bootstrap default */
+}
+
+.btn-close {
+  /* Bootstrap default */
+}
+
+/* General */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}

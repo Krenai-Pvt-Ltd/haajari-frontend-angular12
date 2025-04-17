@@ -141,14 +141,13 @@ organizationRegistrationDate: string = '';
     this.selectedDate = new Date();
 
     this.dashboard();
-    this.requests();
 
   }
 
-  requests(){
-    this.filters.status = ['pending'];
-    this.applyFilters();
-  }
+  // requests(){
+  //   this.filters.status = ['pending'];
+  //   this.applyFilters();
+  // }
 
   dashboard() {
     this.resetTabData();
@@ -398,35 +397,35 @@ organizationRegistrationDate: string = '';
     };
 
     isModalOpen: boolean = false;
-    closeModalHandler(event:any): void {
-      console.log("event" + event);
-      this.leaveData = null;
-      this.isModalOpen = false;
-      this.applyFilters();
-      if(event!=null) {
-        this.userLeaveQuota = event;
-        this.openLeaveQuotaModal();
-      }
-    }
+    // closeModalHandler(event:any): void {
+    //   console.log("event" + event);
+    //   this.leaveData = null;
+    //   this.isModalOpen = false;
+    //   this.applyFilters();
+    //   if(event!=null) {
+    //     this.userLeaveQuota = event;
+    //     this.openLeaveQuotaModal();
+    //   }
+    // }
 
-      viewLeave(leave:any){
-        console.log("leave" , leave);
-        if (!leave) {
-          console.log("Leave data is undefined or null.");
-          return;
-        }
-        this.isModalOpen = false;
-        this.leave = leave;
-        this.leaveData = {
-          leave: {}
-        };
-        this.leaveData.leave = leave;
-        setTimeout(() => {
-        this.isModalOpen = true;
-        this.cdr.detectChanges();
-        this.cdr.markForCheck();
-        }, 10);
-      }
+      // viewLeave(leave:any){
+      //   console.log("leave" , leave);
+      //   if (!leave) {
+      //     console.log("Leave data is undefined or null.");
+      //     return;
+      //   }
+      //   this.isModalOpen = false;
+      //   this.leave = leave;
+      //   this.leaveData = {
+      //     leave: {}
+      //   };
+      //   this.leaveData.leave = leave;
+      //   setTimeout(() => {
+      //   this.isModalOpen = true;
+      //   this.cdr.detectChanges();
+      //   this.cdr.markForCheck();
+      //   }, 10);
+      // }
 
       imageError: boolean = false;
 
@@ -448,17 +447,17 @@ openInNewTab(url: string) {
   window.open(url, '_blank');
 }
 
-onPageChange(page: number) {
-  this.searchTerm = '';
-  this.currentPage = page;
+// onPageChange(page: number) {
+//   this.searchTerm = '';
+//   this.currentPage = page;
 
 
-  if(this.filters.fromDate && this.filters.toDate) {
-    this.getLeaves(false, true); // Fetch data with applied filters
-    } else {
-      this.getLeaves(false, false);
-    }
-}
+//   if(this.filters.fromDate && this.filters.toDate) {
+//     this.getLeaves(false, true); // Fetch data with applied filters
+//     } else {
+//       this.getLeaves(false, false);
+//     }
+// }
 
 resetSearch(){
   debugger
@@ -468,18 +467,18 @@ resetSearch(){
 }
 
 
-searchTermChanged(event: any) {
-  debugger
-  this.currentPage = 1;
-  this.searchTerm = event.target.value;
-  this.searchTerm.trim().length === 0 ? this.resetSearch() :this.applyFilters();
+// searchTermChanged(event: any) {
+//   debugger
+//   this.currentPage = 1;
+//   this.searchTerm = event.target.value;
+//   this.searchTerm.trim().length === 0 ? this.resetSearch() :this.applyFilters();
 
-}
+// }
 
-searchLeaves() {
-  this.resetValues();
-  this.applyFilters()
-}
+// searchLeaves() {
+//   this.resetValues();
+//   this.applyFilters()
+// }
 resetValues(){
   this.leaves=[];
   this.totalItems = 0;
@@ -521,90 +520,90 @@ disabledDateFrom = (current: Date): boolean => {
 
 
 
-resetFiltersSearch() {
-  if(this.filters.fromDate && this.filters.toDate) {
-    this.getLeaves(true, true); // Fetch data with applied filters
-    } else {
-      this.getLeaves(true, false);
-    }
-}
+// resetFiltersSearch() {
+//   if(this.filters.fromDate && this.filters.toDate) {
+//     this.getLeaves(true, true); // Fetch data with applied filters
+//     } else {
+//       this.getLeaves(true, false);
+//     }
+// }
 
 
-appliedFilters: { key: string; value: string }[] = [];
+// appliedFilters: { key: string; value: string }[] = [];
 
-applyFilters(): void {
-  this.appliedFilters = [];
+// applyFilters(): void {
+//   this.appliedFilters = [];
 
-  // Handle Leave Type - Add each selected type separately
-  if (this.filters.leaveType.length) {
-    const uniqueLeaveTypes = [...new Set(this.filters.leaveType)];
-    uniqueLeaveTypes.forEach(type => {
-      this.appliedFilters.push({ key: 'Leave Type', value: type });
-    });
-  }
+//   // Handle Leave Type - Add each selected type separately
+//   if (this.filters.leaveType.length) {
+//     const uniqueLeaveTypes = [...new Set(this.filters.leaveType)];
+//     uniqueLeaveTypes.forEach(type => {
+//       this.appliedFilters.push({ key: 'Leave Type', value: type });
+//     });
+//   }
 
-  // Handle Status - Add each selected status separately
-  if (this.filters.status.length) {
-    const uniqueStatuses = [...new Set(this.filters.status)];
-    uniqueStatuses.forEach(status => {
-      this.appliedFilters.push({ key: 'Status', value: status });
-    });
-  }
+//   // Handle Status - Add each selected status separately
+//   if (this.filters.status.length) {
+//     const uniqueStatuses = [...new Set(this.filters.status)];
+//     uniqueStatuses.forEach(status => {
+//       this.appliedFilters.push({ key: 'Status', value: status });
+//     });
+//   }
 
-  // 📅 Handle Date Range - Added as a single filter
-  if (this.filters.fromDate && this.filters.toDate) {
-    const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
-    const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
-    this.appliedFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
-  }
+//   // 📅 Handle Date Range - Added as a single filter
+//   if (this.filters.fromDate && this.filters.toDate) {
+//     const fromDate = moment(this.filters.fromDate).format(this.displayDateFormat);
+//     const toDate = moment(this.filters.toDate).format(this.displayDateFormat);
+//     this.appliedFilters.push({ key: 'Date', value: `${fromDate} to ${toDate}` });
+//   }
 
-  this.changeShowFilter(false);
-  this.currentPage = 1;
+//   this.changeShowFilter(false);
+//   this.currentPage = 1;
 
-  if(this.filters.fromDate && this.filters.toDate) {
-  this.getLeaves(false, true); // Fetch data with applied filters
-  } else {
-    this.getLeaves(false, false);
-  }
-}
+//   if(this.filters.fromDate && this.filters.toDate) {
+//   this.getLeaves(false, true); // Fetch data with applied filters
+//   } else {
+//     this.getLeaves(false, false);
+//   }
+// }
 
-resetFilters(): void {
-  debugger
-  this.filters = {
-    fromDate: undefined,
-    toDate: undefined,
-    leaveType: [],
-    status: [],
-  };
-  this.appliedFilters = [];
-  this.changeShowFilter(false);
-  this.currentPage = 1;
-  this.applyFilters();
-}
-removeFilter(filter: { key: string; value: string }): void {
-  // Remove the specific filter from the appliedFilters array
-  this.appliedFilters = this.appliedFilters.filter(f => !(f.key === filter.key && f.value === filter.value));
+// resetFilters(): void {
+//   debugger
+//   this.filters = {
+//     fromDate: undefined,
+//     toDate: undefined,
+//     leaveType: [],
+//     status: [],
+//   };
+//   this.appliedFilters = [];
+//   this.changeShowFilter(false);
+//   this.currentPage = 1;
+//   this.applyFilters();
+// }
+// removeFilter(filter: { key: string; value: string }): void {
+//   // Remove the specific filter from the appliedFilters array
+//   this.appliedFilters = this.appliedFilters.filter(f => !(f.key === filter.key && f.value === filter.value));
 
-  // Update corresponding filters based on key and value
-  switch (filter.key) {
-    case 'Leave Type':
-      this.filters.leaveType = this.filters.leaveType.filter(type => type !== filter.value);
-      break;
+//   // Update corresponding filters based on key and value
+//   switch (filter.key) {
+//     case 'Leave Type':
+//       this.filters.leaveType = this.filters.leaveType.filter(type => type !== filter.value);
+//       break;
 
-    case 'Status':
-      this.filters.status = this.filters.status.filter(status => status !== filter.value);
-      break;
+//     case 'Status':
+//       this.filters.status = this.filters.status.filter(status => status !== filter.value);
+//       break;
 
-    case 'Date':
-      this.filters.fromDate = undefined;
-      this.filters.toDate = undefined;
-      break;
-  }
+//     case 'Date':
+//       this.filters.fromDate = undefined;
+//       this.filters.toDate = undefined;
+//       break;
+//   }
 
-  this.changeShowFilter(false);
-  this.currentPage = 1;
-  this.applyFilters();
-}
+//   this.changeShowFilter(false);
+//   this.currentPage = 1;
+//   this.applyFilters();
+// }
 
 
 isPendingChange: boolean = false;
@@ -616,41 +615,41 @@ userLeaveQuota: any = null;
 
 // -- new start
 leaveRequestLoading: { [key: number]: boolean } = {};
-approveOrRejectLeave(leaveId: number, operation: string) {
-  this.isLoading = true;
-  this.leaveRequestLoading[leaveId] = true; // Start loading for this specific leave request and operation
+// approveOrRejectLeave(leaveId: number, operation: string) {
+//   this.isLoading = true;
+//   this.leaveRequestLoading[leaveId] = true; // Start loading for this specific leave request and operation
 
-  this.leaveService.approveOrRejectLeaveOfUser(leaveId, operation, this.rejectionReason).subscribe({
-    next: (response: any) => {
-      this.isLoading = false;
-      this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
-      this.rejectionReason = '';
-      this.rejectionReasonFlag = false;
-      this.isPendingChange = true;
-      this.applyFilters();
-      if (this.closebutton) {
-        this.closebutton.nativeElement.click();
-      } else {
-        console.log('Close button reference not found.');
-      }
+//   this.leaveService.approveOrRejectLeaveOfUser(leaveId, operation, this.rejectionReason).subscribe({
+//     next: (response: any) => {
+//       this.isLoading = false;
+//       this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
+//       this.rejectionReason = '';
+//       this.rejectionReasonFlag = false;
+//       this.isPendingChange = true;
+//       this.applyFilters();
+//       if (this.closebutton) {
+//         this.closebutton.nativeElement.click();
+//       } else {
+//         console.log('Close button reference not found.');
+//       }
 
-      if (response.message === 'approved' || response.message === 'rejected') {
-        this.helperService.showToast(`Leave ${operation} successfully.`, Key.TOAST_STATUS_SUCCESS);
-      } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
-        this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
-        this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
-      } else {
-        this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
-      }
-    },
-    error: (error) => {
-      this.isLoading = false;
-      this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
-      this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
-      console.error('Failed to fetch approve/reject leaves:', error);
-    },
-  });
-}
+//       if (response.message === 'approved' || response.message === 'rejected') {
+//         this.helperService.showToast(`Leave ${operation} successfully.`, Key.TOAST_STATUS_SUCCESS);
+//       } else if (response.message === this.LEAVE_QUOTA_EXCEEDED) {
+//         this.helperService.showToast('Leave quota exceeded.', Key.TOAST_STATUS_ERROR);
+//         this.fetchUserLeaveQuota(leaveId); // Fetch and open leave quota modal
+//       } else {
+//         this.helperService.showToast(response.message, Key.TOAST_STATUS_ERROR);
+//       }
+//     },
+//     error: (error) => {
+//       this.isLoading = false;
+//       this.leaveRequestLoading[leaveId] = false; // Stop loading for this specific leave request and operation
+//       this.helperService.showToast('Error.', Key.TOAST_STATUS_ERROR);
+//       console.error('Failed to fetch approve/reject leaves:', error);
+//     },
+//   });
+// }
 
 
 // Fetch user leave quota details
@@ -678,16 +677,16 @@ closeLeaveQuotaModal() {
 }
 
 
-approveOrRejectLeaveCall(leaveId: number, operationString: string) {
-  debugger
-   if(operationString === this.APPROVED) {
-    this.rejectionReasonFlag = false;
-    this.rejectionReason = '';
-    this.approveOrRejectLeave(leaveId, operationString);
-   }else if (operationString === this.REJECTED) {
-    this.rejectionReasonFlag = true;
-   }
-}
+// approveOrRejectLeaveCall(leaveId: number, operationString: string) {
+//   debugger
+//    if(operationString === this.APPROVED) {
+//     this.rejectionReasonFlag = false;
+//     this.rejectionReason = '';
+//     this.approveOrRejectLeave(leaveId, operationString);
+//    }else if (operationString === this.REJECTED) {
+//     this.rejectionReasonFlag = true;
+//    }
+// }
 
 
 selectedLeave: any = '';

@@ -39,39 +39,15 @@ export class LeavePolicyComponent implements OnInit {
     this.getUnusedLeaveActionList();
     this.getLeaveTemplate();
   }
+  readonly CARRY_FORWARD = Key.CARRY_FORWARD;
   isLoading: boolean = false;
   leaveTemplates: LeaveTemplateRes[] = []
   wfhLeaveTemplates: LeaveTemplateRes[] = []
   weekOffTemplates: LeaveTemplateRes[] = []
-  wfhLeaveTemplatesIds: number[] = [8, 9];
-  weekOffTemplatesIds: number[] = [10];
-  leaveTemplatesIds: number[] = [1, 2, 3, 4, 5, 6, 7, 11, 12];
-
-  getAllLeaveTemplate() {
-    debugger
-    this.isLoading = true;
-    this.dataService.getAllLeaveTemplate(1, 30).subscribe((response: any) => {
-
-      this.isLoading = false;
-      this.wfhLeaveTemplates = response.object.filter((template: any) =>
-        this.wfhLeaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-      );
-      this.weekOffTemplates = response.object.filter((template: any) =>
-        this.weekOffTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-      );
-      this.leaveTemplates = response.object.filter((template: any) =>
-        this.leaveTemplatesIds.includes(template.leaveTemplateCategoryRes[0].leaveCategoryId)
-      );
-    },
-      (error: any) => {
-        this.isLoading = false;
-        console.error('Error fetching leave templates:', error);
-      }
-    );
-  }
 
   page: number = 1;
   pageSize: number = 10;
+  totalTemplates: number = 0;
   currentTab: string = 'LEAVE';
   getLeaveTemplate() {
     debugger
@@ -80,15 +56,15 @@ export class LeavePolicyComponent implements OnInit {
     this.dataService.getLeaveTemplates(this.currentTab,this.page-1, this.pageSize).subscribe((response: any) => {
 
       this.isLoading = false;
+      //TODO : use constants
       if (tab === 'LEAVE') {
         this.leaveTemplates = response.object.content;
       } else if (tab === 'ON_DUTY') {
         this.wfhLeaveTemplates = response.object.content;
       } else if (tab === 'WEEK_OFF') {
         this.weekOffTemplates = response.object.content;
-      }else if (tab === 'ALL') {
-        this.leaveTemplates = response.object.content;
       }
+      this.totalTemplates = response.object.totalElements;
     },
       (error: any) => {
         this.isLoading = false;
@@ -122,17 +98,16 @@ export class LeavePolicyComponent implements OnInit {
   debounceTimer: any;
   employeeTypeId: number = 1; // Default to 'All'
   // Template Setting Methods
+
+  //TODO : fetch the staff list onlyy on when list tab is clicked,
   onEmployeeTypeChange(id: number) {
     this.leaveTemplate.employeeTypeId = id;
     this.employeeTypeId = id;
     this.fetchStaffs(); // Refresh staff list based on employee type
   }
 
-  // Leave Category Methods
-  leaveTemplateCategoryRequestList: LeaveTemplateCategoryRequest[] = [];
   addLeaveCategory() {
     this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
-    this.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
     this.newCategory = new LeaveTemplateCategoryRequest(); // Reset for next entry
   }
 
@@ -143,6 +118,7 @@ export class LeavePolicyComponent implements OnInit {
     }
 
     let isProbation: boolean | undefined = undefined;
+    //TODO:uuse constants, no one okows 1,2
     if (this.employeeTypeId !== 1) {
       isProbation = this.employeeTypeId === 2; // 2 = Provisional, 3 = Confirmed
     }
@@ -177,12 +153,14 @@ export class LeavePolicyComponent implements OnInit {
   }
 
   onStaffSelect(staff: Staff) {
-    if (staff.checked) {
+    if (!staff.checked) {
       if (!this.selectedStaffIds.includes(staff.id)) {
         this.selectedStaffIds.push(staff.id);
+        staff.checked = true;
       }
     } else {
       this.selectedStaffIds = this.selectedStaffIds.filter((id) => id !== staff.id);
+      staff.checked = false;
     }
   }
   onStaffClear() {
@@ -339,9 +317,9 @@ export class LeavePolicyComponent implements OnInit {
       ...new Set([...this.unSelectedStaffIds, ...newUnSelectedIds])
     ];
     this.leaveTemplate.deselectUserIds = this.unSelectedStaffIds;
-    this.leaveTemplate.leaveTemplateCategoryRequestList = this.leaveTemplateCategoryRequestList;
 
     this.dataService.registerLeaveTemplate(this.leaveTemplate).subscribe(
+      //TODO: add status check,why we are showing success,even if status is false
       (response) => {
         this.isLoadingSave = false;
         this.resetForm();
@@ -374,6 +352,38 @@ export class LeavePolicyComponent implements OnInit {
     this.selectAllPages=false;
 
   }
+
+  changeCarryForwardAccrual(index: number){
+
+    const leaveCycle =this.newCategory.leaveCycleId;
+    const unusedLeaveActionCount = this.newCategory.unusedLeaveActionCount;
+    if(leaveCycle && unusedLeaveActionCount){
+      var count = unusedLeaveActionCount;
+      var id = leaveCycle;
+
+      if(id == 1){
+        count = count * 12; //Monthly
+      }else if(id == 2){
+        count = count * 4;  //Quaterly
+      }else if(id == 3){
+        count = count * 2;  //Half Yearly
+      }
+      this.updateCarryForwardAccrualDaysDropdown(index, count);
+    }
+  }
+
+  tempForwardDaysCount:number=0;
+forwardDaysCountArray: number[][] = [];
+updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
+  while (this.forwardDaysCountArray.length <= index) {
+    this.forwardDaysCountArray.push([]);
+  }
+  this.forwardDaysCountArray[index] = Array.from(
+    { length: count  },
+    (_, i) => count - i
+  );
+  this.tempForwardDaysCount = count;
+}
 
 
   editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
@@ -427,6 +437,7 @@ export class LeavePolicyComponent implements OnInit {
         if (!this.helperService.isListOfObjectNullOrUndefined(response)) {
           let categoryList: LeaveCategory[] = response.listOfObject;
           this.allCategoryList = categoryList;
+          //TODO: use constants
           this.leaveCategoryList = categoryList.filter(category => category.category === 'LEAVE');
           this.onDutyList = categoryList.filter(category => category.category === 'ON_DUTY');
           this.weekOffCategoryList = categoryList.filter(category => category.category === 'WEEK_OFF');
@@ -458,6 +469,10 @@ export class LeavePolicyComponent implements OnInit {
     })
   }
 
+  carryoverActions: Array<{id:number,name: string, value: string }> = [
+    {id: 1, name: 'Total', value: 'Total' },
+    {id: 2, name: 'Restricted', value: 'Restricted' },
+  ];
   dateRange: Date[] = [];
   onStartDateChange() {
     const startDate = new Date(this.leaveTemplate.startDate);
@@ -597,7 +612,8 @@ export class LeavePolicyComponent implements OnInit {
         categoryName: this.allCategoryList.find(c => c.id === category.leaveCategory.id)?.name || 'N/A',
         unusedLeaveName: this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id)?.name || 'N/A',
         accrualName: this.accrualTypes.find(c => c.id === category.accrualType.id)?.name || 'N/A',
-        leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A'
+        leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A',
+        isReset: category?.reset,
       } as LeaveTemplateCategoryRequest));
 
       // Trigger change detection
@@ -679,6 +695,7 @@ export class LeavePolicyComponent implements OnInit {
       this.newCategory.unusedLeaveActionCount = 0;
     }
   }
+
 
 
 
