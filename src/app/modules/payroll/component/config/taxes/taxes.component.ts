@@ -13,6 +13,9 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 })
 export class TaxesComponent implements OnInit {
 
+  DEDUCTOR_TYPE_EMPLOYEE = 1;
+  DEDUCTOR_TYPE_NON_EMPLOYEE =2;
+
   constructor(private _payrollConfigurationService : PayrollConfigurationService,
     private _helperService:HelperService) { 
 
@@ -55,7 +58,7 @@ export class TaxesComponent implements OnInit {
     this._payrollConfigurationService. saveTaxDetail(this.taxDetail).subscribe((response) => {
         if(response.status){
           this.formReset();
-          this._helperService.showToast("Your organization tax details has been updated successfully.", Key.TOAST_STATUS_SUCCESS);
+          this._helperService.showToast("Your organization tax details has been saved successfully.", Key.TOAST_STATUS_SUCCESS);
         }else{
           this._helperService.showToast("Error in saving your tax details.", Key.TOAST_STATUS_ERROR);
         }

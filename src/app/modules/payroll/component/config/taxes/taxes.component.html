@@ -74,18 +74,18 @@
 
                     <div class="col-md-6 mb-3">
                         <label class="form-check tax-employee d-flex align-items-center justify-content-start">
-                            <input type="radio" name="deductorType"   class="form-check-input" [value]="1"  [(ngModel)]="taxDetail.deductorTypeId" (click)="clearDeductorDetail()">
+                            <input type="radio" name="deductorType"   class="form-check-input" [value]="DEDUCTOR_TYPE_EMPLOYEE"  [(ngModel)]="taxDetail.deductorTypeId" (click)="clearDeductorDetail()">
                             <p class="form-check-label mb-0" > Employee </p>
                     </label>
                 </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-check tax-employee d-flex align-items-center justify-content-start">
-                            <input type="radio" name="deductorType"  class="form-check-input"  [value]="2" [(ngModel)]="taxDetail.deductorTypeId"(click)="clearDeductorDetail()">
+                            <input type="radio" name="deductorType"  class="form-check-input"  [value]="DEDUCTOR_TYPE_NON_EMPLOYEE" [(ngModel)]="taxDetail.deductorTypeId"(click)="clearDeductorDetail()">
                             <p  class="form-check-label mb-0" > Non-Employee </p>
                     </label>
                 </div>
                 <ng-container  *ngIf="taxDetail.deductorTypeId != 0">
-                    <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId ==1 ">
+                    <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId == DEDUCTOR_TYPE_EMPLOYEE ">
                         <div class="border-rounded-2 attendance-border w-100 d-flex align-items-center justify-content-center">
                             <div class="w-50 currency-types-border">
                                 <p class="mb-0 font-14 fw-light">Deductor’s Name</p>
@@ -110,18 +110,18 @@
                     </div>
 
         
-                    <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId ==2 ">
+                    <div class="col-md-6 mb-3" *ngIf="taxDetail.deductorTypeId == DEDUCTOR_TYPE_NON_EMPLOYEE">
                         <input type="text" placeholder="Deductor Name" name="deductorName" class="form-control whatsapp-login-input"
                          pattern="^[A-Za-z\s]+$" maxlength="50" [(ngModel)]="taxDetail.deductorName" >
                     </div>
                     <div class="col-md-6 mb-3">
                         <input type="text" placeholder="Deductor’s Father’s Name"  name="fatherName" class="form-control whatsapp-login-input" 
-                        pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)]="taxDetail.fatherName" [disabled]="taxDetail.deductorTypeId == 1" >
+                        pattern="^[A-Za-z\s]+$" maxlength="50"[(ngModel)]="taxDetail.fatherName" [disabled]="taxDetail.deductorTypeId == DEDUCTOR_TYPE_EMPLOYEE" >
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <input type="text" placeholder="Deductor Designation"  name="designation" class="form-control whatsapp-login-input" 
-                        [(ngModel)] = "taxDetail.designation" [disabled]="taxDetail.deductorTypeId == 1">
+                        [(ngModel)] = "taxDetail.designation" [disabled]="taxDetail.deductorTypeId == DEDUCTOR_TYPE_EMPLOYEE">
                     </div>
                 </ng-container>
                 </div>

@@ -101,7 +101,7 @@
                               <nz-select  name="employeeContriution" class="form-control w-100 placeholder-line currency-types" 
                               nzSize="large" nzPlaceHolder="Select Employee Contribution"
                               [(ngModel)]="epfDetail.employeeContribution" 
-                              [disabled]="epfDetail.employerContribution == 1" 
+                              [disabled]="epfDetail.employerContribution == EMPLOYER_CONTRIUTION_ACTUAL" 
                               (ngModelChange)="calculatePFContribution()"
                               #eeContributionRef="ngModel" required>
                                  <nz-option 

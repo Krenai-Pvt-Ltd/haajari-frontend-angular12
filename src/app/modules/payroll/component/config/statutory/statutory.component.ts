@@ -11,6 +11,7 @@ import { LabourWelfareFund } from 'src/app/payroll-models/LabourWelfareFund';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { constant } from 'src/app/constant/constant';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 @Component({
   selector: 'app-statutory',
   templateUrl: './statutory.component.html',
@@ -19,7 +20,12 @@ import { constant } from 'src/app/constant/constant';
 export class StatutoryComponent implements OnInit {
 
   readonly constant = constant;
- 
+ EMPLOYER_CONTRIUTION_ACTUAL =1;
+ EMPLOYER_CONTRIUTION_RESTRICTED =2;
+ EMPLOYEE_CONTRIUTION_ACTUAL =3;
+ EMPLOYEE_CONTTRIBUTION_RESTRICTED =4;
+ CONTRIBUTOR_TYPE_EMPLOYER  = 1;
+ CONTRIBUTOR_TYPE_EMPLOYEE =2;
 
   constructor(private _payrollConfigurationService : PayrollConfigurationService, 
     private _helperService : HelperService,
@@ -52,11 +58,11 @@ export class StatutoryComponent implements OnInit {
   }
 
   get filteredEmployerContributions(): PfContributionRate[] {
-    return this.pfContributionRate.filter(pf => pf.contributorType === 1);
+    return this.pfContributionRate.filter(pf => pf.contributorType == this.CONTRIBUTOR_TYPE_EMPLOYER);
   }
   
   get filteredEmployeeContributions(): PfContributionRate[] {
-    return this.pfContributionRate.filter(pf => pf.contributorType === 2);
+    return this.pfContributionRate.filter(pf => pf.contributorType == this.CONTRIBUTOR_TYPE_EMPLOYEE);
   }
 
 
@@ -125,8 +131,8 @@ export class StatutoryComponent implements OnInit {
       }
 
       calculatePFContribution(){
-        if(this.epfDetail.employerContribution == 1){
-          this.epfDetail.employeeContribution = 3;
+        if(this.epfDetail.employerContribution == this.EMPLOYER_CONTRIUTION_ACTUAL){
+          this.epfDetail.employeeContribution = this.EMPLOYEE_CONTRIUTION_ACTUAL;
         }
         this.onEmployeeContributionChange(this.epfDetail.employeeContribution);
         this.onEmployerContributionChange(this.epfDetail.employerContribution);
@@ -141,9 +147,9 @@ export class StatutoryComponent implements OnInit {
       calculatedemployrepsWageValue:number=0;
       totalValue:number=0;
       onEmployeeContributionChange(id: number): void {
-        if (id == 3) {
+        if (id == this.EMPLOYEE_CONTRIUTION_ACTUAL) {
           this.employeepfWageValue = this.actualValue;
-        } else if (id == 4) {
+        } else if (id == this.EMPLOYEE_CONTTRIBUTION_RESTRICTED) {
           this.employeepfWageValue = this.restrictedValue;
         } 
         this.calculatedpfWageValue = (this.employeepfWageValue * 12) / 100;
@@ -151,9 +157,9 @@ export class StatutoryComponent implements OnInit {
 
    
       onEmployerContributionChange(id: number): void {
-        if (id == 1) {
+        if (id == this.EMPLOYER_CONTRIUTION_ACTUAL) {
           this.employerpfWageValue = this.actualValue;
-        } else if (id == 2) {
+        } else if (id == this.EMPLOYER_CONTRIUTION_RESTRICTED) {
           this.employerpfWageValue = this.restrictedValue;
         } 
         this.calculatedemployrepsWageValue = Math.round((this.restrictedValue * 8.33) / 100);
@@ -181,38 +187,32 @@ export class StatutoryComponent implements OnInit {
           if(this.epfDetail.condiserLop){
             if(this.halfbasic<15000){
               this.totalEpfValue = (basic + transport + telephone)/2;
-              return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
+              return (this.epfDetail.employerContribution == this.EMPLOYER_CONTRIUTION_RESTRICTED && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
             }
-            return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue = this.halfbasic;
+            return (this.epfDetail.employerContribution == this.EMPLOYER_CONTRIUTION_RESTRICTED && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue = this.halfbasic;
           }else{
             if(this.halfbasic<15000){
             this.totalEpfValue = (basic + transport + telephone)/2;
-            return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
+            return (this.epfDetail.employerContribution == this.EMPLOYER_CONTRIUTION_RESTRICTED && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue;
 
             }
-            return (this.epfDetail.employerContribution == 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000: this.totalEpfValue= this.halfbasic;
+            return (this.epfDetail.employerContribution == this.EMPLOYER_CONTRIUTION_RESTRICTED && this.totalEpfValue>15000) ? this.totalEpfValue=15000: this.totalEpfValue= this.halfbasic;
           }
         }else{
           if(this.epfDetail.condiserLop){
             if(basic<15000){
               return this.totalEpfValue = (basic + transport + telephone);
             }
-            return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
+            return (this.epfDetail.employerContribution === this.EMPLOYER_CONTRIUTION_RESTRICTED && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
           }else{
             if(basic<15000){
               return this.totalEpfValue = (basic + transport + telephone);
             }
-            return (this.epfDetail.employerContribution === 2 && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
+            return (this.epfDetail.employerContribution === this.EMPLOYER_CONTRIUTION_RESTRICTED && this.totalEpfValue>15000) ? this.totalEpfValue=15000 : this.totalEpfValue=basic;
           }
 
         }
       }
-
-
-
-
-      
-
 
 //TODO : add this method to a common service -> cmplexity of this method is high  (6) try belo commentred code with complexity 1
       private transformBooleansToNumbers(obj: any): any {
@@ -491,7 +491,7 @@ export class StatutoryComponent implements OnInit {
       changeLwfStatus(isChecked:boolean,state:string){
         const lwf = this.labourWelfareFundDetail.find(pt => pt.state === state);
         if(lwf){
-          const newStatus = isChecked ? 11 : 12;
+          const newStatus = isChecked ? StatusKeys.ACTIVE : StatusKeys.INACTIVE;
           this.loadingStates[state] = true;
           lwf.status = newStatus; 
           this._payrollConfigurationService.changeLwfStatus(lwf.id).subscribe(
@@ -509,7 +509,7 @@ export class StatutoryComponent implements OnInit {
       }
       checkStatus(state:string): boolean {
         const lwf = this.labourWelfareFundDetail.find(pt => pt.state === state);
-        return lwf ? lwf.status === 11 : false; 
+        return lwf ? lwf.status === StatusKeys.ACTIVE : false; 
       }
     
       openDropdownIndex: number | null = null;

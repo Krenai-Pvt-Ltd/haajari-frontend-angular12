@@ -13,10 +13,10 @@ import { PayrollConfigurationService } from 'src/app/services/payroll-configurat
 })
 export class PayScheduleComponent implements OnInit {
 
-  SalaryCalculationModeActualDays:number=1;
-  SalaryCalculationModeOrganizationDays:number=2;
-  PayDayLastDay:number=1;
-  PayDaySpecificDay:number=2;
+  SALARY_CALCULATION_MODE_ACTUAL_DAYS = 1;
+  SALARY_CALCULATION_MODE_ORGANIZATION_DAYS = 2;
+  PAY_DAY_TYPE_LAST_DAY = 1;
+  PAY_DAY_TYPE_SPECIFIC_DAY = 2;
 
   selectedMonth: Date | null = null;
 
@@ -118,13 +118,13 @@ export class PayScheduleComponent implements OnInit {
   }
 
   onSalaryCalculationModeChange(mode: number) {
-    if (mode == this.SalaryCalculationModeActualDays) {
+    if (mode == this.SALARY_CALCULATION_MODE_ACTUAL_DAYS) {
       this.paySchedule.modeDay = 0; 
     }
   }
 
   onPayModeChange(mode: number) {
-    if (mode == this.PayDayLastDay) {
+    if (mode == this.PAY_DAY_TYPE_LAST_DAY) {
       this.paySchedule.payDay = 0; 
     }
   }

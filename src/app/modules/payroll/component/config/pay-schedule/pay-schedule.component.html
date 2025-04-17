@@ -12,7 +12,7 @@
                     <div class="col-md-12 mb-4">
                         <div class="form-check mb-2 d-flex align-items-center gap-2">
                             <input class="form-check-input" type="radio" name="calculationMode" id="calculationMode1" 
-                            [value]="SalaryCalculationModeActualDays" [(ngModel)]="paySchedule.salaryCalculationMode"
+                            [value]="SALARY_CALCULATION_MODE_ACTUAL_DAYS" [(ngModel)]="paySchedule.salaryCalculationMode"
                             (ngModelChange)="onSalaryCalculationModeChange($event)">
                             <label class="form-check-label font-13 fw-normal" for="calculationMode1">
                                 Actual days in a month
@@ -20,14 +20,14 @@
                         </div>
                         <div class="form-check d-flex align-items-center gap-2">
                             <input class="form-check-input" type="radio" name="calculationMode" id="calculationMode2" 
-                            [value]="SalaryCalculationModeOrganizationDays" [(ngModel)]="paySchedule.salaryCalculationMode"
+                            [value]="SALARY_CALCULATION_MODE_ORGANIZATION_DAYS" [(ngModel)]="paySchedule.salaryCalculationMode"
                             (ngModelChange)="onSalaryCalculationModeChange($event)">
                             <label class="form-check-label font-13 fw-normal" for="calculationMode2">
                                 Organization working days
                             </label>
                         </div>
                     </div>
-                    <ng-container *ngIf="paySchedule.salaryCalculationMode == 2">
+                    <ng-container *ngIf="paySchedule.salaryCalculationMode == SALARY_CALCULATION_MODE_ORGANIZATION_DAYS">
                         <div class="col-md-6 mb-4">
                             <nz-select class="form-control w-100 placeholder-line" 
                                 nzSize="large" nzPlaceHolder="Select" name="modeDay"
@@ -57,7 +57,7 @@
                 <div class="row">
                     <div class="col-md-12 mb-4">
                         <div class="form-check mb-2 d-flex align-items-center gap-2">
-                            <input class="form-check-input" type="radio" name="PayDay" id="PayDay1" [value]="PayDayLastDay" 
+                            <input class="form-check-input" type="radio" name="PayDay" id="PayDay1" [value]="PAY_DAY_TYPE_LAST_DAY" 
                             [(ngModel)]="paySchedule.payDayType"
                             (ngModelChange)="onPayModeChange($event)">
                             <label class="form-check-label font-13 fw-normal" for="PayDay1">
@@ -65,7 +65,7 @@
                             </label>
                         </div>
                         <div class="form-check d-flex align-items-center gap-2">
-                            <input class="form-check-input" type="radio" name="PayDay" id="PayDay2" [value]="PayDaySpecificDay" 
+                            <input class="form-check-input" type="radio" name="PayDay" id="PayDay2" [value]="PAY_DAY_TYPE_SPECIFIC_DAY" 
                             [(ngModel)]="paySchedule.payDayType"
                             (ngModelChange)="onPayModeChange($event)">
                             <label class="form-check-label font-13 fw-normal" for="PayDay2">
@@ -73,7 +73,7 @@
                             </label>
                         </div>
                     </div>
-                    <ng-container *ngIf="paySchedule.payDayType == 2">
+                    <ng-container *ngIf="paySchedule.payDayType == PAY_DAY_TYPE_SPECIFIC_DAY">
                         <div class="col-md-6 mb-4">
                             <nz-select class="form-control w-100 placeholder-line" nzSize="large" 
                             name="payday" [(ngModel)]="paySchedule.payDay" nzPlaceHolder="Select"
