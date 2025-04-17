@@ -1259,6 +1259,7 @@
           </div>
           <div class="modal-body">
             <div class="row">
+              <!-- TODO : col-md-4 -->
               <div class="col-md-6 mb-3">
                 <label for="name" class="pb-2">Name <span class="text-danger">*</span></label>
                 <input
@@ -1425,6 +1426,124 @@
                 </nz-select>
               </div>
             </div>
+
+            <!-- TODO : Dynamic this section -->
+            <!-- <div class="row mt-4">
+              <div class="col-md-12 d-flex align-items-center gap-2">
+                <span data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  <i class="bi bi-chevron-down font-18"></i>
+                </span>
+                <h5 class="font-16 fw-semibold mb-0">Additional Information</h5>
+              </div>
+            </div>
+            <div class="row mt-4 collapse" id="collapseExample">
+              
+              <div class="col-md-4 mb-3">
+                  <label for="name" class="pb-2">Employee Id</label>
+                  <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Name">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="pb-2">Employee Type</label>
+                <nz-select nzPlaceHolder="Select Employee Type" class="form-control placeholder-line w-100">
+                  <nz-option nzValue="Provisional" nzLabel="Provisional"></nz-option>
+                  <nz-option nzValue="Confirmed" nzLabel="Confirmed"></nz-option>
+                  <nz-option nzValue="Extended" nzLabel="Extended" ></nz-option>
+                </nz-select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">DOB</label>
+                <nz-date-picker nzBorderless></nz-date-picker>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">Father Name</label>
+                <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Father Name">
+               </div>
+                <div class="col-md-4 mb-3">
+                    <label class="pb-2">Marital Status</label>
+                    <nz-select nzPlaceHolder="Select Marital Status" class="form-control placeholder-line w-100">
+                      <nz-option nzValue="Single" nzLabel="Single"></nz-option>
+                      <nz-option nzValue="Married" nzLabel="Married"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="name" class="pb-2">Address</label>
+                    <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Address">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="pb-2">Country</label>
+                    <nz-select nzPlaceHolder="Select Country" class="form-control placeholder-line w-100">
+                      <nz-option *ngFor="let country of countries" [nzValue]="country" [nzLabel]="country"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="pb-2">State</label>
+                    <nz-select nzPlaceHolder="Select State" class="form-control placeholder-line w-100">
+                      <nz-option *ngFor="let state of states" [nzValue]="state" [nzLabel]="state"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="name" class="pb-2">City</label>
+                    <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="City">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="name" class="pb-2">Pin Code</label>
+                    <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Pin Code">
+                </div>
+               
+                <div class="col-md-4 mb-3">
+                  <label for="name" class="pb-2">Pan Number</label>
+                  <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Pan Number">
+                </div>
+                <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">Aadhar Number</label>
+                <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Aadhar Number">
+                </div>
+                <div class="col-md-4 mb-3">
+              <label for="name" class="pb-2">Joining Date*</label>
+              <nz-date-picker nzBorderless></nz-date-picker>
+                </div>
+                <div class="col-md-4 mb-3">
+              <label for="name" class="pb-2">Department</label>
+              <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Department">
+                </div>
+                <div class="col-md-4 mb-3">
+            <label for="name" class="pb-2">Position</label>
+            <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Position">
+              </div>
+              <div class="col-md-4 mb-3">
+          <label for="name" class="pb-2">Grade</label>
+          <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Grade">
+              </div>
+              <div class="col-md-4 mb-3">
+        <label for="name" class="pb-2">CTC</label>
+        <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="CTC">
+              </div>
+              <div class="col-md-4 mb-3">
+      <label for="name" class="pb-2">Emergency Name</label>
+      <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Emergency Name">
+              </div>
+              <div class="col-md-4 mb-3">
+    <label for="name" class="pb-2">Emergency Phone</label>
+    <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Emergency Phone">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">Emergency Relation</label>
+                <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Emergency Relation">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">Bank Name</label>
+                <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Bank Name">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">Account Number</label>
+                <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="Account Number">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="name" class="pb-2">IFSC Code</label>
+                <input type="text" class="form-control input-zorro" id="name"  name="name" placeholder="IFSC Code">
+              </div>
+            </div> -->
+             <!-- TODO : Dynamic this section end-->
           </div>
 
           <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
