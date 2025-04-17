@@ -12,6 +12,7 @@ import { YearType } from 'src/app/models/year-type';
 import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
 import { Routes } from 'src/app/constant/Routes';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-leave-policy',
   templateUrl: './leave-policy.component.html',
@@ -38,6 +39,7 @@ export class LeavePolicyComponent implements OnInit {
     this.getLeaveCycleList();
     this.getUnusedLeaveActionList();
     this.getLeaveTemplate();
+    this.getOrganizationName();
   }
   readonly CARRY_FORWARD = Key.CARRY_FORWARD;
   isLoading: boolean = false;
@@ -49,6 +51,10 @@ export class LeavePolicyComponent implements OnInit {
   pageSize: number = 10;
   totalTemplates: number = 0;
   currentTab: string = 'LEAVE';
+
+  @ViewChild('templateForm') templateForm: NgForm | undefined;
+  @ViewChild('categoryForm') categoryForm: NgForm | undefined;
+  @ViewChild('staffForm') staffForm: NgForm | undefined;
   getLeaveTemplate() {
     debugger
     this.isLoading = true;
@@ -80,6 +86,16 @@ export class LeavePolicyComponent implements OnInit {
     this.currentTab = tab;
     this.getLeaveTemplate();
   }
+  organizationName: string = ''
+  getOrganizationName() {
+    this.dataService.getOrganizationName().subscribe((res: any) => {
+      if (res.status) {
+        this.organizationName = res.object;
+      } else {
+        this.organizationName = '';
+      }
+    })
+  }
 
 
 
@@ -103,11 +119,22 @@ export class LeavePolicyComponent implements OnInit {
   onEmployeeTypeChange(id: number) {
     this.leaveTemplate.employeeTypeId = id;
     this.employeeTypeId = id;
-    this.fetchStaffs(); // Refresh staff list based on employee type
+    // this.fetchStaffs(); // Refresh staff list based on employee type
   }
 
   addLeaveCategory() {
-    this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
+    if (this.updateToggle && this.editingCategoryIndex !== null) {
+      // Update existing category
+      this.leaveTemplate.leaveTemplateCategoryRequestList[this.editingCategoryIndex] = this.newCategory;
+      this.updateToggle = false;
+      this.editingCategoryIndex = null;
+    }else{
+      this.leaveTemplate.leaveTemplateCategoryRequestList.push({ ...this.newCategory });
+    }
+    if (this.categoryForm) {
+      this.categoryForm.form.markAsUntouched();
+      this.categoryForm.form.markAsPristine();
+    }
     this.newCategory = new LeaveTemplateCategoryRequest(); // Reset for next entry
   }
 
@@ -350,40 +377,52 @@ export class LeavePolicyComponent implements OnInit {
     this.pageNumber = 1;
     this.total = 0;
     this.selectAllPages=false;
+    this.leaveTemplate.name = this.organizationName;
+    this.resetFormValidation();
+  }
+
+  resetFormValidation() {
+    // Reset the template form
+    if (this.templateForm) {
+      this.templateForm.form.markAsUntouched(); // Explicitly mark as untouched
+      this.templateForm.form.markAsPristine(); // Explicitly mark as pristine
+    }
+
+    // Reset the category form
+    if (this.categoryForm) {
+      this.categoryForm.form.markAsUntouched();
+      this.categoryForm.form.markAsPristine();
+    }
 
   }
 
-  changeCarryForwardAccrual(index: number){
-
-    const leaveCycle =this.newCategory.leaveCycleId;
+  changeCarryForwardAccrual() {
+    const leaveCycle = this.newCategory.leaveCycleId;
     const unusedLeaveActionCount = this.newCategory.unusedLeaveActionCount;
-    if(leaveCycle && unusedLeaveActionCount){
-      var count = unusedLeaveActionCount;
-      var id = leaveCycle;
+    if (leaveCycle && unusedLeaveActionCount) {
+      let count = unusedLeaveActionCount;
+      const id = leaveCycle;
 
-      if(id == 1){
-        count = count * 12; //Monthly
-      }else if(id == 2){
-        count = count * 4;  //Quaterly
-      }else if(id == 3){
-        count = count * 2;  //Half Yearly
+      if (id === 1) {
+        count = count * 12; // Monthly
+      } else if (id === 2) {
+        count = count * 4; // Quarterly
+      } else if (id === 3) {
+        count = count * 2; // Half Yearly
       }
-      this.updateCarryForwardAccrualDaysDropdown(index, count);
+      this.updateCarryForwardAccrualDaysDropdown(count);
     }
   }
 
-  tempForwardDaysCount:number=0;
-forwardDaysCountArray: number[][] = [];
-updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
-  while (this.forwardDaysCountArray.length <= index) {
-    this.forwardDaysCountArray.push([]);
+  tempForwardDaysCount: number = 0;
+  forwardDaysCountArray: number[] = []; // Changed to a single array since we're not indexing by category
+  updateCarryForwardAccrualDaysDropdown(count: number): void {
+    this.forwardDaysCountArray = Array.from(
+      { length: count },
+      (_, i) => i + 1 // Generate numbers from 1 to count
+    );
+    this.tempForwardDaysCount = count;
   }
-  this.forwardDaysCountArray[index] = Array.from(
-    { length: count  },
-    (_, i) => count - i
-  );
-  this.tempForwardDaysCount = count;
-}
 
 
   editingStaff: Staff = new Staff(); // Tracks which staff row is being edited
@@ -599,6 +638,7 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
            // Map leave template categories
       this.leaveTemplate.leaveTemplateCategoryRequestList = response.leaveTemplateCategories.map((category: any) => ({
         id: category.leaveCategory.id,
+        categoryId: category.id,
         leaveCount: category.leaveCount,
         leaveCycleId: category.leaveCycle.id,
         unusedLeaveActionId: category.unusedLeaveAction.id,
@@ -613,7 +653,7 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
         unusedLeaveName: this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveAction.id)?.name || 'N/A',
         accrualName: this.accrualTypes.find(c => c.id === category.accrualType.id)?.name || 'N/A',
         leaveCycleName: this.leaveCycleList.find(c => c.id === category.leaveCycle.id)?.name || 'N/A',
-        isReset: category?.reset,
+        gender: category?.gender || 'All',
       } as LeaveTemplateCategoryRequest));
 
       // Trigger change detection
@@ -686,6 +726,35 @@ updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
     });
   }
 
+  updateToggle: boolean = false;
+  editingCategoryIndex: number | null = null;
+
+  // Edit a category
+  editCategory(index: number) {
+    // Set edit mode
+    this.updateToggle = true;
+    this.editingCategoryIndex = index;
+
+    // Get the category to edit
+    const category = this.leaveTemplate.leaveTemplateCategoryRequestList[index];
+    // Populate the form with the category's data
+    this.newCategory = { ...category }; // Shallow copy to avoid direct binding
+    this.newCategory.id = category.id; // Set the category ID
+    this.newCategory.id = category.id; // Set the category ID
+  }
+
+  // Delete a category
+  deleteCategory(index: number) {
+
+      this.leaveTemplate.leaveTemplateCategoryRequestList.splice(index, 1);
+      // Reset form and edit mode if the deleted category was being edited
+      if (this.editingCategoryIndex === index) {
+        this.newCategory = new LeaveTemplateCategoryRequest();
+        this.updateToggle = false;
+        this.editingCategoryIndex = null;
+      }
+
+  }
   onCategorySelected(categoryId: number): void {
     console.log('Selected category ID:', categoryId);
    this.deleteCategoryId = categoryId;
