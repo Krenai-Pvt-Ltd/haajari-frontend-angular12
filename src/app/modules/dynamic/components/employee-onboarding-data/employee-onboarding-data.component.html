@@ -2052,7 +2052,7 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal"
+<button type="button" class="btn btn-primary "  data-bs-toggle="modal" data-bs-target="#duesWarningModal"
   #duesWarningModalButton>
   Dues Warning Modal
 </button>
@@ -2062,14 +2062,24 @@ id="deleteConfirmationModalButton" #deleteConfirmationModalButton>
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
+      <!-- <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Dues Warning</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
-          earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
+      </div> -->
+      <div class="modal-body p-0 position-relative">
+        <button type="button" class="btn-close position-absolute img-30 radius-50 opacity-100 translate-middle bg-white" style="right: -35px; top:0px;" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="expired-message">
+          <div class="leave-assigned-icon text-center d-flex align-items-center justify-content-center">
+            <img src="assets/images/leave-not-assigned.svg" style="width: 120px;">
+          </div>
+          <div class="p-3 text-center pb-4 mb-4">
+            <h1 class="font-20 fw-semibold mb-2 text-black">Dues Warning</h1>
+            <p class="font-14 mb-4">Action blocked due to pending bills. Kindly <br> settle them to continue.</p>
+
+            <button class="btn submitActionBtn font-14 fw-semibold" [routerLink]="Routes.SUBSCRIPTION"> Pay Now </button>
+            
+          </div>
+        </div>
       </div>
     </div>
   </div>
