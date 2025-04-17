@@ -7,37 +7,17 @@
   margin-top: 0px;
 }
 
-/* .nav.nav-pills {
-  background-color: transparent;
-  border-bottom: 1px solid #edeff5;
+.loading-modal{
+  height: 400px;
 }
-
-.nav-pills .nav-item.show .nav-link,
-.nav-pills .nav-link.active {
-  background: transparent !important;
-  color: var(--primary-color) !important;
-  border-radius: 0;
-  border-bottom: 2px solid var(--primary-color);
-}
-
-.nav-link {
-  margin-right: 20px;
-  display: block;
-  padding: 7px 10px;
-  color: #000;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-}
-
-.nav-link:hover {
-  color: #000 !important;
-} */
-
 .plan-box {
   border-left: 1px solid #f1f1f1;
   background: linear-gradient(178deg, #e4e7ff 0%, #f2f4ff 58.88%, #fff 138.76%);
   min-height: 100vh;
+}
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
 }
 
 .priceToggleMain {
