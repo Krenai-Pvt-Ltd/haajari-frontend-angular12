@@ -30,7 +30,7 @@
               <div class="add-filtter d-flex align-items-center justify-content-end gap-1">
                 <button data-bs-toggle="modal" data-bs-target="#createteam2" type="button"
                   class="btn primaryBtnLink">
-                  <i class="bi bi-plus-lg"></i> Create Team
+                  <i class="bi bi-plus-lg"></i> Create Department
                 </button>
                 <span class="btnSeprator" *ngIf="onboardingVia == 'SLACK'"></span>
                 <button class="btn primaryBtnLink" (click)="getFlagOfSlackPlaceholder2()"
@@ -133,7 +133,7 @@
       <div class="empty-file" style="margin-top: 15%" *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag">
         <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
           <ng-template #contentTpl>
-            <p class="mb-1 empty-detail font-16">Team not found</p>
+            <p class="mb-1 empty-detail font-16">Department not found</p>
           </ng-template>
         </nz-empty>
       </div>
@@ -165,7 +165,7 @@
             <div class="leave-management-detail pt-5 pb-5">
               <h3 class="mb-3">
                 Create and Manage <br />
-                Your Team Easily
+                Your Department Easily
               </h3>
               <p class="mb-0 font-14">
                 Easily customize your leave management preferences, define leave
@@ -176,7 +176,7 @@
               <!-- <button class="btn add-leave-btn mt-4 mb-2">Create Team</button> -->
               <button type="button" class="btn add-leave-btn mt-4 mb-2" data-bs-toggle="modal"
                 data-bs-target="#createteam2">
-                Create Team
+                Create Department
               </button>
               <button type="button" class="btn add-leave-btn mt-4 mb-2" (click)="getFlagOfSlackPlaceholder()"
                 *ngIf="onboardingVia == 'SLACK' && ROLE == 'ADMIN'">
@@ -267,9 +267,9 @@
                               openDeleteConfirmationModal(team.uuid, logInUserUuid)
                               " *ngIf="team.exitFromTeam">
                               <i class="bi bi-x-circle"></i>
-                              Exit From Team!</a>
+                              Exit From Department!</a>
                     <a class="dropdown-item" *ngIf="rbacService.hasWriteAccess(Routes.TEAM)" (click)="selectedTeamId=team.id" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                     <i class="bi bi-trash3"></i> Delete Team
+                     <i class="bi bi-trash3"></i> Delete Department
                     </a>
                   </div>
                 </ng-container>
@@ -286,7 +286,7 @@
 
                 </div>
                 <div class="media-body ms-2 align-self-center">
-                  <div class="d-flex align-items-start" style="gap: 10px">
+                  <div class="d-flex align-items-start gap-2">
                     <h5 class="m-0 team-name">
                       {{ capitalizeFirstLetter(team.name) }}
                     </h5>
@@ -316,7 +316,7 @@
                         <i class="bi bi-patch-check-fill" *ngIf="team.showTick"></i></span>
                     </h4>
                   </div>
-                  <p class="text-muted font-12 mb-0">Team Manager</p>
+                  <p class="text-muted font-12 mb-0">Department Manager</p>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between" style="gap: 10px; margin-top: 15px"
@@ -379,7 +379,7 @@
           *ngIf="isShimmer == false && teamsNew.length > 0 && total > 12">
           <p class="mb-0">
             Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-            {{ total }} teams
+            {{ total }} Department
           </p>
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end">
@@ -467,7 +467,7 @@
       <div class="modal-header">
         <h5 class="modal-title m-0">
 
-          Create a new team
+          Create a new department
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeCreateTeam></button>
       </div>
@@ -475,14 +475,14 @@
       <div class="modal-body">
         <div class="containerhh">
           <div class="form-group">
-            <label for="username" class="mb-2" style="font-size: 13px">Team Name</label>
+            <label for="username" class="mb-2" style="font-size: 13px">Department Name</label>
             <div class="input-group mb-3">
               <input type="text" class="form-control input-zorro" name="teamname" id="teamname"
                 placeholder='Enter team name' [(ngModel)]="teamName" />
             </div>
           </div>
           <div class="form-group">
-            <label for="username" class="mb-2" style="font-size: 13px">Team Description</label>
+            <label for="username" class="mb-2" style="font-size: 13px">Department Description</label>
             <div class="input-group mb-3">
               <input type="text" class="form-control input-zorro" name="teamdesc" id="teamdesc"
                 placeholder='Enter team description' [(ngModel)]="teamDescription" />
@@ -494,7 +494,7 @@
             </label>
             <div class="input-group mb-3">
               <input type="text" class="form-control input-zorro" name="members" id="members"
-                placeholder="Add team members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()" />
+                placeholder="Add department members by name or email…" [(ngModel)]="searchQuery" (input)="searchUsers()" />
               <div class="user-dropdown new-membear-list" *ngIf="userList.length > 0">
                 <div id="user-item" class="user-item" *ngFor="let user of userList" (click)="toggleUserSelection(user)">
                   <div *ngIf="user.image === null">
@@ -532,7 +532,7 @@
             </label>
             <div class="input-group mb-3">
               <input type="text" class="form-control input-zorro w-100" name="manager" id="manager"
-                placeholder="Add team manager by name or email…" [(ngModel)]="searchQueryManager"
+                placeholder="Add department manager by name or email…" [(ngModel)]="searchQueryManager"
                 (input)="searchUsersManager()" />
               <div class="user-dropdown new-membear-list" *ngIf="userListManager.length > 0">
                 <div id="manager-item" class="user-item" *ngFor="let user of userListManager"
@@ -574,7 +574,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" (click)="registerTeamSubmitButton()" class="btn submitActionBtn">
-          Create new team
+          Create new department
         </button>
       </div>
     </div>
@@ -760,7 +760,7 @@
                           <div class="manager-list remove-team">
                             <a class="dropdown-item StaticMenuItemBase-button"
                               (click)="removeUserFromTeam(team.uuid, ul.uuid)">
-                              <span>Remove from team</span></a>
+                              <span>Remove from department</span></a>
                           </div>
                         </div>
                       </div>
@@ -810,7 +810,7 @@
           <h4 class="confirm-detail">Are you sure you wish to proceed?</h4>
           <h6 style="color: aquamarine">
             Caution :
-            <span style="color: #a1a0a0">Exiting this team will lead to the removal of all team-related
+            <span style="color: #a1a0a0">Exiting this department will lead to the removal of all department-related
               privileges.</span>
           </h6>
           <div class="d-flex align-items-center justify-content-center mt-4" style="gap: 15px">
@@ -858,7 +858,7 @@
         </div>
         <div class="bg-white p-4 text-center">
           <h5 class="alert-heading font-18 mb-2 lh-base">
-            Are you sure you want to delete Team?
+            Are you sure you want to delete Department?
           </h5>
           <p class="font-11">You will not be able to recover this</p>
 

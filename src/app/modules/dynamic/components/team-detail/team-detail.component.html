@@ -156,7 +156,7 @@
                                   <a class="dropdown-item text-danger"
                                     data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
                                     (click)=" openDeleteConfirmationModal(team.uuid, ul.uuid)">
-                                    <i class="bi bi-trash3"></i>  Remove from team</a>
+                                    <i class="bi bi-trash3"></i>  Remove from Department</a>
                                 </div>
                               </div>
                             </div>
@@ -321,7 +321,7 @@
                             class="form-control"
                             rows="5"
                             id="message"
-                            placeholder="Click to add team description"
+                            placeholder="Click to add department description"
                           ></textarea>
                         </div>
                       </div>
@@ -384,7 +384,7 @@
               <div class="tab-pane p-3 active" id="members-add" role="tabpanel">
                 <div class="">
                   <div class="">
-                    <h5>Invite to team</h5>
+                    <h5>Invite to Department</h5>
                   </div>
                   <div class="">
                     <div class="form-group">
@@ -394,7 +394,7 @@
                           class="form-control"
                           name="members"
                           id="members"
-                          placeholder="Add team members by name or email…"
+                          placeholder="Add Department members by name or email…"
                           [(ngModel)]="searchQuery"
                           (input)="searchUsers()"
                         />
@@ -415,7 +415,7 @@
                   >
                     <p>
                       <i class="bi bi-exclamation-circle"></i> Selected member
-                      already present in the team!
+                      already present in the department!
                     </p>
                   </div>
                   <!-- showErrorMessageForPresentMembersInTeam -->
@@ -486,7 +486,7 @@
                       <div class="d-flex align-items-center gap-2">
                         <div>
                           <span *ngIf="ul.image !== null">
-                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="team" class="thumb-xs rounded-circle" />
+                            <img onerror="this.src='./assets/images/broken-image-icon.jpg';" src="{{ ul.image }}" alt="Department" class="thumb-xs rounded-circle" />
                           </span>
                           <span class="members-name" *ngIf="ul.image == null">{{
                             ul.name[0]
@@ -576,7 +576,7 @@
                                 class="dropdown-item text-danger"
                                 (click)="removeUserFromTeam(team.uuid, ul.uuid)"
                               >
-                              <i class="bi bi-trash3"></i> Remove from team</a
+                              <i class="bi bi-trash3"></i> Remove from department</a
                               >
                             </div>
                           </div>
@@ -600,7 +600,7 @@
    
   </div>
 
-<!-- team member modal -->
+<!-- department member modal -->
   <div class="modal fade" id="viewteam" tabindex="-1"  aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered"  role="document">
       <div class="modal-content">
@@ -657,7 +657,7 @@
       </div>
     </div>
   </div>
-  <!-- team member modal end -->
+  <!-- department member modal end -->
 
 
   <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
@@ -686,7 +686,7 @@
   
             <div>
               <h5 class="alert-heading font-18 mb-2 lh-base">
-                Are you sure want to delete this <br> user from team?
+                Are you sure want to delete this <br> user from department?
               </h5>
               <p class="font-11">You will not be able to recover this</p>
             </div>
