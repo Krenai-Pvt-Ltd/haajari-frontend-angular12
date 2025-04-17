@@ -45,6 +45,9 @@ export class ExpenseManagementComponent implements OnInit {
     this.fetchDashboardData();
   }
 
+  activeTab: string = '';
+
+
   changeShowFilter(flag : boolean) {
     this.showFilter = flag;
   }
@@ -70,6 +73,7 @@ export class ExpenseManagementComponent implements OnInit {
    loading: boolean = false;
    totalItems: number = 0
    databaseHelper: DatabaseHelper = new DatabaseHelper();
+   walletdatabaseHelper: DatabaseHelper = new DatabaseHelper();
    statusIds: number[] = new Array();
    startDate: any;
    endDate: any;
@@ -107,11 +111,12 @@ export class ExpenseManagementComponent implements OnInit {
   expenseRequest(){
     this.databaseHelper.currentPage = 1;
     this.databaseHelper.itemPerPage = 10;
-    this.resetFilters();
+    // this.resetFilters();
     this.getPendingTransactionCount();
     this.statusIds = [13];
     this.selectedStatus = ['Pending'];
     this.tempSelectedFilter = ['Pending'];
+    this.getExpenses();
   }
 
    requestsSearch: string = '';
@@ -401,7 +406,9 @@ openExpenseComponent(expense: any) {
     this.databaseHelper.currentPage = 1;
     this.databaseHelper.itemPerPage = 10;
     this.databaseHelper.sortBy = "";
-    this.databaseHelper.sortOrder = ""; 
+    this.databaseHelper.sortOrder = "";
+    this.walletdatabaseHelper.currentPage = 1;
+    this.walletdatabaseHelper.itemPerPage = 10; 
 }
 
   /** Company Wallet Section **/
@@ -448,13 +455,17 @@ openExpenseComponent(expense: any) {
 
   walletPageChanged(page:any) {
     debugger
-    this.databaseHelper.currentPage = page;
+    this.walletdatabaseHelper.currentPage = page;
     this.getWalletUser();
   }
 
   walletgetEndIndex(): number {
-    const endIndex = this.databaseHelper.currentPage * this.databaseHelper.itemPerPage;
+    const endIndex = this.walletdatabaseHelper.currentPage * this.walletdatabaseHelper.itemPerPage;
     return endIndex > this.totalWalletUser ? this.totalWalletUser : endIndex;
+  }
+
+  walletgetStartIndex(): number {
+    return (this.walletdatabaseHelper.currentPage - 1) * this.walletdatabaseHelper.itemPerPage + 1;
   }
 
 
@@ -483,8 +494,8 @@ openExpenseComponent(expense: any) {
     console.log("Requested Employee Name : ",this.tempRequestedEmployeeList);
   
     this.expenseService.getAllUserByWallet(
-      this.databaseHelper.currentPage,
-      this.databaseHelper.itemPerPage,
+      this.walletdatabaseHelper.currentPage,
+      this.walletdatabaseHelper.itemPerPage,
       this.startDate,
       this.endDate,
       '',
@@ -521,7 +532,7 @@ openExpenseComponent(expense: any) {
 
 
   applyWalletFilters() {
-    this.databaseHelper.currentPage = 1;
+    this.walletdatabaseHelper.currentPage = 1;
     console.log("Selected User IDs:", this.requestedEmployeeId);
     console.log("Start Date : ",this.filters.fromDate)
     console.log("End Date : ",this.filters.toDate)
@@ -560,7 +571,7 @@ removeWalletDateFilter(filter: { key: string; value: string }): void {
 
 searchByEmployeeName(event: Event): void {
   this.requestsSearch = (event.target as HTMLInputElement).value;
-  this.databaseHelper.currentPage = 1;
+  this.walletdatabaseHelper.currentPage = 1;
   this.getWalletUser();
 
 }
@@ -787,8 +798,8 @@ onDateRangeChange(dates: [Date, Date] | null) {
     this.getExpenseSummary();
     this.tempDateFilters = [];
     this.filters = { fromDate: undefined, toDate: undefined };
-    this.databaseHelper.currentPage = 0;
-    this.databaseHelper.itemPerPage = 0;
+    this.walletdatabaseHelper.currentPage = 0;
+    this.walletdatabaseHelper.itemPerPage = 0;
     this.getWalletUser();
     this.dashBoardDateView = true;
     this.loading = true;
