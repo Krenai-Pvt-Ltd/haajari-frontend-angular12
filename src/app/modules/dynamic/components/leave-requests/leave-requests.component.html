@@ -67,7 +67,7 @@
                               [nzDisabledDate]="disabledDateTo" nzplaceholder="dd/mm/yyyy"></nz-date-picker>
                           </div>
 
-                          <div class="col-md-12 mb-3">
+                          <div *ngIf="isLeave" class="col-md-12 mb-3">
                               <label for="type" class="pb-2">Leave Type</label>
                               <nz-select [(ngModel)]="filters.leaveType" nzMode="multiple"  class="w-100 form-multiselect" nzPlaceHolder="Please select">
                                   <nz-option *ngFor="let type of leaveTypes" [nzValue]="type" nzLabel="{{ type | titlecase }}"></nz-option>
@@ -345,6 +345,7 @@
   <div class="modal-dialog modal-dialog-centered"  [ngStyle]="{'max-width: 700px': !leave?.attachment,'max-width: 1060px': leave?.attachment}" role="document">
     <div *ngIf="isModalOpen" class="modal-content">
     <app-leave-request
+    [isLeave]="isLeave"
     [data]="leaveData"
     (closeModal)="closeModalHandler($event)"
   ></app-leave-request>

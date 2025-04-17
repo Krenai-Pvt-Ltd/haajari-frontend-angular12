@@ -28,6 +28,7 @@ export class LeaveRequestsComponent implements OnInit {
 
 @Output() pendingLeaveCountChange = new EventEmitter<number>();
 @Input() category: string = '';
+@Input() isLeave: boolean = true;
 showFilter: boolean = false;
 logInUserUuid: string = '';
 APPROVED: string = 'approved';
