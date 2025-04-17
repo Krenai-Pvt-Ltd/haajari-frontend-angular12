@@ -4559,7 +4559,6 @@ export class DataService {
   }
 
   getAllExpense(
-    role: string,
     pageNumber: number,
     itemPerPage: number,
     startDate: any,
@@ -4574,7 +4573,6 @@ export class DataService {
       .set('itemPerPage', itemPerPage)
       .set('sortBy', 'createdDate')
       .set('sortOrder', 'desc')
-      .set('role', role)
       .set('tag', tag)
       .set('search', search);
 
@@ -4646,7 +4644,6 @@ export class DataService {
   }
 
   getAllExpenseCount(
-    role: string,
     pageNumber: number,
     itemPerPage: number,
     startDate: any,
@@ -4656,7 +4653,6 @@ export class DataService {
     var params = new HttpParams()
       .set('currentPage', pageNumber)
       .set('itemPerPage', itemPerPage)
-      .set('role', role);
 
     if (startDate && endDate) {
       params = params.set('startDate', startDate);
@@ -5649,9 +5645,11 @@ export class DataService {
   }
 
 
-  getAssetRequestReport(){
+  getAssetRequestReport(type : string, status: string){
       let params = new HttpParams()
       .append('dashBoardView',true)
+      .append('type', type)
+      .append('status', status)
 
       return this.httpClient.get(`${this.baseUrl}/generate-reports/asset-request-for-excel`,{params});
   }
@@ -5664,6 +5662,13 @@ export class DataService {
   }
 
 
+  getFaq(pageNumber : number, itemPerPage : number) {
+    const params = new HttpParams()
+      .set('page', pageNumber)
+      .set('itemsPerPage',itemPerPage)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/faq`,{ params });
+  }
   
 
 
