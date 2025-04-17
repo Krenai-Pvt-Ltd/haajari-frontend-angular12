@@ -39,6 +39,7 @@ export class LeavePolicyComponent implements OnInit {
     this.getLeaveCycleList();
     this.getUnusedLeaveActionList();
     this.getLeaveTemplate();
+    this.getOrganizationName();
   }
   readonly CARRY_FORWARD = Key.CARRY_FORWARD;
   isLoading: boolean = false;
@@ -84,6 +85,16 @@ export class LeavePolicyComponent implements OnInit {
     this.page=1;
     this.currentTab = tab;
     this.getLeaveTemplate();
+  }
+  organizationName: string = ''
+  getOrganizationName() {
+    this.dataService.getOrganizationName().subscribe((res: any) => {
+      if (res.status) {
+        this.organizationName = res.object;
+      } else {
+        this.organizationName = '';
+      }
+    })
   }
 
 
@@ -366,6 +377,7 @@ export class LeavePolicyComponent implements OnInit {
     this.pageNumber = 1;
     this.total = 0;
     this.selectAllPages=false;
+    this.leaveTemplate.name = this.organizationName;
     this.resetFormValidation();
   }
 
@@ -384,37 +396,33 @@ export class LeavePolicyComponent implements OnInit {
 
   }
 
-  changeCarryForwardAccrual(index: number){
-
-    const leaveCycle =this.newCategory.leaveCycleId;
+  changeCarryForwardAccrual() {
+    const leaveCycle = this.newCategory.leaveCycleId;
     const unusedLeaveActionCount = this.newCategory.unusedLeaveActionCount;
-    if(leaveCycle && unusedLeaveActionCount){
-      var count = unusedLeaveActionCount;
-      var id = leaveCycle;
+    if (leaveCycle && unusedLeaveActionCount) {
+      let count = unusedLeaveActionCount;
+      const id = leaveCycle;
 
-      if(id == 1){
-        count = count * 12; //Monthly
-      }else if(id == 2){
-        count = count * 4;  //Quaterly
-      }else if(id == 3){
-        count = count * 2;  //Half Yearly
+      if (id === 1) {
+        count = count * 12; // Monthly
+      } else if (id === 2) {
+        count = count * 4; // Quarterly
+      } else if (id === 3) {
+        count = count * 2; // Half Yearly
       }
-      this.updateCarryForwardAccrualDaysDropdown(index, count);
+      this.updateCarryForwardAccrualDaysDropdown(count);
     }
   }
 
-  tempForwardDaysCount:number=0;
-forwardDaysCountArray: number[][] = [];
-updateCarryForwardAccrualDaysDropdown(index: number, count: number): void {
-  while (this.forwardDaysCountArray.length <= index) {
-    this.forwardDaysCountArray.push([]);
+  tempForwardDaysCount: number = 0;
+  forwardDaysCountArray: number[] = []; // Changed to a single array since we're not indexing by category
+  updateCarryForwardAccrualDaysDropdown(count: number): void {
+    this.forwardDaysCountArray = Array.from(
+      { length: count },
+      (_, i) => i + 1 // Generate numbers from 1 to count
+    );
+    this.tempForwardDaysCount = count;
   }
-  this.forwardDaysCountArray[index] = Array.from(
-    { length: count  },
-    (_, i) => count - i
-  );
-  this.tempForwardDaysCount = count;
-}
 
 
   editingStaff: Staff = new Staff(); // Tracks which staff row is being edited

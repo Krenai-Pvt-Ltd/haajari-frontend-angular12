@@ -523,7 +523,6 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Leave Category Name <span class="text-danger">*</span></label>
-                          {{newCategory.id}}
                           <nz-select [(ngModel)]="newCategory.id" name="leaveCategoryId" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Leave Category Name" #leaveCategoryId="ngModel">
                             <nz-option *ngFor="let category of leaveCategoryList" [nzValue]="category.id" [nzLabel]="category.name"></nz-option>
                           </nz-select>
@@ -572,7 +571,7 @@
                         </div>
                         <div class="col-md-3 mb-3">
                           <label class="pb-2">Unused Leave Action Count <span class="text-danger" *ngIf="newCategory.unusedLeaveActionId !== 1">*</span></label>
-                          <input [(ngModel)]="newCategory.unusedLeaveActionCount" (keyup)="changeCarryForwardAccrual(newCategory.unusedLeaveActionCount)" name="unusedLeaveActionCount" type="number" min="1" max="400" [required]="newCategory.unusedLeaveActionId !== 1" placeholder="Select Days" class="form-control input-zorro ant-input" [disabled]="newCategory.unusedLeaveActionId === 1" #unusedLeaveActionCount="ngModel" />
+                          <input [(ngModel)]="newCategory.unusedLeaveActionCount" (ngModelChange)="changeCarryForwardAccrual()" name="unusedLeaveActionCount" type="number" min="1" max="400" [required]="newCategory.unusedLeaveActionId !== 1" placeholder="Select Days" class="form-control input-zorro ant-input" [disabled]="newCategory.unusedLeaveActionId === 1" #unusedLeaveActionCount="ngModel" />
                           <div *ngIf="unusedLeaveActionCount.invalid && (unusedLeaveActionCount.dirty || unusedLeaveActionCount.touched) && newCategory.unusedLeaveActionId !== 1" class="text-danger">
                             <div *ngIf="unusedLeaveActionCount.errors?.['required']">Unused leave action count is required.</div>
                             <div *ngIf="unusedLeaveActionCount.errors?.['min']">Count must be at least 1.</div>
@@ -608,7 +607,14 @@
 
                               <div class="col-md-6 mb-3" *ngIf="newCategory.carryoverAction === 'Restricted'">
                                 <label class="pb-2">Carry Over Quota <span class="text-danger">*</span></label>
-                                <nz-select [(ngModel)]="newCategory.carryover" name="carryoverQuotaWeekOff" required class="w-100 form-control placeholder-line" nzSize="large" nzPlaceHolder="Select Carry Over Quota" #carryoverQuotaWeekOff="ngModel">
+                                <nz-select
+                                  [(ngModel)]="newCategory.carryover"
+                                  name="carryoverQuotaWeekOff"
+                                  required
+                                  class="w-100 form-control placeholder-line"
+                                  nzSize="large"
+                                  nzPlaceHolder="Select Carry Over Quota"
+                                  #carryoverQuotaWeekOff="ngModel">
                                   <nz-option *ngFor="let day of forwardDaysCountArray" [nzValue]="day" [nzLabel]="day.toString()"></nz-option>
                                 </nz-select>
                                 <div *ngIf="carryoverQuotaWeekOff.invalid && (carryoverQuotaWeekOff.dirty || carryoverQuotaWeekOff.touched)" class="text-danger">
