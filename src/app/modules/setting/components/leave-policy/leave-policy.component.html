@@ -529,6 +529,7 @@
                           <div *ngIf="leaveCategoryId.invalid && (leaveCategoryId.dirty || leaveCategoryId.touched)" class="text-danger">
                             <div *ngIf="leaveCategoryId.errors?.['required']">Leave category is required.</div>
                           </div>
+                          <div *ngIf="duplicateCategoryError" class="text-danger">This category is already added to the template.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Leave Cycle <span class="text-danger">*</span></label>
@@ -753,6 +754,13 @@
 
                         <!-- Staff Table -->
                         <div class="mt-3 table-responsive staff-list">
+                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction boredr-rounded-2" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
+                            <span><i class="bi bi-exclamation-circle font-18 position-relative text-primary" style="top: -4px;"></i></span>
+                            <div>
+                              <h5 class="mb-1 font-14 text-primary">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
+                              <p class="font-12 mb-0">Please add joining date to add them in this Template.</p>
+                            </div>
+                          </div>
                           <table class="table">
                             <thead>
                               <tr>
@@ -989,6 +997,7 @@
                           <div *ngIf="leaveCategoryIdOnDuty.invalid && (leaveCategoryIdOnDuty.dirty || leaveCategoryIdOnDuty.touched)" class="text-danger">
                             <div *ngIf="leaveCategoryIdOnDuty.errors?.['required']">On Duty category is required.</div>
                           </div>
+                          <div *ngIf="duplicateCategoryError" class="text-danger">This category is already added to the template.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">On Duty Cycle <span class="text-danger">*</span></label>
@@ -1173,6 +1182,13 @@
 
                         <!-- Staff Table -->
                         <div class="mt-3 table-responsive staff-list">
+                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction boredr-rounded-2" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
+                            <span><i class="bi bi-exclamation-circle font-18 position-relative text-primary" style="top: -4px;"></i></span>
+                            <div>
+                              <h5 class="mb-1 font-14 text-primary">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
+                              <p class="font-12 mb-0">Please add joining date to add them in this Template.</p>
+                            </div>
+                          </div>
                           <table class="table">
                             <thead>
                               <tr>
@@ -1408,6 +1424,7 @@
                           <div *ngIf="leaveCategoryIdWeekOff.invalid && (leaveCategoryIdWeekOff.dirty || leaveCategoryIdWeekOff.touched)" class="text-danger">
                             <div *ngIf="leaveCategoryIdWeekOff.errors?.['required']">Week Off category is required.</div>
                           </div>
+                          <div *ngIf="duplicateCategoryError" class="text-danger">This category is already added to the template.</div>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="pb-2">Week Off Cycle <span class="text-danger">*</span></label>
@@ -1591,6 +1608,13 @@
 
                         <!-- Staff Table -->
                         <div class="mt-3 table-responsive staff-list">
+                          <div class="mb-3 p-3 d-flex align-items-start gap-3 alert-notifaction boredr-rounded-2" *ngIf="cachedStaffIdsWithoutJoiningDate.length>0">
+                            <span><i class="bi bi-exclamation-circle font-18 position-relative text-primary" style="top: -4px;"></i></span>
+                            <div>
+                              <h5 class="mb-1 font-14 text-primary">{{cachedStaffIdsWithoutJoiningDate.length}} Users with no Joining Date</h5>
+                              <p class="font-12 mb-0">Please add joining date to add them in this Template.</p>
+                            </div>
+                          </div>
                           <table class="table">
                             <thead>
                               <tr>

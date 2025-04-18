@@ -40,6 +40,9 @@ export class LeavePolicyComponent implements OnInit {
     this.getUnusedLeaveActionList();
     this.getLeaveTemplate();
     this.getOrganizationName();
+    setTimeout(()=>{
+      this.loadStaffIdsCache();
+    },2000)
   }
   readonly CARRY_FORWARD = Key.CARRY_FORWARD;
   isLoading: boolean = false;
@@ -122,7 +125,21 @@ export class LeavePolicyComponent implements OnInit {
     // this.fetchStaffs(); // Refresh staff list based on employee type
   }
 
+  duplicateCategoryError: boolean = false;
   addLeaveCategory() {
+    // Reset the error state
+    this.duplicateCategoryError = false;
+
+    // Check if the category with the same leaveCategoryId already exists
+    const isCategoryExists = this.leaveTemplate.leaveTemplateCategoryRequestList.some(
+      (category) => category.id === this.newCategory.id
+    );
+
+    if (isCategoryExists && !this.updateToggle) {
+      // Set the error flag instead of showing a toast
+      this.duplicateCategoryError = true;
+      return;
+    }
     if (this.updateToggle && this.editingCategoryIndex !== null) {
       // Update existing category
       this.leaveTemplate.leaveTemplateCategoryRequestList[this.editingCategoryIndex] = this.newCategory;
@@ -195,6 +212,7 @@ export class LeavePolicyComponent implements OnInit {
       staff.checked = false;
     });
     this.selectedStaffIds = [];
+    this.selectAllPages = false;
   }
 
   selectAllEmployee() {
